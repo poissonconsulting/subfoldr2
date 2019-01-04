@@ -1,0 +1,23 @@
+context("sub")
+
+test_that("sub",{
+  expect_identical(sbf_get_sub(), character(0))
+  expect_identical(sbf_set_sub("sub"), "sub")
+  expect_identical(sbf_get_sub(), "sub")
+  expect_identical(sbf_set_sub("sub", "tub"), "sub/tub")
+  expect_identical(sbf_set_sub("sub/rub", "tub"), "sub/rub/tub")
+  expect_identical(sbf_set_sub("sub/"), "sub")
+  expect_identical(sbf_set_sub("/sub"), "sub")
+  expect_identical(sbf_set_sub("sub/", "tub"), "sub/tub")
+  expect_identical(sbf_reset_sub(), character(0))
+  expect_identical(sbf_get_sub(), character(0))
+})
+
+test_that("main",{
+  expect_identical(sbf_get_main(), "output")
+  expect_identical(sbf_set_main("output2"), "output2")
+  expect_identical(sbf_get_main(), "output2")
+  expect_identical(sbf_set_main("/"), "/")
+  expect_identical(sbf_reset_main(), "output")
+  expect_identical(sbf_get_main(), "output")
+})
