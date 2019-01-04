@@ -1,6 +1,7 @@
 context("sub")
 
 test_that("sub",{
+  expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_get_sub(), character(0))
   expect_identical(sbf_set_sub("sub"), "sub")
   expect_identical(sbf_get_sub(), "sub")
@@ -14,6 +15,7 @@ test_that("sub",{
 })
 
 test_that("main",{
+  expect_identical(sbf_reset_main(), "output")
   expect_identical(sbf_get_main(), "output")
   expect_identical(sbf_set_main("output2"), "output2")
   expect_identical(sbf_get_main(), "output2")

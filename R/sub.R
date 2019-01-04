@@ -19,7 +19,7 @@ sbf_get_sub <- function() {
 sbf_set_sub <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
   check_flag(rm)
   check_flag(ask)
-  path <- file.path(...)
+  path <- file_path(...)
   path <- sanitize_path(path)
   options(sbf.sub = path)
   if(rm) rm_all(ask = ask)

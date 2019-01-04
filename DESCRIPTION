@@ -6,7 +6,10 @@ Authors@R:
 Description: Facilitates loading and saving R objects, data frames, tables,
     plots and numbers. 
 License: MIT + file LICENSE
-Imports: checkr
+Imports: 
+    err,
+    checkr,
+    yesno
 Suggests: testthat
 Encoding: UTF-8
 LazyData: true
