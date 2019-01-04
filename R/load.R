@@ -25,7 +25,7 @@ sbf_load_data <- function(x_name, sub = sbf_get_sub()) {
   load_rds(x_name, class = "data", sub = sub)
 }
 
-#' Load Data
+#' Load Number
 #'
 #' @inheritParams sbf_save_object
 #' @export
@@ -33,6 +33,16 @@ sbf_load_number <- function(x_name, sub = sbf_get_sub()) {
   check_string(x_name)
   sub <- sanitize_path(sub)
   load_rds(x_name, class = "numbers", sub = sub)
+}
+
+#' Load String
+#'
+#' @inheritParams sbf_save_object
+#' @export
+sbf_load_string <- function(x_name, sub = sbf_get_sub()) {
+  check_string(x_name)
+  sub <- sanitize_path(sub)
+  load_rds(x_name, class = "strings", sub = sub)
 }
 
 #' Load Table

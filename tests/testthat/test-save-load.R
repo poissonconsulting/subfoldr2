@@ -68,6 +68,30 @@ test_that("number",{
   expect_error(sbf_load_number("x2"), "/numbers/sub/x2.rds' does not exist")
 })
 
+test_that("string",{
+  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
+  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
+
+  sbf_set_main(tempdir())
+  y <- "two words"
+  expect_error(sbf_save_string(), "argument \"x\" is missing, with no default")
+  expect_identical(sbf_save_string(y), "two words")
+  expect_identical(sbf_load_string("y"), "two words")
+  expect_identical(list.files(file.path(sbf_get_main(), "strings")),
+                   sort(c("y.csv", "y.rds")))
+  csv <- read.csv(file.path(sbf_get_main(), "strings", "y.csv"))
+  expect_equal(csv, data.frame(x = "two words"))
+  expect_error(sbf_load_string("x2"), "/strings/x2.rds' does not exist")
+  expect_identical(sbf_reset_sub(), character(0))
+  expect_identical(sbf_load_string("y"), "two words")
+  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
+  expect_error(sbf_load_string("x"), "/strings/x.rds' does not exist")
+  expect_identical(sbf_set_sub("sub"), "sub")
+  expect_identical(sbf_save_string(y), "two words")
+  expect_identical(sbf_load_string("y"), "two words")
+  expect_error(sbf_load_string("x2"), "/strings/sub/x2.rds' does not exist")
+})
+
 test_that("table",{
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
