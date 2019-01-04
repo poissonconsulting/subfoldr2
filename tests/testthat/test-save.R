@@ -3,6 +3,7 @@ context("save")
 test_that("object",{
   sbf_set_main(tempdir())
   x <- 1
+  expect_error(sbf_save_object(), "argument \"x\" is missing, with no default")
   expect_identical(sbf_save_object(x), x)
   expect_identical(sbf_load_object("x"), x)
   expect_error(sbf_load_object("x2"), "/objects/x2.rds' does not exist")
