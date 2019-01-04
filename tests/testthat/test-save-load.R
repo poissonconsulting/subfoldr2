@@ -54,9 +54,11 @@ test_that("table",{
   expect_identical(sbf_save_table(x), x)
   expect_identical(sbf_load_table("x"), x)
   expect_identical(list.files(file.path(sbf_get_main(), "tables")),
-                   c("x.csv", "x.rds"))
-  csv <- read.csv(paste0(file.path(sbf_get_main(), "tables", "x"), ".csv"))
+                   sort(c("_x.rds", "x.csv", "x.rds")))
+  csv <- read.csv(file.path(sbf_get_main(), "tables", "x.csv"))
   expect_equal(csv, x)
+  meta <- readRDS(paste0(file.path(sbf_get_main(), "tables", "_x.rds")))
+  expect_identical(meta, list(caption = NULL, report = TRUE))
   expect_error(sbf_load_table("x2"), "/tables/x2.rds' does not exist")
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_table("x"), x)

@@ -19,12 +19,12 @@ save_csv <- function(x, class, sub, x_name) {
 save_meta <- function(meta, class, sub, x_name) {
   dir <- file_path(sbf_get_main(), class, sub)
   dir_create(dir)
+  x_name <- paste0("_", x_name)
   file <- file_path(dir, x_name)
-  file <- paste0("_", file, ".rds")
+  file <- paste0(file, ".rds")
   saveRDS(meta, file)
   NULL
 }
-
 
 #' Save Object
 #'
@@ -79,7 +79,7 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   sub <- sanitize_path(sub)
 
   meta <- list(caption = caption, report = report)
-#  save_meta(meta, "tables", sub = sub, x_name = x_name)
+  save_meta(meta, "tables", sub = sub, x_name = x_name)
   save_csv(x, "tables", sub = sub, x_name = x_name)
   save_rds(x, "tables", sub = sub, x_name = x_name)
 }
