@@ -60,6 +60,24 @@ sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
   save_rds(x, "data", sub = sub, x_name = x_name)
 }
 
+#' Save Number
+#'
+#' @param x The number to save.
+#' @inheritParams sbf_save_object
+#' @return An invisible copy of x.
+#' @export
+sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
+  x_name <- chk_deparse(x_name)
+  check_string(x_name)
+  check_vector(sub, "", length = c(0L, 1L))
+  x <- check_number(x, coerce = TRUE)
+ 
+  sub <- sanitize_path(sub)
+  
+  save_csv(x, "numbers", sub = sub, x_name = x_name)
+  save_rds(x, "numbers", sub = sub, x_name = x_name)
+}
+
 #' Save Table
 #'
 #' @param x The data frame to save.
