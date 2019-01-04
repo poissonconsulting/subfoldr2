@@ -40,7 +40,7 @@ sbf_reset_sub <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #' @return A string specifying the main folder.
 #' @export
 #' @examples
-#' get_main()
+#' sbf_get_main()
 sbf_get_main <- function() {
   path <- getOption("sbf.main", "output")
   sanitize_path(path, rm_leading = FALSE)

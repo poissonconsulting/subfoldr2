@@ -1,3 +1,5 @@
+^docs$
+^_pkgdown\.yml$
 ^CODE_OF_CONDUCT\.md$
 ^LICENSE\.md$
 ^appveyor\.yml$
@@ -5,3 +7,4 @@
 ^\.travis\.yml$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^build\.R$

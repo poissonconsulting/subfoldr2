@@ -13,5 +13,5 @@ A string specifying the main folder.
 Get Main
 }
 \examples{
-get_main()
+sbf_get_main()
 }
