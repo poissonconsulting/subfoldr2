@@ -24,3 +24,13 @@ sbf_load_data <- function(x_name, sub = sbf_get_sub()) {
   sub <- sanitize_path(sub)
   load_rds(x_name, class = "data", sub = sub)
 }
+
+#' Load Table
+#'
+#' @inheritParams sbf_save_object
+#' @export
+sbf_load_table <- function(x_name, sub = sbf_get_sub()) {
+  check_string(x_name)
+  sub <- sanitize_path(sub)
+  load_rds(x_name, class = "tables", sub = sub)
+}
