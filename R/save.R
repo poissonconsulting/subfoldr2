@@ -16,6 +16,15 @@ save_csv <- function(x, class, sub, x_name) {
   invisible(x)
 }
 
+save_txt <- function(txt, class, sub, x_name) {
+  dir <- file_path(sbf_get_main(), class, sub)
+  dir_create(dir)
+  file <- file_path(dir, x_name)
+  file <- paste0(file, ".txt")
+  cat(txt, file = file)
+  NULL
+}
+
 save_meta <- function(meta, class, sub, x_name) {
   dir <- file_path(sbf_get_main(), class, sub)
   dir_create(dir)
@@ -92,7 +101,7 @@ sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
  
   sub <- sanitize_path(sub)
   
-  save_csv(x, "strings", sub = sub, x_name = x_name)
+  save_txt(x, "strings", sub = sub, x_name = x_name)
   save_rds(x, "strings", sub = sub, x_name = x_name)
 }
 

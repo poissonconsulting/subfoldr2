@@ -15,8 +15,11 @@ rm_all <- function(ask) {
     if (identical(sub, character(0))) {
       unlink(main, recursive = TRUE)
     } else {
-      unlink(file_path(main, "data", sub), recursive = TRUE)
       unlink(file_path(main, "objects", sub), recursive = TRUE)
+      unlink(file_path(main, "data", sub), recursive = TRUE)
+      unlink(file_path(main, "numbers", sub), recursive = TRUE)
+      unlink(file_path(main, "strings", sub), recursive = TRUE)
+      unlink(file_path(main, "tables", sub), recursive = TRUE)
     }
   }
 }

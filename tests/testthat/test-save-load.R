@@ -78,9 +78,9 @@ test_that("string",{
   expect_identical(sbf_save_string(y), "two words")
   expect_identical(sbf_load_string("y"), "two words")
   expect_identical(list.files(file.path(sbf_get_main(), "strings")),
-                   sort(c("y.csv", "y.rds")))
-  csv <- read.csv(file.path(sbf_get_main(), "strings", "y.csv"))
-  expect_equal(csv, data.frame(x = "two words"))
+                   sort(c("y.rds", "y.txt")))
+  txt <- readLines(file.path(sbf_get_main(), "strings", "y.txt"), warn = FALSE)
+  expect_equal(txt, "two words")
   expect_error(sbf_load_string("x2"), "/strings/x2.rds' does not exist")
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_string("y"), "two words")
