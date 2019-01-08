@@ -1,4 +1,4 @@
-#' Opens PDF Device
+#' Open PDF Device
 #'
 #' Opens a pdf device in the current pdfs subfolder using 
 #' \code{grDevices::\link[grDevices]{pdf}()}.
@@ -22,4 +22,23 @@ sbf_open_pdf <- function(x_name, sub = sbf_get_sub(),
 
   grDevices::pdf(file = file, width = width, height = height, ...)
   invisible(file)
+}
+
+#' Open SQLite Database Connection
+#'
+#' Opens a \code{\linkS4class{SQLiteConnection}} to a SQLite database.
+#' Foreign key constraints are enabled.
+#'
+#' @inheritParams sbf_save_object
+#' @export
+sbf_open_db <- function(x_name, sub = sbf_get_sub(), exists = NA) {
+  check_x_name(x_name)
+  check_vector(sub, "", length = c(0L, 1L))
+  check_scalar(exists, c(TRUE, NA))
+  
+  sub <- sanitize_path(sub)
+  file <- file_name("dbs", sub, x_name, ext = "sqlite", exists = exists)
+  conn <- DBI::dbConnect(RSQLite::SQLite(), file)
+  DBI::dbGetQuery(conn, "PRAGMA foreign_keys = ON;")
+  conn
 }

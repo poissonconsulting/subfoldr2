@@ -13,7 +13,8 @@ Imports:
     utils,
     yesno,
     grDevices,
-    DBI
+    DBI,
+    RSQLite
 Suggests: 
     testthat,
     covr

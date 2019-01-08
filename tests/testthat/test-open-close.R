@@ -37,4 +37,24 @@ test_that("pdf",{
   expect_identical(dev.cur(), c("null device" = 1L))
 })
 
+test_that("db",{
+  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
+  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
+  teardown(graphics.off())
   
+  tempdir <- tempdir()
+  sbf_set_main(tempdir)
+  
+  expect_error(sbf_open_db(), "argument \"x_name\" is missing, with no default")
+  expect_error(sbf_open_db("x", exists = TRUE), 
+               paste0("file '", sub("//", "/", file.path(tempdir, "dbs/x.sqlite")), "' doesn't exist"))
+
+  conn <- sbf_open_db("x")
+  teardown(suppressWarnings(DBI::dbDisconnect(conn)))
+  expect_is(conn, "SQLiteConnection")
+  expect_true(sbf_close_db(conn))
+  expect_is(conn, "SQLiteConnection")
+  expect_warning(sbf_close_db(conn), "Already disconnected")
+  expect_error(sbf_open_db("x", exists = FALSE), 
+               paste0("file '", sub("//", "/", file.path(tempdir, "dbs/x.sqlite")), "' already exists"))
+})

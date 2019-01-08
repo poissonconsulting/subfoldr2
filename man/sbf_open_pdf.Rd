@@ -2,7 +2,7 @@
 % Please edit documentation in R/open.R
 \name{sbf_open_pdf}
 \alias{sbf_open_pdf}
-\title{Opens PDF Device}
+\title{Open PDF Device}
 \usage{
 sbf_open_pdf(x_name, sub = sbf_get_sub(), exists = NA, width = 6,
   height = width, ...)
