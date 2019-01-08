@@ -9,8 +9,11 @@ License: MIT + file LICENSE
 Imports: 
     err,
     checkr,
+    tools,
     utils,
-    yesno
+    yesno,
+    grDevices,
+    DBI
 Suggests: 
     testthat,
     covr

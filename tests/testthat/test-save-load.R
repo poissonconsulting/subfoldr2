@@ -220,7 +220,7 @@ test_that("block",{
   expect_error(sbf_save_block(y, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_block("y"), "two words")
   expect_identical(list.files(file.path(sbf_get_main(), "blocks")),
-                   sort(c("_x.rds", "_y.rds", "x.txt", "y.rds", "y.txt")))
+                   sort(c("_x.rda", "_y.rda", "x.txt", "y.rds", "y.txt")))
   txt <- readLines(file.path(sbf_get_main(), "blocks", "y.txt"), warn = FALSE)
   expect_equal(txt, "two words")
   expect_error(sbf_load_block("x2"), "/blocks/x2.rds' does not exist")
@@ -257,10 +257,10 @@ test_that("table",{
   expect_error(sbf_save_table(x, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_table("x"), x)
   expect_identical(list.files(file.path(sbf_get_main(), "tables")),
-                   sort(c("_x.rds", "_y.rds", "x.csv", "x.rds", "y.csv")))
+                   sort(c("_x.rda", "_y.rda", "x.csv", "x.rds", "y.csv")))
   csv <- read.csv(file.path(sbf_get_main(), "tables", "x.csv"))
   expect_equal(csv, x)
-  meta <- readRDS(paste0(file.path(sbf_get_main(), "tables", "_x.rds")))
+  meta <- readRDS(paste0(file.path(sbf_get_main(), "tables", "_x.rda")))
   expect_identical(meta, list(caption = NULL, report = TRUE))
   expect_error(sbf_load_table("x2"), "/tables/x2.rds' does not exist")
   expect_identical(sbf_reset_sub(), character(0))
