@@ -4,7 +4,7 @@
 \alias{sbf_save_data}
 \title{Save Data}
 \usage{
-sbf_save_data(x, x_name, sub = sbf_get_sub(), ...)
+sbf_save_data(x, x_name, sub = sbf_get_sub(), exists = NA, ...)
 }
 \arguments{
 \item{x}{The data frame(s) to save.}
@@ -12,6 +12,8 @@ sbf_save_data(x, x_name, sub = sbf_get_sub(), ...)
 \item{x_name}{A string of the name to save as or a string of the name to prepend to the name of each data frame.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+
+\item{exists}{A logical scalar specifying whether the saved object(s) must already exist.}
 
 \item{...}{Unused.}
 }

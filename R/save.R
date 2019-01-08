@@ -1,8 +1,12 @@
-save_rds <- function(x, class, sub, x_name) {
+save_rds <- function(x, class, sub, x_name, exists) {
   dir <- file_path(sbf_get_main(), class, sub)
   dir_create(dir)
   file <- file_path(dir, x_name)
   file <- paste0(file, ".rds")
+  if(isTRUE(exists) && !file.exists(file))
+    err("file '", file, "' doesn't exist")
+  if(isFALSE(exists) && file.exists(file))
+    err("file '", file, "' already exists")
   saveRDS(x, file)
   invisible(file)
 }
@@ -40,16 +44,18 @@ save_meta <- function(meta, class, sub, x_name) {
 #' @param x The object to save.
 #' @param x_name A string of the name to save as.
 #' @param sub A string specifying the path to the sub folder (by default the current sub folder).
+#' @param exists A logical scalar specifying whether the saved object must already exist.
 #' @return An invisible string of the path to the saved object.
 #' @export
-sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
+sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub(), exists = NA) {
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
+  check_scalar(exists, c(TRUE, NA))
   
   sub <- sanitize_path(sub)
   
-  save_rds(x, "objects", sub = sub, x_name = x_name)
+  save_rds(x, "objects", sub = sub, x_name = x_name, exists = exists)
 }
 
 #' Save Data
@@ -57,30 +63,33 @@ sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
 #' @param x The data frame(s) to save.
 #' @param x_name A string of the name to save as or a string of the name to prepend to the name of each data frame.
 #' @inheritParams sbf_save_object
+#' @param exists A logical scalar specifying whether the saved object(s) must already exist.
 #' @param ... Unused.
 #' @return An invisible character vector of the path to the saved object.
 #' @export
-sbf_save_data <- function(x, x_name, sub = sbf_get_sub(), ...) {
+sbf_save_data <- function(x, x_name, sub = sbf_get_sub(), exists = NA, ...) {
   UseMethod("sbf_save_data")
 }
 
 #' @export
-sbf_save_data.data.frame <- function(x, x_name = substitute(x), sub = sbf_get_sub(), ...) {
+sbf_save_data.data.frame <- function(x, x_name = substitute(x), sub = sbf_get_sub(), 
+                                     exists = NA, ...) {
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
+  check_scalar(exists, c(TRUE, NA))
   check_unused(...)
   
   sub <- sanitize_path(sub)
   
-  save_rds(x, "data", sub = sub, x_name = x_name)
+  save_rds(x, "data", sub = sub, x_name = x_name, exists = exists)
 }
 
 #' @export
-sbf_save_data.list <- function(x, x_name = "", sub = sbf_get_sub(), ...) {
+sbf_save_data.list <- function(x, x_name = "", sub = sbf_get_sub(), 
+                               exists = NA, ...) {
   check_named(x, unique = TRUE)
   check_string(x_name)
-  check_vector(sub, "", length = c(0L, 1L))
   check_unused(...)
   
   if(!length(x)) return(character(0))
@@ -91,12 +100,13 @@ sbf_save_data.list <- function(x, x_name = "", sub = sbf_get_sub(), ...) {
   names(x) <- p0(x_name, names(x))
   
   paths <- mapply(sbf_save_data, x, names(x),
-         MoreArgs = list(sub = sub), SIMPLIFY = FALSE)
+                  MoreArgs = list(sub = sub, exists = exists), SIMPLIFY = FALSE)
   invisible(paths)
 }
 
 #' @export
 sbf_save_data.environment <- function(x, x_name = "", sub = sbf_get_sub(), 
+                                      exists = NA,
                                       silent = getOption("sbf.silent", FALSE), ...) {
   check_flag(silent)
   check_unused(...)
@@ -109,7 +119,7 @@ sbf_save_data.environment <- function(x, x_name = "", sub = sbf_get_sub(),
     return(invisible(character(0)))
   }
   
-  sbf_save_data(x, x_name = x_name, sub = sub)
+  sbf_save_data(x, x_name = x_name, sub = sub, exists = exists)
 }
 
 #' Save Number
@@ -118,16 +128,18 @@ sbf_save_data.environment <- function(x, x_name = "", sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @return An invisible string of the path to the saved object.
 #' @export
-sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
+sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
+                            exists = NA) {
   x_name <- chk_deparse(x_name)
   x <- check_number(x, coerce = TRUE)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
+  check_scalar(exists, c(TRUE, NA))
   
   sub <- sanitize_path(sub)
   
   save_csv(x, "numbers", sub = sub, x_name = x_name)
-  save_rds(x, "numbers", sub = sub, x_name = x_name)
+  save_rds(x, "numbers", sub = sub, x_name = x_name, exists = exists)
 }
 
 #' Save String
@@ -136,16 +148,18 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
 #' @inheritParams sbf_save_object
 #' @return An invisible string of the path to the saved object.
 #' @export
-sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
+sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
+                            exists = NA) {
   x_name <- chk_deparse(x_name)
   x <- check_string(x, coerce = TRUE)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
+  check_scalar(exists, c(TRUE, NA))
   
   sub <- sanitize_path(sub)
   
   save_txt(x, "strings", sub = sub, x_name = x_name)
-  save_rds(x, "strings", sub = sub, x_name = x_name)
+  save_rds(x, "strings", sub = sub, x_name = x_name, exists = exists)
 }
 
 #' Save Code Block
@@ -157,13 +171,15 @@ sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
 #' @return An invisible string of the path to the saved object.
 #' @export
 sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
+                           exists = NA,
                            caption = NULL, report = TRUE, language = NULL) {
   check_string(x)
   check_nchar(x)
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  
+  check_scalar(exists, c(TRUE, NA))
+
   checkor(check_null(caption), check_string(caption))
   checkor(check_null(language), check_string(language))
   check_flag(report)
@@ -173,7 +189,7 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   meta <- list(caption = caption, report = report, language = language)
   save_meta(meta, "blocks", sub = sub, x_name = x_name)
   save_txt(x, "blocks", sub = sub, x_name = x_name)
-  save_rds(x, "blocks", sub = sub, x_name = x_name)
+  save_rds(x, "blocks", sub = sub, x_name = x_name, exists = exists)
 }
 
 #' Save Table
@@ -185,12 +201,14 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @return An invisible string of the path to the saved object.
 #' @export
 sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(), 
+                           exists = NA,
                            caption = NULL, report = TRUE) {
   check_data(x)
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  
+  check_scalar(exists, c(TRUE, NA))
+
   checkor(check_null(caption), check_string(caption))
   check_flag(report)
   
@@ -199,5 +217,5 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   meta <- list(caption = caption, report = report)
   save_meta(meta, "tables", sub = sub, x_name = x_name)
   save_csv(x, "tables", sub = sub, x_name = x_name)
-  save_rds(x, "tables", sub = sub, x_name = x_name)
+  save_rds(x, "tables", sub = sub, x_name = x_name, exists = exists)
 }

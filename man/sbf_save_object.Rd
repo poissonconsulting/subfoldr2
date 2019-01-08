@@ -4,7 +4,8 @@
 \alias{sbf_save_object}
 \title{Save Object}
 \usage{
-sbf_save_object(x, x_name = substitute(x), sub = sbf_get_sub())
+sbf_save_object(x, x_name = substitute(x), sub = sbf_get_sub(),
+  exists = NA)
 }
 \arguments{
 \item{x}{The object to save.}
@@ -12,6 +13,8 @@ sbf_save_object(x, x_name = substitute(x), sub = sbf_get_sub())
 \item{x_name}{A string of the name to save as.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+
+\item{exists}{A logical scalar specifying whether the saved object must already exist.}
 }
 \value{
 An invisible string of the path to the saved object.

@@ -105,7 +105,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_save_number</span>(<span class='no'>x</span>, <span class='kw'>x_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substitute'>substitute</a></span>(<span class='no'>x</span>), <span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>())</pre>
+    <pre class="usage"><span class='fu'>sbf_save_number</span>(<span class='no'>x</span>, <span class='kw'>x_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substitute'>substitute</a></span>(<span class='no'>x</span>), <span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(),
+  <span class='kw'>exists</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -121,6 +122,10 @@
     <tr>
       <th>sub</th>
       <td><p>A string specifying the path to the sub folder (by default the current sub folder).</p></td>
+    </tr>
+    <tr>
+      <th>exists</th>
+      <td><p>A logical scalar specifying whether the saved object must already exist.</p></td>
     </tr>
     </table>
     

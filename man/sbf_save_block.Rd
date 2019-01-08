@@ -5,7 +5,7 @@
 \title{Save Code Block}
 \usage{
 sbf_save_block(x, x_name = substitute(x), sub = sbf_get_sub(),
-  caption = NULL, report = TRUE, language = NULL)
+  exists = NA, caption = NULL, report = TRUE, language = NULL)
 }
 \arguments{
 \item{x}{A string of the code block to save.}
@@ -13,6 +13,8 @@ sbf_save_block(x, x_name = substitute(x), sub = sbf_get_sub(),
 \item{x_name}{A string of the name to save as.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+
+\item{exists}{A logical scalar specifying whether the saved object must already exist.}
 
 \item{caption}{A string of the caption.}
 
