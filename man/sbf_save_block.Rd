@@ -21,7 +21,7 @@ sbf_save_block(x, x_name = substitute(x), sub = sbf_get_sub(),
 \item{language}{A string specifying the computer language (currently unused).}
 }
 \value{
-An invisible copy of x.
+An invisible string of the path to the saved object.
 }
 \description{
 Save Code Block

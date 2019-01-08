@@ -19,9 +19,9 @@ sanitize_path <- function(path, rm_leading = TRUE) {
   path
 }
 
-check_x_name <- function(x_name) {
+check_x_name <- function(x_name, nchar = TRUE) {
   check_string(x_name)
   check_nchar(x_name)
-  check_grepl(x_name, "^[^_]")
+  check_grepl(x_name, "(^[^_])")
   x_name
 }

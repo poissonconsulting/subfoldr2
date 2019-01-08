@@ -4,17 +4,19 @@
 \alias{sbf_save_data}
 \title{Save Data}
 \usage{
-sbf_save_data(x, x_name = substitute(x), sub = sbf_get_sub())
+sbf_save_data(x, x_name, sub = sbf_get_sub(), ...)
 }
 \arguments{
-\item{x}{The data frame to save.}
+\item{x}{The data frame(s) to save.}
 
-\item{x_name}{A string of the name to save as.}
+\item{x_name}{A string of the name to save as or a string of the name to prepend to the name of each data frame.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+
+\item{...}{Unused.}
 }
 \value{
-An invisible copy of x.
+An invisible character vector of the path to the saved object.
 }
 \description{
 Save Data

@@ -14,7 +14,7 @@ sbf_save_object(x, x_name = substitute(x), sub = sbf_get_sub())
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
 }
 \value{
-An invisible copy of x.
+An invisible string of the path to the saved object.
 }
 \description{
 Save Object

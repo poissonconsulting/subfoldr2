@@ -19,7 +19,7 @@ sbf_save_table(x, x_name = substitute(x), sub = sbf_get_sub(),
 \item{report}{A flag specifying whether to include in a report.}
 }
 \value{
-An invisible copy of x.
+An invisible string of the path to the saved object.
 }
 \description{
 Save Table
