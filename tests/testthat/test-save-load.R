@@ -7,6 +7,8 @@ test_that("object",{
   tempdir <- tempdir()
   sbf_set_main(tempdir)
   x <- 1
+  expect_warning(sbf_load_objects(), "no objects to load")
+
   expect_error(sbf_save_object(x_name = "x"), "argument \"x\" is missing, with no default")
   expect_error(sbf_save_object(), "x_name must have at least 1 character")
   expect_match(sbf_save_object(x), sub("//", "/", file.path(tempdir, "objects/x.rds")))
@@ -20,6 +22,15 @@ test_that("object",{
   expect_error(sbf_save_object(x, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_object("x"), x)
   expect_error(sbf_load_object("x2"), "/objects/x2.rds' does not exist")
+  
+  y <- 2
+  expect_match(sbf_save_object(y), sub("//", "/", file.path(tempdir, "objects/y.rds")))
+  x <- 0
+  y <- 0
+  expect_identical(sbf_load_objects(), c("x", "y"))
+  expect_identical(x, 1)
+  expect_identical(y, 2)
+  
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_object("x"), x)
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
@@ -37,6 +48,8 @@ test_that("data.data.frame",{
   tempdir <- tempdir()
   sbf_set_main(tempdir)
   y <- 1
+  expect_warning(sbf_load_datas(), "no data to load")
+
   expect_error(sbf_save_data(), "no applicable method for 'sbf_save_data' applied to an object of class \"NULL\"")
   expect_error(sbf_save_data(y), "no applicable method for 'sbf_save_data' applied to an object of class")
   x <- data.frame(x = 1)
@@ -51,6 +64,15 @@ test_that("data.data.frame",{
   expect_error(sbf_save_data(x, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_data("x"), x)
   expect_error(sbf_load_data("x2"), "/data/x2.rds' does not exist")
+  
+  y <- data.frame(z = 3)
+  expect_match(sbf_save_data(y), sub("//", "/", file.path(tempdir, "data/y.rds")))
+  x <- 0
+  y <- 0
+  expect_identical(sbf_load_datas(), c("x", "y"))
+  expect_identical(x, data.frame(x = 1))
+  expect_identical(y, data.frame(z = 3))
+
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_data("x"), x)
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
@@ -136,6 +158,7 @@ test_that("number",{
   tempdir <- tempdir()
   sbf_set_main(tempdir)
   y <- numeric(0)
+  expect_warning(sbf_load_numbers(), "no numbers to load")
   expect_error(sbf_save_number(), "argument \"x\" is missing, with no default")
   expect_error(sbf_save_number(y), "x must have 1 element")
   x <- 1L
@@ -155,6 +178,15 @@ test_that("number",{
                    sort(c("x.csv", "x.rds", "y.csv")))
   csv <- read.csv(file.path(sbf_get_main(), "numbers", "x.csv"))
   expect_equal(csv, data.frame(x = 1))
+  
+  y <- 3
+  expect_match(sbf_save_number(y), sub("//", "/", file.path(tempdir, "numbers/y.rds")))
+  x <- 0
+  y <- 0
+  expect_identical(sbf_load_numbers(), c("x", "y"))
+  expect_identical(x, 1)
+  expect_identical(y, 3)
+  
   expect_error(sbf_load_number("x2"), "/numbers/x2.rds' does not exist")
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_number("x"), 1)
@@ -173,6 +205,7 @@ test_that("string",{
   tempdir <- tempdir()
   sbf_set_main(tempdir)
   y <- "two words"
+  expect_warning(sbf_load_strings(), "no strings to load")
   expect_error(sbf_save_string(), "argument \"x\" is missing, with no default")
   expect_match(sbf_save_string(y), sub("//", "/", file.path(tempdir, "strings/y.rds")))
   expect_match(sbf_save_string(y, exists = TRUE), sub("//", "/", file.path(tempdir, "strings/y.rds")))
@@ -189,6 +222,15 @@ test_that("string",{
                    sort(c("x.txt", "y.rds", "y.txt")))
   txt <- readLines(file.path(sbf_get_main(), "strings", "y.txt"), warn = FALSE)
   expect_equal(txt, "two words")
+  
+  x <- "one"
+  expect_match(sbf_save_string(x), sub("//", "/", file.path(tempdir, "strings/x.rds")))
+  x <- 0
+  y <- 0
+  expect_identical(sbf_load_strings(), c("x", "y"))
+  expect_identical(x, "one")
+  expect_identical(y, "two words")
+  
   expect_error(sbf_load_string("x2"), "/strings/x2.rds' does not exist")
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_string("y"), "two words")
@@ -207,6 +249,7 @@ test_that("block",{
   tempdir <- tempdir()
   sbf_set_main(tempdir)
   y <- "two words"
+  expect_warning(sbf_load_blocks(), "no blocks to load")
   expect_error(sbf_save_block(), "argument \"x\" is missing, with no default")
   expect_match(sbf_save_block(y), sub("//", "/", file.path(tempdir, "blocks/y.rds")))
   expect_match(sbf_save_block(y, exists = TRUE), sub("//", "/", file.path(tempdir, "blocks/y.rds")))
@@ -223,6 +266,15 @@ test_that("block",{
                    sort(c("_x.rda", "_y.rda", "x.txt", "y.rds", "y.txt")))
   txt <- readLines(file.path(sbf_get_main(), "blocks", "y.txt"), warn = FALSE)
   expect_equal(txt, "two words")
+  
+  one <- "some code"
+  expect_match(sbf_save_block(one), sub("//", "/", file.path(tempdir, "blocks/one.rds")))
+  one <- 0
+  y <- 0
+  expect_identical(sbf_load_blocks(), c("one", "y"))
+  expect_identical(one, "some code")
+  expect_identical(y, "two words")
+  
   expect_error(sbf_load_block("x2"), "/blocks/x2.rds' does not exist")
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_block("y"), "two words")
@@ -241,6 +293,7 @@ test_that("table",{
   tempdir <- tempdir()
   sbf_set_main(tempdir)
   y <- 1
+  expect_warning(sbf_load_tables(), "no tables to load")
   expect_error(sbf_save_table(), "argument \"x\" is missing, with no default")
   expect_error(sbf_save_table(y), "x must inherit from class data.frame")
   x <- data.frame(x = 1)
@@ -262,6 +315,15 @@ test_that("table",{
   expect_equal(csv, x)
   meta <- readRDS(paste0(file.path(sbf_get_main(), "tables", "_x.rda")))
   expect_identical(meta, list(caption = NULL, report = TRUE))
+  
+  y <- data.frame(z = 2L)
+  expect_match(sbf_save_table(y), sub("//", "/", file.path(tempdir, "tables/y.rds")))
+  x <- 0
+  y <- 0
+  expect_identical(sbf_load_tables(), c("x", "y"))
+  expect_identical(x, data.frame(x = 1))
+  expect_identical(y, data.frame(z = 2L))
+  
   expect_error(sbf_load_table("x2"), "/tables/x2.rds' does not exist")
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_table("x"), x)
