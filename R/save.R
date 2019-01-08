@@ -101,6 +101,8 @@ sbf_save_data.list <- function(x, x_name = "", sub = sbf_get_sub(),
   
   paths <- mapply(sbf_save_data, x, names(x),
                   MoreArgs = list(sub = sub, exists = exists), SIMPLIFY = FALSE)
+  paths <- unlist(paths)
+  paths <- unname(paths)
   invisible(paths)
 }
 
@@ -111,10 +113,12 @@ sbf_save_data.environment <- function(x, x_name = "", sub = sbf_get_sub(),
   check_flag(silent)
   check_unused(...)
   
+  x <- as.list(x)
+  
   x <- x[vapply(x, is.data.frame, TRUE)]
   if(!length(x)) {
     if(!silent) {
-      wrn(p0("environment '", x_name, "' has no data frames"))
+      wrn(p0("environment x has no data frames"))
     }
     return(invisible(character(0)))
   }

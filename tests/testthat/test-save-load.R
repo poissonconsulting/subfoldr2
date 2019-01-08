@@ -33,7 +33,7 @@ test_that("object",{
 test_that("data.data.frame",{
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
-
+  
   tempdir <- tempdir()
   sbf_set_main(tempdir)
   y <- 1
@@ -64,15 +64,15 @@ test_that("data.data.frame",{
 test_that("data.list",{
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
-
+  
   tempdir <- tempdir()
   sbf_set_main(tempdir)
   y <- list(x = data.frame(z = 1), a = 1)
   
   expect_error(sbf_save_data(y), "list x includes objects which are not data frames")
   y$a <- NULL
-  expect_identical(sbf_save_data(y), list(x = sub("//", "/", file.path(tempdir, "data/x.rds"))))
-  expect_identical(sbf_save_data(y, exists = TRUE), list(x = sub("//", "/", file.path(tempdir, "data/x.rds"))))
+  expect_identical(sbf_save_data(y),sub("//", "/", file.path(tempdir, "data/x.rds")))
+  expect_identical(sbf_save_data(y, exists = TRUE), sub("//", "/", file.path(tempdir, "data/x.rds")))
   expect_error(sbf_save_data(y, exists = FALSE), 
                paste0("file '", sub("//", "/", file.path(tempdir, "data/x.rds")), "' already exists"))
   expect_error(sbf_save_data(y, x_name = "y", exists = TRUE), 
@@ -88,8 +88,43 @@ test_that("data.list",{
   expect_identical(sbf_set_sub("sub"), "sub")
   y$a <- data.frame(aa = 3)
   expect_identical(sbf_save_data(y), 
-                   list(x = sub("//", "/", file.path(tempdir, "data/sub/x.rds")),
-                        a = sub("//", "/", file.path(tempdir, "data/sub/a.rds"))))
+                   c(sub("//", "/", file.path(tempdir, "data/sub/x.rds")),
+                     sub("//", "/", file.path(tempdir, "data/sub/a.rds"))))
+  expect_identical(sbf_load_data("a"), y$a)
+  expect_error(sbf_load_data("x2"), "/data/sub/x2.rds' does not exist")
+})
+
+test_that("data.environment",{
+  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
+  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
+  
+  tempdir <- tempdir()
+  sbf_set_main(tempdir)
+  
+  y <- new.env()
+  assign("x", 1, envir = y)
+  expect_warning(sbf_save_data(y), "environment x has no data frames")
+  
+  assign("z", data.frame(a = 2), envir = y)
+  expect_identical(sbf_save_data(y), sub("//", "/", file.path(tempdir, "data/z.rds")))
+  expect_identical(sbf_save_data(y, exists = TRUE), sub("//", "/", file.path(tempdir, "data/z.rds")))
+  expect_error(sbf_save_data(y, exists = FALSE), 
+               paste0("file '", sub("//", "/", file.path(tempdir, "data/z.rds")), "' already exists"))
+  expect_error(sbf_save_data(y, x_name = "y", exists = TRUE), 
+               paste0("file '", sub("//", "/", file.path(tempdir, "data/yz.rds")), "' doesn't exist"))
+  expect_error(sbf_save_data(y, x_name = "y", exists = TRUE), 
+               paste0("file '", sub("//", "/", file.path(tempdir, "data/yz.rds")), "' doesn't exist"))
+  expect_identical(sbf_load_data("z"), y$z)
+  expect_error(sbf_load_data("x2"), "/data/x2.rds' does not exist")
+  expect_identical(sbf_reset_sub(), character(0))
+  expect_identical(sbf_load_data("z"), y$z)
+  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
+  expect_error(sbf_load_data("x"), "/data/x.rds' does not exist")
+  expect_identical(sbf_set_sub("sub"), "sub")
+  y$a <- data.frame(aa = 3)
+  expect_identical(sbf_save_data(y), 
+                   c(sub("//", "/", file.path(tempdir, "data/sub/z.rds")),
+                        sub("//", "/", file.path(tempdir, "data/sub/a.rds"))))
   expect_identical(sbf_load_data("a"), y$a)
   expect_error(sbf_load_data("x2"), "/data/sub/x2.rds' does not exist")
 })
@@ -97,7 +132,7 @@ test_that("data.list",{
 test_that("number",{
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
-
+  
   tempdir <- tempdir()
   sbf_set_main(tempdir)
   y <- numeric(0)
@@ -134,7 +169,7 @@ test_that("number",{
 test_that("string",{
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
-
+  
   tempdir <- tempdir()
   sbf_set_main(tempdir)
   y <- "two words"
@@ -168,7 +203,7 @@ test_that("string",{
 test_that("block",{
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
-
+  
   tempdir <- tempdir()
   sbf_set_main(tempdir)
   y <- "two words"
@@ -181,7 +216,7 @@ test_that("block",{
                paste0("file '", sub("//", "/", file.path(tempdir, "blocks/x.rds")), "' doesn't exist"))
   expect_error(sbf_save_block(y, x_name = "x", exists = TRUE), 
                paste0("file '", sub("//", "/", file.path(tempdir, "blocks/x.rds")), "' doesn't exist"))
-
+  
   expect_error(sbf_save_block(y, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_block("y"), "two words")
   expect_identical(list.files(file.path(sbf_get_main(), "blocks")),
@@ -202,7 +237,7 @@ test_that("block",{
 test_that("table",{
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
-
+  
   tempdir <- tempdir()
   sbf_set_main(tempdir)
   y <- 1
