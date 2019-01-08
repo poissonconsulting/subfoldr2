@@ -6,8 +6,10 @@ test_that("object",{
   
   sbf_set_main(tempdir())
   x <- 1
-  expect_error(sbf_save_object(), "argument \"x\" is missing, with no default")
+  expect_error(sbf_save_object(x_name = "x"), "argument \"x\" is missing, with no default")
+  expect_error(sbf_save_object(), "x_name must have at least 1 character")
   expect_identical(sbf_save_object(x), x)
+  expect_error(sbf_save_object(x, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_object("x"), x)
   expect_error(sbf_load_object("x2"), "/objects/x2.rds' does not exist")
   expect_identical(sbf_reset_sub(), character(0))
@@ -30,6 +32,7 @@ test_that("data",{
   expect_error(sbf_save_data(y), "x must inherit from class data.frame")
   x <- data.frame(x = 1)
   expect_identical(sbf_save_data(x), x)
+  expect_error(sbf_save_data(x, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_data("x"), x)
   expect_error(sbf_load_data("x2"), "/data/x2.rds' does not exist")
   expect_identical(sbf_reset_sub(), character(0))
@@ -52,6 +55,7 @@ test_that("number",{
   expect_error(sbf_save_number(y), "x must have 1 element")
   x <- 1L
   expect_identical(sbf_save_number(x), 1)
+  expect_error(sbf_save_number(x, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_number("x"), 1)
   expect_identical(list.files(file.path(sbf_get_main(), "numbers")),
                    sort(c("x.csv", "x.rds")))
@@ -76,6 +80,7 @@ test_that("string",{
   y <- "two words"
   expect_error(sbf_save_string(), "argument \"x\" is missing, with no default")
   expect_identical(sbf_save_string(y), "two words")
+  expect_error(sbf_save_string(y, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_string("y"), "two words")
   expect_identical(list.files(file.path(sbf_get_main(), "strings")),
                    sort(c("y.rds", "y.txt")))
@@ -100,6 +105,7 @@ test_that("block",{
   y <- "two words"
   expect_error(sbf_save_block(), "argument \"x\" is missing, with no default")
   expect_identical(sbf_save_block(y), "two words")
+  expect_error(sbf_save_block(y, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_block("y"), "two words")
   expect_identical(list.files(file.path(sbf_get_main(), "blocks")),
                    sort(c("_y.rds", "y.rds", "y.txt")))
@@ -126,6 +132,7 @@ test_that("table",{
   expect_error(sbf_save_table(y), "x must inherit from class data.frame")
   x <- data.frame(x = 1)
   expect_identical(sbf_save_table(x), x)
+  expect_error(sbf_save_table(x, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_table("x"), x)
   expect_identical(list.files(file.path(sbf_get_main(), "tables")),
                    sort(c("_x.rds", "x.csv", "x.rds")))

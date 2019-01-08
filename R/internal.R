@@ -18,3 +18,10 @@ sanitize_path <- function(path, rm_leading = TRUE) {
   if(isTRUE(rm_leading)) path <- sub("(^/)(.+)", "\\2", path)
   path
 }
+
+check_x_name <- function(x_name) {
+  check_string(x_name)
+  check_nchar(x_name)
+  check_grepl(x_name, "^[^_]")
+  x_name
+}

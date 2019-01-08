@@ -44,7 +44,7 @@ save_meta <- function(meta, class, sub, x_name) {
 #' @export
 sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
   x_name <- chk_deparse(x_name)
-  check_string(x_name)
+  check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
   
   sub <- sanitize_path(sub)
@@ -61,7 +61,7 @@ sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
 sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
   check_data(x)
   x_name <- chk_deparse(x_name)
-  check_string(x_name)
+  check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
  
   sub <- sanitize_path(sub)
@@ -77,9 +77,9 @@ sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
 #' @export
 sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
   x_name <- chk_deparse(x_name)
-  check_string(x_name)
-  check_vector(sub, "", length = c(0L, 1L))
   x <- check_number(x, coerce = TRUE)
+  check_x_name(x_name)
+  check_vector(sub, "", length = c(0L, 1L))
  
   sub <- sanitize_path(sub)
   
@@ -95,9 +95,9 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
 #' @export
 sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
   x_name <- chk_deparse(x_name)
-  check_string(x_name)
+  x <- check_string(x, coerce = TRUE)
+  check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  x <- check_string(x, coerce = TRUE, x_name = x_name)
  
   sub <- sanitize_path(sub)
   
@@ -109,14 +109,17 @@ sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
 #'
 #' @param x A string of the code block to save.
 #' @inheritParams sbf_save_object
+#' @inheritParams sbf_save_table
+#' @param language A string specifying the computer language (currently unused).
 #' @return An invisible copy of x.
 #' @export
 sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                            caption = NULL, report = TRUE, language = NULL) {
+  check_string(x)
+  check_nchar(x)
   x_name <- chk_deparse(x_name)
-  check_string(x_name)
+  check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(x, x_name = x_name)
  
   checkor(check_null(caption), check_string(caption))
   checkor(check_null(language), check_string(language))
@@ -134,13 +137,15 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #'
 #' @param x The data frame to save.
 #' @inheritParams sbf_save_object
+#' @param caption A string of the caption.
+#' @param report A flag specifying whether to include in a report.
 #' @return An invisible copy of x.
 #' @export
 sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(), 
                        caption = NULL, report = TRUE) {
   check_data(x)
   x_name <- chk_deparse(x_name)
-  check_string(x_name)
+  check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
   
   checkor(check_null(caption), check_string(caption))
