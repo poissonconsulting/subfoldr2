@@ -60,70 +60,21 @@ sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub(), exis
 
 #' Save Data
 #'
-#' @param x The data frame(s) to save.
-#' @param x_name A string of the name to save as or a string of the name to prepend to the name of each data frame.
+#' @param x The data frame to save.
 #' @inheritParams sbf_save_object
-#' @param exists A logical scalar specifying whether the saved object(s) must already exist.
-#' @param ... Unused.
-#' @return An invisible character vector of the path to the saved object.
+#' @return An invisible string of the path to the saved data.frame
 #' @export
-sbf_save_data <- function(x, x_name, sub = sbf_get_sub(), exists = NA, ...) {
-  UseMethod("sbf_save_data")
-}
-
-#' @export
-sbf_save_data.data.frame <- function(x, x_name = substitute(x), sub = sbf_get_sub(), 
-                                     exists = NA, ...) {
+sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
+                            exists = NA) {
+  check_data(x)
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
   check_scalar(exists, c(TRUE, NA))
-  check_unused(...)
   
   sub <- sanitize_path(sub)
   
   save_rds(x, "data", sub = sub, x_name = x_name, exists = exists)
-}
-
-#' @export
-sbf_save_data.list <- function(x, x_name = "", sub = sbf_get_sub(), 
-                               exists = NA, ...) {
-  check_named(x, unique = TRUE)
-  check_string(x_name)
-  check_unused(...)
-  
-  if(!length(x)) return(character(0))
-  
-  if(!all(vapply(x, is.data.frame, TRUE)))
-    err("list x includes objects which are not data frames")
-  
-  names(x) <- p0(x_name, names(x))
-  
-  paths <- mapply(sbf_save_data, x, names(x),
-                  MoreArgs = list(sub = sub, exists = exists), SIMPLIFY = FALSE)
-  paths <- unlist(paths)
-  paths <- unname(paths)
-  invisible(paths)
-}
-
-#' @export
-sbf_save_data.environment <- function(x, x_name = "", sub = sbf_get_sub(), 
-                                      exists = NA,
-                                      silent = getOption("sbf.silent", FALSE), ...) {
-  check_flag(silent)
-  check_unused(...)
-  
-  x <- as.list(x)
-  
-  x <- x[vapply(x, is.data.frame, TRUE)]
-  if(!length(x)) {
-    if(!silent) {
-      wrn(p0("environment x has no data frames"))
-    }
-    return(invisible(character(0)))
-  }
-  
-  sbf_save_data(x, x_name = x_name, sub = sub, exists = exists)
 }
 
 #' Save Number
@@ -223,6 +174,49 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   save_csv(x, "tables", sub = sub, x_name = x_name)
   save_rds(x, "tables", sub = sub, x_name = x_name, exists = exists)
 }
+
+# 
+# # @export
+# sbf_save_data.list <- function(x, x_name = "", sub = sbf_get_sub(), 
+#                                exists = NA, ...) {
+#   check_named(x, unique = TRUE)
+#   check_string(x_name)
+#   check_unused(...)
+#   
+#   if(!length(x)) return(character(0))
+#   
+#   if(!all(vapply(x, is.data.frame, TRUE)))
+#     err("list x includes objects which are not data frames")
+#   
+#   names(x) <- p0(x_name, names(x))
+#   
+#   paths <- mapply(sbf_save_data, x, names(x),
+#                   MoreArgs = list(sub = sub, exists = exists), SIMPLIFY = FALSE)
+#   paths <- unlist(paths)
+#   paths <- unname(paths)
+#   invisible(paths)
+# }
+# 
+# # @export
+# sbf_save_data.environment <- function(x, x_name = "", sub = sbf_get_sub(), 
+#                                       exists = NA,
+#                                       silent = getOption("sbf.silent", FALSE), ...) {
+#   check_flag(silent)
+#   check_unused(...)
+#   
+#   x <- as.list(x)
+#   
+#   x <- x[vapply(x, is.data.frame, TRUE)]
+#   if(!length(x)) {
+#     if(!silent) {
+#       wrn(p0("environment x has no data frames"))
+#     }
+#     return(invisible(character(0)))
+#   }
+#   
+#   sbf_save_data(x, x_name = x_name, sub = sub, exists = exists)
+# }
+
 
 # Save Plot
 #
