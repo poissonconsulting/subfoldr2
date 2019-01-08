@@ -25,3 +25,7 @@ check_x_name <- function(x_name, nchar = TRUE) {
   check_grepl(x_name, "(^[^_])")
   x_name
 }
+
+named_list <- function() {
+  list(x = 1)[-1]
+}

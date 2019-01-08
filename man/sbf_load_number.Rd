@@ -11,6 +11,9 @@ sbf_load_number(x_name, sub = sbf_get_sub())
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
 }
+\value{
+A number.
+}
 \description{
 Load Number
 }

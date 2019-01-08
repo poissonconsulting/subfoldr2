@@ -11,6 +11,9 @@ sbf_load_blocks(sub = sbf_get_sub(), env = parent.frame())
 
 \item{env}{The environment to  the objects into}
 }
+\value{
+A invisble character vector of the blocks's names.
+}
 \description{
 Load Blocks
 }

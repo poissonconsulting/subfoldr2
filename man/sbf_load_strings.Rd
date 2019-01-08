@@ -11,6 +11,9 @@ sbf_load_strings(sub = sbf_get_sub(), env = parent.frame())
 
 \item{env}{The environment to  the objects into}
 }
+\value{
+A invisble character vector of the string's names.
+}
 \description{
 Load Strings
 }
