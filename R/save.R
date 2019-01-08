@@ -179,7 +179,7 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' 
 #' @inheritParams sbf_save_object
 #' @param env An environment.
-#' @return An invisible character vector of the paths to the saved object.
+#' @return An invisible character vector of the paths to the saved objects.
 #' @export
 sbf_save_objects <- function(sub = sbf_get_sub(), env = parent.frame()) {
   check_environment(env)
@@ -202,7 +202,7 @@ sbf_save_objects <- function(sub = sbf_get_sub(), env = parent.frame()) {
 #' 
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_save_objects
-#' @return An invisible character vector of the paths to the saved object.
+#' @return An invisible character vector of the paths to the saved objects.
 #' @export
 sbf_save_datas <- function(sub = sbf_get_sub(), env = parent.frame()) {
   check_environment(env)
@@ -225,48 +225,59 @@ sbf_save_datas <- function(sub = sbf_get_sub(), env = parent.frame()) {
   invisible(names)
 }
 
-# 
-# # @export
-# sbf_save_data.list <- function(x, x_name = "", sub = sbf_get_sub(), 
-#                                exists = NA, ...) {
-#   check_named(x, unique = TRUE)
-#   check_string(x_name)
-#   check_unused(...)
-#   
-#   if(!length(x)) return(character(0))
-#   
-#   if(!all(vapply(x, is.data.frame, TRUE)))
-#     err("list x includes objects which are not data frames")
-#   
-#   names(x) <- p0(x_name, names(x))
-#   
-#   paths <- mapply(sbf_save_data, x, names(x),
-#                   MoreArgs = list(sub = sub, exists = exists), SIMPLIFY = FALSE)
-#   paths <- unlist(paths)
-#   paths <- unname(paths)
-#   invisible(paths)
-# }
-# 
-# # @export
-# sbf_save_data.environment <- function(x, x_name = "", sub = sbf_get_sub(), 
-#                                       exists = NA,
-#                                       silent = getOption("sbf.silent", FALSE), ...) {
-#   check_flag(silent)
-#   check_unused(...)
-#   
-#   x <- as.list(x)
-#   
-#   x <- x[vapply(x, is.data.frame, TRUE)]
-#   if(!length(x)) {
-#     if(!silent) {
-#       wrn(p0("environment x has no data frames"))
-#     }
-#     return(invisible(character(0)))
-#   }
-#   
-#   sbf_save_data(x, x_name = x_name, sub = sub, exists = exists)
-# }
+#' Save Numbers
+#' 
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_save_objects
+#' @return An invisible character vector of the paths to the saved objects.
+#' @export
+sbf_save_numbers <- function(sub = sbf_get_sub(), env = parent.frame()) {
+  check_environment(env)
+  
+  names <- objects(envir = env)
+  is <- vector("logical", length(names))
+  for (i in seq_along(names)) {
+    x_name <- names[i]
+    x <- get(x = x_name, envir = env)
+    is[i] <- is_number(x)
+    if(is[i]) sbf_save_number(x, x_name, sub)
+  }
+  names <- names[is]
+  if(!length(names)) {
+    warning("no numbers to save")
+    invisible(character(0))
+  }
+  names <- file_path(sbf_get_main(), "numbers", sub, names)
+  names <- p0(names, ".rds")
+  invisible(names)
+}
 
+#' Save Strings
+#' 
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_save_objects
+#' @return An invisible character vector of the paths to the saved objects.
+#' @export
+sbf_save_strings <- function(sub = sbf_get_sub(), env = parent.frame()) {
+  check_environment(env)
+  
+  names <- objects(envir = env)
+  is <- vector("logical", length(names))
+  for (i in seq_along(names)) {
+    x_name <- names[i]
+    x <- get(x = x_name, envir = env)
+    is[i] <- is_string(x)
+    if(is[i]) sbf_save_string(x, x_name, sub)
+  }
+  names <- names[is]
+  if(!length(names)) {
+    warning("no strings to save")
+    invisible(character(0))
+  }
+  names <- file_path(sbf_get_main(), "strings", sub, names)
+  names <- p0(names, ".rds")
+  invisible(names)
+}
 
 # Save Plot
 #

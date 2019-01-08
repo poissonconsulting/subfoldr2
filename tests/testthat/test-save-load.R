@@ -118,7 +118,11 @@ test_that("number",{
   expect_equal(csv, data.frame(x = 1))
   
   y <- 3
-  expect_identical(sbf_save_number(y), sub("//", "/", file.path(tempdir, "numbers/y.rds")))
+  expect_identical(sbf_save_numbers(env = as.environment(list(x = x, y = y))), 
+               c(sub("//", "/", file.path(tempdir, "numbers/x.rds")),
+                 sub("//", "/", file.path(tempdir, "numbers/y.rds"))))
+  expect_identical(list.files(file.path(sbf_get_main(), "numbers")),
+               sort(c("x.csv", "x.rds", "y.csv", "y.rds")))
   x <- 0
   y <- 0
   expect_identical(sbf_load_numbers(), c("x", "y"))
@@ -162,7 +166,11 @@ test_that("string",{
   expect_equal(txt, "two words")
   
   x <- "one"
-  expect_identical(sbf_save_string(x), sub("//", "/", file.path(tempdir, "strings/x.rds")))
+  expect_identical(sbf_save_strings(env = as.environment(list(x = x, y = y))), 
+               c(sub("//", "/", file.path(tempdir, "strings/x.rds")),
+                 sub("//", "/", file.path(tempdir, "strings/y.rds"))))
+  expect_identical(list.files(file.path(sbf_get_main(), "strings")),
+               sort(c("x.rds", "x.txt", "y.rds", "y.txt")))
   x <- 0
   y <- 0
   expect_identical(sbf_load_strings(), c("x", "y"))

@@ -12,7 +12,7 @@ sbf_save_objects(sub = sbf_get_sub(), env = parent.frame())
 \item{env}{An environment.}
 }
 \value{
-An invisible character vector of the paths to the saved object.
+An invisible character vector of the paths to the saved objects.
 }
 \description{
 Save Objects

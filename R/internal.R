@@ -29,3 +29,11 @@ check_x_name <- function(x_name, nchar = TRUE) {
 named_list <- function() {
   list(x = 1)[-1]
 }
+
+is_number <- function(x) {
+  is.numeric(x) && identical(length(x), 1L)  
+}
+
+is_string <- function(x) {
+  is.character(x) && identical(length(x), 1L)  
+}
