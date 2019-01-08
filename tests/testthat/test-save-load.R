@@ -280,3 +280,35 @@ test_that("table",{
   expect_identical(sbf_load_table("x"), x)
   expect_error(sbf_load_table("x2"), "/tables/sub/x2.rds' does not exist")
 })
+
+test_that("datas_to_db",{
+  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
+  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
+  
+  tempdir <- tempdir()
+  sbf_set_main(tempdir)
+  x <- data.frame(x = 1)
+  y <- data.frame(z = 3)
+  expect_error(sbf_save_datas_to_db("z", env = as.environment(list(x = x, y = y))),
+               paste0("file '", sub("//", "/", file.path(tempdir, "dbs/z.sqlite")), "' doesn't exist"))
+
+  conn <- sbf_open_db("z")
+  teardown(suppressWarnings(DBI::dbDisconnect(conn)))
+  expect_error(sbf_save_datas_to_db("z", env = as.environment(list(x = x, y = y))),
+               "exists = TRUE but the following data frames in 'x' are unrecognised: 'y' and 'x'")
+  
+  DBI::dbGetQuery(conn, "CREATE TABLE x (
+                  x INTEGER PRIMARY KEY NOT NULL)")
+  
+  DBI::dbGetQuery(conn, "CREATE TABLE y (
+                  z INTEGER PRIMARY KEY NOT NULL)")
+  
+  expect_identical(sbf_save_datas_to_db("z", env = as.environment(list(x = x, y = y))),
+                   c("y", "x"))
+  
+  expect_error(sbf_save_datas_to_db("z", env = as.environment(list(x = x, y = y))),
+               "UNIQUE constraint failed: y.z")
+  
+  expect_true(sbf_close_db(conn))
+})
+

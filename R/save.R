@@ -279,6 +279,24 @@ sbf_save_strings <- function(sub = sbf_get_sub(), env = parent.frame()) {
   invisible(names)
 }
 
+#' Save Data Frames to Database
+#' 
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_save_objects
+#' @inheritParams readwritesqlite::rws_write_sqlite
+#' @return An invisible character vector of the paths to the saved objects.
+#' @export
+sbf_save_datas_to_db <- function(x_name, sub = sbf_get_sub(),  
+                           commit = TRUE, strict = TRUE, env = parent.frame()) {
+  check_environment(env)
+  
+  conn <- sbf_open_db(x_name, sub = sub, exists = TRUE)
+  on.exit(sbf_close_db(conn))
+  
+  rws_write_sqlite(env, commit = commit, strict = strict, conn = conn,
+                   x_name = x_name)
+}
+
 # Save Plot
 #
 # @inheritParams save_object
