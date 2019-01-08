@@ -24,7 +24,9 @@ test_that("object",{
   expect_error(sbf_load_object("x2"), "/objects/x2.rds' does not exist")
   
   y <- 2
-  expect_match(sbf_save_object(y), sub("//", "/", file.path(tempdir, "objects/y.rds")))
+  expect_identical(sbf_save_objects(env = as.environment(list(x = x, y = y))), 
+               c(sub("//", "/", file.path(tempdir, "objects/x.rds")),
+                 sub("//", "/", file.path(tempdir, "objects/y.rds"))))
   x <- 0
   y <- 0
   expect_identical(sbf_load_objects(), c("x", "y"))
@@ -66,7 +68,11 @@ test_that("data",{
   expect_error(sbf_load_data("x2"), "/data/x2.rds' does not exist")
   
   y <- data.frame(z = 3)
-  expect_match(sbf_save_data(y), sub("//", "/", file.path(tempdir, "data/y.rds")))
+  expect_identical(sbf_save_datas(env = as.environment(list(x = x, y = y))), 
+               c(sub("//", "/", file.path(tempdir, "data/x.rds")),
+                 sub("//", "/", file.path(tempdir, "data/y.rds"))))
+  expect_identical(list.files(file.path(sbf_get_main(), "data")),
+                   sort(c("x.rds", "y.rds")))
   x <- 0
   y <- 0
   expect_identical(sbf_load_datas(), c("x", "y"))

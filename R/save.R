@@ -175,6 +175,56 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   save_rds(x, "tables", sub = sub, x_name = x_name, exists = exists)
 }
 
+#' Save Objects
+#' 
+#' @inheritParams sbf_save_object
+#' @param env An environment.
+#' @return An invisible character vector of the paths to the saved object.
+#' @export
+sbf_save_objects <- function(sub = sbf_get_sub(), env = parent.frame()) {
+  check_environment(env)
+  
+  names <- objects(envir = env)
+  if(!length(names)) {
+    warning("no objects to save")
+    invisible(character(0))
+  }
+  for (x_name in names) {
+    x <- get(x = x_name, envir = env)
+    sbf_save_object(x, x_name, sub)
+  }
+  names <- file_path(sbf_get_main(), "objects", sub, names)
+  names <- p0(names, ".rds")
+  invisible(names)
+}
+
+#' Save Data Frames
+#' 
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_save_objects
+#' @return An invisible character vector of the paths to the saved object.
+#' @export
+sbf_save_datas <- function(sub = sbf_get_sub(), env = parent.frame()) {
+  check_environment(env)
+  
+  names <- objects(envir = env)
+  is <- vector("logical", length(names))
+  for (i in seq_along(names)) {
+    x_name <- names[i]
+    x <- get(x = x_name, envir = env)
+    is[i] <- is.data.frame(x)
+    if(is[i]) sbf_save_data(x, x_name, sub)
+  }
+  names <- names[is]
+  if(!length(names)) {
+    warning("no datas to save")
+    invisible(character(0))
+  }
+  names <- file_path(sbf_get_main(), "data", sub, names)
+  names <- p0(names, ".rds")
+  invisible(names)
+}
+
 # 
 # # @export
 # sbf_save_data.list <- function(x, x_name = "", sub = sbf_get_sub(), 
