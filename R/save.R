@@ -105,6 +105,31 @@ sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
   save_rds(x, "strings", sub = sub, x_name = x_name)
 }
 
+#' Save Code Block
+#'
+#' @param x A string of the code block to save.
+#' @inheritParams sbf_save_object
+#' @return An invisible copy of x.
+#' @export
+sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
+                           caption = NULL, report = TRUE, language = NULL) {
+  x_name <- chk_deparse(x_name)
+  check_string(x_name)
+  check_vector(sub, "", length = c(0L, 1L))
+  check_string(x, x_name = x_name)
+ 
+  checkor(check_null(caption), check_string(caption))
+  checkor(check_null(language), check_string(language))
+  check_flag(report)
+  
+  sub <- sanitize_path(sub)
+
+  meta <- list(caption = caption, report = report, language = language)
+  save_meta(meta, "blocks", sub = sub, x_name = x_name)
+  save_txt(x, "blocks", sub = sub, x_name = x_name)
+  save_rds(x, "blocks", sub = sub, x_name = x_name)
+}
+
 #' Save Table
 #'
 #' @param x The data frame to save.
