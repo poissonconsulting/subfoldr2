@@ -310,5 +310,10 @@ test_that("datas_to_db",{
                "UNIQUE constraint failed: y.z")
   
   expect_true(sbf_close_db(conn))
+  x <- 0
+  y <- 0
+  
+  expect_identical(sbf_load_datas_from_db("z"), c("x", "y"))
+  expect_identical(x, tibble::tibble(x = 1L))
+  expect_identical(y, tibble::tibble(z = 3L))
 })
-

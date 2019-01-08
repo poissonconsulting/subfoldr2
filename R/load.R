@@ -143,6 +143,25 @@ sbf_load_blocks <- function(sub = sbf_get_sub(), env = parent.frame()) {
   load_rdss("blocks", sub, env)
 }
 
+#' Save Data Frames to Database
+#' 
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_save_objects
+#' @inheritParams readwritesqlite::rws_write_sqlite
+#' @return An invisible character vector of the paths to the saved objects.
+#' @export
+sbf_load_datas_from_db <- function(x_name, sub = sbf_get_sub(), env = parent.frame()) {
+  check_environment(env)
+
+  conn <- sbf_open_db(x_name, sub = sub, exists = TRUE)
+  on.exit(sbf_close_db(conn))
+  
+  datas <- rws_read_sqlite(conn)
+  mapply(assign, names(datas), datas, MoreArgs = list(envir = env))
+  invisible(names(datas))
+}
+
+
 # load_rds_recursive <- function(x_name, class, sub, include_root, fun = identity) {
 #   check_string(x_name)
 #   check_vector(sub, "", length = c(0L, 1L))

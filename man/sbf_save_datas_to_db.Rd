@@ -5,7 +5,8 @@
 \title{Save Data Frames to Database}
 \usage{
 sbf_save_datas_to_db(x_name, sub = sbf_get_sub(), commit = TRUE,
-  strict = TRUE, env = parent.frame())
+  strict = TRUE, silent = getOption("rws.silent", FALSE),
+  env = parent.frame())
 }
 \arguments{
 \item{x_name}{A string of the name to save as.}
@@ -16,6 +17,8 @@ sbf_save_datas_to_db(x_name, sub = sbf_get_sub(), commit = TRUE,
 (calling with commit = FALSE can be useful for checking data).}
 
 \item{strict}{A flag specifying whether to error if x has extraneous columns or if exists = TRUE extraneous data frames.}
+
+\item{silent}{A flag specifying whether to suppress messages and warnings.}
 
 \item{env}{An environment.}
 }

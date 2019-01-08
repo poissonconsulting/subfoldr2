@@ -18,6 +18,7 @@ Imports:
     readwritesqlite
 Suggests: 
     testthat,
+    tibble,
     covr
 Remotes:
     poissonconsulting/readwritesqlite
