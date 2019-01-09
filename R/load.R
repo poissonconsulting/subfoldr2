@@ -213,8 +213,7 @@ sbf_load_objects_recursive <- function(pattern = ".*", sub = sbf_get_sub(), incl
 #' and sub folders (named sub1, sub2 etc).
 #' 
 #' @inheritParams sbf_save_object
-#' @param pattern A string of the regular expression to match. 
-#' @param include_root A flag indicating whether to include objects in the top sub folder.
+#' @inheritParams sbf_load_objects_recursive
 #' @export
 sbf_load_datas_recursive <- function(pattern = ".*", sub = sbf_get_sub(), include_root = TRUE) {
   load_rdss_recursive(pattern, "data", sub, include_root)
@@ -228,11 +227,57 @@ sbf_load_datas_recursive <- function(pattern = ".*", sub = sbf_get_sub(), includ
 #' and sub folders (named sub1, sub2 etc).
 #' 
 #' @inheritParams sbf_save_object
-#' @param pattern A string of the regular expression to match. 
-#' @param include_root A flag indicating whether to include objects in the top sub folder.
+#' @inheritParams sbf_load_objects_recursive
 #' @export
 sbf_load_numbers_recursive <- function(pattern = ".*", sub = sbf_get_sub(), include_root = TRUE) {
   data <- load_rdss_recursive(pattern, "numbers", sub, include_root)
-  data$numbers <- unlist(data$numbers)
+  data[1] <- unlist(data[1])
   data
 }
+
+#' Load Strings as Column in Data Frame
+#'
+#' Recursively loads all the numbers with names matching the regular expression pattern as the 
+#' the first character column (named strings) in a data frame.
+#' Subsequent character vector columns specify the object names (named name) 
+#' and sub folders (named sub1, sub2 etc).
+#' 
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_load_objects_recursive
+#' @export
+sbf_load_strings_recursive <- function(pattern = ".*", sub = sbf_get_sub(), include_root = TRUE) {
+  data <- load_rdss_recursive(pattern, "strings", sub, include_root)
+  data[1] <- unlist(data[1])
+  data
+}
+
+#' Load Blocks as Column in Data Frame
+#'
+#' Recursively loads all the code blocks with names matching the regular expression pattern as the 
+#' the first character column (named blocks) in a data frame.
+#' Subsequent character vector columns specify the object names (named name) 
+#' and sub folders (named sub1, sub2 etc).
+#' 
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_load_objects_recursive
+#' @export
+sbf_load_blocks_recursive <- function(pattern = ".*", sub = sbf_get_sub(), include_root = TRUE) {
+  data <- load_rdss_recursive(pattern, "blocks", sub, include_root)
+  data[1] <- unlist(data[1])
+  data
+}
+
+#' Load Data Frames as List Column in Data Frame
+#'
+#' Recursively loads all the data frames with names matching the regular expression pattern as the 
+#' the first (list) column (named tables) in a data frame.
+#' Subsequent character vector columns specify the object names (named name) 
+#' and sub folders (named sub1, sub2 etc).
+#' 
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_load_objects_recursive
+#' @export
+sbf_load_tables_recursive <- function(pattern = ".*", sub = sbf_get_sub(), include_root = TRUE) {
+  load_rdss_recursive(pattern, "tables", sub, include_root)
+}
+

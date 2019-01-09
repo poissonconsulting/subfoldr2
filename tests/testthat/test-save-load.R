@@ -249,6 +249,15 @@ test_that("string",{
   expect_identical(x, "one")
   expect_identical(y, "two words")
   
+  data <- sbf_load_strings_recursive()
+  expect_is(data, "data.frame")
+  expect_identical(colnames(data), c("strings", "name", "file"))
+  expect_identical(data$strings, c("one", "two words"))
+  expect_identical(data$name, c("x", "y"))
+  expect_identical(data$file, 
+                   c(sub("//", "/", file.path(tempdir, "strings/x.rds")),
+                     sub("//", "/", file.path(tempdir, "strings/y.rds"))))
+  
   expect_error(sbf_load_string("x2"), "/strings/x2.rds' does not exist")
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_string("y"), "two words")
@@ -292,6 +301,15 @@ test_that("block",{
   expect_identical(sbf_load_blocks(), c("one", "y"))
   expect_identical(one, "some code")
   expect_identical(y, "two words")
+  
+  data <- sbf_load_blocks_recursive()
+  expect_is(data, "data.frame")
+  expect_identical(colnames(data), c("blocks", "name", "file"))
+  expect_identical(data$blocks, c("some code", "two words"))
+  expect_identical(data$name, c("one", "y"))
+  expect_identical(data$file, 
+                   c(sub("//", "/", file.path(tempdir, "blocks/one.rds")),
+                     sub("//", "/", file.path(tempdir, "blocks/y.rds"))))
   
   expect_error(sbf_load_block("x2"), "/blocks/x2.rds' does not exist")
   expect_identical(sbf_reset_sub(), character(0))
@@ -341,6 +359,15 @@ test_that("table",{
   expect_identical(sbf_load_tables(), c("x", "y"))
   expect_identical(x, data.frame(x = 1))
   expect_identical(y, data.frame(z = 2L))
+  
+  data <- sbf_load_tables_recursive()
+  expect_is(data, "data.frame")
+  expect_identical(colnames(data), c("tables", "name", "file"))
+  expect_identical(data$tables[[1]], data.frame(x = 1))
+  expect_identical(data$name, c("x", "y"))
+  expect_identical(data$file, 
+                   c(sub("//", "/", file.path(tempdir, "tables/x.rds")),
+                     sub("//", "/", file.path(tempdir, "tables/y.rds"))))
   
   expect_error(sbf_load_table("x2"), "/tables/x2.rds' does not exist")
   expect_identical(sbf_reset_sub(), character(0))
