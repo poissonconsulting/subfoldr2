@@ -177,7 +177,11 @@ load_rdss_recursive <- function(pattern, class, sub, include_root, fun = identit
 
   if (!length(files)) {
     warning("no ", class, " matching regular expression '", pattern, "'")
-    return(data.frame(x = list()))
+    data <- data.frame(x = I(list()))
+    names(data) <- class
+    data$name <- character(0)
+    data$file <- character(0)
+    return(data)
   }
    
   objects <- lapply(names(files), readRDS)
