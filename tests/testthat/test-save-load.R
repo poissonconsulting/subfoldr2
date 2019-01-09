@@ -45,7 +45,7 @@ test_that("object",{
   expect_is(data, "data.frame")
   expect_identical(colnames(data), c("objects", "name", "file"))
   expect_identical(nrow(data), 0L)
-
+  
   expect_warning(sbf_load_objects_recursive(include_root = FALSE, 
                                             sub = character(0)),
                  "no objects matching regular expression '.*'")
@@ -420,3 +420,31 @@ test_that("datas_to_db",{
   expect_identical(x, tibble::tibble(x = 1L))
   expect_identical(y, tibble::tibble(z = 3L))
 })
+
+test_that("plot",{
+  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
+  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
+  
+  sbf_close_windows()
+  teardown(sbf_close_windows())
+  
+  tempdir <- tempdir()
+  sbf_set_main(tempdir)
+  y <- 1
+  expect_warning(sbf_load_plots(), "no plots to load")
+  
+  expect_error(sbf_save_plot(y), "x must inherit from class ggplot")
+  x <- ggplot2::ggplot(data = data.frame(x = 1, y = 2), ggplot2::aes(x = x, y = y))
+  expect_identical(sbf_save_plot(x), sub("//", "/", file.path(tempdir, "plots/x.rds")))
+  
+  expect_equal(sbf_load_plot("x"), x)
+
+  expect_identical(list.files(file.path(sbf_get_main(), "plots")),
+                   sort(c("_x.rda", "x.csv", "x.png", "x.rds")))
+  
+  y <- ggplot2::ggplot(data = data.frame(x = 2, y = 3), ggplot2::aes(x = x, y = y))
+  print(y)
+  expect_identical(sbf_save_plot(), sub("//", "/", file.path(tempdir, "plots/plot.rds")))
+#  expect_equal(sbf_load_plot("plot"), y)
+})
+

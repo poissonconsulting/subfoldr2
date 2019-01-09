@@ -12,7 +12,7 @@ sbf_load_objects(sub = sbf_get_sub(), env = parent.frame())
 \item{env}{The environment to  the objects into}
 }
 \value{
-A invisble character vector of the object's names.
+A invisble character vector of the objects' names.
 }
 \description{
 Load Objects

@@ -5,7 +5,7 @@
 \title{Open PDF Device}
 \usage{
 sbf_open_pdf(x_name, sub = sbf_get_sub(), exists = NA, width = 6,
-  height = width, ...)
+  height = width)
 }
 \arguments{
 \item{x_name}{A string of the name.}
@@ -17,8 +17,6 @@ sbf_open_pdf(x_name, sub = sbf_get_sub(), exists = NA, width = 6,
 \item{width}{A positive number indicating the width in inches.}
 
 \item{height}{A positive number indicating the height in inches.}
-
-\item{...}{Additional arguments passed to \code{grDevices::\link[grDevices]{pdf}()}.}
 }
 \description{
 Opens a pdf device in the current pdfs subfolder using 

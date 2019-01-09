@@ -21,6 +21,7 @@ save_rds <- function(x, class, sub, x_name, exists) {
 }
 
 save_csv <- function(x, class, sub, x_name) {
+  x[vapply(x, is.list, TRUE)] <- NULL
   file <- file_name(class, sub, x_name, "csv")
   write.csv(x, file, row.names = FALSE)
   invisible(file)
@@ -65,7 +66,7 @@ sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub(), exis
 #' @return An invisible string of the path to the saved data.frame
 #' @export
 sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
-                            exists = NA) {
+                          exists = NA) {
   check_data(x)
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
@@ -117,6 +118,34 @@ sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   save_rds(x, "strings", sub = sub, x_name = x_name, exists = exists)
 }
 
+#' Save Table
+#'
+#' @param x The data frame to save.
+#' @inheritParams sbf_save_object
+#' @param caption A string of the caption.
+#' @param report A flag specifying whether to include in a report.
+#' @return An invisible string of the path to the saved object.
+#' @export
+sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(), 
+                           exists = NA,
+                           caption = NULL, report = TRUE) {
+  check_data(x)
+  x_name <- chk_deparse(x_name)
+  check_x_name(x_name)
+  check_vector(sub, "", length = c(0L, 1L))
+  check_scalar(exists, c(TRUE, NA))
+  
+  checkor(check_null(caption), check_string(caption))
+  check_flag(report)
+  
+  sub <- sanitize_path(sub)
+  
+  meta <- list(caption = caption, report = report)
+  save_meta(meta, "tables", sub = sub, x_name = x_name)
+  save_csv(x, "tables", sub = sub, x_name = x_name)
+  save_rds(x, "tables", sub = sub, x_name = x_name, exists = exists)
+}
+
 #' Save Code Block
 #'
 #' @param x A string of the code block to save.
@@ -147,32 +176,60 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   save_rds(x, "blocks", sub = sub, x_name = x_name, exists = exists)
 }
 
-#' Save Table
+#' Save Plot
 #'
-#' @param x The data frame to save.
+#' Saves a ggplot object.
+#' 
+#' @param x The ggplot object to save. By default taken from last plot displayed.
 #' @inheritParams sbf_save_object
-#' @param caption A string of the caption.
-#' @param report A flag specifying whether to include in a report.
-#' @return An invisible string of the path to the saved object.
+#' @inheritParams sbf_save_table
+#' @inheritParams ggplot2::ggsave
+#' @param csv A count specifying the maximum number of rows to save as a csv file.
 #' @export
-sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(), 
-                           exists = NA,
-                           caption = NULL, report = TRUE) {
-  check_data(x)
+sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
+                          sub = sbf_get_sub(), exists = NA, 
+                          caption = NULL, report = TRUE,
+                          width = NA, height = width, dpi = 300,
+                          csv = 1000L) {
+  
+  check_inherits(x, "ggplot")
   x_name <- chk_deparse(x_name)
+  if(identical(x_name, "ggplot2::last_plot()"))
+    x_name <- "plot"
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
   check_scalar(exists, c(TRUE, NA))
   
   checkor(check_null(caption), check_string(caption))
   check_flag(report)
+  csv <- check_pos_int(csv, coerce = TRUE)
   
-  sub <- sanitize_path(sub)
+  if(identical(width, NA) || identical(height, NA)) {
+    if (!length(grDevices::dev.list())) {
+      if(is.na(width)) width <- 6
+      if(is.na(height)) height <- 6
+    } else {
+      dim <- grDevices::dev.size(units = "in")
+      if(is.na(width)) width <- dim[1]
+      if(is.na(height)) height <- dim[2]
+    }
+  }
   
-  meta <- list(caption = caption, report = report)
-  save_meta(meta, "tables", sub = sub, x_name = x_name)
-  save_csv(x, "tables", sub = sub, x_name = x_name)
-  save_rds(x, "tables", sub = sub, x_name = x_name, exists = exists)
+  
+  filename <- file_name("plots", sub, x_name, "png")
+
+  ggplot2::ggsave(filename, plot = x, width = width, height = height, 
+                  dpi = dpi)
+  
+  meta <- list(caption = caption, report = report, width = width, height = height,
+               dpi = dpi)
+  save_meta(meta, "plots", sub = sub, x_name = x_name)
+
+  data <- x$data
+  if(is.data.frame(data) && nrow(data) <= csv)
+    save_csv(data, "plots", sub = sub, x_name = x_name)
+  
+  save_rds(x, "plots", sub = sub, x_name = x_name, exists = exists)
 }
 
 #' Save Objects
@@ -287,9 +344,9 @@ sbf_save_strings <- function(sub = sbf_get_sub(), env = parent.frame()) {
 #' @return An invisible character vector of the paths to the saved objects.
 #' @export
 sbf_save_datas_to_db <- function(x_name, sub = sbf_get_sub(),  
-                           commit = TRUE, strict = TRUE,
-                           silent = getOption("rws.silent", FALSE),
-                           env = parent.frame()) {
+                                 commit = TRUE, strict = TRUE,
+                                 silent = getOption("rws.silent", FALSE),
+                                 env = parent.frame()) {
   check_environment(env)
   
   conn <- sbf_open_db(x_name, sub = sub, exists = TRUE)
@@ -298,68 +355,3 @@ sbf_save_datas_to_db <- function(x_name, sub = sbf_get_sub(),
   rws_write_sqlite(env, commit = commit, strict = strict, conn = conn,
                    x_name = x_name, silent = silent)
 }
-
-# Save Plot
-#
-# @inheritParams save_object
-# @param x The ggplot2 object to save (by default taken from the last plot)
-# @inheritParams sbf_save_object
-# @inheritParams sbf_save_table
-# @inheritParams ggplot2::ggsave
-# @param csv A flag specifying whether to save a csv of the plot data.
-# @export
-# save_plot <- function(x = ggplot2::last_plot(), x_name, sub = sbf_get_sub(), 
-#                       exists = NA,
-#                       caption = NULL, report = TRUE,
-#                       width = NA, height = NA, 
-#                       units = "in", dpi = 300) {
-#   
-# check_string(x)
-# check_filename(x)
-# 
-# check_flag(report)
-# check_string(main)
-# check_string(sub)
-# check_string(caption)
-# check_flag(ask)
-# check_length1(width, c(1, NA))
-# check_length1(height, c(1, NA))
-# check_flag(csv)
-# 
-# if (is.null(plot)) error("plot is NULL")
-# 
-# if (is.na(width)) width <- height
-# if (is.na(height)) height <- width
-# 
-# if (is.na(width)) {
-#   if (!length(grDevices::dev.list())) {
-#     width = 6
-#     height = 6
-#   } else {
-#     dim <- grDevices::dev.size(units = "in")
-#     width <- dim[1]
-#     height <- dim[2]
-#   }
-# }
-# 
-# save_rds(plot, "plots", main = main, sub = sub, x_name = x, ask = ask)
-# 
-# meta <- list(width = width, height = height, dpi = dpi, caption = caption, report = report)
-# file <- file_path(main, "plots", sub, str_c("_", x)) %>% str_c(".RDS")
-# saveRDS(obj, file = file)
-# 
-# file <- file_path(main, "plots", sub, x) %>% str_c(".csv")
-# if (csv) {
-#   if(inherits(plot$data, "data.frame")) {
-#     data <- plot$data
-#     # remove columns that are lists
-#     data[vapply(data, is.list, TRUE)] <- NULL
-#     readr::write_csv(data, path = file)
-#   }
-# }
-# file %<>% str_replace("[.]csv$", ".png")
-# ggplot2::ggsave(file, plot = plot, width = width, height = height, dpi = dpi)
-# 
-#   invisible(x)
-# }
-

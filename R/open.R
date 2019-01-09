@@ -6,10 +6,9 @@
 #' @inheritParams sbf_save_object
 #' @param width A positive number indicating the width in inches.
 #' @param height A positive number indicating the height in inches.
-#' @param ... Additional arguments passed to \code{grDevices::\link[grDevices]{pdf}()}.
 #' @export
 sbf_open_pdf <- function(x_name, sub = sbf_get_sub(),
-                     exists = NA, width = 6, height = width, ...) {
+                     exists = NA, width = 6, height = width) {
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
   check_scalar(exists, c(TRUE, NA))
@@ -20,7 +19,7 @@ sbf_open_pdf <- function(x_name, sub = sbf_get_sub(),
   
   file <- file_name("pdfs", sub, x_name, ext = "pdf", exists = exists)
 
-  grDevices::pdf(file = file, width = width, height = height, ...)
+  grDevices::pdf(file = file, width = width, height = height)
   invisible(file)
 }
 

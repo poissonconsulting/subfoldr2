@@ -63,6 +63,15 @@ sbf_load_table <- function(x_name, sub = sbf_get_sub()) {
   load_rds(x_name, class = "tables", sub = sub)
 }
 
+#' Load Plot
+#'
+#' @inheritParams sbf_save_object
+#' @return A ggplot object.
+#' @export
+sbf_load_plot <- function(x_name, sub = sbf_get_sub()) {
+  load_rds(x_name, class = "plots", sub = sub)
+}
+
 load_rdss <- function(class, sub, env) {
   check_vector(sub, "", length = c(0L, 1L))
   sub <- sanitize_path(sub)
@@ -87,7 +96,7 @@ load_rdss <- function(class, sub, env) {
 #'
 #' @inheritParams sbf_save_object
 #' @param env The environment to  the objects into
-#' @return A invisble character vector of the object's names.
+#' @return A invisble character vector of the objects' names.
 #' @export
 sbf_load_objects <- function(sub = sbf_get_sub(), env = parent.frame()) {
   load_rdss("objects", sub, env)
@@ -97,7 +106,7 @@ sbf_load_objects <- function(sub = sbf_get_sub(), env = parent.frame()) {
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
-#' @return A invisble character vector of the data frame's names.
+#' @return A invisble character vector of the data frames' names.
 #' @export
 sbf_load_datas <- function(sub = sbf_get_sub(), env = parent.frame()) {
   load_rdss("data", sub, env)
@@ -107,7 +116,7 @@ sbf_load_datas <- function(sub = sbf_get_sub(), env = parent.frame()) {
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
-#' @return A invisble character vector of the data frame's names.
+#' @return A invisble character vector of the data frames' names.
 #' @export
 sbf_load_tables <- function(sub = sbf_get_sub(), env = parent.frame()) {
   load_rdss("tables", sub, env)
@@ -117,7 +126,7 @@ sbf_load_tables <- function(sub = sbf_get_sub(), env = parent.frame()) {
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
-#' @return A invisble character vector of the numbers's names.
+#' @return A invisble character vector of the numbers' names.
 #' @export
 sbf_load_numbers <- function(sub = sbf_get_sub(), env = parent.frame()) {
   load_rdss("numbers", sub, env)
@@ -127,7 +136,7 @@ sbf_load_numbers <- function(sub = sbf_get_sub(), env = parent.frame()) {
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
-#' @return A invisble character vector of the string's names.
+#' @return A invisble character vector of the string' names.
 #' @export
 sbf_load_strings <- function(sub = sbf_get_sub(), env = parent.frame()) {
   load_rdss("strings", sub, env)
@@ -137,10 +146,20 @@ sbf_load_strings <- function(sub = sbf_get_sub(), env = parent.frame()) {
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
-#' @return A invisble character vector of the blocks's names.
+#' @return A invisble character vector of the blocks' names.
 #' @export
 sbf_load_blocks <- function(sub = sbf_get_sub(), env = parent.frame()) {
   load_rdss("blocks", sub, env)
+}
+
+#' Load Plots
+#'
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_load_objects
+#' @return A invisble character vector of the plots' names.
+#' @export
+sbf_load_plots <- function(sub = sbf_get_sub(), env = parent.frame()) {
+  load_rdss("plots", sub, env)
 }
 
 #' Save Data Frames to Database
@@ -285,3 +304,16 @@ sbf_load_tables_recursive <- function(pattern = ".*", sub = sbf_get_sub(), inclu
   load_rdss_recursive(pattern, "tables", sub, include_root)
 }
 
+#' Load Plots as List Column in Data Frame
+#'
+#' Recursively loads all the plots with names matching the regular expression pattern as the 
+#' the first (list) column (named plots) in a data frame.
+#' Subsequent character vector columns specify the object names (named name) 
+#' and sub folders (named sub1, sub2 etc).
+#' 
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_load_objects_recursive
+#' @export
+sbf_load_plots_recursive <- function(pattern = ".*", sub = sbf_get_sub(), include_root = TRUE) {
+  load_rdss_recursive(pattern, "plots", sub, include_root)
+}
