@@ -42,7 +42,7 @@ save_meta <- function(meta, class, sub, x_name) {
 #' Save Object
 #'
 #' @param x The object to save.
-#' @param x_name A string of the name to save as.
+#' @param x_name A string of the name.
 #' @param sub A string specifying the path to the sub folder (by default the current sub folder).
 #' @param exists A logical scalar specifying whether the saved object must already exist.
 #' @return An invisible string of the path to the saved object.

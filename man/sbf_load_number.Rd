@@ -7,7 +7,7 @@
 sbf_load_number(x_name, sub = sbf_get_sub())
 }
 \arguments{
-\item{x_name}{A string of the name to save as.}
+\item{x_name}{A string of the name.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
 }

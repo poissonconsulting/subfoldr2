@@ -13,6 +13,7 @@ Imports:
     utils,
     yesno,
     grDevices,
+    data.table,
     DBI,
     RSQLite,
     readwritesqlite

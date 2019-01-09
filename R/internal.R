@@ -37,3 +37,27 @@ is_number <- function(x) {
 is_string <- function(x) {
   is.character(x) && identical(length(x), 1L)  
 }
+
+subfolder_column <- function(x) {
+  x <- strsplit(x, "/")[[1]]
+  n <- length(x)
+  x <- c(x[n], x[-n])
+  names <- paste0("sub", 0:(n - 1))
+  names[1] <- "name"
+  names(x) <- names
+  as.data.frame(as.list(x), stringsAsFactors = FALSE)
+}
+
+subfolder_columns <- function(x) {
+  x <- lapply(x, subfolder_column)
+  data <- data.table::rbindlist(x, fill = TRUE)
+  data$file <- names(x)
+  data
+}
+
+as_conditional_tibble <- function(x) {
+  if(requireNamespace("tibble", quietly = TRUE)) {
+    x <- tibble::as_tibble(x)
+  }
+  x
+}

@@ -10,7 +10,7 @@ sbf_save_number(x, x_name = substitute(x), sub = sbf_get_sub(),
 \arguments{
 \item{x}{The number to save.}
 
-\item{x_name}{A string of the name to save as.}
+\item{x_name}{A string of the name.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
 
