@@ -3,6 +3,7 @@
 export(sbf_close_db)
 export(sbf_close_pdf)
 export(sbf_close_window)
+export(sbf_close_windows)
 export(sbf_get_main)
 export(sbf_get_sub)
 export(sbf_load_block)

@@ -22,3 +22,11 @@ sbf_close_db <- function(conn) DBI::dbDisconnect(conn)
 #' The function is just a wrapper on \code{\link[grDevices]{dev.off}()}.
 #' @export
 sbf_close_window <- function() grDevices::dev.off()
+
+#' Close Windows
+#'
+#' Closes all current graphics device.
+#' 
+#' The function is just a wrapper on \code{\link[grDevices]{graphics.off}()}.
+#' @export
+sbf_close_windows <- function() grDevices::graphics.off()
