@@ -193,14 +193,46 @@ load_rdss_recursive <- function(pattern, class, sub, include_root, fun = identit
 
 #' Load Objects as List Column in Data Frame
 #'
-#' Recursively loads all the objects matching the regular expression pattern as the 
+#' Recursively loads all the objects with names matching the regular expression pattern as the 
 #' the first (list) column (named objects) in a data frame.
 #' Subsequent character vector columns specify the object names (named name) 
-#' and sub folders (named Sub1, Sub2 etc).
+#' and sub folders (named sub1, sub2 etc).
 #' @inheritParams sbf_save_object
 #' @param pattern A string of the regular expression to match. 
 #' @param include_root A flag indicating whether to include objects in the top sub folder.
 #' @export
 sbf_load_objects_recursive <- function(pattern = ".*", sub = sbf_get_sub(), include_root = TRUE) {
   load_rdss_recursive(pattern, "objects", sub, include_root)
+}
+
+#' Load Data Frames as List Column in Data Frame
+#'
+#' Recursively loads all the data frames with names matching the regular expression pattern as the 
+#' the first (list) column (named data) in a data frame.
+#' Subsequent character vector columns specify the object names (named name) 
+#' and sub folders (named sub1, sub2 etc).
+#' 
+#' @inheritParams sbf_save_object
+#' @param pattern A string of the regular expression to match. 
+#' @param include_root A flag indicating whether to include objects in the top sub folder.
+#' @export
+sbf_load_datas_recursive <- function(pattern = ".*", sub = sbf_get_sub(), include_root = TRUE) {
+  load_rdss_recursive(pattern, "data", sub, include_root)
+}
+
+#' Load Numbers as Column in Data Frame
+#'
+#' Recursively loads all the numbers with names matching the regular expression pattern as the 
+#' the first double column (named numbers) in a data frame.
+#' Subsequent character vector columns specify the object names (named name) 
+#' and sub folders (named sub1, sub2 etc).
+#' 
+#' @inheritParams sbf_save_object
+#' @param pattern A string of the regular expression to match. 
+#' @param include_root A flag indicating whether to include objects in the top sub folder.
+#' @export
+sbf_load_numbers_recursive <- function(pattern = ".*", sub = sbf_get_sub(), include_root = TRUE) {
+  data <- load_rdss_recursive(pattern, "numbers", sub, include_root)
+  data$numbers <- unlist(data$numbers)
+  data
 }

@@ -69,7 +69,7 @@ test_that("object",{
                    c(sub("//", "/", file.path(tempdir, "objects/t2/t3/x.rds")),
                      sub("//", "/", file.path(tempdir, "objects/x.rds")),
                      sub("//", "/", file.path(tempdir, "objects/y.rds"))))
-
+  
   data <- sbf_load_objects_recursive(sub = character(0), include_root = FALSE)
   expect_is(data, "data.frame")
   expect_identical(colnames(data), c("objects", "name", "sub1", "sub2", "file"))
@@ -133,6 +133,15 @@ test_that("data",{
   expect_identical(x, data.frame(x = 1))
   expect_identical(y, data.frame(z = 3))
   
+  data <- sbf_load_datas_recursive()
+  expect_is(data, "data.frame")
+  expect_identical(colnames(data), c("data", "name", "file"))
+  expect_identical(data$data[[1]], data.frame(x = 1))
+  expect_identical(data$name, c("x", "y"))
+  expect_identical(data$file, 
+                   c(sub("//", "/", file.path(tempdir, "data/x.rds")),
+                     sub("//", "/", file.path(tempdir, "data/y.rds"))))
+  
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_data("x"), x)
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
@@ -182,6 +191,15 @@ test_that("number",{
   expect_identical(sbf_load_numbers(), c("x", "y"))
   expect_identical(x, 1)
   expect_identical(y, 3)
+  
+  data <- sbf_load_numbers_recursive()
+  expect_is(data, "data.frame")
+  expect_identical(colnames(data), c("numbers", "name", "file"))
+  expect_identical(data$numbers, c(1, 3))
+  expect_identical(data$name, c("x", "y"))
+  expect_identical(data$file, 
+                   c(sub("//", "/", file.path(tempdir, "numbers/x.rds")),
+                     sub("//", "/", file.path(tempdir, "numbers/y.rds"))))
   
   expect_error(sbf_load_number("x2"), "/numbers/x2.rds' does not exist")
   expect_identical(sbf_reset_sub(), character(0))
