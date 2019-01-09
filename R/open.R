@@ -42,3 +42,19 @@ sbf_open_db <- function(x_name, sub = sbf_get_sub(), exists = NA) {
   DBI::dbGetQuery(conn, "PRAGMA foreign_keys = ON;")
   conn
 }
+
+#' Open Graphics Window
+#'
+#' Opens a graphics window on any platform. By default the window is 6 x 6 inches.
+#'
+#' @param width A positive number of the plotting area width in inches.
+#' @param height A positive number of the plotting area height in inches.
+#' @export
+sbf_open_window <- function(width = 6, height = width) {
+  fun <- switch(Sys.info()["sysname"],
+                Windows = grDevices::windows,
+                Darwin = grDevices::quartz,
+                grDevices::x11)
+
+  fun(width = width, height = height)
+}

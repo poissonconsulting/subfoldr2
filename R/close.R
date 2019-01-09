@@ -14,3 +14,11 @@ sbf_close_pdf <- function() grDevices::dev.off()
 #' @inheritParams DBI::dbDisconnect
 #' @export
 sbf_close_db <- function(conn) DBI::dbDisconnect(conn)
+
+#' Close Window
+#'
+#' Closes the current graphics device.
+#' 
+#' The function is just a wrapper on \code{\link[grDevices]{dev.off}()}.
+#' @export
+sbf_close_window <- function() grDevices::dev.off()
