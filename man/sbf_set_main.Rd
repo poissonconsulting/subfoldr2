@@ -7,11 +7,15 @@
 sbf_set_main(path)
 }
 \arguments{
-\item{path}{A string of the path to the main folder.}
+\item{path}{A string of the path to save to.}
 }
 \value{
 An invisible string of the path to the main folder.
 }
 \description{
-Set Main
+The path to the main folder to which all the files are saved can be
+relative or absolute.
+}
+\details{
+The directory is created when needed if it doesn't already exist.
 }

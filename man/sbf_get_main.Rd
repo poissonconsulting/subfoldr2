@@ -7,7 +7,7 @@
 sbf_get_main()
 }
 \value{
-A string specifying the main folder.
+A string specifying the main directory.
 }
 \description{
 Get Main

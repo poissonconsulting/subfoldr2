@@ -37,7 +37,7 @@ sbf_reset_sub <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 
 #' Get Main
 #'
-#' @return A string specifying the main folder.
+#' @return A string specifying the main directory.
 #' @export
 #' @examples
 #' sbf_get_main()
@@ -48,7 +48,12 @@ sbf_get_main <- function() {
 
 #' Set Main
 #'
-#' @param path A string of the path to the main folder.
+#' The path to the main folder to which all the files are saved can be
+#' relative or absolute.
+#' 
+#' The directory is created when needed if it doesn't already exist.
+#' 
+#' @param path A string of the path to save to.
 #' @return An invisible string of the path to the main folder.
 #' @export
 sbf_set_main <- function(path) {

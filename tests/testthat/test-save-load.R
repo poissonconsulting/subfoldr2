@@ -39,16 +39,17 @@ test_that("object",{
   expect_identical(list.files(file.path(sbf_get_main(), "objects")),
                    sort(c("x.rds", "y.rds")))
   
-  expect_warning(data <- sbf_load_objects_recursive(".rds", sub = character(0)),
-                 "no objects matching regular expression '.rds'")
+  data <- sbf_load_objects_recursive(".rds", sub = character(0))
   
   expect_is(data, "data.frame")
   expect_identical(colnames(data), c("objects", "name", "file"))
   expect_identical(nrow(data), 0L)
   
-  expect_warning(sbf_load_objects_recursive(include_root = FALSE, 
-                                            sub = character(0)),
-                 "no objects matching regular expression '.*'")
+  data <- sbf_load_objects_recursive(include_root = FALSE, 
+                                            sub = character(0))
+  expect_is(data, "data.frame")
+  expect_identical(colnames(data), c("objects", "name", "file"))
+  expect_identical(nrow(data), 0L)
   
   data <- sbf_load_objects_recursive(sub = character(0))
   expect_is(data, "data.frame")

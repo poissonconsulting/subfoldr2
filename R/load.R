@@ -209,7 +209,6 @@ load_rdss_recursive <- function(pattern, class, sub, include_root, fun = NULL) {
   if(!include_root) files <- files[grepl("/", files)]
 
   if (!length(files)) {
-    warning("no ", class, " matching regular expression '", pattern, "'")
     data <- data.frame(x = I(list()))
     names(data) <- class
     data$name <- character(0)
