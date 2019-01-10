@@ -20,6 +20,11 @@ rm_all <- function(ask) {
       unlink(file_path(main, "numbers", sub), recursive = TRUE)
       unlink(file_path(main, "strings", sub), recursive = TRUE)
       unlink(file_path(main, "tables", sub), recursive = TRUE)
+      unlink(file_path(main, "blocks", sub), recursive = TRUE)
+      unlink(file_path(main, "plots", sub), recursive = TRUE)
+      unlink(file_path(main, "dbs", sub), recursive = TRUE)
+      unlink(file_path(main, "pdfs", sub), recursive = TRUE)
+      unlink(file_path(main, "windows", sub), recursive = TRUE)
     }
   }
 }

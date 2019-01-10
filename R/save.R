@@ -130,8 +130,8 @@ sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(), 
                            exists = NA,
                            caption = NULL, report = TRUE) {
-  check_data(x)
   x_name <- chk_deparse(x_name)
+  check_table(x, x_name = x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
   check_scalar(exists, c(TRUE, NA))

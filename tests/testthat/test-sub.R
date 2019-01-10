@@ -25,4 +25,5 @@ test_that("main",{
   expect_identical(sbf_set_main("/"), "/")
   expect_identical(sbf_reset_main(), "output")
   expect_identical(sbf_get_main(), "output")
+  expect_identical(sbf_set_main(), character(0))
 })

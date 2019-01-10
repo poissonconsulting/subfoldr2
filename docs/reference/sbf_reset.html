@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Set Main — sbf_set_main • subfoldr2</title>
+<title>Reset Sub and Main — sbf_reset • subfoldr2</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,9 @@
 
 
 
-<meta property="og:title" content="Set Main — sbf_set_main" />
+<meta property="og:title" content="Reset Sub and Main — sbf_reset" />
 
-<meta property="og:description" content="The directory is created when needed if it doesn't already exist.
-The current sub folder setting is unaltered." />
+<meta property="og:description" content="Reset Sub and Main" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -95,27 +94,22 @@ The current sub folder setting is unaltered." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Set Main</h1>
+    <h1>Reset Sub and Main</h1>
     
-    <div class="hidden name"><code>sbf_set_main.Rd</code></div>
+    <div class="hidden name"><code>sbf_reset.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The directory is created when needed if it doesn't already exist.
-The current sub folder setting is unaltered.</p>
+    <p>Reset Sub and Main</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_set_main</span>(<span class='no'>...</span>, <span class='kw'>rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"sbf.ask"</span>, <span class='fl'>TRUE</span>))</pre>
+    <pre class="usage"><span class='fu'>sbf_reset</span>(<span class='kw'>rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"sbf.ask"</span>, <span class='fl'>TRUE</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>...</th>
-      <td><p>One or more character vectors which are combined together.</p></td>
-    </tr>
     <tr>
       <th>rm</th>
       <td><p>A flag specifying whether to remove the folder and all its contents if it already exists.</p></td>
@@ -128,7 +122,7 @@ The current sub folder setting is unaltered.</p>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An invisible string of the path to the main folder.</p>
+    <p>An invisible copy of the string <code>"output"</code>.</p>
     
 
   </div>

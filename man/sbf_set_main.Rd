@@ -4,18 +4,19 @@
 \alias{sbf_set_main}
 \title{Set Main}
 \usage{
-sbf_set_main(path)
+sbf_set_main(..., rm = FALSE, ask = getOption("sbf.ask", TRUE))
 }
 \arguments{
-\item{path}{A string of the path to save to.}
+\item{...}{One or more character vectors which are combined together.}
+
+\item{rm}{A flag specifying whether to remove the folder and all its contents if it already exists.}
+
+\item{ask}{A flag specifying whether to ask before removing the existing folder.}
 }
 \value{
 An invisible string of the path to the main folder.
 }
 \description{
-The path to the main folder to which all the files are saved can be
-relative or absolute.
-}
-\details{
 The directory is created when needed if it doesn't already exist.
+The current sub folder setting is unaltered.
 }

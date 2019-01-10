@@ -166,6 +166,16 @@ sbf_load_blocks <- function(sub = sbf_get_sub(), env = parent.frame()) {
   load_rdss("blocks", sub, env)
 }
 
+#' Load Plots
+#'
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_load_objects
+#' @return A invisble character vector of the plots' names.
+#' @export
+sbf_load_plots_data <- function(sub = sbf_get_sub(), env = parent.frame()) {
+  load_rdss("plots", sub, env)
+}
+
 #' Load Plots Data
 #'
 #' @inheritParams sbf_save_object
@@ -194,17 +204,19 @@ sbf_load_datas_from_db <- function(x_name, sub = sbf_get_sub(), env = parent.fra
   invisible(names(datas))
 }
 
-load_rdss_recursive <- function(pattern, class, sub, include_root, fun = NULL) {
+load_rdss_recursive <- function(pattern, class, sub, include_root, fun = NULL, ext = "rds") {
   check_string(pattern)
   check_vector(sub, "", length = c(0L, 1L))
   sub <- sanitize_path(sub)
   check_flag(include_root)
 
   dir <- file_path(sbf_get_main(), class, sub)
+  
+  ext <- p0("[.]", ext, "$")
 
-  files <- list.files(dir, pattern = "[.]rds$", recursive = TRUE)
+  files <- list.files(dir, pattern = ext, recursive = TRUE)
   names(files) <- file.path(dir, files)
-  files <- sub("[.]rds$", "", files)
+  files <- sub(ext, "", files)
   files <- files[grepl(pattern, files)]
   if(!include_root) files <- files[grepl("/", files)]
 
@@ -345,5 +357,24 @@ sbf_load_plots_recursive <- function(pattern = ".*", sub = sbf_get_sub(), includ
 sbf_load_plots_data_recursive <- function(pattern = ".*", sub = sbf_get_sub(), include_root = TRUE) {
   data <- load_rdss_recursive(pattern, "plots", sub, include_root, fun = get_plot_data)
   names(data)[1] <- "plots_data"
+  data
+}
+
+#' Load Window Paths as Character Column in Data Frame
+#'
+#' Recursively loads all the paths
+#' to the png files with names matching the regular expression pattern as the 
+#' the first (list) column (named windows) in a data frame.
+#' Subsequent character vector columns specify the object names (named name) 
+#' and sub folders (named sub1, sub2 etc).
+#' 
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_load_objects_recursive
+#' @export
+sbf_load_windows_recursive <- function(pattern = ".*", sub = sbf_get_sub(), include_root = TRUE) {
+  data <- load_rdss_recursive(pattern, "windows", sub, include_root, ext = "rda")
+  data$name <- sub("^_", "", data$name)
+  data$file <- sub("(/)(_)([^_]+)([.]rda$)", "\\1\\3.png", data$file)
+  data$windows <- data$file
   data
 }

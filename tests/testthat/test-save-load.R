@@ -336,8 +336,11 @@ test_that("table",{
   y <- 1
   expect_warning(sbf_load_tables(), "no tables to load")
   expect_error(sbf_save_table(), "argument \"x\" is missing, with no default")
-  expect_error(sbf_save_table(y), "x must inherit from class data.frame")
+  expect_error(sbf_save_table(y), "y must inherit from class data.frame")
   x <- data.frame(x = 1)
+  expect_error(sbf_save_table(data.frame(zz = I(list(t = 3))), x_name = "y"),
+               "the following column in y is not numeric, character, factor, Date or POSIXct: 'zz'")
+  
   expect_identical(sbf_save_table(x), sub("//", "/", file.path(tempdir, "tables/x.rds")))
   expect_identical(sbf_save_table(x, exists = TRUE), sub("//", "/", file.path(tempdir, "tables/x.rds")))
   expect_error(sbf_save_table(x, exists = FALSE), 
@@ -492,19 +495,18 @@ test_that("plot",{
 })
 
 test_that("window",{
-  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
-  
   sbf_close_windows()
   teardown(sbf_close_windows())
   expect_error(sbf_save_window(), "no such device")
   
+  teardown(sbf_reset_all(rm = TRUE, ask = FALSE))
   skip('run locally as uses screen devices') 
+  expect_identical(sbf_reset(rm = TRUE, ask = FALSE), "output")
   gp <- ggplot2::ggplot(data = data.frame(x = c(2,3), y = c(3,2)), ggplot2::aes(x = x, y = y))
   sbf_open_window()
   print(gp)
   expect_identical(sbf_save_window(), 
-                   sub("//", "/", file.path(tempdir, "windows/window.png")))
+                   sub("//", "/", file.path(sbf_get_main(), "windows/window.png")))
   sbf_close_window()
   expect_identical(list.files(file.path(sbf_get_main(), "windows")),
                    sort(c("_window.rda", "window.png")))
@@ -514,10 +516,11 @@ test_that("window",{
                               width = 6, height = 6, res = 300))
   
   gp <- ggplot2::ggplot(data = data.frame(x = c(4,5), y = c(6,7)), ggplot2::aes(x = x, y = y))
+  gp <- gp + ggplot2::geom_point()
   sbf_open_window(4,3)
   print(gp)
   expect_identical(sbf_save_window("t2", dpi = 72, caption = "nice one"), 
-                   sub("//", "/", file.path(tempdir, "windows/t2.png"))) 
+                   sub("//", "/", file.path(sbf_get_main(), "windows/t2.png"))) 
   
   expect_error(sbf_save_window("t2", exists = FALSE), 
                "/windows/t2.png' already exists")
@@ -531,4 +534,11 @@ test_that("window",{
   meta <- readRDS(paste0(file.path(sbf_get_main(), "windows", "_t2.rda")))
   expect_identical(meta, list(caption = "nice one", report = TRUE,
                               width = 4, height = 3, res = 72))
+  
+  data <- sbf_load_windows_recursive(sub = character(0))
+  expect_is(data, "data.frame")
+  expect_identical(colnames(data), c("windows", "name", "file"))
+  expect_identical(data$name, c("t2", "window"))
+  expect_identical(data$windows[1], "output/windows/t2.png")
+  expect_identical(data$windows, data$file)
 })

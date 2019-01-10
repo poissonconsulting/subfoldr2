@@ -15,6 +15,7 @@ Imports:
     graphics,
     grDevices,
     data.table,
+    dttr,
     ggplot2,
     DBI,
     RSQLite,

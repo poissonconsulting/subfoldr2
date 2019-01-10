@@ -67,134 +67,158 @@
 <div id="subfoldr2" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#subfoldr2" class="anchor"></a>subfoldr2</h1></div>
-<p><code>subfoldr2</code> is an opinionated R package to facilitate the saving and loading of R objects, data frames, strings, numbers and plots.</p>
-<div id="main-directory" class="section level2">
+<p><code>subfoldr2</code> is an R package to facilitate the saving and loading of</p>
+<ul>
+<li>R objects</li>
+<li>data frames (and tables)</li>
+<li>strings (and code blocks)</li>
+<li>numbers</li>
+<li>ggplot objects (and windows)</li>
+</ul>
+<p>and the opening and closing of</p>
+<ul>
+<li>graphics windows</li>
+<li>pdfs</li>
+<li>database (SQLite) connections</li>
+</ul>
+<div id="main-folder" class="section level2">
 <h2 class="hasAnchor">
-<a href="#main-directory" class="anchor"></a>Main Directory</h2>
-<p>By default files are saved to <code>output</code> unless overridden using <code><a href="reference/sbf_set_main.html">sbf_set_main()</a></code>.</p>
+<a href="#main-folder" class="anchor"></a>Main Folder</h2>
+<p>By default files are saved to <code>output</code> unless overridden using <code><a href="reference/sbf_set_main.html">sbf_set_main()</a></code> which can take a relative or absolute path.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(subfoldr2)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="reference/sbf_set_main.html">sbf_set_main</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>(), <span class="st">"output"</span>)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="reference/sbf_get_main.html">sbf_get_main</a></span>()</a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="co">#&gt; [1] "/var/folders/48/q6ltldjs251000_wvjrdy_vm0000gn/T/RtmpWW00x2/output"</span></a></code></pre></div>
 </div>
 <div id="saving-and-loading-r-objects" class="section level2">
 <h2 class="hasAnchor">
 <a href="#saving-and-loading-r-objects" class="anchor"></a>Saving and Loading R Objects</h2>
-<p>An R object can be written using <code><a href="reference/sbf_save_object.html">sbf_save_object()</a></code> and read using <code><a href="reference/sbf_load_object.html">sbf_load_object()</a></code>. All R objects are saved as <code>.rds</code> files in <code>objects</code> (in the main folder). The user can save objects to a particular directory within <code>objects</code> using <code><a href="reference/sbf_set_sub.html">sbf_set_sub()</a></code> or the <code>sub = sbf_get_sub()</code> argument of <code><a href="reference/sbf_save_object.html">sbf_save_object()</a></code>. This is useful if the user wishes to save groups of objects together.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(subfoldr2)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="reference/sbf_set_main.html">sbf_set_main</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>())</a>
-<a class="sourceLine" id="cb1-3" title="3"></a>
-<a class="sourceLine" id="cb1-4" title="4">x &lt;-<span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="kw"><a href="reference/sbf_save_object.html">sbf_save_object</a></span>(x)</a>
-<a class="sourceLine" id="cb1-6" title="6"><span class="kw"><a href="reference/sbf_save_object.html">sbf_save_object</a></span>(<span class="dv">3</span>, <span class="st">"y"</span>)</a>
-<a class="sourceLine" id="cb1-7" title="7">x &lt;-<span class="st"> </span>x <span class="op">*</span><span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb1-8" title="8"><span class="kw"><a href="reference/sbf_set_sub.html">sbf_set_sub</a></span>(<span class="st">"twice"</span>)</a>
-<a class="sourceLine" id="cb1-9" title="9"><span class="kw"><a href="reference/sbf_save_object.html">sbf_save_object</a></span>(x)</a>
-<a class="sourceLine" id="cb1-10" title="10"></a>
-<a class="sourceLine" id="cb1-11" title="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">list.files</a></span>(<span class="kw"><a href="reference/sbf_get_main.html">sbf_get_main</a></span>(), <span class="dt">recursive =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb1-12" title="12"><span class="co">#&gt;  [1] "file75a2c8e6455_files/bootstrap-3.3.5/css/bootstrap-theme.css"                 </span></a>
-<a class="sourceLine" id="cb1-13" title="13"><span class="co">#&gt;  [2] "file75a2c8e6455_files/bootstrap-3.3.5/css/bootstrap-theme.css.map"             </span></a>
-<a class="sourceLine" id="cb1-14" title="14"><span class="co">#&gt;  [3] "file75a2c8e6455_files/bootstrap-3.3.5/css/bootstrap-theme.min.css"             </span></a>
-<a class="sourceLine" id="cb1-15" title="15"><span class="co">#&gt;  [4] "file75a2c8e6455_files/bootstrap-3.3.5/css/bootstrap.css"                       </span></a>
-<a class="sourceLine" id="cb1-16" title="16"><span class="co">#&gt;  [5] "file75a2c8e6455_files/bootstrap-3.3.5/css/bootstrap.css.map"                   </span></a>
-<a class="sourceLine" id="cb1-17" title="17"><span class="co">#&gt;  [6] "file75a2c8e6455_files/bootstrap-3.3.5/css/bootstrap.min.css"                   </span></a>
-<a class="sourceLine" id="cb1-18" title="18"><span class="co">#&gt;  [7] "file75a2c8e6455_files/bootstrap-3.3.5/css/cerulean.min.css"                    </span></a>
-<a class="sourceLine" id="cb1-19" title="19"><span class="co">#&gt;  [8] "file75a2c8e6455_files/bootstrap-3.3.5/css/cosmo.min.css"                       </span></a>
-<a class="sourceLine" id="cb1-20" title="20"><span class="co">#&gt;  [9] "file75a2c8e6455_files/bootstrap-3.3.5/css/darkly.min.css"                      </span></a>
-<a class="sourceLine" id="cb1-21" title="21"><span class="co">#&gt; [10] "file75a2c8e6455_files/bootstrap-3.3.5/css/flatly.min.css"                      </span></a>
-<a class="sourceLine" id="cb1-22" title="22"><span class="co">#&gt; [11] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/Lato.ttf"                      </span></a>
-<a class="sourceLine" id="cb1-23" title="23"><span class="co">#&gt; [12] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/LatoBold.ttf"                  </span></a>
-<a class="sourceLine" id="cb1-24" title="24"><span class="co">#&gt; [13] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/LatoItalic.ttf"                </span></a>
-<a class="sourceLine" id="cb1-25" title="25"><span class="co">#&gt; [14] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/NewsCycle.ttf"                 </span></a>
-<a class="sourceLine" id="cb1-26" title="26"><span class="co">#&gt; [15] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/NewsCycleBold.ttf"             </span></a>
-<a class="sourceLine" id="cb1-27" title="27"><span class="co">#&gt; [16] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/OpenSans.ttf"                  </span></a>
-<a class="sourceLine" id="cb1-28" title="28"><span class="co">#&gt; [17] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/OpenSansBold.ttf"              </span></a>
-<a class="sourceLine" id="cb1-29" title="29"><span class="co">#&gt; [18] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/OpenSansBoldItalic.ttf"        </span></a>
-<a class="sourceLine" id="cb1-30" title="30"><span class="co">#&gt; [19] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/OpenSansItalic.ttf"            </span></a>
-<a class="sourceLine" id="cb1-31" title="31"><span class="co">#&gt; [20] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/OpenSansLight.ttf"             </span></a>
-<a class="sourceLine" id="cb1-32" title="32"><span class="co">#&gt; [21] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/OpenSansLightItalic.ttf"       </span></a>
-<a class="sourceLine" id="cb1-33" title="33"><span class="co">#&gt; [22] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/Raleway.ttf"                   </span></a>
-<a class="sourceLine" id="cb1-34" title="34"><span class="co">#&gt; [23] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/RalewayBold.ttf"               </span></a>
-<a class="sourceLine" id="cb1-35" title="35"><span class="co">#&gt; [24] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/Roboto.ttf"                    </span></a>
-<a class="sourceLine" id="cb1-36" title="36"><span class="co">#&gt; [25] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/RobotoBold.ttf"                </span></a>
-<a class="sourceLine" id="cb1-37" title="37"><span class="co">#&gt; [26] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/RobotoLight.ttf"               </span></a>
-<a class="sourceLine" id="cb1-38" title="38"><span class="co">#&gt; [27] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/RobotoMedium.ttf"              </span></a>
-<a class="sourceLine" id="cb1-39" title="39"><span class="co">#&gt; [28] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/SourceSansPro.ttf"             </span></a>
-<a class="sourceLine" id="cb1-40" title="40"><span class="co">#&gt; [29] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/SourceSansProBold.ttf"         </span></a>
-<a class="sourceLine" id="cb1-41" title="41"><span class="co">#&gt; [30] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/SourceSansProItalic.ttf"       </span></a>
-<a class="sourceLine" id="cb1-42" title="42"><span class="co">#&gt; [31] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/SourceSansProLight.ttf"        </span></a>
-<a class="sourceLine" id="cb1-43" title="43"><span class="co">#&gt; [32] "file75a2c8e6455_files/bootstrap-3.3.5/css/fonts/Ubuntu.ttf"                    </span></a>
-<a class="sourceLine" id="cb1-44" title="44"><span class="co">#&gt; [33] "file75a2c8e6455_files/bootstrap-3.3.5/css/journal.min.css"                     </span></a>
-<a class="sourceLine" id="cb1-45" title="45"><span class="co">#&gt; [34] "file75a2c8e6455_files/bootstrap-3.3.5/css/lumen.min.css"                       </span></a>
-<a class="sourceLine" id="cb1-46" title="46"><span class="co">#&gt; [35] "file75a2c8e6455_files/bootstrap-3.3.5/css/paper.min.css"                       </span></a>
-<a class="sourceLine" id="cb1-47" title="47"><span class="co">#&gt; [36] "file75a2c8e6455_files/bootstrap-3.3.5/css/readable.min.css"                    </span></a>
-<a class="sourceLine" id="cb1-48" title="48"><span class="co">#&gt; [37] "file75a2c8e6455_files/bootstrap-3.3.5/css/sandstone.min.css"                   </span></a>
-<a class="sourceLine" id="cb1-49" title="49"><span class="co">#&gt; [38] "file75a2c8e6455_files/bootstrap-3.3.5/css/simplex.min.css"                     </span></a>
-<a class="sourceLine" id="cb1-50" title="50"><span class="co">#&gt; [39] "file75a2c8e6455_files/bootstrap-3.3.5/css/spacelab.min.css"                    </span></a>
-<a class="sourceLine" id="cb1-51" title="51"><span class="co">#&gt; [40] "file75a2c8e6455_files/bootstrap-3.3.5/css/united.min.css"                      </span></a>
-<a class="sourceLine" id="cb1-52" title="52"><span class="co">#&gt; [41] "file75a2c8e6455_files/bootstrap-3.3.5/css/yeti.min.css"                        </span></a>
-<a class="sourceLine" id="cb1-53" title="53"><span class="co">#&gt; [42] "file75a2c8e6455_files/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.eot"  </span></a>
-<a class="sourceLine" id="cb1-54" title="54"><span class="co">#&gt; [43] "file75a2c8e6455_files/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.svg"  </span></a>
-<a class="sourceLine" id="cb1-55" title="55"><span class="co">#&gt; [44] "file75a2c8e6455_files/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.ttf"  </span></a>
-<a class="sourceLine" id="cb1-56" title="56"><span class="co">#&gt; [45] "file75a2c8e6455_files/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.woff" </span></a>
-<a class="sourceLine" id="cb1-57" title="57"><span class="co">#&gt; [46] "file75a2c8e6455_files/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.woff2"</span></a>
-<a class="sourceLine" id="cb1-58" title="58"><span class="co">#&gt; [47] "file75a2c8e6455_files/bootstrap-3.3.5/js/bootstrap.js"                         </span></a>
-<a class="sourceLine" id="cb1-59" title="59"><span class="co">#&gt; [48] "file75a2c8e6455_files/bootstrap-3.3.5/js/bootstrap.min.js"                     </span></a>
-<a class="sourceLine" id="cb1-60" title="60"><span class="co">#&gt; [49] "file75a2c8e6455_files/bootstrap-3.3.5/js/npm.js"                               </span></a>
-<a class="sourceLine" id="cb1-61" title="61"><span class="co">#&gt; [50] "file75a2c8e6455_files/bootstrap-3.3.5/shim/html5shiv.min.js"                   </span></a>
-<a class="sourceLine" id="cb1-62" title="62"><span class="co">#&gt; [51] "file75a2c8e6455_files/bootstrap-3.3.5/shim/respond.min.js"                     </span></a>
-<a class="sourceLine" id="cb1-63" title="63"><span class="co">#&gt; [52] "file75a2c8e6455_files/highlightjs-9.12.0/default.css"                          </span></a>
-<a class="sourceLine" id="cb1-64" title="64"><span class="co">#&gt; [53] "file75a2c8e6455_files/highlightjs-9.12.0/highlight.js"                         </span></a>
-<a class="sourceLine" id="cb1-65" title="65"><span class="co">#&gt; [54] "file75a2c8e6455_files/highlightjs-9.12.0/textmate.css"                         </span></a>
-<a class="sourceLine" id="cb1-66" title="66"><span class="co">#&gt; [55] "file75a2c8e6455_files/jquery-1.11.3/jquery.min.js"                             </span></a>
-<a class="sourceLine" id="cb1-67" title="67"><span class="co">#&gt; [56] "file75a2c8e6455_files/navigation-1.1/codefolding.js"                           </span></a>
-<a class="sourceLine" id="cb1-68" title="68"><span class="co">#&gt; [57] "file75a2c8e6455_files/navigation-1.1/sourceembed.js"                           </span></a>
-<a class="sourceLine" id="cb1-69" title="69"><span class="co">#&gt; [58] "file75a2c8e6455_files/navigation-1.1/tabsets.js"                               </span></a>
-<a class="sourceLine" id="cb1-70" title="70"><span class="co">#&gt; [59] "objects/twice/x.rds"                                                           </span></a>
-<a class="sourceLine" id="cb1-71" title="71"><span class="co">#&gt; [60] "objects/x.rds"                                                                 </span></a>
-<a class="sourceLine" id="cb1-72" title="72"><span class="co">#&gt; [61] "objects/y.rds"                                                                 </span></a>
-<a class="sourceLine" id="cb1-73" title="73"><span class="co">#&gt; [62] "rmarkdown-str75a385d1f4d.html"</span></a>
-<a class="sourceLine" id="cb1-74" title="74"><span class="kw"><a href="reference/sbf_reset_sub.html">sbf_reset_sub</a></span>()</a>
-<a class="sourceLine" id="cb1-75" title="75"><span class="kw"><a href="reference/sbf_load_object.html">sbf_load_object</a></span>(<span class="st">"x"</span>)</a>
-<a class="sourceLine" id="cb1-76" title="76"><span class="co">#&gt; [1] 1</span></a>
-<a class="sourceLine" id="cb1-77" title="77"><span class="kw"><a href="reference/sbf_load_object.html">sbf_load_object</a></span>(<span class="st">"x"</span>, <span class="dt">sub =</span> <span class="st">"twice"</span>)</a>
-<a class="sourceLine" id="cb1-78" title="78"><span class="co">#&gt; [1] 2</span></a></code></pre></div>
-<p>The user can load all the objects in the current sub folder into the calling environment using <code><a href="reference/sbf_load_objects.html">sbf_load_objects()</a></code> or recursively load all the objects as a list column in a data frame using <code><a href="reference/sbf_load_objects_recursive.html">sbf_load_objects_recursive()</a></code>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(x)</a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="reference/sbf_load_objects.html">sbf_load_objects</a></span>()</a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(x)</a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="co">#&gt; [1] 1</span></a>
-<a class="sourceLine" id="cb2-5" title="5"><span class="kw"><a href="reference/sbf_load_objects_recursive.html">sbf_load_objects_recursive</a></span>()</a>
-<a class="sourceLine" id="cb2-6" title="6"><span class="co">#&gt; # A tibble: 3 x 4</span></a>
-<a class="sourceLine" id="cb2-7" title="7"><span class="co">#&gt;   objects   name  sub1  file                                               </span></a>
-<a class="sourceLine" id="cb2-8" title="8"><span class="co">#&gt;   &lt;I(list)&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;                                              </span></a>
-<a class="sourceLine" id="cb2-9" title="9"><span class="co">#&gt; 1 &lt;dbl [1]&gt; x     twice /var/folders/48/q6ltldjs251000_wvjrdy_vm0000gn/T/R…</span></a>
-<a class="sourceLine" id="cb2-10" title="10"><span class="co">#&gt; 2 &lt;dbl [1]&gt; x     &lt;NA&gt;  /var/folders/48/q6ltldjs251000_wvjrdy_vm0000gn/T/R…</span></a>
-<a class="sourceLine" id="cb2-11" title="11"><span class="co">#&gt; 3 &lt;dbl [1]&gt; y     &lt;NA&gt;  /var/folders/48/q6ltldjs251000_wvjrdy_vm0000gn/T/R…</span></a></code></pre></div>
-<p>To recursively delete a subdirectory call <code><a href="reference/sbf_set_sub.html">sbf_set_sub()</a></code> with <code>rm = TRUE</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="reference/sbf_set_sub.html">sbf_set_sub</a></span>(<span class="st">"twice"</span>, <span class="dt">rm =</span> <span class="ot">TRUE</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="reference/sbf_load_objects_recursive.html">sbf_load_objects_recursive</a></span>()</a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="co">#&gt; [1] objects name    file   </span></a>
-<a class="sourceLine" id="cb3-4" title="4"><span class="co">#&gt; &lt;0 rows&gt; (or 0-length row.names)</span></a></code></pre></div>
-<p>All the objects in the calling environment can be saved to the current subdirectory using <code><a href="reference/sbf_save_objects.html">sbf_save_objects()</a></code>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ls">ls</a></span>()</a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="co">#&gt; [1] "x" "y"</span></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="kw"><a href="reference/sbf_save_objects.html">sbf_save_objects</a></span>()</a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="kw"><a href="reference/sbf_load_objects_recursive.html">sbf_load_objects_recursive</a></span>()</a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
-<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt;   objects   name  file                                                     </span></a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt;   &lt;I(list)&gt; &lt;chr&gt; &lt;chr&gt;                                                    </span></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; 1 &lt;dbl [1]&gt; x     /var/folders/48/q6ltldjs251000_wvjrdy_vm0000gn/T/Rtmp7DW…</span></a>
-<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt; 2 &lt;dbl [1]&gt; y     /var/folders/48/q6ltldjs251000_wvjrdy_vm0000gn/T/Rtmp7DW…</span></a></code></pre></div>
+<div id="single-objects" class="section level3">
+<h3 class="hasAnchor">
+<a href="#single-objects" class="anchor"></a>Single Objects</h3>
+<p>An R object can be written using <code><a href="reference/sbf_save_object.html">sbf_save_object()</a></code> and read using <code><a href="reference/sbf_load_object.html">sbf_load_object()</a></code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">x &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="reference/sbf_save_object.html">sbf_save_object</a></span>(x)</a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="kw"><a href="reference/sbf_load_object.html">sbf_load_object</a></span>(<span class="st">"x"</span>)</a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="co">#&gt; [1] 1</span></a></code></pre></div>
+<p>All R objects are saved as <code>.rds</code> files in folder <code>objects</code> (in the main folder).</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">list.files</a></span>(<span class="kw"><a href="reference/sbf_get_main.html">sbf_get_main</a></span>(), <span class="dt">recursive =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt; [1] "objects/x.rds"</span></a></code></pre></div>
 </div>
-<div id="saving-and-loading-data-frames-numbers-and-strings" class="section level2">
+<div id="subfolders" class="section level3">
+<h3 class="hasAnchor">
+<a href="#subfolders" class="anchor"></a>Subfolders</h3>
+<p>The user can save objects to a particular sub folder within <code>objects</code> using <code><a href="reference/sbf_set_sub.html">sbf_set_sub()</a></code> or the <code>sub = sbf_get_sub()</code> argument of <code><a href="reference/sbf_save_object.html">sbf_save_object()</a></code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="reference/sbf_set_sub.html">sbf_set_sub</a></span>(<span class="st">"times2"</span>)</a>
+<a class="sourceLine" id="cb4-2" title="2">x &lt;-<span class="st"> </span>x <span class="op">*</span><span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="kw"><a href="reference/sbf_save_object.html">sbf_save_object</a></span>(x)</a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="kw"><a href="reference/sbf_save_object.html">sbf_save_object</a></span>(x <span class="op">*</span><span class="st"> </span><span class="dv">3</span>, <span class="dt">x_name =</span> <span class="st">"x3"</span>, <span class="dt">sub =</span> <span class="st">"times2/times3"</span>)</a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="kw"><a href="reference/sbf_save_object.html">sbf_save_object</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(), <span class="dt">x_name =</span> <span class="st">"df"</span>, <span class="dt">sub =</span> <span class="st">"times2/times3"</span>)</a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">list.files</a></span>(<span class="kw"><a href="reference/sbf_get_main.html">sbf_get_main</a></span>(), <span class="dt">recursive =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; [1] "objects/times2/times3/df.rds" "objects/times2/times3/x3.rds"</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; [3] "objects/times2/x.rds"         "objects/x.rds"</span></a></code></pre></div>
+</div>
+<div id="loading-multiple-objects" class="section level3">
+<h3 class="hasAnchor">
+<a href="#loading-multiple-objects" class="anchor"></a>Loading Multiple Objects</h3>
+<p>The user can load all the objects in the current sub folder into the calling environment using <code><a href="reference/sbf_load_objects.html">sbf_load_objects()</a></code> or recursively load all the objects as a list column in a data frame using <code><a href="reference/sbf_load_objects_recursive.html">sbf_load_objects_recursive()</a></code>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="kw"><a href="reference/sbf_set_sub.html">sbf_set_sub</a></span>(<span class="st">"times2"</span>, <span class="st">"times3"</span>))</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="co">#&gt; [1] "times2/times3"</span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="kw"><a href="reference/sbf_load_objects.html">sbf_load_objects</a></span>()</a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ls">ls</a></span>()</a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="co">#&gt; [1] "df" "x"  "x3"</span></a>
+<a class="sourceLine" id="cb5-6" title="6"><span class="kw"><a href="reference/sbf_load_objects_recursive.html">sbf_load_objects_recursive</a></span>(<span class="dt">sub =</span> <span class="st">"times2"</span>)</a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="co">#&gt; # A tibble: 3 x 4</span></a>
+<a class="sourceLine" id="cb5-8" title="8"><span class="co">#&gt;   objects         name  sub1   file                                        </span></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="co">#&gt;   &lt;I(list)&gt;       &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;                                       </span></a>
+<a class="sourceLine" id="cb5-10" title="10"><span class="co">#&gt; 1 &lt;data.frame [0… df    times3 /var/folders/48/q6ltldjs251000_wvjrdy_vm000…</span></a>
+<a class="sourceLine" id="cb5-11" title="11"><span class="co">#&gt; 2 &lt;dbl [1]&gt;       x3    times3 /var/folders/48/q6ltldjs251000_wvjrdy_vm000…</span></a>
+<a class="sourceLine" id="cb5-12" title="12"><span class="co">#&gt; 3 &lt;dbl [1]&gt;       x     &lt;NA&gt;   /var/folders/48/q6ltldjs251000_wvjrdy_vm000…</span></a></code></pre></div>
+</div>
+<div id="deleting-subfolders" class="section level3">
+<h3 class="hasAnchor">
+<a href="#deleting-subfolders" class="anchor"></a>Deleting Subfolders</h3>
+<p>To recursively delete a sub folder call <code><a href="reference/sbf_set_sub.html">sbf_set_sub()</a></code> with <code>rm = TRUE</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="reference/sbf_set_sub.html">sbf_set_sub</a></span>(<span class="st">"times2"</span>, <span class="dt">rm =</span> <span class="ot">TRUE</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">list.files</a></span>(<span class="kw"><a href="reference/sbf_get_main.html">sbf_get_main</a></span>(), <span class="dt">recursive =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt; [1] "objects/x.rds"</span></a></code></pre></div>
+</div>
+<div id="saving-multiple-objects" class="section level3">
+<h3 class="hasAnchor">
+<a href="#saving-multiple-objects" class="anchor"></a>Saving Multiple Objects</h3>
+<p>All the objects in the calling environment can be saved to the current subdirectory using <code><a href="reference/sbf_save_objects.html">sbf_save_objects()</a></code>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ls">ls</a></span>()</a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="co">#&gt; [1] "df" "x"  "x3"</span></a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="kw"><a href="reference/sbf_save_objects.html">sbf_save_objects</a></span>()</a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">list.files</a></span>(<span class="kw"><a href="reference/sbf_get_main.html">sbf_get_main</a></span>(), <span class="dt">recursive =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb7-5" title="5"><span class="co">#&gt; [1] "objects/times2/df.rds" "objects/times2/x.rds"  "objects/times2/x3.rds"</span></a>
+<a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt; [4] "objects/x.rds"</span></a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(x, x3, df)</a>
+<a class="sourceLine" id="cb7-8" title="8"><span class="kw"><a href="reference/sbf_load_objects.html">sbf_load_objects</a></span>()</a>
+<a class="sourceLine" id="cb7-9" title="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(x3)</a>
+<a class="sourceLine" id="cb7-10" title="10"><span class="co">#&gt; [1] 6</span></a>
+<a class="sourceLine" id="cb7-11" title="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(df)</a>
+<a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt; data frame with 0 columns and 0 rows</span></a></code></pre></div>
+</div>
+</div>
+<div id="numbers-strings-and-data-frames" class="section level2">
 <h2 class="hasAnchor">
-<a href="#saving-and-loading-data-frames-numbers-and-strings" class="anchor"></a>Saving and Loading Data Frames, Numbers and Strings</h2>
-<p>There are equivalent.</p>
+<a href="#numbers-strings-and-data-frames" class="anchor"></a>Numbers, Strings and Data Frames</h2>
+<p>The above functions for saving and loading R objects are members of families of functions for specific types of object. In particular there are family members for</p>
+<ul>
+<li>numbers (numeric scalars)</li>
+<li>strings (character scalars)</li>
+<li>data (objects inheriting from data.frame)</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="reference/sbf_reset_sub.html">sbf_reset_sub</a></span>(<span class="dt">rm =</span> <span class="ot">TRUE</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb8-2" title="2">data2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">x =</span> <span class="dv">5</span><span class="op">:</span><span class="dv">6</span>, <span class="dt">y =</span> <span class="dv">7</span><span class="op">:</span><span class="dv">8</span>)</a>
+<a class="sourceLine" id="cb8-3" title="3">chr &lt;-<span class="st"> "some text"</span></a>
+<a class="sourceLine" id="cb8-4" title="4">vec &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">3</span>) <span class="co"># not saved as vector</span></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="kw"><a href="reference/sbf_save_datas.html">sbf_save_datas</a></span>()</a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="kw"><a href="reference/sbf_save_strings.html">sbf_save_strings</a></span>()</a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="kw"><a href="reference/sbf_save_numbers.html">sbf_save_numbers</a></span>()</a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">list.files</a></span>(<span class="kw"><a href="reference/sbf_get_main.html">sbf_get_main</a></span>(), <span class="dt">recursive =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb8-9" title="9"><span class="co">#&gt; [1] "data/data2.rds"  "data/df.rds"     "numbers/x.csv"   "numbers/x.rds"  </span></a>
+<a class="sourceLine" id="cb8-10" title="10"><span class="co">#&gt; [5] "numbers/x3.csv"  "numbers/x3.rds"  "strings/chr.rds" "strings/chr.txt"</span></a></code></pre></div>
+<p>All types of object are saved as rds files. However to facilitate viewing, each number is also saved as a csv file and each string is also saved as a txt file.</p>
+</div>
+<div id="tables-and-code-blocks" class="section level2">
+<h2 class="hasAnchor">
+<a href="#tables-and-code-blocks" class="anchor"></a>Tables and Code Blocks</h2>
+<p>Tables are data frames with just numeric, character, factor, Date and POSIXct columns. As tables are intended for reports they have to be saved individually with an optional caption using <code><a href="reference/sbf_save_table.html">sbf_save_table()</a></code>. As a result tables cannot be bulk saved however they can be bulked loaded. Each table is also saved as csv file (to facilitate viewing) and the metadata including the caption are saved as an rda file (to facilitate report production).</p>
+<p>Code blocks are strings which include optional caption and language metadata.</p>
+</div>
+<div id="plots" class="section level2">
+<h2 class="hasAnchor">
+<a href="#plots" class="anchor"></a>Plots</h2>
+<p>Plots are ggplot objects with caption, width and height (in inches) and dpi (dots per inch) metadata. Each plot is also saved as png file of the specified dimensions and resolution and the default dataset if present (and <span class="math inline">\(\leq\)</span> 1,000 rows) is saved as a csv. By default the last ggplot object created, modified or plotted is saved and the dimensions are taken from the current graphics device.</p>
+<p>A graphics window can be opened using <code><a href="reference/sbf_open_window.html">sbf_open_window()</a></code>, where the <code>width</code> and <code>height</code> arguments are in inches, and closed using <code><a href="reference/sbf_close_window.html">sbf_close_window()</a></code>.</p>
+<p>In addition to individually or bulk loading ggplot objects, the user can individually or bulk load the default datasets using for example <code><a href="reference/sbf_load_plots_data.html">sbf_load_plots_data()</a></code>.</p>
+</div>
+<div id="windows" class="section level2">
+<h2 class="hasAnchor">
+<a href="#windows" class="anchor"></a>Windows</h2>
+<p>In the case of base or grid graphics the contents of the current window can be copied to a png file (without an associated rds file) using <code><a href="reference/sbf_save_window.html">sbf_save_window()</a></code> which takes caption, width, height and dpi arguments. The window names and file paths can be loaded using <code><a href="reference/sbf_load_windows_recursive.html">sbf_load_windows_recursive()</a></code>.</p>
+</div>
+<div id="portable-graphics-files" class="section level2">
+<h2 class="hasAnchor">
+<a href="#portable-graphics-files" class="anchor"></a>Portable Graphics Files</h2>
+<p>A pdf graphics device can be opened (in the current subfolder of the pdfs folder) using <code><a href="reference/sbf_open_pdf.html">sbf_open_pdf()</a></code> and the current device can be closed using <code><a href="reference/sbf_close_pdf.html">sbf_close_pdf()</a></code>. pdf graphics devices have the advantage of accepting multiple plots.</p>
+</div>
+<div id="databases" class="section level2">
+<h2 class="hasAnchor">
+<a href="#databases" class="anchor"></a>Databases</h2>
+<p>A connection to a SQLite database (in the current subfolder of the dbs folder) can be opened using <code>conn &lt;- sbf_open_db()</code> and an individual connection can be closed using <code><a href="reference/sbf_close_db.html">sbf_close_db(conn)</a></code>.</p>
+<p>Alternatively, <code><a href="reference/sbf_save_datas_to_db.html">sbf_save_datas_to_db()</a></code> automatically open and closes the connection and uses <code>readwritesqlite::rws_read_sqlite.environment</code> to write all the data frames in the calling environment.</p>
+<p>The opposite function, <code><a href="reference/sbf_load_datas_from_db.html">sbf_load_datas_from_db()</a></code>, uses <code>rws_read_sqlite.SQLiteConnection</code> to save all the tables to the calling environment.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>To install the latest development version from the Poisson drat <a href="https://github.com/poissonconsulting/drat">repository</a></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"drat"</span>)</a>
-<a class="sourceLine" id="cb5-2" title="2">drat<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/drat/topics/addRepo">addRepo</a></span>(<span class="st">"poissonconsulting"</span>)</a>
-<a class="sourceLine" id="cb5-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"subfoldr2"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"drat"</span>)</a>
+<a class="sourceLine" id="cb9-2" title="2">drat<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/drat/topics/addRepo">addRepo</a></span>(<span class="st">"poissonconsulting"</span>)</a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"subfoldr2"</span>)</a></code></pre></div>
 </div>
 <div id="contribution" class="section level2">
 <h2 class="hasAnchor">

@@ -2,8 +2,10 @@
 % Please edit documentation in R/load.R
 \name{sbf_load_plots_data}
 \alias{sbf_load_plots_data}
-\title{Load Plots Data}
+\title{Load Plots}
 \usage{
+sbf_load_plots_data(sub = sbf_get_sub(), env = parent.frame())
+
 sbf_load_plots_data(sub = sbf_get_sub(), env = parent.frame())
 }
 \arguments{
@@ -13,7 +15,11 @@ sbf_load_plots_data(sub = sbf_get_sub(), env = parent.frame())
 }
 \value{
 A invisble character vector of the plots' names.
+
+A invisble character vector of the plots' names.
 }
 \description{
+Load Plots
+
 Load Plots Data
 }

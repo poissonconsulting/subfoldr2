@@ -32,7 +32,8 @@
 
 <meta property="og:title" content="Reset Main — sbf_reset_main" />
 
-<meta property="og:description" content="Reset Main" />
+<meta property="og:description" content="The current sub folder setting is unaltered.
+To reset both simultaneously use sbf_reset()." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -101,21 +102,36 @@
 
     <div class="ref-description">
     
-    <p>Reset Main</p>
+    <p>The current sub folder setting is unaltered.
+To reset both simultaneously use <code><a href='sbf_reset.html'>sbf_reset()</a></code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_reset_main</span>()</pre>
-        
+    <pre class="usage"><span class='fu'>sbf_reset_main</span>(<span class='kw'>rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"sbf.ask"</span>, <span class='fl'>TRUE</span>))</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>rm</th>
+      <td><p>A flag specifying whether to remove the folder and all its contents if it already exists.</p></td>
+    </tr>
+    <tr>
+      <th>ask</th>
+      <td><p>A flag specifying whether to ask before removing the existing folder.</p></td>
+    </tr>
+    </table>
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An invisbile copy of the string <code>"output"</code>.</p>
+    <p>An invisible copy of the string <code>"output"</code>.</p>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
           </ul>
