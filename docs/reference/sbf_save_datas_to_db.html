@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Save Number — sbf_save_number • subfoldr2</title>
+<title>Save Data Frames to Database — sbf_save_datas_to_db • subfoldr2</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Save Number — sbf_save_number" />
+<meta property="og:title" content="Save Data Frames to Database — sbf_save_datas_to_db" />
 
-<meta property="og:description" content="Save Number" />
+<meta property="og:description" content="Save Data Frames to Database" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -94,27 +94,24 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Save Number</h1>
+    <h1>Save Data Frames to Database</h1>
     
-    <div class="hidden name"><code>sbf_save_number.Rd</code></div>
+    <div class="hidden name"><code>sbf_save_datas_to_db.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Save Number</p>
+    <p>Save Data Frames to Database</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_save_number</span>(<span class='no'>x</span>, <span class='kw'>x_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substitute'>substitute</a></span>(<span class='no'>x</span>), <span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(),
-  <span class='kw'>exists</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
+    <pre class="usage"><span class='fu'>sbf_save_datas_to_db</span>(<span class='no'>x_name</span>, <span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(), <span class='kw'>commit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>strict</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"rws.silent"</span>, <span class='fl'>FALSE</span>),
+  <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>The number to save.</p></td>
-    </tr>
     <tr>
       <th>x_name</th>
       <td><p>A string of the name.</p></td>
@@ -124,14 +121,27 @@
       <td><p>A string specifying the path to the sub folder (by default the current sub folder).</p></td>
     </tr>
     <tr>
-      <th>exists</th>
-      <td><p>A logical scalar specifying whether the saved object must already exist.</p></td>
+      <th>commit</th>
+      <td><p>A flag specifying whether to commit the operations 
+(calling with commit = FALSE can be useful for checking data).</p></td>
+    </tr>
+    <tr>
+      <th>strict</th>
+      <td><p>A flag specifying whether to error if x has extraneous columns or if exists = TRUE extraneous data frames.</p></td>
+    </tr>
+    <tr>
+      <th>silent</th>
+      <td><p>A flag specifying whether to suppress messages and warnings.</p></td>
+    </tr>
+    <tr>
+      <th>env</th>
+      <td><p>An environment.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An invisible string of the path to the saved object.</p>
+    <p>An invisible character vector of the paths to the saved objects.</p>
     
 
   </div>

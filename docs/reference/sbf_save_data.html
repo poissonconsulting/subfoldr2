@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">subfoldr2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9001</span>
       </span>
     </div>
 
@@ -105,18 +105,19 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_save_data</span>(<span class='no'>x</span>, <span class='no'>x_name</span>, <span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(), <span class='kw'>exists</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>sbf_save_data</span>(<span class='no'>x</span>, <span class='kw'>x_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substitute'>substitute</a></span>(<span class='no'>x</span>), <span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(),
+  <span class='kw'>exists</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>The data frame(s) to save.</p></td>
+      <td><p>The data frame to save.</p></td>
     </tr>
     <tr>
       <th>x_name</th>
-      <td><p>A string of the name to save as or a string of the name to prepend to the name of each data frame.</p></td>
+      <td><p>A string of the name.</p></td>
     </tr>
     <tr>
       <th>sub</th>
@@ -124,17 +125,13 @@
     </tr>
     <tr>
       <th>exists</th>
-      <td><p>A logical scalar specifying whether the saved object(s) must already exist.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Unused.</p></td>
+      <td><p>A logical scalar specifying whether the saved object must already exist.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An invisible character vector of the path to the saved object.</p>
+    <p>An invisible string of the path to the saved data.frame</p>
     
 
   </div>

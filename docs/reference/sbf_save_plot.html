@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Save Number — sbf_save_number • subfoldr2</title>
+<title>Save Plot — sbf_save_plot • subfoldr2</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,10 @@
 
 
 
-<meta property="og:title" content="Save Number — sbf_save_number" />
+<meta property="og:title" content="Save Plot — sbf_save_plot" />
 
-<meta property="og:description" content="Save Number" />
+<meta property="og:description" content="Saves a ggplot object.
+By default it saves the last plot to be modified or created." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -94,26 +95,28 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Save Number</h1>
+    <h1>Save Plot</h1>
     
-    <div class="hidden name"><code>sbf_save_number.Rd</code></div>
+    <div class="hidden name"><code>sbf_save_plot.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Save Number</p>
+    <p>Saves a ggplot object.
+By default it saves the last plot to be modified or created.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_save_number</span>(<span class='no'>x</span>, <span class='kw'>x_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substitute'>substitute</a></span>(<span class='no'>x</span>), <span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(),
-  <span class='kw'>exists</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
+    <pre class="usage"><span class='fu'>sbf_save_plot</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/last_plot.html'>last_plot</a></span>(), <span class='kw'>x_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substitute'>substitute</a></span>(<span class='no'>x</span>),
+  <span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(), <span class='kw'>exists</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>caption</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>report</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='no'>width</span>, <span class='kw'>dpi</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>csv</span> <span class='kw'>=</span> <span class='fl'>1000L</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>The number to save.</p></td>
+      <td><p>The ggplot object to save.</p></td>
     </tr>
     <tr>
       <th>x_name</th>
@@ -127,11 +130,34 @@
       <th>exists</th>
       <td><p>A logical scalar specifying whether the saved object must already exist.</p></td>
     </tr>
+    <tr>
+      <th>caption</th>
+      <td><p>A string of the caption.</p></td>
+    </tr>
+    <tr>
+      <th>report</th>
+      <td><p>A flag specifying whether to include in a report.</p></td>
+    </tr>
+    <tr>
+      <th>width</th>
+      <td><p>Plot size in <code>units</code> ("in", "cm", or "mm").
+If not supplied, uses the size of current graphics device.</p></td>
+    </tr>
+    <tr>
+      <th>height</th>
+      <td><p>Plot size in <code>units</code> ("in", "cm", or "mm").
+If not supplied, uses the size of current graphics device.</p></td>
+    </tr>
+    <tr>
+      <th>dpi</th>
+      <td><p>Plot resolution. Also accepts a string input: "retina" (320),
+"print" (300), or "screen" (72). Applies only to raster output types.</p></td>
+    </tr>
+    <tr>
+      <th>csv</th>
+      <td><p>A count specifying the maximum number of rows to save as a csv file.</p></td>
+    </tr>
     </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>An invisible string of the path to the saved object.</p>
     
 
   </div>
@@ -139,9 +165,7 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-          </ul>
+                </ul>
 
   </div>
 </div>

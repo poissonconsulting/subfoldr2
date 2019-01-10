@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Save Number — sbf_save_number • subfoldr2</title>
+<title>Load Strings as Column in Data Frame — sbf_load_strings_recursive • subfoldr2</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,12 @@
 
 
 
-<meta property="og:title" content="Save Number — sbf_save_number" />
+<meta property="og:title" content="Load Strings as Column in Data Frame — sbf_load_strings_recursive" />
 
-<meta property="og:description" content="Save Number" />
+<meta property="og:description" content="Recursively loads all the numbers with names matching the regular expression pattern as the 
+the first character column (named strings) in a data frame.
+Subsequent character vector columns specify the object names (named name) 
+and sub folders (named sub1, sub2 etc)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -94,44 +97,39 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Save Number</h1>
+    <h1>Load Strings as Column in Data Frame</h1>
     
-    <div class="hidden name"><code>sbf_save_number.Rd</code></div>
+    <div class="hidden name"><code>sbf_load_strings_recursive.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Save Number</p>
+    <p>Recursively loads all the numbers with names matching the regular expression pattern as the 
+the first character column (named strings) in a data frame.
+Subsequent character vector columns specify the object names (named name) 
+and sub folders (named sub1, sub2 etc).</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_save_number</span>(<span class='no'>x</span>, <span class='kw'>x_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substitute'>substitute</a></span>(<span class='no'>x</span>), <span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(),
-  <span class='kw'>exists</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
+    <pre class="usage"><span class='fu'>sbf_load_strings_recursive</span>(<span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>".*"</span>, <span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(),
+  <span class='kw'>include_root</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>The number to save.</p></td>
-    </tr>
-    <tr>
-      <th>x_name</th>
-      <td><p>A string of the name.</p></td>
+      <th>pattern</th>
+      <td><p>A string of the regular expression to match.</p></td>
     </tr>
     <tr>
       <th>sub</th>
       <td><p>A string specifying the path to the sub folder (by default the current sub folder).</p></td>
     </tr>
     <tr>
-      <th>exists</th>
-      <td><p>A logical scalar specifying whether the saved object must already exist.</p></td>
+      <th>include_root</th>
+      <td><p>A flag indicating whether to include objects in the top sub folder.</p></td>
     </tr>
     </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>An invisible string of the path to the saved object.</p>
     
 
   </div>
@@ -139,9 +137,7 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-          </ul>
+                </ul>
 
   </div>
 </div>

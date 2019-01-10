@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Save Number — sbf_save_number • subfoldr2</title>
+<title>Close Window — sbf_close_window • subfoldr2</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Save Number — sbf_save_number" />
+<meta property="og:title" content="Close Window — sbf_close_window" />
 
-<meta property="og:description" content="Save Number" />
+<meta property="og:description" content="Closes the current graphics device." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -94,53 +94,30 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Save Number</h1>
+    <h1>Close Window</h1>
     
-    <div class="hidden name"><code>sbf_save_number.Rd</code></div>
+    <div class="hidden name"><code>sbf_close_window.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Save Number</p>
+    <p>Closes the current graphics device.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_save_number</span>(<span class='no'>x</span>, <span class='kw'>x_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substitute'>substitute</a></span>(<span class='no'>x</span>), <span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(),
-  <span class='kw'>exists</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>The number to save.</p></td>
-    </tr>
-    <tr>
-      <th>x_name</th>
-      <td><p>A string of the name.</p></td>
-    </tr>
-    <tr>
-      <th>sub</th>
-      <td><p>A string specifying the path to the sub folder (by default the current sub folder).</p></td>
-    </tr>
-    <tr>
-      <th>exists</th>
-      <td><p>A logical scalar specifying whether the saved object must already exist.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <pre class="usage"><span class='fu'>sbf_close_window</span>()</pre>
+        
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>An invisible string of the path to the saved object.</p>
+    <p>The function is just a wrapper on <code><a href='https://www.rdocumentation.org/packages/grDevices/topics/dev'>dev.off</a>()</code>.</p>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
           </ul>
 
   </div>
