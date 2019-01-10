@@ -494,9 +494,8 @@ test_that("window",{
   teardown(sbf_reset(rm = TRUE, ask = FALSE))
   skip('run locally as uses screen devices') 
   expect_identical(sbf_reset(rm = TRUE, ask = FALSE), "output")
-  gp <- ggplot2::ggplot(data = data.frame(x = c(2,3), y = c(3,2)), ggplot2::aes(x = x, y = y))
   sbf_open_window()
-  print(gp)
+  plot(x~y, data = data.frame(x = c(5,4), y = c(6,7)))
   expect_identical(sbf_save_window(), 
                    sub("//", "/", file.path(sbf_get_main(), "windows/window.png")))
   sbf_close_window()
