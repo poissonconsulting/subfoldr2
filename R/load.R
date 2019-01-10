@@ -1,4 +1,4 @@
-load_rds <- function(x_name, class, sub) {
+load_rds <- function(x_name, class, sub, fun = NULL) {
   check_string(x_name)
   check_vector(sub, "", length = c(0L, 1L))
   sub <- sanitize_path(sub)
@@ -6,7 +6,10 @@ load_rds <- function(x_name, class, sub) {
   dir <- file_path(sbf_get_main(), class, sub, x_name)
   file <- paste0(dir, ".rds")
   if (!file.exists(file)) err("file '", file, "' does not exist")
-  readRDS(file)
+  object <- readRDS(file)
+  if(!is.null(fun))
+    object <- fun(object)
+  object
 }
 
 #' Load Object
@@ -72,7 +75,16 @@ sbf_load_plot <- function(x_name, sub = sbf_get_sub()) {
   load_rds(x_name, class = "plots", sub = sub)
 }
 
-load_rdss <- function(class, sub, env) {
+#' Load Plot Data
+#'
+#' @inheritParams sbf_save_object
+#' @return A ggplot object.
+#' @export
+sbf_load_plot_data <- function(x_name, sub = sbf_get_sub()) {
+  load_rds(x_name, class = "plots", sub = sub, fun = get_plot_data)
+}
+
+load_rdss <- function(class, sub, env, fun = NULL) {
   check_vector(sub, "", length = c(0L, 1L))
   sub <- sanitize_path(sub)
   check_environment(env)
@@ -87,6 +99,8 @@ load_rdss <- function(class, sub, env) {
   names <- tools::file_path_sans_ext(basename(files))
   for (i in seq_along(files)) {
     object <- readRDS(files[i])
+    if(!is.null(fun))
+      object <- fun(object)
     assign(names[i], object, envir = env)
   }
   invisible(names)
@@ -152,14 +166,14 @@ sbf_load_blocks <- function(sub = sbf_get_sub(), env = parent.frame()) {
   load_rdss("blocks", sub, env)
 }
 
-#' Load Plots
+#' Load Plots Data
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the plots' names.
 #' @export
-sbf_load_plots <- function(sub = sbf_get_sub(), env = parent.frame()) {
-  load_rdss("plots", sub, env)
+sbf_load_plots_data <- function(sub = sbf_get_sub(), env = parent.frame()) {
+  load_rdss("plots", sub, env, fun = get_plot_data)
 }
 
 #' Save Data Frames to Database
@@ -180,7 +194,7 @@ sbf_load_datas_from_db <- function(x_name, sub = sbf_get_sub(), env = parent.fra
   invisible(names(datas))
 }
 
-load_rdss_recursive <- function(pattern, class, sub, include_root, fun = identity) {
+load_rdss_recursive <- function(pattern, class, sub, include_root, fun = NULL) {
   check_string(pattern)
   check_vector(sub, "", length = c(0L, 1L))
   sub <- sanitize_path(sub)
@@ -204,7 +218,8 @@ load_rdss_recursive <- function(pattern, class, sub, include_root, fun = identit
   }
    
   objects <- lapply(names(files), readRDS)
-  objects <- lapply(objects, fun)
+  if(!is.null(fun))
+    objects <- lapply(objects, fun)
   
   data <- data.frame(x = I(objects))
   names(data) <- class
@@ -316,4 +331,20 @@ sbf_load_tables_recursive <- function(pattern = ".*", sub = sbf_get_sub(), inclu
 #' @export
 sbf_load_plots_recursive <- function(pattern = ".*", sub = sbf_get_sub(), include_root = TRUE) {
   load_rdss_recursive(pattern, "plots", sub, include_root)
+}
+
+#' Load Plots Data as List Column in Data Frame
+#'
+#' Recursively loads all the default data from the plots with names matching the regular expression pattern as the 
+#' the first (list) column (named plots_data) in a data frame.
+#' Subsequent character vector columns specify the object names (named name) 
+#' and sub folders (named sub1, sub2 etc).
+#' 
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_load_objects_recursive
+#' @export
+sbf_load_plots_data_recursive <- function(pattern = ".*", sub = sbf_get_sub(), include_root = TRUE) {
+  data <- load_rdss_recursive(pattern, "plots", sub, include_root, fun = get_plot_data)
+  names(data)[1] <- "plots_data"
+  data
 }

@@ -61,3 +61,9 @@ as_conditional_tibble <- function(x) {
   }
   x
 }
+
+get_plot_data <- function(x) {
+  data <- x$data
+  if(!is.data.frame(data)) return(data.frame())
+  data
+}

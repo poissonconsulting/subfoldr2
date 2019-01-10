@@ -179,8 +179,9 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' Save Plot
 #'
 #' Saves a ggplot object.
+#' By default it saves the last plot to be modified or created.
 #' 
-#' @param x The ggplot object to save. By default taken from last plot displayed.
+#' @param x The ggplot object to save. 
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_save_table
 #' @inheritParams ggplot2::ggsave
@@ -214,7 +215,6 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
       if(is.na(height)) height <- dim[2]
     }
   }
-  
   
   filename <- file_name("plots", sub, x_name, "png")
 

@@ -9,7 +9,7 @@ sbf_save_plot(x = ggplot2::last_plot(), x_name = substitute(x),
   width = NA, height = width, dpi = 300, csv = 1000L)
 }
 \arguments{
-\item{x}{The ggplot object to save. By default taken from last plot displayed.}
+\item{x}{The ggplot object to save.}
 
 \item{x_name}{A string of the name.}
 
@@ -34,4 +34,5 @@ If not supplied, uses the size of current graphics device.}
 }
 \description{
 Saves a ggplot object.
+By default it saves the last plot to be modified or created.
 }

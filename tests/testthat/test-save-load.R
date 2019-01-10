@@ -431,20 +431,61 @@ test_that("plot",{
   tempdir <- tempdir()
   sbf_set_main(tempdir)
   y <- 1
-  expect_warning(sbf_load_plots(), "no plots to load")
-  
   expect_error(sbf_save_plot(y), "x must inherit from class ggplot")
-  x <- ggplot2::ggplot(data = data.frame(x = 1, y = 2), ggplot2::aes(x = x, y = y))
-  expect_identical(sbf_save_plot(x), sub("//", "/", file.path(tempdir, "plots/x.rds")))
   
+  x <- ggplot2::ggplot()
+  expect_identical(sbf_save_plot(x), sub("//", "/", file.path(tempdir, "plots/x.rds")))
   expect_equal(sbf_load_plot("x"), x)
+  expect_identical(sbf_load_plot_data("x"), data.frame())
+  
+  y <- ggplot2::ggplot(data = data.frame(x = 1, y = 2), ggplot2::aes(x = x, y = y))
+  expect_identical(sbf_save_plot(y), sub("//", "/", file.path(tempdir, "plots/y.rds")))
+  
+  expect_equal(sbf_load_plot("y"), y)
+  expect_identical(sbf_load_plot_data("y"), data.frame(x = 1, y = 2))
 
   expect_identical(list.files(file.path(sbf_get_main(), "plots")),
-                   sort(c("_x.rda", "x.csv", "x.png", "x.rds")))
+                   sort(c("_x.rda", "_y.rda", "x.png", "x.rds",
+                        "y.csv", "y.png", "y.rds")))
   
-  y <- ggplot2::ggplot(data = data.frame(x = 2, y = 3), ggplot2::aes(x = x, y = y))
-  print(y)
-  expect_identical(sbf_save_plot(), sub("//", "/", file.path(tempdir, "plots/plot.rds")))
-#  expect_equal(sbf_load_plot("plot"), y)
-})
+  expect_identical(sbf_load_plots_data(), c("x", "y"))
+  expect_identical(x, data.frame())
+  expect_identical(y, data.frame(x = 1, y = 2))
 
+  z <- ggplot2::ggplot(data = data.frame(x = 2, y = 3), ggplot2::aes(x = x, y = y))
+  expect_identical(sbf_save_plot(z), sub("//", "/", file.path(tempdir, "plots/z.rds")))
+  expect_equal(sbf_load_plot("z"), z)
+  
+  t <- ggplot2::ggplot(data = data.frame(x = c(2,3), y = c(3,2)), ggplot2::aes(x = x, y = y))
+  expect_identical(sbf_save_plot(csv = 1L), sub("//", "/", file.path(tempdir, "plots/plot.rds")))
+  expect_equal(sbf_load_plot("plot"), t)
+
+  expect_identical(list.files(file.path(sbf_get_main(), "plots")),
+                   sort(c("_plot.rda", "_x.rda", "_y.rda", "_z.rda",
+                          "plot.png", "plot.rds", "x.png", "x.rds",
+                          "y.csv", "y.png", "y.rds", "z.csv",
+                          "z.png", "z.rds")))
+  
+  plots <- sbf_load_plots_recursive()
+  expect_is(plots, "data.frame")
+  expect_identical(colnames(plots), c("plots", "name", "file"))
+  expect_is(plots$plots[[2]], "ggplot")
+  expect_identical(plots$name, c("plot", "x", "y", "z"))
+  expect_identical(plots$file, 
+                   c(sub("//", "/", file.path(tempdir, "plots/plot.rds")),
+                     sub("//", "/", file.path(tempdir, "plots/x.rds")),
+                     sub("//", "/", file.path(tempdir, "plots/y.rds")),
+                     sub("//", "/", file.path(tempdir, "plots/z.rds"))))  
+  
+  data <- sbf_load_plots_data_recursive()
+  expect_is(data, "data.frame")
+  expect_identical(colnames(data), c("plots_data", "name", "file"))
+  expect_identical(data$plots_data[[2]], data.frame())
+  expect_identical(data$name, c("plot", "x", "y", "z"))
+  expect_identical(data$file, 
+                   c(sub("//", "/", file.path(tempdir, "plots/plot.rds")),
+                     sub("//", "/", file.path(tempdir, "plots/x.rds")),
+                     sub("//", "/", file.path(tempdir, "plots/y.rds")),
+                     sub("//", "/", file.path(tempdir, "plots/z.rds"))))
+  
+})
