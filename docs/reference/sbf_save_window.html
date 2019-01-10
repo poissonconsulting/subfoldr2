@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Save Data Frames — sbf_save_datas • subfoldr2</title>
+<title>Save Window — sbf_save_window • subfoldr2</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Save Data Frames — sbf_save_datas" />
+<meta property="og:title" content="Save Window — sbf_save_window" />
 
-<meta property="og:description" content="Save Data Frames" />
+<meta property="og:description" content="Saves the current graphics device to a png file." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -94,35 +94,57 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Save Data Frames</h1>
+    <h1>Save Window</h1>
     
-    <div class="hidden name"><code>sbf_save_datas.Rd</code></div>
+    <div class="hidden name"><code>sbf_save_window.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Save Data Frames</p>
+    <p>Saves the current graphics device to a png file.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_save_datas</span>(<span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(), <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())</pre>
+    <pre class="usage"><span class='fu'>sbf_save_window</span>(<span class='kw'>x_name</span> <span class='kw'>=</span> <span class='st'>"window"</span>, <span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(), <span class='kw'>exists</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='no'>width</span>, <span class='kw'>dpi</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>caption</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>report</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>x_name</th>
+      <td><p>A string of the name.</p></td>
+    </tr>
+    <tr>
       <th>sub</th>
       <td><p>A string specifying the path to the sub folder (by default the current sub folder).</p></td>
     </tr>
     <tr>
-      <th>env</th>
-      <td><p>An environment.</p></td>
+      <th>exists</th>
+      <td><p>A logical scalar specifying whether the saved object must already exist.</p></td>
+    </tr>
+    <tr>
+      <th>width</th>
+      <td><p>A number of the plot width in inches.</p></td>
+    </tr>
+    <tr>
+      <th>height</th>
+      <td><p>A number of the plot width in inches.</p></td>
+    </tr>
+    <tr>
+      <th>dpi</th>
+      <td><p>A number of the resolution in dots per inch.</p></td>
+    </tr>
+    <tr>
+      <th>caption</th>
+      <td><p>A string of the caption.</p></td>
+    </tr>
+    <tr>
+      <th>report</th>
+      <td><p>A flag specifying whether to include in a report.</p></td>
     </tr>
     </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>An invisible character vector of the paths to the saved objects.</p>
     
 
   </div>
@@ -130,9 +152,7 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-          </ul>
+                </ul>
 
   </div>
 </div>
