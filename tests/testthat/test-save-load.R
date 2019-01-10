@@ -4,29 +4,28 @@ test_that("object",{
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   
-  tempdir <- tempdir()
-  sbf_set_main(tempdir)
+  sbf_set_main(tempdir())
   x <- 1
   expect_warning(sbf_load_objects(), "no objects to load")
   
   expect_error(sbf_save_object(x_name = "x"), "argument \"x\" is missing, with no default")
   expect_error(sbf_save_object(), "x_name must have at least 1 character")
-  expect_identical(sbf_save_object(x), sub("//", "/", file.path(tempdir, "objects/x.rds")))
-  expect_identical(sbf_save_object(x, exists = TRUE), sub("//", "/", file.path(tempdir, "objects/x.rds")))
+  expect_identical(sbf_save_object(x), sub("//", "/", file.path(sbf_get_main(), "objects/x.rds")))
+  expect_identical(sbf_save_object(x, exists = TRUE), sub("//", "/", file.path(sbf_get_main(), "objects/x.rds")))
   expect_error(sbf_save_object(x, exists = FALSE), 
-               paste0("file '", sub("//", "/", file.path(tempdir, "objects/x.rds")), "' already exists"))
+               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "objects/x.rds")), "' already exists"))
   expect_error(sbf_save_object(x, x_name = "y", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(tempdir, "objects/y.rds")), "' doesn't exist"))
+               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "objects/y.rds")), "' doesn't exist"))
   expect_error(sbf_save_object(x, x_name = "y", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(tempdir, "objects/y.rds")), "' doesn't exist"))
+               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "objects/y.rds")), "' doesn't exist"))
   expect_error(sbf_save_object(x, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_object("x"), x)
   expect_error(sbf_load_object("x2"), "/objects/x2.rds' does not exist")
   
   y <- 2
   expect_identical(sbf_save_objects(env = as.environment(list(x = x, y = y))), 
-                   c(sub("//", "/", file.path(tempdir, "objects/x.rds")),
-                     sub("//", "/", file.path(tempdir, "objects/y.rds"))))
+                   c(sub("//", "/", file.path(sbf_get_main(), "objects/x.rds")),
+                     sub("//", "/", file.path(sbf_get_main(), "objects/y.rds"))))
   x <- 0
   y <- 0
   expect_identical(sbf_load_objects(), c("x", "y"))
@@ -57,11 +56,11 @@ test_that("object",{
   expect_identical(unlist(data$objects), c(x, y))
   expect_identical(data$name, c("x", "y"))
   expect_identical(data$file, 
-                   c(sub("//", "/", file.path(tempdir, "objects/x.rds")),
-                     sub("//", "/", file.path(tempdir, "objects/y.rds"))))
+                   c(sub("//", "/", file.path(sbf_get_main(), "objects/x.rds")),
+                     sub("//", "/", file.path(sbf_get_main(), "objects/y.rds"))))
   
   expect_identical(sbf_save_object(x, sub = "t2/t3"), 
-                   sub("//", "/", file.path(tempdir, "objects/t2/t3/x.rds")))
+                   sub("//", "/", file.path(sbf_get_main(), "objects/t2/t3/x.rds")))
   
   data <- sbf_load_objects_recursive(sub = character(0))
   expect_is(data, "data.frame")
@@ -71,9 +70,9 @@ test_that("object",{
   expect_identical(data$sub1, c("t2", NA, NA))
   expect_identical(data$sub2, c("t3", NA, NA))
   expect_identical(data$file, 
-                   c(sub("//", "/", file.path(tempdir, "objects/t2/t3/x.rds")),
-                     sub("//", "/", file.path(tempdir, "objects/x.rds")),
-                     sub("//", "/", file.path(tempdir, "objects/y.rds"))))
+                   c(sub("//", "/", file.path(sbf_get_main(), "objects/t2/t3/x.rds")),
+                     sub("//", "/", file.path(sbf_get_main(), "objects/x.rds")),
+                     sub("//", "/", file.path(sbf_get_main(), "objects/y.rds"))))
   
   data <- sbf_load_objects_recursive(sub = character(0), include_root = FALSE)
   expect_is(data, "data.frame")
@@ -83,7 +82,7 @@ test_that("object",{
   expect_identical(data$sub1, "t2")
   expect_identical(data$sub2, "t3")
   expect_identical(data$file, 
-                   sub("//", "/", file.path(tempdir, "objects/t2/t3/x.rds")))
+                   sub("//", "/", file.path(sbf_get_main(), "objects/t2/t3/x.rds")))
   
   data <- sbf_load_objects_recursive(sub = "t2")
   expect_is(data, "data.frame")
@@ -92,12 +91,12 @@ test_that("object",{
   expect_identical(data$name, "x")
   expect_identical(data$sub1, "t3")
   expect_identical(data$file, 
-                   sub("//", "/", file.path(tempdir, "objects/t2/t3/x.rds")))
+                   sub("//", "/", file.path(sbf_get_main(), "objects/t2/t3/x.rds")))
   
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   expect_error(sbf_load_object("x"), "/objects/x.rds' does not exist")
   expect_identical(sbf_set_sub("sub"), "sub")
-  expect_identical(sbf_save_object(x), sub("//", "/", file.path(tempdir, "objects/sub/x.rds")))
+  expect_identical(sbf_save_object(x), sub("//", "/", file.path(sbf_get_main(), "objects/sub/x.rds")))
   expect_identical(sbf_load_object("x"), x)
   expect_error(sbf_load_object("x2"), "/objects/sub/x2.rds' does not exist")
 })
@@ -106,30 +105,29 @@ test_that("data",{
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   
-  tempdir <- tempdir()
-  sbf_set_main(tempdir)
+  sbf_set_main(tempdir())
   y <- 1
   expect_warning(sbf_load_datas(), "no data to load")
   
   expect_error(sbf_save_data(), "argument \"x\" is missing, with no default")
   expect_error(sbf_save_data(y), "x must inherit from class data.frame")
   x <- data.frame(x = 1)
-  expect_identical(sbf_save_data(x), sub("//", "/", file.path(tempdir, "data/x.rds")))
-  expect_identical(sbf_save_data(x, exists = TRUE), sub("//", "/", file.path(tempdir, "data/x.rds")))
+  expect_identical(sbf_save_data(x), sub("//", "/", file.path(sbf_get_main(), "data/x.rds")))
+  expect_identical(sbf_save_data(x, exists = TRUE), sub("//", "/", file.path(sbf_get_main(), "data/x.rds")))
   expect_error(sbf_save_data(x, exists = FALSE), 
-               paste0("file '", sub("//", "/", file.path(tempdir, "data/x.rds")), "' already exists"))
+               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "data/x.rds")), "' already exists"))
   expect_error(sbf_save_data(x, x_name = "y", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(tempdir, "data/y.rds")), "' doesn't exist"))
+               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "data/y.rds")), "' doesn't exist"))
   expect_error(sbf_save_data(x, x_name = "y", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(tempdir, "data/y.rds")), "' doesn't exist"))
+               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "data/y.rds")), "' doesn't exist"))
   expect_error(sbf_save_data(x, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_data("x"), x)
   expect_error(sbf_load_data("x2"), "/data/x2.rds' does not exist")
   
   y <- data.frame(z = 3)
   expect_identical(sbf_save_datas(env = as.environment(list(x = x, y = y))), 
-                   c(sub("//", "/", file.path(tempdir, "data/x.rds")),
-                     sub("//", "/", file.path(tempdir, "data/y.rds"))))
+                   c(sub("//", "/", file.path(sbf_get_main(), "data/x.rds")),
+                     sub("//", "/", file.path(sbf_get_main(), "data/y.rds"))))
   expect_identical(list.files(file.path(sbf_get_main(), "data")),
                    sort(c("x.rds", "y.rds")))
   x <- 0
@@ -144,15 +142,15 @@ test_that("data",{
   expect_identical(data$data[[1]], data.frame(x = 1))
   expect_identical(data$name, c("x", "y"))
   expect_identical(data$file, 
-                   c(sub("//", "/", file.path(tempdir, "data/x.rds")),
-                     sub("//", "/", file.path(tempdir, "data/y.rds"))))
+                   c(sub("//", "/", file.path(sbf_get_main(), "data/x.rds")),
+                     sub("//", "/", file.path(sbf_get_main(), "data/y.rds"))))
   
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_data("x"), x)
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   expect_error(sbf_load_data("x"), "/data/x.rds' does not exist")
   expect_identical(sbf_set_sub("sub"), "sub")
-  expect_identical(sbf_save_data(x), sub("//", "/", file.path(tempdir, "data/sub/x.rds")))
+  expect_identical(sbf_save_data(x), sub("//", "/", file.path(sbf_get_main(), "data/sub/x.rds")))
   expect_identical(sbf_load_data("x"), x)
   expect_error(sbf_load_data("x2"), "/data/sub/x2.rds' does not exist")
 })
@@ -161,22 +159,21 @@ test_that("number",{
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   
-  tempdir <- tempdir()
-  sbf_set_main(tempdir)
+  sbf_set_main(tempdir())
   y <- numeric(0)
   expect_warning(sbf_load_numbers(), "no numbers to load")
   expect_error(sbf_save_number(), "argument \"x\" is missing, with no default")
   expect_error(sbf_save_number(y), "x must have 1 element")
   x <- 1L
-  expect_identical(sbf_save_number(x), sub("//", "/", file.path(tempdir, "numbers/x.rds")))
+  expect_identical(sbf_save_number(x), sub("//", "/", file.path(sbf_get_main(), "numbers/x.rds")))
   
-  expect_identical(sbf_save_number(x, exists = TRUE), sub("//", "/", file.path(tempdir, "numbers/x.rds")))
+  expect_identical(sbf_save_number(x, exists = TRUE), sub("//", "/", file.path(sbf_get_main(), "numbers/x.rds")))
   expect_error(sbf_save_number(x, exists = FALSE), 
-               paste0("file '", sub("//", "/", file.path(tempdir, "numbers/x.rds")), "' already exists"))
+               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "numbers/x.rds")), "' already exists"))
   expect_error(sbf_save_number(x, x_name = "y", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(tempdir, "numbers/y.rds")), "' doesn't exist"))
+               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "numbers/y.rds")), "' doesn't exist"))
   expect_error(sbf_save_number(x, x_name = "y", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(tempdir, "numbers/y.rds")), "' doesn't exist"))
+               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "numbers/y.rds")), "' doesn't exist"))
   
   expect_error(sbf_save_number(x, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_number("x"), 1)
@@ -187,8 +184,8 @@ test_that("number",{
   
   y <- 3
   expect_identical(sbf_save_numbers(env = as.environment(list(x = x, y = y))), 
-                   c(sub("//", "/", file.path(tempdir, "numbers/x.rds")),
-                     sub("//", "/", file.path(tempdir, "numbers/y.rds"))))
+                   c(sub("//", "/", file.path(sbf_get_main(), "numbers/x.rds")),
+                     sub("//", "/", file.path(sbf_get_main(), "numbers/y.rds"))))
   expect_identical(list.files(file.path(sbf_get_main(), "numbers")),
                    sort(c("x.csv", "x.rds", "y.csv", "y.rds")))
   x <- 0
@@ -203,8 +200,8 @@ test_that("number",{
   expect_identical(data$numbers, c(1, 3))
   expect_identical(data$name, c("x", "y"))
   expect_identical(data$file, 
-                   c(sub("//", "/", file.path(tempdir, "numbers/x.rds")),
-                     sub("//", "/", file.path(tempdir, "numbers/y.rds"))))
+                   c(sub("//", "/", file.path(sbf_get_main(), "numbers/x.rds")),
+                     sub("//", "/", file.path(sbf_get_main(), "numbers/y.rds"))))
   
   expect_error(sbf_load_number("x2"), "/numbers/x2.rds' does not exist")
   expect_identical(sbf_reset_sub(), character(0))
@@ -212,7 +209,7 @@ test_that("number",{
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   expect_error(sbf_load_number("x"), "/numbers/x.rds' does not exist")
   expect_identical(sbf_set_sub("sub"), "sub")
-  expect_identical(sbf_save_number(x), sub("//", "/", file.path(tempdir, "numbers/sub/x.rds")))
+  expect_identical(sbf_save_number(x), sub("//", "/", file.path(sbf_get_main(), "numbers/sub/x.rds")))
   expect_identical(sbf_load_number("x"), 1)
   expect_error(sbf_load_number("x2"), "/numbers/sub/x2.rds' does not exist")
 })
@@ -221,19 +218,18 @@ test_that("string",{
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   
-  tempdir <- tempdir()
-  sbf_set_main(tempdir)
+  sbf_set_main(tempdir())
   y <- "two words"
   expect_warning(sbf_load_strings(), "no strings to load")
   expect_error(sbf_save_string(), "argument \"x\" is missing, with no default")
-  expect_identical(sbf_save_string(y), sub("//", "/", file.path(tempdir, "strings/y.rds")))
-  expect_identical(sbf_save_string(y, exists = TRUE), sub("//", "/", file.path(tempdir, "strings/y.rds")))
+  expect_identical(sbf_save_string(y), sub("//", "/", file.path(sbf_get_main(), "strings/y.rds")))
+  expect_identical(sbf_save_string(y, exists = TRUE), sub("//", "/", file.path(sbf_get_main(), "strings/y.rds")))
   expect_error(sbf_save_string(y, exists = FALSE), 
-               paste0("file '", sub("//", "/", file.path(tempdir, "strings/y.rds")), "' already exists"))
+               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "strings/y.rds")), "' already exists"))
   expect_error(sbf_save_string(y, x_name = "x", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(tempdir, "strings/x.rds")), "' doesn't exist"))
+               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "strings/x.rds")), "' doesn't exist"))
   expect_error(sbf_save_string(y, x_name = "x", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(tempdir, "strings/x.rds")), "' doesn't exist"))
+               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "strings/x.rds")), "' doesn't exist"))
   
   expect_error(sbf_save_string(y, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_string("y"), "two words")
@@ -244,8 +240,8 @@ test_that("string",{
   
   x <- "one"
   expect_identical(sbf_save_strings(env = as.environment(list(x = x, y = y))), 
-                   c(sub("//", "/", file.path(tempdir, "strings/x.rds")),
-                     sub("//", "/", file.path(tempdir, "strings/y.rds"))))
+                   c(sub("//", "/", file.path(sbf_get_main(), "strings/x.rds")),
+                     sub("//", "/", file.path(sbf_get_main(), "strings/y.rds"))))
   expect_identical(list.files(file.path(sbf_get_main(), "strings")),
                    sort(c("x.rds", "x.txt", "y.rds", "y.txt")))
   x <- 0
@@ -260,8 +256,8 @@ test_that("string",{
   expect_identical(data$strings, c("one", "two words"))
   expect_identical(data$name, c("x", "y"))
   expect_identical(data$file, 
-                   c(sub("//", "/", file.path(tempdir, "strings/x.rds")),
-                     sub("//", "/", file.path(tempdir, "strings/y.rds"))))
+                   c(sub("//", "/", file.path(sbf_get_main(), "strings/x.rds")),
+                     sub("//", "/", file.path(sbf_get_main(), "strings/y.rds"))))
   
   expect_error(sbf_load_string("x2"), "/strings/x2.rds' does not exist")
   expect_identical(sbf_reset_sub(), character(0))
@@ -269,7 +265,7 @@ test_that("string",{
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   expect_error(sbf_load_string("x"), "/strings/x.rds' does not exist")
   expect_identical(sbf_set_sub("sub"), "sub")
-  expect_identical(sbf_save_string(y), sub("//", "/", file.path(tempdir, "strings/sub/y.rds")))
+  expect_identical(sbf_save_string(y), sub("//", "/", file.path(sbf_get_main(), "strings/sub/y.rds")))
   expect_identical(sbf_load_string("y"), "two words")
   expect_error(sbf_load_string("x2"), "/strings/sub/x2.rds' does not exist")
 })
@@ -278,19 +274,18 @@ test_that("block",{
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   
-  tempdir <- tempdir()
-  sbf_set_main(tempdir)
+  sbf_set_main(tempdir())
   y <- "two words"
   expect_warning(sbf_load_blocks(), "no blocks to load")
   expect_error(sbf_save_block(), "argument \"x\" is missing, with no default")
-  expect_identical(sbf_save_block(y), sub("//", "/", file.path(tempdir, "blocks/y.rds")))
-  expect_identical(sbf_save_block(y, exists = TRUE), sub("//", "/", file.path(tempdir, "blocks/y.rds")))
+  expect_identical(sbf_save_block(y), sub("//", "/", file.path(sbf_get_main(), "blocks/y.rds")))
+  expect_identical(sbf_save_block(y, exists = TRUE), sub("//", "/", file.path(sbf_get_main(), "blocks/y.rds")))
   expect_error(sbf_save_block(y, exists = FALSE), 
-               paste0("file '", sub("//", "/", file.path(tempdir, "blocks/y.rds")), "' already exists"))
+               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "blocks/y.rds")), "' already exists"))
   expect_error(sbf_save_block(y, x_name = "x", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(tempdir, "blocks/x.rds")), "' doesn't exist"))
+               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "blocks/x.rds")), "' doesn't exist"))
   expect_error(sbf_save_block(y, x_name = "x", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(tempdir, "blocks/x.rds")), "' doesn't exist"))
+               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "blocks/x.rds")), "' doesn't exist"))
   
   expect_error(sbf_save_block(y, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_block("y"), "two words")
@@ -300,7 +295,7 @@ test_that("block",{
   expect_equal(txt, "two words")
   
   one <- "some code"
-  expect_identical(sbf_save_block(one), sub("//", "/", file.path(tempdir, "blocks/one.rds")))
+  expect_identical(sbf_save_block(one), sub("//", "/", file.path(sbf_get_main(), "blocks/one.rds")))
   one <- 0
   y <- 0
   expect_identical(sbf_load_blocks(), c("one", "y"))
@@ -313,8 +308,8 @@ test_that("block",{
   expect_identical(data$blocks, c("some code", "two words"))
   expect_identical(data$name, c("one", "y"))
   expect_identical(data$file, 
-                   c(sub("//", "/", file.path(tempdir, "blocks/one.rds")),
-                     sub("//", "/", file.path(tempdir, "blocks/y.rds"))))
+                   c(sub("//", "/", file.path(sbf_get_main(), "blocks/one.rds")),
+                     sub("//", "/", file.path(sbf_get_main(), "blocks/y.rds"))))
   
   expect_error(sbf_load_block("x2"), "/blocks/x2.rds' does not exist")
   expect_identical(sbf_reset_sub(), character(0))
@@ -322,7 +317,7 @@ test_that("block",{
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   expect_error(sbf_load_block("x"), "/blocks/x.rds' does not exist")
   expect_identical(sbf_set_sub("sub"), "sub")
-  expect_identical(sbf_save_block(y), sub("//", "/", file.path(tempdir, "blocks/sub/y.rds")))
+  expect_identical(sbf_save_block(y), sub("//", "/", file.path(sbf_get_main(), "blocks/sub/y.rds")))
   expect_identical(sbf_load_block("y"), "two words")
   expect_error(sbf_load_block("x2"), "/blocks/sub/x2.rds' does not exist")
 })
@@ -331,8 +326,7 @@ test_that("table",{
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   
-  tempdir <- tempdir()
-  sbf_set_main(tempdir)
+  sbf_set_main(tempdir())
   y <- 1
   expect_warning(sbf_load_tables(), "no tables to load")
   expect_error(sbf_save_table(), "argument \"x\" is missing, with no default")
@@ -341,14 +335,14 @@ test_that("table",{
   expect_error(sbf_save_table(data.frame(zz = I(list(t = 3))), x_name = "y"),
                "the following column in y is not numeric, character, factor, Date or POSIXct: 'zz'")
   
-  expect_identical(sbf_save_table(x), sub("//", "/", file.path(tempdir, "tables/x.rds")))
-  expect_identical(sbf_save_table(x, exists = TRUE), sub("//", "/", file.path(tempdir, "tables/x.rds")))
+  expect_identical(sbf_save_table(x), sub("//", "/", file.path(sbf_get_main(), "tables/x.rds")))
+  expect_identical(sbf_save_table(x, exists = TRUE), sub("//", "/", file.path(sbf_get_main(), "tables/x.rds")))
   expect_error(sbf_save_table(x, exists = FALSE), 
-               paste0("file '", sub("//", "/", file.path(tempdir, "tables/x.rds")), "' already exists"))
+               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "tables/x.rds")), "' already exists"))
   expect_error(sbf_save_table(x, x_name = "y", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(tempdir, "tables/y.rds")), "' doesn't exist"))
+               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "tables/y.rds")), "' doesn't exist"))
   expect_error(sbf_save_table(x, x_name = "y", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(tempdir, "tables/y.rds")), "' doesn't exist"))
+               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "tables/y.rds")), "' doesn't exist"))
   expect_error(sbf_save_table(x, x_name = "_x"), "x_name must match regular expression")
   
   expect_error(sbf_save_table(x, x_name = "_x"), "x_name must match regular expression")
@@ -361,7 +355,7 @@ test_that("table",{
   expect_identical(meta, list(caption = NULL, report = TRUE))
   
   y <- data.frame(z = 2L)
-  expect_identical(sbf_save_table(y), sub("//", "/", file.path(tempdir, "tables/y.rds")))
+  expect_identical(sbf_save_table(y), sub("//", "/", file.path(sbf_get_main(), "tables/y.rds")))
   x <- 0
   y <- 0
   expect_identical(sbf_load_tables(), c("x", "y"))
@@ -374,8 +368,8 @@ test_that("table",{
   expect_identical(data$tables[[1]], data.frame(x = 1))
   expect_identical(data$name, c("x", "y"))
   expect_identical(data$file, 
-                   c(sub("//", "/", file.path(tempdir, "tables/x.rds")),
-                     sub("//", "/", file.path(tempdir, "tables/y.rds"))))
+                   c(sub("//", "/", file.path(sbf_get_main(), "tables/x.rds")),
+                     sub("//", "/", file.path(sbf_get_main(), "tables/y.rds"))))
   
   expect_error(sbf_load_table("x2"), "/tables/x2.rds' does not exist")
   expect_identical(sbf_reset_sub(), character(0))
@@ -383,7 +377,7 @@ test_that("table",{
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   expect_error(sbf_load_table("x"), "/tables/x.rds' does not exist")
   expect_identical(sbf_set_sub("sub"), "sub")
-  expect_identical(sbf_save_table(x), sub("//", "/", file.path(tempdir, "tables/sub/x.rds")))
+  expect_identical(sbf_save_table(x), sub("//", "/", file.path(sbf_get_main(), "tables/sub/x.rds")))
   expect_identical(sbf_load_table("x"), x)
   expect_error(sbf_load_table("x2"), "/tables/sub/x2.rds' does not exist")
 })
@@ -392,12 +386,11 @@ test_that("datas_to_db",{
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   
-  tempdir <- tempdir()
-  sbf_set_main(tempdir)
+  sbf_set_main(tempdir())
   x <- data.frame(x = 1)
   y <- data.frame(z = 3)
   expect_error(sbf_save_datas_to_db("z", env = as.environment(list(x = x, y = y))),
-               paste0("file '", sub("//", "/", file.path(tempdir, "dbs/z.sqlite")), "' doesn't exist"))
+               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "dbs/z.sqlite")), "' doesn't exist"))
   
   conn <- sbf_open_db("z")
   teardown(suppressWarnings(DBI::dbDisconnect(conn)))
@@ -432,18 +425,17 @@ test_that("plot",{
   sbf_close_windows()
   teardown(sbf_close_windows())
   
-  tempdir <- tempdir()
-  sbf_set_main(tempdir)
+  sbf_set_main(tempdir())
   y <- 1
   expect_error(sbf_save_plot(y), "x must inherit from class ggplot")
   
   x <- ggplot2::ggplot()
-  expect_identical(sbf_save_plot(x), sub("//", "/", file.path(tempdir, "plots/x.rds")))
+  expect_identical(sbf_save_plot(x), sub("//", "/", file.path(sbf_get_main(), "plots/x.rds")))
   expect_equal(sbf_load_plot("x"), x)
   expect_identical(sbf_load_plot_data("x"), data.frame())
   
   y <- ggplot2::ggplot(data = data.frame(x = 1, y = 2), ggplot2::aes(x = x, y = y))
-  expect_identical(sbf_save_plot(y), sub("//", "/", file.path(tempdir, "plots/y.rds")))
+  expect_identical(sbf_save_plot(y), sub("//", "/", file.path(sbf_get_main(), "plots/y.rds")))
   
   expect_equal(sbf_load_plot("y"), y)
   expect_identical(sbf_load_plot_data("y"), data.frame(x = 1, y = 2))
@@ -457,11 +449,11 @@ test_that("plot",{
   expect_identical(y, data.frame(x = 1, y = 2))
   
   z <- ggplot2::ggplot(data = data.frame(x = 2, y = 3), ggplot2::aes(x = x, y = y))
-  expect_identical(sbf_save_plot(z), sub("//", "/", file.path(tempdir, "plots/z.rds")))
+  expect_identical(sbf_save_plot(z), sub("//", "/", file.path(sbf_get_main(), "plots/z.rds")))
   expect_equal(sbf_load_plot("z"), z)
   
   t <- ggplot2::ggplot(data = data.frame(x = c(2,3), y = c(3,2)), ggplot2::aes(x = x, y = y))
-  expect_identical(sbf_save_plot(csv = 1L), sub("//", "/", file.path(tempdir, "plots/plot.rds")))
+  expect_identical(sbf_save_plot(csv = 1L), sub("//", "/", file.path(sbf_get_main(), "plots/plot.rds")))
   expect_equal(sbf_load_plot("plot"), t)
   
   expect_identical(list.files(file.path(sbf_get_main(), "plots")),
@@ -476,10 +468,10 @@ test_that("plot",{
   expect_is(plots$plots[[2]], "ggplot")
   expect_identical(plots$name, c("plot", "x", "y", "z"))
   expect_identical(plots$file, 
-                   c(sub("//", "/", file.path(tempdir, "plots/plot.rds")),
-                     sub("//", "/", file.path(tempdir, "plots/x.rds")),
-                     sub("//", "/", file.path(tempdir, "plots/y.rds")),
-                     sub("//", "/", file.path(tempdir, "plots/z.rds"))))  
+                   c(sub("//", "/", file.path(sbf_get_main(), "plots/plot.rds")),
+                     sub("//", "/", file.path(sbf_get_main(), "plots/x.rds")),
+                     sub("//", "/", file.path(sbf_get_main(), "plots/y.rds")),
+                     sub("//", "/", file.path(sbf_get_main(), "plots/z.rds"))))  
   
   data <- sbf_load_plots_data_recursive()
   expect_is(data, "data.frame")
@@ -487,10 +479,10 @@ test_that("plot",{
   expect_identical(data$plots_data[[2]], data.frame())
   expect_identical(data$name, c("plot", "x", "y", "z"))
   expect_identical(data$file, 
-                   c(sub("//", "/", file.path(tempdir, "plots/plot.rds")),
-                     sub("//", "/", file.path(tempdir, "plots/x.rds")),
-                     sub("//", "/", file.path(tempdir, "plots/y.rds")),
-                     sub("//", "/", file.path(tempdir, "plots/z.rds"))))
+                   c(sub("//", "/", file.path(sbf_get_main(), "plots/plot.rds")),
+                     sub("//", "/", file.path(sbf_get_main(), "plots/x.rds")),
+                     sub("//", "/", file.path(sbf_get_main(), "plots/y.rds")),
+                     sub("//", "/", file.path(sbf_get_main(), "plots/z.rds"))))
   
 })
 
@@ -499,7 +491,7 @@ test_that("window",{
   teardown(sbf_close_windows())
   expect_error(sbf_save_window(), "no such device")
   
-  teardown(sbf_reset_all(rm = TRUE, ask = FALSE))
+  teardown(sbf_reset(rm = TRUE, ask = FALSE))
   skip('run locally as uses screen devices') 
   expect_identical(sbf_reset(rm = TRUE, ask = FALSE), "output")
   gp <- ggplot2::ggplot(data = data.frame(x = c(2,3), y = c(3,2)), ggplot2::aes(x = x, y = y))
