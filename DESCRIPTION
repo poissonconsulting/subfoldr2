@@ -25,7 +25,7 @@ Suggests:
     tibble,
     covr
 Remotes:
-    poissonconsulting/dttr
+    poissonconsulting/dttr,
     poissonconsulting/readwritesqlite
 Encoding: UTF-8
 LazyData: true
