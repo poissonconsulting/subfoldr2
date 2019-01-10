@@ -9,3 +9,4 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^build\.R$
+^output$

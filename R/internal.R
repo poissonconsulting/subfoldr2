@@ -67,3 +67,17 @@ get_plot_data <- function(x) {
   if(!is.data.frame(data)) return(data.frame())
   data
 }
+
+plot_size <- function(width, height) {
+  if(identical(width, NA) || identical(height, NA)) {
+    if (!length(grDevices::dev.list())) {
+      if(is.na(width)) width <- 6
+      if(is.na(height)) height <- 6
+    } else {
+      din <- graphics::par("din")
+      if(is.na(width)) width <- din[1]
+      if(is.na(height)) height <- din[2]
+    }
+  }
+  c(width = width, height = height)
+}

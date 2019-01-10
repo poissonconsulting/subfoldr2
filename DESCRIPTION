@@ -12,6 +12,7 @@ Imports:
     tools,
     utils,
     yesno,
+    graphics,
     grDevices,
     data.table,
     ggplot2,

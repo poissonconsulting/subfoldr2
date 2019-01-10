@@ -443,15 +443,15 @@ test_that("plot",{
   
   expect_equal(sbf_load_plot("y"), y)
   expect_identical(sbf_load_plot_data("y"), data.frame(x = 1, y = 2))
-
+  
   expect_identical(list.files(file.path(sbf_get_main(), "plots")),
                    sort(c("_x.rda", "_y.rda", "x.png", "x.rds",
-                        "y.csv", "y.png", "y.rds")))
+                          "y.csv", "y.png", "y.rds")))
   
   expect_identical(sbf_load_plots_data(), c("x", "y"))
   expect_identical(x, data.frame())
   expect_identical(y, data.frame(x = 1, y = 2))
-
+  
   z <- ggplot2::ggplot(data = data.frame(x = 2, y = 3), ggplot2::aes(x = x, y = y))
   expect_identical(sbf_save_plot(z), sub("//", "/", file.path(tempdir, "plots/z.rds")))
   expect_equal(sbf_load_plot("z"), z)
@@ -459,7 +459,7 @@ test_that("plot",{
   t <- ggplot2::ggplot(data = data.frame(x = c(2,3), y = c(3,2)), ggplot2::aes(x = x, y = y))
   expect_identical(sbf_save_plot(csv = 1L), sub("//", "/", file.path(tempdir, "plots/plot.rds")))
   expect_equal(sbf_load_plot("plot"), t)
-
+  
   expect_identical(list.files(file.path(sbf_get_main(), "plots")),
                    sort(c("_plot.rda", "_x.rda", "_y.rda", "_z.rda",
                           "plot.png", "plot.rds", "x.png", "x.rds",
@@ -488,4 +488,46 @@ test_that("plot",{
                      sub("//", "/", file.path(tempdir, "plots/y.rds")),
                      sub("//", "/", file.path(tempdir, "plots/z.rds"))))
   
+})
+
+test_that("window",{
+  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
+  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
+  
+  sbf_close_windows()
+  teardown(sbf_close_windows())
+  expect_error(sbf_save_window(), "no such device")
+  
+  skip('run locally as uses screen devices') 
+  gp <- ggplot2::ggplot(data = data.frame(x = c(2,3), y = c(3,2)), ggplot2::aes(x = x, y = y))
+  sbf_open_window()
+  print(gp)
+  expect_identical(sbf_save_window(), 
+                   sub("//", "/", file.path(tempdir, "windows/window.png")))
+  sbf_close_window()
+  expect_identical(list.files(file.path(sbf_get_main(), "windows")),
+                   sort(c("_window.rda", "window.png")))
+  
+  meta <- readRDS(paste0(file.path(sbf_get_main(), "windows", "_window.rda")))
+  expect_identical(meta, list(caption = NULL, report = TRUE,
+                              width = 6, height = 6, res = 300))
+  
+  gp <- ggplot2::ggplot(data = data.frame(x = c(4,5), y = c(6,7)), ggplot2::aes(x = x, y = y))
+  sbf_open_window(4,3)
+  print(gp)
+  expect_identical(sbf_save_window("t2", dpi = 72, caption = "nice one"), 
+                   sub("//", "/", file.path(tempdir, "windows/t2.png"))) 
+  
+  expect_error(sbf_save_window("t2", exists = FALSE), 
+               "/windows/t2.png' already exists")
+  
+  expect_error(sbf_save_window("t3", exists = TRUE), 
+               "/windows/t3.png' doesn't exist")
+  
+  expect_identical(list.files(file.path(sbf_get_main(), "windows")),
+                   sort(c("_t2.rda", "_window.rda", "t2.png", "window.png")))
+  
+  meta <- readRDS(paste0(file.path(sbf_get_main(), "windows", "_t2.rda")))
+  expect_identical(meta, list(caption = "nice one", report = TRUE,
+                              width = 4, height = 3, res = 72))
 })

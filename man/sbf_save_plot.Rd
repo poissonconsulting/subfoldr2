@@ -21,14 +21,11 @@ sbf_save_plot(x = ggplot2::last_plot(), x_name = substitute(x),
 
 \item{report}{A flag specifying whether to include in a report.}
 
-\item{width}{Plot size in \code{units} ("in", "cm", or "mm").
-If not supplied, uses the size of current graphics device.}
+\item{width}{A number of the plot width in inches.}
 
-\item{height}{Plot size in \code{units} ("in", "cm", or "mm").
-If not supplied, uses the size of current graphics device.}
+\item{height}{A number of the plot width in inches.}
 
-\item{dpi}{Plot resolution. Also accepts a string input: "retina" (320),
-"print" (300), or "screen" (72). Applies only to raster output types.}
+\item{dpi}{A number of the resolution in dots per inch.}
 
 \item{csv}{A count specifying the maximum number of rows to save as a csv file.}
 }
