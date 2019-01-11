@@ -32,7 +32,7 @@ sbf_set_sub <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #' @return An invisible character vector of length 0.
 #' @export
 sbf_reset_sub <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
-  sbf_set_sub(rm = rm, ask = ask)
+  invisible(sbf_set_sub(rm = rm, ask = ask))
 }
 
 #' Get Main
@@ -73,7 +73,7 @@ sbf_set_main <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #' @return An invisible copy of the string \code{"output"}.
 #' @export
 sbf_reset_main <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
-  sbf_set_main("output", rm = rm, ask = ask)
+  invisible(sbf_set_main("output", rm = rm, ask = ask))
 }
 
 #' Reset Sub and Main 
@@ -84,5 +84,5 @@ sbf_reset_main <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 sbf_reset <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
   sbf_reset_main()
   sbf_reset_sub(rm = rm, ask = ask)
-  sbf_get_main()
+  invisible(sbf_get_main())
 }
