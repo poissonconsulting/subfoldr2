@@ -15,19 +15,13 @@ test_that("pdf",{
   expect_identical(dev.cur(), c("null device" = 1L))
   expect_identical(list.files(file.path(sbf_get_main(), "pdfs")),
                    sort(c("x.pdf")))
-  expect_error(sbf_open_pdf("x", exists = FALSE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "pdfs/x.pdf")), "' already exists"))
-  expect_identical(sbf_open_pdf("x", exists = TRUE), sub("//", "/", file.path(sbf_get_main(), "pdfs/x.pdf")))
+  expect_identical(sbf_open_pdf("x"), sub("//", "/", file.path(sbf_get_main(), "pdfs/x.pdf")))
   expect_identical(dev.cur(), c("pdf" = 2L))
   expect_identical(sbf_close_pdf(), c("null device" = 1L))
   expect_identical(dev.cur(), c("null device" = 1L))
   expect_identical(list.files(file.path(sbf_get_main(), "pdfs")),
                    sort(c("x.pdf")))
-  expect_error(sbf_open_pdf("x2", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "pdfs/x2.pdf")), "' doesn't exist"))
-  expect_error(sbf_open_pdf("x2", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "pdfs/x2.pdf")), "' doesn't exist"))
-  
+
   expect_identical(sbf_set_sub("sub"), "sub")
   expect_identical(dev.cur(), c("null device" = 1L))
   expect_identical(sbf_open_pdf("x2"), sub("//", "/", file.path(sbf_get_main(), "pdfs/sub/x2.pdf")))
@@ -52,6 +46,4 @@ test_that("db",{
   expect_true(sbf_close_db(conn))
   expect_is(conn, "SQLiteConnection")
   expect_warning(sbf_close_db(conn), "Already disconnected")
-  expect_error(sbf_open_db("x", exists = FALSE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "dbs/x.sqlite")), "' already exists"))
 })

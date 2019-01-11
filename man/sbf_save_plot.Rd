@@ -5,8 +5,8 @@
 \title{Save Plot}
 \usage{
 sbf_save_plot(x = ggplot2::last_plot(), x_name = substitute(x),
-  sub = sbf_get_sub(), exists = NA, caption = NULL, report = TRUE,
-  width = NA, height = width, dpi = 300, csv = 1000L)
+  sub = sbf_get_sub(), caption = NULL, report = TRUE, width = NA,
+  height = width, dpi = 300, csv = 1000L)
 }
 \arguments{
 \item{x}{The ggplot object to save.}
@@ -14,8 +14,6 @@ sbf_save_plot(x = ggplot2::last_plot(), x_name = substitute(x),
 \item{x_name}{A string of the name.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
-
-\item{exists}{A logical scalar specifying whether the saved object must already exist.}
 
 \item{caption}{A string of the caption.}
 

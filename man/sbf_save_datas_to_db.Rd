@@ -4,23 +4,28 @@
 \alias{sbf_save_datas_to_db}
 \title{Save Data Frames to Database}
 \usage{
-sbf_save_datas_to_db(x_name, sub = sbf_get_sub(), commit = TRUE,
-  strict = TRUE, silent = getOption("rws.silent", FALSE),
-  env = parent.frame())
+sbf_save_datas_to_db(x_name, sub = sbf_get_sub(), exists = TRUE,
+  commit = TRUE, strict = TRUE, env = parent.frame(),
+  ask = getOption("sbf.ask", TRUE), silent = getOption("rws.silent",
+  FALSE))
 }
 \arguments{
 \item{x_name}{A string of the name.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
 
+\item{exists}{A logical scalar specifying whether the database must already exist.}
+
 \item{commit}{A flag specifying whether to commit the operations 
 (calling with commit = FALSE can be useful for checking data).}
 
 \item{strict}{A flag specifying whether to error if x has extraneous columns or if exists = TRUE extraneous data frames.}
 
-\item{silent}{A flag specifying whether to suppress messages and warnings.}
-
 \item{env}{An environment.}
+
+\item{ask}{A flag specifying whether to ask before deleting an existing database (if exists = FALSE).}
+
+\item{silent}{A flag specifying whether to suppress messages and warnings.}
 }
 \value{
 An invisible character vector of the paths to the saved objects.

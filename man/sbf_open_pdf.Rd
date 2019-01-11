@@ -4,15 +4,12 @@
 \alias{sbf_open_pdf}
 \title{Open PDF Device}
 \usage{
-sbf_open_pdf(x_name, sub = sbf_get_sub(), exists = NA, width = 6,
-  height = width)
+sbf_open_pdf(x_name, sub = sbf_get_sub(), width = 6, height = width)
 }
 \arguments{
 \item{x_name}{A string of the name.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
-
-\item{exists}{A logical scalar specifying whether the saved object must already exist.}
 
 \item{width}{A positive number indicating the width in inches.}
 

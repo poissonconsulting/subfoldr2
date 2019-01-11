@@ -4,8 +4,7 @@
 \alias{sbf_save_number}
 \title{Save Number}
 \usage{
-sbf_save_number(x, x_name = substitute(x), sub = sbf_get_sub(),
-  exists = NA)
+sbf_save_number(x, x_name = substitute(x), sub = sbf_get_sub())
 }
 \arguments{
 \item{x}{The number to save.}
@@ -13,8 +12,6 @@ sbf_save_number(x, x_name = substitute(x), sub = sbf_get_sub(),
 \item{x_name}{A string of the name.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
-
-\item{exists}{A logical scalar specifying whether the saved object must already exist.}
 }
 \value{
 An invisible string of the path to the saved object.

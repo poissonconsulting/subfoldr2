@@ -4,16 +4,13 @@
 \alias{sbf_save_window}
 \title{Save Window}
 \usage{
-sbf_save_window(x_name = "window", sub = sbf_get_sub(), exists = NA,
-  width = NA, height = width, dpi = 300, caption = NULL,
-  report = TRUE)
+sbf_save_window(x_name = "window", sub = sbf_get_sub(), width = NA,
+  height = width, dpi = 300, caption = NULL, report = TRUE)
 }
 \arguments{
 \item{x_name}{A string of the name.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
-
-\item{exists}{A logical scalar specifying whether the saved object must already exist.}
 
 \item{width}{A number of the plot width in inches.}
 

@@ -4,14 +4,17 @@
 \alias{sbf_open_db}
 \title{Open SQLite Database Connection}
 \usage{
-sbf_open_db(x_name, sub = sbf_get_sub(), exists = NA)
+sbf_open_db(x_name, sub = sbf_get_sub(), exists = NA,
+  ask = getOption("sbf.ask", TRUE))
 }
 \arguments{
 \item{x_name}{A string of the name.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
 
-\item{exists}{A logical scalar specifying whether the saved object must already exist.}
+\item{exists}{A logical scalar specifying whether the database must already exist.}
+
+\item{ask}{A flag specifying whether to ask before deleting an existing database (if exists = FALSE).}
 }
 \description{
 Opens a \code{\linkS4class{SQLiteConnection}} to a SQLite database.

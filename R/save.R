@@ -1,4 +1,4 @@
-file_name <- function(class, sub, x_name, ext, exists = NA) {
+file_name <- function(class, sub, x_name, ext) {
   dir <- file_path(sbf_get_main(), class, sub)
   dir_create(dir)
   file <- file_path(dir, x_name)
@@ -6,16 +6,11 @@ file_name <- function(class, sub, x_name, ext, exists = NA) {
   if(!identical(ext, file_ext(x_name)))
     file <- paste0(file, ".", ext)
   
-  if(isTRUE(exists) && !file.exists(file))
-    err("file '", file, "' doesn't exist")
-  if(isFALSE(exists) && file.exists(file))
-    err("file '", file, "' already exists")
-  
   file
 }
 
-save_rds <- function(x, class, sub, x_name, exists) {
-  file <- file_name(class, sub, x_name, "rds", exists = exists)
+save_rds <- function(x, class, sub, x_name) {
+  file <- file_name(class, sub, x_name, "rds")
   saveRDS(x, file)
   invisible(file)
 }
@@ -46,18 +41,16 @@ save_meta <- function(meta, class, sub, x_name) {
 #' @param x The object to save.
 #' @param x_name A string of the name.
 #' @param sub A string specifying the path to the sub folder (by default the current sub folder).
-#' @param exists A logical scalar specifying whether the saved object must already exist.
 #' @return An invisible string of the path to the saved object.
 #' @export
-sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub(), exists = NA) {
+sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_scalar(exists, c(TRUE, NA))
-  
+
   sub <- sanitize_path(sub)
   
-  save_rds(x, "objects", sub = sub, x_name = x_name, exists = exists)
+  save_rds(x, "objects", sub = sub, x_name = x_name)
 }
 
 #' Save Data
@@ -66,17 +59,15 @@ sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub(), exis
 #' @inheritParams sbf_save_object
 #' @return An invisible string of the path to the saved data.frame
 #' @export
-sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
-                          exists = NA) {
+sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
   check_data(x)
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_scalar(exists, c(TRUE, NA))
-  
+
   sub <- sanitize_path(sub)
   
-  save_rds(x, "data", sub = sub, x_name = x_name, exists = exists)
+  save_rds(x, "data", sub = sub, x_name = x_name)
 }
 
 #' Save Number
@@ -85,18 +76,16 @@ sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @return An invisible string of the path to the saved object.
 #' @export
-sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
-                            exists = NA) {
+sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
   x_name <- chk_deparse(x_name)
   x <- check_number(x, coerce = TRUE)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_scalar(exists, c(TRUE, NA))
-  
+
   sub <- sanitize_path(sub)
   
   save_csv(x, "numbers", sub = sub, x_name = x_name)
-  save_rds(x, "numbers", sub = sub, x_name = x_name, exists = exists)
+  save_rds(x, "numbers", sub = sub, x_name = x_name)
 }
 
 #' Save String
@@ -105,18 +94,16 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @return An invisible string of the path to the saved object.
 #' @export
-sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
-                            exists = NA) {
+sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
   x_name <- chk_deparse(x_name)
   x <- check_string(x, coerce = TRUE)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_scalar(exists, c(TRUE, NA))
-  
+
   sub <- sanitize_path(sub)
   
   save_txt(x, "strings", sub = sub, x_name = x_name)
-  save_rds(x, "strings", sub = sub, x_name = x_name, exists = exists)
+  save_rds(x, "strings", sub = sub, x_name = x_name)
 }
 
 #' Save Table
@@ -128,14 +115,12 @@ sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @return An invisible string of the path to the saved object.
 #' @export
 sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(), 
-                           exists = NA,
                            caption = NULL, report = TRUE) {
   x_name <- chk_deparse(x_name)
   check_table(x, x_name = x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_scalar(exists, c(TRUE, NA))
-  
+
   checkor(check_null(caption), check_string(caption))
   check_flag(report)
   
@@ -144,7 +129,7 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   meta <- list(caption = caption, report = report)
   save_meta(meta, "tables", sub = sub, x_name = x_name)
   save_csv(x, "tables", sub = sub, x_name = x_name)
-  save_rds(x, "tables", sub = sub, x_name = x_name, exists = exists)
+  save_rds(x, "tables", sub = sub, x_name = x_name)
 }
 
 #' Save Code Block
@@ -156,15 +141,13 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @return An invisible string of the path to the saved object.
 #' @export
 sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
-                           exists = NA,
                            caption = NULL, report = TRUE, language = NULL) {
   check_string(x)
   check_nchar(x)
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_scalar(exists, c(TRUE, NA))
-  
+
   checkor(check_null(caption), check_string(caption))
   checkor(check_null(language), check_string(language))
   check_flag(report)
@@ -174,7 +157,7 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   meta <- list(caption = caption, report = report, language = language)
   save_meta(meta, "blocks", sub = sub, x_name = x_name)
   save_txt(x, "blocks", sub = sub, x_name = x_name)
-  save_rds(x, "blocks", sub = sub, x_name = x_name, exists = exists)
+  save_rds(x, "blocks", sub = sub, x_name = x_name)
 }
 
 #' Save Plot
@@ -192,7 +175,7 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @param csv A count specifying the maximum number of rows to save as a csv file.
 #' @export
 sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
-                          sub = sbf_get_sub(), exists = NA, 
+                          sub = sbf_get_sub(), 
                           caption = NULL, report = TRUE,
                           width = NA, height = width, dpi = 300,
                           csv = 1000L) {
@@ -203,8 +186,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
     x_name <- "plot"
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_scalar(exists, c(TRUE, NA))
-  
+
   checkor(check_null(caption), check_string(caption))
   check_flag(report)
   csv <- check_pos_int(csv, coerce = TRUE)
@@ -224,7 +206,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   if(is.data.frame(data) && nrow(data) <= csv)
     save_csv(data, "plots", sub = sub, x_name = x_name)
   
-  save_rds(x, "plots", sub = sub, x_name = x_name, exists = exists)
+  save_rds(x, "plots", sub = sub, x_name = x_name)
 }
 
 #' Save Window
@@ -237,18 +219,17 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
 #' 
 #' @export
 sbf_save_window <- function(x_name = "window",
-                            sub = sbf_get_sub(), exists = NA, 
+                            sub = sbf_get_sub(), 
                             width = NA, height = width, dpi = 300,
                             caption = NULL, report = TRUE) {
   
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_scalar(exists, c(TRUE, NA))
-  
+
   checkor(check_null(caption), check_string(caption))
   check_flag(report)
   
-  filename <- file_name("windows", sub, x_name, "png", exists = exists)
+  filename <- file_name("windows", sub, x_name, "png")
   
   device <- grDevices::dev.cur()
   if(identical(device, c("null device" = 1L)))
@@ -374,18 +355,23 @@ sbf_save_strings <- function(sub = sbf_get_sub(), env = parent.frame()) {
 #' 
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_save_objects
+#' @inheritParams sbf_open_db
 #' @inheritParams readwritesqlite::rws_write_sqlite
 #' @return An invisible character vector of the paths to the saved objects.
 #' @export
-sbf_save_datas_to_db <- function(x_name, sub = sbf_get_sub(),  
+sbf_save_datas_to_db <- function(x_name, sub = sbf_get_sub(),
+                                 exists = TRUE,
                                  commit = TRUE, strict = TRUE,
-                                 silent = getOption("rws.silent", FALSE),
-                                 env = parent.frame()) {
+                                 env = parent.frame(),
+                                 ask = getOption("sbf.ask", TRUE),
+                                 silent = getOption("rws.silent", FALSE)
+                                 ) {
   check_environment(env)
   
-  conn <- sbf_open_db(x_name, sub = sub, exists = TRUE)
+  conn <- sbf_open_db(x_name, sub = sub, exists = exists, ask = ask)
   on.exit(sbf_close_db(conn))
   
-  rws_write_sqlite(env, commit = commit, strict = strict, conn = conn,
+  rws_write_sqlite(env, exists = exists, 
+                   commit = commit, strict = strict, conn = conn,
                    x_name = x_name, silent = silent)
 }

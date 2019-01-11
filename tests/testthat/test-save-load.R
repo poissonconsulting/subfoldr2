@@ -11,13 +11,6 @@ test_that("object",{
   expect_error(sbf_save_object(x_name = "x"), "argument \"x\" is missing, with no default")
   expect_error(sbf_save_object(), "x_name must have at least 1 character")
   expect_identical(sbf_save_object(x), sub("//", "/", file.path(sbf_get_main(), "objects/x.rds")))
-  expect_identical(sbf_save_object(x, exists = TRUE), sub("//", "/", file.path(sbf_get_main(), "objects/x.rds")))
-  expect_error(sbf_save_object(x, exists = FALSE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "objects/x.rds")), "' already exists"))
-  expect_error(sbf_save_object(x, x_name = "y", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "objects/y.rds")), "' doesn't exist"))
-  expect_error(sbf_save_object(x, x_name = "y", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "objects/y.rds")), "' doesn't exist"))
   expect_error(sbf_save_object(x, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_object("x"), x)
   expect_error(sbf_load_object("x2"), "/objects/x2.rds' does not exist")
@@ -45,7 +38,7 @@ test_that("object",{
   expect_identical(nrow(data), 0L)
   
   data <- sbf_load_objects_recursive(include_root = FALSE, 
-                                            sub = character(0))
+                                     sub = character(0))
   expect_is(data, "data.frame")
   expect_identical(colnames(data), c("objects", "name", "file"))
   expect_identical(nrow(data), 0L)
@@ -113,13 +106,6 @@ test_that("data",{
   expect_error(sbf_save_data(y), "x must inherit from class data.frame")
   x <- data.frame(x = 1)
   expect_identical(sbf_save_data(x), sub("//", "/", file.path(sbf_get_main(), "data/x.rds")))
-  expect_identical(sbf_save_data(x, exists = TRUE), sub("//", "/", file.path(sbf_get_main(), "data/x.rds")))
-  expect_error(sbf_save_data(x, exists = FALSE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "data/x.rds")), "' already exists"))
-  expect_error(sbf_save_data(x, x_name = "y", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "data/y.rds")), "' doesn't exist"))
-  expect_error(sbf_save_data(x, x_name = "y", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "data/y.rds")), "' doesn't exist"))
   expect_error(sbf_save_data(x, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_data("x"), x)
   expect_error(sbf_load_data("x2"), "/data/x2.rds' does not exist")
@@ -166,19 +152,11 @@ test_that("number",{
   expect_error(sbf_save_number(y), "x must have 1 element")
   x <- 1L
   expect_identical(sbf_save_number(x), sub("//", "/", file.path(sbf_get_main(), "numbers/x.rds")))
-  
-  expect_identical(sbf_save_number(x, exists = TRUE), sub("//", "/", file.path(sbf_get_main(), "numbers/x.rds")))
-  expect_error(sbf_save_number(x, exists = FALSE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "numbers/x.rds")), "' already exists"))
-  expect_error(sbf_save_number(x, x_name = "y", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "numbers/y.rds")), "' doesn't exist"))
-  expect_error(sbf_save_number(x, x_name = "y", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "numbers/y.rds")), "' doesn't exist"))
-  
+
   expect_error(sbf_save_number(x, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_number("x"), 1)
   expect_identical(list.files(file.path(sbf_get_main(), "numbers")),
-                   sort(c("x.csv", "x.rds", "y.csv")))
+                   sort(c("x.csv", "x.rds")))
   csv <- read.csv(file.path(sbf_get_main(), "numbers", "x.csv"))
   expect_equal(csv, data.frame(x = 1))
   
@@ -223,18 +201,11 @@ test_that("string",{
   expect_warning(sbf_load_strings(), "no strings to load")
   expect_error(sbf_save_string(), "argument \"x\" is missing, with no default")
   expect_identical(sbf_save_string(y), sub("//", "/", file.path(sbf_get_main(), "strings/y.rds")))
-  expect_identical(sbf_save_string(y, exists = TRUE), sub("//", "/", file.path(sbf_get_main(), "strings/y.rds")))
-  expect_error(sbf_save_string(y, exists = FALSE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "strings/y.rds")), "' already exists"))
-  expect_error(sbf_save_string(y, x_name = "x", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "strings/x.rds")), "' doesn't exist"))
-  expect_error(sbf_save_string(y, x_name = "x", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "strings/x.rds")), "' doesn't exist"))
-  
+
   expect_error(sbf_save_string(y, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_string("y"), "two words")
   expect_identical(list.files(file.path(sbf_get_main(), "strings")),
-                   sort(c("x.txt", "y.rds", "y.txt")))
+                   sort(c("y.rds", "y.txt")))
   txt <- readLines(file.path(sbf_get_main(), "strings", "y.txt"), warn = FALSE)
   expect_equal(txt, "two words")
   
@@ -279,18 +250,11 @@ test_that("block",{
   expect_warning(sbf_load_blocks(), "no blocks to load")
   expect_error(sbf_save_block(), "argument \"x\" is missing, with no default")
   expect_identical(sbf_save_block(y), sub("//", "/", file.path(sbf_get_main(), "blocks/y.rds")))
-  expect_identical(sbf_save_block(y, exists = TRUE), sub("//", "/", file.path(sbf_get_main(), "blocks/y.rds")))
-  expect_error(sbf_save_block(y, exists = FALSE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "blocks/y.rds")), "' already exists"))
-  expect_error(sbf_save_block(y, x_name = "x", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "blocks/x.rds")), "' doesn't exist"))
-  expect_error(sbf_save_block(y, x_name = "x", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "blocks/x.rds")), "' doesn't exist"))
-  
+
   expect_error(sbf_save_block(y, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_block("y"), "two words")
   expect_identical(list.files(file.path(sbf_get_main(), "blocks")),
-                   sort(c("_x.rda", "_y.rda", "x.txt", "y.rds", "y.txt")))
+                   sort(c("_y.rda", "y.rds", "y.txt")))
   txt <- readLines(file.path(sbf_get_main(), "blocks", "y.txt"), warn = FALSE)
   expect_equal(txt, "two words")
   
@@ -336,19 +300,11 @@ test_that("table",{
                "the following column in y is not numeric, character, factor, Date or POSIXct: 'zz'")
   
   expect_identical(sbf_save_table(x), sub("//", "/", file.path(sbf_get_main(), "tables/x.rds")))
-  expect_identical(sbf_save_table(x, exists = TRUE), sub("//", "/", file.path(sbf_get_main(), "tables/x.rds")))
-  expect_error(sbf_save_table(x, exists = FALSE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "tables/x.rds")), "' already exists"))
-  expect_error(sbf_save_table(x, x_name = "y", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "tables/y.rds")), "' doesn't exist"))
-  expect_error(sbf_save_table(x, x_name = "y", exists = TRUE), 
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "tables/y.rds")), "' doesn't exist"))
-  expect_error(sbf_save_table(x, x_name = "_x"), "x_name must match regular expression")
-  
+
   expect_error(sbf_save_table(x, x_name = "_x"), "x_name must match regular expression")
   expect_identical(sbf_load_table("x"), x)
   expect_identical(list.files(file.path(sbf_get_main(), "tables")),
-                   sort(c("_x.rda", "_y.rda", "x.csv", "x.rds", "y.csv")))
+                   sort(c("_x.rda", "x.csv", "x.rds")))
   csv <- read.csv(file.path(sbf_get_main(), "tables", "x.csv"))
   expect_equal(csv, x)
   meta <- readRDS(paste0(file.path(sbf_get_main(), "tables", "_x.rda")))
@@ -512,12 +468,6 @@ test_that("window",{
   print(gp)
   expect_identical(sbf_save_window("t2", dpi = 72, caption = "nice one"), 
                    sub("//", "/", file.path(sbf_get_main(), "windows/t2.png"))) 
-  
-  expect_error(sbf_save_window("t2", exists = FALSE), 
-               "/windows/t2.png' already exists")
-  
-  expect_error(sbf_save_window("t3", exists = TRUE), 
-               "/windows/t3.png' doesn't exist")
   
   expect_identical(list.files(file.path(sbf_get_main(), "windows")),
                    sort(c("_t2.rda", "_window.rda", "t2.png", "window.png")))
