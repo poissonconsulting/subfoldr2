@@ -67,7 +67,7 @@ and sub folders (named sub1, sub2 etc)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">subfoldr2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9007</span>
       </span>
     </div>
 
@@ -114,7 +114,7 @@ and sub folders (named sub1, sub2 etc).</p>
     </div>
 
     <pre class="usage"><span class='fu'>sbf_load_windows_recursive</span>(<span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>".*"</span>, <span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(),
-  <span class='kw'>include_root</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>include_root</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>meta</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -130,6 +130,10 @@ and sub folders (named sub1, sub2 etc).</p>
     <tr>
       <th>include_root</th>
       <td><p>A flag indicating whether to include objects in the top sub folder.</p></td>
+    </tr>
+    <tr>
+      <th>meta</th>
+      <td><p>A flag specifying whether to include the report, caption and any other metadata as columns.</p></td>
     </tr>
     </table>
     

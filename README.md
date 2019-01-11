@@ -36,7 +36,7 @@ By default files are saved to `output` unless overridden using
 library(subfoldr2)
 sbf_set_main(tempdir(), "output")
 sbf_get_main()
-#> [1] "/var/folders/48/q6ltldjs251000_wvjrdy_vm0000gn/T/Rtmp7qENpL/output"
+#> [1] "/var/folders/48/q6ltldjs251000_wvjrdy_vm0000gn/T/RtmpH9FMcU/output"
 ```
 
 ## Saving and Loading R Objects
@@ -240,4 +240,4 @@ are always welcome.
 
 Please note that this project is released with a [Contributor Code of
 Conduct](CONDUCT.md). By participating in this project you agree to
-abide by its terms
+abide by its terms.
