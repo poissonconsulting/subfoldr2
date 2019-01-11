@@ -16,5 +16,5 @@ An invisible copy of the string \code{"output"}.
 }
 \description{
 The current sub folder setting is unaltered.
-To reset both simultaneously use \code{sbf_reset()}.
+Setting the main resets the sub.
 }

@@ -468,7 +468,7 @@ test_that("window",{
   teardown(sbf_close_windows())
   expect_error(sbf_save_window(), "no such device")
   
-  teardown(sbf_reset(rm = TRUE, ask = FALSE))
+  teardown(sbf_reset_main(rm = TRUE, ask = FALSE))
   skip('run locally as uses screen devices') 
   expect_identical(sbf_reset(rm = TRUE, ask = FALSE), "output")
   sbf_open_window()

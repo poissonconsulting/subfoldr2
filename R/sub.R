@@ -49,7 +49,7 @@ sbf_get_main <- function() {
 #' Set Main
 #'
 #' The directory is created when needed if it doesn't already exist.
-#' The current sub folder setting is unaltered.
+#' Setting the main resets the sub.
 #' 
 #' @inheritParams sbf_set_sub
 #' @return An invisible string of the path to the main folder.
@@ -57,6 +57,7 @@ sbf_get_main <- function() {
 sbf_set_main <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
   check_flag(rm)
   check_flag(ask)
+  sbf_reset_sub()
   path <- file_path(...)
   path <- sanitize_path(path, rm_leading = FALSE)
   options(sbf.main = path)
@@ -67,22 +68,11 @@ sbf_set_main <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #' Reset Main
 #' 
 #' The current sub folder setting is unaltered.
-#' To reset both simultaneously use \code{sbf_reset()}.
+#' Setting the main resets the sub.
 #'
 #' @inheritParams sbf_set_sub
 #' @return An invisible copy of the string \code{"output"}.
 #' @export
 sbf_reset_main <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
   invisible(sbf_set_main("output", rm = rm, ask = ask))
-}
-
-#' Reset Sub and Main 
-#'
-#' @inheritParams sbf_set_sub
-#' @return An invisible copy of the string \code{"output"}.
-#' @export
-sbf_reset <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
-  sbf_reset_main()
-  sbf_reset_sub(rm = rm, ask = ask)
-  invisible(sbf_get_main())
 }
