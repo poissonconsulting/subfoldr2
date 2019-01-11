@@ -5,7 +5,7 @@
 \title{Load Plots as List Column in Data Frame}
 \usage{
 sbf_load_plots_recursive(pattern = ".*", sub = sbf_get_sub(),
-  include_root = TRUE)
+  include_root = TRUE, meta = FALSE)
 }
 \arguments{
 \item{pattern}{A string of the regular expression to match.}
@@ -13,6 +13,8 @@ sbf_load_plots_recursive(pattern = ".*", sub = sbf_get_sub(),
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
 
 \item{include_root}{A flag indicating whether to include objects in the top sub folder.}
+
+\item{meta}{A flag specifying whether to include the report, caption and any other metadata as columns.}
 }
 \description{
 Recursively loads all the plots with names matching the regular expression pattern as the 

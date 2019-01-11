@@ -29,7 +29,6 @@ save_txt <- function(txt, class, sub, x_name) {
 }
 
 save_meta <- function(meta, class, sub, x_name) {
-  x_name <- paste0("_", x_name)
   file <- file_name(class, sub, x_name, "rda")
   meta <- lapply(meta, unname)
   saveRDS(meta, file)
@@ -115,13 +114,13 @@ sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub()) {
 #' @return An invisible string of the path to the saved object.
 #' @export
 sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(), 
-                           caption = NULL, report = TRUE) {
+                           caption = "", report = TRUE) {
   x_name <- chk_deparse(x_name)
   check_table(x, x_name = x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
 
-  checkor(check_null(caption), check_string(caption))
+  check_string(caption)
   check_flag(report)
   
   sub <- sanitize_path(sub)
@@ -141,15 +140,15 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @return An invisible string of the path to the saved object.
 #' @export
 sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
-                           caption = NULL, report = TRUE, language = NULL) {
+                           caption = "", report = TRUE, language = "") {
   check_string(x)
   check_nchar(x)
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
 
-  checkor(check_null(caption), check_string(caption))
-  checkor(check_null(language), check_string(language))
+  check_string(caption)
+  check_string(language)
   check_flag(report)
   
   sub <- sanitize_path(sub)
@@ -171,13 +170,15 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @inheritParams ggplot2::ggsave
 #' @param width A number of the plot width in inches.
 #' @param height A number of the plot width in inches.
+#' @param units A string of the units. Can be "in" (default) or "mm" or "cm".
 #' @param dpi A number of the resolution in dots per inch.
 #' @param csv A count specifying the maximum number of rows to save as a csv file.
 #' @export
 sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
                           sub = sbf_get_sub(), 
-                          caption = NULL, report = TRUE,
+                          caption = "", report = TRUE, units = "in",
                           width = NA, height = width, dpi = 300,
+                          limitsize = TRUE,
                           csv = 1000L) {
   
   check_inherits(x, "ggplot")
@@ -187,19 +188,22 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
 
-  checkor(check_null(caption), check_string(caption))
+  check_string(caption)
   check_flag(report)
+  check_scalar(units, c("in", "mm", "cm"))
+
+  dpi <- check_pos_dbl(dpi, coerce = TRUE)
   csv <- check_pos_int(csv, coerce = TRUE)
   
-  din <- plot_size(width, height)
-  
   filename <- file_name("plots", sub, x_name, "png")
+
+  dim <- plot_size(c(width, height), units = units)
   
-  ggplot2::ggsave(filename, plot = x, width = din["width"], height = din["height"], 
-                  dpi = dpi)
+  ggplot2::ggsave(filename, plot = x, width = dim[1], height = dim[2], 
+                  dpi = dpi, limitsize = limitsize)
   
-  meta <- list(caption = caption, report = report, width = din["width"], height = din["height"],
-               dpi = dpi)
+  meta <- list(caption = caption, report = report, width = dim[1], height = dim[2],
+              dpi = dpi)
   save_meta(meta, "plots", sub = sub, x_name = x_name)
   
   data <- x$data
@@ -220,29 +224,32 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
 #' @export
 sbf_save_window <- function(x_name = "window",
                             sub = sbf_get_sub(), 
-                            width = NA, height = width, dpi = 300,
-                            caption = NULL, report = TRUE) {
+                            caption = "", report = TRUE,
+                            width = NA, height = width, units = "in", 
+                            dpi = 300) {
   
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
 
-  checkor(check_null(caption), check_string(caption))
+  check_string(caption)
   check_flag(report)
-  
-  filename <- file_name("windows", sub, x_name, "png")
-  
+  check_scalar(units, c("in", "mm", "cm"))
+  dpi <- check_pos_dbl(dpi, coerce = TRUE)
+ 
   device <- grDevices::dev.cur()
   if(identical(device, c("null device" = 1L)))
     err("no such device")
+
+  filename <- file_name("windows", sub, x_name, "png")
   
-  din <- plot_size(width, height)
+  dim <- plot_size(c(width, height), units = units)
 
   grDevices::dev.print(device = grDevices::png, filename = filename, 
-                       width = din["width"], height = din["height"],
+                       width = dim[1], height = dim[2],
                        units = "in", res = dpi)
 
-  meta <- list(caption = caption, report = report, width = din["width"],
-               height = din["height"], res = dpi)
+  meta <- list(caption = caption, report = report, width = dim[1],
+               height = dim[2], dpi = dpi)
   save_meta(meta, "windows", sub = sub, x_name = x_name)
   invisible(filename)
 }

@@ -5,8 +5,9 @@
 \title{Save Plot}
 \usage{
 sbf_save_plot(x = ggplot2::last_plot(), x_name = substitute(x),
-  sub = sbf_get_sub(), caption = NULL, report = TRUE, width = NA,
-  height = width, dpi = 300, csv = 1000L)
+  sub = sbf_get_sub(), caption = "", report = TRUE, units = "in",
+  width = NA, height = width, dpi = 300, limitsize = TRUE,
+  csv = 1000L)
 }
 \arguments{
 \item{x}{The ggplot object to save.}
@@ -19,11 +20,17 @@ sbf_save_plot(x = ggplot2::last_plot(), x_name = substitute(x),
 
 \item{report}{A flag specifying whether to include in a report.}
 
+\item{units}{A string of the units. Can be "in" (default) or "mm" or "cm".}
+
 \item{width}{A number of the plot width in inches.}
 
 \item{height}{A number of the plot width in inches.}
 
 \item{dpi}{A number of the resolution in dots per inch.}
+
+\item{limitsize}{When \code{TRUE} (the default), \code{ggsave} will not
+save images larger than 50x50 inches, to prevent the common error of
+specifying dimensions in pixels.}
 
 \item{csv}{A count specifying the maximum number of rows to save as a csv file.}
 }

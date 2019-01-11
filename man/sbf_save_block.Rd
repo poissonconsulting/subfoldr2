@@ -5,7 +5,7 @@
 \title{Save Code Block}
 \usage{
 sbf_save_block(x, x_name = substitute(x), sub = sbf_get_sub(),
-  caption = NULL, report = TRUE, language = NULL)
+  caption = "", report = TRUE, language = "")
 }
 \arguments{
 \item{x}{A string of the code block to save.}

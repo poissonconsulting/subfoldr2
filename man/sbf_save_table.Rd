@@ -5,7 +5,7 @@
 \title{Save Table}
 \usage{
 sbf_save_table(x, x_name = substitute(x), sub = sbf_get_sub(),
-  caption = NULL, report = TRUE)
+  caption = "", report = TRUE)
 }
 \arguments{
 \item{x}{The data frame to save.}

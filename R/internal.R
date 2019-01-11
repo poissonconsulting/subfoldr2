@@ -19,10 +19,13 @@ sanitize_path <- function(path, rm_leading = TRUE) {
   path
 }
 
+replace_ext <- function(x, new_ext) {
+  sub("[.][^.]+$", p0(".", new_ext), x)
+}
+
 check_x_name <- function(x_name, nchar = TRUE) {
   check_string(x_name)
   check_nchar(x_name)
-  check_grepl(x_name, "(^[^_])")
   x_name
 }
 
@@ -55,6 +58,13 @@ subfolder_columns <- function(x) {
   data
 }
 
+meta_columns <- function(x) {
+  x <- replace_ext(x, "rda")
+  x <- lapply(x, readRDS)
+  x <- lapply(x, as.data.frame, stringsAsFactors = FALSE)
+  data.table::rbindlist(x)
+}
+
 as_conditional_tibble <- function(x) {
   if(requireNamespace("tibble", quietly = TRUE)) {
     x <- tibble::as_tibble(x)
@@ -68,16 +78,15 @@ get_plot_data <- function(x) {
   data
 }
 
-plot_size <- function(width, height) {
-  if(identical(width, NA) || identical(height, NA)) {
+plot_size <- function(dim, units) {
+  dim <- dim / switch(units, "in" = 1, "cm" = 2.54, "mm" = 25.4)
+
+  if (any(is.na(dim))) {
     if (!length(grDevices::dev.list())) {
-      if(is.na(width)) width <- 6
-      if(is.na(height)) height <- 6
-    } else {
-      din <- graphics::par("din")
-      if(is.na(width)) width <- din[1]
-      if(is.na(height)) height <- din[2]
-    }
+      new_dim <- c(6, 6)
+    } else
+      new_dim <- graphics::par("din")
+    dim[is.na(dim)] <- new_dim[is.na(dim)]
   }
-  c(width = width, height = height)
+  dim
 }

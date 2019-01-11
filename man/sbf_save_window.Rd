@@ -4,23 +4,26 @@
 \alias{sbf_save_window}
 \title{Save Window}
 \usage{
-sbf_save_window(x_name = "window", sub = sbf_get_sub(), width = NA,
-  height = width, dpi = 300, caption = NULL, report = TRUE)
+sbf_save_window(x_name = "window", sub = sbf_get_sub(), caption = "",
+  report = TRUE, width = NA, height = width, units = "in",
+  dpi = 300)
 }
 \arguments{
 \item{x_name}{A string of the name.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
 
+\item{caption}{A string of the caption.}
+
+\item{report}{A flag specifying whether to include in a report.}
+
 \item{width}{A number of the plot width in inches.}
 
 \item{height}{A number of the plot width in inches.}
 
+\item{units}{A string of the units. Can be "in" (default) or "mm" or "cm".}
+
 \item{dpi}{A number of the resolution in dots per inch.}
-
-\item{caption}{A string of the caption.}
-
-\item{report}{A flag specifying whether to include in a report.}
 }
 \description{
 Saves the current graphics device to a png file.
