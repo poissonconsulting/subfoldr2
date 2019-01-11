@@ -64,7 +64,7 @@ Foreign key constraints are enabled." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">subfoldr2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9005</span>
       </span>
     </div>
 
@@ -107,7 +107,8 @@ Foreign key constraints are enabled.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_open_db</span>(<span class='no'>x_name</span>, <span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(), <span class='kw'>exists</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
+    <pre class="usage"><span class='fu'>sbf_open_db</span>(<span class='no'>x_name</span>, <span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(), <span class='kw'>exists</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"sbf.ask"</span>, <span class='fl'>TRUE</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -122,7 +123,11 @@ Foreign key constraints are enabled.</p>
     </tr>
     <tr>
       <th>exists</th>
-      <td><p>A logical scalar specifying whether the saved object must already exist.</p></td>
+      <td><p>A logical scalar specifying whether the database must already exist.</p></td>
+    </tr>
+    <tr>
+      <th>ask</th>
+      <td><p>A flag specifying whether to ask before deleting an existing database (if exists = FALSE).</p></td>
     </tr>
     </table>
     
