@@ -84,10 +84,11 @@ sbf_load_plot_data <- function(x_name, sub = sbf_get_sub()) {
   load_rds(x_name, class = "plots", sub = sub, fun = get_plot_data)
 }
 
-load_rdss <- function(class, sub, env, fun = NULL) {
+load_rdss <- function(class, sub, env, rename, fun = NULL) {
   check_vector(sub, "", length = c(0L, 1L))
   sub <- sanitize_path(sub)
   check_environment(env)
+  check_function(rename, nargs = 1L)
   
   path <- file_path(sbf_get_main(), class, sub)
   files <- tools::list_files_with_exts(path, "rds")
@@ -101,7 +102,7 @@ load_rdss <- function(class, sub, env, fun = NULL) {
     object <- readRDS(files[i])
     if(!is.null(fun))
       object <- fun(object)
-    assign(names[i], object, envir = env)
+    assign(rename(names[i]), object, envir = env)
   }
   invisible(names)
 }
@@ -109,11 +110,14 @@ load_rdss <- function(class, sub, env, fun = NULL) {
 #' Load Objects
 #'
 #' @inheritParams sbf_save_object
+#' @param rename A single function argument which takes a character vector
+#' and returns a character vector of the same length.
+#' Used to rename objects before they are loaded into the environment.
 #' @param env The environment to  the objects into
 #' @return A invisble character vector of the objects' names.
 #' @export
-sbf_load_objects <- function(sub = sbf_get_sub(), env = parent.frame()) {
-  load_rdss("objects", sub, env)
+sbf_load_objects <- function(sub = sbf_get_sub(), rename = identity, env = parent.frame()) {
+  load_rdss("objects", sub, env, rename = rename)
 }
 
 #' Load Datas
@@ -122,8 +126,8 @@ sbf_load_objects <- function(sub = sbf_get_sub(), env = parent.frame()) {
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the data frames' names.
 #' @export
-sbf_load_datas <- function(sub = sbf_get_sub(), env = parent.frame()) {
-  load_rdss("data", sub, env)
+sbf_load_datas <- function(sub = sbf_get_sub(), rename = identity, env = parent.frame()) {
+  load_rdss("data", sub, env, rename = rename)
 }
 
 #' Load Tables
@@ -132,8 +136,8 @@ sbf_load_datas <- function(sub = sbf_get_sub(), env = parent.frame()) {
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the data frames' names.
 #' @export
-sbf_load_tables <- function(sub = sbf_get_sub(), env = parent.frame()) {
-  load_rdss("tables", sub, env)
+sbf_load_tables <- function(sub = sbf_get_sub(), rename = identity, env = parent.frame()) {
+  load_rdss("tables", sub, env, rename = rename)
 }
 
 #' Load Numbers
@@ -142,8 +146,8 @@ sbf_load_tables <- function(sub = sbf_get_sub(), env = parent.frame()) {
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the numbers' names.
 #' @export
-sbf_load_numbers <- function(sub = sbf_get_sub(), env = parent.frame()) {
-  load_rdss("numbers", sub, env)
+sbf_load_numbers <- function(sub = sbf_get_sub(), rename = identity, env = parent.frame()) {
+  load_rdss("numbers", sub, env, rename = rename)
 }
 
 #' Load Strings
@@ -152,8 +156,8 @@ sbf_load_numbers <- function(sub = sbf_get_sub(), env = parent.frame()) {
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the string' names.
 #' @export
-sbf_load_strings <- function(sub = sbf_get_sub(), env = parent.frame()) {
-  load_rdss("strings", sub, env)
+sbf_load_strings <- function(sub = sbf_get_sub(), rename = identity, env = parent.frame()) {
+  load_rdss("strings", sub, env, rename = rename)
 }
 
 #' Load Blocks
@@ -162,8 +166,8 @@ sbf_load_strings <- function(sub = sbf_get_sub(), env = parent.frame()) {
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the blocks' names.
 #' @export
-sbf_load_blocks <- function(sub = sbf_get_sub(), env = parent.frame()) {
-  load_rdss("blocks", sub, env)
+sbf_load_blocks <- function(sub = sbf_get_sub(), rename = identity, env = parent.frame()) {
+  load_rdss("blocks", sub, env, rename = rename)
 }
 
 #' Load Plots
@@ -172,8 +176,8 @@ sbf_load_blocks <- function(sub = sbf_get_sub(), env = parent.frame()) {
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the plots' names.
 #' @export
-sbf_load_plots_data <- function(sub = sbf_get_sub(), env = parent.frame()) {
-  load_rdss("plots", sub, env)
+sbf_load_plots_data <- function(sub = sbf_get_sub(), rename = identity, env = parent.frame()) {
+  load_rdss("plots", sub, env, rename = rename)
 }
 
 #' Load Plots Data
@@ -182,24 +186,25 @@ sbf_load_plots_data <- function(sub = sbf_get_sub(), env = parent.frame()) {
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the plots' names.
 #' @export
-sbf_load_plots_data <- function(sub = sbf_get_sub(), env = parent.frame()) {
-  load_rdss("plots", sub, env, fun = get_plot_data)
+sbf_load_plots_data <- function(sub = sbf_get_sub(), rename = identity, env = parent.frame()) {
+  load_rdss("plots", sub, env, rename = rename, fun = get_plot_data)
 }
 
 #' Save Data Frames to Database
 #' 
 #' @inheritParams sbf_save_object
-#' @inheritParams sbf_save_objects
+#' @inheritParams sbf_load_objects
 #' @inheritParams readwritesqlite::rws_write_sqlite
 #' @return An invisible character vector of the paths to the saved objects.
 #' @export
-sbf_load_datas_from_db <- function(x_name, sub = sbf_get_sub(), env = parent.frame()) {
+sbf_load_datas_from_db <- function(x_name, sub = sbf_get_sub(), rename = identity, env = parent.frame()) {
   check_environment(env)
   
   conn <- sbf_open_db(x_name, sub = sub, exists = TRUE)
   on.exit(sbf_close_db(conn))
   
   datas <- rws_read_sqlite(conn)
+  names(datas) <- rename(names(datas))
   mapply(assign, names(datas), datas, MoreArgs = list(envir = env))
   invisible(names(datas))
 }

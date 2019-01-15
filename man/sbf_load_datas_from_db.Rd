@@ -4,7 +4,7 @@
 \alias{sbf_load_datas_from_db}
 \title{Save Data Frames to Database}
 \usage{
-sbf_load_datas_from_db(x_name, sub = sbf_get_sub(),
+sbf_load_datas_from_db(x_name, sub = sbf_get_sub(), rename = identity,
   env = parent.frame())
 }
 \arguments{
@@ -12,7 +12,11 @@ sbf_load_datas_from_db(x_name, sub = sbf_get_sub(),
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
 
-\item{env}{An environment.}
+\item{rename}{A single function argument which takes a character vector
+and returns a character vector of the same length.
+Used to rename objects before they are loaded into the environment.}
+
+\item{env}{The environment to  the objects into}
 }
 \value{
 An invisible character vector of the paths to the saved objects.

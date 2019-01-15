@@ -4,10 +4,15 @@
 \alias{sbf_load_blocks}
 \title{Load Blocks}
 \usage{
-sbf_load_blocks(sub = sbf_get_sub(), env = parent.frame())
+sbf_load_blocks(sub = sbf_get_sub(), rename = identity,
+  env = parent.frame())
 }
 \arguments{
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+
+\item{rename}{A single function argument which takes a character vector
+and returns a character vector of the same length.
+Used to rename objects before they are loaded into the environment.}
 
 \item{env}{The environment to  the objects into}
 }

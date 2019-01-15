@@ -271,6 +271,9 @@ test_that("datas_to_db",{
   expect_identical(sbf_load_datas_from_db("z"), c("x", "y"))
   expect_identical(x, tibble::tibble(x = 1L))
   expect_identical(y, tibble::tibble(z = 3L))
+  expect_identical(sbf_load_datas_from_db("z", rename = function(x) paste0("db", x)), c("dbx", "dby"))
+  expect_identical(dbx, tibble::tibble(x = 1L))
+  expect_identical(dby, tibble::tibble(z = 3L))
 })
 
 test_that("table",{
