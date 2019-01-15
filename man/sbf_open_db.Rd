@@ -4,7 +4,7 @@
 \alias{sbf_open_db}
 \title{Open SQLite Database Connection}
 \usage{
-sbf_open_db(x_name, sub = sbf_get_sub(), exists = NA,
+sbf_open_db(x_name, sub = sbf_get_sub(), exists = TRUE,
   ask = getOption("sbf.ask", TRUE))
 }
 \arguments{

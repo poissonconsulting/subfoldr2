@@ -200,7 +200,7 @@ sbf_load_plots_data <- function(sub = sbf_get_sub(), rename = identity, env = pa
 sbf_load_datas_from_db <- function(x_name, sub = sbf_get_sub(), rename = identity, env = parent.frame()) {
   check_environment(env)
   
-  conn <- sbf_open_db(x_name, sub = sub, exists = TRUE)
+  conn <- sbf_open_db(x_name, sub = sub)
   on.exit(sbf_close_db(conn))
   
   datas <- rws_read_sqlite(conn)

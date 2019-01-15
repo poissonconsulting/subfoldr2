@@ -30,7 +30,7 @@ sbf_open_pdf <- function(x_name, sub = sbf_get_sub(), width = 6, height = width)
 #' @param exists A logical scalar specifying whether the database must already exist.
 #' @param ask A flag specifying whether to ask before deleting an existing database (if exists = FALSE).
 #' @export
-sbf_open_db <- function(x_name, sub = sbf_get_sub(), exists = NA, 
+sbf_open_db <- function(x_name, sub = sbf_get_sub(), exists = TRUE, 
                         ask = getOption("sbf.ask", TRUE)) {
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))

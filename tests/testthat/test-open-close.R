@@ -37,10 +37,10 @@ test_that("db",{
   
   sbf_set_main(tempdir())  
   expect_error(sbf_open_db(), "argument \"x_name\" is missing, with no default")
-  expect_error(sbf_open_db("x", exists = TRUE), 
+  expect_error(sbf_open_db("x"), 
                paste0("file '", sub("//", "/", file.path(sbf_get_main(), "dbs/x.sqlite")), "' doesn't exist"))
 
-  conn <- sbf_open_db("x")
+  conn <- sbf_open_db("x", exists = NA)
   teardown(suppressWarnings(DBI::dbDisconnect(conn)))
   expect_is(conn, "SQLiteConnection")
   expect_true(sbf_close_db(conn))

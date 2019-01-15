@@ -247,7 +247,7 @@ test_that("datas_to_db",{
   expect_error(sbf_save_datas_to_db("z", env = as.environment(list(x = x, y = y))),
                paste0("file '", sub("//", "/", file.path(sbf_get_main(), "dbs/z.sqlite")), "' doesn't exist"))
   
-  conn <- sbf_open_db("z")
+  conn <- sbf_open_db("z", exists = NA)
   teardown(suppressWarnings(DBI::dbDisconnect(conn)))
   expect_error(sbf_save_datas_to_db("z", env = as.environment(list(x = x, y = y))),
                "exists = TRUE but the following data frames in 'x' are unrecognised: 'y' and 'x'")
