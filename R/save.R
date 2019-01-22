@@ -283,6 +283,66 @@ sbf_save_window <- function(x_name = "window",
   invisible(filename)
 }
 
+#' Extension-less Base File Names
+#' 
+#' Just a wrapper on \code{\link{basename}()} and \code{\link[tools]{file_path_sans_ext}()}.
+#'
+#' @param x A character vector of file paths.
+#' @return A character vector of extension-less base file names.
+#' @export
+#' @examples
+#' sbf_basename_sans_ext("path/file.ext")
+sbf_basename_sans_ext <- function(x) {
+  x <- basename(x)
+  x <- tools::file_path_sans_ext(x)
+  x
+}
+
+#' Save png File
+#'
+#' Saves a png file to the windows.
+#' 
+#' @param x A string of the path to the png file to save.
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_save_table
+#' @inheritParams sbf_save_plot
+#' 
+#' @export
+sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
+                         sub = sbf_get_sub(), 
+                         main = sbf_get_main(),
+                         caption = "", report = TRUE,
+                         width = NA, units = "in") {
+  check_string(x) 
+  check_x_name(x_name)
+  check_vector(sub, "", length = c(0L, 1L))
+  check_string(main)
+  
+  check_string(caption)
+  check_flag(report)
+  check_scalar(units, c("in", "mm", "cm"))
+
+  if(!file.exists(x)) err("file '", x, "' does not exist")
+
+  if(!grepl("[.]png$", x)) err("file '", x, "' must be a .png file")
+  
+  sub <- sanitize_path(sub)
+  main <- sanitize_path(main, rm_leading = FALSE) 
+  
+  dim <- plot_size(c(width, height = NA), units = units)
+  png_dim <- png_dim(x)
+  dim[2] <- dim[1] * png_dim[2] / png_dim[1]
+  dpi <- png_dim[1] / dim[1]
+
+  filename <- file_name(main, "windows", sub, x_name, "png")
+  file.copy(x, filename, overwrite = TRUE)
+
+  meta <- list(caption = caption, report = report, width = dim[1],
+               height = dim[2], dpi = dpi)
+  save_meta(meta, "windows", sub = sub, main = main, x_name = x_name)
+  invisible(filename)
+}
+
 #' Save Objects
 #' 
 #' @inheritParams sbf_save_object

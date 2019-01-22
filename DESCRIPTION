@@ -19,7 +19,8 @@ Imports:
     ggplot2,
     DBI,
     RSQLite,
-    readwritesqlite
+    readwritesqlite,
+    png
 Suggests: 
     testthat,
     tibble,

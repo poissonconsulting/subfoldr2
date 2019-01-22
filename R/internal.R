@@ -90,3 +90,7 @@ plot_size <- function(dim, units) {
   }
   dim
 }
+
+png_dim <- function(file) {
+  rev(dim(png::readPNG(file))[1:2])
+}

@@ -473,7 +473,7 @@ test_that("window",{
   
   teardown(sbf_reset_main(rm = TRUE, ask = FALSE))
   skip('run locally as uses screen devices') 
-  expect_identical(sbf_reset(rm = TRUE, ask = FALSE), "output")
+  expect_identical(sbf_reset_main(rm = TRUE, ask = FALSE), "output")
   sbf_open_window()
   plot(x~y, data = data.frame(x = c(5,4), y = c(6,7)))
   expect_identical(sbf_save_window(height = 7L, dpi  = 300L), 
@@ -518,3 +518,25 @@ test_that("window",{
   expect_identical(data2$height, c(3, 7))
   expect_identical(data2$dpi, c(72, 300))
 })
+
+test_that("png",{
+  teardown(sbf_reset_main(rm = TRUE, ask = FALSE))
+  expect_identical(sbf_reset_main(rm = TRUE, ask = FALSE), "output")
+  
+  x <- system.file("extdata", "example.png", package = "subfoldr2", mustWork = TRUE)
+  
+  sbf_save_png(x, caption = "map")
+  
+  expect_identical(list.files(file.path(sbf_get_main(), "windows")),
+                   sort(c("example.rda", "example.png")))
+  
+  meta <- readRDS(paste0(file.path(sbf_get_main(), "windows", "example.rda")))
+  expect_identical(meta, list(caption = "map", report = TRUE,
+                              width = 6, height = 5.992, dpi = 125))
+  
+  data <- sbf_load_windows_recursive(sub = character(0))
+  expect_is(data, "data.frame")
+  expect_identical(colnames(data), c("windows", "name", "file"))
+  expect_identical(data$name, c("example"))
+})
+
