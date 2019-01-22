@@ -5,12 +5,14 @@
 \title{Load Plots Data as List Column in Data Frame}
 \usage{
 sbf_load_plots_data_recursive(pattern = ".*", sub = sbf_get_sub(),
-  include_root = TRUE, meta = FALSE)
+  main = sbf_get_main(), include_root = TRUE, meta = FALSE)
 }
 \arguments{
 \item{pattern}{A string of the regular expression to match.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+
+\item{main}{A string specifying the path to the main folder (by default the current main folder)}
 
 \item{include_root}{A flag indicating whether to include objects in the top sub folder.}
 

@@ -7,15 +7,18 @@
 #' @param width A positive number indicating the width in inches.
 #' @param height A positive number indicating the height in inches.
 #' @export
-sbf_open_pdf <- function(x_name, sub = sbf_get_sub(), width = 6, height = width) {
+sbf_open_pdf <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), 
+                         width = 6, height = width) {
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
+  check_string(main)
   width <- check_pos_dbl(width, coerce = TRUE)
   height <- check_pos_dbl(height, coerce = TRUE)
   
   sub <- sanitize_path(sub)
+  main <- sanitize_path(main, rm_leading = FALSE)
   
-  file <- file_name("pdfs", sub, x_name, ext = "pdf")
+  file <- file_name(main, "pdfs", sub, x_name, ext = "pdf")
   
   grDevices::pdf(file = file, width = width, height = height)
   invisible(file)
@@ -30,14 +33,18 @@ sbf_open_pdf <- function(x_name, sub = sbf_get_sub(), width = 6, height = width)
 #' @param exists A logical scalar specifying whether the database must already exist.
 #' @param ask A flag specifying whether to ask before deleting an existing database (if exists = FALSE).
 #' @export
-sbf_open_db <- function(x_name, sub = sbf_get_sub(), exists = TRUE, 
+sbf_open_db <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), 
+                        exists = TRUE, 
                         ask = getOption("sbf.ask", TRUE)) {
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
+  check_string(main)
   check_scalar(exists, c(TRUE, NA))
   
   sub <- sanitize_path(sub)
-  file <- file_name("dbs", sub, x_name, ext = "sqlite")
+  main <- sanitize_path(main, rm_leading = FALSE)
+  
+  file <- file_name(main, "dbs", sub, x_name, ext = "sqlite")
   
   if (isTRUE(exists) && !file.exists(file))
     err("file '", file, "' doesn't exist")

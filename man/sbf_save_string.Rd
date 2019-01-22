@@ -4,7 +4,8 @@
 \alias{sbf_save_string}
 \title{Save String}
 \usage{
-sbf_save_string(x, x_name = substitute(x), sub = sbf_get_sub())
+sbf_save_string(x, x_name = substitute(x), sub = sbf_get_sub(),
+  main = sbf_get_main())
 }
 \arguments{
 \item{x}{The string to save.}
@@ -12,6 +13,8 @@ sbf_save_string(x, x_name = substitute(x), sub = sbf_get_sub())
 \item{x_name}{A string of the name.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+
+\item{main}{A string specifying the path to the main folder (by default the current main folder)}
 }
 \value{
 An invisible string of the path to the saved object.

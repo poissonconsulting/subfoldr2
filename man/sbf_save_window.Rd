@@ -4,14 +4,16 @@
 \alias{sbf_save_window}
 \title{Save Window}
 \usage{
-sbf_save_window(x_name = "window", sub = sbf_get_sub(), caption = "",
-  report = TRUE, width = NA, height = width, units = "in",
-  dpi = 300)
+sbf_save_window(x_name = "window", sub = sbf_get_sub(),
+  main = sbf_get_main(), caption = "", report = TRUE, width = NA,
+  height = width, units = "in", dpi = 300)
 }
 \arguments{
 \item{x_name}{A string of the name.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+
+\item{main}{A string specifying the path to the main folder (by default the current main folder)}
 
 \item{caption}{A string of the caption.}
 

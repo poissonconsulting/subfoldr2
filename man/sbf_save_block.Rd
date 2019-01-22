@@ -5,7 +5,8 @@
 \title{Save Code Block}
 \usage{
 sbf_save_block(x, x_name = substitute(x), sub = sbf_get_sub(),
-  caption = "", report = TRUE, language = "")
+  main = sbf_get_main(), caption = "", report = TRUE,
+  language = "")
 }
 \arguments{
 \item{x}{A string of the code block to save.}
@@ -13,6 +14,8 @@ sbf_save_block(x, x_name = substitute(x), sub = sbf_get_sub(),
 \item{x_name}{A string of the name.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+
+\item{main}{A string specifying the path to the main folder (by default the current main folder)}
 
 \item{caption}{A string of the caption.}
 

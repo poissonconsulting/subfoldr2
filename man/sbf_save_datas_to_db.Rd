@@ -4,15 +4,17 @@
 \alias{sbf_save_datas_to_db}
 \title{Save Data Frames to Database}
 \usage{
-sbf_save_datas_to_db(x_name, sub = sbf_get_sub(), exists = TRUE,
-  commit = TRUE, strict = TRUE, env = parent.frame(),
-  ask = getOption("sbf.ask", TRUE), silent = getOption("rws.silent",
-  FALSE))
+sbf_save_datas_to_db(x_name, sub = sbf_get_sub(),
+  main = sbf_get_main(), exists = TRUE, commit = TRUE,
+  strict = TRUE, env = parent.frame(), ask = getOption("sbf.ask",
+  TRUE), silent = getOption("rws.silent", FALSE))
 }
 \arguments{
 \item{x_name}{A string of the name.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+
+\item{main}{A string specifying the path to the main folder (by default the current main folder)}
 
 \item{exists}{A logical scalar specifying whether the database must already exist.}
 

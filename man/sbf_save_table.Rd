@@ -5,7 +5,7 @@
 \title{Save Table}
 \usage{
 sbf_save_table(x, x_name = substitute(x), sub = sbf_get_sub(),
-  caption = "", report = TRUE)
+  main = sbf_get_main(), caption = "", report = TRUE)
 }
 \arguments{
 \item{x}{The data frame to save.}
@@ -13,6 +13,8 @@ sbf_save_table(x, x_name = substitute(x), sub = sbf_get_sub(),
 \item{x_name}{A string of the name.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+
+\item{main}{A string specifying the path to the main folder (by default the current main folder)}
 
 \item{caption}{A string of the caption.}
 

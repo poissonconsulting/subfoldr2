@@ -4,12 +4,15 @@
 \alias{sbf_open_pdf}
 \title{Open PDF Device}
 \usage{
-sbf_open_pdf(x_name, sub = sbf_get_sub(), width = 6, height = width)
+sbf_open_pdf(x_name, sub = sbf_get_sub(), main = sbf_get_main(),
+  width = 6, height = width)
 }
 \arguments{
 \item{x_name}{A string of the name.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+
+\item{main}{A string specifying the path to the main folder (by default the current main folder)}
 
 \item{width}{A positive number indicating the width in inches.}
 
