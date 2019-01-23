@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Open Graphics Window — sbf_open_window • subfoldr2</title>
+<title>Save png File — sbf_save_png • subfoldr2</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Open Graphics Window — sbf_open_window" />
+<meta property="og:title" content="Save png File — sbf_save_png" />
 
-<meta property="og:description" content="Opens a graphics window on any platform. By default the window is 6 x 6 inches." />
+<meta property="og:description" content="Saves a png file to the windows." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -94,29 +94,55 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Open Graphics Window</h1>
+    <h1>Save png File</h1>
     
-    <div class="hidden name"><code>sbf_open_window.Rd</code></div>
+    <div class="hidden name"><code>sbf_save_png.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Opens a graphics window on any platform. By default the window is 6 x 6 inches.</p>
+    <p>Saves a png file to the windows.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_open_window</span>(<span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='no'>width</span>)</pre>
+    <pre class="usage"><span class='fu'>sbf_save_png</span>(<span class='no'>x</span>, <span class='kw'>x_name</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_basename_sans_ext.html'>sbf_basename_sans_ext</a></span>(<span class='no'>x</span>), <span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(),
+  <span class='kw'>main</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span>(), <span class='kw'>caption</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>report</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>units</span> <span class='kw'>=</span> <span class='st'>"in"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>width</th>
-      <td><p>A positive number of the plotting area width in inches.</p></td>
+      <th>x</th>
+      <td><p>A string of the path to the png file to save.</p></td>
     </tr>
     <tr>
-      <th>height</th>
-      <td><p>A positive number of the plotting area height in inches.</p></td>
+      <th>x_name</th>
+      <td><p>A string of the name.</p></td>
+    </tr>
+    <tr>
+      <th>sub</th>
+      <td><p>A string specifying the path to the sub folder (by default the current sub folder).</p></td>
+    </tr>
+    <tr>
+      <th>main</th>
+      <td><p>A string specifying the path to the main folder (by default the current main folder)</p></td>
+    </tr>
+    <tr>
+      <th>caption</th>
+      <td><p>A string of the caption.</p></td>
+    </tr>
+    <tr>
+      <th>report</th>
+      <td><p>A flag specifying whether to include in a report.</p></td>
+    </tr>
+    <tr>
+      <th>width</th>
+      <td><p>A number of the plot width in inches.</p></td>
+    </tr>
+    <tr>
+      <th>units</th>
+      <td><p>A string of the units. Can be "in" (default) or "mm" or "cm".</p></td>
     </tr>
     </table>
     

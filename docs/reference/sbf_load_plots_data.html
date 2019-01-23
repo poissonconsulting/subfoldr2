@@ -64,7 +64,7 @@ Load Plots Data" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">subfoldr2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9013</span>
       </span>
     </div>
 
@@ -107,9 +107,11 @@ Load Plots Data" />
     
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_load_plots_data</span>(<span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(), <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())
+    <pre class="usage"><span class='fu'>sbf_load_plots_data</span>(<span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(), <span class='kw'>main</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span>(),
+  <span class='kw'>rename</span> <span class='kw'>=</span> <span class='no'>identity</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())
 
-<span class='fu'>sbf_load_plots_data</span>(<span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(), <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())</pre>
+<span class='fu'>sbf_load_plots_data</span>(<span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(), <span class='kw'>main</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span>(),
+  <span class='kw'>rename</span> <span class='kw'>=</span> <span class='no'>identity</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -117,6 +119,16 @@ Load Plots Data" />
     <tr>
       <th>sub</th>
       <td><p>A string specifying the path to the sub folder (by default the current sub folder).</p></td>
+    </tr>
+    <tr>
+      <th>main</th>
+      <td><p>A string specifying the path to the main folder (by default the current main folder)</p></td>
+    </tr>
+    <tr>
+      <th>rename</th>
+      <td><p>A single function argument which takes a character vector
+and returns a character vector of the same length.
+Used to rename objects before they are loaded into the environment.</p></td>
     </tr>
     <tr>
       <th>env</th>

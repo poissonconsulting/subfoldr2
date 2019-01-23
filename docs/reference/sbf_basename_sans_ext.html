@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Open Graphics Window — sbf_open_window • subfoldr2</title>
+<title>Extension-less Base File Names — sbf_basename_sans_ext • subfoldr2</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Open Graphics Window — sbf_open_window" />
+<meta property="og:title" content="Extension-less Base File Names — sbf_basename_sans_ext" />
 
-<meta property="og:description" content="Opens a graphics window on any platform. By default the window is 6 x 6 inches." />
+<meta property="og:description" content="Just a wrapper on basename() and file_path_sans_ext()." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -94,39 +94,45 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Open Graphics Window</h1>
+    <h1>Extension-less Base File Names</h1>
     
-    <div class="hidden name"><code>sbf_open_window.Rd</code></div>
+    <div class="hidden name"><code>sbf_basename_sans_ext.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Opens a graphics window on any platform. By default the window is 6 x 6 inches.</p>
+    <p>Just a wrapper on <code><a href='https://www.rdocumentation.org/packages/base/topics/basename'>basename</a>()</code> and <code><a href='https://www.rdocumentation.org/packages/tools/topics/fileutils'>file_path_sans_ext</a>()</code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_open_window</span>(<span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='no'>width</span>)</pre>
+    <pre class="usage"><span class='fu'>sbf_basename_sans_ext</span>(<span class='no'>x</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>width</th>
-      <td><p>A positive number of the plotting area width in inches.</p></td>
-    </tr>
-    <tr>
-      <th>height</th>
-      <td><p>A positive number of the plotting area height in inches.</p></td>
+      <th>x</th>
+      <td><p>A character vector of file paths.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>A character vector of extension-less base file names.</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>sbf_basename_sans_ext</span>(<span class='st'>"path/file.ext"</span>)</div><div class='output co'>#&gt; [1] "file"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

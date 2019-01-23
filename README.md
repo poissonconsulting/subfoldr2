@@ -19,7 +19,7 @@ MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org
   - data frames (and tables)
   - strings (and code blocks)
   - numbers
-  - ggplot objects (and windows)
+  - ggplot objects (and windows and png files)
 
 and the opening and closing of
 
@@ -35,8 +35,6 @@ By default files are saved to `output` unless overridden using
 ``` r
 library(subfoldr2)
 sbf_set_main(tempdir(), "output")
-sbf_get_main()
-#> [1] "/var/folders/48/q6ltldjs251000_wvjrdy_vm0000gn/T/RtmpdFbH8V/output"
 ```
 
 ## Saving and Loading R Objects
@@ -160,37 +158,44 @@ All types of object are saved as rds files. However to facilitate
 viewing, each number is also saved as a csv file and each string is also
 saved as a txt file.
 
-## Tables and Code Blocks
+## Tables
 
-Tables are data frames with just numeric, character, factor, Date and
-POSIXct columns. As tables are intended for reports they have to be
-saved individually with an optional caption using `sbf_save_table()`. As
-a result tables cannot be bulk saved however they can be bulked loaded.
-Each table is also saved as csv file (to facilitate viewing) and the
-metadata including the caption are saved as an rda file (to facilitate
-report production).
+Tables are data frames with just logical, numeric, character, factor,
+Date and POSIXct columns. As tables are intended for reports they have
+to be saved individually with an optional caption using
+`sbf_save_table()`. As a result tables cannot be bulk saved however they
+can be bulked loaded. Each table is also saved as csv file (to
+facilitate viewing) and the metadata including the caption are saved as
+an rda file (to facilitate report production).
+
+To save a table which is not intended for a report set the argument
+`report = FALSE`.
+
+## Code Blocks
 
 Code blocks are strings which include optional caption and language
 metadata.
 
-## Plots
+## Figures
+
+### Plots
 
 Plots are ggplot objects with caption, width and height (in inches) and
-dpi (dots per inch) metadata. Each plot is also saved as png file of the
-specified dimensions and resolution and the default dataset if present
-(and \(\leq\) 1,000 rows) is saved as a csv. By default the last ggplot
-object created, modified or plotted is saved and the dimensions are
-taken from the current graphics device.
+dpi (dots per inch) metadata. Each plot is also saved as a png file of
+the specified dimensions and resolution and the default dataset if
+present (and \(\leq\) 1,000 rows) is saved as a csv. By default the last
+ggplot object created, modified or plotted is saved and the dimensions
+are taken from the current graphics device.
 
-A graphics window can be opened using `sbf_open_window()`, where the
-`width` and `height` arguments are in inches, and closed using
-`sbf_close_window()`.
+A platform independent graphics window can be opened using
+`sbf_open_window()`, where the `width` and `height` arguments are in
+inches, and closed using `sbf_close_window()`.
 
 In addition to individually or bulk loading ggplot objects, the user can
 individually or bulk load the default datasets using for example
 `sbf_load_plots_data()`.
 
-## Windows
+### Windows
 
 In the case of base or grid graphics the contents of the current window
 can be copied to a png file (without an associated rds file) using
@@ -198,12 +203,22 @@ can be copied to a png file (without an associated rds file) using
 arguments. The window names and file paths can be loaded using
 `sbf_load_windows_recursive()`.
 
-## Portable Graphics Files
+If there are plots and windows with the same name then the duplicate
+plot is dropped from the report.
+
+### png Files
+
+An existing png file can be imported into the windows subdirectories
+using `sbf_save_png()`.
+
+## Connections
+
+## pdf Files
 
 A pdf graphics device can be opened (in the current subfolder of the
 pdfs folder) using `sbf_open_pdf()` and the current device can be closed
 using `sbf_close_pdf()`. pdf graphics devices have the advantage of
-accepting multiple plots.
+accepting multiple plots. They are not incorporated into reports.
 
 ## Databases
 
@@ -218,6 +233,11 @@ to write all the data frames in the calling environment.
 The opposite function, `sbf_load_datas_from_db()`, uses
 `rws_read_sqlite.SQLiteConnection` to save all the tables to the calling
 environment.
+
+## Report Generation
+
+Reports can be generated using the
+[subreport](https://github.com/poissonconsulting/subreport) package.
 
 ## Installation
 

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">subfoldr2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9013</span>
       </span>
     </div>
 
@@ -73,7 +73,7 @@
 <li>data frames (and tables)</li>
 <li>strings (and code blocks)</li>
 <li>numbers</li>
-<li>ggplot objects (and windows)</li>
+<li>ggplot objects (and windows and png files)</li>
 </ul>
 <p>and the opening and closing of</p>
 <ul>
@@ -86,9 +86,7 @@
 <a href="#main-folder" class="anchor"></a>Main Folder</h2>
 <p>By default files are saved to <code>output</code> unless overridden using <code><a href="reference/sbf_set_main.html">sbf_set_main()</a></code> which can take a relative or absolute path.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(subfoldr2)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="reference/sbf_set_main.html">sbf_set_main</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>(), <span class="st">"output"</span>)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="reference/sbf_get_main.html">sbf_get_main</a></span>()</a>
-<a class="sourceLine" id="cb1-4" title="4"><span class="co">#&gt; [1] "/var/folders/48/q6ltldjs251000_wvjrdy_vm0000gn/T/RtmpEycgsB/output"</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="reference/sbf_set_main.html">sbf_set_main</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>(), <span class="st">"output"</span>)</a></code></pre></div>
 </div>
 <div id="saving-and-loading-r-objects" class="section level2">
 <h2 class="hasAnchor">
@@ -182,28 +180,47 @@
 <a class="sourceLine" id="cb8-10" title="10"><span class="co">#&gt; [5] "numbers/x3.csv"  "numbers/x3.rds"  "strings/chr.rds" "strings/chr.txt"</span></a></code></pre></div>
 <p>All types of object are saved as rds files. However to facilitate viewing, each number is also saved as a csv file and each string is also saved as a txt file.</p>
 </div>
-<div id="tables-and-code-blocks" class="section level2">
+<div id="tables" class="section level2">
 <h2 class="hasAnchor">
-<a href="#tables-and-code-blocks" class="anchor"></a>Tables and Code Blocks</h2>
-<p>Tables are data frames with just numeric, character, factor, Date and POSIXct columns. As tables are intended for reports they have to be saved individually with an optional caption using <code><a href="reference/sbf_save_table.html">sbf_save_table()</a></code>. As a result tables cannot be bulk saved however they can be bulked loaded. Each table is also saved as csv file (to facilitate viewing) and the metadata including the caption are saved as an rda file (to facilitate report production).</p>
+<a href="#tables" class="anchor"></a>Tables</h2>
+<p>Tables are data frames with just logical, numeric, character, factor, Date and POSIXct columns. As tables are intended for reports they have to be saved individually with an optional caption using <code><a href="reference/sbf_save_table.html">sbf_save_table()</a></code>. As a result tables cannot be bulk saved however they can be bulked loaded. Each table is also saved as csv file (to facilitate viewing) and the metadata including the caption are saved as an rda file (to facilitate report production).</p>
+<p>To save a table which is not intended for a report set the argument <code>report = FALSE</code>.</p>
+</div>
+<div id="code-blocks" class="section level2">
+<h2 class="hasAnchor">
+<a href="#code-blocks" class="anchor"></a>Code Blocks</h2>
 <p>Code blocks are strings which include optional caption and language metadata.</p>
 </div>
-<div id="plots" class="section level2">
+<div id="figures" class="section level2">
 <h2 class="hasAnchor">
-<a href="#plots" class="anchor"></a>Plots</h2>
-<p>Plots are ggplot objects with caption, width and height (in inches) and dpi (dots per inch) metadata. Each plot is also saved as png file of the specified dimensions and resolution and the default dataset if present (and <span class="math inline">\(\leq\)</span> 1,000 rows) is saved as a csv. By default the last ggplot object created, modified or plotted is saved and the dimensions are taken from the current graphics device.</p>
-<p>A graphics window can be opened using <code><a href="reference/sbf_open_window.html">sbf_open_window()</a></code>, where the <code>width</code> and <code>height</code> arguments are in inches, and closed using <code><a href="reference/sbf_close_window.html">sbf_close_window()</a></code>.</p>
+<a href="#figures" class="anchor"></a>Figures</h2>
+<div id="plots" class="section level3">
+<h3 class="hasAnchor">
+<a href="#plots" class="anchor"></a>Plots</h3>
+<p>Plots are ggplot objects with caption, width and height (in inches) and dpi (dots per inch) metadata. Each plot is also saved as a png file of the specified dimensions and resolution and the default dataset if present (and <span class="math inline">\(\leq\)</span> 1,000 rows) is saved as a csv. By default the last ggplot object created, modified or plotted is saved and the dimensions are taken from the current graphics device.</p>
+<p>A platform independent graphics window can be opened using <code><a href="reference/sbf_open_window.html">sbf_open_window()</a></code>, where the <code>width</code> and <code>height</code> arguments are in inches, and closed using <code><a href="reference/sbf_close_window.html">sbf_close_window()</a></code>.</p>
 <p>In addition to individually or bulk loading ggplot objects, the user can individually or bulk load the default datasets using for example <code><a href="reference/sbf_load_plots_data.html">sbf_load_plots_data()</a></code>.</p>
 </div>
-<div id="windows" class="section level2">
-<h2 class="hasAnchor">
-<a href="#windows" class="anchor"></a>Windows</h2>
+<div id="windows" class="section level3">
+<h3 class="hasAnchor">
+<a href="#windows" class="anchor"></a>Windows</h3>
 <p>In the case of base or grid graphics the contents of the current window can be copied to a png file (without an associated rds file) using <code><a href="reference/sbf_save_window.html">sbf_save_window()</a></code> which takes caption, width, height and dpi arguments. The window names and file paths can be loaded using <code><a href="reference/sbf_load_windows_recursive.html">sbf_load_windows_recursive()</a></code>.</p>
+<p>If there are plots and windows with the same name then the duplicate plot is dropped from the report.</p>
 </div>
-<div id="portable-graphics-files" class="section level2">
+<div id="png-files" class="section level3">
+<h3 class="hasAnchor">
+<a href="#png-files" class="anchor"></a>png Files</h3>
+<p>An existing png file can be imported into the windows subdirectories using <code><a href="reference/sbf_save_png.html">sbf_save_png()</a></code>.</p>
+</div>
+</div>
+<div id="connections" class="section level2">
 <h2 class="hasAnchor">
-<a href="#portable-graphics-files" class="anchor"></a>Portable Graphics Files</h2>
-<p>A pdf graphics device can be opened (in the current subfolder of the pdfs folder) using <code><a href="reference/sbf_open_pdf.html">sbf_open_pdf()</a></code> and the current device can be closed using <code><a href="reference/sbf_close_pdf.html">sbf_close_pdf()</a></code>. pdf graphics devices have the advantage of accepting multiple plots.</p>
+<a href="#connections" class="anchor"></a>Connections</h2>
+</div>
+<div id="pdf-files" class="section level2">
+<h2 class="hasAnchor">
+<a href="#pdf-files" class="anchor"></a>pdf Files</h2>
+<p>A pdf graphics device can be opened (in the current subfolder of the pdfs folder) using <code><a href="reference/sbf_open_pdf.html">sbf_open_pdf()</a></code> and the current device can be closed using <code><a href="reference/sbf_close_pdf.html">sbf_close_pdf()</a></code>. pdf graphics devices have the advantage of accepting multiple plots. They are not incorporated into reports.</p>
 </div>
 <div id="databases" class="section level2">
 <h2 class="hasAnchor">
@@ -211,6 +228,11 @@
 <p>A connection to a SQLite database (in the current subfolder of the dbs folder) can be opened using <code>conn &lt;- sbf_open_db()</code> and an individual connection can be closed using <code><a href="reference/sbf_close_db.html">sbf_close_db(conn)</a></code>.</p>
 <p>Alternatively, <code><a href="reference/sbf_save_datas_to_db.html">sbf_save_datas_to_db()</a></code> automatically open and closes the connection and uses <code>readwritesqlite::rws_read_sqlite.environment</code> to write all the data frames in the calling environment.</p>
 <p>The opposite function, <code><a href="reference/sbf_load_datas_from_db.html">sbf_load_datas_from_db()</a></code>, uses <code>rws_read_sqlite.SQLiteConnection</code> to save all the tables to the calling environment.</p>
+</div>
+<div id="report-generation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#report-generation" class="anchor"></a>Report Generation</h2>
+<p>Reports can be generated using the <a href="https://github.com/poissonconsulting/subreport">subreport</a> package.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -225,7 +247,7 @@
 <a href="#contribution" class="anchor"></a>Contribution</h2>
 <p>Please report any <a href="https://github.com/poissonconsulting/subfoldr2/issues">issues</a>.</p>
 <p><a href="https://github.com/poissonconsulting/subfoldr2/pulls">Pull requests</a> are always welcome.</p>
-<p>Please note that this project is released with a <a href="CONDUCT.html">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
+<p>Please note that this project is released with a <a href="CONDUCT.html">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms</p>
 </div>
 </div>
   </div>

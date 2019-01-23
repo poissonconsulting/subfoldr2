@@ -64,7 +64,7 @@ By default it saves the last plot to be modified or created." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">subfoldr2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9013</span>
       </span>
     </div>
 
@@ -108,9 +108,9 @@ By default it saves the last plot to be modified or created.</p>
     </div>
 
     <pre class="usage"><span class='fu'>sbf_save_plot</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/last_plot.html'>last_plot</a></span>(), <span class='kw'>x_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substitute'>substitute</a></span>(<span class='no'>x</span>),
-  <span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(), <span class='kw'>caption</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>report</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>units</span> <span class='kw'>=</span> <span class='st'>"in"</span>,
-  <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='no'>width</span>, <span class='kw'>dpi</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>limitsize</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>csv</span> <span class='kw'>=</span> <span class='fl'>1000L</span>)</pre>
+  <span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(), <span class='kw'>main</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span>(), <span class='kw'>caption</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>report</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>units</span> <span class='kw'>=</span> <span class='st'>"in"</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='no'>width</span>,
+  <span class='kw'>dpi</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>limitsize</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>csv</span> <span class='kw'>=</span> <span class='fl'>1000L</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -126,6 +126,10 @@ By default it saves the last plot to be modified or created.</p>
     <tr>
       <th>sub</th>
       <td><p>A string specifying the path to the sub folder (by default the current sub folder).</p></td>
+    </tr>
+    <tr>
+      <th>main</th>
+      <td><p>A string specifying the path to the main folder (by default the current main folder)</p></td>
     </tr>
     <tr>
       <th>caption</th>
