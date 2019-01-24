@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Load Strings — sbf_load_strings • subfoldr2</title>
+<title>Add Sub Folder — sbf_add_sub • subfoldr2</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Load Strings — sbf_load_strings" />
+<meta property="og:title" content="Add Sub Folder — sbf_add_sub" />
 
-<meta property="og:description" content="Load Strings" />
+<meta property="og:description" content="Add to existing sub folder." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -94,46 +94,39 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Load Strings</h1>
+    <h1>Add Sub Folder</h1>
     
-    <div class="hidden name"><code>sbf_load_strings.Rd</code></div>
+    <div class="hidden name"><code>sbf_add_sub.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Load Strings</p>
+    <p>Add to existing sub folder.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_load_strings</span>(<span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(), <span class='kw'>main</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span>(),
-  <span class='kw'>rename</span> <span class='kw'>=</span> <span class='no'>identity</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())</pre>
+    <pre class="usage"><span class='fu'>sbf_add_sub</span>(<span class='no'>...</span>, <span class='kw'>rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"sbf.ask"</span>, <span class='fl'>TRUE</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>sub</th>
-      <td><p>A string specifying the path to the sub folder (by default the current sub folder).</p></td>
+      <th>...</th>
+      <td><p>One or more character vectors which are combined together.</p></td>
     </tr>
     <tr>
-      <th>main</th>
-      <td><p>A string specifying the path to the main folder (by default the current main folder)</p></td>
+      <th>rm</th>
+      <td><p>A flag specifying whether to remove the folder and all its contents if it already exists.</p></td>
     </tr>
     <tr>
-      <th>rename</th>
-      <td><p>A single function argument which takes a character vector
-and returns a character vector of the same length.
-Used to rename objects before they are loaded into the environment.</p></td>
-    </tr>
-    <tr>
-      <th>env</th>
-      <td><p>The environment to  the objects into</p></td>
+      <th>ask</th>
+      <td><p>A flag specifying whether to ask before removing the existing folder.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A invisble character vector of the string' names.</p>
+    <p>An invisible string specifying the new sub folder.</p>
     
 
   </div>
