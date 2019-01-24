@@ -321,9 +321,9 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
   check_string(caption)
   check_flag(report)
   check_scalar(units, c("in", "mm", "cm"))
-
+  
   if(!file.exists(x)) err("file '", x, "' does not exist")
-
+  
   if(!grepl("[.]png$", x)) err("file '", x, "' must be a .png file")
   
   sub <- sanitize_path(sub)
@@ -333,14 +333,45 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
   png_dim <- png_dim(x)
   dim[2] <- dim[1] * png_dim[2] / png_dim[1]
   dpi <- png_dim[1] / dim[1]
-
+  
   filename <- file_name(main, "windows", sub, x_name, "png")
   file.copy(x, filename, overwrite = TRUE)
-
+  
   meta <- list(caption = caption, report = report, width = dim[1],
                height = dim[2], dpi = dpi)
   save_meta(meta, "windows", sub = sub, main = main, x_name = x_name)
   invisible(filename)
+}
+
+#' Save Data Frame to Database
+#' 
+#' @inheritParams sbf_save_object
+#' @param x_name A string of the table name.
+#' @param db_name A string of the database name.
+#' @inheritParams sbf_open_db
+#' @inheritParams readwritesqlite::rws_write_sqlite
+#' @return An invisible character vector of the paths to the saved objects.
+#' @export
+sbf_save_data_to_db <- function(x, x_name = substitute(x),
+                                db_name = "database",
+                                sub = sbf_get_sub(),
+                                main = sbf_get_main(),
+                                exists = TRUE,
+                                commit = TRUE, strict = TRUE,
+                                ask = getOption("sbf.ask", TRUE),
+                                silent = getOption("rws.silent", FALSE)
+) {
+  check_data(x)
+  x_name <- chk_deparse(x_name)
+  check_x_name(x_name)
+
+  conn <- sbf_open_db(db_name, sub = sub, main = main, exists = exists, ask = ask)
+  on.exit(sbf_close_db(conn))
+  
+  rws_write_sqlite(x, x_name = x_name, exists = exists, 
+                   commit = commit, strict = strict, conn = conn,
+                   silent = silent)
+  invisible(file_name(main, "dbs", sub, db_name, ext = "sqlite"))
 }
 
 #' Save Objects
@@ -456,10 +487,11 @@ sbf_save_strings <- function(sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_save_objects
 #' @inheritParams sbf_open_db
+#' @param db_name A string of the database name.
 #' @inheritParams readwritesqlite::rws_write_sqlite
 #' @return An invisible character vector of the paths to the saved objects.
 #' @export
-sbf_save_datas_to_db <- function(x_name, sub = sbf_get_sub(),
+sbf_save_datas_to_db <- function(db_name = "database", sub = sbf_get_sub(),
                                  main = sbf_get_main(),
                                  exists = TRUE,
                                  commit = TRUE, strict = TRUE,
@@ -469,10 +501,10 @@ sbf_save_datas_to_db <- function(x_name, sub = sbf_get_sub(),
 ) {
   check_environment(env)
   
-  conn <- sbf_open_db(x_name, sub = sub, main = main, exists = exists, ask = ask)
+  conn <- sbf_open_db(db_name, sub = sub, main = main, exists = exists, ask = ask)
   on.exit(sbf_close_db(conn))
   
   rws_write_sqlite(env, exists = exists, 
                    commit = commit, strict = strict, conn = conn,
-                   x_name = x_name, silent = silent)
+                   silent = silent)
 }

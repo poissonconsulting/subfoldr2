@@ -244,12 +244,12 @@ test_that("datas_to_db",{
   sbf_set_main(tempdir())
   x <- data.frame(x = 1)
   y <- data.frame(z = 3)
-  expect_error(sbf_save_datas_to_db("z", env = as.environment(list(x = x, y = y))),
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "dbs/z.sqlite")), "' doesn't exist"))
+  expect_error(sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
+               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "dbs/database.sqlite")), "' doesn't exist"))
   
-  conn <- sbf_open_db("z", exists = NA)
+  conn <- sbf_open_db(exists = NA)
   teardown(suppressWarnings(DBI::dbDisconnect(conn)))
-  expect_error(sbf_save_datas_to_db("z", env = as.environment(list(x = x, y = y))),
+  expect_error(sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
                "exists = TRUE but the following data frames in 'x' are unrecognised: 'y' and 'x'")
   
   DBI::dbGetQuery(conn, "CREATE TABLE x (
@@ -258,22 +258,30 @@ test_that("datas_to_db",{
   DBI::dbGetQuery(conn, "CREATE TABLE y (
                   z INTEGER PRIMARY KEY NOT NULL)")
   
-  expect_identical(sbf_save_datas_to_db("z", env = as.environment(list(x = x, y = y))),
+  expect_identical(sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
                    c("y", "x"))
   
-  expect_error(sbf_save_datas_to_db("z", env = as.environment(list(x = x, y = y))),
+  expect_error(sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
                "UNIQUE constraint failed: y.z")
   
   expect_true(sbf_close_db(conn))
   x <- 0
   y <- 0
   
-  expect_identical(sbf_load_datas_from_db("z"), c("x", "y"))
+  expect_error(sbf_load_datas_from_db("z"), "file .*/dbs/z.sqlite' doesn't exist")
+  expect_identical(sbf_load_datas_from_db(), c("x", "y"))
   expect_identical(x, tibble::tibble(x = 1L))
   expect_identical(y, tibble::tibble(z = 3L))
-  expect_identical(sbf_load_datas_from_db("z", rename = function(x) paste0("db", x)), c("dbx", "dby"))
+  expect_identical(sbf_load_datas_from_db(rename = function(x) paste0("db", x)), c("dbx", "dby"))
   expect_identical(dbx, tibble::tibble(x = 1L))
   expect_identical(dby, tibble::tibble(z = 3L))
+  
+  expect_error(sbf_save_data_to_db(x, db_name = "database"),
+               "UNIQUE constraint failed: x.x")
+  x$x <- 4
+  file <- sbf_save_data_to_db(x, db_name = "database")
+  expect_match(file, ".+/dbs/database.sqlite")
+  expect_identical(sbf_load_data_from_db("x"), tibble::tibble(x = c(1L, 4L)))
 })
 
 test_that("table",{

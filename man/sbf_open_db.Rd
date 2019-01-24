@@ -4,11 +4,12 @@
 \alias{sbf_open_db}
 \title{Open SQLite Database Connection}
 \usage{
-sbf_open_db(x_name, sub = sbf_get_sub(), main = sbf_get_main(),
-  exists = TRUE, ask = getOption("sbf.ask", TRUE))
+sbf_open_db(db_name = "database", sub = sbf_get_sub(),
+  main = sbf_get_main(), exists = TRUE, ask = getOption("sbf.ask",
+  TRUE))
 }
 \arguments{
-\item{x_name}{A string of the name.}
+\item{db_name}{A string of the database name.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
 

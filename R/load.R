@@ -87,16 +87,35 @@ sbf_load_plot_data <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(
   load_rds(x_name, class = "plots", sub = sub, main = main, fun = get_plot_data)
 }
 
+#' Load Data Frame from Database
+#' 
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_save_data_to_db
+#' @inheritParams sbf_load_objects
+#' @inheritParams readwritesqlite::rws_read_sqlite
+#' @return A data.frame of the table.
+#' @export
+sbf_load_data_from_db <- function(x_name, db_name = "database", 
+                                  sub = sbf_get_sub(), main = sbf_get_main()) {
+  check_string(x_name)
+  check_string(db_name)
+  
+  conn <- sbf_open_db(db_name, sub = sub, main = main)
+  on.exit(sbf_close_db(conn))
+  
+  rws_read_sqlite_table(x_name, conn = conn)
+}
+
 load_rdss <- function(class, sub, main, env, rename, fun = NULL) {
   check_vector(sub, "", length = c(0L, 1L))
   check_string(main)
-
+  
   check_environment(env)
   check_function(rename, nargs = 1L)
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
-
+  
   path <- file_path(main, class, sub)
   files <- tools::list_files_with_exts(path, "rds")
   
@@ -210,15 +229,17 @@ sbf_load_plots_data <- function(sub = sbf_get_sub(), main = sbf_get_main(),
 #' 
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
+#' @param db_name A string of the database name.
 #' @inheritParams readwritesqlite::rws_write_sqlite
 #' @return An invisible character vector of the paths to the saved objects.
 #' @export
-sbf_load_datas_from_db <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(),
+sbf_load_datas_from_db <- function(db_name = "database", sub = sbf_get_sub(), 
+                                   main = sbf_get_main(),
                                    rename = identity, env = parent.frame()) {
   check_environment(env)
   check_function(rename, nargs = 1L)
   
-  conn <- sbf_open_db(x_name, sub = sub, main = main)
+  conn <- sbf_open_db(db_name, sub = sub, main = main)
   on.exit(sbf_close_db(conn))
   
   datas <- rws_read_sqlite(conn)
@@ -237,17 +258,17 @@ load_rdss_recursive <- function(pattern, class, sub, main, include_root, meta = 
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
-
+  
   dir <- file_path(main, class, sub)
   
   ext <- p0("[.]", ext, "$")
-
+  
   files <- list.files(dir, pattern = ext, recursive = TRUE)
   names(files) <- file.path(dir, files)
   files <- sub(ext, "", files)
   files <- files[grepl(pattern, files)]
   if(!include_root) files <- files[grepl("/", files)]
-
+  
   if (!length(files)) {
     data <- data.frame(x = I(list()))
     names(data) <- class
@@ -255,14 +276,14 @@ load_rdss_recursive <- function(pattern, class, sub, main, include_root, meta = 
     data$file <- character(0)
     return(data)
   }
-   
+  
   objects <- lapply(names(files), readRDS)
   if(!is.null(fun))
     objects <- lapply(objects, fun)
   
   data <- data.frame(x = I(objects))
   names(data) <- class
-
+  
   data <- cbind(data, subfolder_columns(files))
   
   if(meta)
@@ -316,7 +337,7 @@ sbf_load_datas_recursive <- function(pattern = ".*", sub = sbf_get_sub(),
 sbf_load_numbers_recursive <- function(pattern = ".*", sub = sbf_get_sub(), 
                                        main = sbf_get_main(), include_root = TRUE) {
   data <- load_rdss_recursive(pattern, "numbers", sub = sub, main = main, 
-                      include_root = include_root)
+                              include_root = include_root)
   data[1] <- unlist(data[1])
   data
 }
@@ -334,7 +355,7 @@ sbf_load_numbers_recursive <- function(pattern = ".*", sub = sbf_get_sub(),
 sbf_load_strings_recursive <- function(pattern = ".*", sub = sbf_get_sub(), 
                                        main = sbf_get_main(), include_root = TRUE) {
   data <- load_rdss_recursive(pattern, "strings", sub = sub, main = main, 
-                      include_root = include_root)
+                              include_root = include_root)
   data[1] <- unlist(data[1])
   data
 }
@@ -372,7 +393,7 @@ sbf_load_blocks_recursive <- function(pattern = ".*", sub = sbf_get_sub(),
                                       main = sbf_get_main(),
                                       include_root = TRUE, meta = FALSE) {
   data <- load_rdss_recursive(pattern, "blocks", sub = sub, main = main, 
-                      include_root = include_root, meta = meta)
+                              include_root = include_root, meta = meta)
   data[1] <- unlist(data[1])
   data
 }
@@ -410,7 +431,7 @@ sbf_load_plots_data_recursive <- function(pattern = ".*", sub = sbf_get_sub(),
                                           main = sbf_get_main(),
                                           include_root = TRUE, meta = FALSE) {
   data <- load_rdss_recursive(pattern, "plots", sub = sub, main = main, 
-                      include_root = include_root, meta = meta, fun = get_plot_data)
+                              include_root = include_root, meta = meta, fun = get_plot_data)
   names(data)[1] <- "plots_data"
   data
 }
@@ -431,7 +452,7 @@ sbf_load_windows_recursive <- function(pattern = ".*", sub = sbf_get_sub(),
                                        main = sbf_get_main(),
                                        include_root = TRUE, meta = FALSE) {
   data <- load_rdss_recursive(pattern, "windows",sub = sub, main = main, 
-                      include_root = include_root, meta = meta, ext = "rda")
+                              include_root = include_root, meta = meta, ext = "rda")
   data$file <- replace_ext(data$file, "png")
   data$windows <- data$file
   data

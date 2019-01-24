@@ -8,7 +8,6 @@ test_that("pdf",{
   
   sbf_set_main(tempdir())
   expect_identical(dev.cur(), c("null device" = 1L))
-  expect_error(sbf_open_pdf(), "argument \"x_name\" is missing, with no default")
   expect_identical(sbf_open_pdf("x"), sub("//", "/", file.path(sbf_get_main(), "pdfs/x.pdf")))
   expect_identical(dev.cur(), c("pdf" = 2L))
   expect_identical(sbf_close_pdf(), c("null device" = 1L))
@@ -36,7 +35,6 @@ test_that("db",{
   teardown(graphics.off())
   
   sbf_set_main(tempdir())  
-  expect_error(sbf_open_db(), "argument \"x_name\" is missing, with no default")
   expect_error(sbf_open_db("x"), 
                paste0("file '", sub("//", "/", file.path(sbf_get_main(), "dbs/x.sqlite")), "' doesn't exist"))
 
