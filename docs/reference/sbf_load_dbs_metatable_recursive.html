@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get Sub Folder — sbf_get_sub • subfoldr2</title>
+<title>Load Meta Table from Databases as List Column in Data Frame — sbf_load_dbs_metatable_recursive • subfoldr2</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,13 @@
 
 
 
-<meta property="og:title" content="Get Sub Folder — sbf_get_sub" />
+<meta property="og:title" content="Load Meta Table from Databases as List Column in Data Frame — sbf_load_dbs_metatable_recursive" />
 
-<meta property="og:description" content="Get Sub Folder" />
+<meta property="og:description" content="Recursively loads all the meta tables from the databases 
+with names matching the regular expression pattern as the 
+the first (list) column (named metatables) in a data frame.
+Subsequent character vector columns specify the object names (named name) 
+and sub folders (named sub1, sub2 etc)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -94,35 +98,56 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get Sub Folder</h1>
+    <h1>Load Meta Table from Databases as List Column in Data Frame</h1>
     
-    <div class="hidden name"><code>sbf_get_sub.Rd</code></div>
+    <div class="hidden name"><code>sbf_load_dbs_metatable_recursive.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Get Sub Folder</p>
+    <p>Recursively loads all the meta tables from the databases 
+with names matching the regular expression pattern as the 
+the first (list) column (named metatables) in a data frame.
+Subsequent character vector columns specify the object names (named name) 
+and sub folders (named sub1, sub2 etc).</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_get_sub</span>()</pre>
-        
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A string specifying the current sub folder.</p>
+    <pre class="usage"><span class='fu'>sbf_load_dbs_metatable_recursive</span>(<span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>".*"</span>, <span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(),
+  <span class='kw'>main</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span>(), <span class='kw'>include_root</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>meta</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>pattern</th>
+      <td><p>A string of the regular expression to match.</p></td>
+    </tr>
+    <tr>
+      <th>sub</th>
+      <td><p>A string specifying the path to the sub folder (by default the current sub folder).</p></td>
+    </tr>
+    <tr>
+      <th>main</th>
+      <td><p>A string specifying the path to the main folder (by default the current main folder)</p></td>
+    </tr>
+    <tr>
+      <th>include_root</th>
+      <td><p>A flag indicating whether to include objects in the top sub folder.</p></td>
+    </tr>
+    <tr>
+      <th>meta</th>
+      <td><p>A flag specifying whether to include the report, caption and any other metadata as columns.</p></td>
+    </tr>
+    </table>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>sbf_get_sub</span>()</div><div class='output co'>#&gt; character(0)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      <li><a href="#arguments">Arguments</a></li>
+                </ul>
 
   </div>
 </div>
