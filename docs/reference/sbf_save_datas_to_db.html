@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Save Data Frames to Database — sbf_save_datas_to_db • subfoldr2</title>
+<title>Save Data Frames to Existing Database — sbf_save_datas_to_db • subfoldr2</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Save Data Frames to Database — sbf_save_datas_to_db" />
+<meta property="og:title" content="Save Data Frames to Existing Database — sbf_save_datas_to_db" />
 
-<meta property="og:description" content="Save Data Frames to Database" />
+<meta property="og:description" content="Save Data Frames to Existing Database" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">subfoldr2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9017</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9018</span>
       </span>
     </div>
 
@@ -94,21 +94,20 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Save Data Frames to Database</h1>
+    <h1>Save Data Frames to Existing Database</h1>
     
     <div class="hidden name"><code>sbf_save_datas_to_db.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Save Data Frames to Database</p>
+    <p>Save Data Frames to Existing Database</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>sbf_save_datas_to_db</span>(<span class='kw'>db_name</span> <span class='kw'>=</span> <span class='st'>"database"</span>, <span class='kw'>sub</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(),
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span>(), <span class='kw'>exists</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>commit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>strict</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>(), <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"sbf.ask"</span>,
-  <span class='fl'>TRUE</span>), <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"rws.silent"</span>, <span class='fl'>FALSE</span>))</pre>
+  <span class='kw'>main</span> <span class='kw'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span>(), <span class='kw'>commit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>strict</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>(), <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"rws.silent"</span>, <span class='fl'>FALSE</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -126,10 +125,6 @@
       <td><p>A string specifying the path to the main folder (by default the current main folder)</p></td>
     </tr>
     <tr>
-      <th>exists</th>
-      <td><p>A logical scalar specifying whether the database must already exist.</p></td>
-    </tr>
-    <tr>
       <th>commit</th>
       <td><p>A flag specifying whether to commit the operations 
 (calling with commit = FALSE can be useful for checking data).</p></td>
@@ -141,10 +136,6 @@
     <tr>
       <th>env</th>
       <td><p>An environment.</p></td>
-    </tr>
-    <tr>
-      <th>ask</th>
-      <td><p>A flag specifying whether to ask before deleting an existing database (if exists = FALSE).</p></td>
     </tr>
     <tr>
       <th>silent</th>
