@@ -24,7 +24,7 @@ save_csv <- function(x, class, sub, main, x_name) {
 
 save_txt <- function(txt, class, sub, main, x_name) {
   file <- file_name(main, class, sub, x_name, "txt")
-  cat(txt, file = file)
+  writeLines(txt, file)
   invisible(file)
 }
 
