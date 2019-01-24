@@ -2,12 +2,11 @@
 % Please edit documentation in R/save.R
 \name{sbf_save_datas_to_db}
 \alias{sbf_save_datas_to_db}
-\title{Save Data Frames to Database}
+\title{Save Data Frames to Existing Database}
 \usage{
 sbf_save_datas_to_db(db_name = "database", sub = sbf_get_sub(),
-  main = sbf_get_main(), exists = TRUE, commit = TRUE,
-  strict = TRUE, env = parent.frame(), ask = getOption("sbf.ask",
-  TRUE), silent = getOption("rws.silent", FALSE))
+  main = sbf_get_main(), commit = TRUE, strict = TRUE,
+  env = parent.frame(), silent = getOption("rws.silent", FALSE))
 }
 \arguments{
 \item{db_name}{A string of the database name.}
@@ -16,8 +15,6 @@ sbf_save_datas_to_db(db_name = "database", sub = sbf_get_sub(),
 
 \item{main}{A string specifying the path to the main folder (by default the current main folder)}
 
-\item{exists}{A logical scalar specifying whether the database must already exist.}
-
 \item{commit}{A flag specifying whether to commit the operations 
 (calling with commit = FALSE can be useful for checking data).}
 
@@ -25,13 +22,11 @@ sbf_save_datas_to_db(db_name = "database", sub = sbf_get_sub(),
 
 \item{env}{An environment.}
 
-\item{ask}{A flag specifying whether to ask before deleting an existing database (if exists = FALSE).}
-
 \item{silent}{A flag specifying whether to suppress messages and warnings.}
 }
 \value{
 An invisible character vector of the paths to the saved objects.
 }
 \description{
-Save Data Frames to Database
+Save Data Frames to Existing Database
 }

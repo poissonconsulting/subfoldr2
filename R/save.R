@@ -349,7 +349,7 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
   invisible(filename)
 }
 
-#' Save Data Frame to Database
+#' Save Data Frame to Existing Database
 #' 
 #' @inheritParams sbf_save_object
 #' @param x_name A string of the table name.
@@ -362,19 +362,17 @@ sbf_save_data_to_db <- function(x, x_name = substitute(x),
                                 db_name = "database",
                                 sub = sbf_get_sub(),
                                 main = sbf_get_main(),
-                                exists = TRUE,
                                 commit = TRUE, strict = TRUE,
-                                ask = getOption("sbf.ask", TRUE),
                                 silent = getOption("rws.silent", FALSE)
 ) {
   check_data(x)
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
 
-  conn <- sbf_open_db(db_name, sub = sub, main = main, exists = exists, ask = ask)
+  conn <- sbf_open_db(db_name, sub = sub, main = main, exists = TRUE)
   on.exit(sbf_close_db(conn))
   
-  rws_write_sqlite(x, x_name = x_name, exists = exists, 
+  rws_write_sqlite(x, x_name = x_name, exists = TRUE, 
                    commit = commit, strict = strict, conn = conn,
                    silent = silent)
   invisible(file_name(main, "dbs", sub, db_name, ext = "sqlite"))
@@ -488,7 +486,7 @@ sbf_save_strings <- function(sub = sbf_get_sub(),
   invisible(names)
 }
 
-#' Save Data Frames to Database
+#' Save Data Frames to Existing Database
 #' 
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_save_objects
@@ -499,18 +497,16 @@ sbf_save_strings <- function(sub = sbf_get_sub(),
 #' @export
 sbf_save_datas_to_db <- function(db_name = "database", sub = sbf_get_sub(),
                                  main = sbf_get_main(),
-                                 exists = TRUE,
                                  commit = TRUE, strict = TRUE,
                                  env = parent.frame(),
-                                 ask = getOption("sbf.ask", TRUE),
                                  silent = getOption("rws.silent", FALSE)
 ) {
   check_environment(env)
   
-  conn <- sbf_open_db(db_name, sub = sub, main = main, exists = exists, ask = ask)
+  conn <- sbf_open_db(db_name, sub = sub, main = main, exists = TRUE)
   on.exit(sbf_close_db(conn))
   
-  rws_write_sqlite(env, exists = exists, 
+  rws_write_sqlite(env, exists = TRUE, 
                    commit = commit, strict = strict, conn = conn,
                    silent = silent)
 }
