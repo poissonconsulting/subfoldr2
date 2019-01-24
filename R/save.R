@@ -38,7 +38,7 @@ save_meta <- function(meta, class, sub, main, x_name) {
 read_meta <- function(class, sub, main, x_name) {
   file <- file_name(main, class, sub, x_name, "rda")
   if(!file.exists(file)) return(list())
-  readRDS(meta, file)
+  readRDS(file)
 }
 
 #' Save Object

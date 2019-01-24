@@ -84,7 +84,7 @@ get_plot_data <- function(x) {
 
 plot_size <- function(dim, units) {
   dim <- dim / switch(units, "in" = 1, "cm" = 2.54, "mm" = 25.4)
-
+  
   if (any(is.na(dim))) {
     if (!length(grDevices::dev.list())) {
       new_dim <- c(6, 6)
@@ -97,4 +97,34 @@ plot_size <- function(dim, units) {
 
 png_dim <- function(file) {
   rev(dim(png::readPNG(file))[1:2])
+}
+
+update_db_meta <- function(db_name, sub, main, caption, report) {
+  meta <- read_meta("dbs", sub = sub, main = main, x_name = db_name)
+  
+  if(!"caption" %in% names(meta)) meta$caption <- ""
+  if(!"report" %in% names(meta)) meta$report <- TRUE
+  
+  if(!is.null(caption)) meta$caption <- caption
+  if(!is.na(report)) meta$report <- report
+
+  save_meta(meta, "dbs", sub = sub, main = main, x_name = db_name)
+}
+
+connect_db <- function(file) {
+  conn <- DBI::dbConnect(RSQLite::SQLite(), file)
+  DBI::dbGetQuery(conn, "PRAGMA foreign_keys = ON;")
+  conn
+}
+
+db_metatable_from_connection <- function(conn) {
+  data <- rws_read_sqlite_meta(conn = conn)
+  colnames(data) <- sub("Meta$", "", colnames(data))
+  data
+}
+
+db_metatable_from_file <- function(file) {
+  conn <- connect_db(file)
+  on.exit(sbf_close_db(conn))
+  db_metatable_from_connection(conn) 
 }

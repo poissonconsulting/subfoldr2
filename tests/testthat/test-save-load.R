@@ -249,12 +249,12 @@ test_that("datas_to_db",{
   
   conn <- sbf_open_db(exists = NA, caption = "really!")
   teardown(suppressWarnings(DBI::dbDisconnect(conn)))
-    expect_identical(list.files(file.path(sbf_get_main(), "dbs")),
+  expect_identical(list.files(file.path(sbf_get_main(), "dbs")),
                    sort(c("database.rda", "database.sqlite")))
-    
+  
   meta <- readRDS(paste0(file.path(sbf_get_main(), "dbs", "database.rda")))
-  expect_identical(meta, list(caption = "really!"))
-
+  expect_identical(meta, list(caption = "really!", report = TRUE))
+  
   expect_error(sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
                "exists = TRUE but the following data frames in 'x' are unrecognised: 'y' and 'x'")
   
@@ -294,6 +294,18 @@ test_that("datas_to_db",{
                                   Column = c("X", "Z"),
                                   Meta = c(NA_character_, NA_character_),
                                   Description = c(NA_character_, NA_character_)))
+  
+  data <- sbf_load_dbs_metatable_recursive(meta = TRUE)
+  
+  expect_identical(colnames(data), c("metatable", "name", "file", "caption", "report"))
+  expect_identical(data$metatable[[1]],  tibble::tibble(
+    Table = c("X", "Y"),
+    Column = c("X", "Z"),
+    Meta = c(NA_character_, NA_character_),
+    Description = c(NA_character_, NA_character_)))
+  expect_identical(data$name, "database")
+  expect_identical(data$caption, "really!")
+  expect_identical(data$report, TRUE)
 })
 
 test_that("table",{
@@ -530,7 +542,7 @@ test_that("window",{
   data2 <- sbf_load_windows_recursive(sub = character(0), meta = TRUE)
   
   expect_identical(colnames(data2), c("windows", "name", "file", "caption",
-                                     "report", "width", "height", "dpi"))
+                                      "report", "width", "height", "dpi"))
   expect_identical(data2[c("windows", "name", "file")], data)
   expect_identical(data2$caption, c("nice one", ""))
   expect_identical(data2$report, c(FALSE, TRUE))

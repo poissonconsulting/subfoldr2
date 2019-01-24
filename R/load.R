@@ -87,22 +87,6 @@ sbf_load_plot_data <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(
   load_rds(x_name, class = "plots", sub = sub, main = main, fun = get_plot_data)
 }
 
-#' Load Data Frame of Meta Table from Database
-#' 
-#' @inheritParams sbf_save_object
-#' @inheritParams sbf_save_data_to_db
-#' @return A data.frame of the table.
-#' @export
-sbf_load_db_metatable <- function(db_name = "database", 
-                                  sub = sbf_get_sub(), main = sbf_get_main()) {
-  conn <- sbf_open_db(db_name, sub = sub, main = main)
-  on.exit(sbf_close_db(conn))
-  
-  data <- rws_read_sqlite_meta(conn = conn)
-  colnames(data) <- sub("Meta$", "", colnames(data))
-  data
-}
-
 #' Load Data Frame from Database
 #' 
 #' @inheritParams sbf_save_object
@@ -120,6 +104,20 @@ sbf_load_data_from_db <- function(x_name, db_name = "database",
   on.exit(sbf_close_db(conn))
   
   rws_read_sqlite_table(x_name, conn = conn)
+}
+
+#' Load Data Frame of Meta Table from Database
+#' 
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_save_data_to_db
+#' @return A data.frame of the table.
+#' @export
+sbf_load_db_metatable <- function(db_name = "database", 
+                                  sub = sbf_get_sub(), main = sbf_get_main()) {
+  conn <- sbf_open_db(db_name, sub = sub, main = main)
+  on.exit(sbf_close_db(conn))
+  
+  db_metatable_from_connection(conn)
 }
 
 load_rdss <- function(class, sub, main, env, rename, fun = NULL) {
@@ -471,5 +469,28 @@ sbf_load_windows_recursive <- function(pattern = ".*", sub = sbf_get_sub(),
                               include_root = include_root, meta = meta, ext = "rda")
   data$file <- replace_ext(data$file, "png")
   data$windows <- data$file
+  data
+}
+
+#' Load Meta Table from Databases as List Column in Data Frame
+#'
+#' Recursively loads all the meta tables from the databases 
+#' with names matching the regular expression pattern as the 
+#' the first (list) column (named metatables) in a data frame.
+#' Subsequent character vector columns specify the object names (named name) 
+#' and sub folders (named sub1, sub2 etc).
+#' 
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_load_objects_recursive
+#' @inheritParams sbf_load_tables_recursive
+#' @export
+sbf_load_dbs_metatable_recursive <- function(pattern = ".*", sub = sbf_get_sub(), 
+                                  main = sbf_get_main(),
+                                  include_root = TRUE, meta = FALSE) {
+  data <- load_rdss_recursive(pattern, "dbs", sub = sub, main = main, 
+                              include_root = include_root, meta = meta, ext = "rda")
+  names(data)[1] <- "metatable"
+  data$file <- replace_ext(data$file, "sqlite")
+  data$metatable <- lapply(data$file, db_metatable_from_file)
   data
 }
