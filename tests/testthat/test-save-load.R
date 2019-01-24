@@ -297,8 +297,8 @@ test_that("datas_to_db",{
   
   data <- sbf_load_dbs_metatable_recursive(meta = TRUE)
   
-  expect_identical(colnames(data), c("metatable", "name", "file", "caption", "report"))
-  expect_identical(data$metatable[[1]],  tibble::tibble(
+  expect_identical(colnames(data), c("metatables", "name", "file", "caption", "report"))
+  expect_identical(data$metatables[[1]],  tibble::tibble(
     Table = c("X", "Y"),
     Column = c("X", "Z"),
     Meta = c(NA_character_, NA_character_),
