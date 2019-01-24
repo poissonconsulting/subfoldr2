@@ -8,11 +8,13 @@ dir_create <- function(dir) {
   dir
 }
 
-file_path <- function(...) {
+file_path <- function(..., collapse = FALSE) {
   args <- list(...)
   if(!length(args)) return(character(0))
   args <- lapply(args, as.character)
   args <- args[vapply(args, function(x) length(x) > 0L, TRUE)]
+  if(collapse)
+    args <- lapply(args, p0, collapse = "/")
   do.call("file.path", args)
 }
 
@@ -107,7 +109,7 @@ update_db_meta <- function(db_name, sub, main, caption, report) {
   
   if(!is.null(caption)) meta$caption <- caption
   if(!is.na(report)) meta$report <- report
-
+  
   save_meta(meta, "dbs", sub = sub, main = main, x_name = db_name)
 }
 
@@ -127,4 +129,9 @@ db_metatable_from_file <- function(file) {
   conn <- connect_db(file)
   on.exit(sbf_close_db(conn))
   db_metatable_from_connection(conn) 
+}
+
+nsub <- function(sub) {
+  if(!length(sub)) return(0)
+  length(strsplit(sub, "/")[[1]])
 }

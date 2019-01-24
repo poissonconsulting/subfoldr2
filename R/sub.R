@@ -19,7 +19,7 @@ sbf_get_sub <- function() {
 sbf_set_sub <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
   check_flag(rm)
   check_flag(ask)
-  path <- file_path(...)
+  path <- file_path(..., collapse = TRUE)
   path <- sanitize_path(path)
   options(sbf.sub = path)
   if(rm) rm_all(ask = ask)
@@ -33,6 +33,39 @@ sbf_set_sub <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #' @export
 sbf_reset_sub <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
   invisible(sbf_set_sub(rm = rm, ask = ask))
+}
+
+#' Add Sub Folder
+#' 
+#' Add to existing sub folder.
+#'
+#' @inheritParams sbf_set_sub
+#'
+#' @return An invisible string specifying the new sub folder.
+#' @export
+sbf_add_sub <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
+  path <- file_path(..., collapse = TRUE)
+  path <- sanitize_path(path)
+  sbf_set_sub(sbf_get_sub(), path, rm = rm, ask = ask)
+}
+
+#' Move Up Sub Folder
+#' 
+#' Moves up the sub folder hierarchy. 
+#' 
+#' @param n A positive int of the number of subfolders to move up.
+#' @inheritParams sbf_set_sub
+#'
+#' @return An invisible string specifying the new sub folder.
+#' @export
+sbf_up_sub <- function(n = 1L, rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
+  n <- check_pos_int(n, coerce = TRUE)
+  sub <- sbf_get_sub()
+  nsub <- nsub(sub)
+  if(n > nsub) 
+    err("n (", n, ") must not exceed the number of subfolders (", nsub, ")")
+  sub <- strsplit(sub, "/")[[1]][-((nsub - n + 1L):nsub)]
+  sbf_set_sub(sub, rm = rm, ask = ask)
 }
 
 #' Get Main
@@ -58,7 +91,7 @@ sbf_set_main <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
   check_flag(rm)
   check_flag(ask)
   sbf_reset_sub()
-  path <- file_path(...)
+  path <- file_path(..., collapse = TRUE)
   path <- sanitize_path(path, rm_leading = FALSE)
   options(sbf.main = path)
   if(rm) rm_all(ask = ask)
