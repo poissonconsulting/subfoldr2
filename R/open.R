@@ -33,14 +33,22 @@ sbf_open_pdf <- function(x_name = "plots", sub = sbf_get_sub(), main = sbf_get_m
 #' @param db_name A string of the database name.
 #' @param exists A logical scalar specifying whether the database must already exist.
 #' @param ask A flag specifying whether to ask before deleting an existing database (if exists = FALSE).
+#' @param report A logical scalar specifying whether to include the database metadata table in the report.
+#' If report = NA the setting is not changed. 
+#' If the report status is not specified for a databases it is included in the report.
+#' @param caption A string specifying the database metadata table caption. 
+#' If NULL the caption is unchanged.
+#' If the caption is not specified for a databases it is set to be "".
 #' @export
 sbf_open_db <- function(db_name = "database", sub = sbf_get_sub(), main = sbf_get_main(), 
-                        exists = TRUE, 
+                        exists = TRUE, report = NA, caption = NULL,
                         ask = getOption("sbf.ask", TRUE)) {
   check_string(db_name)
   check_vector(sub, "", length = c(0L, 1L))
   check_string(main)
   check_scalar(exists, c(TRUE, NA))
+  check_scalar(report, c(NA, TRUE))
+  checkor(check_null(caption), check_string(caption))
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
@@ -57,6 +65,12 @@ sbf_open_db <- function(db_name = "database", sub = sbf_get_sub(), main = sbf_ge
   
   conn <- DBI::dbConnect(RSQLite::SQLite(), file)
   DBI::dbGetQuery(conn, "PRAGMA foreign_keys = ON;")
+  if(!is.na(report) || !is.null(caption)) {
+      meta <- read_meta("dbs", sub = sub, main = main, x_name = db_name)
+      if(!is.na(report)) meta$report <- report
+      if(!is.null(caption)) meta$caption <- caption
+      save_meta(meta, "dbs", sub = sub, main = main, x_name = db_name)
+  }
   conn
 }
 

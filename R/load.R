@@ -87,6 +87,22 @@ sbf_load_plot_data <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(
   load_rds(x_name, class = "plots", sub = sub, main = main, fun = get_plot_data)
 }
 
+#' Load Data Frame of Meta Table from Database
+#' 
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_save_data_to_db
+#' @return A data.frame of the table.
+#' @export
+sbf_load_db_metatable <- function(db_name = "database", 
+                                  sub = sbf_get_sub(), main = sbf_get_main()) {
+  conn <- sbf_open_db(db_name, sub = sub, main = main)
+  on.exit(sbf_close_db(conn))
+  
+  data <- rws_read_sqlite_meta(conn = conn)
+  colnames(data) <- sub("Meta$", "", colnames(data))
+  data
+}
+
 #' Load Data Frame from Database
 #' 
 #' @inheritParams sbf_save_object

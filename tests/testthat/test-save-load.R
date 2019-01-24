@@ -247,8 +247,14 @@ test_that("datas_to_db",{
   expect_error(sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
                paste0("file '", sub("//", "/", file.path(sbf_get_main(), "dbs/database.sqlite")), "' doesn't exist"))
   
-  conn <- sbf_open_db(exists = NA)
+  conn <- sbf_open_db(exists = NA, caption = "really!")
   teardown(suppressWarnings(DBI::dbDisconnect(conn)))
+    expect_identical(list.files(file.path(sbf_get_main(), "dbs")),
+                   sort(c("database.rda", "database.sqlite")))
+    
+  meta <- readRDS(paste0(file.path(sbf_get_main(), "dbs", "database.rda")))
+  expect_identical(meta, list(caption = "really!"))
+
   expect_error(sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
                "exists = TRUE but the following data frames in 'x' are unrecognised: 'y' and 'x'")
   
@@ -282,6 +288,12 @@ test_that("datas_to_db",{
   file <- sbf_save_data_to_db(x, db_name = "database")
   expect_match(file, ".+/dbs/database.sqlite")
   expect_identical(sbf_load_data_from_db("x"), tibble::tibble(x = c(1L, 4L)))
+  
+  expect_identical(sbf_load_db_metatable(),
+                   tibble::tibble(Table = c("X", "Y"),
+                                  Column = c("X", "Z"),
+                                  Meta = c(NA_character_, NA_character_),
+                                  Description = c(NA_character_, NA_character_)))
 })
 
 test_that("table",{

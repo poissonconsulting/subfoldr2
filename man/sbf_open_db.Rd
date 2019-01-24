@@ -5,8 +5,8 @@
 \title{Open SQLite Database Connection}
 \usage{
 sbf_open_db(db_name = "database", sub = sbf_get_sub(),
-  main = sbf_get_main(), exists = TRUE, ask = getOption("sbf.ask",
-  TRUE))
+  main = sbf_get_main(), exists = TRUE, report = NA,
+  caption = NULL, ask = getOption("sbf.ask", TRUE))
 }
 \arguments{
 \item{db_name}{A string of the database name.}
@@ -16,6 +16,14 @@ sbf_open_db(db_name = "database", sub = sbf_get_sub(),
 \item{main}{A string specifying the path to the main folder (by default the current main folder)}
 
 \item{exists}{A logical scalar specifying whether the database must already exist.}
+
+\item{report}{A logical scalar specifying whether to include the database metadata table in the report.
+If report = NA the setting is not changed. 
+If the report status is not specified for a databases it is included in the report.}
+
+\item{caption}{A string specifying the database metadata table caption. 
+If NULL the caption is unchanged.
+If the caption is not specified for a databases it is set to be "".}
 
 \item{ask}{A flag specifying whether to ask before deleting an existing database (if exists = FALSE).}
 }

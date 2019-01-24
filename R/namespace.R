@@ -1,6 +1,4 @@
-#' @import err checkr yesno
+#' @import err checkr yesno readwritesqlite
 #' @importFrom utils write.csv
 #' @importFrom tools file_ext
-#' @importFrom readwritesqlite rws_write_sqlite rws_read_sqlite rws_read_sqlite_table
-#' @importFrom dttr is.Date is.POSIXct
 NULL

@@ -1,3 +1,7 @@
+is.POSIXct <- function(x) inherits(x, "POSIXct")
+
+is.Date <- function(x) inherits(x, "Date")
+
 dir_create <- function(dir) {
   if(!dir.exists(dir)) 
     dir.create(dir, recursive = TRUE)
