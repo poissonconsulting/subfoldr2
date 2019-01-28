@@ -5,7 +5,7 @@
 \title{Save Table}
 \usage{
 sbf_save_table(x, x_name = substitute(x), sub = sbf_get_sub(),
-  main = sbf_get_main(), caption = "", report = TRUE)
+  main = sbf_get_main(), caption = "", report = TRUE, tag = "")
 }
 \arguments{
 \item{x}{The data frame to save.}
@@ -19,6 +19,8 @@ sbf_save_table(x, x_name = substitute(x), sub = sbf_get_sub(),
 \item{caption}{A string of the caption.}
 
 \item{report}{A flag specifying whether to include in a report.}
+
+\item{tag}{A string of the tag.}
 }
 \value{
 An invisible string of the path to the saved object.

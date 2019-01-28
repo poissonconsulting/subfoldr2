@@ -6,8 +6,8 @@
 \usage{
 sbf_save_plot(x = ggplot2::last_plot(), x_name = substitute(x),
   sub = sbf_get_sub(), main = sbf_get_main(), caption = "",
-  report = TRUE, units = "in", width = NA, height = width,
-  dpi = 300, limitsize = TRUE, csv = 1000L)
+  report = TRUE, tag = "", units = "in", width = NA,
+  height = width, dpi = 300, limitsize = TRUE, csv = 1000L)
 }
 \arguments{
 \item{x}{The ggplot object to save.}
@@ -21,6 +21,8 @@ sbf_save_plot(x = ggplot2::last_plot(), x_name = substitute(x),
 \item{caption}{A string of the caption.}
 
 \item{report}{A flag specifying whether to include in a report.}
+
+\item{tag}{A string of the tag.}
 
 \item{units}{A string of the units. Can be "in" (default) or "mm" or "cm".}
 

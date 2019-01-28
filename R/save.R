@@ -104,6 +104,8 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 }
 
 #' Save String
+#' 
+#' A string in this context is a character vector of length one of inline text.
 #'
 #' @param x The string to save.
 #' @inheritParams sbf_save_object
@@ -130,11 +132,12 @@ sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @param caption A string of the caption.
 #' @param report A flag specifying whether to include in a report.
+#' @param tag A string of the tag.
 #' @return An invisible string of the path to the saved object.
 #' @export
 sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(), 
                            main = sbf_get_main(),
-                           caption = "", report = TRUE) {
+                           caption = "", report = TRUE, tag = "") {
   x_name <- chk_deparse(x_name)
   check_table(x, x_name = x_name)
   check_x_name(x_name)
@@ -143,27 +146,29 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   
   check_string(caption)
   check_flag(report)
-  
+  check_string(tag)
+
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)  
   
-  meta <- list(caption = caption, report = report)
+  meta <- list(caption = caption, report = report, tag = tag)
   save_meta(meta, "tables", sub = sub, main = main, x_name = x_name)
   save_csv(x, "tables", sub = sub, main = main, x_name = x_name)
   save_rds(x, "tables", sub = sub, main = main, x_name = x_name)
 }
 
-#' Save Code Block
-#'
-#' @param x A string of the code block to save.
+#' Save Block
+#' 
+#' A block in this context is a character vector of length one of.
+#' 
+#' @param x A string of the block to save.
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_save_table
-#' @param language A string specifying the computer language (currently unused).
 #' @return An invisible string of the path to the saved object.
 #' @export
 sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                            main = sbf_get_main(),
-                           caption = "", report = TRUE, language = "") {
+                           caption = "", report = TRUE, tag = "") {
   check_string(x)
   check_nchar(x)
   x_name <- chk_deparse(x_name)
@@ -172,13 +177,13 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   check_string(main)
   
   check_string(caption)
-  check_string(language)
   check_flag(report)
+  check_string(tag)
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)  
   
-  meta <- list(caption = caption, report = report, language = language)
+  meta <- list(caption = caption, report = report, tag = tag)
   save_meta(meta, "blocks", sub = sub, main = main, x_name = x_name)
   save_txt(x, "blocks", sub = sub, main = main, x_name = x_name)
   save_rds(x, "blocks", sub = sub, main = main, x_name = x_name)
@@ -202,7 +207,9 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
                           sub = sbf_get_sub(), 
                           main = sbf_get_main(),
-                          caption = "", report = TRUE, units = "in",
+                          caption = "", report = TRUE, 
+                          tag = "",
+                          units = "in",
                           width = NA, height = width, dpi = 300,
                           limitsize = TRUE,
                           csv = 1000L) {
@@ -217,6 +224,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   
   check_string(caption)
   check_flag(report)
+  check_string(tag)
   check_scalar(units, c("in", "mm", "cm"))
   
   sub <- sanitize_path(sub)
@@ -232,7 +240,8 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   ggplot2::ggsave(filename, plot = x, width = dim[1], height = dim[2], 
                   dpi = dpi, limitsize = limitsize)
   
-  meta <- list(caption = caption, report = report, width = dim[1], height = dim[2],
+  meta <- list(caption = caption, report = report, tag = tag, 
+               width = dim[1], height = dim[2],
                dpi = dpi)
   save_meta(meta, "plots", sub = sub, main = main, x_name = x_name)
   
@@ -255,7 +264,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
 sbf_save_window <- function(x_name = "window",
                             sub = sbf_get_sub(), 
                             main = sbf_get_main(),
-                            caption = "", report = TRUE,
+                            caption = "", report = TRUE, tag = "",
                             width = NA, height = width, units = "in", 
                             dpi = 300) {
   
@@ -265,6 +274,8 @@ sbf_save_window <- function(x_name = "window",
   
   check_string(caption)
   check_flag(report)
+  check_string(tag)
+
   check_scalar(units, c("in", "mm", "cm"))
   dpi <- check_pos_dbl(dpi, coerce = TRUE)
   
@@ -283,8 +294,8 @@ sbf_save_window <- function(x_name = "window",
                        width = dim[1], height = dim[2],
                        units = "in", res = dpi)
   
-  meta <- list(caption = caption, report = report, width = dim[1],
-               height = dim[2], dpi = dpi)
+  meta <- list(caption = caption, report = report, tag = tag,
+               width = dim[1], height = dim[2], dpi = dpi)
   save_meta(meta, "windows", sub = sub, main = main, x_name = x_name)
   invisible(filename)
 }
@@ -318,6 +329,7 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
                          sub = sbf_get_sub(), 
                          main = sbf_get_main(),
                          caption = "", report = TRUE,
+                         tag = "",
                          width = NA, units = "in") {
   check_string(x) 
   check_x_name(x_name)
@@ -326,6 +338,8 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
   
   check_string(caption)
   check_flag(report)
+  check_string(tag)
+
   check_scalar(units, c("in", "mm", "cm"))
   
   if(!file.exists(x)) err("file '", x, "' does not exist")
@@ -343,8 +357,8 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
   filename <- file_name(main, "windows", sub, x_name, "png")
   file.copy(x, filename, overwrite = TRUE)
   
-  meta <- list(caption = caption, report = report, width = dim[1],
-               height = dim[2], dpi = dpi)
+  meta <- list(caption = caption, report = report, tag = tag,
+               width = dim[1], height = dim[2], dpi = dpi)
   save_meta(meta, "windows", sub = sub, main = main, x_name = x_name)
   invisible(filename)
 }
@@ -368,7 +382,7 @@ sbf_save_data_to_db <- function(x, x_name = substitute(x),
   check_data(x)
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
-
+  
   conn <- sbf_open_db(db_name, sub = sub, main = main, exists = TRUE)
   on.exit(sbf_close_db(conn))
   

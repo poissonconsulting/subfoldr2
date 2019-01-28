@@ -329,7 +329,7 @@ test_that("table",{
   csv <- read.csv(file.path(sbf_get_main(), "tables", "x.csv"))
   expect_equal(csv, x)
   meta <- readRDS(paste0(file.path(sbf_get_main(), "tables", "x.rda")))
-  expect_identical(meta, list(caption = "", report = TRUE))
+  expect_identical(meta, list(caption = "", report = TRUE, tag = ""))
   
   y <- data.frame(z = 2L)
   expect_identical(sbf_save_table(y, report = FALSE, caption = "A caption"), 
@@ -350,7 +350,7 @@ test_that("table",{
                      sub("//", "/", file.path(sbf_get_main(), "tables/y.rds"))))
   
   data2 <- sbf_load_tables_recursive(meta = TRUE)
-  expect_identical(colnames(data2), c("tables", "name", "file", "caption", "report"))
+  expect_identical(colnames(data2), c("tables", "name", "file", "caption", "report", "tag"))
   expect_identical(data2[c("tables", "name", "file")], data)
   expect_identical(data2$caption, c("", "A caption"))
   expect_identical(data2$report, c(TRUE, FALSE))
@@ -389,7 +389,7 @@ test_that("block",{
   expect_equal(txt, "two words")
   
   one <- "some code"
-  expect_identical(sbf_save_block(one, language = "R"), sub("//", "/", file.path(sbf_get_main(), "blocks/one.rds")))
+  expect_identical(sbf_save_block(one, tag = "R"), sub("//", "/", file.path(sbf_get_main(), "blocks/one.rds")))
   one <- 0
   y <- 0
   expect_identical(sbf_load_blocks(), c("one", "y"))
@@ -406,9 +406,12 @@ test_that("block",{
                      sub("//", "/", file.path(sbf_get_main(), "blocks/y.rds"))))
   
   data2 <- sbf_load_blocks_recursive(meta = TRUE)
-  expect_identical(colnames(data2), c("blocks", "name", "file", "caption", "report", "language"))
+  expect_identical(colnames(data2), c("blocks", "name", "file", "caption", "report", "tag"))
   expect_identical(data2[c("blocks", "name", "file")], data)
-  expect_identical(data2$language, c("R", ""))
+  expect_identical(data2$tag, c("R", ""))
+  
+  data3 <- sbf_load_blocks_recursive(meta = TRUE, tag = "R")
+  expect_identical(data3, data2[1,])
   
   expect_error(sbf_load_block("x2"), "/blocks/x2.rds' does not exist")
   expect_identical(sbf_reset_sub(), character(0))
@@ -479,6 +482,7 @@ test_that("plot",{
   
   data2 <- sbf_load_plots_recursive(meta = TRUE)
   expect_identical(colnames(data2), c("plots", "name", "file", "caption", "report", 
+                                      "tag",
                                       "width", "height", "dpi"))
   expect_identical(data2$caption[1:2], c("one c", ""))
   expect_identical(data2$report[1:2], c(FALSE, TRUE))
@@ -563,7 +567,7 @@ test_that("png",{
                    sort(c("example.rda", "example.png")))
   
   meta <- readRDS(paste0(file.path(sbf_get_main(), "windows", "example.rda")))
-  expect_identical(meta, list(caption = "map", report = TRUE,
+  expect_identical(meta, list(caption = "map", report = TRUE, tag = "",
                               width = 6, height = 5.992, dpi = 125))
   
   data <- sbf_load_windows_recursive(sub = character(0))

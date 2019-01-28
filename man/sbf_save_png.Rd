@@ -5,8 +5,8 @@
 \title{Save png File}
 \usage{
 sbf_save_png(x, x_name = sbf_basename_sans_ext(x), sub = sbf_get_sub(),
-  main = sbf_get_main(), caption = "", report = TRUE, width = NA,
-  units = "in")
+  main = sbf_get_main(), caption = "", report = TRUE, tag = "",
+  width = NA, units = "in")
 }
 \arguments{
 \item{x}{A string of the path to the png file to save.}
@@ -20,6 +20,8 @@ sbf_save_png(x, x_name = sbf_basename_sans_ext(x), sub = sbf_get_sub(),
 \item{caption}{A string of the caption.}
 
 \item{report}{A flag specifying whether to include in a report.}
+
+\item{tag}{A string of the tag.}
 
 \item{width}{A number of the plot width in inches.}
 

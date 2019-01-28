@@ -2,14 +2,13 @@
 % Please edit documentation in R/save.R
 \name{sbf_save_block}
 \alias{sbf_save_block}
-\title{Save Code Block}
+\title{Save Block}
 \usage{
 sbf_save_block(x, x_name = substitute(x), sub = sbf_get_sub(),
-  main = sbf_get_main(), caption = "", report = TRUE,
-  language = "")
+  main = sbf_get_main(), caption = "", report = TRUE, tag = "")
 }
 \arguments{
-\item{x}{A string of the code block to save.}
+\item{x}{A string of the block to save.}
 
 \item{x_name}{A string of the name.}
 
@@ -21,11 +20,11 @@ sbf_save_block(x, x_name = substitute(x), sub = sbf_get_sub(),
 
 \item{report}{A flag specifying whether to include in a report.}
 
-\item{language}{A string specifying the computer language (currently unused).}
+\item{tag}{A string of the tag.}
 }
 \value{
 An invisible string of the path to the saved object.
 }
 \description{
-Save Code Block
+A block in this context is a character vector of length one of.
 }

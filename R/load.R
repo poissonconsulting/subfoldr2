@@ -262,12 +262,14 @@ sbf_load_datas_from_db <- function(db_name = "database", sub = sbf_get_sub(),
   invisible(names(datas))
 }
 
-load_rdss_recursive <- function(pattern, class, sub, main, include_root, meta = FALSE,
+load_rdss_recursive <- function(pattern, class, sub, main, include_root, 
+                                tag = ".*", meta = FALSE,
                                 fun = NULL, ext = "rds") {
   check_string(pattern)
   check_vector(sub, "", length = c(0L, 1L))
   check_string(main)
   check_flag(include_root)
+  check_string(tag)
   check_flag(meta)
   
   sub <- sanitize_path(sub)
@@ -300,9 +302,13 @@ load_rdss_recursive <- function(pattern, class, sub, main, include_root, meta = 
   
   data <- cbind(data, subfolder_columns(files))
   
-  if(meta)
-    data <- cbind(data, meta_columns(names(files)))
+  is_tag <- rep(TRUE, nrow(data))
+  if(tag != ".*")
+    is_tag <- grepl(tag, meta_columns(names(files))$tag)
   
+  if(meta) data <- cbind(data, meta_columns(names(files)))
+  
+  data <- data[is_tag,]
   as_conditional_tibble(data)
 }
 
@@ -383,13 +389,15 @@ sbf_load_strings_recursive <- function(pattern = ".*", sub = sbf_get_sub(),
 #' 
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
+#' @param tag A string of the regular expression that the tag must match to be included.
 #' @param meta A flag specifying whether to include the report, caption and any other metadata as columns.
 #' @export
 sbf_load_tables_recursive <- function(pattern = ".*", sub = sbf_get_sub(), 
                                       main = sbf_get_main(), 
-                                      include_root = TRUE, meta = FALSE) {
+                                      include_root = TRUE, tag = ".*", 
+                                      meta = FALSE) {
   load_rdss_recursive(pattern, "tables", sub = sub, main = main, 
-                      include_root = include_root, meta = meta)
+                      include_root = include_root, tag = tag, meta = meta)
 }
 
 #' Load Blocks as Column in Data Frame
@@ -405,9 +413,10 @@ sbf_load_tables_recursive <- function(pattern = ".*", sub = sbf_get_sub(),
 #' @export
 sbf_load_blocks_recursive <- function(pattern = ".*", sub = sbf_get_sub(),
                                       main = sbf_get_main(),
-                                      include_root = TRUE, meta = FALSE) {
+                                      include_root = TRUE, tag = ".*",
+                                      meta = FALSE) {
   data <- load_rdss_recursive(pattern, "blocks", sub = sub, main = main, 
-                              include_root = include_root, meta = meta)
+                              include_root = include_root, tag = tag, meta = meta)
   data[1] <- unlist(data[1])
   data
 }
@@ -425,9 +434,10 @@ sbf_load_blocks_recursive <- function(pattern = ".*", sub = sbf_get_sub(),
 #' @export
 sbf_load_plots_recursive <- function(pattern = ".*", sub = sbf_get_sub(), 
                                      main = sbf_get_main(),
-                                     include_root = TRUE, meta = FALSE) {
+                                     include_root = TRUE, tag = ".*",
+                                     meta = FALSE) {
   load_rdss_recursive(pattern, "plots", sub = sub, main = main, 
-                      include_root = include_root, meta = meta)
+                      include_root = include_root, tag = tag, meta = meta)
 }
 
 #' Load Plots Data as List Column in Data Frame
@@ -443,9 +453,11 @@ sbf_load_plots_recursive <- function(pattern = ".*", sub = sbf_get_sub(),
 #' @export
 sbf_load_plots_data_recursive <- function(pattern = ".*", sub = sbf_get_sub(), 
                                           main = sbf_get_main(),
-                                          include_root = TRUE, meta = FALSE) {
+                                          include_root = TRUE, tag = ".*",
+                                          meta = FALSE) {
   data <- load_rdss_recursive(pattern, "plots", sub = sub, main = main, 
-                              include_root = include_root, meta = meta, fun = get_plot_data)
+                              include_root = include_root, tag = tag, 
+                              meta = meta, fun = get_plot_data)
   names(data)[1] <- "plots_data"
   data
 }
@@ -464,9 +476,10 @@ sbf_load_plots_data_recursive <- function(pattern = ".*", sub = sbf_get_sub(),
 #' @export
 sbf_load_windows_recursive <- function(pattern = ".*", sub = sbf_get_sub(), 
                                        main = sbf_get_main(),
-                                       include_root = TRUE, meta = FALSE) {
+                                       include_root = TRUE, tag = ".*", meta = FALSE) {
   data <- load_rdss_recursive(pattern, "windows",sub = sub, main = main, 
-                              include_root = include_root, meta = meta, ext = "rda")
+                              include_root = include_root, tag = tag, 
+                              meta = meta, ext = "rda")
   data$file <- replace_ext(data$file, "png")
   data$windows <- data$file
   data
@@ -485,8 +498,8 @@ sbf_load_windows_recursive <- function(pattern = ".*", sub = sbf_get_sub(),
 #' @inheritParams sbf_load_tables_recursive
 #' @export
 sbf_load_dbs_metatable_recursive <- function(pattern = ".*", sub = sbf_get_sub(), 
-                                  main = sbf_get_main(),
-                                  include_root = TRUE, meta = FALSE) {
+                                             main = sbf_get_main(),
+                                             include_root = TRUE, meta = FALSE) {
   data <- load_rdss_recursive(pattern, "dbs", sub = sub, main = main, 
                               include_root = include_root, meta = meta, ext = "rda")
   names(data)[1] <- "metatables"

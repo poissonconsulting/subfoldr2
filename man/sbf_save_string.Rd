@@ -20,5 +20,5 @@ sbf_save_string(x, x_name = substitute(x), sub = sbf_get_sub(),
 An invisible string of the path to the saved object.
 }
 \description{
-Save String
+A string in this context is a character vector of length one of inline text.
 }

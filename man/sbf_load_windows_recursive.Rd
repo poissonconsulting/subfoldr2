@@ -5,7 +5,8 @@
 \title{Load Window Paths as Character Column in Data Frame}
 \usage{
 sbf_load_windows_recursive(pattern = ".*", sub = sbf_get_sub(),
-  main = sbf_get_main(), include_root = TRUE, meta = FALSE)
+  main = sbf_get_main(), include_root = TRUE, tag = ".*",
+  meta = FALSE)
 }
 \arguments{
 \item{pattern}{A string of the regular expression to match.}
@@ -15,6 +16,8 @@ sbf_load_windows_recursive(pattern = ".*", sub = sbf_get_sub(),
 \item{main}{A string specifying the path to the main folder (by default the current main folder)}
 
 \item{include_root}{A flag indicating whether to include objects in the top sub folder.}
+
+\item{tag}{A string of the regular expression that the tag must match to be included.}
 
 \item{meta}{A flag specifying whether to include the report, caption and any other metadata as columns.}
 }

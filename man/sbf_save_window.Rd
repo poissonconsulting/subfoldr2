@@ -5,8 +5,8 @@
 \title{Save Window}
 \usage{
 sbf_save_window(x_name = "window", sub = sbf_get_sub(),
-  main = sbf_get_main(), caption = "", report = TRUE, width = NA,
-  height = width, units = "in", dpi = 300)
+  main = sbf_get_main(), caption = "", report = TRUE, tag = "",
+  width = NA, height = width, units = "in", dpi = 300)
 }
 \arguments{
 \item{x_name}{A string of the name.}
@@ -18,6 +18,8 @@ sbf_save_window(x_name = "window", sub = sbf_get_sub(),
 \item{caption}{A string of the caption.}
 
 \item{report}{A flag specifying whether to include in a report.}
+
+\item{tag}{A string of the tag.}
 
 \item{width}{A number of the plot width in inches.}
 
