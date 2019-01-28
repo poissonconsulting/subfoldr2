@@ -499,9 +499,11 @@ sbf_load_windows_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @export
 sbf_load_dbs_metatable_recursive <- function(x_name = ".*", sub = sbf_get_sub(), 
                                              main = sbf_get_main(),
-                                             include_root = TRUE, meta = FALSE) {
+                                             include_root = TRUE, 
+                                             tag = ".*", meta = FALSE) {
   data <- load_rdss_recursive(x_name, "dbs", sub = sub, main = main, 
-                              include_root = include_root, meta = meta, ext = "rda")
+                              include_root = include_root, tag = tag, 
+                              meta = meta, ext = "rda")
   names(data)[1] <- "metatables"
   data$file <- replace_ext(data$file, "sqlite")
   data$metatables <- lapply(data$file, db_metatable_from_file)

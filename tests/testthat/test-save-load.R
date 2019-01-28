@@ -247,13 +247,13 @@ test_that("datas_to_db",{
   expect_error(sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
                paste0("file '", sub("//", "/", file.path(sbf_get_main(), "dbs/database.sqlite")), "' doesn't exist"))
   
-  conn <- sbf_open_db(exists = NA, caption = "really!")
+  conn <- sbf_open_db(exists = NA, caption = "really!", tag = "good")
   teardown(suppressWarnings(DBI::dbDisconnect(conn)))
   expect_identical(list.files(file.path(sbf_get_main(), "dbs")),
                    sort(c("database.rda", "database.sqlite")))
   
   meta <- readRDS(paste0(file.path(sbf_get_main(), "dbs", "database.rda")))
-  expect_identical(meta, list(caption = "really!", report = TRUE, tag = ""))
+  expect_identical(meta, list(caption = "really!", report = TRUE, tag = "good"))
   
   expect_error(sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
                "exists = TRUE but the following data frames in 'x' are unrecognised: 'y' and 'x'")
@@ -295,7 +295,7 @@ test_that("datas_to_db",{
                                   Meta = c(NA_character_, NA_character_),
                                   Description = c(NA_character_, NA_character_)))
   
-  data <- sbf_load_dbs_metatable_recursive(meta = TRUE)
+  data <- sbf_load_dbs_metatable_recursive(tag = "good", meta = TRUE)
   
   expect_identical(colnames(data), c("metatables", "name", "file", "caption", "report", "tag"))
   expect_identical(data$metatables[[1]],  tibble::tibble(
@@ -306,6 +306,10 @@ test_that("datas_to_db",{
   expect_identical(data$name, "database")
   expect_identical(data$caption, "really!")
   expect_identical(data$report, TRUE)
+  
+  data2 <- sbf_load_dbs_metatable_recursive(tag = "bad", meta = TRUE)
+  
+  expect_identical(data2, data[-1,])
 })
 
 test_that("table",{
