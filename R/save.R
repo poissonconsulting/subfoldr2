@@ -109,19 +109,26 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #'
 #' @param x The string to save.
 #' @inheritParams sbf_save_object
+#' @param report A flag specifying whether to include in a report.
+#' @param tag A string of the tag.
 #' @return An invisible string of the path to the saved object.
 #' @export
 sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
-                            main = sbf_get_main()) {
+                            main = sbf_get_main(), report = TRUE, tag = "") {
   x_name <- chk_deparse(x_name)
   x <- check_string(x, coerce = TRUE)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
   check_string(main)
+ 
+  check_flag(report)
+  check_string(tag)
   
   sub <- sanitize_path(sub)
-  main <- sanitize_path(main, rm_leading = FALSE)  
+  main <- sanitize_path(main, rm_leading = FALSE)
   
+  meta <- list(report = report, tag = tag)
+  save_meta(meta, "strings", sub = sub, main = main, x_name = x_name)
   save_txt(x, "strings", sub = sub, main = main, x_name = x_name)
   save_rds(x, "strings", sub = sub, main = main, x_name = x_name)
 }

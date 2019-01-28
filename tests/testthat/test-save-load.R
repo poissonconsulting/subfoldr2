@@ -201,7 +201,7 @@ test_that("string",{
   
   expect_identical(sbf_load_string("y"), "two words")
   expect_identical(list.files(file.path(sbf_get_main(), "strings")),
-                   sort(c("y.rds", "y.txt")))
+                   sort(c("y.rda", "y.rds", "y.txt")))
   txt <- readLines(file.path(sbf_get_main(), "strings", "y.txt"), warn = FALSE)
   expect_equal(txt, "two words")
   
@@ -210,7 +210,7 @@ test_that("string",{
                    c(sub("//", "/", file.path(sbf_get_main(), "strings/x.rds")),
                      sub("//", "/", file.path(sbf_get_main(), "strings/y.rds"))))
   expect_identical(list.files(file.path(sbf_get_main(), "strings")),
-                   sort(c("x.rds", "x.txt", "y.rds", "y.txt")))
+                   sort(c("x.rda", "x.rds", "x.txt", "y.rda", "y.rds", "y.txt")))
   x <- 0
   y <- 0
   expect_identical(sbf_load_strings(), c("x", "y"))
@@ -235,6 +235,12 @@ test_that("string",{
   expect_identical(sbf_save_string(y), sub("//", "/", file.path(sbf_get_main(), "strings/sub/y.rds")))
   expect_identical(sbf_load_string("y"), "two words")
   expect_error(sbf_load_string("x2"), "/strings/sub/x2.rds' does not exist")
+  
+  data <- sbf_load_strings_recursive()
+  expect_identical(colnames(data), c("strings", "name", "file"))
+  expect_identical(data$strings, "two words")
+  expect_identical(data$name, "y")
+  expect_identical(sbf_load_strings_recursive(tag = "y"), data[-1,])
 })
 
 test_that("datas_to_db",{

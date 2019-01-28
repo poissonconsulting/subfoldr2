@@ -371,12 +371,19 @@ sbf_load_numbers_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
 #' 
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
+#' @param tag A string of the regular expression that the tag must match to be included.
+#' @param meta A flag specifying whether to include the report, caption and any other metadata as columns.
 #' @export
 sbf_load_strings_recursive <- function(x_name = ".*", sub = sbf_get_sub(), 
-                                       main = sbf_get_main(), include_root = TRUE) {
+                                       main = sbf_get_main(), include_root = TRUE,
+                                       tag = ".*", 
+                                       meta = FALSE) {
   data <- load_rdss_recursive(x_name, "strings", sub = sub, main = main, 
-                              include_root = include_root)
-  data[1] <- unlist(data[1])
+                              include_root = include_root, tag = tag, meta = meta)
+  if(nrow(data))
+    data[1] <- unlist(data[1])
+  else
+    data[1] <- character(0)
   data
 }
 
