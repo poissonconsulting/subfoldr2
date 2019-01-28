@@ -4,11 +4,11 @@
 \alias{sbf_load_strings_recursive}
 \title{Load Strings as Column in Data Frame}
 \usage{
-sbf_load_strings_recursive(pattern = ".*", sub = sbf_get_sub(),
+sbf_load_strings_recursive(x_name = ".*", sub = sbf_get_sub(),
   main = sbf_get_main(), include_root = TRUE)
 }
 \arguments{
-\item{pattern}{A string of the regular expression to match.}
+\item{x_name}{A string of the name.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
 
@@ -17,7 +17,7 @@ sbf_load_strings_recursive(pattern = ".*", sub = sbf_get_sub(),
 \item{include_root}{A flag indicating whether to include objects in the top sub folder.}
 }
 \description{
-Recursively loads all the numbers with names matching the regular expression pattern as the 
+Recursively loads all the numbers with names matching the regular expression x_name as the 
 the first character column (named strings) in a data frame.
 Subsequent character vector columns specify the object names (named name) 
 and sub folders (named sub1, sub2 etc).
