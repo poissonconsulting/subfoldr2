@@ -6,7 +6,7 @@
 \usage{
 sbf_open_db(db_name = "database", sub = sbf_get_sub(),
   main = sbf_get_main(), exists = TRUE, caption = NULL,
-  report = NA, ask = getOption("sbf.ask", TRUE))
+  report = NA, tag = NULL, ask = getOption("sbf.ask", TRUE))
 }
 \arguments{
 \item{db_name}{A string of the database name.}
@@ -24,6 +24,8 @@ If the caption is not specified for a databases it is set to be "".}
 \item{report}{A logical scalar specifying whether to include the database metadata table in the report.
 If report = NA the setting is not changed. 
 If the report status is not specified for a databases it is included in the report.}
+
+\item{tag}{A string of the tag.}
 
 \item{ask}{A flag specifying whether to ask before deleting an existing database (if exists = FALSE).}
 }

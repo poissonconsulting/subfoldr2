@@ -253,7 +253,7 @@ test_that("datas_to_db",{
                    sort(c("database.rda", "database.sqlite")))
   
   meta <- readRDS(paste0(file.path(sbf_get_main(), "dbs", "database.rda")))
-  expect_identical(meta, list(caption = "really!", report = TRUE))
+  expect_identical(meta, list(caption = "really!", report = TRUE, tag = ""))
   
   expect_error(sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
                "exists = TRUE but the following data frames in 'x' are unrecognised: 'y' and 'x'")
@@ -297,7 +297,7 @@ test_that("datas_to_db",{
   
   data <- sbf_load_dbs_metatable_recursive(meta = TRUE)
   
-  expect_identical(colnames(data), c("metatables", "name", "file", "caption", "report"))
+  expect_identical(colnames(data), c("metatables", "name", "file", "caption", "report", "tag"))
   expect_identical(data$metatables[[1]],  tibble::tibble(
     Table = c("X", "Y"),
     Column = c("X", "Z"),

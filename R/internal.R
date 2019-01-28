@@ -101,14 +101,16 @@ png_dim <- function(file) {
   rev(dim(png::readPNG(file))[1:2])
 }
 
-update_db_meta <- function(db_name, sub, main, caption, report) {
+update_db_meta <- function(db_name, sub, main, caption, report, tag) {
   meta <- read_meta("dbs", sub = sub, main = main, x_name = db_name)
   
   if(!"caption" %in% names(meta)) meta$caption <- ""
   if(!"report" %in% names(meta)) meta$report <- TRUE
+  if(!"tag" %in% names(meta)) meta$tag <- ""
   
   if(!is.null(caption)) meta$caption <- caption
   if(!is.na(report)) meta$report <- report
+  if(!is.null(tag)) meta$tag <- tag
   
   save_meta(meta, "dbs", sub = sub, main = main, x_name = db_name)
 }
