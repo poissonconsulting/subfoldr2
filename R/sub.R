@@ -100,8 +100,7 @@ sbf_set_main <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 
 #' Reset Main
 #' 
-#' The current sub folder setting is unaltered.
-#' Setting the main resets the sub.
+#' Resetting the main resets the sub.
 #'
 #' @inheritParams sbf_set_sub
 #' @return An invisible copy of the string \code{"output"}.

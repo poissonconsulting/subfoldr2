@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Travis build
 status](https://travis-ci.org/poissonconsulting/subfoldr2.svg?branch=master)](https://travis-ci.org/poissonconsulting/subfoldr2)
 [![AppVeyor build
@@ -151,7 +151,8 @@ sbf_save_strings()
 sbf_save_numbers()
 list.files(sbf_get_main(), recursive = TRUE)
 #> [1] "data/data2.rds"  "data/df.rds"     "numbers/x.csv"   "numbers/x.rds"  
-#> [5] "numbers/x3.csv"  "numbers/x3.rds"  "strings/chr.rds" "strings/chr.txt"
+#> [5] "numbers/x3.csv"  "numbers/x3.rds"  "strings/chr.rda" "strings/chr.rds"
+#> [9] "strings/chr.txt"
 ```
 
 All types of object are saved as rds files. However to facilitate

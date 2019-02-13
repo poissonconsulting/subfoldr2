@@ -15,6 +15,5 @@ sbf_reset_main(rm = FALSE, ask = getOption("sbf.ask", TRUE))
 An invisible copy of the string \code{"output"}.
 }
 \description{
-The current sub folder setting is unaltered.
-Setting the main resets the sub.
+Resetting the main resets the sub.
 }
