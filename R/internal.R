@@ -65,9 +65,9 @@ sub_name <- function(data) {
     data$sub <- ""
     return(data)
   } 
-  sub <- as.matrix(sub)
+  data <- data[!grepl("^sub\\d", colnames(data))]
   data$sub <- apply(sub, MARGIN = 1, function(x) paste0(na_omit(x), collapse = "/"))
-  data
+  cbind(data, sub)
 }
 
 subfolder_columns <- function(x) {
