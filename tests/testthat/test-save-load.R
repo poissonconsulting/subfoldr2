@@ -33,20 +33,21 @@ test_that("object",{
   data <- sbf_load_objects_recursive(".rds", sub = character(0))
   
   expect_is(data, "data.frame")
-  expect_identical(colnames(data), c("objects", "name", "file"))
+  expect_identical(colnames(data), c("objects", "name", "sub", "file"))
   expect_identical(nrow(data), 0L)
   
   data <- sbf_load_objects_recursive(include_root = FALSE, 
                                      sub = character(0))
   expect_is(data, "data.frame")
-  expect_identical(colnames(data), c("objects", "name", "file"))
+  expect_identical(colnames(data), c("objects", "name", "sub", "file"))
   expect_identical(nrow(data), 0L)
   
   data <- sbf_load_objects_recursive(sub = character(0))
   expect_is(data, "data.frame")
-  expect_identical(colnames(data), c("objects", "name", "file"))
+  expect_identical(colnames(data), c("objects", "name", "sub", "file"))
   expect_identical(unlist(data$objects), c(x, y))
   expect_identical(data$name, c("x", "y"))
+  expect_identical(data$sub, c("", ""))
   expect_identical(data$file, 
                    c(sub("//", "/", file.path(sbf_get_main(), "objects/x.rds")),
                      sub("//", "/", file.path(sbf_get_main(), "objects/y.rds"))))
@@ -56,11 +57,12 @@ test_that("object",{
   
   data <- sbf_load_objects_recursive(sub = character(0))
   expect_is(data, "data.frame")
-  expect_identical(colnames(data), c("objects", "name", "sub1", "sub2", "file"))
+  expect_identical(colnames(data), c("objects", "name", "sub1", "sub2", "sub", "file"))
   expect_identical(unlist(data$objects), c(x, x, y))
   expect_identical(data$name, c("x", "x", "y"))
   expect_identical(data$sub1, c("t2", NA, NA))
   expect_identical(data$sub2, c("t3", NA, NA))
+  expect_identical(data$sub, c("t2/t3", "", ""))
   expect_identical(data$file, 
                    c(sub("//", "/", file.path(sbf_get_main(), "objects/t2/t3/x.rds")),
                      sub("//", "/", file.path(sbf_get_main(), "objects/x.rds")),
@@ -68,9 +70,10 @@ test_that("object",{
   
   data <- sbf_load_objects_recursive(sub = character(0), include_root = FALSE)
   expect_is(data, "data.frame")
-  expect_identical(colnames(data), c("objects", "name", "sub1", "sub2", "file"))
+  expect_identical(colnames(data), c("objects", "name", "sub1", "sub2", "sub", "file"))
   expect_identical(unlist(data$objects), x)
   expect_identical(data$name, "x")
+  expect_identical(data$sub, "t2/t3")
   expect_identical(data$sub1, "t2")
   expect_identical(data$sub2, "t3")
   expect_identical(data$file, 
@@ -78,10 +81,11 @@ test_that("object",{
   
   data <- sbf_load_objects_recursive(sub = "t2")
   expect_is(data, "data.frame")
-  expect_identical(colnames(data), c("objects", "name", "sub1", "file"))
+  expect_identical(colnames(data), c("objects", "name", "sub1", "sub", "file"))
   expect_identical(unlist(data$objects), x)
   expect_identical(data$name, "x")
   expect_identical(data$sub1, "t3")
+  expect_identical(data$sub, "t3")
   expect_identical(data$file, 
                    sub("//", "/", file.path(sbf_get_main(), "objects/t2/t3/x.rds")))
   
@@ -122,7 +126,7 @@ test_that("data",{
   
   data <- sbf_load_datas_recursive()
   expect_is(data, "data.frame")
-  expect_identical(colnames(data), c("data", "name", "file"))
+  expect_identical(colnames(data), c("data", "name", "sub", "file"))
   expect_identical(data$data[[1]], data.frame(x = 1))
   expect_identical(data$name, c("x", "y"))
   expect_identical(data$file, 
@@ -171,7 +175,7 @@ test_that("number",{
   
   data <- sbf_load_numbers_recursive()
   expect_is(data, "data.frame")
-  expect_identical(colnames(data), c("numbers", "name", "file"))
+  expect_identical(colnames(data), c("numbers", "name", "sub", "file"))
   expect_identical(data$numbers, c(1, 3))
   expect_identical(data$name, c("x", "y"))
   expect_identical(data$file, 
@@ -219,7 +223,7 @@ test_that("string",{
   
   data <- sbf_load_strings_recursive()
   expect_is(data, "data.frame")
-  expect_identical(colnames(data), c("strings", "name", "file"))
+  expect_identical(colnames(data), c("strings", "name", "sub", "file"))
   expect_identical(data$strings, c("one", "two words"))
   expect_identical(data$name, c("x", "y"))
   expect_identical(data$file, 
@@ -237,7 +241,7 @@ test_that("string",{
   expect_error(sbf_load_string("x2"), "/strings/sub/x2.rds' does not exist")
   
   data <- sbf_load_strings_recursive()
-  expect_identical(colnames(data), c("strings", "name", "file"))
+  expect_identical(colnames(data), c("strings", "name", "sub", "file"))
   expect_identical(data$strings, "two words")
   expect_identical(data$name, "y")
   expect_identical(sbf_load_strings_recursive(tag = "y"), data[-1,])
@@ -303,7 +307,7 @@ test_that("datas_to_db",{
   
   data <- sbf_load_dbs_metatable_recursive(tag = "good", meta = TRUE)
   
-  expect_identical(colnames(data), c("metatables", "name", "file", "caption", "report", "tag"))
+  expect_identical(colnames(data), c("metatables", "name", "sub", "file", "caption", "report", "tag"))
   expect_identical(data$metatables[[1]],  tibble::tibble(
     Table = c("X", "Y"),
     Column = c("X", "Z"),
@@ -352,7 +356,7 @@ test_that("table",{
   
   data <- sbf_load_tables_recursive()
   expect_is(data, "data.frame")
-  expect_identical(colnames(data), c("tables", "name", "file"))
+  expect_identical(colnames(data), c("tables", "name", "sub", "file"))
   expect_identical(data$tables[[1]], data.frame(x = 1))
   expect_identical(data$name, c("x", "y"))
   expect_identical(data$file, 
@@ -360,8 +364,8 @@ test_that("table",{
                      sub("//", "/", file.path(sbf_get_main(), "tables/y.rds"))))
   
   data2 <- sbf_load_tables_recursive(meta = TRUE)
-  expect_identical(colnames(data2), c("tables", "name", "file", "caption", "report", "tag"))
-  expect_identical(data2[c("tables", "name", "file")], data)
+  expect_identical(colnames(data2), c("tables", "name", "sub", "file", "caption", "report", "tag"))
+  expect_identical(data2[c("tables", "name", "sub", "file")], data)
   expect_identical(data2$caption, c("", "A caption"))
   expect_identical(data2$report, c(TRUE, FALSE))
   
@@ -408,7 +412,7 @@ test_that("block",{
   
   data <- sbf_load_blocks_recursive()
   expect_is(data, "data.frame")
-  expect_identical(colnames(data), c("blocks", "name", "file"))
+  expect_identical(colnames(data), c("blocks", "name", "sub", "file"))
   expect_identical(data$blocks, c("some code", "two words"))
   expect_identical(data$name, c("one", "y"))
   expect_identical(data$file, 
@@ -416,8 +420,8 @@ test_that("block",{
                      sub("//", "/", file.path(sbf_get_main(), "blocks/y.rds"))))
   
   data2 <- sbf_load_blocks_recursive(meta = TRUE)
-  expect_identical(colnames(data2), c("blocks", "name", "file", "caption", "report", "tag"))
-  expect_identical(data2[c("blocks", "name", "file")], data)
+  expect_identical(colnames(data2), c("blocks", "name", "sub", "file", "caption", "report", "tag"))
+  expect_identical(data2[c("blocks", "name", "sub", "file")], data)
   expect_identical(data2$tag, c("R", ""))
   
   data3 <- sbf_load_blocks_recursive(meta = TRUE, tag = "R")
@@ -481,7 +485,7 @@ test_that("plot",{
   
   data <- sbf_load_plots_recursive()
   expect_is(data, "data.frame")
-  expect_identical(colnames(data), c("plots", "name", "file"))
+  expect_identical(colnames(data), c("plots", "name", "sub", "file"))
   expect_is(data$plots[[2]], "ggplot")
   expect_identical(data$name, c("plot", "x", "y", "z"))
   expect_identical(data$file, 
@@ -491,7 +495,7 @@ test_that("plot",{
                      sub("//", "/", file.path(sbf_get_main(), "plots/z.rds"))))
   
   data2 <- sbf_load_plots_recursive(meta = TRUE)
-  expect_identical(colnames(data2), c("plots", "name", "file", "caption", "report", 
+  expect_identical(colnames(data2), c("plots", "name", "sub", "file", "caption", "report", 
                                       "tag",
                                       "width", "height", "dpi"))
   expect_identical(data2$caption[1:2], c("one c", ""))
@@ -502,7 +506,7 @@ test_that("plot",{
   
   data <- sbf_load_plots_data_recursive()
   expect_is(data, "data.frame")
-  expect_identical(colnames(data), c("plots_data", "name", "file"))
+  expect_identical(colnames(data), c("plots_data", "name", "sub", "file"))
   expect_identical(data$plots_data[[2]], data.frame())
   expect_identical(data$name, c("plot", "x", "y", "z"))
   expect_identical(data$file, 
@@ -582,7 +586,7 @@ test_that("png",{
   
   data <- sbf_load_windows_recursive(sub = character(0))
   expect_is(data, "data.frame")
-  expect_identical(colnames(data), c("windows", "name", "file"))
+  expect_identical(colnames(data), c("windows", "name", "sub", "file"))
   expect_identical(data$name, c("example"))
 })
 

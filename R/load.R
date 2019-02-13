@@ -289,6 +289,7 @@ load_rdss_recursive <- function(x_name, class, sub, main, include_root,
     data <- data.frame(x = I(list()))
     names(data) <- class
     data$name <- character(0)
+    data$sub <- character(0)
     data$file <- character(0)
     return(data)
   }
@@ -299,7 +300,6 @@ load_rdss_recursive <- function(x_name, class, sub, main, include_root,
   
   data <- data.frame(x = I(objects))
   names(data) <- class
-  
   data <- cbind(data, subfolder_columns(files))
   
   is_tag <- rep(TRUE, nrow(data))

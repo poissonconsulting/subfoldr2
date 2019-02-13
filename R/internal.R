@@ -2,6 +2,8 @@ is.POSIXct <- function(x) inherits(x, "POSIXct")
 
 is.Date <- function(x) inherits(x, "Date")
 
+na_omit <- function(x) x[!is.na(x)]
+
 dir_create <- function(dir) {
   if(!dir.exists(dir)) 
     dir.create(dir, recursive = TRUE)
@@ -57,9 +59,21 @@ subfolder_column <- function(x) {
   as.data.frame(as.list(x), stringsAsFactors = FALSE)
 }
 
+sub_name <- function(data) {
+  sub <- data[grepl("^sub\\d", colnames(data))]
+  if(!ncol(sub)) {
+    data$sub <- ""
+    return(data)
+  } 
+  sub <- as.matrix(sub)
+  data$sub <- apply(sub, MARGIN = 1, function(x) paste0(na_omit(x), collapse = "/"))
+  data
+}
+
 subfolder_columns <- function(x) {
   x <- lapply(x, subfolder_column)
   data <- data.table::rbindlist(x, fill = TRUE)
+  data <- sub_name(data)
   data$file <- names(x)
   data
 }
