@@ -81,10 +81,9 @@ test_that("object",{
   
   data <- sbf_load_objects_recursive(sub = "t2")
   expect_is(data, "data.frame")
-  expect_identical(colnames(data), c("objects", "name", "sub", "sub1", "file"))
+  expect_identical(colnames(data), c("objects", "name", "sub", "file"))
   expect_identical(unlist(data$objects), x)
   expect_identical(data$name, "x")
-  expect_identical(data$sub1, "t3")
   expect_identical(data$sub, "t3")
   expect_identical(data$file, 
                    sub("//", "/", file.path(sbf_get_main(), "objects/t2/t3/x.rds")))
@@ -96,6 +95,30 @@ test_that("object",{
   expect_identical(sbf_load_object("x"), x)
   expect_error(sbf_load_object("x2"), "/objects/sub/x2.rds' does not exist")
 })
+
+test_that("object",{
+  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
+  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
+  
+  sbf_set_main(tempdir())
+  x <- 1
+  sbf_set_sub("one")
+  sbf_save_object(x)
+
+  data <- sbf_load_objects_recursive(sub = character(0))
+  expect_is(data, "data.frame")
+  expect_identical(colnames(data), c("objects", "name", "sub", "file"))
+  expect_identical(data$sub, c("one"))
+
+  sbf_set_sub("one", "two")
+  sbf_save_object(x)
+  
+  data <- sbf_load_objects_recursive(sub = character(0))
+  expect_is(data, "data.frame")
+  expect_identical(colnames(data), c("objects", "name", "sub", "sub1", "sub2", "file"))
+  expect_identical(data$sub, c("one/two", "one"))
+})
+
 
 test_that("data",{
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))

@@ -67,7 +67,8 @@ sub_name <- function(data) {
   } 
   data <- data[!grepl("^sub\\d", colnames(data))]
   data$sub <- apply(sub, MARGIN = 1, function(x) paste0(na_omit(x), collapse = "/"))
-  cbind(data, sub)
+  if(ncol(sub) > 1) data <- cbind(data, sub)
+  data
 }
 
 subfolder_columns <- function(x) {
