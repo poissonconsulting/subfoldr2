@@ -282,7 +282,7 @@ load_rdss_recursive <- function(x_name, class, sub, main, include_root,
   files <- list.files(dir, pattern = ext, recursive = TRUE)
   names(files) <- file.path(dir, files)
   files <- sub(ext, "", files)
-  files <- files[grepl(x_name, files)]
+  files <- files[grepl(x_name, basename(files))]
   if(!include_root) files <- files[grepl("/", files)]
   
   if (!length(files)) {

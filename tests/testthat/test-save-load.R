@@ -79,6 +79,9 @@ test_that("object",{
   expect_identical(data$file, 
                    sub("//", "/", file.path(sbf_get_main(), "objects/t2/t3/x.rds")))
   
+  data2 <- sbf_load_objects_recursive("^x", sub = character(0), include_root = FALSE)
+  expect_identical(data2, data)
+  
   data <- sbf_load_objects_recursive(sub = "t2")
   expect_is(data, "data.frame")
   expect_identical(colnames(data), c("objects", "name", "sub", "file"))
