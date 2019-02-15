@@ -1,15 +1,11 @@
 load_rds <- function(x_name, class, sub, main, fun = NULL) {
-  check_string(x_name)
-  check_vector(sub, "", length = c(0L, 1L))
-  check_string(main)
   
-  sub <- sanitize_path(sub)
-  main <- sanitize_path(main, rm_leading = FALSE)
+  file <- create_file_path(x_name, class, sub, main)
   
-  dir <- file_path(main, class, sub, x_name)
-  file <- paste0(dir, ".rds")
-  if (!file.exists(file)) err("file '", file, "' does not exist")
+  if(!file.exists(file)) err("File '", file, "' does not exist.")
+
   object <- readRDS(file)
+  
   if(!is.null(fun))
     object <- fun(object)
   object

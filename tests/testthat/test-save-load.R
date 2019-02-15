@@ -23,7 +23,10 @@ test_that("object",{
   expect_identical(sbf_load_objects(), c("x", "y"))
   expect_identical(x, 1)
   expect_identical(y, 2)
-  
+ 
+  expect_true(sbf_object_exists("x")) 
+  expect_false(sbf_object_exists("x2")) 
+
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_object("x"), x)
   
@@ -138,6 +141,9 @@ test_that("data",{
   expect_identical(sbf_load_data("x"), x)
   expect_error(sbf_load_data("x2"), "/data/x2.rds' does not exist")
   
+  expect_true(sbf_data_exists("x")) 
+  expect_false(sbf_data_exists("x2")) 
+  
   y <- data.frame(z = 3)
   expect_identical(sbf_save_datas(env = as.environment(list(x = x, y = y))), 
                    c(sub("//", "/", file.path(sbf_get_main(), "data/x.rds")),
@@ -181,6 +187,9 @@ test_that("number",{
   x <- 1L
   expect_identical(sbf_save_number(x), sub("//", "/", file.path(sbf_get_main(), "numbers/x.rds")))
   
+  expect_true(sbf_number_exists("x")) 
+  expect_false(sbf_number_exists("x2")) 
+
   expect_identical(sbf_load_number("x"), 1)
   expect_identical(list.files(file.path(sbf_get_main(), "numbers")),
                    sort(c("x.csv", "x.rds")))
@@ -229,6 +238,9 @@ test_that("string",{
   expect_error(sbf_save_string(), "argument \"x\" is missing, with no default")
   expect_identical(sbf_save_string(y), sub("//", "/", file.path(sbf_get_main(), "strings/y.rds")))
   
+  expect_true(sbf_string_exists("y")) 
+  expect_false(sbf_string_exists("x2")) 
+
   expect_identical(sbf_load_string("y"), "two words")
   expect_identical(list.files(file.path(sbf_get_main(), "strings")),
                    sort(c("y.rda", "y.rds", "y.txt")))
@@ -363,6 +375,9 @@ test_that("table",{
   
   expect_identical(sbf_save_table(x), sub("//", "/", file.path(sbf_get_main(), "tables/x.rds")))
   
+  expect_true(sbf_table_exists("x")) 
+  expect_false(sbf_table_exists("x2")) 
+
   expect_identical(sbf_load_table("x"), x)
   expect_identical(list.files(file.path(sbf_get_main(), "tables")),
                    sort(c("x.rda", "x.csv", "x.rds")))
@@ -422,6 +437,9 @@ test_that("block",{
   expect_error(sbf_save_block(), "argument \"x\" is missing, with no default")
   expect_identical(sbf_save_block(y), sub("//", "/", file.path(sbf_get_main(), "blocks/y.rds")))
   
+  expect_true(sbf_block_exists("y")) 
+  expect_false(sbf_block_exists("x2")) 
+
   expect_identical(sbf_load_block("y"), "two words")
   expect_identical(list.files(file.path(sbf_get_main(), "blocks")),
                    sort(c("y.rda", "y.rds", "y.txt")))
@@ -480,6 +498,9 @@ test_that("plot",{
   expect_equal(sbf_load_plot("x"), x)
   expect_identical(sbf_load_plot_data("x"), data.frame())
   
+  expect_true(sbf_plot_exists("x")) 
+  expect_false(sbf_plot_exists("x2")) 
+
   y <- ggplot2::ggplot(data = data.frame(x = 1, y = 2), ggplot2::aes(x = x, y = y))
   expect_identical(sbf_save_plot(y), sub("//", "/", file.path(sbf_get_main(), "plots/y.rds")))
   
