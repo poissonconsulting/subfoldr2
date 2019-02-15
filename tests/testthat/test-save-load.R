@@ -293,7 +293,7 @@ test_that("datas_to_db",{
   x <- data.frame(x = 1)
   y <- data.frame(z = 3)
   expect_error(sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
-               paste0("file '", sub("//", "/", file.path(sbf_get_main(), "dbs/database.sqlite")), "' doesn't exist"))
+               "file '.*dbs/database.sqlite' doesn't exist")
   
   conn <- sbf_open_db(exists = NA, caption = "really!", tag = "good")
   teardown(suppressWarnings(DBI::dbDisconnect(conn)))
