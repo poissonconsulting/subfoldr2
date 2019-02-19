@@ -123,6 +123,9 @@ test_that("object",{
   expect_is(data, "data.frame")
   expect_identical(colnames(data), c("objects", "name", "sub", "sub1", "sub2", "file"))
   expect_identical(data$sub, c("one/two", "one"))
+  
+  expect_identical(sbf_subs_object_recursive("x", sub = character(0)), c("one/two", "one"))
+  expect_identical(sbf_subs_object_recursive("x2", sub = character(0)), character(0))
 })
 
 
