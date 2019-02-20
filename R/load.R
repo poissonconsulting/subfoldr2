@@ -282,7 +282,8 @@ load_rdss_recursive <- function(x_name, class, sub, main, include_root,
   if(!include_root) files <- files[grepl("/", files)]
   
   if (!length(files)) {
-    data <- data.frame(x = I(list()))
+    data <- tibble(x = I(list()))
+    class(data$x) <- "list"
     names(data) <- class
     data$name <- character(0)
     data$sub <- character(0)
@@ -305,7 +306,8 @@ load_rdss_recursive <- function(x_name, class, sub, main, include_root,
   if(meta) data <- cbind(data, meta_columns(names(files)))
   
   data <- data[is_tag,]
-  as_conditional_tibble(data)
+  class(data[[1]]) <- "list"
+  as_tibble(data)
 }
 
 subs_rds_recursive <- function(x_name, class, sub, main, include_root, ext = "rds") {
@@ -360,8 +362,9 @@ sbf_load_objects_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @export
 sbf_load_datas_recursive <- function(x_name = ".*", sub = sbf_get_sub(), 
                                      main = sbf_get_main(), include_root = TRUE) {
-  load_rdss_recursive(x_name, "data", sub = sub, main = main, 
+  data <- load_rdss_recursive(x_name, "data", sub = sub, main = main, 
                       include_root = include_root)
+  data
 }
 
 #' Load Numbers as Column in Data Frame

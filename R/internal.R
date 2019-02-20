@@ -98,10 +98,14 @@ meta_columns <- function(x) {
   data.table::rbindlist(x)
 }
 
-as_conditional_tibble <- function(x) {
-  if(requireNamespace("tibble", quietly = TRUE)) {
-    x <- tibble::as_tibble(x)
-  }
+tibble <- function(...) {
+  x <- data.frame(..., stringsAsFactors = FALSE)
+  as_tibble(x)
+}
+
+as_tibble <- function(x) {
+  row.names(x) <- NULL
+  class(x) <- c("tbl_df", "tbl", "data.frame")
   x
 }
 
