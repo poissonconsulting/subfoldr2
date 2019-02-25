@@ -54,7 +54,7 @@ sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(main)
+  main <- check_string(main, coerce = TRUE)
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)  
@@ -74,7 +74,7 @@ sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(main)
+  main <- check_string(main, coerce = TRUE)
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)  
@@ -94,7 +94,7 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x <- check_number(x, coerce = TRUE)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(main)
+  main <- check_string(main, coerce = TRUE)
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)  
@@ -119,7 +119,7 @@ sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x <- check_string(x, coerce = TRUE)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(main)
+  main <- check_string(main, coerce = TRUE)
  
   check_flag(report)
   check_string(tag)
@@ -149,7 +149,7 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   check_table(x, x_name = x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(main)
+  main <- check_string(main, coerce = TRUE)
   
   check_string(caption)
   check_flag(report)
@@ -181,7 +181,7 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(main)
+  main <- check_string(main, coerce = TRUE)
   
   check_string(caption)
   check_flag(report)
@@ -227,7 +227,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
     x_name <- "plot"
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(main)
+  main <- check_string(main, coerce = TRUE)
   
   check_string(caption)
   check_flag(report)
@@ -277,7 +277,7 @@ sbf_save_window <- function(x_name = "window",
   
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(main)
+  main <- check_string(main, coerce = TRUE)
   
   check_string(caption)
   check_flag(report)
@@ -341,7 +341,7 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
   check_string(x) 
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(main)
+  main <- check_string(main, coerce = TRUE)
   
   check_string(caption)
   check_flag(report)
