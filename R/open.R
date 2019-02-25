@@ -49,7 +49,7 @@ sbf_open_db <- function(db_name = "database", sub = sbf_get_sub(), main = sbf_ge
   main <- check_string(main, coerce = TRUE)
   check_scalar(exists, c(TRUE, NA))
   check_scalar(report, c(NA, TRUE))
-  checkor(check_null(caption), check_string(caption))
+  checkor(check_null(caption), check_string(caption, coerce = TRUE))
   checkor(check_null(tag), check_string(tag))
   
   sub <- sanitize_path(sub)
