@@ -88,7 +88,7 @@ sbf_load_plot_data <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_save_data_to_db
 #' @inheritParams sbf_load_objects
-#' @inheritParams readwritesqlite::rws_read_sqlite
+#' @inheritParams readwritesqlite::rws_read
 #' @return A data.frame of the table.
 #' @export
 sbf_load_data_from_db <- function(x_name, db_name = "database", 
@@ -252,7 +252,7 @@ sbf_load_datas_from_db <- function(db_name = "database", sub = sbf_get_sub(),
   conn <- sbf_open_db(db_name, sub = sub, main = main)
   on.exit(sbf_close_db(conn))
   
-  datas <- rws_read_sqlite(conn)
+  datas <- rws_read(conn)
   names(datas) <- rename(names(datas))
   mapply(assign, names(datas), datas, MoreArgs = list(envir = env))
   invisible(names(datas))
