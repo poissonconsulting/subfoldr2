@@ -53,7 +53,8 @@ sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                             main = sbf_get_main()) {
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
-  check_vector(sub, "", length = c(0L, 1L))
+  chk_is(sub, "character")
+  chk_range(length(sub), c(0L, 1L))
   chk_string(main)
   
   sub <- sanitize_path(sub)
@@ -73,7 +74,8 @@ sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   chk_is(x, "data.frame")
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
-  check_vector(sub, "", length = c(0L, 1L))
+  chk_is(sub, "character")
+  chk_range(length(sub), c(0L, 1L))
   chk_string(main)
   
   sub <- sanitize_path(sub)
@@ -94,7 +96,8 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   chk_number(x)
   x <- as.double(x)
   check_x_name(x_name)
-  check_vector(sub, "", length = c(0L, 1L))
+  chk_is(sub, "character")
+  chk_range(length(sub), c(0L, 1L))
   chk_string(main)
   
   sub <- sanitize_path(sub)
@@ -119,7 +122,8 @@ sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x_name <- chk_deparse(x_name)
   chk_string(x)
   check_x_name(x_name)
-  check_vector(sub, "", length = c(0L, 1L))
+  chk_is(sub, "character")
+  chk_range(length(sub), c(0L, 1L))
   chk_string(main)
  
   chk_flag(report)
@@ -149,7 +153,8 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x_name <- chk_deparse(x_name)
   check_table(x, x_name = x_name)
   check_x_name(x_name)
-  check_vector(sub, "", length = c(0L, 1L))
+  chk_is(sub, "character")
+  chk_range(length(sub), c(0L, 1L))
   chk_string(main)
   
   chk_string(caption)
@@ -181,7 +186,8 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   check_nchar(x)
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
-  check_vector(sub, "", length = c(0L, 1L))
+  chk_is(sub, "character")
+  chk_range(length(sub), c(0L, 1L))
   chk_string(main)
   
   chk_string(caption)
@@ -227,7 +233,8 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   if(identical(x_name, "ggplot2::last_plot()"))
     x_name <- "plot"
   check_x_name(x_name)
-  check_vector(sub, "", length = c(0L, 1L))
+  chk_is(sub, "character")
+  chk_range(length(sub), c(0L, 1L))
   chk_string(main)
   
   chk_string(caption)
@@ -281,7 +288,8 @@ sbf_save_window <- function(x_name = "window",
                             dpi = 300) {
   
   check_x_name(x_name)
-  check_vector(sub, "", length = c(0L, 1L))
+  chk_is(sub, "character")
+  chk_range(length(sub), c(0L, 1L))
   chk_string(main)
   chk_string(caption)
   chk_flag(report)
@@ -346,7 +354,8 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
                          width = NA, units = "in") {
   chk_string(x) 
   check_x_name(x_name)
-  check_vector(sub, "", length = c(0L, 1L))
+  chk_is(sub, "character")
+  chk_range(length(sub), c(0L, 1L))
   chk_string(main)
   
   chk_string(caption)

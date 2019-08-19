@@ -33,7 +33,8 @@ replace_ext <- function(x, new_ext) {
 
 create_file_path <- function(x_name, class, sub, main, ext = "rds") {
   chk_string(x_name)
-  check_vector(sub, "", length = c(0L, 1L))
+  chk_is(sub, "character")
+  chk_range(length(sub), c(0L, 1L))
   chk_string(main)
   
   sub <- sanitize_path(sub)
