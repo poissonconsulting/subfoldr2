@@ -122,7 +122,7 @@ sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   check_vector(sub, "", length = c(0L, 1L))
   chk_string(main)
  
-  check_flag(report)
+  chk_flag(report)
   chk_string(tag)
   
   sub <- sanitize_path(sub)
@@ -153,7 +153,7 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   chk_string(main)
   
   chk_string(caption)
-  check_flag(report)
+  chk_flag(report)
   chk_string(tag)
 
   sub <- sanitize_path(sub)
@@ -185,7 +185,7 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   chk_string(main)
   
   chk_string(caption)
-  check_flag(report)
+  chk_flag(report)
   chk_string(tag)
   
   sub <- sanitize_path(sub)
@@ -231,7 +231,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   chk_string(main)
   
   chk_string(caption)
-  check_flag(report)
+  chk_flag(report)
   chk_string(tag)
   check_scalar(units, c("in", "mm", "cm"))
   
@@ -283,7 +283,7 @@ sbf_save_window <- function(x_name = "window",
   check_vector(sub, "", length = c(0L, 1L))
   chk_string(main)
   chk_string(caption)
-  check_flag(report)
+  chk_flag(report)
   chk_string(tag)
 
   check_scalar(units, c("in", "mm", "cm"))
@@ -348,7 +348,7 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
   chk_string(main)
   
   chk_string(caption)
-  check_flag(report)
+  chk_flag(report)
   chk_string(tag)
 
   check_scalar(units, c("in", "mm", "cm"))

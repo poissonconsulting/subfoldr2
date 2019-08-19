@@ -1,5 +1,5 @@
 rm_all <- function(ask) {
-  check_flag(ask)
+  chk_flag(ask)
   
   main <- sbf_get_main()
   sub <- sbf_get_sub()

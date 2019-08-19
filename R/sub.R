@@ -17,8 +17,8 @@ sbf_get_sub <- function() {
 #' @return An invisible string specifying the new sub folder.
 #' @export
 sbf_set_sub <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
-  check_flag(rm)
-  check_flag(ask)
+  chk_flag(rm)
+  chk_flag(ask)
   path <- file_path(..., collapse = TRUE)
   path <- sanitize_path(path)
   options(sbf.sub = path)
@@ -90,8 +90,8 @@ sbf_get_main <- function() {
 #' @return An invisible string of the path to the main folder.
 #' @export
 sbf_set_main <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
-  check_flag(rm)
-  check_flag(ask)
+  chk_flag(rm)
+  chk_flag(ask)
   sbf_reset_sub()
   path <- file_path(..., collapse = TRUE)
   path <- sanitize_path(path, rm_leading = FALSE)

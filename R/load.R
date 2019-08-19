@@ -264,9 +264,9 @@ load_rdss_recursive <- function(x_name, class, sub, main, include_root,
   chk_string(x_name)
   check_vector(sub, "", length = c(0L, 1L))
   chk_string(main)
-  check_flag(include_root)
+  chk_flag(include_root)
   chk_string(tag)
-  check_flag(meta)
+  chk_flag(meta)
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
@@ -314,7 +314,7 @@ subs_rds_recursive <- function(x_name, class, sub, main, include_root, ext = "rd
   chk_string(x_name)
   check_vector(sub, "", length = c(0L, 1L))
   chk_string(main)
-  check_flag(include_root)
+  chk_flag(include_root)
 
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
