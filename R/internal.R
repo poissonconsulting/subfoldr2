@@ -153,7 +153,7 @@ connect_db <- function(file) {
 }
 
 db_metatable_from_connection <- function(conn) {
-  data <- rws_read_sqlite_meta(conn = conn)
+  data <- rws_read_meta(conn = conn)
   colnames(data) <- sub("Meta$", "", colnames(data))
   data
 }
