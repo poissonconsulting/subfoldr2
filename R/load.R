@@ -99,7 +99,7 @@ sbf_load_data_from_db <- function(x_name, db_name = "database",
   conn <- sbf_open_db(db_name, sub = sub, main = main)
   on.exit(sbf_close_db(conn))
   
-  rws_read_sqlite_table(x_name, conn = conn)
+  rws_read_table(x_name, conn = conn)
 }
 
 #' Load Data Frame of Meta Table from Database
