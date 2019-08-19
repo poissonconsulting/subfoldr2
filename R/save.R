@@ -433,7 +433,7 @@ sbf_save_data_to_db <- function(x, x_name = substitute(x),
 #' @export
 sbf_save_objects <- function(sub = sbf_get_sub(),
                              main = sbf_get_main(), env = parent.frame()) {
-  check_environment(env)
+  chk_is(env, "environment")
   
   names <- objects(envir = env)
   if(!length(names)) {
@@ -457,7 +457,7 @@ sbf_save_objects <- function(sub = sbf_get_sub(),
 #' @export
 sbf_save_datas <- function(sub = sbf_get_sub(),
                            main = sbf_get_main(), env = parent.frame()) {
-  check_environment(env)
+  chk_is(env, "environment")
   
   names <- objects(envir = env)
   is <- vector("logical", length(names))
@@ -485,7 +485,7 @@ sbf_save_datas <- function(sub = sbf_get_sub(),
 #' @export
 sbf_save_numbers <- function(sub = sbf_get_sub(),
                              main = sbf_get_main(), env = parent.frame()) {
-  check_environment(env)
+  chk_is(env, "environment")
   
   names <- objects(envir = env)
   is <- vector("logical", length(names))
@@ -513,7 +513,7 @@ sbf_save_numbers <- function(sub = sbf_get_sub(),
 #' @export
 sbf_save_strings <- function(sub = sbf_get_sub(),
                              main = sbf_get_main(), env = parent.frame()) {
-  check_environment(env)
+  chk_is(env, "environment")
   
   names <- objects(envir = env)
   is <- vector("logical", length(names))
@@ -548,7 +548,7 @@ sbf_save_datas_to_db <- function(db_name = "database", sub = sbf_get_sub(),
                                  env = parent.frame(),
                                  silent = getOption("rws.silent", FALSE)
 ) {
-  check_environment(env)
+  chk_is(env, "environment")
   
   conn <- sbf_open_db(db_name, sub = sub, main = main, exists = TRUE)
   on.exit(sbf_close_db(conn))

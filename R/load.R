@@ -121,7 +121,7 @@ load_rdss <- function(class, sub, main, env, rename, fun = NULL) {
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)  
   
-  check_environment(env)
+  chk_is(env, "environment")
   check_function(rename, nargs = 1L)
   
   sub <- sanitize_path(sub)
@@ -247,7 +247,7 @@ sbf_load_plots_data <- function(sub = sbf_get_sub(), main = sbf_get_main(),
 sbf_load_datas_from_db <- function(db_name = "database", sub = sbf_get_sub(), 
                                    main = sbf_get_main(),
                                    rename = identity, env = parent.frame()) {
-  check_environment(env)
+  chk_is(env, "environment")
   check_function(rename, nargs = 1L)
   
   conn <- sbf_open_db(db_name, sub = sub, main = main)
