@@ -93,8 +93,8 @@ sbf_load_plot_data <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(
 #' @export
 sbf_load_data_from_db <- function(x_name, db_name = "database", 
                                   sub = sbf_get_sub(), main = sbf_get_main()) {
-  check_string(x_name)
-  check_string(db_name)
+  chk_string(x_name)
+  chk_string(db_name)
   
   conn <- sbf_open_db(db_name, sub = sub, main = main)
   on.exit(sbf_close_db(conn))
@@ -118,7 +118,7 @@ sbf_load_db_metatable <- function(db_name = "database",
 
 load_rdss <- function(class, sub, main, env, rename, fun = NULL) {
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(main)  
+  chk_string(main)  
   
   check_environment(env)
   check_function(rename, nargs = 1L)
@@ -261,11 +261,11 @@ sbf_load_datas_from_db <- function(db_name = "database", sub = sbf_get_sub(),
 load_rdss_recursive <- function(x_name, class, sub, main, include_root, 
                                 tag = ".*", meta = FALSE,
                                 fun = NULL, ext = "rds") {
-  check_string(x_name)
+  chk_string(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(main)
+  chk_string(main)
   check_flag(include_root)
-  check_string(tag)
+  chk_string(tag)
   check_flag(meta)
   
   sub <- sanitize_path(sub)
@@ -311,9 +311,9 @@ load_rdss_recursive <- function(x_name, class, sub, main, include_root,
 }
 
 subs_rds_recursive <- function(x_name, class, sub, main, include_root, ext = "rds") {
-  check_string(x_name)
+  chk_string(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(main)
+  chk_string(main)
   check_flag(include_root)
 
   sub <- sanitize_path(sub)

@@ -54,7 +54,7 @@ sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(main)
+  chk_string(main)
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)  
@@ -74,7 +74,7 @@ sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(main)
+  chk_string(main)
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)  
@@ -95,7 +95,7 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x <- as.double(x)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(main)
+  chk_string(main)
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)  
@@ -117,13 +117,13 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                             main = sbf_get_main(), report = TRUE, tag = "") {
   x_name <- chk_deparse(x_name)
-  check_string(x)
+  chk_string(x)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(main)
+  chk_string(main)
  
   check_flag(report)
-  check_string(tag)
+  chk_string(tag)
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
@@ -150,11 +150,11 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   check_table(x, x_name = x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(main)
+  chk_string(main)
   
-  check_string(caption)
+  chk_string(caption)
   check_flag(report)
-  check_string(tag)
+  chk_string(tag)
 
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)  
@@ -177,16 +177,16 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                            main = sbf_get_main(),
                            caption = "", report = TRUE, tag = "") {
-  check_string(x)
+  chk_string(x)
   check_nchar(x)
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(main, coerce = TRUE)
+  chk_string(main)
   
-  check_string(caption)
+  chk_string(caption)
   check_flag(report)
-  check_string(tag)
+  chk_string(tag)
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)  
@@ -228,11 +228,11 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
     x_name <- "plot"
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(main)
+  chk_string(main)
   
-  check_string(caption)
+  chk_string(caption)
   check_flag(report)
-  check_string(tag)
+  chk_string(tag)
   check_scalar(units, c("in", "mm", "cm"))
   
   sub <- sanitize_path(sub)
@@ -281,10 +281,10 @@ sbf_save_window <- function(x_name = "window",
   
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(main)
-  check_string(caption)
+  chk_string(main)
+  chk_string(caption)
   check_flag(report)
-  check_string(tag)
+  chk_string(tag)
 
   check_scalar(units, c("in", "mm", "cm"))
   chk_number(dpi)
@@ -342,14 +342,14 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
                          caption = "", report = TRUE,
                          tag = "",
                          width = NA, units = "in") {
-  check_string(x) 
+  chk_string(x) 
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  check_string(main)
+  chk_string(main)
   
-  check_string(caption)
+  chk_string(caption)
   check_flag(report)
-  check_string(tag)
+  chk_string(tag)
 
   check_scalar(units, c("in", "mm", "cm"))
   
