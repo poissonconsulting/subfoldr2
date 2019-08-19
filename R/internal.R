@@ -44,12 +44,6 @@ create_file_path <- function(x_name, class, sub, main, ext = "rds") {
   paste0(dir, ".", ext)
 }
 
-check_x_name <- function(x_name, nchar = TRUE) {
-  chk_string(x_name)
-  check_nchar(x_name)
-  x_name
-}
-
 named_list <- function() {
   list(x = 1)[-1]
 }

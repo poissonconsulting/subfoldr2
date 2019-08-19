@@ -9,7 +9,7 @@ test_that("object",{
   expect_warning(sbf_load_objects(), "no objects to load")
   
   expect_error(sbf_save_object(x_name = "x"), "argument \"x\" is missing, with no default")
-  expect_error(sbf_save_object(), "x_name must have at least 1 character")
+  expect_error(sbf_save_object(), "^`nchar[(]x_name[)]` must be greater than 0, not 0[.]$")
   expect_identical(sbf_save_object(x), sub("//", "/", file.path(sbf_get_main(), "objects/x.rds")))
   expect_identical(sbf_load_object("x"), x)
   expect_error(sbf_load_object("x2"), "/objects/x2.rds' does not exist")

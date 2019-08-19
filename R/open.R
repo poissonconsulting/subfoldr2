@@ -9,7 +9,8 @@
 #' @export
 sbf_open_pdf <- function(x_name = "plots", sub = sbf_get_sub(), main = sbf_get_main(), 
                          width = 6, height = width) {
-  check_x_name(x_name)
+  chk_string(x_name)
+  chk_gt(nchar(x_name))
   chk_is(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
@@ -53,8 +54,8 @@ sbf_open_db <- function(db_name = "database", sub = sbf_get_sub(), main = sbf_ge
   chk_string(main)
   chk_lgl(exists)
   chk_lgl(report)
-  checkor(check_null(caption), chk_string(caption))
-  checkor(check_null(tag), chk_string(tag))
+  if(!is.null(caption)) chk_string(caption)
+  if(!is.null(tag)) chk_string(tag)
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)

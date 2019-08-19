@@ -52,7 +52,8 @@ read_meta <- function(class, sub, main, x_name) {
 sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                             main = sbf_get_main()) {
   x_name <- chk_deparse(x_name)
-  check_x_name(x_name)
+  chk_string(x_name)
+  chk_gt(nchar(x_name))
   chk_is(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
@@ -73,7 +74,8 @@ sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                           main = sbf_get_main()) {
   chk_is(x, "data.frame")
   x_name <- chk_deparse(x_name)
-  check_x_name(x_name)
+  chk_string(x_name)
+  chk_gt(nchar(x_name))
   chk_is(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
@@ -95,7 +97,8 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x_name <- chk_deparse(x_name)
   chk_number(x)
   x <- as.double(x)
-  check_x_name(x_name)
+  chk_string(x_name)
+  chk_gt(nchar(x_name))
   chk_is(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
@@ -121,7 +124,8 @@ sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                             main = sbf_get_main(), report = TRUE, tag = "") {
   x_name <- chk_deparse(x_name)
   chk_string(x)
-  check_x_name(x_name)
+  chk_string(x_name)
+  chk_gt(nchar(x_name))
   chk_is(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
@@ -152,7 +156,8 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                            caption = "", report = TRUE, tag = "") {
   x_name <- chk_deparse(x_name)
   check_table(x, x_name = x_name)
-  check_x_name(x_name)
+  chk_string(x_name)
+  chk_gt(nchar(x_name))
   chk_is(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
@@ -183,9 +188,10 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                            main = sbf_get_main(),
                            caption = "", report = TRUE, tag = "") {
   chk_string(x)
-  check_nchar(x)
+  chk_gt(nchar(x))
   x_name <- chk_deparse(x_name)
-  check_x_name(x_name)
+  chk_string(x_name)
+  chk_gt(nchar(x_name))
   chk_is(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
@@ -232,7 +238,8 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   x_name <- chk_deparse(x_name)
   if(identical(x_name, "ggplot2::last_plot()"))
     x_name <- "plot"
-  check_x_name(x_name)
+  chk_string(x_name)
+  chk_gt(nchar(x_name))
   chk_is(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
@@ -287,7 +294,8 @@ sbf_save_window <- function(x_name = "window",
                             width = NA, height = width, units = "in", 
                             dpi = 300) {
   
-  check_x_name(x_name)
+  chk_string(x_name)
+  chk_gt(nchar(x_name))
   chk_is(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
@@ -353,7 +361,8 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
                          tag = "",
                          width = NA, units = "in") {
   chk_string(x) 
-  check_x_name(x_name)
+  chk_string(x_name)
+  chk_gt(nchar(x_name))
   chk_is(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
@@ -404,7 +413,8 @@ sbf_save_data_to_db <- function(x, x_name = substitute(x),
 ) {
   chk_is(x, "data.frame")
   x_name <- chk_deparse(x_name)
-  check_x_name(x_name)
+  chk_string(x_name)
+  chk_gt(nchar(x_name))
   
   conn <- sbf_open_db(db_name, sub = sub, main = main, exists = TRUE)
   on.exit(sbf_close_db(conn))
