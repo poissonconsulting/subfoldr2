@@ -25,6 +25,7 @@ Suggests:
     testthat,
     covr
 Remotes:
+    poissonconsulting/chk,
     poissonconsulting/err,
     poissonconsulting/checkr,
     poissonconsulting/readwritesqlite
