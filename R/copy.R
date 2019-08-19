@@ -13,7 +13,7 @@ sbf_copy_db <- function(path, db_name = "database", sub = sbf_get_sub(), main = 
                         exists = FALSE, ask = getOption("sbf.ask", TRUE)) {
   chk_file(path)
   if(!chk_match(path, "[.]((db)|(sqlite3{0,1}))$", err = FALSE))
-    err("File '", path, "' must have extension '.db', '.sqlite' or '.sqlite3'")
+    err("File '", path, "' must have extension '.db', '.sqlite' or '.sqlite3'.")
   
   chk_string(db_name)
   check_vector(sub, "", length = c(0L, 1L))
