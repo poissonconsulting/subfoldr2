@@ -233,7 +233,8 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   chk_string(caption)
   chk_flag(report)
   chk_string(tag)
-  check_scalar(units, c("in", "mm", "cm"))
+  chk_string(units)
+  chk_in(units, c("in", "mm", "cm"))
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)  
@@ -286,7 +287,8 @@ sbf_save_window <- function(x_name = "window",
   chk_flag(report)
   chk_string(tag)
 
-  check_scalar(units, c("in", "mm", "cm"))
+  chk_string(units)
+  chk_in(units, c("in", "mm", "cm"))
   chk_number(dpi)
   chk_gt(dpi)
 
@@ -351,7 +353,8 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
   chk_flag(report)
   chk_string(tag)
 
-  check_scalar(units, c("in", "mm", "cm"))
+  chk_string(units)
+  chk_in(units, c("in", "mm", "cm"))
   
   if(!file.exists(x)) err("file '", x, "' does not exist")
   
