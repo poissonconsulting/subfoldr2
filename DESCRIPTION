@@ -7,7 +7,6 @@ Description: Facilitates loading and saving R objects, data frames, tables,
     plots and numbers. 
 License: MIT + file LICENSE
 Imports: 
-    checkr,
     chk,
     tools,
     utils,
@@ -25,7 +24,6 @@ Suggests:
     covr
 Remotes:
     poissonconsulting/chk,
-    poissonconsulting/checkr,
     poissonconsulting/readwritesqlite
 Encoding: UTF-8
 LazyData: true

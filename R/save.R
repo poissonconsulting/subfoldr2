@@ -155,7 +155,12 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                            main = sbf_get_main(),
                            caption = "", report = TRUE, tag = "") {
   x_name <- chk_deparse(x_name)
-  check_table(x, x_name = x_name)
+  chk_is(x, "data.frame")
+  valid <- vapply(x, is_valid_table_column, TRUE)
+  if(any(!valid)) {
+    err("the following columns in `x` are not logical, numeric, character, factor, Date or POSIXct: ", 
+             cc(names(x)[!valid], " and "))
+  }
   chk_string(x_name)
   chk_gt(nchar(x_name))
   chk_is(sub, "character")

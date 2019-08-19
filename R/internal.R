@@ -163,3 +163,14 @@ nsub <- function(sub) {
   if(!length(sub)) return(0)
   length(strsplit(sub, "/")[[1]])
 }
+
+chk_deparse <- function (x) 
+{
+    if (!is.character(x)) 
+        x <- deparse(x)
+    if (is.na(x)) 
+        x <- "NA"
+    if (!chk_string(x, err = FALSE)) 
+      err(substitute(x), " must be a string")
+    x
+}

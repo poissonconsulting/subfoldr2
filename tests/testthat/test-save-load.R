@@ -373,10 +373,10 @@ test_that("table",{
   y <- 1
   expect_warning(sbf_load_tables(), "no tables to load")
   expect_error(sbf_save_table(), "argument \"x\" is missing, with no default")
-  expect_error(sbf_save_table(y), "y must inherit from class data.frame")
+  expect_error(sbf_save_table(y), "^`x` must inherit from class 'data.frame'[.]$")
   x <- data.frame(x = 1)
   expect_error(sbf_save_table(data.frame(zz = I(list(t = 3))), x_name = "y"),
-               "the following columns in y are not logical, numeric, character, factor, Date or POSIXct: 'zz'")
+               "the following columns in `x` are not logical, numeric, character, factor, Date or POSIXct: 'zz'")
   
   expect_identical(sbf_save_table(x), sub("//", "/", file.path(sbf_get_main(), "tables/x.rds")))
   

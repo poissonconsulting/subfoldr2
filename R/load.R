@@ -122,8 +122,10 @@ load_rdss <- function(class, sub, main, env, rename, fun = NULL) {
   chk_string(main)  
   
   chk_is(env, "environment")
-  check_function(rename, nargs = 1L)
-  
+  chk_function(rename)
+  if(length(formals(rename)) != 1L)
+    err("Function `rename` must have one formal argument.")
+
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
   
@@ -248,7 +250,9 @@ sbf_load_datas_from_db <- function(db_name = "database", sub = sbf_get_sub(),
                                    main = sbf_get_main(),
                                    rename = identity, env = parent.frame()) {
   chk_is(env, "environment")
-  check_function(rename, nargs = 1L)
+  chk_function(rename)
+  if(length(formals(rename)) != 1L)
+    err("Function `rename` must have one formal argument.")
   
   conn <- sbf_open_db(db_name, sub = sub, main = main)
   on.exit(sbf_close_db(conn))
