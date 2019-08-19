@@ -49,8 +49,8 @@ sbf_open_db <- function(db_name = "database", sub = sbf_get_sub(), main = sbf_ge
   chk_string(db_name)
   check_vector(sub, "", length = c(0L, 1L))
   chk_string(main)
-  check_scalar(exists, c(TRUE, NA))
-  check_scalar(report, c(NA, TRUE))
+  chk_lgl(exists)
+  chk_lgl(report)
   checkor(check_null(caption), chk_string(caption))
   checkor(check_null(tag), chk_string(tag))
   
