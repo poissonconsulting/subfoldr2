@@ -376,7 +376,7 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
 #' @param x_name A string of the table name.
 #' @param db_name A string of the database name.
 #' @inheritParams sbf_open_db
-#' @inheritParams readwritesqlite::rws_write_sqlite
+#' @inheritParams readwritesqlite::rws_write
 #' @return An invisible character vector of the paths to the saved objects.
 #' @export
 sbf_save_data_to_db <- function(x, x_name = substitute(x),
@@ -393,7 +393,7 @@ sbf_save_data_to_db <- function(x, x_name = substitute(x),
   conn <- sbf_open_db(db_name, sub = sub, main = main, exists = TRUE)
   on.exit(sbf_close_db(conn))
   
-  rws_write_sqlite(x, x_name = x_name, exists = TRUE, 
+  rws_write(x, x_name = x_name, exists = TRUE, 
                    commit = commit, strict = strict, conn = conn,
                    silent = silent)
   invisible(file_name(main, "dbs", sub, db_name, ext = "sqlite"))
@@ -513,7 +513,7 @@ sbf_save_strings <- function(sub = sbf_get_sub(),
 #' @inheritParams sbf_save_objects
 #' @inheritParams sbf_open_db
 #' @param db_name A string of the database name.
-#' @inheritParams readwritesqlite::rws_write_sqlite
+#' @inheritParams readwritesqlite::rws_write
 #' @return An invisible character vector of the paths to the saved objects.
 #' @export
 sbf_save_datas_to_db <- function(db_name = "database", sub = sbf_get_sub(),
@@ -527,7 +527,7 @@ sbf_save_datas_to_db <- function(db_name = "database", sub = sbf_get_sub(),
   conn <- sbf_open_db(db_name, sub = sub, main = main, exists = TRUE)
   on.exit(sbf_close_db(conn))
   
-  rws_write_sqlite(env, exists = TRUE, 
+  rws_write(env, exists = TRUE, 
                    commit = commit, strict = strict, conn = conn,
                    silent = silent)
 }

@@ -240,7 +240,7 @@ sbf_load_plots_data <- function(sub = sbf_get_sub(), main = sbf_get_main(),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
 #' @param db_name A string of the database name.
-#' @inheritParams readwritesqlite::rws_write_sqlite
+#' @inheritParams readwritesqlite::rws_write
 #' @return An invisible character vector of the paths to the saved objects.
 #' @export
 sbf_load_datas_from_db <- function(db_name = "database", sub = sbf_get_sub(), 
