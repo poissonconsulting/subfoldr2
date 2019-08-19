@@ -188,7 +188,7 @@ test_that("number",{
   y <- numeric(0)
   expect_warning(sbf_load_numbers(), "no numbers to load")
   expect_error(sbf_save_number(), "argument \"x\" is missing, with no default")
-  expect_error(sbf_save_number(y), "x must have 1 element")
+  expect_error(sbf_save_number(y), "^`x` must be a number [(]non-missing numeric scalar[)][.]$")
   x <- 1L
   expect_identical(sbf_save_number(x), sub("//", "/", file.path(sbf_get_main(), "numbers/x.rds")))
   

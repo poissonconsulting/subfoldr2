@@ -17,7 +17,7 @@ sbf_copy_db <- function(path, db_name = "database", sub = sbf_get_sub(), main = 
   
   chk_string(db_name)
   check_vector(sub, "", length = c(0L, 1L))
-  main <- check_string(main, coerce = TRUE)
+  check_string(main)
   chk_lgl(exists)
   
   sub <- sanitize_path(sub)

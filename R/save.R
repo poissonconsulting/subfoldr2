@@ -54,7 +54,7 @@ sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  main <- check_string(main, coerce = TRUE)
+  check_string(main)
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)  
@@ -74,7 +74,7 @@ sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  main <- check_string(main, coerce = TRUE)
+  check_string(main)
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)  
@@ -91,10 +91,11 @@ sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                             main = sbf_get_main()) {
   x_name <- chk_deparse(x_name)
-  x <- check_number(x, coerce = TRUE)
+  chk_number(x)
+  x <- as.double(x)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  main <- check_string(main, coerce = TRUE)
+  check_string(main)
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)  
@@ -116,10 +117,10 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                             main = sbf_get_main(), report = TRUE, tag = "") {
   x_name <- chk_deparse(x_name)
-  x <- check_string(x, coerce = TRUE)
+  check_string(x)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  main <- check_string(main, coerce = TRUE)
+  check_string(main)
  
   check_flag(report)
   check_string(tag)
@@ -149,9 +150,9 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   check_table(x, x_name = x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  main <- check_string(main, coerce = TRUE)
+  check_string(main)
   
-  caption <- check_string(caption, coerce = TRUE)
+  check_string(caption)
   check_flag(report)
   check_string(tag)
 
@@ -181,9 +182,9 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  main <- check_string(main, coerce = TRUE)
+  check_string(main, coerce = TRUE)
   
-  caption <- check_string(caption, coerce = TRUE)
+  check_string(caption)
   check_flag(report)
   check_string(tag)
   
@@ -227,9 +228,9 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
     x_name <- "plot"
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  main <- check_string(main, coerce = TRUE)
+  check_string(main)
   
-  caption <- check_string(caption, coerce = TRUE)
+  check_string(caption)
   check_flag(report)
   check_string(tag)
   check_scalar(units, c("in", "mm", "cm"))
@@ -237,8 +238,11 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)  
   
-  dpi <- check_pos_dbl(dpi, coerce = TRUE)
-  csv <- check_pos_int(csv, coerce = TRUE)
+  chk_number(dpi)
+  chk_gt(dpi)
+  check_count(csv)
+
+  csv <- as.integer(csv)
   
   filename <- file_name(main, "plots", sub, x_name, "png")
   
@@ -277,15 +281,15 @@ sbf_save_window <- function(x_name = "window",
   
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  main <- check_string(main, coerce = TRUE)
-  
-  caption <- check_string(caption, coerce = TRUE)
+  check_string(main)
+  check_string(caption)
   check_flag(report)
   check_string(tag)
 
   check_scalar(units, c("in", "mm", "cm"))
-  dpi <- check_pos_dbl(dpi, coerce = TRUE)
-  
+  chk_number(dpi)
+  chk_gt(dpi)
+
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)  
   
@@ -341,9 +345,9 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
   check_string(x) 
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  main <- check_string(main, coerce = TRUE)
+  check_string(main)
   
-  caption <- check_string(caption, coerce = TRUE)
+  check_string(caption)
   check_flag(report)
   check_string(tag)
 

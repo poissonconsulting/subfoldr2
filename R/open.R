@@ -11,10 +11,12 @@ sbf_open_pdf <- function(x_name = "plots", sub = sbf_get_sub(), main = sbf_get_m
                          width = 6, height = width) {
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
-  main <- check_string(main, coerce = TRUE)
-  width <- check_pos_dbl(width, coerce = TRUE)
-  height <- check_pos_dbl(height, coerce = TRUE)
-  
+  check_string(main)
+  chk_number(width)
+  chk_gt(width)
+  chk_number(height)
+  chk_gt(height)
+
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
   
@@ -46,10 +48,10 @@ sbf_open_db <- function(db_name = "database", sub = sbf_get_sub(), main = sbf_ge
                         ask = getOption("sbf.ask", TRUE)) {
   check_string(db_name)
   check_vector(sub, "", length = c(0L, 1L))
-  main <- check_string(main, coerce = TRUE)
+  check_string(main)
   check_scalar(exists, c(TRUE, NA))
   check_scalar(report, c(NA, TRUE))
-  checkor(check_null(caption), check_string(caption, coerce = TRUE))
+  checkor(check_null(caption), check_string(caption))
   checkor(check_null(tag), check_string(tag))
   
   sub <- sanitize_path(sub)

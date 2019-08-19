@@ -59,7 +59,9 @@ sbf_add_sub <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #' @return An invisible string specifying the new sub folder.
 #' @export
 sbf_up_sub <- function(n = 1L, rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
-  n <- check_pos_int(n, coerce = TRUE)
+  chk_count(n)
+
+  n <- as.integer(n)
   sub <- sbf_get_sub()
   nsub <- nsub(sub)
   if(n > nsub) 
