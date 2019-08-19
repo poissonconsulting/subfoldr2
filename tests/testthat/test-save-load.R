@@ -140,7 +140,7 @@ test_that("data",{
   expect_warning(sbf_load_datas(), "no data to load")
   
   expect_error(sbf_save_data(), "argument \"x\" is missing, with no default")
-  expect_error(sbf_save_data(y), "x must inherit from class data.frame")
+  expect_error(sbf_save_data(y), "^`x` must inherit from class 'data.frame'[.]$")
   x <- data.frame(x = 1)
   expect_identical(sbf_save_data(x), sub("//", "/", file.path(sbf_get_main(), "data/x.rds")))
   expect_identical(sbf_load_data("x"), x)
@@ -496,7 +496,7 @@ test_that("plot",{
   
   sbf_set_main(tempdir())
   y <- 1
-  expect_error(sbf_save_plot(y), "x must inherit from class ggplot")
+  expect_error(sbf_save_plot(y), "^`x` must inherit from class 'ggplot'[.]$")
   
   x <- ggplot2::ggplot()
   expect_identical(sbf_save_plot(x), sub("//", "/", file.path(sbf_get_main(), "plots/x.rds")))

@@ -70,7 +70,7 @@ sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @export
 sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                           main = sbf_get_main()) {
-  check_data(x)
+  chk_is(x, "data.frame")
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
   check_vector(sub, "", length = c(0L, 1L))
@@ -222,7 +222,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
                           limitsize = TRUE,
                           csv = 1000L) {
   
-  check_inherits(x, "ggplot")
+  chk_is(x, "ggplot")
   x_name <- chk_deparse(x_name)
   if(identical(x_name, "ggplot2::last_plot()"))
     x_name <- "plot"
@@ -390,7 +390,7 @@ sbf_save_data_to_db <- function(x, x_name = substitute(x),
                                 commit = TRUE, strict = TRUE,
                                 silent = getOption("rws.silent", FALSE)
 ) {
-  check_data(x)
+  chk_is(x, "data.frame")
   x_name <- chk_deparse(x_name)
   check_x_name(x_name)
   
