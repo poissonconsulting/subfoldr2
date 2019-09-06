@@ -260,7 +260,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   
   chk_number(dpi)
   chk_gt(dpi)
-  chk_count(csv)
+  chk_whole_number(csv); chk_gte(csv)
 
   csv <- as.integer(csv)
   
