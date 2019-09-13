@@ -33,7 +33,7 @@ replace_ext <- function(x, new_ext) {
 
 create_file_path <- function(x_name, class, sub, main, ext = "rds") {
   chk_string(x_name)
-  chk_is(sub, "character")
+  chk_s3_class(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
   
@@ -170,7 +170,7 @@ chk_deparse <- function (x)
         x <- deparse(x)
     if (is.na(x)) 
         x <- "NA"
-    if (!chk_string(x, err = FALSE)) 
+    if (!vld_string(x)) 
       err(substitute(x), " must be a string")
     x
 }

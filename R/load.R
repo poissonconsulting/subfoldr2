@@ -117,11 +117,11 @@ sbf_load_db_metatable <- function(db_name = "database",
 }
 
 load_rdss <- function(class, sub, main, env, rename, fun = NULL) {
-  chk_is(sub, "character")
+  chk_s3_class(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)  
   
-  chk_is(env, "environment")
+  chk_s3_class(env, "environment")
   chk_function(rename)
   if(length(formals(rename)) != 1L)
     err("Function `rename` must have one formal argument.")
@@ -249,7 +249,7 @@ sbf_load_plots_data <- function(sub = sbf_get_sub(), main = sbf_get_main(),
 sbf_load_datas_from_db <- function(db_name = "database", sub = sbf_get_sub(), 
                                    main = sbf_get_main(),
                                    rename = identity, env = parent.frame()) {
-  chk_is(env, "environment")
+  chk_s3_class(env, "environment")
   chk_function(rename)
   if(length(formals(rename)) != 1L)
     err("Function `rename` must have one formal argument.")
@@ -267,7 +267,7 @@ load_rdss_recursive <- function(x_name, class, sub, main, include_root,
                                 tag = ".*", meta = FALSE,
                                 fun = NULL, ext = "rds") {
   chk_string(x_name)
-  chk_is(sub, "character")
+  chk_s3_class(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
   chk_flag(include_root)
@@ -318,7 +318,7 @@ load_rdss_recursive <- function(x_name, class, sub, main, include_root,
 
 subs_rds_recursive <- function(x_name, class, sub, main, include_root, ext = "rds") {
   chk_string(x_name)
-  chk_is(sub, "character")
+  chk_s3_class(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
   chk_flag(include_root)

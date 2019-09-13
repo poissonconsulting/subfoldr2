@@ -7,7 +7,7 @@ Description: Facilitates loading and saving R objects, data frames, tables,
     plots and numbers. 
 License: MIT + file LICENSE
 Imports: 
-    chk (>= 0.0.1.9008),
+    chk (>= 0.0.1.9019),
     tools,
     utils,
     yesno,

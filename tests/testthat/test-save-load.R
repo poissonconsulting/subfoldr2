@@ -9,7 +9,7 @@ test_that("object",{
   expect_warning(sbf_load_objects(), "no objects to load")
   
   expect_error(sbf_save_object(x_name = "x"), "argument \"x\" is missing, with no default")
-  expect_error(sbf_save_object(), "^`nchar[(]x_name[)]` must be greater than 0, not 0[.]$")
+  expect_error(sbf_save_object(), "^`nchar[(]x_name[)]` must be greater than 0, not 0[.]$", class = "chk_error")
   expect_identical(sbf_save_object(x), sub("//", "/", file.path(sbf_get_main(), "objects/x.rds")))
   expect_identical(sbf_load_object("x"), x)
   expect_error(sbf_load_object("x2"), "/objects/x2.rds' does not exist")
@@ -140,7 +140,7 @@ test_that("data",{
   expect_warning(sbf_load_datas(), "no data to load")
   
   expect_error(sbf_save_data(), "argument \"x\" is missing, with no default")
-  expect_error(sbf_save_data(y), "^`x` must inherit from class 'data.frame'[.]$")
+  expect_error(sbf_save_data(y), "^`x` must inherit from S3 class 'data.frame'[.]$", class = "chk_error")
   x <- data.frame(x = 1)
   expect_identical(sbf_save_data(x), sub("//", "/", file.path(sbf_get_main(), "data/x.rds")))
   expect_identical(sbf_load_data("x"), x)
@@ -188,7 +188,7 @@ test_that("number",{
   y <- numeric(0)
   expect_warning(sbf_load_numbers(), "no numbers to load")
   expect_error(sbf_save_number(), "argument \"x\" is missing, with no default")
-  expect_error(sbf_save_number(y), "^`x` must be a number [(]non-missing numeric scalar[)][.]$")
+  expect_error(sbf_save_number(y), "^`x` must be a number [(]non-missing numeric scalar[)][.]$", class = "chk_error")
   x <- 1L
   expect_identical(sbf_save_number(x), sub("//", "/", file.path(sbf_get_main(), "numbers/x.rds")))
   
@@ -309,7 +309,7 @@ test_that("datas_to_db",{
   expect_identical(meta, list(caption = "really!", report = TRUE, tag = "good"))
   
   expect_error(sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
-               "exists = TRUE but the following data frames in 'x' are unrecognised: 'y' and 'x'")
+               "The following data frames in 'x' are unrecognised: 'y' and 'x'; but exists = TRUE.")
   
   DBI::dbGetQuery(conn, "CREATE TABLE x (
                   x INTEGER PRIMARY KEY NOT NULL)")
@@ -373,7 +373,7 @@ test_that("table",{
   y <- 1
   expect_warning(sbf_load_tables(), "no tables to load")
   expect_error(sbf_save_table(), "argument \"x\" is missing, with no default")
-  expect_error(sbf_save_table(y), "^`x` must inherit from class 'data.frame'[.]$")
+  expect_error(sbf_save_table(y), "^`x` must inherit from S3 class 'data.frame'[.]$", class = "chk_error")
   x <- data.frame(x = 1)
   expect_error(sbf_save_table(data.frame(zz = I(list(t = 3))), x_name = "y"),
                "the following columns in `x` are not logical, numeric, character, factor, Date or POSIXct: 'zz'")
@@ -496,7 +496,8 @@ test_that("plot",{
   
   sbf_set_main(tempdir())
   y <- 1
-  expect_error(sbf_save_plot(y), "^`x` must inherit from class 'ggplot'[.]$")
+  expect_error(sbf_save_plot(y), "^`x` must inherit from S3 class 'ggplot'[.]$",
+               class = "chk_error")
   
   x <- ggplot2::ggplot()
   expect_identical(sbf_save_plot(x), sub("//", "/", file.path(sbf_get_main(), "plots/x.rds")))

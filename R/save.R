@@ -54,7 +54,7 @@ sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x_name <- chk_deparse(x_name)
   chk_string(x_name)
   chk_gt(nchar(x_name))
-  chk_is(sub, "character")
+  chk_s3_class(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
   
@@ -72,11 +72,11 @@ sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @export
 sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                           main = sbf_get_main()) {
-  chk_is(x, "data.frame")
+  chk_s3_class(x, "data.frame")
   x_name <- chk_deparse(x_name)
   chk_string(x_name)
   chk_gt(nchar(x_name))
-  chk_is(sub, "character")
+  chk_s3_class(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
   
@@ -99,7 +99,7 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x <- as.double(x)
   chk_string(x_name)
   chk_gt(nchar(x_name))
-  chk_is(sub, "character")
+  chk_s3_class(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
   
@@ -126,7 +126,7 @@ sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   chk_string(x)
   chk_string(x_name)
   chk_gt(nchar(x_name))
-  chk_is(sub, "character")
+  chk_s3_class(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
  
@@ -155,7 +155,7 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                            main = sbf_get_main(),
                            caption = "", report = TRUE, tag = "") {
   x_name <- chk_deparse(x_name)
-  chk_is(x, "data.frame")
+  chk_s3_class(x, "data.frame")
   valid <- vapply(x, is_valid_table_column, TRUE)
   if(any(!valid)) {
     err("the following columns in `x` are not logical, numeric, character, factor, Date or POSIXct: ", 
@@ -163,7 +163,7 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   }
   chk_string(x_name)
   chk_gt(nchar(x_name))
-  chk_is(sub, "character")
+  chk_s3_class(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
   
@@ -197,7 +197,7 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x_name <- chk_deparse(x_name)
   chk_string(x_name)
   chk_gt(nchar(x_name))
-  chk_is(sub, "character")
+  chk_s3_class(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
   
@@ -239,13 +239,13 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
                           limitsize = TRUE,
                           csv = 1000L) {
   
-  chk_is(x, "ggplot")
+  chk_s3_class(x, "ggplot")
   x_name <- chk_deparse(x_name)
   if(identical(x_name, "ggplot2::last_plot()"))
     x_name <- "plot"
   chk_string(x_name)
   chk_gt(nchar(x_name))
-  chk_is(sub, "character")
+  chk_s3_class(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
   
@@ -253,7 +253,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   chk_flag(report)
   chk_string(tag)
   chk_string(units)
-  chk_in(units, c("in", "mm", "cm"))
+  chk_subset(units, c("in", "mm", "cm"))
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)  
@@ -301,7 +301,7 @@ sbf_save_window <- function(x_name = "window",
   
   chk_string(x_name)
   chk_gt(nchar(x_name))
-  chk_is(sub, "character")
+  chk_s3_class(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
   chk_string(caption)
@@ -309,7 +309,7 @@ sbf_save_window <- function(x_name = "window",
   chk_string(tag)
 
   chk_string(units)
-  chk_in(units, c("in", "mm", "cm"))
+  chk_subset(units, c("in", "mm", "cm"))
   chk_number(dpi)
   chk_gt(dpi)
 
@@ -368,7 +368,7 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
   chk_string(x) 
   chk_string(x_name)
   chk_gt(nchar(x_name))
-  chk_is(sub, "character")
+  chk_s3_class(sub, "character")
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
   
@@ -377,7 +377,7 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
   chk_string(tag)
 
   chk_string(units)
-  chk_in(units, c("in", "mm", "cm"))
+  chk_subset(units, c("in", "mm", "cm"))
   
   if(!file.exists(x)) err("file '", x, "' does not exist")
   
@@ -416,7 +416,7 @@ sbf_save_data_to_db <- function(x, x_name = substitute(x),
                                 commit = TRUE, strict = TRUE,
                                 silent = getOption("rws.silent", FALSE)
 ) {
-  chk_is(x, "data.frame")
+  chk_s3_class(x, "data.frame")
   x_name <- chk_deparse(x_name)
   chk_string(x_name)
   chk_gt(nchar(x_name))
@@ -438,7 +438,7 @@ sbf_save_data_to_db <- function(x, x_name = substitute(x),
 #' @export
 sbf_save_objects <- function(sub = sbf_get_sub(),
                              main = sbf_get_main(), env = parent.frame()) {
-  chk_is(env, "environment")
+  chk_s3_class(env, "environment")
   
   names <- objects(envir = env)
   if(!length(names)) {
@@ -462,7 +462,7 @@ sbf_save_objects <- function(sub = sbf_get_sub(),
 #' @export
 sbf_save_datas <- function(sub = sbf_get_sub(),
                            main = sbf_get_main(), env = parent.frame()) {
-  chk_is(env, "environment")
+  chk_s3_class(env, "environment")
   
   names <- objects(envir = env)
   is <- vector("logical", length(names))
@@ -490,7 +490,7 @@ sbf_save_datas <- function(sub = sbf_get_sub(),
 #' @export
 sbf_save_numbers <- function(sub = sbf_get_sub(),
                              main = sbf_get_main(), env = parent.frame()) {
-  chk_is(env, "environment")
+  chk_s3_class(env, "environment")
   
   names <- objects(envir = env)
   is <- vector("logical", length(names))
@@ -518,7 +518,7 @@ sbf_save_numbers <- function(sub = sbf_get_sub(),
 #' @export
 sbf_save_strings <- function(sub = sbf_get_sub(),
                              main = sbf_get_main(), env = parent.frame()) {
-  chk_is(env, "environment")
+  chk_s3_class(env, "environment")
   
   names <- objects(envir = env)
   is <- vector("logical", length(names))
@@ -553,7 +553,7 @@ sbf_save_datas_to_db <- function(db_name = "database", sub = sbf_get_sub(),
                                  env = parent.frame(),
                                  silent = getOption("rws.silent", FALSE)
 ) {
-  chk_is(env, "environment")
+  chk_s3_class(env, "environment")
   
   conn <- sbf_open_db(db_name, sub = sub, main = main, exists = TRUE)
   on.exit(sbf_close_db(conn))
