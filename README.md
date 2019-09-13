@@ -3,7 +3,7 @@
 
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Travis build
-status](https://travis-ci.org/poissonconsulting/subfoldr2.svg?branch=master)](https://travis-ci.org/poissonconsulting/subfoldr2)
+status](https://travis-ci.com/poissonconsulting/subfoldr2.svg?branch=master)](https://travis-ci.com/poissonconsulting/subfoldr2)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/poissonconsulting/subfoldr2?branch=master&svg=true)](https://ci.appveyor.com/project/poissonconsulting/subfoldr2)
 [![Coverage
@@ -90,12 +90,12 @@ sbf_load_objects()
 ls()
 #> [1] "df" "x"  "x3"
 sbf_load_objects_recursive(sub = "times2")
-#> # A tibble: 3 x 5
-#>   objects        name  sub1   sub   file                                   
-#>   <I(list)>      <chr> <chr>  <chr> <chr>                                  
-#> 1 <data.frame [… df    times3 time… /var/folders/48/q6ltldjs251000_wvjrdy_…
-#> 2 <dbl [1]>      x3    times3 time… /var/folders/48/q6ltldjs251000_wvjrdy_…
-#> 3 <dbl [1]>      x     <NA>   ""    /var/folders/48/q6ltldjs251000_wvjrdy_…
+#> # A tibble: 3 x 4
+#>   objects       name  sub    file                                          
+#>   <list>        <chr> <chr>  <chr>                                         
+#> 1 <df[,0] [0 ×… df    times3 /var/folders/48/q6ltldjs251000_wvjrdy_vm0000g…
+#> 2 <dbl [1]>     x3    times3 /var/folders/48/q6ltldjs251000_wvjrdy_vm0000g…
+#> 3 <dbl [1]>     x     ""     /var/folders/48/q6ltldjs251000_wvjrdy_vm0000g…
 ```
 
 ### Deleting Subfolders

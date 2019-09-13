@@ -21,7 +21,9 @@ Imports:
     png
 Suggests: 
     testthat,
-    covr
+    covr,
+    units,
+    sf
 Remotes:
     poissonconsulting/chk,
     poissonconsulting/readwritesqlite
