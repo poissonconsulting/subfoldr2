@@ -17,7 +17,7 @@ test_that("sub",{
   expect_identical(sbf_up_sub(), "sub/tub/bub")
   expect_identical(sbf_up_sub(2), "sub")
   expect_identical(sbf_up_sub(), character(0))
-  expect_error(sbf_up_sub(3), "n [(]3[)] must not exceed the number of subfolders [(]0[)]")
+  expect_error(sbf_up_sub(3), "^`n` [(]3[)] must not exceed the number of subfolders [(]0[)][.]$", class = "chk_error")
   
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_get_sub(), character(0))

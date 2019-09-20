@@ -65,7 +65,7 @@ sbf_up_sub <- function(n = 1L, rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
   sub <- sbf_get_sub()
   nsub <- nsub(sub)
   if(n > nsub) 
-    err("n (", n, ") must not exceed the number of subfolders (", nsub, ")")
+    abort_chk("`n` (", n, ") must not exceed the number of subfolders (", nsub, ")")
   sub <- strsplit(sub, "/")[[1]][-((nsub - n + 1L):nsub)]
   sbf_set_sub(sub, rm = rm, ask = ask)
 }

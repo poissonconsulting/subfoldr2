@@ -298,7 +298,7 @@ test_that("datas_to_db",{
   x <- data.frame(x = 1)
   y <- data.frame(z = 3)
   expect_error(sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
-               "file '.*dbs/database.sqlite' doesn't exist")
+               "^`file` must specify an existing file [(]'.*dbs/database.sqlite' can't be found[)].$", class = "chk_error")
   
   conn <- sbf_open_db(exists = NA, caption = "really!", tag = "good")
   teardown(suppressWarnings(DBI::dbDisconnect(conn)))
@@ -327,7 +327,8 @@ test_that("datas_to_db",{
   x <- 0
   y <- 0
   
-  expect_error(sbf_load_datas_from_db("z"), "file .*/dbs/z.sqlite' doesn't exist")
+  expect_error(sbf_load_datas_from_db("z"), 
+               "^`file` must specify an existing file [(]'.*dbs/z.sqlite' can't be found[)].$", class = "chk_error")
   expect_identical(sbf_load_datas_from_db(), c("x", "y"))
   expect_identical(x, tibble(x = 1L))
   expect_identical(y, tibble(z = 3L))
@@ -376,7 +377,7 @@ test_that("table",{
   expect_error(sbf_save_table(y), "^`x` must inherit from S3 class 'data.frame'[.]$", class = "chk_error")
   x <- data.frame(x = 1)
   expect_error(sbf_save_table(data.frame(zz = I(list(t = 3))), x_name = "y"),
-               "the following columns in `x` are not logical, numeric, character, factor, Date or POSIXct: 'zz'")
+               "^The following columns in `x` are not logical, numeric, character, factor, Date or POSIXct: 'zz'[.]$", class = "chk_error")
   
   expect_identical(sbf_save_table(x), sub("//", "/", file.path(sbf_get_main(), "tables/x.rds")))
   
@@ -572,7 +573,7 @@ test_that("plot",{
 test_that("window",{
   sbf_close_windows()
   teardown(sbf_close_windows())
-  expect_error(sbf_save_window(), "no such device")
+  expect_error(sbf_save_window(), "^No such device[.]$")
   
   teardown(sbf_reset_main(rm = TRUE, ask = FALSE))
   skip('run locally as uses screen devices') 

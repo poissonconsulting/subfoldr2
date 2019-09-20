@@ -11,10 +11,9 @@
 #' @export
 sbf_copy_db <- function(path, db_name = "database", sub = sbf_get_sub(), main = sbf_get_main(), 
                         exists = FALSE, ask = getOption("sbf.ask", TRUE)) {
+  chk_ext(path, c("db", "sqlite", "sqlite3"))
   chk_file(path)
-  if(!vld_match(path, "[.]((db)|(sqlite3{0,1}))$"))
-    err("File '", path, "' must have extension '.db', '.sqlite' or '.sqlite3'.")
-  
+
   chk_string(db_name)
   chk_s3_class(sub, "character")
   chk_range(length(sub), c(0L, 1L))
@@ -26,9 +25,8 @@ sbf_copy_db <- function(path, db_name = "database", sub = sbf_get_sub(), main = 
   
   file <- file_name(main, "dbs", sub, db_name, ext = "sqlite")
   
-  if (isTRUE(exists) && !file.exists(file))
-    err("file '", file, "' doesn't exist")
-  
+  if (isTRUE(exists)) chk_file(file)
+
   if (isFALSE(exists) && file.exists(file)) {
     if (ask && !yesno("Delete file '", file, "'?")) return(FALSE)
     file.remove(file)

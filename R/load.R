@@ -2,7 +2,7 @@ load_rds <- function(x_name, class, sub, main, fun = NULL) {
   
   file <- create_file_path(x_name, class, sub, main)
   
-  if(!file.exists(file)) err("File '", file, "' does not exist.")
+  if(!vld_file(file)) err("File '", file, "' does not exist.")
 
   object <- readRDS(file)
   
@@ -122,9 +122,7 @@ load_rdss <- function(class, sub, main, env, rename, fun = NULL) {
   chk_string(main)  
   
   chk_s3_class(env, "environment")
-  chk_function(rename)
-  if(length(formals(rename)) != 1L)
-    err("Function `rename` must have one formal argument.")
+  chk_function(rename, formals = 1L)
 
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
@@ -250,10 +248,8 @@ sbf_load_datas_from_db <- function(db_name = "database", sub = sbf_get_sub(),
                                    main = sbf_get_main(),
                                    rename = identity, env = parent.frame()) {
   chk_s3_class(env, "environment")
-  chk_function(rename)
-  if(length(formals(rename)) != 1L)
-    err("Function `rename` must have one formal argument.")
-  
+  chk_function(rename, formals = 1)
+
   conn <- sbf_open_db(db_name, sub = sub, main = main)
   on.exit(sbf_close_db(conn))
   

@@ -1,13 +1,13 @@
 Package: subfoldr2
 Title: Load and Save Objects and Plots
-Version: 0.0.0.9034
+Version: 0.0.0.9035
 Authors@R: 
     person("Joe", "Thorley", role = c("aut", "cre"), email = "joe@poissonconsulting.ca", comment = c(ORCID = "0000-0002-7683-4592"))
 Description: Facilitates loading and saving R objects, data frames, tables,
     plots and numbers. 
 License: MIT + file LICENSE
 Imports: 
-    chk (>= 0.0.1.9019),
+    chk (>= 0.0.1.9026),
     tools,
     utils,
     yesno,

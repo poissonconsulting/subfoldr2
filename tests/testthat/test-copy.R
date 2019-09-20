@@ -6,7 +6,7 @@ test_that("sbf_copy_db",{
   
   sbf_set_main(tempdir())
   expect_error(sbf_open_db(exists = TRUE),
-               "^file '.*database.sqlite' doesn't exist$")
+               "^`file` must specify an existing file [(]'.*dbs/database.sqlite' can't be found[)].$", class = "chk_error")
   
   path <- system.file("extdata", "example.sqlite", package = "subfoldr2", 
                       mustWork = TRUE)
@@ -24,17 +24,17 @@ test_that("sbf_copy_db with different name",{
   
   sbf_set_main(tempdir())
   expect_error(sbf_open_db(exists = TRUE),
-               "^file '.*database.sqlite' doesn't exist$")
+               "^`file` must specify an existing file [(]'.*dbs/database.sqlite' can't be found[)].$", class = "chk_error")
 
   expect_error(sbf_open_db("new_one", exists = TRUE),
-               "^file '.*new_one.sqlite' doesn't exist$")
+               "^`file` must specify an existing file [(]'.*dbs/new_one.sqlite' can't be found[)].$", class = "chk_error")
   
   path <- system.file("extdata", "example.sqlite", package = "subfoldr2", 
                       mustWork = TRUE)
   expect_true(sbf_copy_db(path, "new_one"))
 
   expect_error(sbf_open_db(exists = TRUE),
-               "^file '.*database.sqlite' doesn't exist$")
+               "^`file` must specify an existing file [(]'.*dbs/database.sqlite' can't be found[)].$", class = "chk_error")
 
   conn <- sbf_open_db("new_one")
   teardown(suppressWarnings(DBI::dbDisconnect(conn)))
@@ -49,10 +49,10 @@ test_that("sbf_copy_db error messages",{
   path <- system.file("extdata", "example.png", package = "subfoldr2", 
                       mustWork = TRUE)
   expect_error(sbf_copy_db(path), 
-               "^File '.*example[.]png' must have extension '[.]db', '[.]sqlite' or '[.]sqlite3'[.]$")
+               "^`path` must have extension 'db', 'sqlite' or 'sqlite3' [(]not 'png'[)][.]$", class = "chk_error")
 
   path <- sub("[.]png$", ".db", path)
 
   expect_error(sbf_open_db(path),
-               "^file '.*.sqlite' doesn't exist$")
+               "^`file` must specify an existing file [(]'.*.example.db.sqlite' can't be found[)].$", class = "chk_error")
 })

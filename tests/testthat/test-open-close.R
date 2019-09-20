@@ -35,7 +35,7 @@ test_that("db",{
   teardown(graphics.off())
   
   sbf_set_main(tempdir())  
-  expect_error(sbf_open_db("x"), "file '.*dbs/x.sqlite' doesn't exist")
+  expect_error(sbf_open_db("x"), "^`file` must specify an existing file [(]'.*dbs/x.sqlite' can't be found[)].$", class = "chk_error")
 
   conn <- sbf_open_db("x", exists = NA)
   teardown(suppressWarnings(DBI::dbDisconnect(conn)))

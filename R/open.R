@@ -62,9 +62,8 @@ sbf_open_db <- function(db_name = "database", sub = sbf_get_sub(), main = sbf_ge
   
   file <- file_name(main, "dbs", sub, db_name, ext = "sqlite")
   
-  if (isTRUE(exists) && !file.exists(file))
-    err("file '", file, "' doesn't exist")
-  
+  if (isTRUE(exists)) chk_file(file)
+
   if (isFALSE(exists) && file.exists(file)) {
     if (ask && !yesno("Delete file '", file, "'?")) return(FALSE)
     file.remove(file)

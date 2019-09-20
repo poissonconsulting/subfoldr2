@@ -158,7 +158,7 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   chk_s3_class(x, "data.frame")
   valid <- vapply(x, is_valid_table_column, TRUE)
   if(any(!valid)) {
-    err("the following columns in `x` are not logical, numeric, character, factor, Date or POSIXct: ", 
+    abort_chk("the following columns in `x` are not logical, numeric, character, factor, Date or POSIXct: ", 
              cc(names(x)[!valid], " and "))
   }
   chk_string(x_name)
@@ -365,7 +365,8 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
                          caption = "", report = TRUE,
                          tag = "",
                          width = NA, units = "in") {
-  chk_string(x) 
+  chk_file(x)
+  chk_ext(x, "png")
   chk_string(x_name)
   chk_gt(nchar(x_name))
   chk_s3_class(sub, "character")
@@ -378,11 +379,7 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
 
   chk_string(units)
   chk_subset(units, c("in", "mm", "cm"))
-  
-  if(!file.exists(x)) err("file '", x, "' does not exist")
-  
-  if(!grepl("[.]png$", x)) err("file '", x, "' must be a .png file")
-  
+
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE) 
   
