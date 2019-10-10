@@ -19,7 +19,7 @@ sbf_save_data_to_db(x, x_name = substitute(x), db_name = "database",
 
 \item{main}{A string specifying the path to the main folder (by default the current main folder)}
 
-\item{commit}{A flag specifying whether to commit the operations 
+\item{commit}{A flag specifying whether to commit the operations
 (calling with commit = FALSE can be useful for checking data).}
 
 \item{strict}{A flag specifying whether to error if x has extraneous columns or if exists = TRUE extraneous data frames.}
