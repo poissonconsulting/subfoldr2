@@ -4,9 +4,15 @@
 \alias{sbf_save_datas_to_db}
 \title{Save Data Frames to Existing Database}
 \usage{
-sbf_save_datas_to_db(db_name = "database", sub = sbf_get_sub(),
-  main = sbf_get_main(), commit = TRUE, strict = TRUE,
-  env = parent.frame(), silent = getOption("rws.silent", FALSE))
+sbf_save_datas_to_db(
+  db_name = "database",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  commit = TRUE,
+  strict = TRUE,
+  env = parent.frame(),
+  silent = getOption("rws.silent", FALSE)
+)
 }
 \arguments{
 \item{db_name}{A string of the database name.}

@@ -4,8 +4,13 @@
 \alias{sbf_load_datas_from_db}
 \title{Save Data Frames to Database}
 \usage{
-sbf_load_datas_from_db(db_name = "database", sub = sbf_get_sub(),
-  main = sbf_get_main(), rename = identity, env = parent.frame())
+sbf_load_datas_from_db(
+  db_name = "database",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  rename = identity,
+  env = parent.frame()
+)
 }
 \arguments{
 \item{db_name}{A string of the database name.}

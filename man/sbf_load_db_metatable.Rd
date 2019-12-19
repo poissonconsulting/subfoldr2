@@ -4,8 +4,11 @@
 \alias{sbf_load_db_metatable}
 \title{Load Data Frame of Meta Table from Database}
 \usage{
-sbf_load_db_metatable(db_name = "database", sub = sbf_get_sub(),
-  main = sbf_get_main())
+sbf_load_db_metatable(
+  db_name = "database",
+  sub = sbf_get_sub(),
+  main = sbf_get_main()
+)
 }
 \arguments{
 \item{db_name}{A string of the database name.}

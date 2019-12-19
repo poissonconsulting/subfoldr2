@@ -4,9 +4,16 @@
 \alias{sbf_open_db}
 \title{Open SQLite Database Connection}
 \usage{
-sbf_open_db(db_name = "database", sub = sbf_get_sub(),
-  main = sbf_get_main(), exists = TRUE, caption = NULL,
-  report = NA, tag = NULL, ask = getOption("sbf.ask", TRUE))
+sbf_open_db(
+  db_name = "database",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  exists = TRUE,
+  caption = NULL,
+  report = NA,
+  tag = NULL,
+  ask = getOption("sbf.ask", TRUE)
+)
 }
 \arguments{
 \item{db_name}{A string of the database name.}

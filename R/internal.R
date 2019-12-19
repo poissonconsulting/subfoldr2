@@ -86,10 +86,21 @@ subfolder_columns <- function(x) {
   data
 }
 
+meta_to_character <- function(x) {
+  if("caption" %in% colnames(x)) {
+    x$caption <- as.character(x$caption)
+  }
+  if("tag" %in% colnames(x)) {
+    x$tag <- as.character(x$tag)
+  }
+  x
+}
+
 meta_columns <- function(x) {
   x <- replace_ext(x, "rda")
   x <- lapply(x, readRDS)
   x <- lapply(x, as.data.frame, stringsAsFactors = FALSE)
+  x <- lapply(x, meta_to_character)
   data.table::rbindlist(x)
 }
 

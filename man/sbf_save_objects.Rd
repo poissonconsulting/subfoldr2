@@ -4,8 +4,11 @@
 \alias{sbf_save_objects}
 \title{Save Objects}
 \usage{
-sbf_save_objects(sub = sbf_get_sub(), main = sbf_get_main(),
-  env = parent.frame())
+sbf_save_objects(
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  env = parent.frame()
+)
 }
 \arguments{
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}

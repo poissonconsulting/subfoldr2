@@ -4,9 +4,16 @@
 \alias{sbf_save_data_to_db}
 \title{Save Data Frame to Existing Database}
 \usage{
-sbf_save_data_to_db(x, x_name = substitute(x), db_name = "database",
-  sub = sbf_get_sub(), main = sbf_get_main(), commit = TRUE,
-  strict = TRUE, silent = getOption("rws.silent", FALSE))
+sbf_save_data_to_db(
+  x,
+  x_name = substitute(x),
+  db_name = "database",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  commit = TRUE,
+  strict = TRUE,
+  silent = getOption("rws.silent", FALSE)
+)
 }
 \arguments{
 \item{x}{The object to save.}

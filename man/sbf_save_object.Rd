@@ -4,8 +4,12 @@
 \alias{sbf_save_object}
 \title{Save Object}
 \usage{
-sbf_save_object(x, x_name = substitute(x), sub = sbf_get_sub(),
-  main = sbf_get_main())
+sbf_save_object(
+  x,
+  x_name = substitute(x),
+  sub = sbf_get_sub(),
+  main = sbf_get_main()
+)
 }
 \arguments{
 \item{x}{The object to save.}

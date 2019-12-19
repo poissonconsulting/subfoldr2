@@ -4,8 +4,14 @@
 \alias{sbf_save_string}
 \title{Save String}
 \usage{
-sbf_save_string(x, x_name = substitute(x), sub = sbf_get_sub(),
-  main = sbf_get_main(), report = TRUE, tag = "")
+sbf_save_string(
+  x,
+  x_name = substitute(x),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  report = TRUE,
+  tag = ""
+)
 }
 \arguments{
 \item{x}{The string to save.}

@@ -4,8 +4,12 @@
 \alias{sbf_load_objects_recursive}
 \title{Load Objects as List Column in Data Frame}
 \usage{
-sbf_load_objects_recursive(x_name = ".*", sub = sbf_get_sub(),
-  main = sbf_get_main(), include_root = TRUE)
+sbf_load_objects_recursive(
+  x_name = ".*",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  include_root = TRUE
+)
 }
 \arguments{
 \item{x_name}{A string of the regular expression to match.}

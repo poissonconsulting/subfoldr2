@@ -4,9 +4,17 @@
 \alias{sbf_save_png}
 \title{Save png File}
 \usage{
-sbf_save_png(x, x_name = sbf_basename_sans_ext(x), sub = sbf_get_sub(),
-  main = sbf_get_main(), caption = "", report = TRUE, tag = "",
-  width = NA, units = "in")
+sbf_save_png(
+  x,
+  x_name = sbf_basename_sans_ext(x),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  caption = "",
+  report = TRUE,
+  tag = "",
+  width = NA,
+  units = "in"
+)
 }
 \arguments{
 \item{x}{A string of the path to the png file to save.}

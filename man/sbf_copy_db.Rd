@@ -4,9 +4,14 @@
 \alias{sbf_copy_db}
 \title{Copy SQLite Database}
 \usage{
-sbf_copy_db(path, db_name = "database", sub = sbf_get_sub(),
-  main = sbf_get_main(), exists = FALSE, ask = getOption("sbf.ask",
-  TRUE))
+sbf_copy_db(
+  path,
+  db_name = "database",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  exists = FALSE,
+  ask = getOption("sbf.ask", TRUE)
+)
 }
 \arguments{
 \item{path}{A string of the path to the database to copy (with the extension).}

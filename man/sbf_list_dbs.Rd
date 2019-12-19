@@ -4,9 +4,14 @@
 \alias{sbf_list_dbs}
 \title{Gets List of Database Files as a Character Vector}
 \usage{
-sbf_list_dbs(x_name = ".*", sub = sbf_get_sub(),
-  main = sbf_get_main(), recursive = FALSE, include_root = TRUE,
-  ext = "sqlite")
+sbf_list_dbs(
+  x_name = ".*",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  recursive = FALSE,
+  include_root = TRUE,
+  ext = "sqlite"
+)
 }
 \arguments{
 \item{x_name}{A string of the name.}

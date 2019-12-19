@@ -4,8 +4,12 @@
 \alias{sbf_save_number}
 \title{Save Number}
 \usage{
-sbf_save_number(x, x_name = substitute(x), sub = sbf_get_sub(),
-  main = sbf_get_main())
+sbf_save_number(
+  x,
+  x_name = substitute(x),
+  sub = sbf_get_sub(),
+  main = sbf_get_main()
+)
 }
 \arguments{
 \item{x}{The number to save.}

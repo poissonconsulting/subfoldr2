@@ -304,7 +304,7 @@ load_rdss_recursive <- function(x_name, class, sub, main, include_root,
   is_tag <- rep(TRUE, nrow(data))
   if(tag != ".*")
     is_tag <- grepl(tag, meta_columns(names(files))$tag)
-  
+ 
   if(meta) data <- cbind(data, meta_columns(names(files)))
   
   data <- data[is_tag,]

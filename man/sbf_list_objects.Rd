@@ -4,9 +4,14 @@
 \alias{sbf_list_objects}
 \title{Gets List of Object Files as a Character Vector}
 \usage{
-sbf_list_objects(x_name = ".*", sub = sbf_get_sub(),
-  main = sbf_get_main(), recursive = FALSE, include_root = TRUE,
-  ext = "rds")
+sbf_list_objects(
+  x_name = ".*",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  recursive = FALSE,
+  include_root = TRUE,
+  ext = "rds"
+)
 }
 \arguments{
 \item{x_name}{A regular expression of the object names to match.}

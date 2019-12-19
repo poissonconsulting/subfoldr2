@@ -4,9 +4,14 @@
 \alias{sbf_load_windows_recursive}
 \title{Load Window Paths as Character Column in Data Frame}
 \usage{
-sbf_load_windows_recursive(x_name = ".*", sub = sbf_get_sub(),
-  main = sbf_get_main(), include_root = TRUE, tag = ".*",
-  meta = FALSE)
+sbf_load_windows_recursive(
+  x_name = ".*",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  include_root = TRUE,
+  tag = ".*",
+  meta = FALSE
+)
 }
 \arguments{
 \item{x_name}{A string of the name.}

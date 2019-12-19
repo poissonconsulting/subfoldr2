@@ -4,11 +4,19 @@
 \alias{sbf_load_plots_data}
 \title{Load Plots}
 \usage{
-sbf_load_plots_data(sub = sbf_get_sub(), main = sbf_get_main(),
-  rename = identity, env = parent.frame())
+sbf_load_plots_data(
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  rename = identity,
+  env = parent.frame()
+)
 
-sbf_load_plots_data(sub = sbf_get_sub(), main = sbf_get_main(),
-  rename = identity, env = parent.frame())
+sbf_load_plots_data(
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  rename = identity,
+  env = parent.frame()
+)
 }
 \arguments{
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}

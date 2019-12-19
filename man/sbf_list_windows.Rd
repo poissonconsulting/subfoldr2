@@ -4,9 +4,14 @@
 \alias{sbf_list_windows}
 \title{Gets List of Window Files as a Character Vector}
 \usage{
-sbf_list_windows(x_name = ".*", sub = sbf_get_sub(),
-  main = sbf_get_main(), recursive = FALSE, include_root = TRUE,
-  ext = "png")
+sbf_list_windows(
+  x_name = ".*",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  recursive = FALSE,
+  include_root = TRUE,
+  ext = "png"
+)
 }
 \arguments{
 \item{x_name}{A string of the name.}

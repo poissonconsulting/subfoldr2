@@ -4,8 +4,15 @@
 \alias{sbf_save_block}
 \title{Save Block}
 \usage{
-sbf_save_block(x, x_name = substitute(x), sub = sbf_get_sub(),
-  main = sbf_get_main(), caption = "", report = TRUE, tag = "")
+sbf_save_block(
+  x,
+  x_name = substitute(x),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  caption = "",
+  report = TRUE,
+  tag = ""
+)
 }
 \arguments{
 \item{x}{A string of the block to save.}

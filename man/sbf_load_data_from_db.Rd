@@ -4,8 +4,12 @@
 \alias{sbf_load_data_from_db}
 \title{Load Data Frame from Database}
 \usage{
-sbf_load_data_from_db(x_name, db_name = "database",
-  sub = sbf_get_sub(), main = sbf_get_main())
+sbf_load_data_from_db(
+  x_name,
+  db_name = "database",
+  sub = sbf_get_sub(),
+  main = sbf_get_main()
+)
 }
 \arguments{
 \item{x_name}{A string of the name.}

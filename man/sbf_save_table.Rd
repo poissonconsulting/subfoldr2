@@ -4,8 +4,15 @@
 \alias{sbf_save_table}
 \title{Save Table}
 \usage{
-sbf_save_table(x, x_name = substitute(x), sub = sbf_get_sub(),
-  main = sbf_get_main(), caption = "", report = TRUE, tag = "")
+sbf_save_table(
+  x,
+  x_name = substitute(x),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  caption = "",
+  report = TRUE,
+  tag = ""
+)
 }
 \arguments{
 \item{x}{The data frame to save.}

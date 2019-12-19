@@ -644,3 +644,15 @@ test_that("png",{
   expect_identical(data$name, c("example"))
 })
 
+test_that("save table glue",{
+  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
+  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
+  
+  sbf_set_main(tempdir())
+  data <- data.frame(x = 1)
+  sbf_save_table(data, caption = "character")
+  sbf_save_table(data, x_name = "data2", caption = glue::glue("glue"))
+  
+  expect_identical(sbf_load_tables_recursive(meta = TRUE)$caption,
+                   c("character", "glue"))
+})

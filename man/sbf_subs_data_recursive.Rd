@@ -4,8 +4,12 @@
 \alias{sbf_subs_data_recursive}
 \title{Gets Subs of a Data Frame as a Character Vector}
 \usage{
-sbf_subs_data_recursive(x_name, sub = sbf_get_sub(),
-  main = sbf_get_main(), include_root = TRUE)
+sbf_subs_data_recursive(
+  x_name,
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  include_root = TRUE
+)
 }
 \arguments{
 \item{x_name}{A string of the name.}

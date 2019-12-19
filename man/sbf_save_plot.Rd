@@ -4,10 +4,21 @@
 \alias{sbf_save_plot}
 \title{Save Plot}
 \usage{
-sbf_save_plot(x = ggplot2::last_plot(), x_name = substitute(x),
-  sub = sbf_get_sub(), main = sbf_get_main(), caption = "",
-  report = TRUE, tag = "", units = "in", width = NA,
-  height = width, dpi = 300, limitsize = TRUE, csv = 1000L)
+sbf_save_plot(
+  x = ggplot2::last_plot(),
+  x_name = substitute(x),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  caption = "",
+  report = TRUE,
+  tag = "",
+  units = "in",
+  width = NA,
+  height = width,
+  dpi = 300,
+  limitsize = TRUE,
+  csv = 1000L
+)
 }
 \arguments{
 \item{x}{The ggplot object to save.}

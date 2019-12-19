@@ -8,7 +8,7 @@ sbf_close_db(conn)
 }
 \arguments{
 \item{conn}{A \linkS4class{DBIConnection} object, as returned by
-\code{\link[=dbConnect]{dbConnect()}}.}
+\code{\link[DBI:dbConnect]{dbConnect()}}.}
 }
 \description{
 Closes the database connection.
