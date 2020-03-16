@@ -4,7 +4,12 @@
 \alias{sbf_load_plot}
 \title{Load Plot}
 \usage{
-sbf_load_plot(x_name, sub = sbf_get_sub(), main = sbf_get_main())
+sbf_load_plot(
+  x_name,
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  exists = TRUE
+)
 }
 \arguments{
 \item{x_name}{A string of the name.}
@@ -12,9 +17,11 @@ sbf_load_plot(x_name, sub = sbf_get_sub(), main = sbf_get_main())
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
 
 \item{main}{A string specifying the path to the main folder (by default the current main folder)}
+
+\item{exists}{A logical scalar specifying whether the file should exist.}
 }
 \value{
-A ggplot object.
+A ggplot object or NULL if doesn't exist.
 }
 \description{
 Load Plot

@@ -104,17 +104,6 @@ meta_columns <- function(x) {
   data.table::rbindlist(x)
 }
 
-tibble <- function(...) {
-  x <- data.frame(..., stringsAsFactors = FALSE)
-  as_tibble(x)
-}
-
-as_tibble <- function(x) {
-  row.names(x) <- NULL
-  class(x) <- c("tbl_df", "tbl", "data.frame")
-  x
-}
-
 get_plot_data <- function(x) {
   data <- x$data
   if(!is.data.frame(data)) return(data.frame())

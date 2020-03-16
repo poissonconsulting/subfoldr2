@@ -1,10 +1,8 @@
-load_rds <- function(x_name, class, sub, main, fun = NULL) {
+load_rds <- function(x_name, class, sub, main, fun = NULL, exists = TRUE) {
+  path <- get_path(x_name, class, sub, main, ext = "rds", exists = exists)
   
-  file <- create_file_path(x_name, class, sub, main)
-  
-  if(!vld_file(file)) err("File '", file, "' does not exist.")
-
-  object <- readRDS(file)
+  if(!vld_file(path)) return(NULL)
+  object <- readRDS(path)
   
   if(!is.null(fun))
     object <- fun(object)
@@ -14,73 +12,81 @@ load_rds <- function(x_name, class, sub, main, fun = NULL) {
 #' Load Object
 #'
 #' @inheritParams sbf_save_data
-#' @return An R object.
+#' @param exists A logical scalar specifying whether the file should exist.
+#' @return An R object or NULL if doesn't exist.
 #' @export
-sbf_load_object <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main()) {
-  load_rds(x_name, class = "objects", sub = sub, main = main)
+sbf_load_object <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), exists = TRUE) {
+  load_rds(x_name, class = "objects", sub = sub, main = main, exists = exists)
 }
 
 #' Load Data
 #'
 #' @inheritParams sbf_save_object
-#' @return A data frame.
+#' @inheritParams sbf_load_object
+#' @return A data frame or NULL if doesn't exist.
 #' @export
-sbf_load_data <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main()) {
-  load_rds(x_name, class = "data", sub = sub, main = main)
+sbf_load_data <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), exists = TRUE) {
+  load_rds(x_name, class = "data", sub = sub, main = main, exists = exists)
 }
 
 #' Load Number
 #'
 #' @inheritParams sbf_save_object
-#' @return A number.
+#' @inheritParams sbf_load_object
+#' @return A number or NULL if doesn't exist.
 #' @export
-sbf_load_number <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main()) {
-  load_rds(x_name, class = "numbers", sub = sub, main = main)
+sbf_load_number <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), exists = TRUE) {
+  load_rds(x_name, class = "numbers", sub = sub, main = main, exists = exists)
 }
 
 #' Load String
 #'
 #' @inheritParams sbf_save_object
-#' @return A string.
+#' @inheritParams sbf_load_object
+#' @return A string or NULL if doesn't exist.
 #' @export
-sbf_load_string <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main()) {
-  load_rds(x_name, class = "strings", sub = sub, main = main)
+sbf_load_string <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), exists = TRUE) {
+  load_rds(x_name, class = "strings", sub = sub, main = main, exists = exists)
 }
 
 #' Load Code Block
 #'
 #' @inheritParams sbf_save_object
-#' @return A code block.
+#' @inheritParams sbf_load_object
+#' @return A code block or NULL if doesn't exist.
 #' @export
-sbf_load_block <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main()) {
-  load_rds(x_name, class = "blocks", sub = sub, main = main)
+sbf_load_block <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), exists = TRUE) {
+  load_rds(x_name, class = "blocks", sub = sub, main = main, exists = exists)
 }
 
 #' Load Table
 #'
 #' @inheritParams sbf_save_object
-#' @return A data frame.
+#' @inheritParams sbf_load_object
+#' @return A data frame or NULL if doesn't exist.
 #' @export
-sbf_load_table <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main()) {
-  load_rds(x_name, class = "tables", sub = sub, main = main)
+sbf_load_table <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), exists = TRUE) {
+  load_rds(x_name, class = "tables", sub = sub, main = main, exists = exists)
 }
 
 #' Load Plot
 #'
 #' @inheritParams sbf_save_object
-#' @return A ggplot object.
+#' @inheritParams sbf_load_object
+#' @return A ggplot object or NULL if doesn't exist.
 #' @export
-sbf_load_plot <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main()) {
-  load_rds(x_name, class = "plots", sub = sub, main = main)
+sbf_load_plot <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), exists = TRUE) {
+  load_rds(x_name, class = "plots", sub = sub, main = main, exists = exists)
 }
 
 #' Load Plot Data
 #'
 #' @inheritParams sbf_save_object
-#' @return A ggplot object.
+#' @inheritParams sbf_load_object
+#' @return A data.frame or NULL if doesn't exist.
 #' @export
-sbf_load_plot_data <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main()) {
-  load_rds(x_name, class = "plots", sub = sub, main = main, fun = get_plot_data)
+sbf_load_plot_data <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), exists = TRUE) {
+  load_rds(x_name, class = "plots", sub = sub, main = main, fun = get_plot_data, exists = exists)
 }
 
 #' Load Data Frame from Database
