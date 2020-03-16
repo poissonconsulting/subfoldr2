@@ -1,6 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+<!-- badges: start -->
+
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Travis build
 status](https://travis-ci.com/poissonconsulting/subfoldr2.svg?branch=master)](https://travis-ci.com/poissonconsulting/subfoldr2)
@@ -10,6 +12,7 @@ status](https://ci.appveyor.com/api/projects/status/github/poissonconsulting/sub
 status](https://codecov.io/gh/poissonconsulting/subfoldr2/branch/master/graph/badge.svg)](https://codecov.io/github/poissonconsulting/subfoldr2?branch=master)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+<!-- badges: end -->
 
 # subfoldr2
 
@@ -90,12 +93,14 @@ sbf_load_objects()
 ls()
 #> [1] "df" "x"  "x3"
 sbf_load_objects_recursive(sub = "times2")
-#> # A tibble: 3 x 4
-#>   objects       name  sub    file                                          
-#>   <list>        <chr> <chr>  <chr>                                         
-#> 1 <df[,0] [0 ×… df    times3 /var/folders/48/q6ltldjs251000_wvjrdy_vm0000g…
-#> 2 <dbl [1]>     x3    times3 /var/folders/48/q6ltldjs251000_wvjrdy_vm0000g…
-#> 3 <dbl [1]>     x     ""     /var/folders/48/q6ltldjs251000_wvjrdy_vm0000g…
+#>   objects name    sub
+#> 1    NULL   df times3
+#> 2       6   x3 times3
+#> 3       2    x       
+#>                                                                                              file
+#> 1 /var/folders/48/q6ltldjs251000_wvjrdy_vm0000gn/T/RtmpGThnly/output/objects/times2/times3/df.rds
+#> 2 /var/folders/48/q6ltldjs251000_wvjrdy_vm0000gn/T/RtmpGThnly/output/objects/times2/times3/x3.rds
+#> 3         /var/folders/48/q6ltldjs251000_wvjrdy_vm0000gn/T/RtmpGThnly/output/objects/times2/x.rds
 ```
 
 ### Deleting Subfolders
