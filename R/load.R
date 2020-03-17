@@ -254,7 +254,7 @@ sbf_load_datas_from_db <- function(db_name = "database", sub = sbf_get_sub(),
                                    main = sbf_get_main(),
                                    rename = identity, env = parent.frame()) {
   chk_s3_class(env, "environment")
-  chk_function(rename, formals = 1)
+  chk_function(rename)
 
   conn <- sbf_open_db(db_name, sub = sub, main = main)
   on.exit(sbf_close_db(conn))
