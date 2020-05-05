@@ -390,7 +390,7 @@ sbf_load_numbers_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
                                        main = sbf_get_main(), include_root = TRUE) {
   data <- load_rdss_recursive(x_name, "numbers", sub = sub, main = main, 
                               include_root = include_root)
-  data[1] <- unlist(data[1])
+  data[1] <- unname(unlist(data[1]))
   data
 }
 
@@ -413,7 +413,7 @@ sbf_load_strings_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
   data <- load_rdss_recursive(x_name, "strings", sub = sub, main = main, 
                               include_root = include_root, tag = tag, meta = meta)
   if(nrow(data))
-    data[1] <- unlist(data[1])
+    data[1] <- unname(unlist(data[1]))
   else
     data[1] <- character(0)
   data
@@ -456,7 +456,7 @@ sbf_load_blocks_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
                                       meta = FALSE) {
   data <- load_rdss_recursive(x_name, "blocks", sub = sub, main = main, 
                               include_root = include_root, tag = tag, meta = meta)
-  data[1] <- unlist(data[1])
+  data[1] <- unname(unlist(data[1]))
   data
 }
 
