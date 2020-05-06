@@ -4,12 +4,14 @@
 \alias{sbf_print}
 \title{Print}
 \usage{
-sbf_print(x, ntry = 3L)
+sbf_print(x, ntry = 3L, silent = FALSE)
 }
 \arguments{
 \item{x}{An object to print.}
 
 \item{ntry}{A positive whole number specifying the number of attempts.}
+
+\item{silent}{A flag specifying whether to silence error messages.}
 }
 \description{
 Tries to repeatedly print an object.
