@@ -8,7 +8,7 @@
 #' @param ntry A positive whole number specifying the number of attempts.
 #'  
 #' @export
-sbf_print <- function(x, ntry = 10L) {
+sbf_print <- function(x, ntry = 3L) {
   chk_whole_number(ntry)
   chk_gt(ntry)
   i <- 1

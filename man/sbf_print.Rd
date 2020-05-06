@@ -4,7 +4,7 @@
 \alias{sbf_print}
 \title{Print}
 \usage{
-sbf_print(x, ntry = 10L)
+sbf_print(x, ntry = 3L)
 }
 \arguments{
 \item{x}{An object to print.}
