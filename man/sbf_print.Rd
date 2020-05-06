@@ -4,12 +4,14 @@
 \alias{sbf_print}
 \title{Print Object}
 \usage{
-sbf_print(x, ntry = 3L)
+sbf_print(x, ntry = 3L, silent = FALSE)
 }
 \arguments{
 \item{x}{An object to print.}
 
 \item{ntry}{A positive whole number specifying the number of tries.}
+
+\item{silent}{A flag specifying whether to display message from non-grid errors.}
 }
 \description{
 Retries printing an object if grid errors occurs.
