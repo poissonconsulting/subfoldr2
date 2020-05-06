@@ -1,4 +1,5 @@
 test_that("sbf_print", {
-#  expect_output(sbf_print(1)) not sure why not working in tests
+  expect_identical(capture.output(sbf_print(1)), "[1] 1")
+  expect_error(capture.output(stop()))
 })
   

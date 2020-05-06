@@ -18,6 +18,7 @@ sbf_print <- function(x, ntry = 3L, silent = FALSE) {
     try <- try(print(x), silent = silent)
     if(!vld_is(try, "try-error"))
       return(invisible(try))
+    i <- i + 1
   }
   print(x)
 }
