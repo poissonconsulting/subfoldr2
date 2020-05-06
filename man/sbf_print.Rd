@@ -2,20 +2,15 @@
 % Please edit documentation in R/print.R
 \name{sbf_print}
 \alias{sbf_print}
-\title{Print}
+\title{Print ggplot Object}
 \usage{
-sbf_print(x, ntry = 3L, silent = FALSE)
+sbf_print(x, ntry = 3L)
 }
 \arguments{
-\item{x}{An object to print.}
+\item{x}{An ggplot object to print.}
 
-\item{ntry}{A positive whole number specifying the number of attempts.}
-
-\item{silent}{A flag specifying whether to silence error messages.}
+\item{ntry}{A positive whole number specifying the number of tries.}
 }
 \description{
-Tries to repeatedly print an object.
-}
-\details{
-This is a hack to solve the problem with ggplot2/grid graphics.
+Retries printing a ggplot object if grid errors occurs.
 }
