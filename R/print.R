@@ -19,7 +19,7 @@ sbf_print <- function(x, ntry = 3L) {
     try <- try(print(x), silent = TRUE)
     if(!vld_is(try, "try-error"))
       return(invisible(try))
-    if(!any(grepl(grid_errors(), try)))
+    if(!any(vapply(grid_errors(), grepl, TRUE, x = try)))
       return(print(x))
     i <- i + 1
   }

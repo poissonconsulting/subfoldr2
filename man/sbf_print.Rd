@@ -2,15 +2,15 @@
 % Please edit documentation in R/print.R
 \name{sbf_print}
 \alias{sbf_print}
-\title{Print ggplot Object}
+\title{Print Object}
 \usage{
 sbf_print(x, ntry = 3L)
 }
 \arguments{
-\item{x}{An ggplot object to print.}
+\item{x}{An object to print.}
 
 \item{ntry}{A positive whole number specifying the number of tries.}
 }
 \description{
-Retries printing a ggplot object if grid errors occurs.
+Retries printing an object if grid errors occurs.
 }
