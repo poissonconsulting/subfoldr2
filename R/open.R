@@ -18,7 +18,7 @@ sbf_open_pdf <- function(x_name = "plots", sub = sbf_get_sub(), main = sbf_get_m
   chk_gt(width)
   chk_number(height)
   chk_gt(height)
-
+  
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
   
@@ -39,10 +39,10 @@ sbf_open_pdf <- function(x_name = "plots", sub = sbf_get_sub(), main = sbf_get_m
 #' @param ask A flag specifying whether to ask before deleting an existing database (if exists = FALSE).
 #' @param caption A string specifying the database metadata table caption. 
 #' If NULL the caption is unchanged.
-#' If the caption is not specified for a databases it is set to be "".
+#' If the caption is not specified for a databases it is set to be "". Soft-deprecated.
 #' @param report A logical scalar specifying whether to include the database metadata table in the report.
-#' If report = NA the setting is not changed. 
-#' If the report status is not specified for a databases it is included in the report.
+#' If report = NA the setting is not changed. Soft-deprecated.
+#' If the report status is not specified for a databases it is included in the report. Soft-deprecated.
 #' @param tag A string of the tag.
 #' @export
 sbf_open_db <- function(db_name = "database", sub = sbf_get_sub(), main = sbf_get_main(), 
@@ -56,6 +56,10 @@ sbf_open_db <- function(db_name = "database", sub = sbf_get_sub(), main = sbf_ge
   chk_lgl(report)
   if(!is.null(caption)) chk_string(caption)
   if(!is.null(tag)) chk_string(tag)
+  
+  lifecycle::deprecate_soft("0.0.0.9038", "sbf_open_db(caption = )")
+  lifecycle::deprecate_soft("0.0.0.9038", "sbf_open_db(report = )")
+  lifecycle::deprecate_soft("0.0.0.9038", "sbf_open_db(tag = )")
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
