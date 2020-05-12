@@ -57,9 +57,15 @@ sbf_open_db <- function(db_name = "database", sub = sbf_get_sub(), main = sbf_ge
   if(!is.null(caption)) chk_string(caption)
   if(!is.null(tag)) chk_string(tag)
   
-  lifecycle::deprecate_soft("0.0.0.9038", "sbf_open_db(caption = )")
-  lifecycle::deprecate_soft("0.0.0.9038", "sbf_open_db(report = )")
-  lifecycle::deprecate_soft("0.0.0.9038", "sbf_open_db(tag = )")
+  if(!missing(caption)){
+    lifecycle::deprecate_soft("0.0.0.9038", "sbf_open_db(caption = )")
+  }
+  if(!missing(report)) {
+    lifecycle::deprecate_soft("0.0.0.9038", "sbf_open_db(report = )")
+  }
+  if(!missing(tag)) {
+    lifecycle::deprecate_soft("0.0.0.9038", "sbf_open_db(tag = )")
+  }
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
@@ -67,14 +73,14 @@ sbf_open_db <- function(db_name = "database", sub = sbf_get_sub(), main = sbf_ge
   file <- file_name(main, "dbs", sub, db_name, ext = "sqlite")
   
   if (isTRUE(exists)) chk_file(file)
-
+  
   if (isFALSE(exists) && file.exists(file)) {
     if (ask && !yesno("Delete file '", file, "'?")) return(FALSE)
     file.remove(file)
   }
   
   conn <- connect_db(file)
-
+  
   update_db_meta(db_name = db_name, sub = sub, main = main, 
                  caption = caption, report = report, tag = tag)
   
