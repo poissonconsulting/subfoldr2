@@ -329,10 +329,10 @@ test_that("datas_to_db",{
   expect_error(sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
                "The following data frames in 'x' are unrecognised: 'y' and 'x'; but exists = TRUE.")
   
-  DBI::dbGetQuery(conn, "CREATE TABLE x (
+  DBI::dbExecute(conn, "CREATE TABLE x (
                   x INTEGER PRIMARY KEY NOT NULL)")
   
-  DBI::dbGetQuery(conn, "CREATE TABLE y (
+  DBI::dbExecute(conn, "CREATE TABLE y (
                   z INTEGER PRIMARY KEY NOT NULL)")
   
   expect_identical(sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
