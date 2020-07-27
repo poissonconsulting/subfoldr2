@@ -2,6 +2,13 @@
 .Rhistory
 .RData
 .Ruserdata
-output
 
-*.pdf
+.DS_Store
+.Renviron
+.RProfile
+.httr-oauth
+
+*.html
+
+docs/
+inst/docs/
