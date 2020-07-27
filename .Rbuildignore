@@ -11,3 +11,4 @@
 ^build\.R$
 ^output$
 ^data-raw$
+^\.github$
