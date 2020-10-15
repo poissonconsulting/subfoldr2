@@ -73,19 +73,13 @@ By default it saves the last plot to be modified or created." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">subfoldr2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9038</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9039</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
@@ -117,21 +111,21 @@ By default it saves the last plot to be modified or created." />
 By default it saves the last plot to be modified or created.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_save_plot</span>(
-  x = <span class='kw'>ggplot2</span>::<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/last_plot.html'>last_plot</a></span>(),
-  x_name = <span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span>(<span class='kw'>x</span>),
-  sub = <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span>(),
-  main = <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span>(),
-  caption = <span class='st'>""</span>,
-  report = <span class='fl'>TRUE</span>,
-  tag = <span class='st'>""</span>,
-  units = <span class='st'>"in"</span>,
-  width = <span class='fl'>NA</span>,
-  height = <span class='kw'>width</span>,
-  dpi = <span class='fl'>300</span>,
-  limitsize = <span class='fl'>TRUE</span>,
-  csv = <span class='fl'>1000L</span>
-)</pre>
+    <pre class="usage"><span class='fu'>sbf_save_plot</span><span class='op'>(</span>
+  x <span class='op'>=</span> <span class='fu'>ggplot2</span><span class='fu'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/last_plot.html'>last_plot</a></span><span class='op'>(</span><span class='op'>)</span>,
+  x_name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>,
+  sub <span class='op'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span><span class='op'>(</span><span class='op'>)</span>,
+  main <span class='op'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span><span class='op'>(</span><span class='op'>)</span>,
+  caption <span class='op'>=</span> <span class='st'>""</span>,
+  report <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  tag <span class='op'>=</span> <span class='st'>""</span>,
+  units <span class='op'>=</span> <span class='st'>"in"</span>,
+  width <span class='op'>=</span> <span class='cn'>NA</span>,
+  height <span class='op'>=</span> <span class='va'>width</span>,
+  dpi <span class='op'>=</span> <span class='fl'>300</span>,
+  limitsize <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  csv <span class='op'>=</span> <span class='fl'>1000L</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -182,7 +176,7 @@ By default it saves the last plot to be modified or created.</p>
     </tr>
     <tr>
       <th>limitsize</th>
-      <td><p>When <code>TRUE</code> (the default), <code>ggsave</code> will not
+      <td><p>When <code>TRUE</code> (the default), <code>ggsave()</code> will not
 save images larger than 50x50 inches, to prevent the common error of
 specifying dimensions in pixels.</p></td>
     </tr>
@@ -208,7 +202,7 @@ specifying dimensions in pixels.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

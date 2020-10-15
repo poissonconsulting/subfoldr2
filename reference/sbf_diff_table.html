@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Gets Subs of a String as a Character Vector — sbf_subs_string_recursive • subfoldr2</title>
+<title>Diff Table — sbf_diff_table • subfoldr2</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Gets Subs of a String as a Character Vector — sbf_subs_string_recursive" />
-<meta property="og:description" content="Recursively returns all the subs of string with name x_name." />
+<meta property="og:title" content="Diff Table — sbf_diff_table" />
+<meta property="og:description" content="Find differences with existing table data." />
 
 
 
@@ -100,25 +100,29 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Gets Subs of a String as a Character Vector</h1>
+    <h1>Diff Table</h1>
     
-    <div class="hidden name"><code>sbf_subs_string_recursive.Rd</code></div>
+    <div class="hidden name"><code>sbf_diff_table.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Recursively returns all the subs of string with name x_name.</p>
+    <p>Find differences with existing table data.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_subs_string_recursive</span><span class='op'>(</span>
-  <span class='va'>x_name</span>,
+    <pre class="usage"><span class='fu'>sbf_diff_table</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  x_name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>,
   sub <span class='op'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span><span class='op'>(</span><span class='op'>)</span>,
-  main <span class='op'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span><span class='op'>(</span><span class='op'>)</span>,
-  include_root <span class='op'>=</span> <span class='cn'>TRUE</span>
+  main <span class='op'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>The object to save.</p></td>
+    </tr>
     <tr>
       <th>x_name</th>
       <td><p>A string of the name.</p></td>
@@ -131,12 +135,11 @@
       <th>main</th>
       <td><p>A string specifying the path to the main folder (by default the current main folder)</p></td>
     </tr>
-    <tr>
-      <th>include_root</th>
-      <td><p>A flag indicating whether to include objects in the top sub folder.</p></td>
-    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A daff difference object.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
