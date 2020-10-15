@@ -40,7 +40,8 @@
 
 
 <meta property="og:title" content="Diff Table — sbf_diff_table" />
-<meta property="og:description" content="Find differences with existing table data." />
+<meta property="og:description" content="Find differences with existing table data.
+If doesn't exist (exists = NA) x is compared to itself." />
 
 
 
@@ -106,14 +107,16 @@
     </div>
 
     <div class="ref-description">
-    <p>Find differences with existing table data.</p>
+    <p>Find differences with existing table data.
+If doesn't exist (exists = NA) x is compared to itself.</p>
     </div>
 
     <pre class="usage"><span class='fu'>sbf_diff_table</span><span class='op'>(</span>
   <span class='va'>x</span>,
   x_name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>,
   sub <span class='op'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span><span class='op'>(</span><span class='op'>)</span>,
-  main <span class='op'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span><span class='op'>(</span><span class='op'>)</span>
+  main <span class='op'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span><span class='op'>(</span><span class='op'>)</span>,
+  exists <span class='op'>=</span> <span class='cn'>NA</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -134,6 +137,10 @@
     <tr>
       <th>main</th>
       <td><p>A string specifying the path to the main folder (by default the current main folder)</p></td>
+    </tr>
+    <tr>
+      <th>exists</th>
+      <td><p>A logical scalar specifying whether the file should exist.</p></td>
     </tr>
     </table>
 
