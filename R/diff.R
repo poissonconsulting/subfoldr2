@@ -16,9 +16,9 @@ sbf_diff_data <- function(x, x_name = substitute(x),
   if(!requireNamespace("daff", quietly = TRUE))
     stop("Please `install.packages('daff')`.", call. = FALSE)
   
-  y <- sbf_load_data(x_name, sub = sub, main = main, exists = exists)
-  if(is.null(y)) y <- x
-  daff::diff_data(y, x)
+  existing <- sbf_load_data(x_name, sub = sub, main = main, exists = exists)
+  if(is.null(existing)) existing <- x
+  daff::diff_data(existing, x)
 }
 
 #' Diff Table
@@ -39,7 +39,7 @@ sbf_diff_table <- function(x, x_name = substitute(x),
   if(!requireNamespace("daff", quietly = TRUE))
     stop("Please `install.packages('daff')`.", call. = FALSE)
 
-  y <- sbf_load_table(x_name, sub = sub, main = main, exists = exists)
-  if(is.null(y)) y <- x
-  daff::diff_data(y, x)
+  existing <- sbf_load_table(x_name, sub = sub, main = main, exists = exists)
+  if(is.null(existing)) existing <- x
+  daff::diff_data(existing, x)
 }
