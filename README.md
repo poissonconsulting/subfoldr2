@@ -4,12 +4,10 @@
 <!-- badges: start -->
 
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![Travis build
-status](https://travis-ci.com/poissonconsulting/subfoldr2.svg?branch=master)](https://travis-ci.com/poissonconsulting/subfoldr2)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/poissonconsulting/subfoldr2?branch=master&svg=true)](https://ci.appveyor.com/project/poissonconsulting/subfoldr2)
-[![Coverage
-status](https://codecov.io/gh/poissonconsulting/subfoldr2/branch/master/graph/badge.svg)](https://codecov.io/github/poissonconsulting/subfoldr2?branch=master)
+[![R build
+status](https://github.com/poissonconsulting/subfoldr2/workflows/R-CMD-check/badge.svg)](https://github.com/poissonconsulting/subfoldr2/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/poissonconsulting/subfoldr2/branch/master/graph/badge.svg)](https://codecov.io/gh/poissonconsulting/subfoldr2?branch=master)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
@@ -93,14 +91,12 @@ sbf_load_objects()
 ls()
 #> [1] "df" "x"  "x3"
 sbf_load_objects_recursive(sub = "times2")
-#>   objects name    sub
-#> 1    NULL   df times3
-#> 2       6   x3 times3
-#> 3       2    x       
-#>                                                                                              file
-#> 1 /var/folders/48/q6ltldjs251000_wvjrdy_vm0000gn/T/RtmpGThnly/output/objects/times2/times3/df.rds
-#> 2 /var/folders/48/q6ltldjs251000_wvjrdy_vm0000gn/T/RtmpGThnly/output/objects/times2/times3/x3.rds
-#> 3         /var/folders/48/q6ltldjs251000_wvjrdy_vm0000gn/T/RtmpGThnly/output/objects/times2/x.rds
+#> # A tibble: 3 x 4
+#>   objects       name  sub     file                                              
+#>   <list>        <chr> <chr>   <chr>                                             
+#> 1 <df[,0] [0 x~ df    "times~ "C:\\Users\\payla\\AppData\\Local\\Temp\\Rtmp0EoL~
+#> 2 <dbl [1]>     x3    "times~ "C:\\Users\\payla\\AppData\\Local\\Temp\\Rtmp0EoL~
+#> 3 <dbl [1]>     x     ""      "C:\\Users\\payla\\AppData\\Local\\Temp\\Rtmp0EoL~
 ```
 
 ### Deleting Subfolders
@@ -247,13 +243,12 @@ Reports can be generated using the
 
 ## Installation
 
-To install the latest development version from the Poisson drat
-[repository](https://github.com/poissonconsulting/drat)
+To install the latest development version from GitHub
+[repository](https://github.com/poissonconsulting/subfoldr2)
 
 ``` r
-install.packages("drat")
-drat::addRepo("poissonconsulting")
-install.packages("subfoldr2")
+# install.packages("remotes")
+remotes::install_github("poissonconsulting/subfoldr2")
 ```
 
 ## Contribution
@@ -264,6 +259,9 @@ Please report any
 [Pull requests](https://github.com/poissonconsulting/subfoldr2/pulls)
 are always welcome.
 
-Please note that this project is released with a [Contributor Code of
-Conduct](CONDUCT.md). By participating in this project you agree to
-abide by its terms.
+## Code of Conduct
+
+Please note that the subfoldr2 project is released with a [Contributor
+Code of
+Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.
