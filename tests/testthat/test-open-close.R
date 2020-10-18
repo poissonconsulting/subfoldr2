@@ -1,5 +1,3 @@
-context("open-close")
-
 test_that("pdf",{
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))

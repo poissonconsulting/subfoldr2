@@ -7,7 +7,7 @@
 sbf_save_data_to_db(
   x,
   x_name = substitute(x),
-  db_name = "database",
+  db_name = sbf_get_db_name(),
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   commit = TRUE,

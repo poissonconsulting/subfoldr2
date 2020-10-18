@@ -407,7 +407,7 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
 #' @return An invisible character vector of the paths to the saved objects.
 #' @export
 sbf_save_data_to_db <- function(x, x_name = substitute(x),
-                                db_name = "database",
+                                db_name = sbf_get_db_name(),
                                 sub = sbf_get_sub(),
                                 main = sbf_get_main(),
                                 commit = TRUE, strict = TRUE,
@@ -544,7 +544,7 @@ sbf_save_strings <- function(sub = sbf_get_sub(),
 #' @inheritParams readwritesqlite::rws_write
 #' @return An invisible character vector of the paths to the saved objects.
 #' @export
-sbf_save_datas_to_db <- function(db_name = "database", sub = sbf_get_sub(),
+sbf_save_datas_to_db <- function(db_name = sbf_get_db_name(), sub = sbf_get_sub(),
                                  main = sbf_get_main(),
                                  commit = TRUE, strict = TRUE,
                                  env = parent.frame(),

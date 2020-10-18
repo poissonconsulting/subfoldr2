@@ -1,5 +1,3 @@
-context("copy")
-
 test_that("sbf_copy_db",{
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))

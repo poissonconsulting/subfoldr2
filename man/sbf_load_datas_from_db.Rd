@@ -5,7 +5,7 @@
 \title{Save Data Frames to Database}
 \usage{
 sbf_load_datas_from_db(
-  db_name = "database",
+  db_name = sbf_get_db_name(),
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   rename = identity,

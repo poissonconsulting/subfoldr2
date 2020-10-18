@@ -5,7 +5,7 @@
 \title{Load Data Frame of Meta Table from Database}
 \usage{
 sbf_load_db_metatable(
-  db_name = "database",
+  db_name = sbf_get_db_name(),
   sub = sbf_get_sub(),
   main = sbf_get_main()
 )

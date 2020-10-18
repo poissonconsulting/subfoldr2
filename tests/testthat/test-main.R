@@ -1,0 +1,11 @@
+test_that("main",{
+  teardown(sbf_reset_main())
+  expect_identical(sbf_reset_main(), "output")
+  expect_identical(sbf_get_main(), "output")
+  expect_identical(sbf_set_main("output2"), "output2")
+  expect_identical(sbf_get_main(), "output2")
+  expect_identical(sbf_set_main("/"), "/")
+  expect_identical(sbf_reset_main(), "output")
+  expect_identical(sbf_get_main(), "output")
+  expect_identical(sbf_set_main(), character(0))
+})

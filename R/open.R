@@ -45,7 +45,8 @@ sbf_open_pdf <- function(x_name = "plots", sub = sbf_get_sub(), main = sbf_get_m
 #' If the report status is not specified for a databases it is included in the report. Soft-deprecated.
 #' @param tag A string of the tag.
 #' @export
-sbf_open_db <- function(db_name = "database", sub = sbf_get_sub(), main = sbf_get_main(), 
+sbf_open_db <- function(db_name = sbf_get_db_name(), 
+                        sub = sbf_get_sub(), main = sbf_get_main(), 
                         exists = TRUE, caption = NULL, report = NA, tag = NULL,
                         ask = getOption("sbf.ask", TRUE)) {
   chk_string(db_name)

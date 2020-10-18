@@ -1,5 +1,3 @@
-context("sub")
-
 test_that("sub",{
   teardown(sbf_reset_sub())
 
@@ -21,16 +19,4 @@ test_that("sub",{
   
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_get_sub(), character(0))
-})
-
-test_that("main",{
-  teardown(sbf_reset_main())
-  expect_identical(sbf_reset_main(), "output")
-  expect_identical(sbf_get_main(), "output")
-  expect_identical(sbf_set_main("output2"), "output2")
-  expect_identical(sbf_get_main(), "output2")
-  expect_identical(sbf_set_main("/"), "/")
-  expect_identical(sbf_reset_main(), "output")
-  expect_identical(sbf_get_main(), "output")
-  expect_identical(sbf_set_main(), character(0))
 })

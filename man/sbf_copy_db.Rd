@@ -6,7 +6,7 @@
 \usage{
 sbf_copy_db(
   path,
-  db_name = "database",
+  db_name = sbf_get_db_name(),
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   exists = FALSE,

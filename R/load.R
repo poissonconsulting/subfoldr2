@@ -97,7 +97,7 @@ sbf_load_plot_data <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(
 #' @inheritParams readwritesqlite::rws_read
 #' @return A data.frame of the table.
 #' @export
-sbf_load_data_from_db <- function(x_name, db_name = "database", 
+sbf_load_data_from_db <- function(x_name, db_name = sbf_get_db_name(), 
                                   sub = sbf_get_sub(), main = sbf_get_main()) {
   chk_string(x_name)
   chk_string(db_name)
@@ -114,7 +114,7 @@ sbf_load_data_from_db <- function(x_name, db_name = "database",
 #' @inheritParams sbf_save_data_to_db
 #' @return A data.frame of the table.
 #' @export
-sbf_load_db_metatable <- function(db_name = "database", 
+sbf_load_db_metatable <- function(db_name = sbf_get_db_name(), 
                                   sub = sbf_get_sub(), main = sbf_get_main()) {
   conn <- sbf_open_db(db_name, sub = sub, main = main)
   on.exit(sbf_close_db(conn))
@@ -250,7 +250,7 @@ sbf_load_plots_data <- function(sub = sbf_get_sub(), main = sbf_get_main(),
 #' @inheritParams readwritesqlite::rws_write
 #' @return An invisible character vector of the paths to the saved objects.
 #' @export
-sbf_load_datas_from_db <- function(db_name = "database", sub = sbf_get_sub(), 
+sbf_load_datas_from_db <- function(db_name = sbf_get_db_name(), sub = sbf_get_sub(), 
                                    main = sbf_get_main(),
                                    rename = identity, env = parent.frame()) {
   chk_s3_class(env, "environment")

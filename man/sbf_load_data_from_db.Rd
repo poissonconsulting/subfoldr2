@@ -6,7 +6,7 @@
 \usage{
 sbf_load_data_from_db(
   x_name,
-  db_name = "database",
+  db_name = sbf_get_db_name(),
   sub = sbf_get_sub(),
   main = sbf_get_main()
 )

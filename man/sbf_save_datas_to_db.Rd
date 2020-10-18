@@ -5,7 +5,7 @@
 \title{Save Data Frames to Existing Database}
 \usage{
 sbf_save_datas_to_db(
-  db_name = "database",
+  db_name = sbf_get_db_name(),
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   commit = TRUE,
