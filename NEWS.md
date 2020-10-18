@@ -1,3 +1,12 @@
+# subfoldr2 0.0.0.9040
+
+- Hard deprecate database metadata.
+- Resetting main no longer resets the sub - use `sbf_reset()` instead.
+- Add sbf_reset().
+- Add sbf_get_db_name(), sbf_set_db_name() and sbf_reset_db_name().
+- Added exists = NA to sbf_diff_xx() functions and removed sbf_diff_plot_data().
+
+
 # subfoldr2 0.0.0.9039
 
 - Added sbf_diff_data(), sbf_diff_table() and sbf_diff_plot_data().
