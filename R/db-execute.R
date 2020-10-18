@@ -7,7 +7,7 @@
 #' @param sql A string of the SQL statement to execute.
 #' @return A scalar numeric of the number of rows affected by the statement.
 #' @export
-sbf_db_execute <- function(sql, db_name = sbf_get_db_name(),
+sbf_execute_db <- function(sql, db_name = sbf_get_db_name(),
                            sub = sbf_get_sub(),
                            main = sbf_get_main()) {
   chk_string(sql)
