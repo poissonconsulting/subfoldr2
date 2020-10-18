@@ -327,7 +327,7 @@ test_that("datas_to_db",{
   DBI::dbExecute(conn, "CREATE TABLE x (
                   x INTEGER PRIMARY KEY NOT NULL)")
   
-  DBI::dbExecute(conn, "CREATE TABLE y (
+  sbf_db_execute("CREATE TABLE y (
                   z INTEGER PRIMARY KEY NOT NULL)")
   
   expect_identical(sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
