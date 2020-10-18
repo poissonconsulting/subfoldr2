@@ -18,7 +18,6 @@ sbf_get_db_name()
 }
 \seealso{
 Other db_name: 
-\code{\link{sbf_reset_db_name}()},
 \code{\link{sbf_set_db_name}()}
 }
 \concept{db_name}

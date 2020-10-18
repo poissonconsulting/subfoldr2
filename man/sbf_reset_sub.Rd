@@ -17,3 +17,9 @@ An invisible character vector of length 0.
 \description{
 Reset Sub Folder
 }
+\seealso{
+Other reset: 
+\code{\link{sbf_reset_main}()},
+\code{\link{sbf_reset}()}
+}
+\concept{reset}

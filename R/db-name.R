@@ -35,7 +35,7 @@ sbf_set_db_name <- function(db_name = "database") {
 #' Sets database name option to 'database'.
 #'
 #' @return An invisible string of the 'database'.
-#' @family db_name
+#' @family db_name reset
 #' @export
 #' @examples 
 #' sbf_reset_db_name()

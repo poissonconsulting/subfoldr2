@@ -30,6 +30,7 @@ sbf_set_sub <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #' 
 #' @inheritParams sbf_set_sub
 #' @return An invisible character vector of length 0.
+#' @family reset
 #' @export
 sbf_reset_sub <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
   invisible(sbf_set_sub(rm = rm, ask = ask))

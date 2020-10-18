@@ -17,3 +17,9 @@ An invisible copy of the string \code{"output"}.
 \description{
 Resetting the main resets the sub.
 }
+\seealso{
+Other reset: 
+\code{\link{sbf_reset_sub}()},
+\code{\link{sbf_reset}()}
+}
+\concept{reset}
