@@ -316,13 +316,10 @@ test_that("datas_to_db",{
   expect_error(sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
                "^`file` must specify an existing file [(]'.*dbs/database.sqlite' can't be found[)].$", class = "chk_error")
   
-  conn <- sbf_open_db(exists = NA, caption = "really!", tag = "good")
+  conn <- sbf_open_db(exists = NA)
   teardown(suppressWarnings(DBI::dbDisconnect(conn)))
   expect_identical(list.files(file.path(sbf_get_main(), "dbs")),
-                   sort(c("database.rda", "database.sqlite")))
-  
-  meta <- readRDS(paste0(file.path(sbf_get_main(), "dbs", "database.rda")))
-  expect_identical(meta, list(caption = "really!", report = TRUE, tag = "good"))
+                   "database.sqlite")
   
   expect_error(sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
                "The following data frames in 'x' are unrecognised: 'y' and 'x'; but exists = TRUE.")
@@ -346,40 +343,24 @@ test_that("datas_to_db",{
   expect_error(sbf_load_datas_from_db("z"), 
                "^`file` must specify an existing file [(]'.*dbs/z.sqlite' can't be found[)].$", class = "chk_error")
   expect_identical(sbf_load_datas_from_db(), c("x", "y"))
-  expect_identical(x, tibble(x = 1L))
-  expect_identical(y, tibble(z = 3L))
+  expect_identical(x, tibble::tibble(x = 1L))
+  expect_identical(y, tibble::tibble(z = 3L))
   expect_identical(sbf_load_datas_from_db(rename = function(x) paste0("db", x)), c("dbx", "dby"))
-  expect_identical(dbx, tibble(x = 1L))
-  expect_identical(dby, tibble(z = 3L))
+  expect_identical(dbx, tibble::tibble(x = 1L))
+  expect_identical(dby, tibble::tibble(z = 3L))
   
   expect_error(sbf_save_data_to_db(x, db_name = "database"),
                "UNIQUE constraint failed: x.x")
   x$x <- 4
   file <- sbf_save_data_to_db(x, db_name = "database")
   expect_match(file, ".+/dbs/database.sqlite")
-  expect_identical(sbf_load_data_from_db("x"), tibble(x = c(1L, 4L)))
+  expect_identical(sbf_load_data_from_db("x"), tibble::tibble(x = c(1L, 4L)))
   
   expect_identical(sbf_load_db_metatable(),
-                   tibble(Table = c("X", "Y"),
+                   tibble::tibble(Table = c("X", "Y"),
                                   Column = c("X", "Z"),
                                   Meta = c(NA_character_, NA_character_),
                                   Description = c(NA_character_, NA_character_)))
-  
-  data <- sbf_load_dbs_metatable_recursive(tag = "good", meta = TRUE)
-  
-  expect_identical(colnames(data), c("metatables", "name", "sub", "file", "caption", "report", "tag"))
-  expect_identical(data$metatables[[1]],  tibble(
-    Table = c("X", "Y"),
-    Column = c("X", "Z"),
-    Meta = c(NA_character_, NA_character_),
-    Description = c(NA_character_, NA_character_)))
-  expect_identical(data$name, "database")
-  expect_identical(data$caption, "really!")
-  expect_identical(data$report, TRUE)
-  
-  data2 <- sbf_load_dbs_metatable_recursive(tag = "bad", meta = TRUE)
-  
-  expect_identical(data2, data[-1,])
 })
 
 test_that("table",{

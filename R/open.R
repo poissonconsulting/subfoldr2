@@ -39,11 +39,11 @@ sbf_open_pdf <- function(x_name = "plots", sub = sbf_get_sub(), main = sbf_get_m
 #' @param ask A flag specifying whether to ask before deleting an existing database (if exists = FALSE).
 #' @param caption A string specifying the database metadata table caption. 
 #' If NULL the caption is unchanged.
-#' If the caption is not specified for a databases it is set to be "". Soft-deprecated.
+#' If the caption is not specified for a databases it is set to be "". Deprecated.
 #' @param report A logical scalar specifying whether to include the database metadata table in the report.
 #' If report = NA the setting is not changed. Soft-deprecated.
-#' If the report status is not specified for a databases it is included in the report. Soft-deprecated.
-#' @param tag A string of the tag.
+#' If the report status is not specified for a databases it is included in the report. deprecated.
+#' @param tag A string of the tag. Deprecated.
 #' @export
 sbf_open_db <- function(db_name = sbf_get_db_name(), 
                         sub = sbf_get_sub(), main = sbf_get_main(), 
@@ -59,13 +59,13 @@ sbf_open_db <- function(db_name = sbf_get_db_name(),
   if(!is.null(tag)) chk_string(tag)
   
   if(!missing(caption)){
-    lifecycle::deprecate_soft("0.0.0.9038", "sbf_open_db(caption = )")
+    lifecycle::deprecate_stop("0.0.0.9039", "sbf_open_db(caption = )")
   }
   if(!missing(report)) {
-    lifecycle::deprecate_soft("0.0.0.9038", "sbf_open_db(report = )")
+    lifecycle::deprecate_stop("0.0.0.9039", "sbf_open_db(report = )")
   }
   if(!missing(tag)) {
-    lifecycle::deprecate_soft("0.0.0.9038", "sbf_open_db(tag = )")
+    lifecycle::deprecate_stop("0.0.0.9039", "sbf_open_db(tag = )")
   }
   
   sub <- sanitize_path(sub)
@@ -80,12 +80,7 @@ sbf_open_db <- function(db_name = sbf_get_db_name(),
     file.remove(file)
   }
   
-  conn <- connect_db(file)
-  
-  update_db_meta(db_name = db_name, sub = sub, main = main, 
-                 caption = caption, report = report, tag = tag)
-  
-  conn
+  connect_db(file)
 }
 
 #' Open Graphics Window

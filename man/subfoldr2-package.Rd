@@ -4,13 +4,18 @@
 \name{subfoldr2-package}
 \alias{subfoldr2}
 \alias{subfoldr2-package}
-\title{subfoldr2: Load and Save Objects and Plots}
+\title{subfoldr2: Save and Load R Objects}
 \description{
-Facilitates loading and saving R objects, data frames, tables,
-    plots and numbers.
+Facilitates saving and loading R objects, data frames, tables,
+    plots, text blocks and numbers to subfolders.
 }
 \author{
 \strong{Maintainer}: Joe Thorley \email{joe@poissonconsulting.ca} (\href{https://orcid.org/0000-0002-7683-4592}{ORCID})
+
+Other contributors:
+\itemize{
+  \item Poisson Consulting [copyright holder, funder]
+}
 
 }
 \keyword{internal}

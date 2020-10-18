@@ -26,13 +26,13 @@ sbf_open_db(
 
 \item{caption}{A string specifying the database metadata table caption. 
 If NULL the caption is unchanged.
-If the caption is not specified for a databases it is set to be "". Soft-deprecated.}
+If the caption is not specified for a databases it is set to be "". Deprecated.}
 
 \item{report}{A logical scalar specifying whether to include the database metadata table in the report.
 If report = NA the setting is not changed. Soft-deprecated.
-If the report status is not specified for a databases it is included in the report. Soft-deprecated.}
+If the report status is not specified for a databases it is included in the report. deprecated.}
 
-\item{tag}{A string of the tag.}
+\item{tag}{A string of the tag. Deprecated.}
 
 \item{ask}{A flag specifying whether to ask before deleting an existing database (if exists = FALSE).}
 }

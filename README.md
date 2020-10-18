@@ -94,9 +94,9 @@ sbf_load_objects_recursive(sub = "times2")
 #> # A tibble: 3 x 4
 #>   objects       name  sub     file                                              
 #>   <list>        <chr> <chr>   <chr>                                             
-#> 1 <df[,0] [0 x~ df    "times~ "C:\\Users\\payla\\AppData\\Local\\Temp\\Rtmp0EoL~
-#> 2 <dbl [1]>     x3    "times~ "C:\\Users\\payla\\AppData\\Local\\Temp\\Rtmp0EoL~
-#> 3 <dbl [1]>     x     ""      "C:\\Users\\payla\\AppData\\Local\\Temp\\Rtmp0EoL~
+#> 1 <df[,0] [0 ×… df    "times… /var/folders/wy/svb7d7bx3dlcm68nkktbghvm0000gn/T/…
+#> 2 <dbl [1]>     x3    "times… /var/folders/wy/svb7d7bx3dlcm68nkktbghvm0000gn/T/…
+#> 3 <dbl [1]>     x     ""      /var/folders/wy/svb7d7bx3dlcm68nkktbghvm0000gn/T/…
 ```
 
 ### Deleting Subfolders
@@ -264,4 +264,4 @@ are always welcome.
 Please note that the subfoldr2 project is released with a [Contributor
 Code of
 Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
-By contributing to this project, you agree to abide by its terms.
+By contributing to this project, you agree to abide by its terms

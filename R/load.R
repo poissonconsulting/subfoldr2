@@ -524,31 +524,6 @@ sbf_load_windows_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
   data
 }
 
-#' Load Meta Table from Databases as List Column in Data Frame
-#'
-#' Recursively loads all the meta tables from the databases 
-#' with names matching the regular expression x_name as the 
-#' the first (list) column (named metatables) in a data frame.
-#' Subsequent character vector columns specify the object names (named name) 
-#' and sub folders (named sub1, sub2 etc).
-#' 
-#' @inheritParams sbf_save_object
-#' @inheritParams sbf_load_objects_recursive
-#' @inheritParams sbf_load_tables_recursive
-#' @export
-sbf_load_dbs_metatable_recursive <- function(x_name = ".*", sub = sbf_get_sub(), 
-                                             main = sbf_get_main(),
-                                             include_root = TRUE, 
-                                             tag = ".*", meta = FALSE) {
-  data <- load_rdss_recursive(x_name, "dbs", sub = sub, main = main, 
-                              include_root = include_root, tag = tag, 
-                              meta = meta, ext = "rda")
-  names(data)[1] <- "metatables"
-  data$file <- replace_ext(data$file, "sqlite")
-  data$metatables <- lapply(data$file, db_metatable_from_file)
-  data
-}
-
 #' Gets Subs of an Object as a Character Vector
 #'
 #' Recursively returns all the subs of objects with name x_name.
