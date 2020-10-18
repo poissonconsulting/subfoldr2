@@ -15,7 +15,7 @@ sbf_reset_main(rm = FALSE, ask = getOption("sbf.ask", TRUE))
 An invisible copy of the string \code{"output"}.
 }
 \description{
-Resetting the main resets the sub.
+Reset Main
 }
 \seealso{
 Other reset: 
