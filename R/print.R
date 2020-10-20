@@ -3,28 +3,38 @@ grid_errors <- function() {
     "no applicable method for 'depth'")
 }
 
-#' Print Object
+get_err_msg <- function() {
+  msg <- geterrmessage()
+  sub("^[^:]+[:]", "", msg)
+  
+}
+
+#' Print ggplot Object
 #'
-#' Retries printing an object if grid errors occurs.
+#' Retries printing a ggplot object if grid errors occurs.
+#' 
+#' Grid errors include the text "cannot pop the top-level viewport" or
+#' "no applicable method for 'depth'"
 #'
 #' @param x An object to print.
+#' @param newpage	draw new (empty) page first?
+#' @param vp	viewport to draw plot in
 #' @param ntry A positive whole number specifying the number of tries.
-#' @param silent A flag specifying whether to display message from non-grid errors.
 #'  
 #' @export
-sbf_print <- function(x, ntry = 3L, silent = FALSE) {
-  chk_whole_number(ntry)
-  chk_gt(ntry)
+sbf_print <- function(x, newpage = is.null(vp), vp = NULL, ntry = 3L) {
+  chk::chk_is(x, "ggplot")
+  chk::chk_whole_number(ntry)
+  chk::chk_gt(ntry)
+  
   i <- 1
-  while(i < ntry) {
-    try <- try(print(x), silent = TRUE)
+  while(i <= ntry) {
+    try <- try(print(x, newpage = newpage, vp = vp), silent = TRUE)
     if(!vld_is(try, "try-error"))
-      return(invisible(try))
-    if(!any(vapply(grid_errors(), grepl, TRUE, x = try))) {
-      if(!silent) cat(x)
-      return(print(x))
-    }
+      return(invisible(x))
+    if(!any(vapply(grid_errors(), grepl, TRUE, x = try)))
+      stop(get_err_msg())
     i <- i + 1
   }
-  print(x)
+  stop(get_err_msg())
 }

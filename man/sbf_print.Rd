@@ -2,17 +2,23 @@
 % Please edit documentation in R/print.R
 \name{sbf_print}
 \alias{sbf_print}
-\title{Print Object}
+\title{Print ggplot Object}
 \usage{
-sbf_print(x, ntry = 3L, silent = FALSE)
+sbf_print(x, newpage = is.null(vp), vp = NULL, ntry = 3L)
 }
 \arguments{
 \item{x}{An object to print.}
 
-\item{ntry}{A positive whole number specifying the number of tries.}
+\item{newpage}{draw new (empty) page first?}
 
-\item{silent}{A flag specifying whether to display message from non-grid errors.}
+\item{vp}{viewport to draw plot in}
+
+\item{ntry}{A positive whole number specifying the number of tries.}
 }
 \description{
-Retries printing an object if grid errors occurs.
+Retries printing a ggplot object if grid errors occurs.
+}
+\details{
+Grid errors include the text "cannot pop the top-level viewport" or
+"no applicable method for 'depth'"
 }
