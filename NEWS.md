@@ -1,3 +1,11 @@
+# subfoldr2 0.0.0.9041
+
+- `sbf_print()` now provides informative error messages!
+- Added sbf_create_db().
+- Rename sbf_db_execute() to sbf_execute_db().
+- Added sbf_db_execute().
+
+
 # subfoldr2 0.0.0.9040
 
 - Hard deprecate database metadata.
