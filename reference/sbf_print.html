@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Print Object — sbf_print • subfoldr2</title>
+<title>Print ggplot Object — sbf_print • subfoldr2</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Print Object — sbf_print" />
-<meta property="og:description" content="Retries printing an object if grid errors occurs." />
+<meta property="og:title" content="Print ggplot Object — sbf_print" />
+<meta property="og:description" content="Retries printing a ggplot object if grid errors occurs." />
 
 
 
@@ -100,16 +100,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Print Object</h1>
+    <h1>Print ggplot Object</h1>
     
     <div class="hidden name"><code>sbf_print.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Retries printing an object if grid errors occurs.</p>
+    <p>Retries printing a ggplot object if grid errors occurs.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_print</span><span class='op'>(</span><span class='va'>x</span>, ntry <span class='op'>=</span> <span class='fl'>3L</span>, silent <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>sbf_print</span><span class='op'>(</span><span class='va'>x</span>, newpage <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/NULL.html'>is.null</a></span><span class='op'>(</span><span class='va'>vp</span><span class='op'>)</span>, vp <span class='op'>=</span> <span class='cn'>NULL</span>, ntry <span class='op'>=</span> <span class='fl'>3L</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -119,15 +119,23 @@
       <td><p>An object to print.</p></td>
     </tr>
     <tr>
+      <th>newpage</th>
+      <td><p>draw new (empty) page first?</p></td>
+    </tr>
+    <tr>
+      <th>vp</th>
+      <td><p>viewport to draw plot in</p></td>
+    </tr>
+    <tr>
       <th>ntry</th>
       <td><p>A positive whole number specifying the number of tries.</p></td>
     </tr>
-    <tr>
-      <th>silent</th>
-      <td><p>A flag specifying whether to display message from non-grid errors.</p></td>
-    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Grid errors include the text "cannot pop the top-level viewport" or
+"no applicable method for 'depth'"</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
