@@ -19,3 +19,13 @@ test_that("main not change sub",{
   expect_identical(sbf_get_sub(), "sub/sub2")
 })
 
+test_that("rm_main",{
+  teardown(sbf_reset())
+  sbf_set_main(tempdir())
+  
+  x <- 1
+  sbf_save_number(x)
+  expect_true(dir.exists(tempdir()))
+  expect_identical(basename(sbf_rm_main(ask = FALSE)), basename(tempdir()))
+  expect_false(dir.exists(tempdir()))
+})

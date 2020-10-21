@@ -18,6 +18,7 @@ sbf_reset()
 \seealso{
 Other reset: 
 \code{\link{sbf_reset_main}()},
-\code{\link{sbf_reset_sub}()}
+\code{\link{sbf_reset_sub}()},
+\code{\link{sbf_rm_main}()}
 }
 \concept{reset}

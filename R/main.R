@@ -35,3 +35,24 @@ sbf_set_main <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 sbf_reset_main <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
   invisible(sbf_set_main("output", rm = rm, ask = ask))
 }
+
+
+#' Remove Main
+#'
+#' @inheritParams sbf_set_sub
+#' @return An invisible copy of the main folder.
+#' @family reset
+#' @export
+sbf_rm_main <- function(ask = getOption("sbf.ask", TRUE)) {
+  chk_flag(ask)
+  main <- sbf_get_main()
+  if(!fs::file_exists(main))
+    return(invisible(main))
+  
+  msg <- paste0("Delete directory '", main, "'?")
+  
+  if(!ask || yesno(msg)) {
+    unlink(main, recursive = TRUE)
+  }
+  invisible(main)
+}

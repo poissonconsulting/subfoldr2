@@ -20,6 +20,7 @@ Reset Sub Folder
 \seealso{
 Other reset: 
 \code{\link{sbf_reset_main}()},
-\code{\link{sbf_reset}()}
+\code{\link{sbf_reset}()},
+\code{\link{sbf_rm_main}()}
 }
 \concept{reset}
