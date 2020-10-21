@@ -19,7 +19,7 @@ sbf_archive_main <- function(main = sbf_get_main(), ask = getOption("sbf.ask", T
   
   new_main <- paste(main, date_time, sep = "-")
   
-  msg <- paste0("Rename directory '", main, "' to '", new_main, "'?")
+  msg <- paste0("Copy directory '", main, "' to '", new_main, "'?")
 
   if (!ask || yesno(msg)) {
     fs::dir_copy(main, new_main, overwrite = FALSE)
