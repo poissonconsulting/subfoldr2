@@ -18,8 +18,9 @@ sbf_archive_main(
 \item{tz}{A string specifying the time zone for the current date and time.}
 }
 \value{
-An invisible string of the new name for the archived main folder.
+An invisible string of the name for the archived main folder.
 }
 \description{
-Archives main folder by appending the current date and time to the name of the folder.
+Archives main folder by copy to a director of the same name 
+with the current date and time appended.
 }
