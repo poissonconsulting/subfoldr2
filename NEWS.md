@@ -1,3 +1,8 @@
+# subfoldr2 0.0.0.9042
+
+- Added `sbf_archive_main()`.
+
+
 # subfoldr2 0.0.0.9041
 
 - `sbf_print()` now provides informative error messages!
