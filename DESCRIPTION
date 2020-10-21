@@ -10,6 +10,7 @@ Description: Facilitates saving and loading R objects, data frames, tables,
 License: MIT + file LICENSE
 Imports: 
     chk,
+    dttr2,
     tools,
     utils,
     yesno,
@@ -17,6 +18,7 @@ Imports:
     grDevices,
     data.table,
     tibble,
+    fs,
     ggplot2,
     DBI,
     RSQLite,
