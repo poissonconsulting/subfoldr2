@@ -1,8 +1,9 @@
 test_that("data",{
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   
-  sbf_set_main(tempdir())
   x <- data.frame(x = 1)
   expect_is(sbf_save_data(x), "character")
   expect_identical(sbf_load_data("x"), x)
@@ -18,10 +19,11 @@ test_that("data",{
 })
 
 test_that("table",{
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   
-  sbf_set_main(tempdir())
   x <- data.frame(x = 1)
   expect_is(sbf_save_table(x), "character")
   expect_identical(sbf_load_table("x"), x)

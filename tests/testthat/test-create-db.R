@@ -1,7 +1,7 @@
 test_that("create-db", {
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
 
-  sbf_set_main(tempdir())  
   chk::expect_chk_error(sbf_open_db(exists = TRUE))
   
   expect_true(sbf_create_db())

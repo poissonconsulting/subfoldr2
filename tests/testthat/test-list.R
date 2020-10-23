@@ -1,18 +1,14 @@
 test_that("object",{
-  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
-  
-  sbf_set_main(tempdir())
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
   x <- 1
-  expect_identical(sbf_save_object(x), sub("//", "/", file.path(sbf_get_main(), "objects/x.rds")))
+  expect_identical(sbf_save_object(x), file.path(sbf_get_main(), "objects/x.rds"))
   
   skip_on_os("windows") # this is not working on windows as not necessary to add extra //!
   
-  expect_match(sbf_list_objects("x"),
-               sub("//", "/", file.path(sbf_get_main(), "objects/x.rds")))
+  expect_match(sbf_list_objects("x"), file.path(sbf_get_main(), "objects/x.rds"))
   x <- 3
   expect_identical(sbf_save_object(x, sub = "down"),
-                   sub("//", "/", file.path(sbf_get_main(), "objects/down/x.rds")))
+                   file.path(sbf_get_main(), "objects/down/x.rds"))
 
   expect_identical(sbf_list_objects("x", recursive = TRUE),
                c(sub("//", "/", file.path(sbf_get_main(), "objects/down/x.rds")),
@@ -47,10 +43,11 @@ test_that("object",{
 })
 
 test_that("data",{
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   
-  sbf_set_main(tempdir())
   x <- data.frame(x = 1)
   expect_identical(sbf_save_data(x), sub("//", "/", file.path(sbf_get_main(), "data/x.rds")))
   

@@ -3,7 +3,6 @@ test_that("archive",{
 
   expect_chk_error(sbf_archive_main(ask = FALSE))
   
-  sbf_set_main(tempdir())
   x <- 1
   sbf_save_number(x)
   expect_identical(sbf_load_number("x"), x)

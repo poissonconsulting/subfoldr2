@@ -1,8 +1,9 @@
 test_that("object",{
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   
-  sbf_set_main(tempdir())
   x <- 1
   expect_warning(sbf_load_objects(), "no objects to load")
   
@@ -111,10 +112,11 @@ test_that("object",{
 })
 
 test_that("object",{
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   
-  sbf_set_main(tempdir())
   x <- 1
   sbf_set_sub("one")
   sbf_save_object(x)
@@ -137,10 +139,11 @@ test_that("object",{
 })
 
 test_that("data",{
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   
-  sbf_set_main(tempdir())
   y <- 1
   expect_warning(sbf_load_datas(), "no data to load")
   
@@ -190,10 +193,11 @@ test_that("data",{
 })
 
 test_that("number",{
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   
-  sbf_set_main(tempdir())
   y <- numeric(0)
   expect_warning(sbf_load_numbers(), "no numbers to load")
   expect_error(sbf_save_number(), "argument \"x\" is missing, with no default")
@@ -246,10 +250,11 @@ test_that("number",{
 })
 
 test_that("string",{
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   
-  sbf_set_main(tempdir())
   y <- "two words"
   expect_warning(sbf_load_strings(), "no strings to load")
   expect_error(sbf_save_string(), "argument \"x\" is missing, with no default")
@@ -307,10 +312,11 @@ test_that("string",{
 })
 
 test_that("datas_to_db",{
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   
-  sbf_set_main(tempdir())
   x <- data.frame(x = 1)
   y <- data.frame(z = 3)
   expect_error(sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
@@ -364,10 +370,11 @@ test_that("datas_to_db",{
 })
 
 test_that("table",{
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   
-  sbf_set_main(tempdir())
   y <- 1
   expect_warning(sbf_load_tables(), "no tables to load")
   expect_error(sbf_save_table(), "argument \"x\" is missing, with no default")
@@ -494,13 +501,14 @@ test_that("block",{
 })
 
 test_that("plot",{
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   
   sbf_close_windows()
   teardown(sbf_close_windows())
   
-  sbf_set_main(tempdir())
   y <- 1
   expect_error(sbf_save_plot(y), "^`x` must inherit from S3 class 'ggplot'[.]$",
                class = "chk_error")
@@ -650,10 +658,11 @@ test_that("png",{
 })
 
 test_that("save table glue",{
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   
-  sbf_set_main(tempdir())
   data <- data.frame(x = 1)
   sbf_save_table(data, caption = "character")
   sbf_save_table(data, x_name = "data2", caption = glue::glue("glue"))

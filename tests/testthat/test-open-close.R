@@ -1,10 +1,11 @@
 test_that("pdf",{
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   graphics.off()
   teardown(graphics.off())
   
-  sbf_set_main(tempdir())
   expect_identical(dev.cur(), c("null device" = 1L))
   expect_identical(sbf_open_pdf("x"), sub("//", "/", file.path(sbf_get_main(), "pdfs/x.pdf")))
   expect_identical(dev.cur(), c("pdf" = 2L))
@@ -28,11 +29,12 @@ test_that("pdf",{
 })
 
 test_that("db",{
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+
   teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   teardown(graphics.off())
   
-  sbf_set_main(tempdir())  
   expect_error(sbf_open_db("x"), "^`file` must specify an existing file [(]'.*dbs/x.sqlite' can't be found[)].$", class = "chk_error")
 
   conn <- sbf_open_db("x", exists = NA)

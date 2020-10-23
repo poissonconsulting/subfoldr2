@@ -20,12 +20,13 @@ test_that("main not change sub",{
 })
 
 test_that("rm_main",{
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+
   teardown(sbf_reset())
-  sbf_set_main(tempdir())
-  
+
   x <- 1
   sbf_save_number(x)
-  expect_true(dir.exists(tempdir()))
-  expect_identical(basename(sbf_rm_main(ask = FALSE)), basename(tempdir()))
-  expect_false(dir.exists(tempdir()))
+  expect_true(dir.exists(sbf_get_main()))
+  expect_identical(sbf_rm_main(ask = FALSE), sbf_get_main())
+  expect_false(dir.exists(sbf_get_main()))
 })
