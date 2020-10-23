@@ -26,6 +26,7 @@ with the current date and time appended.
 }
 \seealso{
 Other archive: 
+\code{\link{sbf_get_archive}()},
 \code{\link{sbf_unarchive_main}()}
 }
 \concept{archive}

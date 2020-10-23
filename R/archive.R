@@ -34,27 +34,17 @@ sbf_archive_main <- function(main = sbf_get_main(), ask = getOption("sbf.ask", T
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_set_sub
-#' @param archive A positive whole number specifying the folder to unarchive 
+#' @param archive A positive whole number specifying the folder archived folder
 #' where 1L (the default) indicates the most recently archived folder.
 #'
 #' @return An invisible string of the name of the unarchived main folder.
 #' @family  archive
 #' @export
 sbf_unarchive_main <- function(main = sbf_get_main(), archive = 1L, ask = getOption("sbf.ask", TRUE)) {
-  chk_string(main)
-  chk_whole_number(archive)
-  chk_gt(archive)
   chk_flag(ask)
-  
-  files <- fs::dir_ls(dirname(main), type = "directory", regexp = ".*-\\d{4,4}(-\\d{2,2}){5,5}$")
-  if(!length(files))
-    stop("There are no archived folders for '", basename(main) , "' in '", dirname(main), "'.")
-
-  if(length(files) < archive)
-    stop("There are only ", length(files), " archived folders for '", basename(main) , "' in '", dirname(main), "'.")
     
-  new_main <- rev(sort(files))[archive]
-  
+  new_main <- sbf_get_archive(main = main, archive = archive)
+
   sbf_rm_main(main, ask = ask)
 
   msg <- paste0("Copy directory '", new_main, "' to '", main, "'?")
@@ -64,4 +54,30 @@ sbf_unarchive_main <- function(main = sbf_get_main(), archive = 1L, ask = getOpt
     sbf_rm_main(new_main, ask = FALSE)
   }
   return(invisible(new_main))
+}
+
+#' Get Archive Directory
+#'
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_set_sub
+#' @inheritParams sbf_unarchive_main
+#'
+#' @return A string of the path to the archived directory.
+#' @family archive
+#' @export
+sbf_get_archive <- function(main = sbf_get_main(), archive = 1L) {
+  chk_string(main)
+  chk_whole_number(archive)
+  chk_gt(archive)
+  
+  files <- fs::dir_ls(dirname(main), type = "directory", regexp = ".*-\\d{4,4}(-\\d{2,2}){5,5}$")
+  
+  if(!length(files))
+    stop("There are no archived folders for '", basename(main) , "' in '", dirname(main), "'.")
+  
+  if(length(files) < archive)
+    stop("There are only ", length(files), " archived folders for '", basename(main) , "' in '", dirname(main), "'.")
+  
+  files <- rev(sort(files))
+  files[archive]
 }

@@ -1,6 +1,7 @@
 test_that("archive",{
-  teardown(sbf_reset_main())
-  expect_chk_error(sbf_archive_main())
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+
+  expect_chk_error(sbf_archive_main(ask = FALSE))
   
   sbf_set_main(tempdir())
   x <- 1
@@ -12,10 +13,24 @@ test_that("archive",{
   expect_true(grepl("\\d{4,4}(-\\d{2,2}){5,5}$", new_main))
 })
 
+test_that("get_archive",{
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  
+  x <- 1
+  sbf_save_number(x)
+  new_main1 <- sbf_archive_main(ask = FALSE)
+  x <- 2
+  sbf_save_number(x)
+  Sys.sleep(1L)
+  new_main2 <- sbf_archive_main(ask = FALSE)
+  
+  expect_equal(sbf_get_archive(archive = 2L), new_main1)
+  expect_equal(sbf_get_archive(archive = 1L), new_main2)
+  expect_error(sbf_get_archive(archive = 3L))
+})
+
 test_that("unarchive",{
-  sbf_set_main(file.path(tempdir(), "output"))
-  sbf_rm_main(ask = FALSE)
-  teardown(sbf_rm_main(ask = FALSE))
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
   
   x <- 1
   sbf_save_number(x)
