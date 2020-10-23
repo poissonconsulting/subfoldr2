@@ -1,4 +1,4 @@
-# sbf_all_equal_datas <- function(
+# sbf_is_equal_datas <- function(
 #   x_name = ".*", sub = sbf_get_sub(), main = sbf_get_main(), 
 #   archive = 1L, recursive = FALSE, include_root = TRUE) {
 #   
@@ -21,3 +21,7 @@
 # exists = FALSE then only those that not in archive.... will all be false but use to find extras
 # exists = NA then doesn't care
 # 
+# 
+# also the archive argument to all functions (except sbf_get_archive()) should also accept string so user can specify.
+# 
+# finally sbf_is_equal_data() should return single logical (named by ref) which indicates if equal FALSE if missing.
