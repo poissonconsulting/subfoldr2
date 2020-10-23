@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Unarchive Main Folder — sbf_unarchive_main • subfoldr2</title>
+<title>Get Archive Directory — sbf_get_archive • subfoldr2</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Unarchive Main Folder — sbf_unarchive_main" />
-<meta property="og:description" content="Unarchives an archived main folder." />
+<meta property="og:title" content="Get Archive Directory — sbf_get_archive" />
+<meta property="og:description" content="Get Archive Directory" />
 
 
 
@@ -100,20 +100,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Unarchive Main Folder</h1>
+    <h1>Get Archive Directory</h1>
     
-    <div class="hidden name"><code>sbf_unarchive_main.Rd</code></div>
+    <div class="hidden name"><code>sbf_get_archive.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Unarchives an archived main folder.</p>
+    <p>Get Archive Directory</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_unarchive_main</span><span class='op'>(</span>
-  main <span class='op'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span><span class='op'>(</span><span class='op'>)</span>,
-  archive <span class='op'>=</span> <span class='fl'>1L</span>,
-  ask <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"sbf.ask"</span>, <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>sbf_get_archive</span><span class='op'>(</span>main <span class='op'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span><span class='op'>(</span><span class='op'>)</span>, archive <span class='op'>=</span> <span class='fl'>1L</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -127,20 +123,16 @@
       <td><p>A positive whole number specifying the folder archived folder
 where 1L (the default) indicates the most recently archived folder.</p></td>
     </tr>
-    <tr>
-      <th>ask</th>
-      <td><p>A flag specifying whether to ask before removing the existing folder.</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An invisible string of the name of the unarchived main folder.</p>
+    <p>A string of the path to the archived directory.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other archive: 
 <code><a href='sbf_archive_main.html'>sbf_archive_main</a>()</code>,
-<code><a href='sbf_get_archive.html'>sbf_get_archive</a>()</code></p></div>
+<code><a href='sbf_unarchive_main.html'>sbf_unarchive_main</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
