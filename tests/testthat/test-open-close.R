@@ -7,13 +7,13 @@ test_that("pdf",{
   teardown(graphics.off())
   
   expect_identical(dev.cur(), c("null device" = 1L))
-  expect_identical(sbf_open_pdf("x"), sub("//", "/", file.path(sbf_get_main(), "pdfs/x.pdf")))
+  expect_identical(sbf_open_pdf("x"), file.path(sbf_get_main(), "pdfs/x.pdf"))
   expect_identical(dev.cur(), c("pdf" = 2L))
   expect_identical(sbf_close_pdf(), c("null device" = 1L))
   expect_identical(dev.cur(), c("null device" = 1L))
   expect_identical(list.files(file.path(sbf_get_main(), "pdfs")),
                    sort(c("x.pdf")))
-  expect_identical(sbf_open_pdf("x"), sub("//", "/", file.path(sbf_get_main(), "pdfs/x.pdf")))
+  expect_identical(sbf_open_pdf("x"), file.path(sbf_get_main(), "pdfs/x.pdf"))
   expect_identical(dev.cur(), c("pdf" = 2L))
   expect_identical(sbf_close_pdf(), c("null device" = 1L))
   expect_identical(dev.cur(), c("null device" = 1L))
@@ -22,7 +22,7 @@ test_that("pdf",{
 
   expect_identical(sbf_set_sub("sub"), "sub")
   expect_identical(dev.cur(), c("null device" = 1L))
-  expect_identical(sbf_open_pdf("x2"), sub("//", "/", file.path(sbf_get_main(), "pdfs/sub/x2.pdf")))
+  expect_identical(sbf_open_pdf("x2"), file.path(sbf_get_main(), "pdfs/sub/x2.pdf"))
   expect_identical(dev.cur(), c("pdf" = 2L))
   expect_identical(sbf_close_pdf(), c("null device" = 1L))
   expect_identical(dev.cur(), c("null device" = 1L))

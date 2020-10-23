@@ -8,7 +8,7 @@ test_that("object",{
   
   expect_error(sbf_save_object(x_name = "x"), "argument \"x\" is missing, with no default")
   expect_error(sbf_save_object(), "^`nchar[(]x_name[)]` must be greater than 0, not 0[.]$", class = "chk_error")
-  expect_identical(sbf_save_object(x), sub("//", "/", file.path(sbf_get_main(), "objects/x.rds")))
+  expect_identical(sbf_save_object(x), file.path(sbf_get_main(), "objects/x.rds"))
   expect_identical(sbf_load_object("x"), x)
   expect_identical(sbf_load_object("x", exists = NA), x)
   chk::expect_chk_error(sbf_load_object("x", exists = FALSE))
@@ -18,8 +18,8 @@ test_that("object",{
   
   y <- 2
   expect_identical(sbf_save_objects(env = as.environment(list(x = x, y = y))), 
-                   c(sub("//", "/", file.path(sbf_get_main(), "objects/x.rds")),
-                     sub("//", "/", file.path(sbf_get_main(), "objects/y.rds"))))
+                   c(file.path(sbf_get_main(), "objects/x.rds"),
+                     file.path(sbf_get_main(), "objects/y.rds")))
   x <- 0
   y <- 0
   expect_identical(sbf_load_objects(), c("x", "y"))
@@ -55,11 +55,11 @@ test_that("object",{
   expect_identical(data$name, c("x", "y"))
   expect_identical(data$sub, c("", ""))
   expect_identical(data$file, 
-                   c(sub("//", "/", file.path(sbf_get_main(), "objects/x.rds")),
-                     sub("//", "/", file.path(sbf_get_main(), "objects/y.rds"))))
+                   c(file.path(sbf_get_main(), "objects/x.rds"),
+                     file.path(sbf_get_main(), "objects/y.rds")))
   
   expect_identical(sbf_save_object(x, sub = "t2/t3"), 
-                   sub("//", "/", file.path(sbf_get_main(), "objects/t2/t3/x.rds")))
+                   file.path(sbf_get_main(), "objects/t2/t3/x.rds"))
   
   data <- sbf_load_objects_recursive(sub = character(0))
   expect_is(data, "tbl_df")
@@ -71,9 +71,9 @@ test_that("object",{
   expect_identical(data$sub2, c("t3", NA, NA))
   expect_identical(data$sub, c("t2/t3", "", ""))
   expect_identical(data$file, 
-                   c(sub("//", "/", file.path(sbf_get_main(), "objects/t2/t3/x.rds")),
-                     sub("//", "/", file.path(sbf_get_main(), "objects/x.rds")),
-                     sub("//", "/", file.path(sbf_get_main(), "objects/y.rds"))))
+                   c(file.path(sbf_get_main(), "objects/t2/t3/x.rds"),
+                     file.path(sbf_get_main(), "objects/x.rds"),
+                     file.path(sbf_get_main(), "objects/y.rds")))
   
   data <- sbf_load_objects_recursive(sub = character(0), include_root = FALSE)
   expect_is(data, "tbl_df")
@@ -84,7 +84,7 @@ test_that("object",{
   expect_identical(data$sub1, "t2")
   expect_identical(data$sub2, "t3")
   expect_identical(data$file, 
-                   sub("//", "/", file.path(sbf_get_main(), "objects/t2/t3/x.rds")))
+                   file.path(sbf_get_main(), "objects/t2/t3/x.rds"))
   
   data2 <- sbf_load_objects_recursive("^x", sub = character(0), include_root = FALSE)
   expect_identical(data2, data)
@@ -96,12 +96,12 @@ test_that("object",{
   expect_identical(data$name, "x")
   expect_identical(data$sub, "t3")
   expect_identical(data$file, 
-                   sub("//", "/", file.path(sbf_get_main(), "objects/t2/t3/x.rds")))
+                   file.path(sbf_get_main(), "objects/t2/t3/x.rds"))
   
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   chk::expect_chk_error(sbf_load_object("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
-  expect_identical(sbf_save_object(x), sub("//", "/", file.path(sbf_get_main(), "objects/sub/x.rds")))
+  expect_identical(sbf_save_object(x), file.path(sbf_get_main(), "objects/sub/x.rds"))
   expect_identical(sbf_load_object("x"), x)
   expect_identical(sbf_load_object("x", exists = NA), x)
   chk::expect_chk_error(sbf_load_object("x", exists = FALSE))
@@ -147,7 +147,7 @@ test_that("data",{
   expect_error(sbf_save_data(), "argument \"x\" is missing, with no default")
   expect_error(sbf_save_data(y), "^`x` must inherit from S3 class 'data.frame'[.]$", class = "chk_error")
   x <- data.frame(x = 1)
-  expect_identical(sbf_save_data(x), sub("//", "/", file.path(sbf_get_main(), "data/x.rds")))
+  expect_identical(sbf_save_data(x), file.path(sbf_get_main(), "data/x.rds"))
   expect_identical(sbf_load_data("x"), x)
   chk::expect_chk_error(sbf_load_data("x2"))
   
@@ -156,8 +156,8 @@ test_that("data",{
   
   y <- data.frame(z = 3)
   expect_identical(sbf_save_datas(env = as.environment(list(x = x, y = y))), 
-                   c(sub("//", "/", file.path(sbf_get_main(), "data/x.rds")),
-                     sub("//", "/", file.path(sbf_get_main(), "data/y.rds"))))
+                   c(file.path(sbf_get_main(), "data/x.rds"),
+                     file.path(sbf_get_main(), "data/y.rds")))
   expect_identical(list.files(file.path(sbf_get_main(), "data")),
                    sort(c("x.rds", "y.rds")))
   x <- 0
@@ -172,15 +172,15 @@ test_that("data",{
   expect_identical(data$data[[1]], data.frame(x = 1))
   expect_identical(data$name, c("x", "y"))
   expect_identical(data$file, 
-                   c(sub("//", "/", file.path(sbf_get_main(), "data/x.rds")),
-                     sub("//", "/", file.path(sbf_get_main(), "data/y.rds"))))
+                   c(file.path(sbf_get_main(), "data/x.rds"),
+                     file.path(sbf_get_main(), "data/y.rds")))
   
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_data("x"), x)
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   chk::expect_chk_error(sbf_load_data("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
-  expect_identical(sbf_save_data(x), sub("//", "/", file.path(sbf_get_main(), "data/sub/x.rds")))
+  expect_identical(sbf_save_data(x),file.path(sbf_get_main(), "data/sub/x.rds"))
   expect_identical(sbf_load_data("x"), x)
   expect_identical(sbf_load_data("x", exists = NA), x)
   chk::expect_chk_error(sbf_load_data("x", exists = FALSE))
@@ -199,7 +199,7 @@ test_that("number",{
   expect_error(sbf_save_number(), "argument \"x\" is missing, with no default")
   expect_error(sbf_save_number(y), "^`x` must be a number [(]non-missing numeric scalar[)][.]$", class = "chk_error")
   x <- 1L
-  expect_identical(sbf_save_number(x), sub("//", "/", file.path(sbf_get_main(), "numbers/x.rds")))
+  expect_identical(sbf_save_number(x), file.path(sbf_get_main(), "numbers/x.rds"))
   
   expect_true(sbf_number_exists("x")) 
   expect_false(sbf_number_exists("x2")) 
@@ -212,8 +212,8 @@ test_that("number",{
   
   y <- 3
   expect_identical(sbf_save_numbers(env = as.environment(list(x = x, y = y))), 
-                   c(sub("//", "/", file.path(sbf_get_main(), "numbers/x.rds")),
-                     sub("//", "/", file.path(sbf_get_main(), "numbers/y.rds"))))
+                   c(file.path(sbf_get_main(), "numbers/x.rds"),
+                     file.path(sbf_get_main(), "numbers/y.rds")))
   expect_identical(list.files(file.path(sbf_get_main(), "numbers")),
                    sort(c("x.csv", "x.rds", "y.csv", "y.rds")))
   x <- 0
@@ -228,8 +228,8 @@ test_that("number",{
   expect_identical(data$numbers, c(1, 3))
   expect_identical(data$name, c("x", "y"))
   expect_identical(data$file, 
-                   c(sub("//", "/", file.path(sbf_get_main(), "numbers/x.rds")),
-                     sub("//", "/", file.path(sbf_get_main(), "numbers/y.rds"))))
+                   c(file.path(sbf_get_main(), "numbers/x.rds"),
+                     file.path(sbf_get_main(), "numbers/y.rds")))
   
   chk::expect_chk_error(sbf_load_number("x2"))
   expect_identical(sbf_reset_sub(), character(0))
@@ -237,7 +237,7 @@ test_that("number",{
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   chk::expect_chk_error(sbf_load_number("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
-  expect_identical(sbf_save_number(x), sub("//", "/", file.path(sbf_get_main(), "numbers/sub/x.rds")))
+  expect_identical(sbf_save_number(x), file.path(sbf_get_main(), "numbers/sub/x.rds"))
   expect_identical(sbf_load_number("x"), 1)
   expect_identical(sbf_load_number("x", exists = NA), 1)
   chk::expect_chk_error(sbf_load_number("x2", exists = TRUE))
@@ -253,7 +253,7 @@ test_that("string",{
   y <- "two words"
   expect_warning(sbf_load_strings(), "no strings to load")
   expect_error(sbf_save_string(), "argument \"x\" is missing, with no default")
-  expect_identical(sbf_save_string(y), sub("//", "/", file.path(sbf_get_main(), "strings/y.rds")))
+  expect_identical(sbf_save_string(y), file.path(sbf_get_main(), "strings/y.rds"))
   
   expect_true(sbf_string_exists("y")) 
   expect_false(sbf_string_exists("x2")) 
@@ -266,8 +266,8 @@ test_that("string",{
   
   x <- "one"
   expect_identical(sbf_save_strings(env = as.environment(list(x = x, y = y))), 
-                   c(sub("//", "/", file.path(sbf_get_main(), "strings/x.rds")),
-                     sub("//", "/", file.path(sbf_get_main(), "strings/y.rds"))))
+                   c(file.path(sbf_get_main(), "strings/x.rds"),
+                     file.path(sbf_get_main(), "strings/y.rds")))
   expect_identical(list.files(file.path(sbf_get_main(), "strings")),
                    sort(c("x.rda", "x.rds", "x.txt", "y.rda", "y.rds", "y.txt")))
   x <- 0
@@ -282,8 +282,8 @@ test_that("string",{
   expect_identical(data$strings, c("one", "two words"))
   expect_identical(data$name, c("x", "y"))
   expect_identical(data$file, 
-                   c(sub("//", "/", file.path(sbf_get_main(), "strings/x.rds")),
-                     sub("//", "/", file.path(sbf_get_main(), "strings/y.rds"))))
+                   c(file.path(sbf_get_main(), "strings/x.rds"),
+                     file.path(sbf_get_main(), "strings/y.rds")))
   
   chk::expect_chk_error(sbf_load_string("x2"))
   expect_identical(sbf_reset_sub(), character(0))
@@ -291,7 +291,7 @@ test_that("string",{
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   chk::expect_chk_error(sbf_load_string("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
-  expect_identical(sbf_save_string(y), sub("//", "/", file.path(sbf_get_main(), "strings/sub/y.rds")))
+  expect_identical(sbf_save_string(y), file.path(sbf_get_main(), "strings/sub/y.rds"))
   expect_identical(sbf_load_string("y"), "two words")
   expect_identical(sbf_load_string("y", exists = NA), "two words")
   chk::expect_chk_error(sbf_load_string("y", exists = FALSE))
@@ -376,7 +376,7 @@ test_that("table",{
   expect_error(sbf_save_table(data.frame(zz = I(list(t = 3))), x_name = "y"),
                "^The following columns in `x` are not logical, numeric, character, factor, Date or POSIXct: 'zz'[.]$", class = "chk_error")
   
-  expect_identical(sbf_save_table(x), sub("//", "/", file.path(sbf_get_main(), "tables/x.rds")))
+  expect_identical(sbf_save_table(x), file.path(sbf_get_main(), "tables/x.rds"))
   
   expect_true(sbf_table_exists("x")) 
   expect_false(sbf_table_exists("x2")) 
@@ -391,7 +391,7 @@ test_that("table",{
   
   y <- data.frame(z = 2L)
   expect_identical(sbf_save_table(y, report = FALSE, caption = "A caption"), 
-                   sub("//", "/", file.path(sbf_get_main(), "tables/y.rds")))
+                   file.path(sbf_get_main(), "tables/y.rds"))
   x <- 0
   y <- 0
   expect_identical(sbf_load_tables(), c("x", "y"))
@@ -404,8 +404,8 @@ test_that("table",{
   expect_identical(data$tables[[1]], data.frame(x = 1))
   expect_identical(data$name, c("x", "y"))
   expect_identical(data$file, 
-                   c(sub("//", "/", file.path(sbf_get_main(), "tables/x.rds")),
-                     sub("//", "/", file.path(sbf_get_main(), "tables/y.rds"))))
+                   c(file.path(sbf_get_main(), "tables/x.rds"),
+                     file.path(sbf_get_main(), "tables/y.rds")))
   
   data2 <- sbf_load_tables_recursive(meta = TRUE)
   expect_identical(colnames(data2), c("tables", "name", "sub", "file", "caption", "report", "tag"))
@@ -416,8 +416,8 @@ test_that("table",{
   expect_identical(data$tables[[1]], data.frame(x = 1))
   expect_identical(data$name, c("x", "y"))
   expect_identical(data$file,
-                   c(sub("//", "/", file.path(sbf_get_main(), "tables/x.rds")),
-                     sub("//", "/", file.path(sbf_get_main(), "tables/y.rds"))))
+                   c(file.path(sbf_get_main(), "tables/x.rds"),
+                     file.path(sbf_get_main(), "tables/y.rds")))
   
   chk::expect_chk_error(sbf_load_table("x2"))
   expect_identical(sbf_reset_sub(), character(0))
@@ -425,7 +425,7 @@ test_that("table",{
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   chk::expect_chk_error(sbf_load_table("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
-  expect_identical(sbf_save_table(x), sub("//", "/", file.path(sbf_get_main(), "tables/sub/x.rds")))
+  expect_identical(sbf_save_table(x), file.path(sbf_get_main(), "tables/sub/x.rds"))
   expect_identical(sbf_load_table("x"), x)
   expect_identical(sbf_load_table("x", exists = NA), x)
   chk::expect_chk_error(sbf_load_table("x", exists = FALSE))
@@ -443,7 +443,7 @@ test_that("block",{
   y <- "two words"
   expect_warning(sbf_load_blocks(), "no blocks to load")
   expect_error(sbf_save_block(), "argument \"x\" is missing, with no default")
-  expect_identical(sbf_save_block(y), sub("//", "/", file.path(sbf_get_main(), "blocks/y.rds")))
+  expect_identical(sbf_save_block(y), file.path(sbf_get_main(), "blocks/y.rds"))
   
   expect_true(sbf_block_exists("y")) 
   expect_false(sbf_block_exists("x2")) 
@@ -455,7 +455,7 @@ test_that("block",{
   expect_equal(txt, "two words")
   
   one <- "some code"
-  expect_identical(sbf_save_block(one, tag = "R"), sub("//", "/", file.path(sbf_get_main(), "blocks/one.rds")))
+  expect_identical(sbf_save_block(one, tag = "R"), file.path(sbf_get_main(), "blocks/one.rds"))
   one <- 0
   y <- 0
   expect_identical(sbf_load_blocks(), c("one", "y"))
@@ -468,8 +468,8 @@ test_that("block",{
   expect_identical(data$blocks, c("some code", "two words"))
   expect_identical(data$name, c("one", "y"))
   expect_identical(data$file, 
-                   c(sub("//", "/", file.path(sbf_get_main(), "blocks/one.rds")),
-                     sub("//", "/", file.path(sbf_get_main(), "blocks/y.rds"))))
+                   c(file.path(sbf_get_main(), "blocks/one.rds"),
+                     file.path(sbf_get_main(), "blocks/y.rds")))
   
   data2 <- sbf_load_blocks_recursive(meta = TRUE)
   expect_identical(colnames(data2), c("blocks", "name", "sub", "file", "caption", "report", "tag"))
@@ -485,7 +485,7 @@ test_that("block",{
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   chk::expect_chk_error(sbf_load_block("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
-  expect_identical(sbf_save_block(y), sub("//", "/", file.path(sbf_get_main(), "blocks/sub/y.rds")))
+  expect_identical(sbf_save_block(y), file.path(sbf_get_main(), "blocks/sub/y.rds"))
   expect_identical(sbf_load_block("y"), "two words")
   expect_identical(sbf_load_block("y", exists = NA), "two words")
   chk::expect_chk_error(sbf_load_block("y", exists = FALSE))
@@ -507,7 +507,7 @@ test_that("plot",{
                class = "chk_error")
   
   x <- ggplot2::ggplot()
-  expect_identical(sbf_save_plot(x), sub("//", "/", file.path(sbf_get_main(), "plots/x.rds")))
+  expect_identical(sbf_save_plot(x), file.path(sbf_get_main(), "plots/x.rds"))
   expect_equal(sbf_load_plot("x"), x)
   expect_identical(sbf_load_plot_data("x"), data.frame())
   
@@ -515,7 +515,7 @@ test_that("plot",{
   expect_false(sbf_plot_exists("x2")) 
 
   y <- ggplot2::ggplot(data = data.frame(x = 1, y = 2), ggplot2::aes(x = x, y = y))
-  expect_identical(sbf_save_plot(y), sub("//", "/", file.path(sbf_get_main(), "plots/y.rds")))
+  expect_identical(sbf_save_plot(y), file.path(sbf_get_main(), "plots/y.rds"))
   
   expect_equal(sbf_load_plot("y"), y)
   expect_identical(sbf_load_plot_data("y"), data.frame(x = 1, y = 2))
@@ -529,12 +529,12 @@ test_that("plot",{
   expect_identical(y, data.frame(x = 1, y = 2))
   
   z <- ggplot2::ggplot(data = data.frame(x = 2, y = 3), ggplot2::aes(x = x, y = y))
-  expect_identical(sbf_save_plot(z), sub("//", "/", file.path(sbf_get_main(), "plots/z.rds")))
+  expect_identical(sbf_save_plot(z), file.path(sbf_get_main(), "plots/z.rds"))
   expect_equal(sbf_load_plot("z"), z)
   
   t <- ggplot2::ggplot(data = data.frame(x = c(2,3), y = c(3,2)), ggplot2::aes(x = x, y = y))
   expect_identical(sbf_save_plot(csv = 1L, dpi = 320L, caption = "one c",
-                                 report = FALSE, width = 2.55, height = 3L, units = "cm"), sub("//", "/", file.path(sbf_get_main(), "plots/plot.rds")))
+                                 report = FALSE, width = 2.55, height = 3L, units = "cm"), file.path(sbf_get_main(), "plots/plot.rds"))
   expect_equal(sbf_load_plot("plot"), t)
   
   expect_identical(list.files(file.path(sbf_get_main(), "plots")),
@@ -549,10 +549,10 @@ test_that("plot",{
   expect_is(data$plots[[2]], "ggplot")
   expect_identical(data$name, c("plot", "x", "y", "z"))
   expect_identical(data$file, 
-                   c(sub("//", "/", file.path(sbf_get_main(), "plots/plot.rds")),
-                     sub("//", "/", file.path(sbf_get_main(), "plots/x.rds")),
-                     sub("//", "/", file.path(sbf_get_main(), "plots/y.rds")),
-                     sub("//", "/", file.path(sbf_get_main(), "plots/z.rds"))))
+                   c(file.path(sbf_get_main(), "plots/plot.rds"),
+                     file.path(sbf_get_main(), "plots/x.rds"),
+                     file.path(sbf_get_main(), "plots/y.rds"),
+                     file.path(sbf_get_main(), "plots/z.rds")))
   
   data2 <- sbf_load_plots_recursive(meta = TRUE)
   expect_identical(colnames(data2), c("plots", "name", "sub", "file", "caption", "report", 
@@ -570,10 +570,10 @@ test_that("plot",{
   expect_identical(data$plots_data[[2]], data.frame())
   expect_identical(data$name, c("plot", "x", "y", "z"))
   expect_identical(data$file, 
-                   c(sub("//", "/", file.path(sbf_get_main(), "plots/plot.rds")),
-                     sub("//", "/", file.path(sbf_get_main(), "plots/x.rds")),
-                     sub("//", "/", file.path(sbf_get_main(), "plots/y.rds")),
-                     sub("//", "/", file.path(sbf_get_main(), "plots/z.rds"))))
+                   c(file.path(sbf_get_main(), "plots/plot.rds"),
+                     file.path(sbf_get_main(), "plots/x.rds"),
+                     file.path(sbf_get_main(), "plots/y.rds"),
+                     file.path(sbf_get_main(), "plots/z.rds")))
 })
 
 test_that("window",{
@@ -590,7 +590,7 @@ test_that("window",{
   sbf_open_window()
   plot(x~y, data = data.frame(x = c(5,4), y = c(6,7)))
   expect_identical(sbf_save_window(height = 7L, dpi  = 300L), 
-                   sub("//", "/", file.path(sbf_get_main(), "windows/window.png")))
+                   file.path(sbf_get_main(), "windows/window.png"))
   sbf_close_window()
   expect_identical(list.files(file.path(sbf_get_main(), "windows")),
                    sort(c("window.rda", "window.png")))
@@ -604,7 +604,7 @@ test_that("window",{
   sbf_open_window(4,3)
   print(gp)
   expect_identical(sbf_save_window("t2", dpi = 72, caption = "nice one", report = FALSE), 
-                   sub("//", "/", file.path(sbf_get_main(), "windows/t2.png"))) 
+                   file.path(sbf_get_main(), "windows/t2.png"))
   
   expect_identical(list.files(file.path(sbf_get_main(), "windows")),
                    sort(c("t2.rda", "window.rda", "t2.png", "window.png")))
