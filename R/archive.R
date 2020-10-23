@@ -34,26 +34,26 @@ sbf_archive_main <- function(main = sbf_get_main(), ask = getOption("sbf.ask", T
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_set_sub
-#' @param number A positive whole number specifying the folder to unarchive 
+#' @param archive A positive whole number specifying the folder to unarchive 
 #' where 1L (the default) indicates the most recently archived folder.
 #'
 #' @return An invisible string of the name of the unarchived main folder.
 #' @family  archive
 #' @export
-sbf_unarchive_main <- function(main = sbf_get_main(), number = 1L, ask = getOption("sbf.ask", TRUE)) {
+sbf_unarchive_main <- function(main = sbf_get_main(), archive = 1L, ask = getOption("sbf.ask", TRUE)) {
   chk_string(main)
-  chk_whole_number(number)
-  chk_gt(number)
+  chk_whole_number(archive)
+  chk_gt(archive)
   chk_flag(ask)
   
   files <- fs::dir_ls(dirname(main), type = "directory", regexp = ".*-\\d{4,4}(-\\d{2,2}){5,5}$")
   if(!length(files))
     stop("There are no archived folders for '", basename(main) , "' in '", dirname(main), "'.")
 
-  if(length(files) < number)
+  if(length(files) < archive)
     stop("There are only ", length(files), " archived folders for '", basename(main) , "' in '", dirname(main), "'.")
     
-  new_main <- rev(sort(files))[number]
+  new_main <- rev(sort(files))[archive]
   
   sbf_rm_main(main, ask = ask)
 

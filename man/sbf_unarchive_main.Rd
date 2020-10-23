@@ -6,14 +6,14 @@
 \usage{
 sbf_unarchive_main(
   main = sbf_get_main(),
-  number = 1L,
+  archive = 1L,
   ask = getOption("sbf.ask", TRUE)
 )
 }
 \arguments{
 \item{main}{A string specifying the path to the main folder (by default the current main folder)}
 
-\item{number}{A positive whole number specifying the folder to unarchive 
+\item{archive}{A positive whole number specifying the folder to unarchive 
 where 1L (the default) indicates the most recently archived folder.}
 
 \item{ask}{A flag specifying whether to ask before removing the existing folder.}
