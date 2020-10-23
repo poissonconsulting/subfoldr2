@@ -9,9 +9,9 @@
 #' @return A named logical scalar.
 #' @export
 sbf_is_equal_data <- function(x, x_name = substitute(x), 
-                          sub = sbf_get_sub(), main = sbf_get_main(), 
-                          exists = TRUE, tolerance = sqrt(.Machine$double.eps),
-                          check.attributes = TRUE, countEQ = FALSE) {
+                              sub = sbf_get_sub(), main = sbf_get_main(), 
+                              exists = TRUE, tolerance = sqrt(.Machine$double.eps),
+                              check.attributes = TRUE, countEQ = FALSE) {
   chk_s3_class(x, "data.frame")
   x_name <- chk_deparse(x_name)
   chk_scalar(exists)
@@ -29,23 +29,29 @@ sbf_is_equal_data <- function(x, x_name = substitute(x),
   }
   if(vld_false(exists)) return(setNames(FALSE, file))
   equal <- all.equal(existing, x, tolerance = tolerance, 
-            check.attributes = check.attributes, countEQ = countEQ)
+                     check.attributes = check.attributes, countEQ = countEQ)
   setNames(equal, file)
 }
-
+# 
 # sbf_is_equal_datas <- function(
 #   x_name = ".*", sub = sbf_get_sub(), main = sbf_get_main(), 
-#   archive = 1L, recursive = FALSE, include_root = TRUE) {
+#   archive = 1L, recursive = FALSE, include_root = TRUE, 
+#   exists = TRUE, tolerance = sqrt(.Machine$double.eps),
+#   check.attributes = TRUE, countEQ = FALSE) {
 #   
-#   datas <- sbf_list_datas(
-#     x_name = x_name, sub = sub, main = main, 
-#     recursive = recursive, include_root = include_root)
+#   main_files <- sbf_list_datas(x_name = x_name, sub = sub, main = main,  
+#                                recursive = recursive, include_root = include_root)
+#   
+#   archive <- sbf_get_archive(main, archive = archive)
+#   
+#   archive_files <- sbf_list_datas(x_name = x_name, sub = sub, main = archive,  
+#                                   recursive = recursive, include_root = include_root)
+#   
+#   shared_files <- 
 #   
 #   
 #   
-#   data <- load_rdss_recursive(x_name, "data", sub = sub, main = main,
-#                               include_root = include_root)
-#   data
+#   
 # }
 
 # true if in both and all.equal
@@ -56,7 +62,4 @@ sbf_is_equal_data <- function(x, x_name = substitute(x),
 # exists = FALSE then only those that not in archive.... will all be false but use to find extras
 # exists = NA then doesn't care
 # 
-# 
 # also the archive argument to all functions (except sbf_get_archive()) should also accept string so user can specify.
-# 
-# finally sbf_is_equal_data() should return single logical (named by ref) which indicates if equal FALSE if missing.
