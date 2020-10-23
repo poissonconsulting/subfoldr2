@@ -15,10 +15,13 @@ sbf_archive_main <- function(main = sbf_get_main(), ask = getOption("sbf.ask", T
   chk_flag(ask)
   chk_string(tz)
   
-  date_time <- dtt_sys_date_time(tz = tz)
-  date_time <- format(date_time, format = "%Y-%m-%d-%H-%M-%S")
-  
-  new_main <- paste(main, date_time, sep = "-")
+  new_main <- get_new_main(main, tz)
+  if(fs::file_exists(new_main)) {
+    Sys.sleep(1L)
+    new_main <- get_new_main(main, tz)
+    if(fs::file_exists(new_main)) 
+      stop("File '", new_main, "' already exists.")
+  }
 
   msg <- paste0("Copy directory '", main, "' to '", new_main, "'?")
 

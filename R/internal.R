@@ -160,3 +160,9 @@ chk_deparse <- function (x)
       err(substitute(x), " must be a string")
     x
 }
+
+get_new_main <- function(main, tz) {
+  date_time <- dtt_sys_date_time(tz = tz)
+  date_time <- format(date_time, format = "%Y-%m-%d-%H-%M-%S")
+  paste(main, date_time, sep = "-")
+}

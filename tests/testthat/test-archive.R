@@ -24,7 +24,6 @@ test_that("get_archive",{
   new_main1 <- sbf_archive_main(ask = FALSE)
   x <- 2
   sbf_save_number(x)
-  Sys.sleep(1L)
   new_main2 <- sbf_archive_main(ask = FALSE)
   
   expect_equal(sbf_get_archive(archive = 2L), new_main1)
@@ -42,11 +41,9 @@ test_that("unarchive",{
   new_main1 <- sbf_archive_main(ask = FALSE)
   x <- 2
   sbf_save_number(x)
-  Sys.sleep(1L)
   new_main2 <- sbf_archive_main(ask = FALSE)
   x <- 3
   sbf_save_number(x)
-  Sys.sleep(1L)
   new_main3 <- sbf_archive_main(ask = FALSE)
   
   expect_identical(sbf_load_number("x"), 3)

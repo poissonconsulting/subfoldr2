@@ -12,3 +12,9 @@
 #                               include_root = include_root)
 #   data
 # }
+
+# true if in both and all.equal
+# false if in main and not all.equal or missing archive
+# na if not in main but in archive
+# return as named logical vector!
+# 
