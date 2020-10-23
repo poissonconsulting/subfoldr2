@@ -17,4 +17,7 @@
 # false if in main and not all.equal or missing archive
 # na if not in main but in archive
 # return as named logical vector!
+# exists = TRUE then only those that in archive
+# exists = FALSE then only those that not in archive.... will all be false but use to find extras
+# exists = NA then doesn't care
 # 
