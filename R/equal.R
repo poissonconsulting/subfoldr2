@@ -1,3 +1,38 @@
+#' Is Equal Data
+#' 
+#' Test if equal using \code{\link{all.equal}()}.
+#' If doesn't exist and exists = NA or exists = FALSE then returns TRUE.
+#'
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_load_object
+#' @inheritParams base::all.equal
+#' @return A named logical scalar.
+#' @export
+sbf_is_equal_data <- function(x, x_name = substitute(x), 
+                          sub = sbf_get_sub(), main = sbf_get_main(), 
+                          exists = TRUE, tolerance = sqrt(.Machine$double.eps),
+                          check.attributes = TRUE, countEQ = FALSE) {
+  chk_s3_class(x, "data.frame")
+  x_name <- chk_deparse(x_name)
+  chk_scalar(exists)
+  chk_logical(exists)
+  
+  sub <- sanitize_path(sub)
+  main <- sanitize_path(main, rm_leading = FALSE)
+  file <- file_path(main, "data", sub, x_name)
+  file <- p0(file, ".rds")
+  
+  existing <- sbf_load_data(x_name, sub = sub, main = main, exists = NA)
+  if(is.null(existing)) {
+    if(vld_true(exists)) return(setNames(FALSE, file))
+    return (setNames(TRUE, file))
+  }
+  if(vld_false(exists)) return(setNames(FALSE, file))
+  equal <- all.equal(existing, x, tolerance = tolerance, 
+            check.attributes = check.attributes, countEQ = countEQ)
+  setNames(equal, file)
+}
+
 # sbf_is_equal_datas <- function(
 #   x_name = ".*", sub = sbf_get_sub(), main = sbf_get_main(), 
 #   archive = 1L, recursive = FALSE, include_root = TRUE) {
