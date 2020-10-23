@@ -1,9 +1,8 @@
 test_that("object",{
+  sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset())
 
-  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
-  
   x <- 1
   expect_warning(sbf_load_objects(), "no objects to load")
   
@@ -112,11 +111,10 @@ test_that("object",{
 })
 
 test_that("object",{
+  sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset())
 
-  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
-  
   x <- 1
   sbf_set_sub("one")
   sbf_save_object(x)
@@ -139,11 +137,10 @@ test_that("object",{
 })
 
 test_that("data",{
+  sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset())
 
-  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
-  
   y <- 1
   expect_warning(sbf_load_datas(), "no data to load")
   
@@ -193,11 +190,10 @@ test_that("data",{
 })
 
 test_that("number",{
+  sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset())
 
-  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
-  
   y <- numeric(0)
   expect_warning(sbf_load_numbers(), "no numbers to load")
   expect_error(sbf_save_number(), "argument \"x\" is missing, with no default")
@@ -250,11 +246,10 @@ test_that("number",{
 })
 
 test_that("string",{
+  sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset())
 
-  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
-  
   y <- "two words"
   expect_warning(sbf_load_strings(), "no strings to load")
   expect_error(sbf_save_string(), "argument \"x\" is missing, with no default")
@@ -312,11 +307,10 @@ test_that("string",{
 })
 
 test_that("datas_to_db",{
+  sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset())
 
-  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
-  
   x <- data.frame(x = 1)
   y <- data.frame(z = 3)
   expect_error(sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
@@ -370,11 +364,10 @@ test_that("datas_to_db",{
 })
 
 test_that("table",{
+  sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset())
 
-  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
-  
   y <- 1
   expect_warning(sbf_load_tables(), "no tables to load")
   expect_error(sbf_save_table(), "argument \"x\" is missing, with no default")
@@ -442,9 +435,10 @@ test_that("table",{
 })
 
 test_that("block",{
-  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
-  
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset())
+
   sbf_set_main(tempdir())
   y <- "two words"
   expect_warning(sbf_load_blocks(), "no blocks to load")
@@ -501,11 +495,10 @@ test_that("block",{
 })
 
 test_that("plot",{
+  sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset())
 
-  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
-  
   sbf_close_windows()
   teardown(sbf_close_windows())
   
@@ -584,11 +577,14 @@ test_that("plot",{
 })
 
 test_that("window",{
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset())
+  
   sbf_close_windows()
   teardown(sbf_close_windows())
   expect_error(sbf_save_window(), "^No such device[.]$")
   
-  teardown(sbf_reset_main(rm = TRUE, ask = FALSE))
   skip('run locally as uses screen devices') 
   expect_identical(sbf_reset_main(rm = TRUE, ask = FALSE), "output")
   sbf_open_window()
@@ -637,8 +633,9 @@ test_that("window",{
 })
 
 test_that("png",{
-  teardown(sbf_reset_main(rm = TRUE, ask = FALSE))
-  expect_identical(sbf_reset_main(rm = TRUE, ask = FALSE), "output")
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset())
   
   x <- system.file("extdata", "example.png", package = "subfoldr2", mustWork = TRUE)
   
@@ -658,11 +655,10 @@ test_that("png",{
 })
 
 test_that("save table glue",{
+  sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset())
 
-  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
-  
   data <- data.frame(x = 1)
   sbf_save_table(data, caption = "character")
   sbf_save_table(data, x_name = "data2", caption = glue::glue("glue"))

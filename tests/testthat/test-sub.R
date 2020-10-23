@@ -1,5 +1,7 @@
 test_that("sub",{
-  teardown(sbf_reset_sub())
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset())
 
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_get_sub(), character(0))

@@ -1,9 +1,8 @@
 test_that("sbf_copy_db",{
+  sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset())
 
-  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
-  
   expect_error(sbf_open_db(exists = TRUE),
                "^`file` must specify an existing file [(]'.*dbs/database.sqlite' can't be found[)].$", class = "chk_error")
   
@@ -18,10 +17,12 @@ test_that("sbf_copy_db",{
 })
 
 test_that("sbf_copy_db with different name",{
+  sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset())
 
-  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
+  sbf_reset_sub()
+  teardown(sbf_reset_sub(ask = FALSE))
   
   expect_error(sbf_open_db(exists = TRUE),
                "^`file` must specify an existing file [(]'.*dbs/database.sqlite' can't be found[)].$", class = "chk_error")
@@ -43,10 +44,9 @@ test_that("sbf_copy_db with different name",{
 })
 
 test_that("sbf_copy_db error messages",{
+  sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-
-  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
+  teardown(sbf_reset())
   
   path <- system.file("extdata", "example.png", package = "subfoldr2", 
                       mustWork = TRUE)

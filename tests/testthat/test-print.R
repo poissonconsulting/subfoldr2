@@ -1,4 +1,8 @@
 test_that("sbf_print", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset())
+  
   setup(pdf(NULL))
   teardown(dev.off())
   

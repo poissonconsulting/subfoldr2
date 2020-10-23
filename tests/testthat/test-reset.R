@@ -1,6 +1,8 @@
 test_that("reset",{
-  teardown(sbf_reset())
-  
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset()) 
+
   sbf_set_main("output2")
   sbf_set_sub("sub2")
   sbf_set_db_name("database2")

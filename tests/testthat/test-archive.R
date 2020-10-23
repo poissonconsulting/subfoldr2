@@ -1,6 +1,8 @@
 test_that("archive",{
+  sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-
+  teardown(sbf_reset())  
+  
   expect_chk_error(sbf_archive_main(ask = FALSE))
   
   x <- 1
@@ -13,7 +15,9 @@ test_that("archive",{
 })
 
 test_that("get_archive",{
+  sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset())
   
   x <- 1
   sbf_save_number(x)
@@ -29,8 +33,10 @@ test_that("get_archive",{
 })
 
 test_that("unarchive",{
+  sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  
+  teardown(sbf_reset())
+
   x <- 1
   sbf_save_number(x)
   new_main1 <- sbf_archive_main(ask = FALSE)

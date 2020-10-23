@@ -1,8 +1,8 @@
 test_that("pdf",{
+  sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-
-  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
+  teardown(sbf_reset())
+  
   graphics.off()
   teardown(graphics.off())
   
@@ -29,10 +29,10 @@ test_that("pdf",{
 })
 
 test_that("db",{
+  sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-
-  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
+  teardown(sbf_reset())
+  
   teardown(graphics.off())
   
   expect_error(sbf_open_db("x"), "^`file` must specify an existing file [(]'.*dbs/x.sqlite' can't be found[)].$", class = "chk_error")

@@ -1,5 +1,8 @@
 test_that("object",{
+  sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset())
+  
   x <- 1
   expect_identical(sbf_save_object(x), file.path(sbf_get_main(), "objects/x.rds"))
   
@@ -43,10 +46,9 @@ test_that("object",{
 })
 
 test_that("data",{
+  sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-
-  teardown(sbf_reset_sub(rm = TRUE, ask = FALSE))
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
+  teardown(sbf_reset())
   
   x <- data.frame(x = 1)
   expect_identical(sbf_save_data(x), sub("//", "/", file.path(sbf_get_main(), "data/x.rds")))
