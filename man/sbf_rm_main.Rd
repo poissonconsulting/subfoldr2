@@ -4,9 +4,11 @@
 \alias{sbf_rm_main}
 \title{Remove Main}
 \usage{
-sbf_rm_main(ask = getOption("sbf.ask", TRUE))
+sbf_rm_main(main = sbf_get_main(), ask = getOption("sbf.ask", TRUE))
 }
 \arguments{
+\item{main}{A string specifying the path to the main folder (by default the current main folder)}
+
 \item{ask}{A flag specifying whether to ask before removing the existing folder.}
 }
 \value{

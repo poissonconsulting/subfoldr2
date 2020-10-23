@@ -24,3 +24,8 @@ An invisible string of the name for the archived main folder.
 Archives main folder by copy to a director of the same name 
 with the current date and time appended.
 }
+\seealso{
+Other archive: 
+\code{\link{sbf_unarchive_main}()}
+}
+\concept{archive}

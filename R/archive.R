@@ -8,6 +8,7 @@
 #' @param tz A string specifying the time zone for the current date and time.
 #'
 #' @return An invisible string of the name for the archived main folder.
+#' @family  archive
 #' @export
 sbf_archive_main <- function(main = sbf_get_main(), ask = getOption("sbf.ask", TRUE), tz = dtt_default_tz()) {
   chk_dir(main)
@@ -18,11 +19,49 @@ sbf_archive_main <- function(main = sbf_get_main(), ask = getOption("sbf.ask", T
   date_time <- format(date_time, format = "%Y-%m-%d-%H-%M-%S")
   
   new_main <- paste(main, date_time, sep = "-")
-  
+
   msg <- paste0("Copy directory '", main, "' to '", new_main, "'?")
 
   if (!ask || yesno(msg)) {
     fs::dir_copy(main, new_main, overwrite = FALSE)
+  }
+  return(invisible(new_main))
+}
+
+#' Unarchive Main Folder
+#' 
+#' Unarchives an archived main folder.
+#'
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_set_sub
+#' @param number A positive whole number specifying the folder to unarchive 
+#' where 1L (the default) indicates the most recently archived folder.
+#'
+#' @return An invisible string of the name of the unarchived main folder.
+#' @family  archive
+#' @export
+sbf_unarchive_main <- function(main = sbf_get_main(), number = 1L, ask = getOption("sbf.ask", TRUE)) {
+  chk_string(main)
+  chk_whole_number(number)
+  chk_gt(number)
+  chk_flag(ask)
+  
+  files <- fs::dir_ls(dirname(main), type = "directory", regexp = ".*-\\d{4,4}(-\\d{2,2}){5,5}$")
+  if(!length(files))
+    stop("There are no archived folders for '", basename(main) , "' in '", dirname(main), "'.")
+
+  if(length(files) < number)
+    stop("There are only ", length(files), " archived folders for '", basename(main) , "' in '", dirname(main), "'.")
+    
+  new_main <- rev(sort(files))[number]
+  
+  sbf_rm_main(main, ask = ask)
+
+  msg <- paste0("Copy directory '", new_main, "' to '", main, "'?")
+  
+  if (!ask || yesno(msg)) {
+    fs::dir_copy(new_main, main, overwrite = FALSE)
+    sbf_rm_main(new_main, ask = FALSE)
   }
   return(invisible(new_main))
 }
