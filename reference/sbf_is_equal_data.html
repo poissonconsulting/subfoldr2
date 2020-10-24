@@ -120,8 +120,7 @@ or exists = NA in which case returns NA.</p>
   main <span class='op'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span><span class='op'>(</span><span class='op'>)</span>,
   exists <span class='op'>=</span> <span class='cn'>TRUE</span>,
   tolerance <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='va'>.Machine</span><span class='op'>$</span><span class='va'>double.eps</span><span class='op'>)</span>,
-  check.attributes <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  countEQ <span class='op'>=</span> <span class='cn'>FALSE</span>
+  check.attributes <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -158,14 +157,6 @@ or exists = NA in which case returns NA.</p>
       <td><p>logical indicating if the
     <code><a href='https://rdrr.io/r/base/attributes.html'>attributes</a></code> of <code>target</code> and <code>current</code>
     (other than the names) should be compared.</p></td>
-    </tr>
-    <tr>
-      <th>countEQ</th>
-      <td><p>logical indicating if the <code>target == current</code>
-    cases should be counted when computing the mean (absolute or
-    relative) differences.  The default, <code>FALSE</code> may seem
-    misleading in cases where <code>target</code> and <code>current</code> only
-    differ in a few places; see the extensive example.</p></td>
     </tr>
     </table>
 
