@@ -8,7 +8,6 @@ sbf_list_blocks(
   x_name = ".*",
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  full_path = TRUE,
   recursive = FALSE,
   include_root = TRUE,
   ext = "rds"
@@ -20,9 +19,6 @@ sbf_list_blocks(
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
 
 \item{main}{A string specifying the path to the main folder (by default the current main folder)}
-
-\item{full_path}{A flag specifying whether to return the full path names
-as opposed to dropping the main component and the extension.}
 
 \item{recursive}{A flag specifying whether to recurse into subfolders.}
 

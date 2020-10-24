@@ -39,15 +39,17 @@ sbf_is_equal_data <- function(x, x_name = substitute(x),
 #   exists = TRUE, tolerance = sqrt(.Machine$double.eps),
 #   check.attributes = TRUE, countEQ = FALSE) {
 # 
+#   archive <- sbf_get_archive(main, archive = archive)
+#   
 #   main_files <- sbf_list_datas(x_name = x_name, sub = sub, main = main,
 #                                full_path = FALSE, recursive = recursive, include_root = include_root)
-# 
-#   archive <- sbf_get_archive(main, archive = archive)
-# 
+#   
 #   archive_files <- sbf_list_datas(x_name = x_name, sub = sub, main = archive,
-#                                   recursive = recursive, include_root = include_root)
+#                                   full_path = FALSE, recursive = recursive, include_root = include_root)
 # 
-#   shared_files <-
+#   shared_files <- main_files[main_files %in% archive_files]
+#   
+#   
 # 
 # 
 # 
