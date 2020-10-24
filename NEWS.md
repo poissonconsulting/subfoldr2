@@ -1,3 +1,14 @@
+# subfoldr2 0.0.0.9043
+
+- Test and fix `sbf_all_equal_datas()`.
+- Added `sbf_all_equal_datas()` but not tested!
+- Added `full_path = TRUE` argument to `sbf_list_xx()` functions.
+- Added `sbf_is_equal_data()`.
+- Add `sbf_get_archive()`
+- Added `sbf_unarchive_main()` and added `main` argument to `sbf_rm_main()`.
+- Added `sbf_rm_main()`.
+
+
 # subfoldr2 0.0.0.9042
 
 - Added `sbf_archive_main()`.
