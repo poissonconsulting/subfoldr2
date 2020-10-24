@@ -1,3 +1,10 @@
+# subfoldr2 0.0.0.9044
+
+- Added `sbf_compare_datas()`.
+- Added `sbf_compare_data()`.
+- Allow `archive = 1L` argument to take path.
+
+
 # subfoldr2 0.0.0.9043
 
 - Test and fix `sbf_all_equal_datas()`.
