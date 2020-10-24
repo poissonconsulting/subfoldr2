@@ -13,7 +13,7 @@
 sbf_is_equal_data <- function(x, x_name = substitute(x), 
                               sub = sbf_get_sub(), main = sbf_get_main(), 
                               exists = TRUE, tolerance = sqrt(.Machine$double.eps),
-                              check.attributes = TRUE, countEQ = FALSE) {
+                              check.attributes = TRUE) {
   chk_s3_class(x, "data.frame")
   x_name <- chk_deparse(x_name)
   chk_scalar(exists)
@@ -27,8 +27,8 @@ sbf_is_equal_data <- function(x, x_name = substitute(x),
   existing <- sbf_load_data(x_name, sub = sub, main = main, exists = NA)
   if(is.null(existing)) 
     return(setNames(!exists, file))
-  equal <- all.equal(existing, x, tolerance = tolerance, 
-                     check.attributes = check.attributes, countEQ = countEQ)
+  equal <- vld_true(all.equal(existing, x, tolerance = tolerance, 
+                     check.attributes = check.attributes))
   setNames(equal, file)
 }
 
@@ -51,7 +51,7 @@ sbf_is_equal_datas <- function(
   x_name = ".*", sub = sbf_get_sub(), main = sbf_get_main(),
   archive = 1L, recursive = FALSE, include_root = TRUE,
   exists = TRUE, tolerance = sqrt(.Machine$double.eps),
-  check.attributes = TRUE, countEQ = FALSE) {
+  check.attributes = TRUE) {
   
   chkor(chk_whole_number(archive), chk_dir(archive))
 
@@ -75,7 +75,7 @@ sbf_is_equal_datas <- function(
   shared_file_names <- intersect(names(main_files), names(archive_files))
   all_equal <- vapply(shared_file_names, FUN = all_equal_data, TRUE,
                       main = main, archive = archive, tolerance = tolerance, 
-                      check.attributes = check.attributes, countEQ = countEQ)
+                      check.attributes = check.attributes)
   
   equal[names(all_equal)] <- all_equal
   equal[!names(equal) %in% shared_file_names] <- !exists

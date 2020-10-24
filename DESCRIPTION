@@ -33,6 +33,7 @@ Suggests:
     testthat,
     daff,
     units,
+    waldo,
     withr
 Encoding: UTF-8
 LazyData: true

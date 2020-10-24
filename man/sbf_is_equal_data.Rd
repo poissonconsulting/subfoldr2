@@ -11,8 +11,7 @@ sbf_is_equal_data(
   main = sbf_get_main(),
   exists = TRUE,
   tolerance = sqrt(.Machine$double.eps),
-  check.attributes = TRUE,
-  countEQ = FALSE
+  check.attributes = TRUE
 )
 }
 \arguments{
@@ -33,12 +32,6 @@ sbf_is_equal_data(
 \item{check.attributes}{logical indicating if the
     \code{\link[base]{attributes}} of \code{target} and \code{current}
     (other than the names) should be compared.}
-
-\item{countEQ}{logical indicating if the \code{target == current}
-    cases should be counted when computing the mean (absolute or
-    relative) differences.  The default, \code{FALSE} may seem
-    misleading in cases where \code{target} and \code{current} only
-    differ in a few places; see the extensive example.}
 }
 \value{
 A named flag.

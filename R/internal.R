@@ -167,7 +167,7 @@ get_new_main <- function(main, tz) {
   paste(main, date_time, sep = "-")
 }
 
-all_equal_data <- function(name, main, archive, tolerance, check.attributes, countEQ) {
+all_equal_data <- function(name, main, archive, tolerance, check.attributes) {
   main <- file_path(main, name)
   archive <- file_path(archive, name)
   
@@ -178,5 +178,5 @@ all_equal_data <- function(name, main, archive, tolerance, check.attributes, cou
   archive <- readRDS(archive)
   
   vld_true(all.equal(main, archive, tolerance = tolerance, 
-            check.attributes = check.attributes, countEQ = countEQ))
+            check.attributes = check.attributes))
 }
