@@ -166,3 +166,14 @@ get_new_main <- function(main, tz) {
   date_time <- format(date_time, format = "%Y-%m-%d-%H-%M-%S")
   paste(main, date_time, sep = "-")
 }
+
+all_equal_data <- function(name, main, archive, tolerance, check.attributes, countEQ) {
+  main <- file_path(main, name, ".rds")
+  archive <- file_path(archive, name, ".rd")
+  
+  main <- readRDS(main)
+  archive <- readRDS(archive)
+  
+  all.equal(main, archive, tolerance = tolerance, 
+            check.attributes = check.attributes, countEQ = countEQ)
+}
