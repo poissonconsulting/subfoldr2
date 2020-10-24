@@ -41,7 +41,8 @@
 
 <meta property="og:title" content="Is Equal Data — sbf_is_equal_data" />
 <meta property="og:description" content="Test if equal using all.equal().
-If doesn't exist and exists = NA or exists = FALSE then returns TRUE." />
+If doesn't exist returns FALSE unless exists = FALSE in which case returns TRUE
+or exists = NA in which case returns NA." />
 
 
 
@@ -108,7 +109,8 @@ If doesn't exist and exists = NA or exists = FALSE then returns TRUE." />
 
     <div class="ref-description">
     <p>Test if equal using <code><a href='https://rdrr.io/r/base/all.equal.html'>all.equal</a>()</code>.
-If doesn't exist and exists = NA or exists = FALSE then returns TRUE.</p>
+If doesn't exist returns FALSE unless exists = FALSE in which case returns TRUE
+or exists = NA in which case returns NA.</p>
     </div>
 
     <pre class="usage"><span class='fu'>sbf_is_equal_data</span><span class='op'>(</span>
@@ -169,7 +171,7 @@ If doesn't exist and exists = NA or exists = FALSE then returns TRUE.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A named logical scalar.</p>
+    <p>A named flag.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
