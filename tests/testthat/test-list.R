@@ -53,7 +53,7 @@ test_that("object",{
   
   expect_equivalent(sbf_list_objects("down", recursive = TRUE), character(0))
   expect_equivalent(sbf_list_objects("rds", recursive = TRUE), character(0))
-  expect_null(names(sbf_list_objects("rds", recursive = TRUE)))
+  expect_identical(names(sbf_list_objects("rds", recursive = TRUE)), character(0))
 })
 
 test_that("data",{

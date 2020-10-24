@@ -21,8 +21,10 @@ list_files <- function(x_name, class, sub, main, recursive, include_root, ext = 
   if(!include_root) files <- files[grepl("/", files)]
   names <- file_path(class, sub, files)
   files <- names(files)
-  if(length(files))
+  if(length(files)) {
     names(files) <- names
+  } else 
+    names(files) <- character(0)
   files
 }
 
