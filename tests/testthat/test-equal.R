@@ -13,11 +13,12 @@ test_that("is_equal_data", {
   y <- x
   expect_false(sbf_is_equal_data(y))
   expect_identical(names(sbf_is_equal_data(y)), "data/y")
-  expect_true(sbf_is_equal_data(y, exists = NA))
+  expect_equivalent(sbf_is_equal_data(y, exists = NA), NA)
+  expect_false(sbf_is_equal_data(y, exists = TRUE))
   expect_true(sbf_is_equal_data(y, exists = FALSE))
   expect_true(sbf_is_equal_data(y, "x"))
   expect_true(sbf_is_equal_data(y, "x", exists = NA))
-  expect_false(sbf_is_equal_data(y, "x", exists = FALSE))
+  expect_true(sbf_is_equal_data(y, "x", exists = FALSE))
   x <- 1
   expect_chk_error(sbf_is_equal_data(x))
 })

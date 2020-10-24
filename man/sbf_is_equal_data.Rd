@@ -41,9 +41,10 @@ sbf_is_equal_data(
     differ in a few places; see the extensive example.}
 }
 \value{
-A named logical scalar.
+A named flag.
 }
 \description{
 Test if equal using \code{\link{all.equal}()}.
-If doesn't exist and exists = NA or exists = FALSE then returns TRUE.
+If doesn't exist returns FALSE unless exists = FALSE in which case returns TRUE
+or exists = NA in which case returns NA.
 }
