@@ -152,13 +152,13 @@ nsub <- function(sub) {
 
 chk_deparse <- function (x) 
 {
-    if (!is.character(x)) 
-        x <- deparse(x)
-    if (is.na(x)) 
-        x <- "NA"
-    if (!vld_string(x)) 
-      err(substitute(x), " must be a string")
-    x
+  if (!is.character(x)) 
+    x <- deparse(x)
+  if (is.na(x)) 
+    x <- "NA"
+  if (!vld_string(x)) 
+    err(substitute(x), " must be a string")
+  x
 }
 
 get_new_main <- function(main, tz) {
@@ -178,5 +178,20 @@ all_equal_data <- function(name, main, archive, tolerance, check.attributes) {
   archive <- readRDS(archive)
   
   vld_true(all.equal(main, archive, tolerance = tolerance, 
-            check.attributes = check.attributes))
+                     check.attributes = check.attributes))
+}
+
+compare_data <- function(name, main, archive, tolerance, ignore_attr) {
+  main <- file_path(main, name)
+  archive <- file_path(archive, name)
+  
+  main <- p0(main, ".rds")
+  archive <- p0(archive, ".rds")
+  
+  main <- if(file.exists(main)) readRDS(main) else NULL
+  archive <- if(file.exists(archive)) readRDS(archive) else NULL
+  
+  waldo::compare(main, archive, x_arg = "main", y_arg = "archive",
+                 tolerance = tolerance, 
+                 ignore_attr = ignore_attr)
 }
