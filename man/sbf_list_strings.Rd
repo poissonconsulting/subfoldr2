@@ -22,7 +22,7 @@ sbf_list_strings(
 \item{main}{A string specifying the path to the main folder (by default the current main folder)}
 
 \item{full_path}{A flag specifying whether to return the full path names
-as opposed to dropping the main component.}
+as opposed to dropping the main component and the extension.}
 
 \item{recursive}{A flag specifying whether to recurse into subfolders.}
 

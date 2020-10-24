@@ -20,7 +20,7 @@ list_files <- function(x_name, class, sub, main, full_path, recursive, include_r
   files <- sub(ext, "", files)
   files <- files[grepl(x_name, basename(files))]
   if(!include_root) files <- files[grepl("/", files)]
-  if(!full_path) return(unname(files))
+  if(!full_path) return(file_path(class, sub, files))
   names(files)
 }
 
@@ -30,8 +30,9 @@ list_files <- function(x_name, class, sub, main, full_path, recursive, include_r
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @param x_name A regular expression of the object names to match.
-#' @param full_path A flag specifying whether to return the full path names
-#' as opposed to dropping the main component.
+#' @param full_path A flag specifying whether to return 
+#' the full path names including the extension or whether to
+#' drop the main component and the extension.
 #' @param recursive A flag specifying whether to recurse into subfolders.
 #' @param ext A string of the file extension.
 #' @export

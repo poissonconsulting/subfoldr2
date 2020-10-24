@@ -1,4 +1,4 @@
-test_that("multiplication works", {
+test_that("is_equal_data", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   teardown(sbf_reset())
@@ -8,11 +8,11 @@ test_that("multiplication works", {
   expect_identical(sbf_load_data("x"), x)
   
   expect_true(sbf_is_equal_data(x))
-  expect_identical(names(sbf_is_equal_data(x)), file.path(sbf_get_main(), "data/x.rds"))
+  expect_identical(names(sbf_is_equal_data(x)), "data/x")
   
   y <- x
   expect_false(sbf_is_equal_data(y))
-  expect_identical(names(sbf_is_equal_data(y)), file.path(sbf_get_main(), "data/y.rds"))
+  expect_identical(names(sbf_is_equal_data(y)), "data/y")
   expect_true(sbf_is_equal_data(y, exists = NA))
   expect_true(sbf_is_equal_data(y, exists = FALSE))
   expect_true(sbf_is_equal_data(y, "x"))

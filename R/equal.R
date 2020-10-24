@@ -19,9 +19,9 @@ sbf_is_equal_data <- function(x, x_name = substitute(x),
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
-  file <- file_path(main, "data", sub, x_name)
-  file <- p0(file, ".rds")
   
+  file <- file_path("data", sub, x_name)
+
   existing <- sbf_load_data(x_name, sub = sub, main = main, exists = NA)
   if(is.null(existing)) {
     if(vld_true(exists)) return(setNames(FALSE, file))
@@ -34,24 +34,24 @@ sbf_is_equal_data <- function(x, x_name = substitute(x),
 }
 # 
 # sbf_is_equal_datas <- function(
-#   x_name = ".*", sub = sbf_get_sub(), main = sbf_get_main(), 
-#   archive = 1L, recursive = FALSE, include_root = TRUE, 
+#   x_name = ".*", sub = sbf_get_sub(), main = sbf_get_main(),
+#   archive = 1L, recursive = FALSE, include_root = TRUE,
 #   exists = TRUE, tolerance = sqrt(.Machine$double.eps),
 #   check.attributes = TRUE, countEQ = FALSE) {
-#   
-#   main_files <- sbf_list_datas(x_name = x_name, sub = sub, main = main,  
-#                                recursive = recursive, include_root = include_root)
-#   
+# 
+#   main_files <- sbf_list_datas(x_name = x_name, sub = sub, main = main,
+#                                full_path = FALSE, recursive = recursive, include_root = include_root)
+# 
 #   archive <- sbf_get_archive(main, archive = archive)
-#   
-#   archive_files <- sbf_list_datas(x_name = x_name, sub = sub, main = archive,  
+# 
+#   archive_files <- sbf_list_datas(x_name = x_name, sub = sub, main = archive,
 #                                   recursive = recursive, include_root = include_root)
-#   
-#   shared_files <- 
-#   
-#   
-#   
-#   
+# 
+#   shared_files <-
+# 
+# 
+# 
+# 
 # }
 
 # true if in both and all.equal

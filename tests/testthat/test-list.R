@@ -6,9 +6,8 @@ test_that("object",{
   x <- 1
   expect_identical(sbf_save_object(x), file.path(sbf_get_main(), "objects/x.rds"))
   
-  skip_on_os("windows") # this is not working on windows as not necessary to add extra //!
-  
   expect_match(sbf_list_objects("x"), file.path(sbf_get_main(), "objects/x.rds"))
+  expect_match(sbf_list_objects("x", full_path = FALSE), "objects/x")
   x <- 3
   expect_identical(sbf_save_object(x, sub = "down"),
                    file.path(sbf_get_main(), "objects/down/x.rds"))
@@ -17,8 +16,14 @@ test_that("object",{
                c(file.path(sbf_get_main(), "objects/down/x.rds"),
                file.path(sbf_get_main(), "objects/x.rds")))
 
+  expect_identical(sbf_list_objects("x", recursive = TRUE, full_path = FALSE),
+                   c("objects/down/x", "objects/x"))
+  
   expect_identical(sbf_list_objects("x"),
                file.path(sbf_get_main(), "objects/x.rds"))
+
+  expect_identical(sbf_list_objects("x", full_path = FALSE),
+                   "objects/x")
   
   y <- 4
   expect_identical(sbf_save_object(y), file.path(sbf_get_main(), "objects/y.rds"))
@@ -40,9 +45,15 @@ test_that("object",{
                c(file.path(sbf_get_main(), "objects/down/x.rds"),
                file.path(sbf_get_main(), "objects/x.rds"),
                file.path(sbf_get_main(), "objects/y.rds")))
+    
+    expect_identical(sbf_list_objects(recursive = TRUE, full_path = FALSE),
+                     c("objects/down/x",
+                       "objects/x",
+                       "objects/y"))
   
-  expect_identical(sbf_list_objects("down", recursive = TRUE), character())
-  expect_identical(sbf_list_objects("rds", recursive = TRUE), character())
+  expect_identical(sbf_list_objects("down", recursive = TRUE), character(0))
+  expect_identical(sbf_list_objects("rds", recursive = TRUE), character(0))
+  expect_identical(sbf_list_objects("rds", recursive = TRUE, full_path = TRUE), character(0))
 })
 
 test_that("data",{
@@ -53,9 +64,10 @@ test_that("data",{
   x <- data.frame(x = 1)
   expect_identical(sbf_save_data(x), file.path(sbf_get_main(), "data/x.rds"))
   
-  skip_on_os("windows") # this is not working on windows as not necessary to add extra //!
   expect_match(sbf_list_datas("x"),
                file.path(sbf_get_main(), "data/x.rds"))
+  expect_match(sbf_list_datas("x", full_path = FALSE),
+               "data/x")
   x <- data.frame(y = 3)
   expect_identical(sbf_save_data(x, sub = "down"),
                    file.path(sbf_get_main(), "data/down/x.rds"))
@@ -63,7 +75,14 @@ test_that("data",{
   expect_identical(sbf_list_datas("x", recursive = TRUE),
                c(file.path(sbf_get_main(), "data/down/x.rds"),
                file.path(sbf_get_main(), "data/x.rds")))
+
+  expect_identical(sbf_list_datas("x", recursive = TRUE, full_path = FALSE),
+                   c("data/down/x",
+                     "data/x"))
   
   expect_identical(sbf_list_datas("x", recursive = FALSE),
                file.path(sbf_get_main(), "data/x.rds"))
+  
+  expect_identical(sbf_list_datas("x", recursive = FALSE, full_path = FALSE),
+                   "data/x")
 })
