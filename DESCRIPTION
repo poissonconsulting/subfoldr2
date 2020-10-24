@@ -28,7 +28,6 @@ Imports:
     lifecycle
 Suggests: 
     covr,
-    cli,
     glue,
     sf,
     testthat,

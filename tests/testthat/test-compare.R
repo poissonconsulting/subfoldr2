@@ -14,6 +14,8 @@ test_that("compare",{
   
   expect_is(sbf_compare_data(x, "x"), "waldo_compare")
   
+  skip_on_ci()
+  
   expect_identical(as.character(sbf_compare_data(x, "x")), "  `saved[[1]]`: \033[32m1.00000\033[39m\n`current[[1]]`: \033[32m1.00001\033[39m")
 })
 
@@ -41,6 +43,9 @@ test_that("compare_datas", {
                    structure(list(), .Names = character(0)))
 
   sbf_rm_main(ask = FALSE)
+  
+  skip_on_ci()
+  
   expect_identical(sbf_compare_datas(), list(`data/x` = structure("`main` is \033[32mNULL\033[39m\n`archive` is \033[32man S3 object of class <data.frame>\033[39m", class = "waldo_compare"), 
                                              `data/y` = structure("`main` is \033[32mNULL\033[39m\n`archive` is \033[32man S3 object of class <data.frame>\033[39m", class = "waldo_compare")))
 
@@ -63,9 +68,10 @@ test_that("compare_datas", {
   sbf_save_data(x)
   archive2 <- sbf_archive_main(ask = FALSE)
   
-  expect_identical(sbf_compare_datas(main = archive1, archive = archive2), 
-                   list(`data/x` = structure("   `main[[1]]`: \033[32m1.00000\033[39m\n`archive[[1]]`: \033[32m1.00001\033[39m", class = "waldo_compare")))
   expect_identical(sbf_compare_datas(main = archive1, archive = archive2, tolerance = 0.1), 
                    list(`data/x` = structure(character(0), class = "waldo_compare")))
+  skip_on_ci()
+  
+  expect_identical(sbf_compare_datas(main = archive1, archive = archive2), 
+                   list(`data/x` = structure("   `main[[1]]`: \033[32m1.00000\033[39m\n`archive[[1]]`: \033[32m1.00001\033[39m", class = "waldo_compare")))
 })
-
