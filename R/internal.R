@@ -168,12 +168,15 @@ get_new_main <- function(main, tz) {
 }
 
 all_equal_data <- function(name, main, archive, tolerance, check.attributes, countEQ) {
-  main <- file_path(main, name, ".rds")
-  archive <- file_path(archive, name, ".rd")
+  main <- file_path(main, name)
+  archive <- file_path(archive, name)
+  
+  main <- p0(main, ".rds")
+  archive <- p0(archive, ".rds")
   
   main <- readRDS(main)
   archive <- readRDS(archive)
   
-  all.equal(main, archive, tolerance = tolerance, 
-            check.attributes = check.attributes, countEQ = countEQ)
+  vld_true(all.equal(main, archive, tolerance = tolerance, 
+            check.attributes = check.attributes, countEQ = countEQ))
 }

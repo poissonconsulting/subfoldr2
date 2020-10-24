@@ -63,7 +63,7 @@ sbf_is_equal_datas <- function(
 
   all_file_names <- union(names(main_files), names(archive_files))
   
-  if(!length(all_file_names)) return(logical(0))
+  if(!length(all_file_names)) return(structure(logical(0), .Names = character(0)))
 
   equal <- rep(NA, length(all_file_names))
   names(equal) <- all_file_names
