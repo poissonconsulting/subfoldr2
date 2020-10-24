@@ -52,8 +52,11 @@ sbf_is_equal_datas <- function(
   archive = 1L, recursive = FALSE, include_root = TRUE,
   exists = TRUE, tolerance = sqrt(.Machine$double.eps),
   check.attributes = TRUE, countEQ = FALSE) {
+  
+  chkor(chk_whole_number(archive), chk_dir(archive))
 
-  archive <- sbf_get_archive(main, archive = archive)
+  if(vld_numeric(archive))
+    archive <- sbf_get_archive(main = main, archive = archive)
 
   main_files <- sbf_list_datas(x_name = x_name, sub = sub, main = main,
                                recursive = recursive, include_root = include_root)

@@ -38,21 +38,21 @@ test_that("unarchive",{
 
   x <- 1
   sbf_save_number(x)
-  new_main1 <- sbf_archive_main(ask = FALSE)
+  archive1 <- sbf_archive_main(ask = FALSE)
   x <- 2
   sbf_save_number(x)
-  new_main2 <- sbf_archive_main(ask = FALSE)
+  archive2 <- sbf_archive_main(ask = FALSE)
   x <- 3
   sbf_save_number(x)
-  new_main3 <- sbf_archive_main(ask = FALSE)
+  archive3 <- sbf_archive_main(ask = FALSE)
   
   expect_identical(sbf_load_number("x"), 3)
-  expect_equal(sbf_unarchive_main(archive = 3L, ask = FALSE), new_main1)
+  expect_equal(sbf_unarchive_main(archive = archive1, ask = FALSE), archive1)
   expect_identical(sbf_load_number("x"), 1)
-  expect_equal(sbf_unarchive_main(ask = FALSE), new_main3)
+  expect_equal(sbf_unarchive_main(ask = FALSE), archive3)
   expect_identical(sbf_load_number("x"), 3)
   expect_error(sbf_unarchive_main(archive = 2L, ask = FALSE))
-  expect_equal(sbf_unarchive_main(ask = FALSE), new_main2)
+  expect_equal(sbf_unarchive_main(ask = FALSE), archive2)
   expect_identical(sbf_load_number("x"), 2)
   expect_error(sbf_unarchive_main(ask = FALSE))
 })

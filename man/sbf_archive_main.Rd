@@ -18,7 +18,7 @@ sbf_archive_main(
 \item{tz}{A string specifying the time zone for the current date and time.}
 }
 \value{
-An invisible string of the name for the archived main folder.
+An invisible string of the path to the archived folder.
 }
 \description{
 Archives main folder by copy to a director of the same name 

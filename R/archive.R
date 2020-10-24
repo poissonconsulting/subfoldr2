@@ -7,7 +7,7 @@
 #' @inheritParams sbf_set_sub
 #' @param tz A string specifying the time zone for the current date and time.
 #'
-#' @return An invisible string of the name for the archived main folder.
+#' @return An invisible string of the path to the archived folder.
 #' @family  archive
 #' @export
 sbf_archive_main <- function(main = sbf_get_main(), ask = getOption("sbf.ask", TRUE), tz = dtt_default_tz()) {
@@ -15,20 +15,20 @@ sbf_archive_main <- function(main = sbf_get_main(), ask = getOption("sbf.ask", T
   chk_flag(ask)
   chk_string(tz)
   
-  new_main <- get_new_main(main, tz)
-  if(fs::file_exists(new_main)) {
+  archive <- get_new_main(main, tz)
+  if(fs::file_exists(archive)) {
     Sys.sleep(1L)
-    new_main <- get_new_main(main, tz)
-    if(fs::file_exists(new_main)) 
-      stop("File '", new_main, "' already exists.")
+    archive <- get_new_main(main, tz)
+    if(fs::file_exists(archive)) 
+      stop("File '", archive, "' already exists.")
   }
 
-  msg <- paste0("Copy directory '", main, "' to '", new_main, "'?")
+  msg <- paste0("Copy directory '", main, "' to '", archive, "'?")
 
   if (!ask || yesno(msg)) {
-    fs::dir_copy(main, new_main, overwrite = FALSE)
+    fs::dir_copy(main, archive, overwrite = FALSE)
   }
-  return(invisible(new_main))
+  return(invisible(archive))
 }
 
 #' Unarchive Main Folder
@@ -38,25 +38,28 @@ sbf_archive_main <- function(main = sbf_get_main(), ask = getOption("sbf.ask", T
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_set_sub
 #' @param archive A positive whole number specifying the folder archived folder
-#' where 1L (the default) indicates the most recently archived folder.
+#' where 1L (the default) indicates the most recently archived folder or
+#' a character string of the path to the archived folder.
 #'
-#' @return An invisible string of the name of the unarchived main folder.
+#' @return An invisible string of the path to the previously archived folder.
 #' @family  archive
 #' @export
 sbf_unarchive_main <- function(main = sbf_get_main(), archive = 1L, ask = getOption("sbf.ask", TRUE)) {
+  chkor(chk_whole_number(archive), chk_dir(archive))
   chk_flag(ask)
-    
-  new_main <- sbf_get_archive(main = main, archive = archive)
+  
+  if(vld_numeric(archive))
+    archive <- sbf_get_archive(main = main, archive = archive)
 
   sbf_rm_main(main, ask = ask)
 
-  msg <- paste0("Copy directory '", new_main, "' to '", main, "'?")
+  msg <- paste0("Copy directory '", archive, "' to '", main, "'?")
   
   if (!ask || yesno(msg)) {
-    fs::dir_copy(new_main, main, overwrite = FALSE)
-    sbf_rm_main(new_main, ask = FALSE)
+    fs::dir_copy(archive, main, overwrite = FALSE)
+    sbf_rm_main(archive, ask = FALSE)
   }
-  return(invisible(new_main))
+  return(invisible(archive))
 }
 
 #' Get Archive Directory
