@@ -17,6 +17,44 @@ test_that("data",{
   expect_error(sbf_diff_data(x))
 })
 
+
+test_that("diff_datas", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset())
+  
+  x <- data.frame(x = 1)
+  sbf_save_data(x)
+  archive1 <- sbf_archive_main(ask = FALSE)
+  
+  x <- data.frame(x = 1.00001)
+  sbf_save_data(x)
+  archive2 <- sbf_archive_main(ask = FALSE)
+  
+  diff <- sbf_diff_datas(main = archive1, archive = archive2)
+  expect_is(diff, "list")
+  expect_identical(names(diff), "data/x")
+  expect_is(diff[[1]], "data_diff")
+})
+
+test_that("diff_datas", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset())
+  
+  x <- data.frame(x = 1)
+  sbf_save_data(x)
+  y <- data.frame(x = 2.000001)
+  sbf_save_data(y)
+  
+  archive1 <- sbf_archive_main(ask = FALSE)
+  
+  diff <- sbf_diff_datas()
+  expect_identical(names(diff), c("data/x", "data/y"))
+  expect_is(diff[[1]], "data_diff")  
+  expect_is(diff[[2]], "data_diff")  
+})
+
 test_that("table",{
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))

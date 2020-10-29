@@ -42,6 +42,7 @@ Compares data using waldo::compare.
 }
 \seealso{
 Other compare: 
-\code{\link{sbf_compare_datas}()}
+\code{\link{sbf_compare_datas}()},
+\code{\link{sbf_diff_datas}()}
 }
 \concept{compare}

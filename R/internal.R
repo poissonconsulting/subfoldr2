@@ -195,3 +195,21 @@ compare_data <- function(name, main, archive, tolerance, ignore_attr) {
                  tolerance = tolerance, 
                  ignore_attr = ignore_attr)
 }
+
+diff_data <- function(name, main, archive) {
+  main <- file_path(main, name)
+  archive <- file_path(archive, name)
+  
+  main <- p0(main, ".rds")
+  archive <- p0(archive, ".rds")
+  
+  main <- if(file.exists(main)) readRDS(main) else NULL
+  archive <- if(file.exists(archive)) readRDS(archive) else NULL
+  
+  if(is.null(main)) {
+    main <- archive
+  } else if(is.null(archive))
+    archive <- main
+  
+  daff::diff_data(archive, main)
+}
