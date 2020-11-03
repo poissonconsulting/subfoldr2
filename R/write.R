@@ -17,6 +17,10 @@ sbf_write_datas_to_xlsx <- function(path, exists = NA, env = parent.frame(),
   chk_flag(ask)
   chk_s3_class(env, "environment")
   
+  if(!requireNamespace("writexl", quietly = TRUE))
+    stop("Please `install.packages('writexl')`.", call. = FALSE)
+  
+  
   if (isTRUE(exists)) chk_file(file)
   
   if (isFALSE(exists) && file.exists(file)) {
