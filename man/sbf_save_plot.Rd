@@ -43,7 +43,7 @@ sbf_save_plot(
 
 \item{dpi}{A number of the resolution in dots per inch.}
 
-\item{limitsize}{When \code{TRUE} (the default), \code{ggsave()} will not
+\item{limitsize}{When \code{TRUE} (the default), \code{ggsave} will not
 save images larger than 50x50 inches, to prevent the common error of
 specifying dimensions in pixels.}
 

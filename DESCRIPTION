@@ -30,6 +30,7 @@ Suggests:
     covr,
     glue,
     sf,
+    writexl,
     testthat,
     daff,
     units,
