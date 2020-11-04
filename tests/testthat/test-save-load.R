@@ -361,6 +361,26 @@ test_that("datas_to_db",{
                                   Column = c("X", "Z"),
                                   Meta = c(NA_character_, NA_character_),
                                   Description = c(NA_character_, NA_character_)))
+  
+  x <- sbf_load_db_metatable()
+  x$Description <- c("xy", "the End.")
+  expect_identical(sbf_save_db_metatable_descriptions(x), x[c("Table", "Column", "Description")])
+  expect_identical(x, sbf_load_db_metatable())
+  expect_identical(sbf_save_db_metatable_descriptions(x), x[0,c("Table", "Column", "Description")])
+  expect_identical(sbf_save_db_metatable_descriptions(x, overwrite = TRUE), x[c("Table", "Column", "Description")])
+  x$Description <- c("xzy", NA)
+  expect_identical(sbf_save_db_metatable_descriptions(x), x[0, c("Table", "Column", "Description")])
+  expect_identical(sbf_save_db_metatable_descriptions(x, overwrite = TRUE), x[c("Table", "Column", "Description")])
+  expect_identical(x, sbf_load_db_metatable())
+  x$Description <- c("notxzy", "yes")
+  expect_identical(sbf_save_db_metatable_descriptions(x)$Description, "yes")
+  expect_identical(sbf_save_db_metatable_descriptions(x), x[0, c("Table", "Column", "Description")])
+  expect_identical(sbf_save_db_metatable_descriptions(x, overwrite = TRUE), x[c("Table", "Column", "Description")])
+  
+  x$Table[1] <- "NotTable"
+  expect_error(sbf_save_db_metatable_descriptions(x))
+  expect_identical(sbf_save_db_metatable_descriptions(x, strict = FALSE), x[0, c("Table", "Column", "Description")])
+  expect_identical(sbf_save_db_metatable_descriptions(x, strict = FALSE, overwrite = TRUE)$Description, "yes")
 })
 
 test_that("table",{

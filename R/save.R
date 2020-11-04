@@ -427,6 +427,50 @@ sbf_save_data_to_db <- function(x, x_name = substitute(x),
   invisible(file_name(main, "dbs", sub, db_name, ext = "sqlite"))
 }
 
+#' Saves Meta Table Descriptions to Database
+#' 
+#' Saves meta table descriptions to a database.
+#' Its important to note that if overwrite = TRUE and x includes
+#' blank descriptions then existing non-blank descriptions will be overwritten.
+#'  
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_save_data_to_db
+#' @param x A data.frame with Table, Column and Description columns.
+#' @param strict A flag specifying whether to error if x has extraneous descriptions.
+#' @param overwrite A flag specifying whether to overwrite existing descriptions.
+#' @return A invisible data.frame of the altered descriptions.
+#' @export
+sbf_save_db_metatable_descriptions <- function(x, db_name = sbf_get_db_name(), 
+                                  sub = sbf_get_sub(), main = sbf_get_main(),
+                                  overwrite = FALSE, strict = TRUE) {
+  check_data(x, values = list(Table = "", Column = "", Description = c("", NA)))
+  chk_flag(overwrite)
+  chk_flag(strict)
+  
+  conn <- sbf_open_db(db_name, sub = sub, main = main, exists = TRUE)
+  on.exit(sbf_close_db(conn))
+  
+  x <- x[c("Table", "Column", "Description")]
+  if(!nrow(x)) return(invisible(x))
+  
+  meta <- sbf_load_db_metatable(db_name, sub = sub, main = main)
+  x$TableColumn <- paste(x$Table, x$Column)
+  meta$TableColumn <- paste(meta$Table, meta$Column)
+  if(strict && !vld_subset(x$TableColumn, meta$TableColumn)) { 
+    stop("All Table and Column names must be in db.", call. = FALSE)
+  }
+  
+  if(!overwrite) {
+    meta <- meta[is.na(meta$Description),,drop = FALSE]
+  }
+  x <- x[x$TableColumn %in% meta$TableColumn,,drop = FALSE]
+  x$TableColumn <- NULL
+  if(nrow(x)) {
+    rws_describe_meta(x, conn = conn)
+  }
+  invisible(x)
+}
+
 #' Save Objects
 #' 
 #' @inheritParams sbf_save_object
