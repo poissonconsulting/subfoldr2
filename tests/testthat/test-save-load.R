@@ -381,6 +381,14 @@ test_that("datas_to_db",{
   expect_error(sbf_save_db_metatable_descriptions(x))
   expect_identical(sbf_save_db_metatable_descriptions(x, strict = FALSE), x[0, c("Table", "Column", "Description")])
   expect_identical(sbf_save_db_metatable_descriptions(x, strict = FALSE, overwrite = TRUE)$Description, "yes")
+  
+  x$Table[1] <- "X"
+  x$Description <- NA_character_
+  expect_identical(sbf_save_db_metatable_descriptions(x, overwrite = TRUE), x[c("Table", "Column", "Description")])
+  
+  expect_identical(sbf_load_db_metatable(), x)
+  
+  expect_identical(sbf_save_db_metatable_descriptions(x), x[c("Table", "Column", "Description")])
 })
 
 test_that("table",{
