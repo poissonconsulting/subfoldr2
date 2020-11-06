@@ -5,7 +5,7 @@
 \title{Path to Database}
 \usage{
 sbf_path_db(
-  x_name,
+  x_name = sbf_get_db_name(),
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   ext = "sqlite",

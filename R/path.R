@@ -109,7 +109,7 @@ sbf_path_window <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), 
 #' @inheritParams sbf_path_object
 #' @return A string indicating the path.
 #' @export
-sbf_path_db <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), ext = "sqlite", exists = NA) {
+sbf_path_db <- function(x_name = sbf_get_db_name(), sub = sbf_get_sub(), main = sbf_get_main(), ext = "sqlite", exists = NA) {
   chk_string(ext)
   chk_subset(ext, "sqlite")
   get_path(x_name, class = "dbs", sub = sub, main = main, ext = ext, exists = exists)
