@@ -1,3 +1,14 @@
+# subfoldr2 0.0.0.9045
+
+- Added sbf_rm_flobs() and removed rm argument from sbf_save_flobs_from_db().
+- Added sbf_save_flobs_from_db() and sbf_upload_flobs_to_db().
+- Added sbf_get_db_name() to sbf_path_db().
+- Added sbf_save_db_metatable_descriptions()
+- Added sbf_query_db().
+- Added sbf_write_datas_to_xlsx().
+- Added `sbf_diff_datas()`.
+
+
 # subfoldr2 0.0.0.9044
 
 - Added `sbf_compare_datas()`.
