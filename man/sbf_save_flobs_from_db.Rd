@@ -8,9 +8,7 @@ sbf_save_flobs_from_db(
   db_name = sbf_get_db_name(),
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  dir = NULL,
-  rm = FALSE,
-  ask = getOption("sbf.ask", TRUE)
+  dir = NULL
 )
 }
 \arguments{
@@ -21,10 +19,6 @@ sbf_save_flobs_from_db(
 \item{main}{A string specifying the path to the main folder (by default the current main folder)}
 
 \item{dir}{A character string of the path to the directory to save files to.}
-
-\item{rm}{A flag specifying whether to delete existing flobs subdirectory.}
-
-\item{ask}{A flag specifying whether to ask before deleting existing flobs subdirectory.}
 }
 \value{
 An invisible named list of named vectors of the file names and new file names saved.
