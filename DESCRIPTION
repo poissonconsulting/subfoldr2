@@ -32,6 +32,8 @@ Suggests:
     sf,
     writexl,
     testthat,
+    flobr,
+    dbflobr,
     daff,
     units,
     slobr,
