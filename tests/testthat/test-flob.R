@@ -37,5 +37,5 @@ test_that("datas_to_db",{
                                           dir = file.path(sbf_get_main(), "flobs", sbf_get_db_name())), list(`df/New` = c(`a_-_1.pdf` = TRUE)))
   
   sbf_rm_flobs(ask = FALSE)
-  expect_identical(sbf_upload_flobs_to_db(), structure(list(), .Names = character(0)))
+  expect_error(sbf_upload_flobs_to_db())
 })

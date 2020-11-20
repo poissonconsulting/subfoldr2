@@ -8,17 +8,24 @@ sbf_save_flobs_from_db(
   db_name = sbf_get_db_name(),
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  dir = NULL
+  dir = NULL,
+  dbflobr_sub = FALSE
 )
 }
 \arguments{
 \item{db_name}{A string of the database name.}
 
-\item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+\item{sub}{A logical scalar specifying whether to save all existing files in a subdirectory
+of the same name (sub = TRUE) or all possible files in a subdirectory
+of the same name (sub = NA) or not nest files within a subdirectory (sub = FALSE).}
 
 \item{main}{A string specifying the path to the main folder (by default the current main folder)}
 
-\item{dir}{A character string of the path to the directory to save files to.}
+\item{dir}{A string of the path to the directory to save the files in.}
+
+\item{dbflobr_sub}{A logical specifying whether to save all existing files in a subdirectory
+of the same name (dbflobr_sub = TRUE) or all possible files in a subdirectory
+of the same name (dbflobr_sub = NA) or not nest files within a subdirectory (dbflobr_sub = FALSE).}
 }
 \value{
 An invisible named list of named vectors of the file names and new file names saved.

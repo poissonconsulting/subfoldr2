@@ -9,6 +9,7 @@ sbf_upload_flobs_to_db(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   dir = NULL,
+  dbflobr_sub = FALSE,
   exists = FALSE,
   replace = FALSE
 )
@@ -16,7 +17,12 @@ sbf_upload_flobs_to_db(
 \arguments{
 \item{db_name}{A string of the database name.}
 
-\item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+\item{sub}{A logical scalar specifying whether to import flobs based on their filename (sub = FALSE)
+or the name of their subdirectory (sub = TRUE) which must only contain 1 file.
+If sub = NA and replace = TRUE then the names of the
+subdirectories are used irrespective of whether they include files and existing
+flobs are deleted if the corresponding subdirectory is empty.
+If sub = TRUE or sub = NA then recursion is just one subfolder deep.}
 
 \item{main}{A string specifying the path to the main folder (by default the current main folder)}
 
@@ -24,11 +30,18 @@ sbf_upload_flobs_to_db(
 Files need to be within nested folders like 'table1/column1/a.csv'.
 This structure is created automatically if save_all_flobs() function is used.}
 
+\item{dbflobr_sub}{A logical scalar specifying whether to import flobs based on their filename (sub = FALSE)
+or the name of their subdirectory (sub = TRUE) which must only contain 1 file.
+If sub = NA and replace = TRUE then the names of the
+subdirectories are used irrespective of whether they include files and existing
+flobs are deleted if the corresponding subdirectory is empty.
+If sub = TRUE or sub = NA then recursion is just one subfolder deep.}
+
 \item{exists}{A logical scalar specifying whether the column must (TRUE) or
 mustn't (FALSE) already exist or whether it doesn't matter (NA).
 IF FALSE, a new BLOB column is created.}
 
-\item{replace}{A logical scalar indicating whether to replace existing flobs (TRUE) or not (FALSE).}
+\item{replace}{A flag indicating whether to replace existing flobs (TRUE) or not (FALSE).}
 }
 \value{
 An invisible named list indicating directory path, file names and whether files were successfully written to database.
