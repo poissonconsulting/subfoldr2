@@ -1,3 +1,25 @@
+#' Add blob column
+#'
+#' Add named empty blob column to database
+#'
+#' @family flob
+#' @inheritParams dbflobr::add_blob_column
+#' @inheritParams sbf_open_db
+#' @return Invisible TRUE.
+#' @export
+sbf_add_blob_column_to_db <- function(column_name, table_name, 
+                                      db_name = sbf_get_db_name(), sub = sbf_get_sub(), 
+                                      main =sbf_get_main()) {
+  if(!requireNamespace("dbflobr", quietly = TRUE))
+    stop("Please install.packages('dbflobr').")
+  
+  conn <- sbf_open_db(db_name = db_name, sub = sub, main = main, exists = TRUE)
+  on.exit(sbf_close_db(conn))
+  
+  dbflobr::add_blob_column(column_name = column_name, table_name = table_name,
+                           conn = conn)
+}
+  
 #' Save flobs
 #' 
 #' Saves and systematically renames 

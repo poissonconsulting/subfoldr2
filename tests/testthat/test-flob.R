@@ -38,4 +38,6 @@ test_that("datas_to_db",{
   
   sbf_rm_flobs(ask = FALSE)
   expect_error(sbf_upload_flobs_to_db())
+  
+  expect_true(sbf_add_blob_column_to_db("FieldCard", "df"))
 })

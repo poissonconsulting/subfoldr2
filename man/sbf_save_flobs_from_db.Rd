@@ -42,6 +42,7 @@ corresponding to database using dbflobr::save_all_flobs().
 }
 \seealso{
 Other flob: 
+\code{\link{sbf_add_blob_column_to_db}()},
 \code{\link{sbf_upload_flobs_to_db}()}
 }
 \concept{flob}

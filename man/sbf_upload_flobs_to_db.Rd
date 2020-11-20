@@ -53,6 +53,7 @@ dbflobr::import_all_flobs().
 }
 \seealso{
 Other flob: 
+\code{\link{sbf_add_blob_column_to_db}()},
 \code{\link{sbf_save_flobs_from_db}()}
 }
 \concept{flob}
