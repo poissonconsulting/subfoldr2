@@ -118,7 +118,8 @@ corresponding to database using dbflobr::save_all_flobs().</p>
   sub <span class='op'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span><span class='op'>(</span><span class='op'>)</span>,
   main <span class='op'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span><span class='op'>(</span><span class='op'>)</span>,
   dir <span class='op'>=</span> <span class='cn'>NULL</span>,
-  dbflobr_sub <span class='op'>=</span> <span class='cn'>FALSE</span>
+  dbflobr_sub <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  replace <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -147,6 +148,12 @@ of the same name (sub = NA) or not nest files within a subdirectory (sub = FALSE
       <td><p>A logical specifying whether to save all existing files in a subdirectory
 of the same name (dbflobr_sub = TRUE) or all possible files in a subdirectory
 of the same name (dbflobr_sub = NA) or not nest files within a subdirectory (dbflobr_sub = FALSE).</p></td>
+    </tr>
+    <tr>
+      <th>replace</th>
+      <td><p>A flag specifying whether to replace existing files.
+If sub = TRUE (or sub = NA) and replace = TRUE then all existing files
+within a subdirectory are deleted.</p></td>
     </tr>
     </table>
 
