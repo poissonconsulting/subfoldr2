@@ -9,7 +9,8 @@ sbf_save_flobs_from_db(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   dir = NULL,
-  dbflobr_sub = FALSE
+  dbflobr_sub = FALSE,
+  replace = FALSE
 )
 }
 \arguments{
@@ -26,6 +27,10 @@ of the same name (sub = NA) or not nest files within a subdirectory (sub = FALSE
 \item{dbflobr_sub}{A logical specifying whether to save all existing files in a subdirectory
 of the same name (dbflobr_sub = TRUE) or all possible files in a subdirectory
 of the same name (dbflobr_sub = NA) or not nest files within a subdirectory (dbflobr_sub = FALSE).}
+
+\item{replace}{A flag specifying whether to replace existing files.
+If sub = TRUE (or sub = NA) and replace = TRUE then all existing files
+within a subdirectory are deleted.}
 }
 \value{
 An invisible named list of named vectors of the file names and new file names saved.

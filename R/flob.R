@@ -14,7 +14,8 @@
 #' @return An invisible named list of named vectors of the file names and new file names saved.
 #' @export
 sbf_save_flobs_from_db <- function(db_name = sbf_get_db_name(), sub = sbf_get_sub(), 
-                           main =sbf_get_main(), dir = NULL, dbflobr_sub = FALSE) {
+                           main =sbf_get_main(), dir = NULL, dbflobr_sub = FALSE,
+                           replace = FALSE) {
   if(!requireNamespace("dbflobr", quietly = TRUE))
     stop("Please install.packages('dbflobr').")
   
@@ -27,7 +28,7 @@ sbf_save_flobs_from_db <- function(db_name = sbf_get_db_name(), sub = sbf_get_su
     dir <- file_path(main, "flobs", sub, db_name)
   } 
 
-  dbflobr::save_all_flobs(conn = conn, dir = dir, sub = dbflobr_sub)
+  dbflobr::save_all_flobs(conn = conn, dir = dir, sub = dbflobr_sub, replace = replace)
 }
 
 #' Upload flobs
