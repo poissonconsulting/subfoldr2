@@ -117,7 +117,8 @@ corresponding to database using dbflobr::save_all_flobs().</p>
   db_name <span class='op'>=</span> <span class='fu'><a href='sbf_get_db_name.html'>sbf_get_db_name</a></span><span class='op'>(</span><span class='op'>)</span>,
   sub <span class='op'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span><span class='op'>(</span><span class='op'>)</span>,
   main <span class='op'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span><span class='op'>(</span><span class='op'>)</span>,
-  dir <span class='op'>=</span> <span class='cn'>NULL</span>
+  dir <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dbflobr_sub <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -129,7 +130,9 @@ corresponding to database using dbflobr::save_all_flobs().</p>
     </tr>
     <tr>
       <th>sub</th>
-      <td><p>A string specifying the path to the sub folder (by default the current sub folder).</p></td>
+      <td><p>A logical scalar specifying whether to save all existing files in a subdirectory
+of the same name (sub = TRUE) or all possible files in a subdirectory
+of the same name (sub = NA) or not nest files within a subdirectory (sub = FALSE).</p></td>
     </tr>
     <tr>
       <th>main</th>
@@ -137,7 +140,13 @@ corresponding to database using dbflobr::save_all_flobs().</p>
     </tr>
     <tr>
       <th>dir</th>
-      <td><p>A character string of the path to the directory to save files to.</p></td>
+      <td><p>A string of the path to the directory to save the files in.</p></td>
+    </tr>
+    <tr>
+      <th>dbflobr_sub</th>
+      <td><p>A logical specifying whether to save all existing files in a subdirectory
+of the same name (dbflobr_sub = TRUE) or all possible files in a subdirectory
+of the same name (dbflobr_sub = NA) or not nest files within a subdirectory (dbflobr_sub = FALSE).</p></td>
     </tr>
     </table>
 
