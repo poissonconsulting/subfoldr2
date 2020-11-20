@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Upload flobs — sbf_upload_flobs_to_db • subfoldr2</title>
+<title>Add blob column — sbf_add_blob_column_to_db • subfoldr2</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,8 @@
 
 
 
-<meta property="og:title" content="Upload flobs — sbf_upload_flobs_to_db" />
-<meta property="og:description" content="Uploads all files to database by default dir = NULL 
-then uploads flobs subdirectory corresponding to database using
-dbflobr::import_all_flobs()." />
+<meta property="og:title" content="Add blob column — sbf_add_blob_column_to_db" />
+<meta property="og:description" content="Add named empty blob column to database" />
 
 
 
@@ -102,82 +100,56 @@ dbflobr::import_all_flobs()." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Upload flobs</h1>
+    <h1>Add blob column</h1>
     
-    <div class="hidden name"><code>sbf_upload_flobs_to_db.Rd</code></div>
+    <div class="hidden name"><code>sbf_add_blob_column_to_db.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Uploads all files to database by default dir = NULL 
-then uploads flobs subdirectory corresponding to database using
-dbflobr::import_all_flobs().</p>
+    <p>Add named empty blob column to database</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_upload_flobs_to_db</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>sbf_add_blob_column_to_db</span><span class='op'>(</span>
+  <span class='va'>column_name</span>,
+  <span class='va'>table_name</span>,
   db_name <span class='op'>=</span> <span class='fu'><a href='sbf_get_db_name.html'>sbf_get_db_name</a></span><span class='op'>(</span><span class='op'>)</span>,
   sub <span class='op'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span><span class='op'>(</span><span class='op'>)</span>,
-  main <span class='op'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span><span class='op'>(</span><span class='op'>)</span>,
-  dir <span class='op'>=</span> <span class='cn'>NULL</span>,
-  dbflobr_sub <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  exists <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  replace <span class='op'>=</span> <span class='cn'>FALSE</span>
+  main <span class='op'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>column_name</th>
+      <td><p>A string of the name of the BLOB column.</p></td>
+    </tr>
+    <tr>
+      <th>table_name</th>
+      <td><p>A string of the name of the existing table.</p></td>
+    </tr>
+    <tr>
       <th>db_name</th>
       <td><p>A string of the database name.</p></td>
     </tr>
     <tr>
       <th>sub</th>
-      <td><p>A logical scalar specifying whether to import flobs based on their filename (sub = FALSE)
-or the name of their subdirectory (sub = TRUE) which must only contain 1 file.
-If sub = NA and replace = TRUE then the names of the
-subdirectories are used irrespective of whether they include files and existing
-flobs are deleted if the corresponding subdirectory is empty.
-If sub = TRUE or sub = NA then recursion is just one subfolder deep.</p></td>
+      <td><p>A string specifying the path to the sub folder (by default the current sub folder).</p></td>
     </tr>
     <tr>
       <th>main</th>
       <td><p>A string specifying the path to the main folder (by default the current main folder)</p></td>
     </tr>
-    <tr>
-      <th>dir</th>
-      <td><p>A string of the path to the directory to import the files from.
-Files need to be within nested folders like 'table1/column1/a.csv'.
-This structure is created automatically if save_all_flobs() function is used.</p></td>
-    </tr>
-    <tr>
-      <th>dbflobr_sub</th>
-      <td><p>A logical scalar specifying whether to import flobs based on their filename (sub = FALSE)
-or the name of their subdirectory (sub = TRUE) which must only contain 1 file.
-If sub = NA and replace = TRUE then the names of the
-subdirectories are used irrespective of whether they include files and existing
-flobs are deleted if the corresponding subdirectory is empty.
-If sub = TRUE or sub = NA then recursion is just one subfolder deep.</p></td>
-    </tr>
-    <tr>
-      <th>exists</th>
-      <td><p>A logical scalar specifying whether the column must (TRUE) or
-mustn't (FALSE) already exist or whether it doesn't matter (NA).
-IF FALSE, a new BLOB column is created.</p></td>
-    </tr>
-    <tr>
-      <th>replace</th>
-      <td><p>A flag indicating whether to replace existing flobs (TRUE) or not (FALSE).</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An invisible named list indicating directory path, file names and whether files were successfully written to database.</p>
+    <p>Invisible TRUE.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other flob: 
-<code><a href='sbf_add_blob_column_to_db.html'>sbf_add_blob_column_to_db</a>()</code>,
-<code><a href='sbf_save_flobs_from_db.html'>sbf_save_flobs_from_db</a>()</code></p></div>
+<code><a href='sbf_save_flobs_from_db.html'>sbf_save_flobs_from_db</a>()</code>,
+<code><a href='sbf_upload_flobs_to_db.html'>sbf_upload_flobs_to_db</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
