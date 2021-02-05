@@ -1,44 +1,49 @@
 Package: subfoldr2
 Title: Save and Load R Objects
 Version: 0.0.0.9045
-Authors@R: c(
-    person("Joe", "Thorley", , "joe@poissonconsulting.ca", c("aut", "cre"), comment = c(ORCID = "0000-0002-7683-4592")),
-    person("Poisson Consulting", role = c("cph", "fnd"))
-    )
-Description: Facilitates saving and loading R objects, data frames, tables,
-    plots, text blocks and numbers to subfolders.
+Authors@R: 
+    c(person(given = "Joe",
+             family = "Thorley",
+             role = c("aut", "cre"),
+             email = "joe@poissonconsulting.ca",
+             comment = c(ORCID = "0000-0002-7683-4592")),
+      person(given = "Poisson Consulting",
+             role = c("cph", "fnd")))
+Description: Facilitates saving and loading R objects, data
+    frames, tables, plots, text blocks and numbers to subfolders.
 License: MIT + file LICENSE
 Imports: 
     chk,
-    dttr2,
-    tools,
-    utils,
-    yesno,
-    graphics,
-    grDevices,
     data.table,
-    tibble,
+    DBI,
+    dttr2,
     fs,
     ggplot2,
-    DBI,
-    RSQLite,
-    readwritesqlite,
+    graphics,
+    grDevices,
+    lifecycle,
     png,
+    readwritesqlite,
+    RSQLite,
     stats,
-    lifecycle
+    tibble,
+    tools,
+    utils,
+    yesno
 Suggests: 
     covr,
+    daff,
+    dbflobr,
+    flobr,
     glue,
     sf,
-    writexl,
     testthat,
-    flobr,
-    dbflobr,
-    daff,
     units,
     waldo,
-    withr 
+    withr,
+    writexl
+RdMacros: 
+    lifecycle
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
-RdMacros: lifecycle
