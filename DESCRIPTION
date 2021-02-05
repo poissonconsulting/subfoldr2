@@ -43,6 +43,7 @@ Suggests:
     withr,
     writexl
 Remotes:
+    poissonconsulting/flobr,
     poissonconsulting/dbflobr
 RdMacros: 
     lifecycle
