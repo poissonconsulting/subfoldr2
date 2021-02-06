@@ -21,9 +21,9 @@ file_path <- function(..., collapse = FALSE) {
 }
 
 sanitize_path <- function(path, rm_leading = TRUE) {
-  path <- sub("//", "/", path)
-  path <- sub("(.+)(/$)", "\\1", path)
-  if(isTRUE(rm_leading)) path <- sub("(^/)(.*)", "\\2", path)
+  path <- gsub("//", "/", path)
+  path <- gsub("(.+)(/$)", "\\1", path)
+  if(isTRUE(rm_leading)) path <- gsub("(^/)(.*)", "\\2", path)
   path
 }
 
