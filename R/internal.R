@@ -164,7 +164,11 @@ chk_deparse <- function (x)
 get_new_main <- function(main, tz) {
   date_time <- dtt_sys_date_time(tz = tz)
   date_time <- format(date_time, format = "%Y-%m-%d-%H-%M-%S")
-  paste(main, date_time, sep = "-")
+  main <- paste(main, date_time, sep = "-")
+  dir <- dirname(main) # hack for windows file names
+  base <- basename(main)
+  if(dir == ".") return(base)
+  file.path(dir, base)
 }
 
 all_equal_data <- function(name, main, archive, tolerance, check.attributes) {
