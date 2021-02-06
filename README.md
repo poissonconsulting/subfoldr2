@@ -4,8 +4,7 @@
 <!-- badges: start -->
 
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![R build
-status](https://github.com/poissonconsulting/subfoldr2/workflows/R-CMD-check/badge.svg)](https://github.com/poissonconsulting/subfoldr2/actions)
+[![R-CMD-check](https://github.com/poissonconsulting/subfoldr2/workflows/R-CMD-check/badge.svg)](https://github.com/poissonconsulting/subfoldr2/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/poissonconsulting/subfoldr2/branch/master/graph/badge.svg)](https://codecov.io/gh/poissonconsulting/subfoldr2?branch=master)
 [![License:
