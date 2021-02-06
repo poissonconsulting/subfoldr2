@@ -15,6 +15,7 @@ list_files <- function(x_name, class, sub, main, recursive, include_root, ext = 
   ext <- p0("[.]", ext, "$")
   
   files <- list.files(dir, pattern = ext, recursive = recursive)
+  files <- sanitize_path(files)
   names(files) <- file.path(dir, files)
   files <- sub(ext, "", files)
   files <- files[grepl(x_name, basename(files))]
