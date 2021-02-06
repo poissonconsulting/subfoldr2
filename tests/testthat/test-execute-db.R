@@ -9,6 +9,6 @@ test_that("create-db", {
     x TEXT);"), 0L)
   
   test <- tibble::tibble(x = "one")
-  sbf_save_data_to_db(data.frame(x = "one"), "test")
+  sbf_save_data_to_db(test)
   expect_identical(sbf_load_data_from_db("test"), test)
 })
