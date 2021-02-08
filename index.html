@@ -129,9 +129,9 @@
 <span class="co">#&gt; # A tibble: 3 x 4</span>
 <span class="co">#&gt;   objects       name  sub     file                                              </span>
 <span class="co">#&gt;   &lt;list&gt;        &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;                                             </span>
-<span class="co">#&gt; 1 &lt;df[,0] [0 ×… df    "times… /var/folders/wy/svb7d7bx3dlcm68nkktbghvm0000gn/T/…</span>
-<span class="co">#&gt; 2 &lt;dbl [1]&gt;     x3    "times… /var/folders/wy/svb7d7bx3dlcm68nkktbghvm0000gn/T/…</span>
-<span class="co">#&gt; 3 &lt;dbl [1]&gt;     x     ""      /var/folders/wy/svb7d7bx3dlcm68nkktbghvm0000gn/T/…</span></code></pre></div>
+<span class="co">#&gt; 1 &lt;df[,0] [0 ×… df    "times… /var/folders/s3/3cc1k9p13mjgrqj490hdxl6w0000gn/T/…</span>
+<span class="co">#&gt; 2 &lt;dbl [1]&gt;     x3    "times… /var/folders/s3/3cc1k9p13mjgrqj490hdxl6w0000gn/T/…</span>
+<span class="co">#&gt; 3 &lt;dbl [1]&gt;     x     ""      /var/folders/s3/3cc1k9p13mjgrqj490hdxl6w0000gn/T/…</span></code></pre></div>
 </div>
 <div id="deleting-subfolders" class="section level3">
 <h3 class="hasAnchor">
@@ -170,7 +170,7 @@
 <li>strings (character scalars)</li>
 <li>data (objects inheriting from data.frame)</li>
 </ul>
-<!-- end list --><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/sbf_reset_sub.html">sbf_reset_sub</a></span><span class="op">(</span>rm <span class="op">=</span> <span class="cn">TRUE</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="va">data2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">6</span>, y <span class="op">=</span> <span class="fl">7</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span>
 <span class="va">chr</span> <span class="op">&lt;-</span> <span class="st">"some text"</span>
@@ -201,7 +201,7 @@
 <div id="plots" class="section level3">
 <h3 class="hasAnchor">
 <a href="#plots" class="anchor"></a>Plots</h3>
-<p>Plots are ggplot objects with caption, width and height (in inches) and dpi (dots per inch) metadata. Each plot is also saved as a png file of the specified dimensions and resolution and the default dataset if present (and () 1,000 rows) is saved as a csv. By default the last ggplot object created, modified or plotted is saved and the dimensions are taken from the current graphics device.</p>
+<p>Plots are ggplot objects with caption, width and height (in inches) and dpi (dots per inch) metadata. Each plot is also saved as a png file of the specified dimensions and resolution and the default dataset if present (and ≤ 1,000 rows) is saved as a csv. By default the last ggplot object created, modified or plotted is saved and the dimensions are taken from the current graphics device.</p>
 <p>A platform independent graphics window can be opened using <code><a href="reference/sbf_open_window.html">sbf_open_window()</a></code>, where the <code>width</code> and <code>height</code> arguments are in inches, and closed using <code><a href="reference/sbf_close_window.html">sbf_close_window()</a></code>.</p>
 <p>In addition to individually or bulk loading ggplot objects, the user can individually or bulk load the default datasets using for example <code><a href="reference/sbf_load_plots_data.html">sbf_load_plots_data()</a></code>.</p>
 </div>
@@ -287,7 +287,7 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="lifecycle"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
 <li><a href="https://github.com/poissonconsulting/subfoldr2/actions"><img src="https://github.com/poissonconsulting/subfoldr2/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://codecov.io/gh/poissonconsulting/subfoldr2?branch=master"><img src="https://codecov.io/gh/poissonconsulting/subfoldr2/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 <li><a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT"></a></li>
