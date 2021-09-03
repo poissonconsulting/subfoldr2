@@ -36,6 +36,9 @@ a character string of the path to the archived folder.}
 
 \item{ignore_attr}{Ignore differences in specified attributes?
 Supply a character vector to ignore differences in named attributes.
+By default the \code{"waldo_opts"} attribute is listed in \code{ignore_attr} so
+that changes to it are not reported; if you customize \code{ignore_attr}, you
+will probably want to do this yourself.
 
 For backward compatibility with \code{all.equal()}, you can also use \code{TRUE},
 to all ignore differences in all attributes. This is not generally
