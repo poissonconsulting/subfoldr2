@@ -20,11 +20,13 @@ sbf_save_xlsx <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   chk_string(x_name)
   chk_gt(nchar(x_name))
   chk_s3_class(sub, "character")
-  chk_range(length(sub), c(0L, 1L))
+  chk_range(length(sub))
   chk_string(main)
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)  
+  
+  x <- process_sf_columns(x)
   
   save_rds(x, "xlsx", sub = sub, main = main, x_name = x_name)
   save_xlsx(x, "xlsx", sub = sub, main = main, x_name = x_name)
@@ -38,74 +40,59 @@ sbf_save_xlsx <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 library(sf)
 library(poisspatial)
 
-class(Capture)
-
-deacti
-
-Capture
 
 
-### to deactivate use tibble::as_tibble() instead of ps_deactivate_sfc()
-
-cap <- tibble::as_tibble(Capture)
-
-class(cap)
-
-class(cap$CaptureID)
-class(cap$Capture)
-
-
-# pass dataframe
-# iterates through column names
-# checks the class of each column type 
-# returns vector indicating if normal, point, polygon, etc 
-
-### this function gets the type of each column type
-### if it says drop we will drop that column 
-### it it says point we will convert it from sf its appropriate columns (X,Y,Z)
-check_column_type <- function(table) {
+## this finds which columns have a sfc geomertry other then points 
+## returns the names of the columns
+find_columns_to_drop <- function(table) {
   
-  col_names <- colnames(table)
+  col_drop <- character()
   
-  col_type <- lapply(col_names, function(i) {
-    column_class <- class(table[[i]])
-    
+  for (i in colnames(table)) {
     if (inherits(table[[i]], "sfc")) {
-      if (any(grepl("POINT", column_class))) {
-        column_class <- "point"
-      } else {
-        column_class <- "drop"
+      if (!any(grepl("^sfc_POINT$", class(table[[i]])))) {
+        col_drop <- c(col_drop, i)
       }
     }
-    column_class
-  })
-  
-  names(col_type) <- col_names
-  col_type
+  }
+  col_drop
 }
 
-check_column_type(Capture)
-
-
-### write function to drop columns with type of drop 
-
-is.sfc(Capture$Capture)
-
-ps_sfc_to_coords(Capture, "Capture")
-### if point is the column type then convert 
-
-convert_point_columns <- function(table){
+## this finds which columns have a point sfc column
+## returns the names of the columns
+find_columns_points <- function(table) {
   
+  col_point <- character()
   
-  
+  for (i in colnames(table)) {
+    if (inherits(table[[i]], "sfc_POINT")) {
+      col_point <- c(col_point, i)
+    }
+  }
+  col_point
 }
 
-
-z <- check_column_type(Capture)
-
-for (i in z) {
-  print(i)
+process_sf_columns <- function(table){
+  # processing sfc data
+  table <- tibble::as_tibble(table)
+  
+  # this drops any sfc columns that are not point geometry
+  drop_columns <- find_columns_to_drop(table)
+  table <- table[ , !names(table) %in% drop_columns, drop = FALSE]
+  # this converts point columns into their X, Y and Z coordinates=
+  points <- find_columns_points(table)
+  # this works if a single column in df
+  
+  #robust for multiple point columns
+  for (column in points) {
+    X <- paste0(column, "_X")
+    Y <- paste0(column, "_Y")
+    Z <- paste0(column, "_Z")
+    table <- poisspatial::ps_sfc_to_coords(table, column, X, Y, Z)
+  }
+  table
 }
+
 
 
 
