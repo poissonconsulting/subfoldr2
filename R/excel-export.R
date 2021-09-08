@@ -130,17 +130,3 @@ process_sf_columns <- function(table, epgs){
   }
   table
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
