@@ -9,12 +9,13 @@ save_xlsx <- function(x, class, main, sub, x_name) {
 #' Convert SQLite Database to Excel Workbook
 #' 
 #' @param x The data frame to save.
+#' @param epgs The projection to convert to
 #' @inheritParams sbf_save_object
 #' @return An invisible string of the path to the saved data.frame
 #'
 #' @export
 sbf_save_xlsx <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
-                          main = sbf_get_main()) {
+                          main = sbf_get_main(), epgs = NULL) {
   chk_s3_class(x, "data.frame")
   x_name <- chk_deparse(x_name)
   chk_string(x_name)
@@ -26,7 +27,7 @@ sbf_save_xlsx <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)  
   
-  x <- process_sf_columns(x)
+  x <- process_sf_columns(x, epgs)
   
   save_rds(x, "xlsx", sub = sub, main = main, x_name = x_name)
   save_xlsx(x, "xlsx", sub = sub, main = main, x_name = x_name)
@@ -41,9 +42,13 @@ library(sf)
 library(poisspatial)
 
 
+### what about blobs? currently dropping non point geoms
+### need to write a cleaning function to drop blobs too
 
-## this finds which columns have a sfc geomertry other then points 
-## returns the names of the columns
+
+
+# this finds which columns have a sfc geomertry other then points 
+# returns the names of the columns
 find_columns_to_drop <- function(table) {
   
   col_drop <- character()
@@ -76,13 +81,16 @@ convert_coords <- function(table, epgs) {
   points <- find_columns_points(table)
   
   for (i in points) {
-    table <- ps_activate_sfc(table, i)
+    table <- poisspatial::ps_activate_sfc(table, i)
     table <- sf::st_transform(table, epgs)
   }
   table
 }
 
-process_sf_columns <- function(table, epgs = NULL){
+process_sf_columns <- function(table, epgs){
+  chk::chk_data(table)
+  chk::chk_null_or(epgs, chk_number)
+  
   # identify point column names
   points <- find_columns_points(table)
   
@@ -105,10 +113,17 @@ process_sf_columns <- function(table, epgs = NULL){
     X <- paste0(column, "_X")
     Y <- paste0(column, "_Y")
     Z <- paste0(column, "_Z")
-    table <- ps_sfc_to_coords(table, column, X, Y, Z)
+    table <- poisspatial::ps_sfc_to_coords(table, column, X, Y, Z)
   }
   table
 }
+
+
+
+
+
+
+
 
 
 
