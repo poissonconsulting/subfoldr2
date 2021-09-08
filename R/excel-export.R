@@ -34,9 +34,6 @@ sbf_save_xlsx <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 }
 
 
-# sbf_load_datas_from_db(db_name = "horse-exploit",
-#                        main = "inst",
-#                        sub = "")
 
 library(sf)
 library(poisspatial)
