@@ -24,13 +24,13 @@ Imports:
     lifecycle,
     poisspatial,
     png,
-    openxlsx,
     readwritesqlite,
     RSQLite,
     stats,
     tibble,
     tools,
     utils,
+    writexl,
     yesno
 Suggests: 
     covr,
@@ -40,11 +40,11 @@ Suggests:
     glue,
     poissqlite,
     sf,
+    readxl,
     testthat,
     units,
     waldo,
-    withr,
-    writexl
+    withr
 Remotes:
     poissonconsulting/flobr,
     poissonconsulting/dbflobr
