@@ -4,8 +4,6 @@ save_xlsx <- function(x, class, main, sub, x_name) {
   invisible(file)
 }
 
-
-
 #' Convert SQLite Database to Excel Workbook
 #' 
 #' @param x The data frame to save.
@@ -16,13 +14,14 @@ save_xlsx <- function(x, class, main, sub, x_name) {
 #' @export
 sbf_save_xlsx <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                           main = sbf_get_main(), epgs = NULL) {
-  chk_s3_class(x, "data.frame")
-  x_name <- chk_deparse(x_name)
-  chk_string(x_name)
-  chk_gt(nchar(x_name))
-  chk_s3_class(sub, "character")
-  chk_range(length(sub))
-  chk_string(main)
+  chk::chk_s3_class(x, "data.frame")
+  x_name <- chk::chk_deparse(x_name)
+  chk::chk_string(x_name)
+  chk::chk_gt(nchar(x_name))
+  chk::chk_s3_class(sub, "character")
+  chk::chk_range(length(sub))
+  chk::chk_string(main)
+  chk::chk_null_or(epgs, chk_number)
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)  
@@ -33,20 +32,9 @@ sbf_save_xlsx <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   save_xlsx(x, "xlsx", sub = sub, main = main, x_name = x_name)
 }
 
-
-
-library(sf)
-library(poisspatial)
-
-
-### what about blobs? currently dropping non point geoms
-### need to write a cleaning function to drop blobs too
-
-
-
 # this finds which columns have a sfc geomertry other then points 
 # returns the names of the columns
-find_columns_to_drop <- function(table) {
+find_sfc_columns_to_drop <- function(table) {
   col_drop <- character()
   for (i in colnames(table)) {
     if (inherits(table[[i]], "sfc")) {
@@ -70,7 +58,9 @@ find_columns_points <- function(table) {
   col_point
 }
 
-find_columns_blobs <- function(table) {
+## this finds which columns have class blob
+## returns the names of the columns
+find_blob_columns_to_drop <- function(table) {
   col_blob <- character()
   for (i in colnames(table)) {
     if (inherits(table[[i]], "blob")) {
@@ -80,9 +70,9 @@ find_columns_blobs <- function(table) {
   col_blob
 }
 
+# converts the coords to a different projection
 convert_coords <- function(table, epgs) {
   points <- find_columns_points(table)
-  
   for (i in points) {
     table <- poisspatial::ps_activate_sfc(table, i)
     table <- sf::st_transform(table, epgs)
@@ -91,29 +81,26 @@ convert_coords <- function(table, epgs) {
 }
 
 process_sf_columns <- function(table, epgs){
-  chk::chk_data(table)
-  chk::chk_null_or(epgs, chk_number)
-  
-  # identify point column names
+  # identify names of columns with point geometry
   points <- find_columns_points(table)
   
-  # conversion of coords to other format
+  # convert coords to other formats
   if (!is.null(epgs)) {
     table <- convert_coords(table, epgs)
   }
   
-  # processing sfc data
+  # convert from sfc object to normal df
   table <- tibble::as_tibble(table)
   
   # this drops any sfc columns that are not point geometry
-  drop_columns <- find_columns_to_drop(table)
+  drop_columns <- find_sfc_columns_to_drop(table)
   table <- table[ , !names(table) %in% drop_columns, drop = FALSE]
   
-  # this drops blob files 
-  drop_blob_columns <- find_columns_blobs(table)
+  # this drops columns that are blobs
+  drop_blob_columns <- find_blob_columns_to_drop(table)
   table <- table[ , !names(table) %in% drop_blob_columns, drop = FALSE]
   
-  # this converts point columns into their X, Y and Z coordinates=
+  # this converts point columns into their X, Y and Z coordinates
   # robust for multiple point columns
   for (column in points) {
     X <- paste0(column, "_X")
