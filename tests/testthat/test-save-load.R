@@ -694,3 +694,162 @@ test_that("save table glue",{
   expect_identical(sbf_load_tables_recursive(meta = TRUE)$caption,
                    c("character", "glue"))
 })
+
+test_that("save df as excel no sf columns", {
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  teardown(sbf_reset())
+  
+  data <- data.frame(Places =  c("Yakoun Lake", "Meyer Lake"),
+                   Activity = c("boating", "fishing"))
+  sbf_save_xlsx(data)
+  data_test <- openxlsx::read.xlsx(file.path(path, "xlsx/data.xlsx"))
+  
+  expect_identical(colnames(data_test), c("Places", "Activity"))
+  expect_identical(data[["Places"]], c("Yakoun Lake", "Meyer Lake"))
+  expect_identical(data[["Activity"]], c("boating", "fishing"))
+})
+
+
+test_that("save df as excel with sf point column", {
+  
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+  
+  data <- data.frame(Places =  c("Yakoun Lake", "Meyer Lake"),
+                     Activity = c("boating", "fishing"),
+                     X = c(53.350808, 53.640981), 
+                     Y = c(-132.280579, -132.055175))
+  
+  data <- poisspatial::ps_coords_to_sfc(data)
+  
+  sbf_save_xlsx(data)
+  data <- openxlsx::read.xlsx(file.path(path, "xlsx/data.xlsx"))
+  
+  expect_identical(colnames(data), c("Places", "Activity", 
+                                          "geometry_X", "geometry_Y"))
+  expect_identical(data[["Places"]], c("Yakoun Lake", "Meyer Lake"))
+  expect_identical(data[["Activity"]], c("boating", "fishing"))
+  expect_equal(data[["geometry_X"]], c(53.350808, 53.640981))
+  expect_equal(data[["geometry_Y"]], c(-132.280579, -132.055175))
+})
+
+test_that("save df as excel with multiple sf point columns", {
+  
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+  
+  data <- data.frame(Places =  c("Yakoun Lake", "Meyer Lake"),
+                     Activity = c("boating", "fishing"),
+                     X = c(53.350808, 53.640981), 
+                     Y = c(-132.280579, -132.055175),
+                     X2 = c(53.350808, 53.640981),
+                     Y2 = c(-132.280579, -132.055175))
+  
+  data <- poisspatial::ps_coords_to_sfc(data)
+  data <- poisspatial::ps_coords_to_sfc(data, 
+                                        coords = c("X2", "Y2"), 
+                                        sfc_name = "geometry2")
+  
+  sbf_save_xlsx(data)
+  data <- openxlsx::read.xlsx(file.path(path, "xlsx/data.xlsx"))
+  
+  expect_identical(colnames(data), c("Places", "Activity", 
+                                     "geometry_X", "geometry_Y", 
+                                     "geometry2_X", "geometry2_Y"))
+  expect_identical(data[["Places"]], c("Yakoun Lake", "Meyer Lake"))
+  expect_identical(data[["Activity"]], c("boating", "fishing"))
+  expect_equal(data[["geometry_X"]], c(53.350808, 53.640981))
+  expect_equal(data[["geometry_Y"]], c(-132.280579, -132.055175))
+  expect_equal(data[["geometry2_X"]], c(53.350808, 53.640981))
+  expect_equal(data[["geometry2_Y"]], c(-132.280579, -132.055175))
+})
+
+test_that("save df as excel with multiple sf linstring columns", {
+  
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+
+  data <- data.frame(Places =  c("Yakoun Lake", "Meyer Lake"),
+                     Activity = c("boating", "fishing"),
+                     X = c(53.350808, 53.640981), 
+                     Y = c(-132.280579, -132.055175),
+                     X2 = c(53.350808, 53.640981),
+                     Y2 = c(-132.280579, -132.055175))
+  
+  data <- poisspatial::ps_coords_to_sfc(data)
+  data <- poisspatial::ps_coords_to_sfc(data, 
+                                        coords = c("X2", "Y2"), 
+                                        sfc_name = "geometry2")
+  
+  data <- data |>
+    sf::st_cast("LINESTRING") |>
+    poisspatial::ps_activate_sfc() |>
+    sf::st_cast("LINESTRING")
+  
+  sbf_save_xlsx(data)
+  data <- openxlsx::read.xlsx(file.path(path, "xlsx/data.xlsx"))
+  
+  expect_identical(colnames(data), c("Places", "Activity"))
+})
+
+test_that("save df as excel with linstring column and sf point", {
+  
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+  
+  data <- data.frame(Places =  c("Yakoun Lake", "Meyer Lake"),
+                     Activity = c("boating", "fishing"),
+                     X = c(53.350808, 53.640981), 
+                     Y = c(-132.280579, -132.055175),
+                     X2 = c(53.350808, 53.640981),
+                     Y2 = c(-132.280579, -132.055175))
+  
+  data <- poisspatial::ps_coords_to_sfc(data)
+  data <- poisspatial::ps_coords_to_sfc(data, 
+                                        coords = c("X2", "Y2"), 
+                                        sfc_name = "geometry2")
+  
+  data <- data |>
+    sf::st_cast("LINESTRING") 
+  
+  sbf_save_xlsx(data)
+  data <- openxlsx::read.xlsx(file.path(path, "xlsx/data.xlsx"))
+  
+  expect_identical(colnames(data), c("Places", "Activity",
+                                     "geometry_X", "geometry_Y"))
+})
+
+test_that("save df as excel with blob column", {
+  
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+  
+  data <- data.frame(Places =  c("Yakoun Lake", "Meyer Lake"),
+                     Activity = c("boating", "fishing"),
+                     Blob = c(poissqlite::ps_blob_object("hidden"), 
+                              poissqlite::ps_blob_object("text")))
+  
+  sbf_save_xlsx(data)
+  data <- openxlsx::read.xlsx(file.path(path, "xlsx/data.xlsx"))
+  
+  print(data)
+  
+  expect_identical(colnames(data), c("Places", "Activity"))
+  expect_identical(data[["Places"]], c("Yakoun Lake", "Meyer Lake"))
+  expect_identical(data[["Activity"]], c("boating", "fishing"))
+  
+})
+
+# switch out teardown for newer testthat setup 
