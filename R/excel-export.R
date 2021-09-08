@@ -47,9 +47,7 @@ library(poisspatial)
 # this finds which columns have a sfc geomertry other then points 
 # returns the names of the columns
 find_columns_to_drop <- function(table) {
-  
   col_drop <- character()
-  
   for (i in colnames(table)) {
     if (inherits(table[[i]], "sfc")) {
       if (!any(grepl("^sfc_POINT$", class(table[[i]])))) {
@@ -63,9 +61,7 @@ find_columns_to_drop <- function(table) {
 ## this finds which columns have a point sfc column
 ## returns the names of the columns
 find_columns_points <- function(table) {
-  
   col_point <- character()
-  
   for (i in colnames(table)) {
     if (inherits(table[[i]], "sfc_POINT")) {
       col_point <- c(col_point, i)
@@ -75,12 +71,10 @@ find_columns_points <- function(table) {
 }
 
 find_columns_blobs <- function(table) {
-  
-  col_point <- character()
-  
+  col_blob <- character()
   for (i in colnames(table)) {
     if (inherits(table[[i]], "blob")) {
-      col_blob <- c(col_point, i)
+      col_blob <- c(col_blob, i)
     }
   }
   col_blob
@@ -120,8 +114,7 @@ process_sf_columns <- function(table, epgs){
   table <- table[ , !names(table) %in% drop_blob_columns, drop = FALSE]
   
   # this converts point columns into their X, Y and Z coordinates=
-  
-  #robust for multiple point columns
+  # robust for multiple point columns
   for (column in points) {
     X <- paste0(column, "_X")
     Y <- paste0(column, "_Y")
