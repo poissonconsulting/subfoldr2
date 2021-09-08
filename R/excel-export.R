@@ -74,6 +74,18 @@ find_columns_points <- function(table) {
   col_point
 }
 
+find_columns_blobs <- function(table) {
+  
+  col_point <- character()
+  
+  for (i in colnames(table)) {
+    if (inherits(table[[i]], "blob")) {
+      col_blob <- c(col_point, i)
+    }
+  }
+  col_blob
+}
+
 convert_coords <- function(table, epgs) {
   points <- find_columns_points(table)
   
@@ -102,6 +114,10 @@ process_sf_columns <- function(table, epgs){
   # this drops any sfc columns that are not point geometry
   drop_columns <- find_columns_to_drop(table)
   table <- table[ , !names(table) %in% drop_columns, drop = FALSE]
+  
+  # this drops blob files 
+  drop_blob_columns <- find_columns_blobs(table)
+  table <- table[ , !names(table) %in% drop_blob_columns, drop = FALSE]
   
   # this converts point columns into their X, Y and Z coordinates=
   
