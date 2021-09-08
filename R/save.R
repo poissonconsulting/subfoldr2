@@ -493,7 +493,7 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
 sbf_save_xlsx <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                           main = sbf_get_main(), epgs = NULL) {
   chk::chk_s3_class(x, "data.frame")
-  x_name <- chk::chk_deparse(x_name)
+  x_name <- chk_deparse(x_name)
   chk::chk_string(x_name)
   chk::chk_gt(nchar(x_name))
   chk::chk_s3_class(sub, "character")
