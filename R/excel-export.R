@@ -72,23 +72,40 @@ find_columns_points <- function(table) {
   col_point
 }
 
-process_sf_columns <- function(table){
+convert_coords <- function(table, epgs) {
+  points <- find_columns_points(table)
+  
+  for (i in points) {
+    table <- ps_activate_sfc(table, i)
+    table <- sf::st_transform(table, epgs)
+  }
+  table
+}
+
+process_sf_columns <- function(table, epgs = NULL){
+  # identify point column names
+  points <- find_columns_points(table)
+  
+  # conversion of coords to other format
+  if (!is.null(epgs)) {
+    table <- convert_coords(table, epgs)
+  }
+  
   # processing sfc data
   table <- tibble::as_tibble(table)
   
   # this drops any sfc columns that are not point geometry
   drop_columns <- find_columns_to_drop(table)
   table <- table[ , !names(table) %in% drop_columns, drop = FALSE]
+  
   # this converts point columns into their X, Y and Z coordinates=
-  points <- find_columns_points(table)
-  # this works if a single column in df
   
   #robust for multiple point columns
   for (column in points) {
     X <- paste0(column, "_X")
     Y <- paste0(column, "_Y")
     Z <- paste0(column, "_Z")
-    table <- poisspatial::ps_sfc_to_coords(table, column, X, Y, Z)
+    table <- ps_sfc_to_coords(table, column, X, Y, Z)
   }
   table
 }
