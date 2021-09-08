@@ -43,7 +43,7 @@ read_meta <- function(class, sub, main, x_name) {
 
 save_xlsx <- function(x, class, main, sub, x_name) {
   file <- file_name(main, class, sub, x_name, "xlsx")
-  openxlsx::write.xlsx(x, file, overwrite = TRUE)
+  writexl::write_xlsx(x, file)
   invisible(file)
 }
 
