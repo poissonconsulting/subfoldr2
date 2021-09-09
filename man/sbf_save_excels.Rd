@@ -24,5 +24,6 @@ sbf_save_excels(
 An invisible string of the path to the saved data.frame
 }
 \description{
-Save Excels
+Saves tables from the environment to their own excel workbook. Each table
+  will be its own excel workbook.
 }
