@@ -484,11 +484,18 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
 
 #' Save Dataframe to Excel Workbook
 #' 
+#' This takes the dataframes in your environment and saves them to thier own
+#' excel workbook. 
+#' 
 #' @param x The data frame to save.
 #' @param epgs The projection to convert to
 #' @inheritParams sbf_save_object
+#' @family excel
 #' @return An invisible string of the path to the saved data.frame
-#'
+#' @examples 
+#' \dontrun{
+#' sbf_save_excel()
+#' }
 #' @export
 sbf_save_excel <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                           main = sbf_get_main(), epgs = NULL) {
@@ -499,7 +506,7 @@ sbf_save_excel <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   chk::chk_s3_class(sub, "character")
   chk::chk_range(length(sub))
   chk::chk_string(main)
-  chk::chk_null_or(epgs, chk_number)
+  chk::chk_null_or(epgs, chk::chk_number)
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)  
@@ -508,6 +515,45 @@ sbf_save_excel <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   
   save_rds(x, "excel", sub = sub, main = main, x_name = x_name)
   save_xlsx(x, "excel", sub = sub, main = main, x_name = x_name)
+}
+
+#' Save Dataframes to Excel Workbook
+#'
+#' This takes the dataframes in your environment and saves them to a single
+#' excel workbook. 
+#'   
+#' @param x The data frame to save.
+#' @param epgs The projection to convert to
+#' @param workbook_name The name of the excel workbook you are creating. Default
+#'  is the basename of the current working directory. 
+#' @inheritParams sbf_save_object
+#' @family excel
+#' @return An invisible string of the path to the saved data.frame
+#' @examples 
+#' \dontrun{
+#' sbf_save_workbook()
+#' }
+#' @export
+
+sbf_save_workbook <- function(x, workbook_name = basename(getwd()),
+                              sub = sbf_get_sub(),
+                              main = sbf_get_main(), epgs = NULL) {
+  chk::chk_s3_class(x, "list")
+  chk::chk_string(workbook_name)
+  chk::chk_s3_class(sub, "character")
+  chk::chk_range(length(sub))
+  chk::chk_string(main)
+  chk::chk_null_or(epgs, chk::chk_number)
+  
+  sub <- sanitize_path(sub)
+  main <- sanitize_path(main, rm_leading = FALSE)
+  
+  x <- lapply(x, function(i) {
+    x <- process_sf_columns(i, epgs)
+  })
+  
+  save_rds(x, "excel", sub = sub, main = main, x_name = workbook_name)
+  save_xlsx(x, "excel", sub = sub, main = main, x_name = workbook_name)
 }
 
 #' Save Data Frame to Existing Database
@@ -694,6 +740,9 @@ sbf_save_strings <- function(sub = sbf_get_sub(),
 
 #' Save Excels 
 #' 
+#' Saves tables from the environment to their own excel workbook. Each table
+#'   will be its own excel workbook. 
+#' 
 #' @param epgs The projection to convert to
 #' @inheritParams sbf_save_datas
 #' @return An invisible string of the path to the saved data.frame
@@ -702,6 +751,7 @@ sbf_save_strings <- function(sub = sbf_get_sub(),
 sbf_save_excels <- function(sub = sbf_get_sub(), main = sbf_get_main(), 
                             env = parent.frame(), epgs = NULL) {
   chk::chk_s3_class(env, "environment")
+  chk::chk_null_or(epgs, chk::chk_number)
   
   names <- objects(envir = env)
   is <- vector("logical", length(names))
@@ -744,4 +794,39 @@ sbf_save_datas_to_db <- function(db_name = sbf_get_db_name(), sub = sbf_get_sub(
   rws_write(env, exists = TRUE, 
                    commit = commit, strict = strict, conn = conn,
                    silent = silent)
+}
+
+#' Save Database to Excel Workbook
+#' 
+#' Converts a database to an single excel workbook where each table is its own
+#'   spreadsheet.
+#'   
+#' @inheritParams sbf_save_workbook
+#' @inheritParams sbf_save_excels
+#' @inheritParams sbf_open_db
+#' @examples 
+#' \dontrun{
+#' sbf_save_db_to_workbook()
+#' }
+#' @export
+
+sbf_save_db_to_workbook <- function(workbook_name = sbf_get_workbook_name(), 
+                                    db_name = sbf_get_db_name(), 
+                                    sub = sbf_get_sub(), 
+                                    main = sbf_get_main(), 
+                                    env = parent.frame(), 
+                                    epgs = NULL) {
+  
+  chk::chk_string(workbook_name)
+  chk::chk_string(db_name)
+  chk::chk_string(sub)
+  chk::chk_string(main)
+  chk::chk_s3_class(env, "environment")
+  chk::chk_null_or(epgs, chk::chk_number)
+  
+  conn <- sbf_open_db(db_name, sub = sub, main = main)
+  on.exit(sbf_close_db(conn))
+  datas <- rws_read(conn)
+  sbf_save_workbook(datas, workbook_name, sub, main, epgs)
+  invisible(names(datas))
 }
