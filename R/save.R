@@ -482,7 +482,7 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
   invisible(filename)
 }
 
-#' Convert SQLite Database to Excel Workbook
+#' Save Dataframe to Excel Workbook
 #' 
 #' @param x The data frame to save.
 #' @param epgs The projection to convert to
@@ -506,8 +506,8 @@ sbf_save_excel <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   
   x <- process_sf_columns(x, epgs)
   
-  save_rds(x, "xlsx", sub = sub, main = main, x_name = x_name)
-  save_xlsx(x, "xlsx", sub = sub, main = main, x_name = x_name)
+  save_rds(x, "excel", sub = sub, main = main, x_name = x_name)
+  save_xlsx(x, "excel", sub = sub, main = main, x_name = x_name)
 }
 
 #' Save Data Frame to Existing Database
@@ -691,6 +691,37 @@ sbf_save_strings <- function(sub = sbf_get_sub(),
   names <- p0(names, ".rds")
   invisible(names)
 }
+
+#' Save Dataframes from Environment to Excel Workbook
+#' 
+#' @param epgs The projection to convert to
+#' @inheritParams sbf_save_datas
+#' @return An invisible string of the path to the saved data.frame
+#'
+#' @export
+sbf_save_excels <- function(sub = sbf_get_sub(), main = sbf_get_main(), 
+                            env = parent.frame(), epgs = NULL) {
+  chk::chk_s3_class(env, "environment")
+  
+  names <- objects(envir = env)
+  is <- vector("logical", length(names))
+  for (i in seq_along(names)) {
+    x_name <- names[i]
+    x <- get(x = x_name, envir = env)
+    is[i] <- is.data.frame(x)
+    if(is[i]) sbf_save_excel(x, x_name, sub, main, epgs = epgs)
+  }
+  names <- names[is]
+  if(!length(names)) {
+    warning("no datas to save")
+    invisible(character(0))
+  }
+  names <- file_path(main, "excel", sub, names)
+  names <- p0(names, ".xlxs")
+  invisible(names)
+}
+
+
 
 #' Save Data Frames to Existing Database
 #' 

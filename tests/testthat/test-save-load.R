@@ -704,7 +704,7 @@ test_that("save df as excel no sf columns", {
   data <- data.frame(Places =  c("Yakoun Lake", "Meyer Lake"),
                    Activity = c("boating", "fishing"))
   sbf_save_excel(data)
-  data_test <- readxl::read_excel(file.path(path, "xlsx/data.xlsx"))
+  data_test <- readxl::read_excel(file.path(path, "excel/data.xlsx"))
   
   expect_identical(colnames(data_test), c("Places", "Activity"))
   expect_identical(data[["Places"]], c("Yakoun Lake", "Meyer Lake"))
@@ -727,7 +727,7 @@ test_that("save df as excel with sf point column", {
   data <- poisspatial::ps_coords_to_sfc(data)
   
   sbf_save_excel(data)
-  data <- readxl::read_excel(file.path(path, "xlsx/data.xlsx"))
+  data <- readxl::read_excel(file.path(path, "excel/data.xlsx"))
   
   expect_identical(colnames(data), c("Places", "Activity", 
                                           "geometry_X", "geometry_Y"))
@@ -757,7 +757,7 @@ test_that("save df as excel with multiple sf point columns", {
                                         sfc_name = "geometry2")
   
   sbf_save_excel(data)
-  data <- readxl::read_excel(file.path(path, "xlsx/data.xlsx"))
+  data <- readxl::read_excel(file.path(path, "excel/data.xlsx"))
   
   expect_identical(colnames(data), c("Places", "Activity", 
                                      "geometry_X", "geometry_Y", 
@@ -795,7 +795,7 @@ test_that("save df as excel with multiple sf linstring columns", {
     sf::st_cast("LINESTRING")
   
   sbf_save_excel(data)
-  data <- readxl::read_excel(file.path(path, "xlsx/data.xlsx"))
+  data <- readxl::read_excel(file.path(path, "excel/data.xlsx"))
   
   expect_identical(colnames(data), c("Places", "Activity"))
 })
@@ -823,7 +823,7 @@ test_that("save df as excel with linstring column and sf point", {
     sf::st_cast("LINESTRING") 
   
   sbf_save_excel(data)
-  data <- readxl::read_excel(file.path(path, "xlsx/data.xlsx"))
+  data <- readxl::read_excel(file.path(path, "excel/data.xlsx"))
   
   expect_identical(colnames(data), c("Places", "Activity",
                                      "geometry_X", "geometry_Y"))
@@ -842,7 +842,7 @@ test_that("save df as excel with blob column", {
                               poissqlite::ps_blob_object("text")))
   
   sbf_save_excel(data)
-  data <- readxl::read_excel(file.path(path, "xlsx/data.xlsx"))
+  data <- readxl::read_excel(file.path(path, "excel/data.xlsx"))
   
   print(data)
   
