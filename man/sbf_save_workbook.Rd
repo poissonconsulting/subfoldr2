@@ -13,10 +13,10 @@ sbf_save_workbook(
 )
 }
 \arguments{
-\item{x}{The data frame to save.}
+\item{x}{The data frames as a named list}
 
 \item{workbook_name}{The name of the excel workbook you are creating. Default
-is the basename of the current working directory.}
+is the base name of the current working directory.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
 
@@ -28,8 +28,8 @@ is the basename of the current working directory.}
 An invisible string of the path to the saved data.frame
 }
 \description{
-This takes the dataframes in your environment and saves them to a single
-excel workbook.
+This takes the data frames and saves them to a single excel workbook where
+each table is its own spreadsheet
 }
 \examples{
 \dontrun{
@@ -39,6 +39,8 @@ sbf_save_workbook()
 \seealso{
 Other excel: 
 \code{\link{sbf_get_workbook_name}()},
+\code{\link{sbf_save_db_to_workbook}()},
+\code{\link{sbf_save_excels}()},
 \code{\link{sbf_save_excel}()}
 }
 \concept{excel}

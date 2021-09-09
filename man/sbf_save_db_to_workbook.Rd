@@ -15,7 +15,7 @@ sbf_save_db_to_workbook(
 }
 \arguments{
 \item{workbook_name}{The name of the excel workbook you are creating. Default
-is the basename of the current working directory.}
+is the base name of the current working directory.}
 
 \item{db_name}{A string of the database name.}
 
@@ -29,10 +29,18 @@ is the basename of the current working directory.}
 }
 \description{
 Converts a database to an single excel workbook where each table is its own
-  spreadsheet.
+spreadsheet.
 }
 \examples{
 \dontrun{
 sbf_save_db_to_workbook()
 }
 }
+\seealso{
+Other excel: 
+\code{\link{sbf_get_workbook_name}()},
+\code{\link{sbf_save_excels}()},
+\code{\link{sbf_save_excel}()},
+\code{\link{sbf_save_workbook}()}
+}
+\concept{excel}

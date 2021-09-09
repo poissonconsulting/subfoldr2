@@ -27,3 +27,16 @@ An invisible string of the path to the saved data.frame
 Saves tables from the environment to their own excel workbook. Each table
   will be its own excel workbook.
 }
+\examples{
+\dontrun{
+sbf_save_excels()
+}
+}
+\seealso{
+Other excel: 
+\code{\link{sbf_get_workbook_name}()},
+\code{\link{sbf_save_db_to_workbook}()},
+\code{\link{sbf_save_excel}()},
+\code{\link{sbf_save_workbook}()}
+}
+\concept{excel}

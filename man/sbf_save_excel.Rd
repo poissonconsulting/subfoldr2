@@ -27,7 +27,7 @@ sbf_save_excel(
 An invisible string of the path to the saved data.frame
 }
 \description{
-This takes the dataframes in your environment and saves them to thier own
+This takes a data frame in your environment and saves it to their own
 excel workbook.
 }
 \examples{
@@ -38,6 +38,8 @@ sbf_save_excel()
 \seealso{
 Other excel: 
 \code{\link{sbf_get_workbook_name}()},
+\code{\link{sbf_save_db_to_workbook}()},
+\code{\link{sbf_save_excels}()},
 \code{\link{sbf_save_workbook}()}
 }
 \concept{excel}
