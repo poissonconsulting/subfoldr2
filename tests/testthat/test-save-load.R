@@ -703,7 +703,7 @@ test_that("save df as excel no sf columns", {
   
   data <- data.frame(Places =  c("Yakoun Lake", "Meyer Lake"),
                    Activity = c("boating", "fishing"))
-  sbf_save_xlsx(data)
+  sbf_save_excel(data)
   data_test <- readxl::read_excel(file.path(path, "xlsx/data.xlsx"))
   
   expect_identical(colnames(data_test), c("Places", "Activity"))
@@ -726,7 +726,7 @@ test_that("save df as excel with sf point column", {
   
   data <- poisspatial::ps_coords_to_sfc(data)
   
-  sbf_save_xlsx(data)
+  sbf_save_excel(data)
   data <- readxl::read_excel(file.path(path, "xlsx/data.xlsx"))
   
   expect_identical(colnames(data), c("Places", "Activity", 
@@ -756,7 +756,7 @@ test_that("save df as excel with multiple sf point columns", {
                                         coords = c("X2", "Y2"), 
                                         sfc_name = "geometry2")
   
-  sbf_save_xlsx(data)
+  sbf_save_excel(data)
   data <- readxl::read_excel(file.path(path, "xlsx/data.xlsx"))
   
   expect_identical(colnames(data), c("Places", "Activity", 
@@ -794,7 +794,7 @@ test_that("save df as excel with multiple sf linstring columns", {
     poisspatial::ps_activate_sfc() |>
     sf::st_cast("LINESTRING")
   
-  sbf_save_xlsx(data)
+  sbf_save_excel(data)
   data <- readxl::read_excel(file.path(path, "xlsx/data.xlsx"))
   
   expect_identical(colnames(data), c("Places", "Activity"))
@@ -822,7 +822,7 @@ test_that("save df as excel with linstring column and sf point", {
   data <- data |>
     sf::st_cast("LINESTRING") 
   
-  sbf_save_xlsx(data)
+  sbf_save_excel(data)
   data <- readxl::read_excel(file.path(path, "xlsx/data.xlsx"))
   
   expect_identical(colnames(data), c("Places", "Activity",
@@ -841,7 +841,7 @@ test_that("save df as excel with blob column", {
                      Blob = c(poissqlite::ps_blob_object("hidden"), 
                               poissqlite::ps_blob_object("text")))
   
-  sbf_save_xlsx(data)
+  sbf_save_excel(data)
   data <- readxl::read_excel(file.path(path, "xlsx/data.xlsx"))
   
   print(data)

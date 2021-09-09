@@ -490,7 +490,7 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
 #' @return An invisible string of the path to the saved data.frame
 #'
 #' @export
-sbf_save_xlsx <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
+sbf_save_excel <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                           main = sbf_get_main(), epgs = NULL) {
   chk::chk_s3_class(x, "data.frame")
   x_name <- chk_deparse(x_name)
