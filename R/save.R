@@ -692,7 +692,7 @@ sbf_save_strings <- function(sub = sbf_get_sub(),
   invisible(names)
 }
 
-#' Save Dataframes from Environment to Excel Workbook
+#' Save Excels 
 #' 
 #' @param epgs The projection to convert to
 #' @inheritParams sbf_save_datas
@@ -720,8 +720,6 @@ sbf_save_excels <- function(sub = sbf_get_sub(), main = sbf_get_main(),
   names <- p0(names, ".xlxs")
   invisible(names)
 }
-
-
 
 #' Save Data Frames to Existing Database
 #' 

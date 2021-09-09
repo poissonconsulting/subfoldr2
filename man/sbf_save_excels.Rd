@@ -2,7 +2,7 @@
 % Please edit documentation in R/save.R
 \name{sbf_save_excels}
 \alias{sbf_save_excels}
-\title{Save Dataframes from Environment to Excel Workbook}
+\title{Save Excels}
 \usage{
 sbf_save_excels(
   sub = sbf_get_sub(),
@@ -24,5 +24,5 @@ sbf_save_excels(
 An invisible string of the path to the saved data.frame
 }
 \description{
-Save Dataframes from Environment to Excel Workbook
+Save Excels
 }
