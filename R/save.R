@@ -484,8 +484,7 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
 
 #' Save Dataframe to Excel Workbook
 #' 
-#' This takes a data frame in your environment and saves it to their own
-#' excel workbook. 
+#' This takes a data frame and saves it to their own excel workbook. 
 #' 
 #' @param x The data frame to save.
 #' @param epgs The projection to convert to
@@ -556,7 +555,7 @@ sbf_save_workbook <- function(x,
   x <- lapply(x, function(i) {
     x <- process_sf_columns(i, epgs)
   })
-  
+
   save_rds(x, "excel", sub = sub, main = main, x_name = workbook_name)
   save_xlsx(x, "excel", sub = sub, main = main, x_name = workbook_name)
 }
@@ -812,7 +811,6 @@ sbf_save_datas_to_db <- function(db_name = sbf_get_db_name(), sub = sbf_get_sub(
 #' spreadsheet.
 #' 
 #' @inheritParams sbf_save_workbook
-#' @inheritParams sbf_save_excels
 #' @inheritParams sbf_open_db
 #' @family excel
 #' @examples 
@@ -825,15 +823,11 @@ sbf_save_db_to_workbook <- function(workbook_name = sbf_get_workbook_name(),
                                     db_name = sbf_get_db_name(), 
                                     sub = sbf_get_sub(), 
                                     main = sbf_get_main(), 
-                                    env = parent.frame(), 
                                     epgs = NULL) {
   
-  chk::chk_s3_class(env, "environment")
-
   conn <- sbf_open_db(db_name, sub = sub, main = main)
   on.exit(sbf_close_db(conn))
   datas <- rws_read(conn)
-  
   sbf_save_workbook(datas, workbook_name, sub, main, epgs)
   invisible(names(datas))
 }

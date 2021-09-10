@@ -844,10 +844,97 @@ test_that("save df as excel with blob column", {
   sbf_save_excel(data)
   data <- readxl::read_excel(file.path(path, "excel/data.xlsx"))
   
-  print(data)
-  
   expect_identical(colnames(data), c("Places", "Activity"))
   expect_identical(data[["Places"]], c("Yakoun Lake", "Meyer Lake"))
   expect_identical(data[["Activity"]], c("boating", "fishing"))
   
+})
+
+test_that("save two tables from the environment to separate excel files", {
+  
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+  
+  sites <- data.frame(Places =  c("Yakoun Lake", "Meyer Lake"),
+                      Activity = c("boating", "fishing"))
+  
+  species <- data.frame(Species =  c("Rainbow Trout", "Coho"),
+                        Code = c("RT", "CO"))
+  
+  sbf_save_excels(env = as.environment(list(sites = sites, 
+                                            species = species)))
+  
+  site_data <- readxl::read_excel(file.path(path, "excel/sites.xlsx"))
+  species_data <- readxl::read_excel(file.path(path, "excel/species.xlsx"))
+  
+  expect_identical(colnames(site_data), c("Places", "Activity"))
+  expect_identical(colnames(species_data), c("Species", "Code"))
+
+})
+
+test_that("save two dataframes as excel workbook", {
+  
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+  
+  sites <- data.frame(Places =  c("Yakoun Lake", "Meyer Lake"),
+                      Activity = c("boating", "fishing"))
+  
+  species <- data.frame(Species =  c("Rainbow Trout", "Coho"),
+                        Code = c("RT", "CO"))
+  
+  data <- list(sites = sites, species = species)
+
+  sbf_save_workbook(data, "data")
+
+  site_data <- readxl::read_excel(file.path(path, "excel/data.xlsx"), 
+                                  sheet = "sites")
+  species_data <- readxl::read_excel(file.path(path, "excel/data.xlsx"), 
+                                     sheet = "species")
+  
+  expect_identical(colnames(site_data), c("Places", "Activity"))
+  expect_identical(colnames(species_data), c("Species", "Code"))
+})
+
+test_that("database can be written to excel workbook", {
+  
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+  
+  # create test data
+  sites <- data.frame(Places =  c("Yakoun Lake", "Meyer Lake"),
+                      Activity = c("boating", "fishing"))
+  
+  species <- data.frame(Species =  c("Rainbow Trout", "Coho"),
+                        Caught = c(5, 2))
+  
+  sbf_create_db(db_name = "database")
+  
+  sbf_execute_db("CREATE TABLE species (
+                Species TEXT,
+                Caught INTEGER)")
+  
+  sbf_execute_db("CREATE TABLE sites (
+                Places TEXT,
+                Activity TEXT)")
+  
+  sbf_save_data_to_db(sites, db_name = "database")
+  sbf_save_data_to_db(species, db_name = "database")
+  
+  # write db to excel tables
+  sbf_save_db_to_workbook(workbook_name = "data", db_name = "database")
+  # do tests
+  site_data <- readxl::read_excel(file.path(path, "excel/data.xlsx"),
+                                  sheet = "sites")
+  species_data <- readxl::read_excel(file.path(path, "excel/data.xlsx"),
+                                     sheet = "species")
+  
+  expect_identical(colnames(site_data), c("Places", "Activity"))
+  expect_identical(colnames(species_data), c("Species", "Caught"))
 })
