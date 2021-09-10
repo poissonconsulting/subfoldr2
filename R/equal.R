@@ -53,8 +53,9 @@ sbf_is_equal_datas <- function(
   exists = TRUE, tolerance = sqrt(.Machine$double.eps),
   check.attributes = TRUE) {
   
-  chkor(chk_whole_number(archive), chk_dir(archive))
-
+  if(!vld_whole_number(archive) && !vld_dir(archive)) {
+    chkor_vld(vld_whole_number(archive), vld_dir(archive))
+  }
   if(vld_numeric(archive))
     archive <- sbf_get_archive(main = main, archive = archive)
 

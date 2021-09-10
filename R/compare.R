@@ -53,8 +53,9 @@ sbf_compare_datas <- function(
   if(!requireNamespace("waldo", quietly = TRUE))
     stop("Please `install.packages('waldo')`.", call. = FALSE)
   
-  chkor(chk_whole_number(archive), chk_dir(archive))
-  
+  if(!vld_whole_number(archive) && !vld_dir(archive)) {
+    chkor_vld(vld_whole_number(archive), vld_dir(archive))
+  }  
   if(vld_numeric(archive))
     archive <- sbf_get_archive(main = main, archive = archive)
   
