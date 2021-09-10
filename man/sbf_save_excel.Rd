@@ -27,8 +27,7 @@ sbf_save_excel(
 An invisible string of the path to the saved data.frame
 }
 \description{
-This takes a data frame in your environment and saves it to their own
-excel workbook.
+This takes a data frame and saves it to their own excel workbook.
 }
 \examples{
 \dontrun{

@@ -9,7 +9,6 @@ sbf_save_db_to_workbook(
   db_name = sbf_get_db_name(),
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  env = parent.frame(),
   epgs = NULL
 )
 }
@@ -22,8 +21,6 @@ is the base name of the current working directory.}
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
 
 \item{main}{A string specifying the path to the main folder (by default the current main folder)}
-
-\item{env}{An environment.}
 
 \item{epgs}{The projection to convert to}
 }
