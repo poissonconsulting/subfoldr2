@@ -41,6 +41,91 @@ read_meta <- function(class, sub, main, x_name) {
   readRDS(file)
 }
 
+save_xlsx <- function(x, class, main, sub, x_name) {
+  file <- file_name(main, class, sub, x_name, "xlsx")
+  writexl::write_xlsx(x, file)
+  invisible(file)
+}
+
+# this finds which columns have a sfc geomertry other then points 
+# returns the names of the columns
+find_sfc_columns_to_drop <- function(table) {
+  col_drop <- character()
+  for (i in colnames(table)) {
+    if (inherits(table[[i]], "sfc")) {
+      if (!any(grepl("^sfc_POINT$", class(table[[i]])))) {
+        col_drop <- c(col_drop, i)
+      }
+    }
+  }
+  col_drop
+}
+
+## this finds which columns have a point sfc column
+## returns the names of the columns
+find_columns_points <- function(table) {
+  col_point <- character()
+  for (i in colnames(table)) {
+    if (inherits(table[[i]], "sfc_POINT")) {
+      col_point <- c(col_point, i)
+    }
+  }
+  col_point
+}
+
+## this finds which columns have class blob
+## returns the names of the columns
+find_blob_columns_to_drop <- function(table) {
+  col_blob <- character()
+  for (i in colnames(table)) {
+    if (inherits(table[[i]], "blob")) {
+      col_blob <- c(col_blob, i)
+    }
+  }
+  col_blob
+}
+
+# converts the coords to a different projection
+convert_coords <- function(table, epgs) {
+  points <- find_columns_points(table)
+  for (i in points) {
+    table <- poisspatial::ps_activate_sfc(table, i)
+    table <- sf::st_transform(table, epgs)
+  }
+  table
+}
+
+process_sf_columns <- function(table, epgs){
+  # identify names of columns with point geometry
+  points <- find_columns_points(table)
+  
+  # convert coords to other formats
+  if (!is.null(epgs)) {
+    table <- convert_coords(table, epgs)
+  }
+  
+  # convert from sfc object to normal df
+  table <- tibble::as_tibble(table)
+  
+  # this drops any sfc columns that are not point geometry
+  drop_columns <- find_sfc_columns_to_drop(table)
+  table <- table[ , !names(table) %in% drop_columns, drop = FALSE]
+  
+  # this drops columns that are blobs
+  drop_blob_columns <- find_blob_columns_to_drop(table)
+  table <- table[ , !names(table) %in% drop_blob_columns, drop = FALSE]
+  
+  # this converts point columns into their X, Y and Z coordinates
+  # robust for multiple point columns
+  for (column in points) {
+    X <- paste0(column, "_X")
+    Y <- paste0(column, "_Y")
+    Z <- paste0(column, "_Z")
+    table <- poisspatial::ps_sfc_to_coords(table, column, X, Y, Z)
+  }
+  table
+}
+
 #' Save Object
 #'
 #' @param x The object to save.
@@ -397,6 +482,84 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
   invisible(filename)
 }
 
+#' Save Dataframe to Excel Workbook
+#' 
+#' This takes a data frame and saves it to their own excel workbook. 
+#' 
+#' @param x The data frame to save.
+#' @param epgs The projection to convert to
+#' @inheritParams sbf_save_object
+#' @family excel
+#' @return An invisible string of the path to the saved data.frame
+#' @examples 
+#' \dontrun{
+#' sbf_save_excel()
+#' }
+#' @export
+sbf_save_excel <- function(x, 
+                           x_name = substitute(x), 
+                           sub = sbf_get_sub(),
+                          main = sbf_get_main(), 
+                          epgs = NULL) {
+  chk::chk_s3_class(x, "data.frame")
+  x_name <- chk_deparse(x_name)
+  chk::chk_string(x_name)
+  chk::chk_gt(nchar(x_name))
+  chk::chk_s3_class(sub, "character")
+  chk::chk_range(length(sub))
+  chk::chk_string(main)
+  chk::chk_null_or(epgs, chk::chk_number)
+  
+  sub <- sanitize_path(sub)
+  main <- sanitize_path(main, rm_leading = FALSE)  
+  
+  x <- process_sf_columns(x, epgs)
+  
+  save_rds(x, "excel", sub = sub, main = main, x_name = x_name)
+  save_xlsx(x, "excel", sub = sub, main = main, x_name = x_name)
+}
+
+#' Save Dataframes to Excel Workbook
+#'
+#' This takes the data frames and saves them to a single excel workbook where
+#' each table is its own spreadsheet
+#'   
+#' @param x The data frames as a named list
+#' @param epgs The projection to convert to
+#' @param workbook_name The name of the excel workbook you are creating. Default
+#'  is the base name of the current working directory. 
+#' @inheritParams sbf_save_object
+#' @family excel
+#' @return An invisible string of the path to the saved data.frame
+#' @examples 
+#' \dontrun{
+#' sbf_save_workbook()
+#' }
+#' @export
+
+sbf_save_workbook <- function(x, 
+                              workbook_name = basename(getwd()),
+                              sub = sbf_get_sub(),
+                              main = sbf_get_main(), 
+                              epgs = NULL) {
+  chk::chk_s3_class(x, "list")
+  chk::chk_string(workbook_name)
+  chk::chk_s3_class(sub, "character")
+  chk::chk_range(length(sub))
+  chk::chk_string(main)
+  chk::chk_null_or(epgs, chk::chk_number)
+  
+  sub <- sanitize_path(sub)
+  main <- sanitize_path(main, rm_leading = FALSE)
+  
+  x <- lapply(x, function(i) {
+    x <- process_sf_columns(i, epgs)
+  })
+
+  save_rds(x, "excel", sub = sub, main = main, x_name = workbook_name)
+  save_xlsx(x, "excel", sub = sub, main = main, x_name = workbook_name)
+}
+
 #' Save Data Frame to Existing Database
 #' 
 #' @inheritParams sbf_save_object
@@ -579,6 +742,44 @@ sbf_save_strings <- function(sub = sbf_get_sub(),
   invisible(names)
 }
 
+#' Save Excels 
+#' 
+#' Saves tables from the environment to their own excel workbook. Each table
+#'   will be its own excel workbook. 
+#' 
+#' @param epgs The projection to convert to
+#' @inheritParams sbf_save_datas
+#' @family excel
+#' @return An invisible string of the path to the saved data.frame
+#' @examples 
+#' \dontrun{
+#' sbf_save_excels()
+#' }
+#' @export
+sbf_save_excels <- function(sub = sbf_get_sub(), 
+                            main = sbf_get_main(), 
+                            env = parent.frame(), 
+                            epgs = NULL) {
+  chk::chk_s3_class(env, "environment")
+  
+  names <- objects(envir = env)
+  is <- vector("logical", length(names))
+  for (i in seq_along(names)) {
+    x_name <- names[i]
+    x <- get(x = x_name, envir = env)
+    is[i] <- is.data.frame(x)
+    if(is[i]) sbf_save_excel(x, x_name, sub, main, epgs = epgs)
+  }
+  names <- names[is]
+  if(!length(names)) {
+    warning("no datas to save")
+    invisible(character(0))
+  }
+  names <- file_path(main, "excel", sub, names)
+  names <- p0(names, ".xlxs")
+  invisible(names)
+}
+
 #' Save Data Frames to Existing Database
 #' 
 #' @inheritParams sbf_save_object
@@ -602,4 +803,31 @@ sbf_save_datas_to_db <- function(db_name = sbf_get_db_name(), sub = sbf_get_sub(
   rws_write(env, exists = TRUE, 
                    commit = commit, strict = strict, conn = conn,
                    silent = silent)
+}
+
+#' Save Database to Excel Workbook
+#'
+#' Converts a database to an single excel workbook where each table is its own
+#' spreadsheet.
+#' 
+#' @inheritParams sbf_save_workbook
+#' @inheritParams sbf_open_db
+#' @family excel
+#' @examples 
+#' \dontrun{
+#' sbf_save_db_to_workbook()
+#' }
+#' @export
+
+sbf_save_db_to_workbook <- function(workbook_name = sbf_get_workbook_name(), 
+                                    db_name = sbf_get_db_name(), 
+                                    sub = sbf_get_sub(), 
+                                    main = sbf_get_main(), 
+                                    epgs = NULL) {
+  
+  conn <- sbf_open_db(db_name, sub = sub, main = main)
+  on.exit(sbf_close_db(conn))
+  datas <- rws_read(conn)
+  sbf_save_workbook(datas, workbook_name, sub, main, epgs)
+  invisible(names(datas))
 }

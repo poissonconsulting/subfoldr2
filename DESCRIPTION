@@ -7,6 +7,10 @@ Authors@R:
              role = c("aut", "cre"),
              email = "joe@poissonconsulting.ca",
              comment = c(ORCID = "0000-0002-7683-4592")),
+      person(given = "Ayla",
+             family = "Pearson",
+             role = "ctb",
+             comment = c(ORCID = "0000-0001-7388-1222")),       
       person(given = "Poisson Consulting",
              role = c("cph", "fnd")))
 Description: Facilitates saving and loading R objects, data
@@ -22,6 +26,7 @@ Imports:
     graphics,
     grDevices,
     lifecycle,
+    poisspatial,
     png,
     readwritesqlite,
     RSQLite,
@@ -29,6 +34,7 @@ Imports:
     tibble,
     tools,
     utils,
+    writexl,
     yesno
 Suggests: 
     covr,
@@ -36,12 +42,13 @@ Suggests:
     dbflobr,
     flobr,
     glue,
+    poissqlite,
     sf,
+    readxl,
     testthat,
     units,
     waldo,
-    withr,
-    writexl
+    withr
 Remotes:
     poissonconsulting/flobr,
     poissonconsulting/dbflobr
