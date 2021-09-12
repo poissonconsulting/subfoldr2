@@ -28,8 +28,8 @@ is the base name of the current working directory.}
 An invisible string of the path to the saved data.frame
 }
 \description{
-This takes the data frames from the working environment and saves them to a
-single excel workbook where each table is its own spreadsheet
+This takes the data frames from the environment and saves them to a
+single excel workbook where each table is its own spreadsheet.
 }
 \examples{
 \dontrun{

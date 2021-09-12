@@ -530,8 +530,8 @@ sbf_save_excel <- function(x,
 
 #' Save Dataframes to Excel Workbook
 #'
-#' This takes the data frames from the working environment and saves them to a
-#' single excel workbook where each table is its own spreadsheet
+#' This takes the data frames from the environment and saves them to a
+#' single excel workbook where each table is its own spreadsheet.
 #'   
 #' @param epgs The projection to convert to
 #' @param workbook_name The name of the excel workbook you are creating. Default
