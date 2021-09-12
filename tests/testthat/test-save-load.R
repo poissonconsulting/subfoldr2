@@ -889,7 +889,7 @@ test_that("save two dataframes as excel workbook", {
   
   data <- list(sites = sites, species = species)
 
-  sbf_save_workbook(data, "data")
+  sbf_save_workbook("data")
 
   site_data <- readxl::read_excel(file.path(path, "excel/data.xlsx"), 
                                   sheet = "sites")
@@ -979,3 +979,33 @@ test_that("exclude table function working for db to workbook", {
                                      sheet = 2))
 })
 
+test_that("expect empty table when all tables are excluded", {
+  
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+  
+  # create test data
+  sites <- data.frame(Places =  c("Yakoun Lake", "Meyer Lake"),
+                      Activity = c("boating", "fishing"))
+  
+  
+  sbf_create_db(db_name = "database")
+  
+  sbf_execute_db("CREATE TABLE sites (
+                Places TEXT,
+                Activity TEXT)")
+  
+  sbf_save_data_to_db(sites, db_name = "database")
+  
+  # write db to excel tables
+  sbf_save_db_to_workbook(workbook_name = "data", 
+                          db_name = "database", 
+                          exclude_tables = "sites")
+  # do tests
+  data <- readxl::read_excel(file.path(path, "excel/data.xlsx"))
+  
+  expect_equal(nrow(data), 0L)
+  expect_equal(colnames(data), character(0))
+})
