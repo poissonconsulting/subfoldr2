@@ -7,6 +7,7 @@
 sbf_save_db_to_workbook(
   workbook_name = sbf_get_workbook_name(),
   db_name = sbf_get_db_name(),
+  exclude_tables = "^$",
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   epgs = NULL
@@ -17,6 +18,8 @@ sbf_save_db_to_workbook(
 is the base name of the current working directory.}
 
 \item{db_name}{A string of the database name.}
+
+\item{exclude_tables}{A regular expression listing tables to be excluded.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
 
@@ -31,6 +34,12 @@ spreadsheet.
 \examples{
 \dontrun{
 sbf_save_db_to_workbook()
+
+# exclude the sites table
+sbf_save_db_to_workbook(exclude_tables = "sites")
+
+# exclude the sites and species table
+sbf_save_db_to_workbook(exclude_tables = "sites|species")
 }
 }
 \seealso{

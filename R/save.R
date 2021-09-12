@@ -809,25 +809,35 @@ sbf_save_datas_to_db <- function(db_name = sbf_get_db_name(), sub = sbf_get_sub(
 #'
 #' Converts a database to an single excel workbook where each table is its own
 #' spreadsheet.
-#' 
+#' @param exclude_tables A regular expression listing tables to be excluded.
 #' @inheritParams sbf_save_workbook
 #' @inheritParams sbf_open_db
 #' @family excel
 #' @examples 
 #' \dontrun{
 #' sbf_save_db_to_workbook()
+#' 
+#' # exclude the sites table
+#' sbf_save_db_to_workbook(exclude_tables = "sites")
+#' 
+#' # exclude the sites and species table
+#' sbf_save_db_to_workbook(exclude_tables = "sites|species")
 #' }
 #' @export
 
 sbf_save_db_to_workbook <- function(workbook_name = sbf_get_workbook_name(), 
                                     db_name = sbf_get_db_name(), 
+                                    exclude_tables = "^$",
                                     sub = sbf_get_sub(), 
                                     main = sbf_get_main(), 
                                     epgs = NULL) {
+  chk::chk_string(exclude_tables)
   
   conn <- sbf_open_db(db_name, sub = sub, main = main)
   on.exit(sbf_close_db(conn))
   datas <- rws_read(conn)
+  # exclude listed tables
+  datas <- datas[datas = !grepl(exclude_tables, names(datas))]
   sbf_save_workbook(datas, workbook_name, sub, main, epgs)
   invisible(names(datas))
 }
