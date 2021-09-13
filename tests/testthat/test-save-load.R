@@ -1047,7 +1047,7 @@ test_that("expect empty table when all tables are excluded", {
 })
 
 
-test_that("expect empty table when all tables are excluded", {
+test_that("two spreadsheets are created due to long table", {
   
   sbf_reset()
   path <- file.path(withr::local_tempdir(), "output")
