@@ -58,9 +58,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -111,7 +117,7 @@
     <p>Test if data are equal using using waldo::compare.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_compare_datas</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>sbf_compare_datas</span><span class='op'>(</span>
   x_name <span class='op'>=</span> <span class='st'>".*"</span>,
   sub <span class='op'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span><span class='op'>(</span><span class='op'>)</span>,
   main <span class='op'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span><span class='op'>(</span><span class='op'>)</span>,
@@ -120,7 +126,7 @@
   include_root <span class='op'>=</span> <span class='cn'>TRUE</span>,
   tolerance <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='va'>.Machine</span><span class='op'>$</span><span class='va'>double.eps</span><span class='op'>)</span>,
   ignore_attr <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -160,7 +166,10 @@ a character string of the path to the archived folder.</p></td>
     <tr>
       <th>ignore_attr</th>
       <td><p>Ignore differences in specified attributes?
-Supply a character vector to ignore differences in named attributes.</p>
+Supply a character vector to ignore differences in named attributes.
+By default the <code>"waldo_opts"</code> attribute is listed in <code>ignore_attr</code> so
+that changes to it are not reported; if you customize <code>ignore_attr</code>, you
+will probably want to do this yourself.</p>
 <p>For backward compatibility with <code><a href='https://rdrr.io/r/base/all.equal.html'>all.equal()</a></code>, you can also use <code>TRUE</code>,
 to all ignore differences in all attributes. This is not generally
 recommended as it is a blunt tool that will ignore many important
@@ -188,11 +197,11 @@ functional differences.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Joe Thorley, Poisson Consulting.</p>
+  <p><p>Developed by Joe Thorley, Poisson Consulting.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -200,6 +209,8 @@ functional differences.</p></td>
 
   
 
+
+  
 
   </body>
 </html>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Load Meta Table from Databases as List Column in Data Frame — sbf_load_dbs_metatable_recursive • subfoldr2</title>
+<title>Save Dataframe to Excel Workbook — sbf_save_excel • subfoldr2</title>
 
 
 <!-- jquery -->
@@ -39,12 +39,10 @@
 
 
 
-<meta property="og:title" content="Load Meta Table from Databases as List Column in Data Frame — sbf_load_dbs_metatable_recursive" />
-<meta property="og:description" content="Recursively loads all the meta tables from the databases 
-with names matching the regular expression x_name as the 
-the first (list) column (named metatables) in a data frame.
-Subsequent character vector columns specify the object names (named name) 
-and sub folders (named sub1, sub2 etc)." />
+<meta property="og:title" content="Save Dataframe to Excel Workbook — sbf_save_excel" />
+<meta property="og:description" content="This takes a data frame and saves it to their own excel workbook." />
+
+
 
 
 
@@ -60,9 +58,15 @@ and sub folders (named sub1, sub2 etc)." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -76,7 +80,7 @@ and sub folders (named sub1, sub2 etc)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">subfoldr2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9039</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9045</span>
       </span>
     </div>
 
@@ -104,31 +108,30 @@ and sub folders (named sub1, sub2 etc)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Load Meta Table from Databases as List Column in Data Frame</h1>
+    <h1>Save Dataframe to Excel Workbook</h1>
     
-    <div class="hidden name"><code>sbf_load_dbs_metatable_recursive.Rd</code></div>
+    <div class="hidden name"><code>sbf_save_excel.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Recursively loads all the meta tables from the databases 
-with names matching the regular expression x_name as the 
-the first (list) column (named metatables) in a data frame.
-Subsequent character vector columns specify the object names (named name) 
-and sub folders (named sub1, sub2 etc).</p>
+    <p>This takes a data frame and saves it to their own excel workbook.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_load_dbs_metatable_recursive</span><span class='op'>(</span>
-  x_name <span class='op'>=</span> <span class='st'>".*"</span>,
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>sbf_save_excel</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  x_name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>,
   sub <span class='op'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span><span class='op'>(</span><span class='op'>)</span>,
   main <span class='op'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span><span class='op'>(</span><span class='op'>)</span>,
-  include_root <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  tag <span class='op'>=</span> <span class='st'>".*"</span>,
-  meta <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span></pre>
+  epgs <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>The data frame to save.</p></td>
+    </tr>
     <tr>
       <th>x_name</th>
       <td><p>A string of the name.</p></td>
@@ -142,20 +145,27 @@ and sub folders (named sub1, sub2 etc).</p>
       <td><p>A string specifying the path to the main folder (by default the current main folder)</p></td>
     </tr>
     <tr>
-      <th>include_root</th>
-      <td><p>A flag indicating whether to include objects in the top sub folder.</p></td>
-    </tr>
-    <tr>
-      <th>tag</th>
-      <td><p>A string of the regular expression that the tag must match to be included.</p></td>
-    </tr>
-    <tr>
-      <th>meta</th>
-      <td><p>A flag specifying whether to include the report, caption and any other metadata as columns.</p></td>
+      <th>epgs</th>
+      <td><p>The projection to convert to</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>An invisible string of the path to the saved data.frame</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other excel: 
+<code><a href='sbf_get_workbook_name.html'>sbf_get_workbook_name</a>()</code>,
+<code><a href='sbf_save_db_to_workbook.html'>sbf_save_db_to_workbook</a>()</code>,
+<code><a href='sbf_save_excels.html'>sbf_save_excels</a>()</code>,
+<code><a href='sbf_save_workbook.html'>sbf_save_workbook</a>()</code></p></div>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'>sbf_save_excel</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -167,11 +177,11 @@ and sub folders (named sub1, sub2 etc).</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Joe Thorley.</p>
+  <p><p>Developed by Joe Thorley, Poisson Consulting.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -179,6 +189,8 @@ and sub folders (named sub1, sub2 etc).</p>
 
   
 
+
+  
 
   </body>
 </html>

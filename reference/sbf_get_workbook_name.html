@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Run Slobr Shiny App — sbf_run_slobr_db • subfoldr2</title>
+<title>Get Workbook Name — sbf_get_workbook_name • subfoldr2</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Run Slobr Shiny App — sbf_run_slobr_db" />
-<meta property="og:description" content="Runs slobr shiny app to allow user to add files to database." />
+<meta property="og:title" content="Get Workbook Name — sbf_get_workbook_name" />
+<meta property="og:description" content="Gets the basename of the current working directory" />
+
+
 
 
 
@@ -56,9 +58,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -100,39 +108,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Run Slobr Shiny App</h1>
+    <h1>Get Workbook Name</h1>
     
-    <div class="hidden name"><code>sbf_run_slobr_db.Rd</code></div>
+    <div class="hidden name"><code>sbf_get_workbook_name.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Runs slobr shiny app to allow user to add files to database.</p>
+    <p>Gets the basename of the current working directory</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sbf_run_slobr_db</span><span class='op'>(</span>
-  db_name <span class='op'>=</span> <span class='fu'><a href='sbf_get_db_name.html'>sbf_get_db_name</a></span><span class='op'>(</span><span class='op'>)</span>,
-  sub <span class='op'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span><span class='op'>(</span><span class='op'>)</span>,
-  main <span class='op'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>db_name</th>
-      <td><p>A string of the database name.</p></td>
-    </tr>
-    <tr>
-      <th>sub</th>
-      <td><p>A string specifying the path to the sub folder (by default the current sub folder).</p></td>
-    </tr>
-    <tr>
-      <th>main</th>
-      <td><p>A string specifying the path to the main folder (by default the current main folder)</p></td>
-    </tr>
-    </table>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>sbf_get_workbook_name</span><span class='op'>(</span><span class='op'>)</span></code></pre></div>
 
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A string specifying the name of the current working directory</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other excel: 
+<code><a href='sbf_save_db_to_workbook.html'>sbf_save_db_to_workbook</a>()</code>,
+<code><a href='sbf_save_excels.html'>sbf_save_excels</a>()</code>,
+<code><a href='sbf_save_excel.html'>sbf_save_excel</a>()</code>,
+<code><a href='sbf_save_workbook.html'>sbf_save_workbook</a>()</code></p></div>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>sbf_get_workbook_name</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "reference"</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -144,11 +146,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Joe Thorley, Poisson Consulting.</p>
+  <p><p>Developed by Joe Thorley, Poisson Consulting.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -156,6 +158,8 @@
 
   
 
+
+  
 
   </body>
 </html>

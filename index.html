@@ -20,6 +20,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -61,7 +63,7 @@
 
 <div id="subfoldr2" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#subfoldr2" class="anchor"></a>subfoldr2</h1></div>
+<a href="#subfoldr2" class="anchor" aria-hidden="true"></a>subfoldr2</h1></div>
 <p><code>subfoldr2</code> is an R package to facilitate the saving and loading of</p>
 <ul>
 <li>R objects</li>
@@ -78,18 +80,18 @@
 </ul>
 <div id="main-folder" class="section level2">
 <h2 class="hasAnchor">
-<a href="#main-folder" class="anchor"></a>Main Folder</h2>
+<a href="#main-folder" class="anchor" aria-hidden="true"></a>Main Folder</h2>
 <p>By default files are saved to <code>output</code> unless overridden using <code><a href="reference/sbf_set_main.html">sbf_set_main()</a></code> which can take a relative or absolute path.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">subfoldr2</span><span class="op">)</span>
-<span class="fu"><a href="reference/sbf_set_main.html">sbf_set_main</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"output"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">subfoldr2</span><span class="op">)</span>
+<span class="fu"><a href="reference/sbf_set_main.html">sbf_set_main</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"output"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="saving-and-loading-r-objects" class="section level2">
 <h2 class="hasAnchor">
-<a href="#saving-and-loading-r-objects" class="anchor"></a>Saving and Loading R Objects</h2>
+<a href="#saving-and-loading-r-objects" class="anchor" aria-hidden="true"></a>Saving and Loading R Objects</h2>
 <div id="single-objects" class="section level3">
 <h3 class="hasAnchor">
-<a href="#single-objects" class="anchor"></a>Single Objects</h3>
+<a href="#single-objects" class="anchor" aria-hidden="true"></a>Single Objects</h3>
 <p>An R object can be written using <code><a href="reference/sbf_save_object.html">sbf_save_object()</a></code> and read using <code><a href="reference/sbf_load_object.html">sbf_load_object()</a></code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span>
@@ -98,32 +100,32 @@
 <span class="co">#&gt; [1] 1</span></code></pre></div>
 <p>All R objects are saved as <code>.rds</code> files in folder <code>objects</code> (in the main folder).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; [1] "objects/x.rds"</span></code></pre></div>
 </div>
 <div id="subfolders" class="section level3">
 <h3 class="hasAnchor">
-<a href="#subfolders" class="anchor"></a>Subfolders</h3>
+<a href="#subfolders" class="anchor" aria-hidden="true"></a>Subfolders</h3>
 <p>The user can save objects to a particular sub folder within <code>objects</code> using <code><a href="reference/sbf_set_sub.html">sbf_set_sub()</a></code> or the <code>sub = sbf_get_sub()</code> argument of <code><a href="reference/sbf_save_object.html">sbf_save_object()</a></code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/sbf_set_sub.html">sbf_set_sub</a></span><span class="op">(</span><span class="st">"times2"</span><span class="op">)</span>
 <span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">*</span> <span class="fl">2</span>
 <span class="fu"><a href="reference/sbf_save_object.html">sbf_save_object</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
 <span class="fu"><a href="reference/sbf_save_object.html">sbf_save_object</a></span><span class="op">(</span><span class="va">x</span> <span class="op">*</span> <span class="fl">3</span>, x_name <span class="op">=</span> <span class="st">"x3"</span>, sub <span class="op">=</span> <span class="st">"times2/times3"</span><span class="op">)</span>
-<span class="fu"><a href="reference/sbf_save_object.html">sbf_save_object</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span>, x_name <span class="op">=</span> <span class="st">"df"</span>, sub <span class="op">=</span> <span class="st">"times2/times3"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="reference/sbf_save_object.html">sbf_save_object</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span>, x_name <span class="op">=</span> <span class="st">"df"</span>, sub <span class="op">=</span> <span class="st">"times2/times3"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; [1] "objects/times2/times3/df.rds" "objects/times2/times3/x3.rds"</span>
 <span class="co">#&gt; [3] "objects/times2/x.rds"         "objects/x.rds"</span></code></pre></div>
 </div>
 <div id="loading-multiple-objects" class="section level3">
 <h3 class="hasAnchor">
-<a href="#loading-multiple-objects" class="anchor"></a>Loading Multiple Objects</h3>
+<a href="#loading-multiple-objects" class="anchor" aria-hidden="true"></a>Loading Multiple Objects</h3>
 <p>The user can load all the objects in the current sub folder into the calling environment using <code><a href="reference/sbf_load_objects.html">sbf_load_objects()</a></code> or recursively load all the objects as a list column in a data frame using <code><a href="reference/sbf_load_objects_recursive.html">sbf_load_objects_recursive()</a></code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_set_sub.html">sbf_set_sub</a></span><span class="op">(</span><span class="st">"times2"</span>, <span class="st">"times3"</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_set_sub.html">sbf_set_sub</a></span><span class="op">(</span><span class="st">"times2"</span>, <span class="st">"times3"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] "times2/times3"</span>
 <span class="fu"><a href="reference/sbf_load_objects.html">sbf_load_objects</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "df" "x"  "x3"</span>
 <span class="fu"><a href="reference/sbf_load_objects_recursive.html">sbf_load_objects_recursive</a></span><span class="op">(</span>sub <span class="op">=</span> <span class="st">"times2"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3 x 4</span>
@@ -135,35 +137,35 @@
 </div>
 <div id="deleting-subfolders" class="section level3">
 <h3 class="hasAnchor">
-<a href="#deleting-subfolders" class="anchor"></a>Deleting Subfolders</h3>
+<a href="#deleting-subfolders" class="anchor" aria-hidden="true"></a>Deleting Subfolders</h3>
 <p>To recursively delete a sub folder call <code><a href="reference/sbf_set_sub.html">sbf_set_sub()</a></code> with <code>rm = TRUE</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/sbf_set_sub.html">sbf_set_sub</a></span><span class="op">(</span><span class="st">"times2"</span>, rm <span class="op">=</span> <span class="cn">TRUE</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; [1] "objects/x.rds"</span></code></pre></div>
 </div>
 <div id="saving-multiple-objects" class="section level3">
 <h3 class="hasAnchor">
-<a href="#saving-multiple-objects" class="anchor"></a>Saving Multiple Objects</h3>
+<a href="#saving-multiple-objects" class="anchor" aria-hidden="true"></a>Saving Multiple Objects</h3>
 <p>All the objects in the calling environment can be saved to the current subdirectory using <code><a href="reference/sbf_save_objects.html">sbf_save_objects()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "df" "x"  "x3"</span>
 <span class="fu"><a href="reference/sbf_save_objects.html">sbf_save_objects</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; [1] "objects/times2/df.rds" "objects/times2/x.rds"  "objects/times2/x3.rds"</span>
 <span class="co">#&gt; [4] "objects/x.rds"</span>
-<span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">x3</span>, <span class="va">df</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">x3</span>, <span class="va">df</span><span class="op">)</span>
 <span class="fu"><a href="reference/sbf_load_objects.html">sbf_load_objects</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">x3</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x3</span><span class="op">)</span>
 <span class="co">#&gt; [1] 6</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span>
 <span class="co">#&gt; data frame with 0 columns and 0 rows</span></code></pre></div>
 </div>
 </div>
 <div id="numbers-strings-and-data-frames" class="section level2">
 <h2 class="hasAnchor">
-<a href="#numbers-strings-and-data-frames" class="anchor"></a>Numbers, Strings and Data Frames</h2>
+<a href="#numbers-strings-and-data-frames" class="anchor" aria-hidden="true"></a>Numbers, Strings and Data Frames</h2>
 <p>The above functions for saving and loading R objects are members of families of functions for specific types of object. In particular there are family members for</p>
 <ul>
 <li>numbers (numeric scalars)</li>
@@ -172,13 +174,13 @@
 </ul>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/sbf_reset_sub.html">sbf_reset_sub</a></span><span class="op">(</span>rm <span class="op">=</span> <span class="cn">TRUE</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">data2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">6</span>, y <span class="op">=</span> <span class="fl">7</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span>
+<span class="va">data2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">6</span>, y <span class="op">=</span> <span class="fl">7</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span>
 <span class="va">chr</span> <span class="op">&lt;-</span> <span class="st">"some text"</span>
-<span class="va">vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span> <span class="co"># not saved as vector</span>
+<span class="va">vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span> <span class="co"># not saved as vector</span>
 <span class="fu"><a href="reference/sbf_save_datas.html">sbf_save_datas</a></span><span class="op">(</span><span class="op">)</span>
 <span class="fu"><a href="reference/sbf_save_strings.html">sbf_save_strings</a></span><span class="op">(</span><span class="op">)</span>
 <span class="fu"><a href="reference/sbf_save_numbers.html">sbf_save_numbers</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; [1] "data/data2.rds"  "data/df.rds"     "numbers/x.csv"   "numbers/x.rds"  </span>
 <span class="co">#&gt; [5] "numbers/x3.csv"  "numbers/x3.rds"  "strings/chr.rda" "strings/chr.rds"</span>
 <span class="co">#&gt; [9] "strings/chr.txt"</span></code></pre></div>
@@ -186,76 +188,76 @@
 </div>
 <div id="tables" class="section level2">
 <h2 class="hasAnchor">
-<a href="#tables" class="anchor"></a>Tables</h2>
+<a href="#tables" class="anchor" aria-hidden="true"></a>Tables</h2>
 <p>Tables are data frames with just logical, numeric, character, factor, Date and POSIXct columns. As tables are intended for reports they have to be saved individually with an optional caption using <code><a href="reference/sbf_save_table.html">sbf_save_table()</a></code>. As a result tables cannot be bulk saved however they can be bulked loaded. Each table is also saved as csv file (to facilitate viewing) and the metadata including the caption are saved as an rda file (to facilitate report production).</p>
 <p>To save a table which is not intended for a report set the argument <code>report = FALSE</code>.</p>
 </div>
 <div id="code-blocks" class="section level2">
 <h2 class="hasAnchor">
-<a href="#code-blocks" class="anchor"></a>Code Blocks</h2>
+<a href="#code-blocks" class="anchor" aria-hidden="true"></a>Code Blocks</h2>
 <p>Code blocks are strings which include optional caption and language metadata.</p>
 </div>
 <div id="figures" class="section level2">
 <h2 class="hasAnchor">
-<a href="#figures" class="anchor"></a>Figures</h2>
+<a href="#figures" class="anchor" aria-hidden="true"></a>Figures</h2>
 <div id="plots" class="section level3">
 <h3 class="hasAnchor">
-<a href="#plots" class="anchor"></a>Plots</h3>
+<a href="#plots" class="anchor" aria-hidden="true"></a>Plots</h3>
 <p>Plots are ggplot objects with caption, width and height (in inches) and dpi (dots per inch) metadata. Each plot is also saved as a png file of the specified dimensions and resolution and the default dataset if present (and ≤ 1,000 rows) is saved as a csv. By default the last ggplot object created, modified or plotted is saved and the dimensions are taken from the current graphics device.</p>
 <p>A platform independent graphics window can be opened using <code><a href="reference/sbf_open_window.html">sbf_open_window()</a></code>, where the <code>width</code> and <code>height</code> arguments are in inches, and closed using <code><a href="reference/sbf_close_window.html">sbf_close_window()</a></code>.</p>
 <p>In addition to individually or bulk loading ggplot objects, the user can individually or bulk load the default datasets using for example <code><a href="reference/sbf_load_plots_data.html">sbf_load_plots_data()</a></code>.</p>
 </div>
 <div id="windows" class="section level3">
 <h3 class="hasAnchor">
-<a href="#windows" class="anchor"></a>Windows</h3>
+<a href="#windows" class="anchor" aria-hidden="true"></a>Windows</h3>
 <p>In the case of base or grid graphics the contents of the current window can be copied to a png file (without an associated rds file) using <code><a href="reference/sbf_save_window.html">sbf_save_window()</a></code> which takes caption, width, height and dpi arguments. The window names and file paths can be loaded using <code><a href="reference/sbf_load_windows_recursive.html">sbf_load_windows_recursive()</a></code>.</p>
 <p>If there are plots and windows with the same name then the duplicate plot is dropped from the report.</p>
 </div>
 <div id="png-files" class="section level3">
 <h3 class="hasAnchor">
-<a href="#png-files" class="anchor"></a>png Files</h3>
+<a href="#png-files" class="anchor" aria-hidden="true"></a>png Files</h3>
 <p>An existing png file can be imported into the windows subdirectories using <code><a href="reference/sbf_save_png.html">sbf_save_png()</a></code>.</p>
 </div>
 </div>
 <div id="connections" class="section level2">
 <h2 class="hasAnchor">
-<a href="#connections" class="anchor"></a>Connections</h2>
+<a href="#connections" class="anchor" aria-hidden="true"></a>Connections</h2>
 </div>
 <div id="pdf-files" class="section level2">
 <h2 class="hasAnchor">
-<a href="#pdf-files" class="anchor"></a>pdf Files</h2>
+<a href="#pdf-files" class="anchor" aria-hidden="true"></a>pdf Files</h2>
 <p>A pdf graphics device can be opened (in the current subfolder of the pdfs folder) using <code><a href="reference/sbf_open_pdf.html">sbf_open_pdf()</a></code> and the current device can be closed using <code><a href="reference/sbf_close_pdf.html">sbf_close_pdf()</a></code>. pdf graphics devices have the advantage of accepting multiple plots. They are not incorporated into reports.</p>
 </div>
 <div id="databases" class="section level2">
 <h2 class="hasAnchor">
-<a href="#databases" class="anchor"></a>Databases</h2>
-<p>A connection to a SQLite database (in the current subfolder of the dbs folder) can be opened using <code>conn &lt;- sbf_open_db()</code> and an individual connection can be closed using <code><a href="reference/sbf_close_db.html">sbf_close_db(conn)</a></code>.</p>
+<a href="#databases" class="anchor" aria-hidden="true"></a>Databases</h2>
+<p>A connection to a SQLite database (in the current subfolder of the dbs folder) can be opened using <code>conn &lt;- sbf_open_db()</code> and an individual connection can be closed using <code>sbf_close_db(conn)</code>.</p>
 <p>Alternatively, <code><a href="reference/sbf_save_datas_to_db.html">sbf_save_datas_to_db()</a></code> automatically open and closes the connection and uses <code>readwritesqlite::rws_read_sqlite.environment</code> to write all the data frames in the calling environment.</p>
 <p>The opposite function, <code><a href="reference/sbf_load_datas_from_db.html">sbf_load_datas_from_db()</a></code>, uses <code>rws_read_sqlite.SQLiteConnection</code> to save all the tables to the calling environment.</p>
 </div>
 <div id="report-generation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#report-generation" class="anchor"></a>Report Generation</h2>
-<p>Reports can be generated using the <a href="https://github.com/poissonconsulting/subreport">subreport</a> package.</p>
+<a href="#report-generation" class="anchor" aria-hidden="true"></a>Report Generation</h2>
+<p>Reports can be generated using the <a href="https://github.com/poissonconsulting/subreport" class="external-link">subreport</a> package.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p>To install the latest development version from GitHub <a href="https://github.com/poissonconsulting/subfoldr2">repository</a></p>
+<a href="#installation" class="anchor" aria-hidden="true"></a>Installation</h2>
+<p>To install the latest development version from GitHub <a href="https://github.com/poissonconsulting/subfoldr2" class="external-link">repository</a></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"poissonconsulting/subfoldr2"</span><span class="op">)</span></code></pre></div>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"poissonconsulting/subfoldr2"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="contribution" class="section level2">
 <h2 class="hasAnchor">
-<a href="#contribution" class="anchor"></a>Contribution</h2>
-<p>Please report any <a href="https://github.com/poissonconsulting/subfoldr2/issues">issues</a>.</p>
-<p><a href="https://github.com/poissonconsulting/subfoldr2/pulls">Pull requests</a> are always welcome.</p>
+<a href="#contribution" class="anchor" aria-hidden="true"></a>Contribution</h2>
+<p>Please report any <a href="https://github.com/poissonconsulting/subfoldr2/issues" class="external-link">issues</a>.</p>
+<p><a href="https://github.com/poissonconsulting/subfoldr2/pulls" class="external-link">Pull requests</a> are always welcome.</p>
 </div>
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">
-<a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h2>
-<p>Please note that the subfoldr2 project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms</p>
+<a href="#code-of-conduct" class="anchor" aria-hidden="true"></a>Code of Conduct</h2>
+<p>Please note that the subfoldr2 project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms</p>
 </div>
 </div>
 
@@ -263,46 +265,52 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
 <li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
 <div class="community">
-<h2>Community</h2>
+<h2 data-toc-skip>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CONTRIBUTING.html">Contributing guide</a></li>
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Joe Thorley <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-7683-4592" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Poisson Consulting <br><small class="roles"> Copyright holder, funder </small>  </li>
+<li><a href="authors.html">More on authors...</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
-<li><a href="https://github.com/poissonconsulting/subfoldr2/actions"><img src="https://github.com/poissonconsulting/subfoldr2/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://codecov.io/gh/poissonconsulting/subfoldr2?branch=master"><img src="https://codecov.io/gh/poissonconsulting/subfoldr2/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
+<li><a href="https://github.com/poissonconsulting/subfoldr2/actions" class="external-link"><img src="https://github.com/poissonconsulting/subfoldr2/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/gh/poissonconsulting/subfoldr2?branch=master" class="external-link"><img src="https://codecov.io/gh/poissonconsulting/subfoldr2/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Joe Thorley, Poisson Consulting.</p>
+  <p></p>
+<p>Developed by Joe Thorley, Poisson Consulting.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>
@@ -310,6 +318,8 @@
 
   
 
+
+  
 
   </body>
 </html>
