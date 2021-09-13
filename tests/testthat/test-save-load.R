@@ -1038,3 +1038,22 @@ test_that("expect empty table when all tables are excluded", {
   expect_equal(nrow(data_1), 1048575L)
   expect_equal(nrow(data_2), 1048575L)
 })
+
+test_that("checking return value for sbf_save_excel_large", {
+  
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+  
+  data <- data.frame(x = seq(100))
+  return_path <- sbf_save_excel_large(data, workbook_name = "data")
+  print(return_path)
+  print("---------")
+  print(file.path(path, "excel", "data.xlsx"))
+  
+  expect_equal(return_path, paste0(path, "excel", "data.xlsx"))
+})
+
+### need to ask Joe about why you get a double path in the one place but not the other
+### test above fails because of it and all other tests like this should also fail
