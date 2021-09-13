@@ -5,16 +5,14 @@
 \title{Save Dataframes to Excel Workbook}
 \usage{
 sbf_save_workbook(
-  x,
   workbook_name = basename(getwd()),
   sub = sbf_get_sub(),
   main = sbf_get_main(),
+  env = parent.frame(),
   epgs = NULL
 )
 }
 \arguments{
-\item{x}{The data frames as a named list}
-
 \item{workbook_name}{The name of the excel workbook you are creating. Default
 is the base name of the current working directory.}
 
@@ -22,14 +20,16 @@ is the base name of the current working directory.}
 
 \item{main}{A string specifying the path to the main folder (by default the current main folder)}
 
+\item{env}{An environment.}
+
 \item{epgs}{The projection to convert to}
 }
 \value{
 An invisible string of the path to the saved data.frame
 }
 \description{
-This takes the data frames and saves them to a single excel workbook where
-each table is its own spreadsheet
+This takes the data frames from the environment and saves them to a
+single excel workbook where each table is its own spreadsheet.
 }
 \examples{
 \dontrun{

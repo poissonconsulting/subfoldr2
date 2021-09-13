@@ -126,6 +126,15 @@ process_sf_columns <- function(table, epgs){
   table
 }
 
+save_workbook <- function(x, sub, main, workbook_name, epgs) {
+  x <- lapply(x, function(i) {
+    x <- process_sf_columns(i, epgs)
+  })
+  
+  save_rds(x, "excel", sub = sub, main = main, x_name = workbook_name)
+  save_xlsx(x, "excel", sub = sub, main = main, x_name = workbook_name)
+}
+
 #' Save Object
 #'
 #' @param x The object to save.
@@ -521,14 +530,13 @@ sbf_save_excel <- function(x,
 
 #' Save Dataframes to Excel Workbook
 #'
-#' This takes the data frames and saves them to a single excel workbook where
-#' each table is its own spreadsheet
+#' This takes the data frames from the environment and saves them to a
+#' single excel workbook where each table is its own spreadsheet.
 #'   
-#' @param x The data frames as a named list
 #' @param epgs The projection to convert to
 #' @param workbook_name The name of the excel workbook you are creating. Default
 #'  is the base name of the current working directory. 
-#' @inheritParams sbf_save_object
+#' @inheritParams sbf_save_objects
 #' @family excel
 #' @return An invisible string of the path to the saved data.frame
 #' @examples 
@@ -537,27 +545,43 @@ sbf_save_excel <- function(x,
 #' }
 #' @export
 
-sbf_save_workbook <- function(x, 
-                              workbook_name = basename(getwd()),
+sbf_save_workbook <- function(workbook_name = basename(getwd()),
                               sub = sbf_get_sub(),
                               main = sbf_get_main(), 
+                              env = parent.frame(),
                               epgs = NULL) {
-  chk::chk_s3_class(x, "list")
   chk::chk_string(workbook_name)
   chk::chk_s3_class(sub, "character")
   chk::chk_range(length(sub))
   chk::chk_string(main)
   chk::chk_null_or(epgs, chk::chk_number)
+  chk::chk_s3_class(env, "environment")
   
-  sub <- sanitize_path(sub)
-  main <- sanitize_path(main, rm_leading = FALSE)
+  names <- objects(envir = env)
+  is <- vector("logical", length(names))
   
-  x <- lapply(x, function(i) {
-    x <- process_sf_columns(i, epgs)
-  })
+  datas <- list()
+  # create named list of all dataframes in the environment
+  for (i in seq_along(names)) {
+    x_name <- names[i]
+    x <- get(x = x_name, envir = env)
+    is[i] <- is.data.frame(x) 
+    if (is[i]) {
+      datas[[x_name]] <- x
+    }
+  }
+  
+  save_workbook(datas, sub, main, workbook_name, epgs)
 
-  save_rds(x, "excel", sub = sub, main = main, x_name = workbook_name)
-  save_xlsx(x, "excel", sub = sub, main = main, x_name = workbook_name)
+  names <- names[is]
+  if(!length(names)) {
+    warning("no datas to save")
+    invisible(character(0))
+  }
+  
+  names <- file_path(main, "excel", sub, names)
+  names <- p0(names, ".xlxs")
+  invisible(names)
 }
 
 #' Save Data Frame to Existing Database
@@ -809,25 +833,35 @@ sbf_save_datas_to_db <- function(db_name = sbf_get_db_name(), sub = sbf_get_sub(
 #'
 #' Converts a database to an single excel workbook where each table is its own
 #' spreadsheet.
-#' 
+#' @param exclude_tables A regular expression listing tables to be excluded.
 #' @inheritParams sbf_save_workbook
 #' @inheritParams sbf_open_db
 #' @family excel
 #' @examples 
 #' \dontrun{
 #' sbf_save_db_to_workbook()
+#' 
+#' # exclude the sites table
+#' sbf_save_db_to_workbook(exclude_tables = "sites")
+#' 
+#' # exclude the sites and species table
+#' sbf_save_db_to_workbook(exclude_tables = "sites|species")
 #' }
 #' @export
 
 sbf_save_db_to_workbook <- function(workbook_name = sbf_get_workbook_name(), 
                                     db_name = sbf_get_db_name(), 
+                                    exclude_tables = "^$",
                                     sub = sbf_get_sub(), 
                                     main = sbf_get_main(), 
                                     epgs = NULL) {
+  chk::chk_string(exclude_tables)
   
   conn <- sbf_open_db(db_name, sub = sub, main = main)
   on.exit(sbf_close_db(conn))
   datas <- rws_read(conn)
-  sbf_save_workbook(datas, workbook_name, sub, main, epgs)
+  # exclude listed tables
+  datas <- datas[datas = !grepl(exclude_tables, names(datas))]
+  save_workbook(datas, sub, main, workbook_name, epgs)
   invisible(names(datas))
 }

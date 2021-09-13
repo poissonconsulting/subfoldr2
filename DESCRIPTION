@@ -51,7 +51,9 @@ Suggests:
     withr
 Remotes:
     poissonconsulting/flobr,
-    poissonconsulting/dbflobr
+    poissonconsulting/dbflobr,
+    poissonconsulting/poissqlite,
+    poissonconsulting/poisspatial
 RdMacros: 
     lifecycle
 Encoding: UTF-8
