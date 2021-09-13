@@ -18,6 +18,7 @@ sbf_get_workbook_name()
 \seealso{
 Other excel: 
 \code{\link{sbf_save_db_to_workbook}()},
+\code{\link{sbf_save_excel_large}()},
 \code{\link{sbf_save_excels}()},
 \code{\link{sbf_save_excel}()},
 \code{\link{sbf_save_workbook}()}

@@ -38,6 +38,7 @@ sbf_save_excel()
 Other excel: 
 \code{\link{sbf_get_workbook_name}()},
 \code{\link{sbf_save_db_to_workbook}()},
+\code{\link{sbf_save_excel_large}()},
 \code{\link{sbf_save_excels}()},
 \code{\link{sbf_save_workbook}()}
 }
