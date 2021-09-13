@@ -850,6 +850,18 @@ test_that("save df as excel with blob column", {
   
 })
 
+test_that("checking return value for sbf_save_excel", {
+  
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+  
+  data <- data.frame(x = seq(100))
+  return_path <- sbf_save_excel(data)
+  expect_match(return_path, "output/excel/data.xlsx$")
+})
+
 test_that("save two tables from the environment to separate excel files", {
   
   sbf_reset()
@@ -874,6 +886,19 @@ test_that("save two tables from the environment to separate excel files", {
 
 })
 
+test_that("checking return value for sbf_save_excels", {
+  
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+  
+  data <- data.frame(x = seq(100))
+  return_path <-   sbf_save_excels(env = as.environment(list(data = data)))
+  
+  expect_match(return_path, "output/excel/data.xlsx$")
+})
+
 test_that("save two dataframes as excel workbook", {
   
   sbf_reset()
@@ -886,8 +911,6 @@ test_that("save two dataframes as excel workbook", {
   
   species <- data.frame(Species =  c("Rainbow Trout", "Coho"),
                         Code = c("RT", "CO"))
-  
-  data <- list(sites = sites, species = species)
 
   sbf_save_workbook("data")
 
@@ -898,6 +921,19 @@ test_that("save two dataframes as excel workbook", {
   
   expect_identical(colnames(site_data), c("Places", "Activity"))
   expect_identical(colnames(species_data), c("Species", "Code"))
+})
+
+test_that("checking return value for sbf_save_workbook", {
+  
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+  
+  data <- data.frame(x = seq(100))
+  return_path <- sbf_save_workbook("data")
+  
+  expect_match(return_path, "output/excel/data.xlsx$")
 })
 
 test_that("database can be written to excel workbook", {
@@ -1048,12 +1084,9 @@ test_that("checking return value for sbf_save_excel_large", {
   
   data <- data.frame(x = seq(100))
   return_path <- sbf_save_excel_large(data, workbook_name = "data")
-  print(return_path)
-  print("---------")
-  print(file.path(path, "excel", "data.xlsx"))
   
-  expect_equal(return_path, paste0(path, "excel", "data.xlsx"))
+  expect_match(return_path, "output/excel/data.xlsx$")
 })
 
-### need to ask Joe about why you get a double path in the one place but not the other
-### test above fails because of it and all other tests like this should also fail
+
+#xlsx

@@ -577,7 +577,7 @@ sbf_save_excel_large <- function(x,
   save_workbook(x_split, sub, main, workbook_name, epgs)
   
   names <- file_path(main, "excel", sub, workbook_name)
-  names <- p0(names, ".xlxs")
+  names <- p0(names, ".xlsx")
   invisible(names)
 }
 
@@ -633,7 +633,7 @@ sbf_save_workbook <- function(workbook_name = basename(getwd()),
   }
   
   names <- file_path(main, "excel", sub, workbook_name)
-  names <- p0(names, ".xlxs")
+  names <- p0(names, ".xlsx")
   invisible(names)
 }
 
@@ -853,7 +853,7 @@ sbf_save_excels <- function(sub = sbf_get_sub(),
     invisible(character(0))
   }
   names <- file_path(main, "excel", sub, names)
-  names <- p0(names, ".xlxs")
+  names <- p0(names, ".xlsx")
   invisible(names)
 }
 
