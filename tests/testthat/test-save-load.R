@@ -788,11 +788,10 @@ test_that("save df as excel with multiple sf linstring columns", {
   data <- poisspatial::ps_coords_to_sfc(data, 
                                         coords = c("X2", "Y2"), 
                                         sfc_name = "geometry2")
-  
-  data <- data |>
-    sf::st_cast("LINESTRING") |>
-    poisspatial::ps_activate_sfc() |>
-    sf::st_cast("LINESTRING")
+
+  data <- sf::st_cast(data, "LINESTRING")
+  data <- poisspatial::ps_activate_sfc(data) 
+  data <- sf::st_cast(data, "LINESTRING")
   
   sbf_save_excel(data)
   data <- readxl::read_excel(file.path(path, "excel/data.xlsx"))
@@ -819,8 +818,7 @@ test_that("save df as excel with linstring column and sf point", {
                                         coords = c("X2", "Y2"), 
                                         sfc_name = "geometry2")
   
-  data <- data |>
-    sf::st_cast("LINESTRING") 
+  data <- sf::st_cast(data, "LINESTRING") 
   
   sbf_save_excel(data)
   data <- readxl::read_excel(file.path(path, "excel/data.xlsx"))
