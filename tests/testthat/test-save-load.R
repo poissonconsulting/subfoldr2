@@ -1009,3 +1009,32 @@ test_that("expect empty table when all tables are excluded", {
   expect_equal(nrow(data), 0L)
   expect_equal(colnames(data), character(0))
 })
+
+
+test_that("expect empty table when all tables are excluded", {
+  
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+  
+  data <- data.frame(x = seq(2097150))
+  sbf_save_excel_large(data, workbook_name = "data")
+  
+  data_1 <- readxl::read_excel(
+    file.path(path, "excel/data.xlsx"), 
+    sheet = 1
+  )
+  data_2 <- readxl::read_excel(
+    file.path(path, "excel/data.xlsx"), 
+    sheet = 2
+  )
+  
+  expect_error(readxl::read_excel(
+    file.path(path, "excel/data.xlsx"), 
+    sheet = 3)
+  )
+  
+  expect_equal(nrow(data_1), 1048575L)
+  expect_equal(nrow(data_2), 1048575L)
+})

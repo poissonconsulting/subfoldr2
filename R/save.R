@@ -528,6 +528,59 @@ sbf_save_excel <- function(x,
   save_xlsx(x, "excel", sub = sub, main = main, x_name = x_name)
 }
 
+#' Save A large Table to Excel Workbook
+#'
+#' This takes a large data frame and splits it up into enough spreadsheets to
+#' not go over the max number of rows allowed for an excel file.
+#'
+#' @param x A dataframe with over 1048576 rows
+#' @param epgs The projection to convert to
+#' @param workbook_name The name of the excel workbook you are creating. Default
+#'   is the base name of the current working directory.
+#' @param max_rows An integer for the max number of rows per table. Max value is
+#'   1048575
+#' @inheritParams sbf_save_object
+#' @family excel
+#' @return An invisible string of the path to the saved data.frame
+#' @examples 
+#' \dontrun{
+#' sbf_save_excel_large()
+#' }
+#' @export
+
+sbf_save_excel_large <- function(x,
+                                 workbook_name = basename(getwd()),
+                                 max_rows = 1048575L,
+                                 sub = sbf_get_sub(),
+                                 main = sbf_get_main(),
+                                 epgs = NULL) {
+  chk::chk_s3_class(x, "data.frame")
+  chk::chk_string(workbook_name)
+  chk::chk_lte(max_rows, 1048575L)
+  chk::chk_number(max_rows)
+  chk::chk_s3_class(sub, "character")
+  chk::chk_range(length(sub))
+  chk::chk_string(main)
+  chk::chk_null_or(epgs, chk::chk_number)
+  
+  # split into enough new dataframes
+  x_split <- split(x, (as.numeric(rownames(x))-1) %/% max_rows)
+  
+  x_names <- character(length(x_split))
+  for (i in seq(length(x_split))) {
+    x_names[i] <- paste0("detection_", i)
+  }
+  
+  # rename them
+  names(x_split) <- x_names
+  
+  save_workbook(x_split, sub, main, workbook_name, epgs)
+  
+  names <- file_path(main, "excel", sub, workbook_name)
+  names <- p0(names, ".xlxs")
+  invisible(names)
+}
+
 #' Save Dataframes to Excel Workbook
 #'
 #' This takes the data frames from the environment and saves them to a
@@ -579,7 +632,7 @@ sbf_save_workbook <- function(workbook_name = basename(getwd()),
     invisible(character(0))
   }
   
-  names <- file_path(main, "excel", sub, names)
+  names <- file_path(main, "excel", sub, workbook_name)
   names <- p0(names, ".xlxs")
   invisible(names)
 }
