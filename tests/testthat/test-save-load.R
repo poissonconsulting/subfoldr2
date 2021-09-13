@@ -1046,6 +1046,27 @@ test_that("expect empty table when all tables are excluded", {
   expect_equal(colnames(data), character(0))
 })
 
+test_that("checking return value for sbf_save_data_to_db", {
+  
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+  
+  # create test data
+  sites <- data.frame(Places =  c("Yakoun Lake", "Meyer Lake"),
+                      Activity = c("boating", "fishing"))
+  sbf_create_db(db_name = "database")
+  sbf_execute_db("CREATE TABLE sites (
+                Places TEXT,
+                Activity TEXT)")
+  sbf_save_data_to_db(sites, db_name = "database")
+  # do tests
+  return_path <-   sbf_save_db_to_workbook(workbook_name = "data", 
+                                           db_name = "database")
+  
+  expect_match(return_path, "output/excel/data.xlsx$")
+})
 
 test_that("two spreadsheets are created due to long table", {
   
@@ -1087,6 +1108,3 @@ test_that("checking return value for sbf_save_excel_large", {
   
   expect_match(return_path, "output/excel/data.xlsx$")
 })
-
-
-#xlsx

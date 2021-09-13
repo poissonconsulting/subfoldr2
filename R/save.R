@@ -916,5 +916,8 @@ sbf_save_db_to_workbook <- function(workbook_name = sbf_get_workbook_name(),
   # exclude listed tables
   datas <- datas[datas = !grepl(exclude_tables, names(datas))]
   save_workbook(datas, sub, main, workbook_name, epgs)
-  invisible(names(datas))
+  
+  names <- file_path(main, "excel", sub, workbook_name)
+  names <- p0(names, ".xlsx")
+  invisible(names)
 }
