@@ -6,7 +6,7 @@ test_that("object",{
   x <- 1
   expect_identical(sbf_save_object(x), file.path(sbf_get_main(), "objects/x.rds"))
   
-  expect_match(sbf_list_objects("x"), file.path(sbf_get_main(), "objects/x.rds"))
+  expect_match(sbf_list_objects("x"), "objects/x.rds$")
   expect_identical(names(sbf_list_objects("x")), "objects/x")
   x <- 3
   expect_identical(sbf_save_object(x, sub = "down"),
@@ -64,8 +64,7 @@ test_that("data",{
   x <- data.frame(x = 1)
   expect_identical(sbf_save_data(x), file.path(sbf_get_main(), "data/x.rds"))
   
-  expect_match(sbf_list_datas("x"),
-               file.path(sbf_get_main(), "data/x.rds"))
+  expect_match(sbf_list_datas("x"), "data/x.rds$")
   expect_match(names(sbf_list_datas("x")),
                "data/x")
   x <- data.frame(y = 3)

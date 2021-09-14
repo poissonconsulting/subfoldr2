@@ -45,7 +45,9 @@ sbf_archive_main <- function(main = sbf_get_main(), ask = getOption("sbf.ask", T
 #' @family  archive
 #' @export
 sbf_unarchive_main <- function(main = sbf_get_main(), archive = 1L, ask = getOption("sbf.ask", TRUE)) {
-  chkor(chk_whole_number(archive), chk_dir(archive))
+  if(!vld_whole_number(archive) && !vld_dir(archive)) {
+    chkor_vld(vld_whole_number(archive), vld_dir(archive))
+  }
   chk_flag(ask)
   
   if(vld_numeric(archive))
