@@ -89,7 +89,7 @@ find_blob_columns_to_drop <- function(table) {
 convert_coords <- function(table, epgs) {
   points <- find_columns_points(table)
   for (i in points) {
-    table <- poisspatial::ps_activate_sfc(table, i)
+    table <- sf::st_set_geometry(table, i)
     table <- sf::st_transform(table, epgs)
   }
   table
