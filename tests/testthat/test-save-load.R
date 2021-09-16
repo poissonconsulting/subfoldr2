@@ -796,7 +796,7 @@ test_that("save df as excel with multiple sf linstring columns", {
                                 sfc_name = "geometry2")
 
   data <- sf::st_cast(data, "LINESTRING")
-  data <- poisspatial::ps_activate_sfc(data) 
+  data <- sf::st_set_geometry(data, "geometry")
   data <- sf::st_cast(data, "LINESTRING")
   
   sbf_save_excel(data)
