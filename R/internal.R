@@ -217,3 +217,45 @@ diff_data <- function(name, main, archive) {
   
   daff::diff_data(archive, main)
 }
+
+convert_coords_to_sfc <- function(x, 
+                                  coords = c("X", "Y"),
+                                  sfc_name = "geometry") {
+  # this is a simplified version of ps_coords_to_sfc
+  chk::chk_s3_class(x, "data.frame")
+  chk::chk_vector(coords)
+  chk::check_values(coords, "")
+  chk::check_dim(coords, values = c(2L:3L))
+  chk::check_names(x, coords)
+  chk::chk_string(sfc_name)
+  
+  x <- x %>% tibble::as_tibble()
+  
+  x$..ID_coords <- 1:nrow(x)
+  
+  y <- x[!is.na(x[[coords[1]]]) & !is.na(x[[coords[2]]]),]
+  
+  print(y)
+  
+  sfc <- matrix(c(y[[coords[1]]], y[[coords[2]]]), ncol = 2) %>%
+    sf::st_multipoint(dim = "XY") %>%
+    sf::st_sfc(crs = 4326) %>%
+    sf::st_cast("POINT")
+  
+  y[coords[1]] <- NULL
+  y[coords[2]] <- NULL
+  
+  y[[sfc_name]] <- sfc
+  colnames <- colnames(y)
+  y <- y[c("..ID_coords", sfc_name)]
+  x[[sfc_name]] <- NULL
+  
+  x <- dplyr::right_join(y, x, by = "..ID_coords")
+  x <- x[colnames]
+  x <- x[order(x$..ID_coords),]
+  x$..ID_coords <- NULL
+  
+  x <- x %>% sf::st_set_geometry(sfc_name)
+  
+  x
+}

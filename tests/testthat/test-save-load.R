@@ -712,6 +712,12 @@ test_that("save df as excel no sf columns", {
 })
 
 
+
+
+
+
+
+
 test_that("save df as excel with sf point column", {
   
   sbf_reset()
@@ -724,7 +730,7 @@ test_that("save df as excel with sf point column", {
                      X = c(53.350808, 53.640981), 
                      Y = c(-132.280579, -132.055175))
   
-  data <- poisspatial::ps_coords_to_sfc(data)
+  data <- convert_coords_to_sfc(data)
   
   sbf_save_excel(data)
   data <- readxl::read_excel(file.path(path, "excel/data.xlsx"))
@@ -751,10 +757,10 @@ test_that("save df as excel with multiple sf point columns", {
                      X2 = c(53.350808, 53.640981),
                      Y2 = c(-132.280579, -132.055175))
   
-  data <- poisspatial::ps_coords_to_sfc(data)
-  data <- poisspatial::ps_coords_to_sfc(data, 
-                                        coords = c("X2", "Y2"), 
-                                        sfc_name = "geometry2")
+  data <- convert_coords_to_sfc(data)
+  data <- convert_coords_to_sfc(data, 
+                                coords = c("X2", "Y2"), 
+                                sfc_name = "geometry2")
   
   sbf_save_excel(data)
   data <- readxl::read_excel(file.path(path, "excel/data.xlsx"))
@@ -784,10 +790,10 @@ test_that("save df as excel with multiple sf linstring columns", {
                      X2 = c(53.350808, 53.640981),
                      Y2 = c(-132.280579, -132.055175))
   
-  data <- poisspatial::ps_coords_to_sfc(data)
-  data <- poisspatial::ps_coords_to_sfc(data, 
-                                        coords = c("X2", "Y2"), 
-                                        sfc_name = "geometry2")
+  data <- convert_coords_to_sfc(data)
+  data <- convert_coords_to_sfc(data, 
+                                coords = c("X2", "Y2"), 
+                                sfc_name = "geometry2")
 
   data <- sf::st_cast(data, "LINESTRING")
   data <- poisspatial::ps_activate_sfc(data) 
@@ -813,10 +819,10 @@ test_that("save df as excel with linstring column and sf point", {
                      X2 = c(53.350808, 53.640981),
                      Y2 = c(-132.280579, -132.055175))
   
-  data <- poisspatial::ps_coords_to_sfc(data)
-  data <- poisspatial::ps_coords_to_sfc(data, 
-                                        coords = c("X2", "Y2"), 
-                                        sfc_name = "geometry2")
+  data <- convert_coords_to_sfc(data)
+  data <- convert_coords_to_sfc(data, 
+                                coords = c("X2", "Y2"), 
+                                sfc_name = "geometry2")
   
   data <- sf::st_cast(data, "LINESTRING") 
   
@@ -859,6 +865,90 @@ test_that("checking return value for sbf_save_excel", {
   return_path <- sbf_save_excel(data)
   expect_match(return_path, "output/excel/data.xlsx$")
 })
+
+test_that("two spreadsheets are created due to long table with correct sheet 
+          pairing", {
+  
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+  
+  data <- data.frame(x = seq(2097150))
+  sbf_save_excel(data, max_sheets = 2L)
+  
+  data_1 <- readxl::read_excel(
+    file.path(path, "excel/data.xlsx"), 
+    sheet = 1
+  )
+  data_2 <- readxl::read_excel(
+    file.path(path, "excel/data.xlsx"), 
+    sheet = 2
+  )
+  
+  expect_error(readxl::read_excel(
+    file.path(path, "excel/data.xlsx"), 
+    sheet = 3)
+  )
+  
+  expect_equal(nrow(data_1), 1048575L)
+  expect_equal(nrow(data_2), 1048575L)
+})
+
+test_that("two spreadsheets are created due to long table when only 1 sheet 
+          requested", {
+  
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+  
+  data <- data.frame(x = seq(2097150))
+  sbf_save_excel(data, max_sheets = 1L)
+  
+  data_1 <- readxl::read_excel(
+    file.path(path, "excel/data.xlsx"), 
+    sheet = 1
+  )
+
+  expect_error(readxl::read_excel(
+    file.path(path, "excel/data.xlsx"), 
+    sheet = 2)
+  )
+  
+  expect_equal(nrow(data_1), 1048575L)
+})
+
+test_that("two spreadsheets are created due to long table when extra sheets 
+          requested", {
+            
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+  
+  data <- data.frame(x = seq(2097150))
+  sbf_save_excel(data, max_sheets = 5L)
+  
+  data_1 <- readxl::read_excel(
+    file.path(path, "excel/data.xlsx"), 
+    sheet = 1
+  )
+  
+  data_2 <- readxl::read_excel(
+    file.path(path, "excel/data.xlsx"), 
+    sheet = 2
+  )
+  
+  expect_error(readxl::read_excel(
+    file.path(path, "excel/data.xlsx"), 
+    sheet = 3)
+  )
+  
+  expect_equal(nrow(data_1), 1048575L)
+  expect_equal(nrow(data_2), 1048575L)
+})
+
 
 test_that("save two tables from the environment to separate excel files", {
   
@@ -1062,47 +1152,6 @@ test_that("checking return value for sbf_save_data_to_db", {
   # do tests
   return_path <-   sbf_save_db_to_workbook(workbook_name = "data", 
                                            db_name = "database")
-  
-  expect_match(return_path, "output/excel/data.xlsx$")
-})
-
-test_that("two spreadsheets are created due to long table", {
-  
-  sbf_reset()
-  path <- file.path(withr::local_tempdir(), "output")
-  sbf_set_main(path)
-  withr::defer(sbf_reset())
-  
-  data <- data.frame(x = seq(2097150))
-  sbf_save_excel_large(data, workbook_name = "data")
-  
-  data_1 <- readxl::read_excel(
-    file.path(path, "excel/data.xlsx"), 
-    sheet = 1
-  )
-  data_2 <- readxl::read_excel(
-    file.path(path, "excel/data.xlsx"), 
-    sheet = 2
-  )
-  
-  expect_error(readxl::read_excel(
-    file.path(path, "excel/data.xlsx"), 
-    sheet = 3)
-  )
-  
-  expect_equal(nrow(data_1), 1048575L)
-  expect_equal(nrow(data_2), 1048575L)
-})
-
-test_that("checking return value for sbf_save_excel_large", {
-  
-  sbf_reset()
-  path <- file.path(withr::local_tempdir(), "output")
-  sbf_set_main(path)
-  withr::defer(sbf_reset())
-  
-  data <- data.frame(x = seq(100))
-  return_path <- sbf_save_excel_large(data, workbook_name = "data")
   
   expect_match(return_path, "output/excel/data.xlsx$")
 })
