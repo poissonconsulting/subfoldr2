@@ -126,6 +126,32 @@ process_sf_columns <- function(table, epgs){
   table
 }
 
+split_excel_large <- function(x, x_name, max_sheets) {
+  # this function is for splitting large tables into smaller tables
+  # as excel has a maximum number of rows allowed per sheet
+  # split into enough new dataframes
+  x_split <- split(x, (as.numeric(rownames(x))-1) %/% 1048575L)
+  # error catching for giving more sheets then have been split into
+  len_x_split <- length(x_split)
+  if (max_sheets > len_x_split) {
+    max_sheets <- len_x_split
+  }
+  x_split <- x_split[seq_len(max_sheets)]
+  # don't append numbers if only 1 sheet
+  if (max_sheets == 1) {
+    x_names <- x_name
+  } else {
+    x_names <- character(length(x_split))
+    for (i in seq(length(x_split))) {
+      x_names[i] <- paste0(x_name, "_", i)
+    }
+  }
+  # rename them
+  names(x_split) <- x_names
+  # return named list of dataframes
+  x_split
+}
+
 save_workbook <- function(x, sub, main, workbook_name, epgs) {
   x <- lapply(x, function(i) {
     x <- process_sf_columns(i, epgs)
@@ -493,9 +519,16 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
 
 #' Save Dataframe to Excel Workbook
 #' 
-#' This takes a data frame and saves it to their own excel workbook. 
+#' @details This takes a data frame and saves it to their own excel workbook. 
+#' 
+#' This function will split up large dataframes into smaller tables for writing
+#'  to excel because excel only allows a maximum number of 1,048,576. For the
+#'  `max_sheets` argument you can pass a number higher then the required 
+#'  and it will only return as many sheets as there is data. 
 #' 
 #' @param x The data frame to save.
+#' @param max_sheets An integer specifying the maximum number of sheets to split 
+#'  your table into for writing to excel. The default is 1.
 #' @param epgs The projection to convert to
 #' @inheritParams sbf_save_object
 #' @family excel
@@ -507,13 +540,16 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
 #' @export
 sbf_save_excel <- function(x, 
                            x_name = substitute(x), 
+                           max_sheets = 1L,
                            sub = sbf_get_sub(),
-                          main = sbf_get_main(), 
-                          epgs = NULL) {
+                           main = sbf_get_main(), 
+                           epgs = NULL) {
   chk::chk_s3_class(x, "data.frame")
   x_name <- chk_deparse(x_name)
   chk::chk_string(x_name)
   chk::chk_gt(nchar(x_name))
+  chk::chk_integer(max_sheets)
+  chk::chk_gt(max_sheets)
   chk::chk_s3_class(sub, "character")
   chk::chk_range(length(sub))
   chk::chk_string(main)
@@ -523,62 +559,10 @@ sbf_save_excel <- function(x,
   main <- sanitize_path(main, rm_leading = FALSE)  
   
   x <- process_sf_columns(x, epgs)
+  x <- split_excel_large(x, x_name, max_sheets) 
   
   save_rds(x, "excel", sub = sub, main = main, x_name = x_name)
   save_xlsx(x, "excel", sub = sub, main = main, x_name = x_name)
-}
-
-#' Save A large Table to Excel Workbook
-#'
-#' This takes a large data frame and splits it up into enough spreadsheets to
-#' not go over the max number of rows allowed for an excel file.
-#'
-#' @param x A dataframe with over 1048576 rows
-#' @param epgs The projection to convert to
-#' @param workbook_name The name of the excel workbook you are creating. Default
-#'   is the base name of the current working directory.
-#' @param max_rows An integer for the max number of rows per table. Max value is
-#'   1048575
-#' @inheritParams sbf_save_object
-#' @family excel
-#' @return An invisible string of the path to the saved data.frame
-#' @examples 
-#' \dontrun{
-#' sbf_save_excel_large()
-#' }
-#' @export
-
-sbf_save_excel_large <- function(x,
-                                 workbook_name = basename(getwd()),
-                                 max_rows = 1048575L,
-                                 sub = sbf_get_sub(),
-                                 main = sbf_get_main(),
-                                 epgs = NULL) {
-  chk::chk_s3_class(x, "data.frame")
-  chk::chk_string(workbook_name)
-  chk::chk_lte(max_rows, 1048575L)
-  chk::chk_number(max_rows)
-  chk::chk_s3_class(sub, "character")
-  chk::chk_range(length(sub))
-  chk::chk_string(main)
-  chk::chk_null_or(epgs, chk::chk_number)
-  
-  # split into enough new dataframes
-  x_split <- split(x, (as.numeric(rownames(x))-1) %/% max_rows)
-  
-  x_names <- character(length(x_split))
-  for (i in seq(length(x_split))) {
-    x_names[i] <- paste0("detection_", i)
-  }
-  
-  # rename them
-  names(x_split) <- x_names
-  
-  save_workbook(x_split, sub, main, workbook_name, epgs)
-  
-  names <- file_path(main, "excel", sub, workbook_name)
-  names <- p0(names, ".xlsx")
-  invisible(names)
 }
 
 #' Save Dataframes to Excel Workbook
@@ -845,7 +829,7 @@ sbf_save_excels <- function(sub = sbf_get_sub(),
     x_name <- names[i]
     x <- get(x = x_name, envir = env)
     is[i] <- is.data.frame(x)
-    if(is[i]) sbf_save_excel(x, x_name, sub, main, epgs = epgs)
+    if(is[i]) sbf_save_excel(x, x_name, 1L, sub, main, epgs = epgs)
   }
   names <- names[is]
   if(!length(names)) {
