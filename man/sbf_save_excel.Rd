@@ -7,6 +7,7 @@
 sbf_save_excel(
   x,
   x_name = substitute(x),
+  max_sheets = 1L,
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   epgs = NULL
@@ -16,6 +17,9 @@ sbf_save_excel(
 \item{x}{The data frame to save.}
 
 \item{x_name}{A string of the name.}
+
+\item{max_sheets}{An integer specifying the maximum number of sheets to split 
+your table into for writing to excel. The default is 1.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
 
@@ -27,7 +31,15 @@ sbf_save_excel(
 An invisible string of the path to the saved data.frame
 }
 \description{
-This takes a data frame and saves it to their own excel workbook.
+Save Dataframe to Excel Workbook
+}
+\details{
+This takes a data frame and saves it to their own excel workbook. 
+
+This function will split up large dataframes into smaller tables for writing
+ to excel because excel only allows a maximum number of 1,048,576. For the
+ `max_sheets` argument you can pass a number higher then the required 
+ and it will only return as many sheets as there is data.
 }
 \examples{
 \dontrun{
@@ -38,7 +50,6 @@ sbf_save_excel()
 Other excel: 
 \code{\link{sbf_get_workbook_name}()},
 \code{\link{sbf_save_db_to_workbook}()},
-\code{\link{sbf_save_excel_large}()},
 \code{\link{sbf_save_excels}()},
 \code{\link{sbf_save_workbook}()}
 }
