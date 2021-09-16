@@ -229,18 +229,15 @@ convert_coords_to_sfc <- function(x,
   chk::check_names(x, coords)
   chk::chk_string(sfc_name)
   
-  x <- x %>% tibble::as_tibble()
+  x <- tibble::as_tibble(x)
   
   x$..ID_coords <- 1:nrow(x)
   
   y <- x[!is.na(x[[coords[1]]]) & !is.na(x[[coords[2]]]),]
   
-  print(y)
-  
-  sfc <- matrix(c(y[[coords[1]]], y[[coords[2]]]), ncol = 2) %>%
-    sf::st_multipoint(dim = "XY") %>%
-    sf::st_sfc(crs = 4326) %>%
-    sf::st_cast("POINT")
+  sfc <- sf::st_multipoint(matrix(c(y[[coords[1]]], y[[coords[2]]]), ncol = 2), dim = "XY") 
+  sfc <- sf::st_sfc(sfc, crs = 4326)
+  sfc <- sf::st_cast(sfc, "POINT")
   
   y[coords[1]] <- NULL
   y[coords[2]] <- NULL
@@ -250,12 +247,12 @@ convert_coords_to_sfc <- function(x,
   y <- y[c("..ID_coords", sfc_name)]
   x[[sfc_name]] <- NULL
   
-  x <- dplyr::right_join(y, x, by = "..ID_coords")
+  x <- merge(y, x, by = "..ID_coords")
   x <- x[colnames]
   x <- x[order(x$..ID_coords),]
   x$..ID_coords <- NULL
   
-  x <- x %>% sf::st_set_geometry(sfc_name)
+  x <- sf::st_set_geometry(x, sfc_name)
   
   x
 }
