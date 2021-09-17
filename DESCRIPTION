@@ -26,7 +26,6 @@ Imports:
     graphics,
     grDevices,
     lifecycle,
-    poisspatial,
     png,
     readwritesqlite,
     RSQLite,
@@ -38,11 +37,11 @@ Imports:
     yesno
 Suggests: 
     covr,
+    blob,
     daff,
     dbflobr,
     flobr,
     glue,
-    poissqlite,
     sf,
     readxl,
     testthat,
@@ -51,9 +50,7 @@ Suggests:
     withr
 Remotes:
     poissonconsulting/flobr,
-    poissonconsulting/dbflobr,
-    poissonconsulting/poissqlite,
-    poissonconsulting/poisspatial
+    poissonconsulting/dbflobr
 RdMacros: 
     lifecycle
 Encoding: UTF-8

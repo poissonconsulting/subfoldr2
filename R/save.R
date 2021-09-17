@@ -89,7 +89,7 @@ find_blob_columns_to_drop <- function(table) {
 convert_coords <- function(table, epgs) {
   points <- find_columns_points(table)
   for (i in points) {
-    table <- poisspatial::ps_activate_sfc(table, i)
+    table <- sf::st_set_geometry(table, i)
     table <- sf::st_transform(table, epgs)
   }
   table
@@ -121,9 +121,35 @@ process_sf_columns <- function(table, epgs){
     X <- paste0(column, "_X")
     Y <- paste0(column, "_Y")
     Z <- paste0(column, "_Z")
-    table <- poisspatial::ps_sfc_to_coords(table, column, X, Y, Z)
+    table <- convert_sfc_to_coords(table, column, X, Y, Z)
   }
   table
+}
+
+split_excel_large <- function(x, x_name, max_sheets) {
+  # this function is for splitting large tables into smaller tables
+  # as excel has a maximum number of rows allowed per sheet
+  # split into enough new dataframes
+  x_split <- split(x, (as.numeric(rownames(x))-1) %/% 1048575L)
+  # error catching for giving more sheets then have been split into
+  len_x_split <- length(x_split)
+  if (max_sheets > len_x_split) {
+    max_sheets <- len_x_split
+  }
+  x_split <- x_split[seq_len(max_sheets)]
+  # don't append numbers if only 1 sheet
+  if (max_sheets == 1) {
+    x_names <- x_name
+  } else {
+    x_names <- character(length(x_split))
+    for (i in seq(length(x_split))) {
+      x_names[i] <- paste0(x_name, "_", i)
+    }
+  }
+  # rename them
+  names(x_split) <- x_names
+  # return named list of dataframes
+  x_split
 }
 
 save_workbook <- function(x, sub, main, workbook_name, epgs) {
@@ -493,9 +519,16 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
 
 #' Save Dataframe to Excel Workbook
 #' 
-#' This takes a data frame and saves it to their own excel workbook. 
+#' @details This takes a data frame and saves it to their own excel workbook. 
+#' 
+#' This function will split up large dataframes into smaller tables for writing
+#'  to excel because excel only allows a maximum number of 1,048,576. For the
+#'  `max_sheets` argument you can pass a number higher then the required 
+#'  and it will only return as many sheets as there is data. 
 #' 
 #' @param x The data frame to save.
+#' @param max_sheets An integer specifying the maximum number of sheets to split 
+#'  your table into for writing to excel. The default is 1.
 #' @param epgs The projection to convert to
 #' @inheritParams sbf_save_object
 #' @family excel
@@ -507,13 +540,16 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
 #' @export
 sbf_save_excel <- function(x, 
                            x_name = substitute(x), 
+                           max_sheets = 1L,
                            sub = sbf_get_sub(),
-                          main = sbf_get_main(), 
-                          epgs = NULL) {
+                           main = sbf_get_main(), 
+                           epgs = NULL) {
   chk::chk_s3_class(x, "data.frame")
   x_name <- chk_deparse(x_name)
   chk::chk_string(x_name)
   chk::chk_gt(nchar(x_name))
+  chk::chk_integer(max_sheets)
+  chk::chk_gt(max_sheets)
   chk::chk_s3_class(sub, "character")
   chk::chk_range(length(sub))
   chk::chk_string(main)
@@ -523,6 +559,7 @@ sbf_save_excel <- function(x,
   main <- sanitize_path(main, rm_leading = FALSE)  
   
   x <- process_sf_columns(x, epgs)
+  x <- split_excel_large(x, x_name, max_sheets) 
   
   save_rds(x, "excel", sub = sub, main = main, x_name = x_name)
   save_xlsx(x, "excel", sub = sub, main = main, x_name = x_name)
@@ -579,8 +616,8 @@ sbf_save_workbook <- function(workbook_name = basename(getwd()),
     invisible(character(0))
   }
   
-  names <- file_path(main, "excel", sub, names)
-  names <- p0(names, ".xlxs")
+  names <- file_path(main, "excel", sub, workbook_name)
+  names <- p0(names, ".xlsx")
   invisible(names)
 }
 
@@ -792,7 +829,7 @@ sbf_save_excels <- function(sub = sbf_get_sub(),
     x_name <- names[i]
     x <- get(x = x_name, envir = env)
     is[i] <- is.data.frame(x)
-    if(is[i]) sbf_save_excel(x, x_name, sub, main, epgs = epgs)
+    if(is[i]) sbf_save_excel(x, x_name, 1L, sub, main, epgs = epgs)
   }
   names <- names[is]
   if(!length(names)) {
@@ -800,7 +837,7 @@ sbf_save_excels <- function(sub = sbf_get_sub(),
     invisible(character(0))
   }
   names <- file_path(main, "excel", sub, names)
-  names <- p0(names, ".xlxs")
+  names <- p0(names, ".xlsx")
   invisible(names)
 }
 
@@ -863,5 +900,8 @@ sbf_save_db_to_workbook <- function(workbook_name = sbf_get_workbook_name(),
   # exclude listed tables
   datas <- datas[datas = !grepl(exclude_tables, names(datas))]
   save_workbook(datas, sub, main, workbook_name, epgs)
-  invisible(names(datas))
+  
+  names <- file_path(main, "excel", sub, workbook_name)
+  names <- p0(names, ".xlsx")
+  invisible(names)
 }
