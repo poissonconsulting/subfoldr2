@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Save Dataframe to Excel Workbook — sbf_save_excel" />
-<meta property="og:description" content="This takes a data frame and saves it to their own excel workbook." />
+<meta property="og:description" content="Save Dataframe to Excel Workbook" />
 
 
 
@@ -114,12 +114,13 @@
     </div>
 
     <div class="ref-description">
-    <p>This takes a data frame and saves it to their own excel workbook.</p>
+    <p>Save Dataframe to Excel Workbook</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>sbf_save_excel</span><span class='op'>(</span>
   <span class='va'>x</span>,
   x_name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>,
+  max_sheets <span class='op'>=</span> <span class='fl'>1L</span>,
   sub <span class='op'>=</span> <span class='fu'><a href='sbf_get_sub.html'>sbf_get_sub</a></span><span class='op'>(</span><span class='op'>)</span>,
   main <span class='op'>=</span> <span class='fu'><a href='sbf_get_main.html'>sbf_get_main</a></span><span class='op'>(</span><span class='op'>)</span>,
   epgs <span class='op'>=</span> <span class='cn'>NULL</span>
@@ -135,6 +136,11 @@
     <tr>
       <th>x_name</th>
       <td><p>A string of the name.</p></td>
+    </tr>
+    <tr>
+      <th>max_sheets</th>
+      <td><p>An integer specifying the maximum number of sheets to split 
+your table into for writing to excel. The default is 1.</p></td>
     </tr>
     <tr>
       <th>sub</th>
@@ -153,6 +159,13 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An invisible string of the path to the saved data.frame</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This takes a data frame and saves it to their own excel workbook.</p>
+<p>This function will split up large dataframes into smaller tables for writing
+ to excel because excel only allows a maximum number of 1,048,576. For the
+ `max_sheets` argument you can pass a number higher then the required 
+ and it will only return as many sheets as there is data.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other excel: 
