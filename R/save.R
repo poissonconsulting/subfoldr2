@@ -121,7 +121,7 @@ process_sf_columns <- function(table, epgs){
     X <- paste0(column, "_X")
     Y <- paste0(column, "_Y")
     Z <- paste0(column, "_Z")
-    table <- poisspatial::ps_sfc_to_coords(table, column, X, Y, Z)
+    table <- convert_sfc_to_coords(table, column, X, Y, Z)
   }
   table
 }

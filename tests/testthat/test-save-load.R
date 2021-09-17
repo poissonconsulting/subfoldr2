@@ -842,8 +842,8 @@ test_that("save df as excel with blob column", {
   
   data <- data.frame(Places =  c("Yakoun Lake", "Meyer Lake"),
                      Activity = c("boating", "fishing"),
-                     Blob = c(poissqlite::ps_blob_object("hidden"), 
-                              poissqlite::ps_blob_object("text")))
+                     Blob = c(create_blob_object("hidden"), 
+                              create_blob_object("text")))
   
   sbf_save_excel(data)
   data <- readxl::read_excel(file.path(path, "excel/data.xlsx"))

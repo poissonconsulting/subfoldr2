@@ -256,3 +256,76 @@ convert_coords_to_sfc <- function(x,
   
   x
 }
+
+check_is_sfc <- function(x) {
+  sfc_names <- colnames(x)
+  sfc_names <- sfc_names[vapply(x, function(x) {inherits(x, "sfc")}, TRUE)]
+  sfc_names
+}
+
+convert_sfc_to_coords <- function(x, 
+                                  sfc_name, 
+                                  X = "X", 
+                                  Y = "Y", 
+                                  Z = "Z") {
+  # this is a simplified version of ps_sfc_to_coords
+  chk::chk_s3_class(x, "data.frame")
+  chk::chk_string(sfc_name)
+  chk::chk_string(X)
+  chk::chk_string(Y)
+  chk::chk_string(Z)
+  
+  if(!(class(x[[sfc_name]])[[1]] %in% c("sfc_LINESTRING", "sfc_MULTILINESTRING", "sfc_POINT", "sfc_MULTIPOINT"))){
+    chk::abort_chk("sfc_name '", sfc_name, "' must be point or linestring")
+  }
+  
+  if(class(x[[sfc_name]])[[1]] %in% c("sfc_LINESTRING", "sfc_MULTILINESTRING")){
+    x <- sf::st_cast(x, warn = FALSE, "POINT")
+  }
+  
+  
+  if (!sfc_name %in% check_is_sfc(x)) {
+    chk::abort_chk("sfc_name '", sfc_name, "' is not an sfc column")
+  }
+    
+  x <- tibble::as_tibble(x)
+
+  coords <- sf::st_coordinates(x[[sfc_name]])
+  
+  x[[X]] <- unname(coords[,"X",drop = TRUE])
+  x[[Y]] <- unname(coords[,"Y",drop = TRUE])
+  
+  if("Z" %in% colnames(coords)){
+    x[[Z]] <- coords[,"Z",drop = TRUE]
+  }
+  
+  x[[sfc_name]] <- NULL
+  
+  x
+}
+
+create_blob_object <- function(object, name = substitute(object)) {
+  # this is a simplified version of ps_blob_object 
+  # so poissqlite doesn't need to be a dependency 
+  chk::chk_string(name)
+  
+  file <-  file.path(tempdir(), "object.rds")
+  saveRDS(object, file)
+  
+  #blob <- read_bin_file(file) 
+  n <- file.info(file)$size
+  blob <- readBin(file, what = "integer", n = n, endian = "little")
+  
+  blob <- list(blob)  
+  
+  names(blob) <- tools::file_ext(file)
+  
+  blob <- serialize(blob, NULL)
+  blob <- list(blob)
+  print(blob)
+  blob <- blob::as_blob(blob)
+  print(blob)
+  names(blob) <- file
+  
+  blob
+}
