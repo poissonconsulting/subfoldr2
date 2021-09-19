@@ -27,6 +27,7 @@ Imports:
     grDevices,
     lifecycle,
     png,
+    readwriteaws,
     readwritesqlite,
     RSQLite,
     stats,
