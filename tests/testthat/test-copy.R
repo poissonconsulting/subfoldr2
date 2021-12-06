@@ -1,7 +1,7 @@
 test_that("sbf_copy_db", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   expect_error(sbf_open_db(exists = TRUE),
     "^`file` must specify an existing file [(]'.*dbs/database.sqlite' can't be found[)].$",
@@ -15,7 +15,7 @@ test_that("sbf_copy_db", {
   expect_true(sbf_copy_db(path))
 
   conn <- sbf_open_db()
-  teardown(suppressWarnings(DBI::dbDisconnect(conn)))
+  withr::defer(suppressWarnings(DBI::dbDisconnect(conn)))
   expect_s4_class(conn, "SQLiteConnection")
   expect_true(sbf_close_db(conn))
 })
@@ -23,10 +23,10 @@ test_that("sbf_copy_db", {
 test_that("sbf_copy_db with different name", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   sbf_reset_sub()
-  teardown(sbf_reset_sub(ask = FALSE))
+  withr::defer(sbf_reset_sub(ask = FALSE))
 
   expect_error(sbf_open_db(exists = TRUE),
     "^`file` must specify an existing file [(]'.*dbs/database.sqlite' can't be found[)].$",
@@ -50,7 +50,7 @@ test_that("sbf_copy_db with different name", {
   )
 
   conn <- sbf_open_db("new_one")
-  teardown(suppressWarnings(DBI::dbDisconnect(conn)))
+  withr::defer(suppressWarnings(DBI::dbDisconnect(conn)))
   expect_s4_class(conn, "SQLiteConnection")
   expect_true(sbf_close_db(conn))
 })
@@ -58,7 +58,7 @@ test_that("sbf_copy_db with different name", {
 test_that("sbf_copy_db error messages", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   path <- system.file("extdata", "example.png",
     package = "subfoldr2",

@@ -1,7 +1,7 @@
 test_that("data", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   x <- data.frame(x = 1)
   expect_type(sbf_save_data(x), "character")
@@ -21,7 +21,7 @@ test_that("data", {
 test_that("diff_datas", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   x <- data.frame(x = 1)
   sbf_save_data(x)
@@ -40,7 +40,7 @@ test_that("diff_datas", {
 test_that("diff_datas", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   x <- data.frame(x = 1)
   sbf_save_data(x)
@@ -58,7 +58,7 @@ test_that("diff_datas", {
 test_that("table", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   x <- data.frame(x = 1)
   expect_type(sbf_save_table(x), "character")

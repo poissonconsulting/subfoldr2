@@ -1,7 +1,7 @@
 test_that("is_equal_data", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   x <- data.frame(x = 1)
   expect_type(sbf_save_data(x), "character")
@@ -13,7 +13,8 @@ test_that("is_equal_data", {
   y <- x
   expect_false(sbf_is_equal_data(y))
   expect_identical(names(sbf_is_equal_data(y)), "data/y")
-  expect_equivalent(sbf_is_equal_data(y, exists = NA), NA)
+  expect_equal(sbf_is_equal_data(y, exists = NA), NA,
+               ignore_attr = TRUE)
   expect_false(sbf_is_equal_data(y, exists = TRUE))
   expect_true(sbf_is_equal_data(y, exists = FALSE))
   expect_true(sbf_is_equal_data(y, "x"))
@@ -26,7 +27,7 @@ test_that("is_equal_data", {
 test_that("is_equal_datas", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   x <- data.frame(x = 1)
   sbf_save_data(x)
@@ -63,7 +64,7 @@ test_that("is_equal_datas", {
 test_that("is_equal_datas", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   x <- data.frame(x = 1)
   sbf_save_data(x)

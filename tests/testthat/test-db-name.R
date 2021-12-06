@@ -1,7 +1,7 @@
 test_that("db_name", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   expect_identical(sbf_reset_db_name(), "database")
   expect_identical(sbf_get_db_name(), "database")

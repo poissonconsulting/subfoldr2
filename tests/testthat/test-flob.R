@@ -1,7 +1,7 @@
 test_that("datas_to_db", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   sbf_create_db()
 
@@ -23,7 +23,7 @@ test_that("datas_to_db", {
 
   flob <- flobr::flob_obj
   conn <- sbf_open_db()
-  teardown(sbf_close_db(conn))
+  withr::defer(sbf_close_db(conn))
   dbflobr::write_flob(flob, "New", "df", key = data.frame(char = "a", num = 1), conn)
 
   expect_identical(sbf_save_flobs_from_db(), list(`df/New` = c(flobr.pdf = "a_-_1.pdf")))

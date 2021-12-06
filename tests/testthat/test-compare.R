@@ -1,7 +1,7 @@
 test_that("compare", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   x <- data.frame(x = 1)
   expect_type(sbf_save_data(x), "character")
@@ -19,7 +19,7 @@ test_that("compare", {
 test_that("compare_datas", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   x <- data.frame(x = 1)
   sbf_save_data(x)
@@ -62,7 +62,7 @@ test_that("compare_datas", {
 test_that("compare_datas", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   x <- data.frame(x = 1)
   sbf_save_data(x)
