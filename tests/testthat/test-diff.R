@@ -4,15 +4,15 @@ test_that("data", {
   teardown(sbf_reset())
 
   x <- data.frame(x = 1)
-  expect_is(sbf_save_data(x), "character")
+  expect_type(sbf_save_data(x), "character")
   expect_identical(sbf_load_data("x"), x)
 
-  expect_is(sbf_diff_data(x), "data_diff")
+  expect_s3_class(sbf_diff_data(x), "data_diff")
 
   y <- x
   expect_error(sbf_diff_data(y, exists = TRUE))
-  expect_is(sbf_diff_data(y), "data_diff")
-  expect_is(sbf_diff_data(y, "x"), "data_diff")
+  expect_s3_class(sbf_diff_data(y), "data_diff")
+  expect_s3_class(sbf_diff_data(y, "x"), "data_diff")
   x <- 1
   expect_error(sbf_diff_data(x))
 })
@@ -32,9 +32,9 @@ test_that("diff_datas", {
   archive2 <- sbf_archive_main(ask = FALSE)
 
   diff <- sbf_diff_datas(main = archive1, archive = archive2)
-  expect_is(diff, "list")
+  expect_type(diff, "list")
   expect_identical(names(diff), "data/x")
-  expect_is(diff[[1]], "data_diff")
+  expect_s3_class(diff[[1]], "data_diff")
 })
 
 test_that("diff_datas", {
@@ -51,8 +51,8 @@ test_that("diff_datas", {
 
   diff <- sbf_diff_datas()
   expect_identical(names(diff), c("data/x", "data/y"))
-  expect_is(diff[[1]], "data_diff")
-  expect_is(diff[[2]], "data_diff")
+  expect_s3_class(diff[[1]], "data_diff")
+  expect_s3_class(diff[[2]], "data_diff")
 })
 
 test_that("table", {
@@ -61,15 +61,15 @@ test_that("table", {
   teardown(sbf_reset())
 
   x <- data.frame(x = 1)
-  expect_is(sbf_save_table(x), "character")
+  expect_type(sbf_save_table(x), "character")
   expect_identical(sbf_load_table("x"), x)
 
-  expect_is(sbf_diff_table(x), "data_diff")
+  expect_s3_class(sbf_diff_table(x), "data_diff")
 
   y <- x
   expect_error(sbf_diff_table(y, exists = TRUE))
-  expect_is(sbf_diff_table(y), "data_diff")
-  expect_is(sbf_diff_table(y, "x"), "data_diff")
+  expect_s3_class(sbf_diff_table(y), "data_diff")
+  expect_s3_class(sbf_diff_table(y, "x"), "data_diff")
   x <- 1
   expect_error(sbf_diff_table(x))
 })

@@ -8,6 +8,6 @@ test_that("create-db", {
   expect_true(sbf_create_db())
 
   conn <- sbf_open_db(exists = TRUE)
-  expect_is(conn, "SQLiteConnection")
+  expect_s4_class(conn, "SQLiteConnection")
   expect_true(sbf_close_db(conn))
 })

@@ -43,8 +43,8 @@ test_that("db", {
 
   conn <- sbf_open_db("x", exists = NA)
   teardown(suppressWarnings(DBI::dbDisconnect(conn)))
-  expect_is(conn, "SQLiteConnection")
+  expect_s4_class(conn, "SQLiteConnection")
   expect_true(sbf_close_db(conn))
-  expect_is(conn, "SQLiteConnection")
+  expect_s4_class(conn, "SQLiteConnection")
   expect_warning(sbf_close_db(conn), "Already disconnected")
 })

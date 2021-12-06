@@ -4,7 +4,7 @@ test_that("is_equal_data", {
   teardown(sbf_reset())
 
   x <- data.frame(x = 1)
-  expect_is(sbf_save_data(x), "character")
+  expect_type(sbf_save_data(x), "character")
   expect_identical(sbf_load_data("x"), x)
 
   expect_true(sbf_is_equal_data(x))

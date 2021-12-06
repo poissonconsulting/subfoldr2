@@ -16,7 +16,7 @@ test_that("sbf_copy_db", {
 
   conn <- sbf_open_db()
   teardown(suppressWarnings(DBI::dbDisconnect(conn)))
-  expect_is(conn, "SQLiteConnection")
+  expect_s4_class(conn, "SQLiteConnection")
   expect_true(sbf_close_db(conn))
 })
 
@@ -51,7 +51,7 @@ test_that("sbf_copy_db with different name", {
 
   conn <- sbf_open_db("new_one")
   teardown(suppressWarnings(DBI::dbDisconnect(conn)))
-  expect_is(conn, "SQLiteConnection")
+  expect_s4_class(conn, "SQLiteConnection")
   expect_true(sbf_close_db(conn))
 })
 
