@@ -179,8 +179,8 @@ sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x_name <- chk_deparse(x_name)
   chk_string(x_name)
   chk_gt(nchar(x_name))
-  chk_s3_class(sub, "character")
-  chk_range(length(sub), c(0L, 1L))
+  chk_character(sub)
+  chk_range(length(sub))
   chk_string(main)
 
   sub <- sanitize_path(sub)
@@ -201,8 +201,8 @@ sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x_name <- chk_deparse(x_name)
   chk_string(x_name)
   chk_gt(nchar(x_name))
-  chk_s3_class(sub, "character")
-  chk_range(length(sub), c(0L, 1L))
+  chk_character(sub)
+  chk_range(length(sub))
   chk_string(main)
 
   sub <- sanitize_path(sub)
@@ -224,8 +224,8 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x <- as.double(x)
   chk_string(x_name)
   chk_gt(nchar(x_name))
-  chk_s3_class(sub, "character")
-  chk_range(length(sub), c(0L, 1L))
+  chk_character(sub)
+  chk_range(length(sub))
   chk_string(main)
 
   sub <- sanitize_path(sub)
@@ -251,8 +251,8 @@ sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   chk_string(x)
   chk_string(x_name)
   chk_gt(nchar(x_name))
-  chk_s3_class(sub, "character")
-  chk_range(length(sub), c(0L, 1L))
+  chk_character(sub)
+  chk_range(length(sub))
   chk_string(main)
 
   chk_flag(report)
@@ -290,8 +290,8 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   }
   chk_string(x_name)
   chk_gt(nchar(x_name))
-  chk_s3_class(sub, "character")
-  chk_range(length(sub), c(0L, 1L))
+  chk_character(sub)
+  chk_range(length(sub))
   chk_string(main)
 
   chk_string(caption)
@@ -324,8 +324,8 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x_name <- chk_deparse(x_name)
   chk_string(x_name)
   chk_gt(nchar(x_name))
-  chk_s3_class(sub, "character")
-  chk_range(length(sub), c(0L, 1L))
+  chk_character(sub)
+  chk_range(length(sub))
   chk_string(main)
 
   chk_string(caption)
@@ -373,8 +373,8 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   }
   chk_string(x_name)
   chk_gt(nchar(x_name))
-  chk_s3_class(sub, "character")
-  chk_range(length(sub), c(0L, 1L))
+  chk_character(sub)
+  chk_range(length(sub))
   chk_string(main)
 
   chk_string(caption)
@@ -434,8 +434,8 @@ sbf_save_window <- function(x_name = "window",
                             dpi = 300) {
   chk_string(x_name)
   chk_gt(nchar(x_name))
-  chk_s3_class(sub, "character")
-  chk_range(length(sub), c(0L, 1L))
+  chk_character(sub)
+  chk_range(length(sub))
   chk_string(main)
   chk_string(caption)
   chk_flag(report)
@@ -508,8 +508,8 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
   chk_ext(x, "png")
   chk_string(x_name)
   chk_gt(nchar(x_name))
-  chk_s3_class(sub, "character")
-  chk_range(length(sub), c(0L, 1L))
+  chk_character(sub)
+  chk_range(length(sub))
   chk_string(main)
 
   chk_string(caption)
@@ -571,7 +571,7 @@ sbf_save_excel <- function(x,
   chk::chk_gt(nchar(x_name))
   chk::chk_integer(max_sheets)
   chk::chk_gt(max_sheets)
-  chk::chk_s3_class(sub, "character")
+  chk::chk_character(sub)
   chk::chk_range(length(sub))
   chk::chk_string(main)
   chk::chk_null_or(epgs, chk::chk_number)
@@ -609,7 +609,7 @@ sbf_save_workbook <- function(workbook_name = basename(getwd()),
                               env = parent.frame(),
                               epgs = NULL) {
   chk::chk_string(workbook_name)
-  chk::chk_s3_class(sub, "character")
+  chk::chk_character(sub)
   chk::chk_range(length(sub))
   chk::chk_string(main)
   chk::chk_null_or(epgs, chk::chk_number)
