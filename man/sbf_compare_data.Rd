@@ -18,9 +18,11 @@ sbf_compare_data(
 
 \item{x_name}{A string of the name.}
 
-\item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+\item{sub}{A string specifying the path to the sub folder (by default the
+current sub folder).}
 
-\item{main}{A string specifying the path to the main folder (by default the current main folder)}
+\item{main}{A string specifying the path to the main folder (by default the
+current main folder)}
 
 \item{tolerance}{numeric \eqn{\ge} 0.  Differences smaller than
     \code{tolerance} are not reported.  The default value is close to

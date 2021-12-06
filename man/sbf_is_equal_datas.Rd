@@ -19,9 +19,11 @@ sbf_is_equal_datas(
 \arguments{
 \item{x_name}{A string of the name.}
 
-\item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+\item{sub}{A string specifying the path to the sub folder (by default the
+current sub folder).}
 
-\item{main}{A string specifying the path to the main folder (by default the current main folder)}
+\item{main}{A string specifying the path to the main folder (by default the
+current main folder)}
 
 \item{archive}{A positive whole number specifying the folder archived folder
 where 1L (the default) indicates the most recently archived folder or
@@ -29,7 +31,8 @@ a character string of the path to the archived folder.}
 
 \item{recursive}{A flag specifying whether to recurse into subfolders.}
 
-\item{include_root}{A flag indicating whether to include objects in the top sub folder.}
+\item{include_root}{A flag indicating whether to include objects in the top
+sub folder.}
 
 \item{exists}{A logical scalar specifying whether the file should exist.}
 

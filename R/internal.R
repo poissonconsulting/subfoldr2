@@ -77,7 +77,10 @@ sub_name <- function(data) {
     return(data)
   }
   data <- data[!grepl("^sub\\d", colnames(data))]
-  data$sub <- apply(sub, MARGIN = 1, function(x) paste0(na_omit(x), collapse = "/"))
+  data$sub <- apply(sub,
+    MARGIN = 1,
+    function(x) paste0(na_omit(x), collapse = "/")
+  )
   if (ncol(sub) > 1) data <- cbind(data, sub)
   data
 }
@@ -253,11 +256,13 @@ convert_coords_to_sfc <- function(x,
 
   x <- tibble::as_tibble(x)
 
-  x$..ID_coords <- 1:nrow(x)
+  x$..ID_coords <- seq_len(nrow(x))
 
   y <- x[!is.na(x[[coords[1]]]) & !is.na(x[[coords[2]]]), ]
 
-  sfc <- sf::st_multipoint(matrix(c(y[[coords[1]]], y[[coords[2]]]), ncol = 2), dim = "XY")
+  sfc <- sf::st_multipoint(matrix(c(y[[coords[1]]], y[[coords[2]]]), ncol = 2),
+    dim = "XY"
+  )
   sfc <- sf::st_sfc(sfc, crs = 4326)
   sfc <- sf::st_cast(sfc, "POINT")
 
@@ -329,14 +334,11 @@ convert_sfc_to_coords <- function(x,
 }
 
 create_blob_object <- function(object, name = substitute(object)) {
-  # this is a simplified version of ps_blob_object
-  # so poissqlite doesn't need to be a dependency
   chk::chk_string(name)
 
   file <- file.path(tempdir(), "object.rds")
   saveRDS(object, file)
 
-  # blob <- read_bin_file(file)
   n <- file.info(file)$size
   blob <- readBin(file, what = "integer", n = n, endian = "little")
 

@@ -12,5 +12,6 @@ sbf_open_window(width = 6, height = width)
 \item{height}{A positive number of the plotting area height in inches.}
 }
 \description{
-Opens a graphics window on any platform. By default the window is 6 x 6 inches.
+Opens a graphics window on any platform. By default the window is
+6 x 6 inches.
 }

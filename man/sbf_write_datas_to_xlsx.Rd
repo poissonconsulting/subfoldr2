@@ -18,7 +18,8 @@ sbf_write_datas_to_xlsx(
 
 \item{env}{An environment.}
 
-\item{ask}{A flag specifying whether to ask before deleting an existing database (if exists = FALSE).}
+\item{ask}{A flag specifying whether to ask before deleting an existing
+database (if exists = FALSE).}
 }
 \value{
 An invisible character vector of the names of the data frames.

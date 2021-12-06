@@ -1,4 +1,10 @@
-list_files <- function(x_name, class, sub, main, recursive, include_root, ext = "rds") {
+list_files <- function(x_name,
+                       class,
+                       sub,
+                       main,
+                       recursive,
+                       include_root,
+                       ext = "rds") {
   chk_string(x_name)
   chk_s3_class(sub, "character")
   chk_range(length(sub), c(0L, 1L))
@@ -94,7 +100,8 @@ sbf_list_tables <- function(x_name = ".*", sub = sbf_get_sub(),
 
 #' Gets List of Number Files as a Character Vector
 #'
-#' Returns file paths for all number .rds files matching regular expression x_name.
+#' Returns file paths for all number .rds files matching regular expression
+#' x_name.
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_list_objects
@@ -114,7 +121,8 @@ sbf_list_numbers <- function(x_name = ".*", sub = sbf_get_sub(),
 
 #' Gets List of String Files as a Character Vector
 #'
-#' Returns file paths for all string .rds files matching regular expression x_name.
+#' Returns file paths for all string .rds files matching regular expression
+#' x_name.
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_list_objects

@@ -73,7 +73,11 @@ test_that("compare_datas", {
   archive2 <- sbf_archive_main(ask = FALSE)
 
 
-  comparison <- sbf_compare_datas(main = archive1, archive = archive2, tolerance = 0.1)
+  comparison <- sbf_compare_datas(
+    main = archive1,
+    archive = archive2,
+    tolerance = 0.1
+  )
 
   expect_is(comparison, "list")
   expect_identical(names(comparison), "data/x")
