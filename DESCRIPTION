@@ -50,8 +50,6 @@ Suggests:
     waldo,
     withr
 Remotes:
-    poissonconsulting/flobr,
-    poissonconsulting/dbflobr,
     poissonconsulting/readwriteaws
 RdMacros: 
     lifecycle
