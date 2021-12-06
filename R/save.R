@@ -982,6 +982,11 @@ sbf_save_aws_files <- function(bucket_name,
                                aws_access_key_id = Sys.getenv("AWS_ACCESS_KEY_ID"),
                                aws_secret_access_key = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
                                region = Sys.getenv("AWS_REGION", "ca-central-1")) {
+  
+  if (!requireNamespace("readwriteaws")) {
+    err("Package 'readwriteaws' must be installed.")
+  }
+    
   file_list <- readwriteaws::rwa_list_su_files(
     bucket_name = bucket_name,
     data_type = data_type,

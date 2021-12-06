@@ -27,7 +27,6 @@ Imports:
     grDevices,
     lifecycle,
     png,
-    readwriteaws,
     readwritesqlite,
     RSQLite,
     stats,
@@ -45,13 +44,12 @@ Suggests:
     glue,
     sf,
     readxl,
+    readwriteaws,
     testthat,
     units,
     waldo,
     withr
 Remotes:
-    poissonconsulting/flobr,
-    poissonconsulting/dbflobr,
     poissonconsulting/readwriteaws
 RdMacros: 
     lifecycle
