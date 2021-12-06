@@ -22,8 +22,8 @@ sbf_copy_db <- function(path, db_name = sbf_get_db_name(),
   chk_file(path)
 
   chk_string(db_name)
-  chk_s3_class(sub, "character")
-  chk_range(length(sub), c(0L, 1L))
+  chk_character()
+  chk_range(length(sub))
   chk_string(main)
   chk_lgl(exists)
 

@@ -14,8 +14,8 @@ sbf_open_pdf <- function(x_name = "plots",
                          height = width) {
   chk_string(x_name)
   chk_gt(nchar(x_name))
-  chk_s3_class(sub, "character")
-  chk_range(length(sub), c(0L, 1L))
+  chk_character()
+  chk_range(length(sub))
   chk_string(main)
   chk_number(width)
   chk_gt(width)
@@ -62,8 +62,8 @@ sbf_open_db <- function(db_name = sbf_get_db_name(),
                         tag = NULL,
                         ask = getOption("sbf.ask", TRUE)) {
   chk_string(db_name)
-  chk_s3_class(sub, "character")
-  chk_range(length(sub), c(0L, 1L))
+  chk_character()
+  chk_range(length(sub))
   chk_string(main)
   chk_lgl(exists)
   chk_lgl(report)
