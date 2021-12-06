@@ -11,13 +11,15 @@ sbf_unarchive_main(
 )
 }
 \arguments{
-\item{main}{A string specifying the path to the main folder (by default the current main folder)}
+\item{main}{A string specifying the path to the main folder (by default the
+current main folder)}
 
 \item{archive}{A positive whole number specifying the folder archived folder
 where 1L (the default) indicates the most recently archived folder or
 a character string of the path to the archived folder.}
 
-\item{ask}{A flag specifying whether to ask before removing the existing folder.}
+\item{ask}{A flag specifying whether to ask before removing the existing
+folder.}
 }
 \value{
 An invisible string of the path to the previously archived folder.

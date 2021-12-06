@@ -7,7 +7,8 @@
 sbf_get_db_name()
 }
 \value{
-A string specifying the current database name (without the extension or path).
+A string specifying the current database name (without the extension
+or path).
 }
 \description{
 Gets database name (without the extension or path).

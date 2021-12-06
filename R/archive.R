@@ -10,7 +10,9 @@
 #' @return An invisible string of the path to the archived folder.
 #' @family  archive
 #' @export
-sbf_archive_main <- function(main = sbf_get_main(), ask = getOption("sbf.ask", TRUE), tz = dtt_default_tz()) {
+sbf_archive_main <- function(main = sbf_get_main(),
+                             ask = getOption("sbf.ask", TRUE),
+                             tz = dtt_default_tz()) {
   chk_dir(main)
   chk_flag(ask)
   chk_string(tz)
@@ -45,7 +47,9 @@ sbf_archive_main <- function(main = sbf_get_main(), ask = getOption("sbf.ask", T
 #' @return An invisible string of the path to the previously archived folder.
 #' @family  archive
 #' @export
-sbf_unarchive_main <- function(main = sbf_get_main(), archive = 1L, ask = getOption("sbf.ask", TRUE)) {
+sbf_unarchive_main <- function(main = sbf_get_main(),
+                               archive = 1L,
+                               ask = getOption("sbf.ask", TRUE)) {
   if (!vld_whole_number(archive) && !vld_dir(archive)) {
     chkor_vld(vld_whole_number(archive), vld_dir(archive))
   }
@@ -80,14 +84,27 @@ sbf_get_archive <- function(main = sbf_get_main(), archive = 1L) {
   chk_whole_number(archive)
   chk_gt(archive)
 
-  files <- fs::dir_ls(dirname(main), type = "directory", regexp = ".*-\\d{4,4}(-\\d{2,2}){5,5}$")
+  files <- fs::dir_ls(dirname(main),
+    type = "directory",
+    regexp = ".*-\\d{4,4}(-\\d{2,2}){5,5}$"
+  )
 
   if (!length(files)) {
-    stop("There are no archived folders for '", basename(main), "' in '", dirname(main), "'.")
+    stop(
+      "There are no archived folders for '",
+      basename(main), "' in '",
+      dirname(main), "'."
+    )
   }
 
   if (length(files) < archive) {
-    stop("There are only ", length(files), " archived folders for '", basename(main), "' in '", dirname(main), "'.")
+    stop(
+      "There are only ",
+      length(files),
+      " archived folders for '",
+      basename(main), "' in '",
+      dirname(main), "'."
+    )
   }
 
   files <- rev(sort(files))

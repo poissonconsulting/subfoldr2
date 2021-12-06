@@ -16,19 +16,25 @@ sbf_load_blocks_recursive(
 \arguments{
 \item{x_name}{A string of the name.}
 
-\item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+\item{sub}{A string specifying the path to the sub folder (by default the
+current sub folder).}
 
-\item{main}{A string specifying the path to the main folder (by default the current main folder)}
+\item{main}{A string specifying the path to the main folder (by default the
+current main folder)}
 
-\item{include_root}{A flag indicating whether to include objects in the top sub folder.}
+\item{include_root}{A flag indicating whether to include objects in the top
+sub folder.}
 
-\item{tag}{A string of the regular expression that the tag must match to be included.}
+\item{tag}{A string of the regular expression that the tag must match to be
+included.}
 
-\item{meta}{A flag specifying whether to include the report, caption and any other metadata as columns.}
+\item{meta}{A flag specifying whether to include the report, caption and any
+other metadata as columns.}
 }
 \description{
-Recursively loads all the code blocks with names matching the regular expression x_name as the
-the first character column (named blocks) in a data frame.
+Recursively loads all the code blocks with names matching the regular
+expression x_name as the first character column (named blocks) in a data
+frame.
 Subsequent character vector columns specify the object names (named name)
 and sub folders (named sub1, sub2 etc).
 }

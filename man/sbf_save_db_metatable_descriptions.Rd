@@ -18,13 +18,17 @@ sbf_save_db_metatable_descriptions(
 
 \item{db_name}{A string of the database name.}
 
-\item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+\item{sub}{A string specifying the path to the sub folder (by default the
+current sub folder).}
 
-\item{main}{A string specifying the path to the main folder (by default the current main folder)}
+\item{main}{A string specifying the path to the main folder (by default the
+current main folder)}
 
-\item{overwrite}{A flag specifying whether to overwrite existing descriptions.}
+\item{overwrite}{A flag specifying whether to overwrite existing
+descriptions.}
 
-\item{strict}{A flag specifying whether to error if x has extraneous descriptions.}
+\item{strict}{A flag specifying whether to error if x has extraneous
+descriptions.}
 }
 \value{
 A invisible data.frame of the altered descriptions.

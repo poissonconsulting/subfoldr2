@@ -21,9 +21,11 @@ is the base name of the current working directory.}
 
 \item{exclude_tables}{A regular expression listing tables to be excluded.}
 
-\item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+\item{sub}{A string specifying the path to the sub folder (by default the
+current sub folder).}
 
-\item{main}{A string specifying the path to the main folder (by default the current main folder)}
+\item{main}{A string specifying the path to the main folder (by default the
+current main folder)}
 
 \item{epgs}{The projection to convert to}
 }

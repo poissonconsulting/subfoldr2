@@ -5,7 +5,10 @@ test_that("path object", {
 
   expect_match(sbf_path_object("x"), ".*/objects/x[.]rds")
   expect_match(sbf_path_object("x", exists = FALSE), ".*/objects/x[.]rds")
-  chk::expect_chk_error(sbf_path_object("x", exists = TRUE), "`x_name` must specify existing files")
+  chk::expect_chk_error(
+    sbf_path_object("x", exists = TRUE),
+    "`x_name` must specify existing files"
+  )
 })
 
 test_that("path db", {

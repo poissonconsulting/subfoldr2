@@ -7,10 +7,12 @@
 sbf_set_db_name(db_name = "database")
 }
 \arguments{
-\item{db_name}{A string specifying the new database name (without the extension or path).}
+\item{db_name}{A string specifying the new database name
+(without the extension or path).}
 }
 \value{
-An invisible string specifying the new database name (without the extension or path).
+An invisible string specifying the new database name
+(without the extension or path).
 }
 \description{
 Sets database name option (without the extension or path).

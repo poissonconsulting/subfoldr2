@@ -26,7 +26,10 @@ test_that("pdf", {
 
   expect_identical(sbf_set_sub("sub"), "sub")
   expect_identical(dev.cur(), c("null device" = 1L))
-  expect_identical(sbf_open_pdf("x2"), file.path(sbf_get_main(), "pdfs/sub/x2.pdf"))
+  expect_identical(
+    sbf_open_pdf("x2"),
+    file.path(sbf_get_main(), "pdfs/sub/x2.pdf")
+  )
   expect_identical(dev.cur(), c("pdf" = 2L))
   expect_identical(sbf_close_pdf(), c("null device" = 1L))
   expect_identical(dev.cur(), c("null device" = 1L))
@@ -39,7 +42,10 @@ test_that("db", {
 
   teardown(graphics.off())
 
-  expect_error(sbf_open_db("x"), "^`file` must specify an existing file [(]'.*dbs/x.sqlite' can't be found[)].$", class = "chk_error")
+  expect_error(sbf_open_db("x"),
+    "^`file` must specify an existing file [(]'.*dbs/x.sqlite' can't be found[)].$",
+    class = "chk_error"
+  )
 
   conn <- sbf_open_db("x", exists = NA)
   teardown(suppressWarnings(DBI::dbDisconnect(conn)))

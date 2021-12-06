@@ -18,23 +18,30 @@ sbf_open_db(
 \arguments{
 \item{db_name}{A string of the database name.}
 
-\item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+\item{sub}{A string specifying the path to the sub folder (by default the
+current sub folder).}
 
-\item{main}{A string specifying the path to the main folder (by default the current main folder)}
+\item{main}{A string specifying the path to the main folder (by default the
+current main folder)}
 
-\item{exists}{A logical scalar specifying whether the database must already exist.}
+\item{exists}{A logical scalar specifying whether the database must already
+exist.}
 
 \item{caption}{A string specifying the database metadata table caption.
 If NULL the caption is unchanged.
-If the caption is not specified for a databases it is set to be "". Deprecated.}
+If the caption is not specified for a databases it is set to be "".
+Deprecated.}
 
-\item{report}{A logical scalar specifying whether to include the database metadata table in the report.
+\item{report}{A logical scalar specifying whether to include the database
+metadata table in the report.
 If report = NA the setting is not changed. Soft-deprecated.
-If the report status is not specified for a databases it is included in the report. deprecated.}
+If the report status is not specified for a databases it is included in the
+report. deprecated.}
 
 \item{tag}{A string of the tag. Deprecated.}
 
-\item{ask}{A flag specifying whether to ask before deleting an existing database (if exists = FALSE).}
+\item{ask}{A flag specifying whether to ask before deleting an existing
+database (if exists = FALSE).}
 }
 \description{
 Opens a \code{\linkS4class{SQLiteConnection}} to a SQLite database.

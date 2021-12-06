@@ -20,20 +20,23 @@ sbf_save_flobs_from_db(
 of the same name (sub = TRUE) or all possible files in a subdirectory
 of the same name (sub = NA) or not nest files within a subdirectory (sub = FALSE).}
 
-\item{main}{A string specifying the path to the main folder (by default the current main folder)}
+\item{main}{A string specifying the path to the main folder (by default the
+current main folder)}
 
 \item{dir}{A string of the path to the directory to save the files in.}
 
-\item{dbflobr_sub}{A logical specifying whether to save all existing files in a subdirectory
-of the same name (dbflobr_sub = TRUE) or all possible files in a subdirectory
-of the same name (dbflobr_sub = NA) or not nest files within a subdirectory (dbflobr_sub = FALSE).}
+\item{dbflobr_sub}{A logical specifying whether to save all existing files
+in a subdirectory of the same name (dbflobr_sub = TRUE) or all possible files
+in a subdirectory of the same name (dbflobr_sub = NA) or not nest files
+within a subdirectory (dbflobr_sub = FALSE).}
 
 \item{replace}{A flag specifying whether to replace existing files.
 If sub = TRUE (or sub = NA) and replace = TRUE then all existing files
 within a subdirectory are deleted.}
 }
 \value{
-An invisible named list of named vectors of the file names and new file names saved.
+An invisible named list of named vectors of the file names and new
+file names saved.
 }
 \description{
 Saves and systematically renames

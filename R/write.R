@@ -5,7 +5,8 @@
 #'
 #' @param exists A logical scalar specifying whether the file should exist.
 #' @param path A string of the path to the xlsx file (with the extension).
-#' @param ask A flag specifying whether to ask before deleting an existing database (if exists = FALSE).
+#' @param ask A flag specifying whether to ask before deleting an existing
+#' database (if exists = FALSE).
 #' @inheritParams sbf_save_objects
 #'
 #' @return An invisible character vector of the names of the data frames.
@@ -20,7 +21,6 @@ sbf_write_datas_to_xlsx <- function(path, exists = NA, env = parent.frame(),
   if (!requireNamespace("writexl", quietly = TRUE)) {
     stop("Please `install.packages('writexl')`.", call. = FALSE)
   }
-
 
   if (isTRUE(exists)) chk_file(file)
 
