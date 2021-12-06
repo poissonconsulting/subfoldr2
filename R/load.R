@@ -159,8 +159,8 @@ sbf_load_db_metatable <- function(db_name = sbf_get_db_name(),
 }
 
 load_rdss <- function(class, sub, main, env, rename, fun = NULL) {
-  chk_s3_class(sub, "character")
-  chk_range(length(sub), c(0L, 1L))
+  chk_character(sub)
+  chk_range(length(sub))
   chk_string(main)
 
   chk_s3_class(env, "environment")
@@ -326,8 +326,8 @@ load_rdss_recursive <- function(x_name, class, sub, main, include_root,
                                 tag = ".*", meta = FALSE,
                                 fun = NULL, ext = "rds") {
   chk_string(x_name)
-  chk_s3_class(sub, "character")
-  chk_range(length(sub), c(0L, 1L))
+  chk_character(sub)
+  chk_range(length(sub))
   chk_string(main)
   chk_flag(include_root)
   chk_string(tag)
@@ -384,8 +384,8 @@ subs_rds_recursive <- function(x_name,
                                include_root,
                                ext = "rds") {
   chk_string(x_name)
-  chk_s3_class(sub, "character")
-  chk_range(length(sub), c(0L, 1L))
+  chk_character(sub)
+  chk_range(length(sub))
   chk_string(main)
   chk_flag(include_root)
 
