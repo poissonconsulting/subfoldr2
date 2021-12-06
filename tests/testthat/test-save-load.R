@@ -6,9 +6,18 @@ test_that("object", {
   x <- 1
   expect_warning(sbf_load_objects(), "no objects to load")
 
-  expect_error(sbf_save_object(x_name = "x"), "argument \"x\" is missing, with no default")
-  expect_error(sbf_save_object(), "^`nchar[(]x_name[)]` must be greater than 0, not 0[.]$", class = "chk_error")
-  expect_identical(sbf_save_object(x), file.path(sbf_get_main(), "objects/x.rds"))
+  expect_error(
+    sbf_save_object(x_name = "x"),
+    "argument \"x\" is missing, with no default"
+  )
+  expect_error(sbf_save_object(),
+    "^`nchar[(]x_name[)]` must be greater than 0, not 0[.]$",
+    class = "chk_error"
+  )
+  expect_identical(
+    sbf_save_object(x),
+    file.path(sbf_get_main(), "objects/x.rds")
+  )
   expect_identical(sbf_load_object("x"), x)
   expect_identical(sbf_load_object("x", exists = NA), x)
   chk::expect_chk_error(sbf_load_object("x", exists = FALSE))
@@ -76,9 +85,12 @@ test_that("object", {
   )
 
   data <- sbf_load_objects_recursive(sub = character(0))
-  expect_s3_class(data, "tbl_df")
-  expect_identical(colnames(data), c("objects", "name", "sub", "sub1", "sub2", "file"))
-  expect_type(data$objects, "list")
+  expect_is(data, "tbl_df")
+  expect_identical(
+    colnames(data),
+    c("objects", "name", "sub", "sub1", "sub2", "file")
+  )
+  expect_is(data$objects, "list")
   expect_identical(unlist(data$objects), c(x, x, y))
   expect_identical(data$name, c("x", "x", "y"))
   expect_identical(data$sub1, c("t2", NA, NA))
@@ -94,8 +106,11 @@ test_that("object", {
   )
 
   data <- sbf_load_objects_recursive(sub = character(0), include_root = FALSE)
-  expect_s3_class(data, "tbl_df")
-  expect_identical(colnames(data), c("objects", "name", "sub", "sub1", "sub2", "file"))
+  expect_is(data, "tbl_df")
+  expect_identical(
+    colnames(data),
+    c("objects", "name", "sub", "sub1", "sub2", "file")
+  )
   expect_identical(unlist(data$objects), x)
   expect_identical(data$name, "x")
   expect_identical(data$sub, "t2/t3")
@@ -106,7 +121,10 @@ test_that("object", {
     file.path(sbf_get_main(), "objects/t2/t3/x.rds")
   )
 
-  data2 <- sbf_load_objects_recursive("^x", sub = character(0), include_root = FALSE)
+  data2 <- sbf_load_objects_recursive("^x",
+    sub = character(0),
+    include_root = FALSE
+  )
   expect_identical(data2, data)
 
   data <- sbf_load_objects_recursive(sub = "t2")
@@ -123,7 +141,10 @@ test_that("object", {
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   chk::expect_chk_error(sbf_load_object("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
-  expect_identical(sbf_save_object(x), file.path(sbf_get_main(), "objects/sub/x.rds"))
+  expect_identical(
+    sbf_save_object(x),
+    file.path(sbf_get_main(), "objects/sub/x.rds")
+  )
   expect_identical(sbf_load_object("x"), x)
   expect_identical(sbf_load_object("x", exists = NA), x)
   chk::expect_chk_error(sbf_load_object("x", exists = FALSE))
@@ -142,20 +163,32 @@ test_that("object", {
   sbf_save_object(x)
 
   data <- sbf_load_objects_recursive(sub = character(0))
-  expect_s3_class(data, "tbl_df")
-  expect_identical(colnames(data), c("objects", "name", "sub", "file"))
+  expect_is(data, "tbl_df")
+  expect_identical(
+    colnames(data),
+    c("objects", "name", "sub", "file")
+  )
   expect_identical(data$sub, c("one"))
 
   sbf_set_sub("one", "two")
   sbf_save_object(x)
 
   data <- sbf_load_objects_recursive(sub = character(0))
-  expect_s3_class(data, "tbl_df")
-  expect_identical(colnames(data), c("objects", "name", "sub", "sub1", "sub2", "file"))
+  expect_is(data, "tbl_df")
+  expect_identical(
+    colnames(data),
+    c("objects", "name", "sub", "sub1", "sub2", "file")
+  )
   expect_identical(data$sub, c("one/two", "one"))
 
-  expect_identical(sbf_subs_object_recursive("x", sub = character(0)), c("one/two", "one"))
-  expect_identical(sbf_subs_object_recursive("x2", sub = character(0)), character(0))
+  expect_identical(
+    sbf_subs_object_recursive("x", sub = character(0)),
+    c("one/two", "one")
+  )
+  expect_identical(
+    sbf_subs_object_recursive("x2", sub = character(0)),
+    character(0)
+  )
 })
 
 test_that("data", {
@@ -167,7 +200,10 @@ test_that("data", {
   expect_warning(sbf_load_datas(), "no data to load")
 
   expect_error(sbf_save_data(), "argument \"x\" is missing, with no default")
-  expect_error(sbf_save_data(y), "^`x` must inherit from S3 class 'data.frame'[.]$", class = "chk_error")
+  expect_error(sbf_save_data(y),
+    "^`x` must inherit from S3 class 'data.frame'[.]$",
+    class = "chk_error"
+  )
   x <- data.frame(x = 1)
   expect_identical(sbf_save_data(x), file.path(sbf_get_main(), "data/x.rds"))
   expect_identical(sbf_load_data("x"), x)
@@ -212,7 +248,10 @@ test_that("data", {
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   chk::expect_chk_error(sbf_load_data("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
-  expect_identical(sbf_save_data(x), file.path(sbf_get_main(), "data/sub/x.rds"))
+  expect_identical(
+    sbf_save_data(x),
+    file.path(sbf_get_main(), "data/sub/x.rds")
+  )
   expect_identical(sbf_load_data("x"), x)
   expect_identical(sbf_load_data("x", exists = NA), x)
   chk::expect_chk_error(sbf_load_data("x", exists = FALSE))
@@ -228,10 +267,19 @@ test_that("number", {
 
   y <- numeric(0)
   expect_warning(sbf_load_numbers(), "no numbers to load")
-  expect_error(sbf_save_number(), "argument \"x\" is missing, with no default")
-  expect_error(sbf_save_number(y), "^`x` must be a number [(]non-missing numeric scalar[)][.]$", class = "chk_error")
+  expect_error(
+    sbf_save_number(),
+    "argument \"x\" is missing, with no default"
+  )
+  expect_error(sbf_save_number(y),
+    "^`x` must be a number [(]non-missing numeric scalar[)][.]$",
+    class = "chk_error"
+  )
   x <- 1L
-  expect_identical(sbf_save_number(x), file.path(sbf_get_main(), "numbers/x.rds"))
+  expect_identical(
+    sbf_save_number(x),
+    file.path(sbf_get_main(), "numbers/x.rds")
+  )
 
   expect_true(sbf_number_exists("x"))
   expect_false(sbf_number_exists("x2"))
@@ -281,7 +329,10 @@ test_that("number", {
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   chk::expect_chk_error(sbf_load_number("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
-  expect_identical(sbf_save_number(x), file.path(sbf_get_main(), "numbers/sub/x.rds"))
+  expect_identical(
+    sbf_save_number(x),
+    file.path(sbf_get_main(), "numbers/sub/x.rds")
+  )
   expect_identical(sbf_load_number("x"), 1)
   expect_identical(sbf_load_number("x", exists = NA), 1)
   chk::expect_chk_error(sbf_load_number("x2", exists = TRUE))
@@ -296,8 +347,14 @@ test_that("string", {
 
   y <- "two words"
   expect_warning(sbf_load_strings(), "no strings to load")
-  expect_error(sbf_save_string(), "argument \"x\" is missing, with no default")
-  expect_identical(sbf_save_string(y), file.path(sbf_get_main(), "strings/y.rds"))
+  expect_error(
+    sbf_save_string(),
+    "argument \"x\" is missing, with no default"
+  )
+  expect_identical(
+    sbf_save_string(y),
+    file.path(sbf_get_main(), "strings/y.rds")
+  )
 
   expect_true(sbf_string_exists("y"))
   expect_false(sbf_string_exists("x2"))
@@ -347,7 +404,10 @@ test_that("string", {
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   chk::expect_chk_error(sbf_load_string("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
-  expect_identical(sbf_save_string(y), file.path(sbf_get_main(), "strings/sub/y.rds"))
+  expect_identical(
+    sbf_save_string(y),
+    file.path(sbf_get_main(), "strings/sub/y.rds")
+  )
   expect_identical(sbf_load_string("y"), "two words")
   expect_identical(sbf_load_string("y", exists = NA), "two words")
   chk::expect_chk_error(sbf_load_string("y", exists = FALSE))
@@ -413,7 +473,10 @@ test_that("datas_to_db", {
   expect_identical(sbf_load_datas_from_db(), c("x", "y"))
   expect_identical(x, tibble::tibble(x = 1L))
   expect_identical(y, tibble::tibble(z = 3L))
-  expect_identical(sbf_load_datas_from_db(rename = function(x) paste0("db", x)), c("dbx", "dby"))
+  expect_identical(
+    sbf_load_datas_from_db(rename = function(x) paste0("db", x)),
+    c("dbx", "dby")
+  )
   expect_identical(dbx, tibble::tibble(x = 1L))
   expect_identical(dby, tibble::tibble(z = 3L))
 
@@ -438,31 +501,64 @@ test_that("datas_to_db", {
 
   x <- sbf_load_db_metatable()
   x$Description <- c("xy", "the End.")
-  expect_identical(sbf_save_db_metatable_descriptions(x), x[c("Table", "Column", "Description")])
+  expect_identical(
+    sbf_save_db_metatable_descriptions(x),
+    x[c("Table", "Column", "Description")]
+  )
   expect_identical(x, sbf_load_db_metatable())
-  expect_identical(sbf_save_db_metatable_descriptions(x), x[0, c("Table", "Column", "Description")])
-  expect_identical(sbf_save_db_metatable_descriptions(x, overwrite = TRUE), x[c("Table", "Column", "Description")])
+  expect_identical(
+    sbf_save_db_metatable_descriptions(x),
+    x[0, c("Table", "Column", "Description")]
+  )
+  expect_identical(
+    sbf_save_db_metatable_descriptions(x, overwrite = TRUE),
+    x[c("Table", "Column", "Description")]
+  )
   x$Description <- c("xzy", NA)
-  expect_identical(sbf_save_db_metatable_descriptions(x), x[0, c("Table", "Column", "Description")])
-  expect_identical(sbf_save_db_metatable_descriptions(x, overwrite = TRUE), x[c("Table", "Column", "Description")])
+  expect_identical(
+    sbf_save_db_metatable_descriptions(x),
+    x[0, c("Table", "Column", "Description")]
+  )
+  expect_identical(
+    sbf_save_db_metatable_descriptions(x, overwrite = TRUE),
+    x[c("Table", "Column", "Description")]
+  )
   expect_identical(x, sbf_load_db_metatable())
   x$Description <- c("notxzy", "yes")
   expect_identical(sbf_save_db_metatable_descriptions(x)$Description, "yes")
-  expect_identical(sbf_save_db_metatable_descriptions(x), x[0, c("Table", "Column", "Description")])
-  expect_identical(sbf_save_db_metatable_descriptions(x, overwrite = TRUE), x[c("Table", "Column", "Description")])
+  expect_identical(
+    sbf_save_db_metatable_descriptions(x),
+    x[0, c("Table", "Column", "Description")]
+  )
+  expect_identical(
+    sbf_save_db_metatable_descriptions(x, overwrite = TRUE),
+    x[c("Table", "Column", "Description")]
+  )
 
   x$Table[1] <- "NotTable"
   expect_error(sbf_save_db_metatable_descriptions(x))
-  expect_identical(sbf_save_db_metatable_descriptions(x, strict = FALSE), x[0, c("Table", "Column", "Description")])
-  expect_identical(sbf_save_db_metatable_descriptions(x, strict = FALSE, overwrite = TRUE)$Description, "yes")
+  expect_identical(
+    sbf_save_db_metatable_descriptions(x, strict = FALSE),
+    x[0, c("Table", "Column", "Description")]
+  )
+  expect_identical(sbf_save_db_metatable_descriptions(
+    x,
+    strict = FALSE, overwrite = TRUE
+  )$Description, "yes")
 
   x$Table[1] <- "X"
   x$Description <- NA_character_
-  expect_identical(sbf_save_db_metatable_descriptions(x, overwrite = TRUE), x[c("Table", "Column", "Description")])
+  expect_identical(
+    sbf_save_db_metatable_descriptions(x, overwrite = TRUE),
+    x[c("Table", "Column", "Description")]
+  )
 
   expect_identical(sbf_load_db_metatable(), x)
 
-  expect_identical(sbf_save_db_metatable_descriptions(x), x[c("Table", "Column", "Description")])
+  expect_identical(
+    sbf_save_db_metatable_descriptions(x),
+    x[c("Table", "Column", "Description")]
+  )
 })
 
 test_that("table", {
@@ -472,8 +568,14 @@ test_that("table", {
 
   y <- 1
   expect_warning(sbf_load_tables(), "no tables to load")
-  expect_error(sbf_save_table(), "argument \"x\" is missing, with no default")
-  expect_error(sbf_save_table(y), "^`x` must inherit from S3 class 'data.frame'[.]$", class = "chk_error")
+  expect_error(
+    sbf_save_table(),
+    "argument \"x\" is missing, with no default"
+  )
+  expect_error(sbf_save_table(y),
+    "^`x` must inherit from S3 class 'data.frame'[.]$",
+    class = "chk_error"
+  )
   x <- data.frame(x = 1)
   expect_error(sbf_save_table(data.frame(zz = I(list(t = 3))), x_name = "y"),
     "^The following columns in `x` are not logical, numeric, character, factor, Date or POSIXct: 'zz'[.]$",
@@ -520,7 +622,13 @@ test_that("table", {
   )
 
   data2 <- sbf_load_tables_recursive(meta = TRUE)
-  expect_identical(colnames(data2), c("tables", "name", "sub", "file", "caption", "report", "tag"))
+  expect_identical(
+    colnames(data2),
+    c(
+      "tables", "name", "sub", "file",
+      "caption", "report", "tag"
+    )
+  )
   expect_identical(data2[c("tables", "name", "sub", "file")], data)
   expect_identical(data2$caption, c("", "A caption"))
   expect_identical(data2$report, c(TRUE, FALSE))
@@ -541,7 +649,10 @@ test_that("table", {
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   chk::expect_chk_error(sbf_load_table("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
-  expect_identical(sbf_save_table(x), file.path(sbf_get_main(), "tables/sub/x.rds"))
+  expect_identical(
+    sbf_save_table(x),
+    file.path(sbf_get_main(), "tables/sub/x.rds")
+  )
   expect_identical(sbf_load_table("x"), x)
   expect_identical(sbf_load_table("x", exists = NA), x)
   chk::expect_chk_error(sbf_load_table("x", exists = FALSE))
@@ -573,7 +684,10 @@ test_that("block", {
   expect_equal(txt, "two words")
 
   one <- "some code"
-  expect_identical(sbf_save_block(one, tag = "R"), file.path(sbf_get_main(), "blocks/one.rds"))
+  expect_identical(
+    sbf_save_block(one, tag = "R"),
+    file.path(sbf_get_main(), "blocks/one.rds")
+  )
   one <- 0
   y <- 0
   expect_identical(sbf_load_blocks(), c("one", "y"))
@@ -594,7 +708,13 @@ test_that("block", {
   )
 
   data2 <- sbf_load_blocks_recursive(meta = TRUE)
-  expect_identical(colnames(data2), c("blocks", "name", "sub", "file", "caption", "report", "tag"))
+  expect_identical(
+    colnames(data2),
+    c(
+      "blocks", "name", "sub", "file",
+      "caption", "report", "tag"
+    )
+  )
   expect_identical(data2[c("blocks", "name", "sub", "file")], data)
   expect_identical(data2$tag, c("R", ""))
 
@@ -607,7 +727,10 @@ test_that("block", {
   expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
   chk::expect_chk_error(sbf_load_block("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
-  expect_identical(sbf_save_block(y), file.path(sbf_get_main(), "blocks/sub/y.rds"))
+  expect_identical(
+    sbf_save_block(y),
+    file.path(sbf_get_main(), "blocks/sub/y.rds")
+  )
   expect_identical(sbf_load_block("y"), "two words")
   expect_identical(sbf_load_block("y", exists = NA), "two words")
   chk::expect_chk_error(sbf_load_block("y", exists = FALSE))
@@ -637,7 +760,10 @@ test_that("plot", {
   expect_true(sbf_plot_exists("x"))
   expect_false(sbf_plot_exists("x2"))
 
-  y <- ggplot2::ggplot(data = data.frame(x = 1, y = 2), ggplot2::aes(x = x, y = y))
+  y <- ggplot2::ggplot(
+    data = data.frame(x = 1, y = 2),
+    ggplot2::aes(x = x, y = y)
+  )
   expect_identical(sbf_save_plot(y), file.path(sbf_get_main(), "plots/y.rds"))
 
   expect_true(all.equal(sbf_load_plot("y"), y))
@@ -656,11 +782,17 @@ test_that("plot", {
   expect_identical(x, data.frame())
   expect_identical(y, data.frame(x = 1, y = 2))
 
-  z <- ggplot2::ggplot(data = data.frame(x = 2, y = 3), ggplot2::aes(x = x, y = y))
+  z <- ggplot2::ggplot(
+    data = data.frame(x = 2, y = 3),
+    ggplot2::aes(x = x, y = y)
+  )
   expect_identical(sbf_save_plot(z), file.path(sbf_get_main(), "plots/z.rds"))
   expect_true(all.equal(sbf_load_plot("z"), z))
 
-  t <- ggplot2::ggplot(data = data.frame(x = c(2, 3), y = c(3, 2)), ggplot2::aes(x = x, y = y))
+  t <- ggplot2::ggplot(
+    data = data.frame(x = c(2, 3), y = c(3, 2)),
+    ggplot2::aes(x = x, y = y)
+  )
   expect_identical(sbf_save_plot(
     csv = 1L, dpi = 320L, caption = "one c",
     report = FALSE, width = 2.55, height = 3L, units = "cm"
@@ -749,7 +881,10 @@ test_that("window", {
     width = 6, height = 7, dpi = 300
   ))
 
-  gp <- ggplot2::ggplot(data = data.frame(x = c(4, 5), y = c(6, 7)), ggplot2::aes(x = x, y = y))
+  gp <- ggplot2::ggplot(
+    data = data.frame(x = c(4, 5), y = c(6, 7)),
+    ggplot2::aes(x = x, y = y)
+  )
   gp <- gp + ggplot2::geom_point()
   sbf_open_window(4, 3)
   print(gp)
@@ -795,7 +930,11 @@ test_that("png", {
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   teardown(sbf_reset())
 
-  x <- system.file("extdata", "example.png", package = "subfoldr2", mustWork = TRUE)
+  x <- system.file("extdata",
+    "example.png",
+    package = "subfoldr2",
+    mustWork = TRUE
+  )
 
   sbf_save_png(x, caption = "map")
 
@@ -848,13 +987,6 @@ test_that("save df as excel no sf columns", {
   expect_identical(data[["Places"]], c("Yakoun Lake", "Meyer Lake"))
   expect_identical(data[["Activity"]], c("boating", "fishing"))
 })
-
-
-
-
-
-
-
 
 test_that("save df as excel with sf point column", {
   sbf_reset()

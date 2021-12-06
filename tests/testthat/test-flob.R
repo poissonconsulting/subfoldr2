@@ -23,10 +23,18 @@ test_that("datas_to_db", {
 
   flob <- flobr::flob_obj
   conn <- sbf_open_db()
-  withr::defer(sbf_close_db(conn))
-  dbflobr::write_flob(flob, "New", "df", key = data.frame(char = "a", num = 1), conn)
+  teardown(sbf_close_db(conn))
+  dbflobr::write_flob(flob,
+    "New",
+    "df",
+    key = data.frame(char = "a", num = 1),
+    conn
+  )
 
-  expect_identical(sbf_save_flobs_from_db(), list(`df/New` = c(flobr.pdf = "a_-_1.pdf")))
+  expect_identical(
+    sbf_save_flobs_from_db(),
+    list(`df/New` = c(flobr.pdf = "a_-_1.pdf"))
+  )
 
   expect_identical(
     list.files(file.path(sbf_get_main(), "flobs"), recursive = TRUE),
@@ -34,7 +42,10 @@ test_that("datas_to_db", {
   )
 
   expect_error(sbf_upload_flobs_to_db())
-  expect_identical(sbf_upload_flobs_to_db(exists = TRUE, replace = TRUE), list(`df/New` = c(`a_-_1.pdf` = TRUE)))
+  expect_identical(
+    sbf_upload_flobs_to_db(exists = TRUE, replace = TRUE),
+    list(`df/New` = c(`a_-_1.pdf` = TRUE))
+  )
   expect_identical(sbf_upload_flobs_to_db(
     exists = TRUE, replace = TRUE,
     dir = file.path(sbf_get_main(), "flobs", sbf_get_db_name())

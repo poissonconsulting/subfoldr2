@@ -18,7 +18,10 @@ load_rds <- function(x_name, class, sub, main, fun = NULL, exists = TRUE) {
 #' @param exists A logical scalar specifying whether the file should exist.
 #' @return An R object or NULL if doesn't exist.
 #' @export
-sbf_load_object <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), exists = TRUE) {
+sbf_load_object <- function(x_name,
+                            sub = sbf_get_sub(),
+                            main = sbf_get_main(),
+                            exists = TRUE) {
   load_rds(x_name, class = "objects", sub = sub, main = main, exists = exists)
 }
 
@@ -28,7 +31,10 @@ sbf_load_object <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), 
 #' @inheritParams sbf_load_object
 #' @return A data frame or NULL if doesn't exist.
 #' @export
-sbf_load_data <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), exists = TRUE) {
+sbf_load_data <- function(x_name,
+                          sub = sbf_get_sub(),
+                          main = sbf_get_main(),
+                          exists = TRUE) {
   load_rds(x_name, class = "data", sub = sub, main = main, exists = exists)
 }
 
@@ -38,7 +44,10 @@ sbf_load_data <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), ex
 #' @inheritParams sbf_load_object
 #' @return A number or NULL if doesn't exist.
 #' @export
-sbf_load_number <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), exists = TRUE) {
+sbf_load_number <- function(x_name,
+                            sub = sbf_get_sub(),
+                            main = sbf_get_main(),
+                            exists = TRUE) {
   load_rds(x_name, class = "numbers", sub = sub, main = main, exists = exists)
 }
 
@@ -48,7 +57,10 @@ sbf_load_number <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), 
 #' @inheritParams sbf_load_object
 #' @return A string or NULL if doesn't exist.
 #' @export
-sbf_load_string <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), exists = TRUE) {
+sbf_load_string <- function(x_name,
+                            sub = sbf_get_sub(),
+                            main = sbf_get_main(),
+                            exists = TRUE) {
   load_rds(x_name, class = "strings", sub = sub, main = main, exists = exists)
 }
 
@@ -58,7 +70,10 @@ sbf_load_string <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), 
 #' @inheritParams sbf_load_object
 #' @return A code block or NULL if doesn't exist.
 #' @export
-sbf_load_block <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), exists = TRUE) {
+sbf_load_block <- function(x_name,
+                           sub = sbf_get_sub(),
+                           main = sbf_get_main(),
+                           exists = TRUE) {
   load_rds(x_name, class = "blocks", sub = sub, main = main, exists = exists)
 }
 
@@ -68,7 +83,10 @@ sbf_load_block <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), e
 #' @inheritParams sbf_load_object
 #' @return A data frame or NULL if doesn't exist.
 #' @export
-sbf_load_table <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), exists = TRUE) {
+sbf_load_table <- function(x_name,
+                           sub = sbf_get_sub(),
+                           main = sbf_get_main(),
+                           exists = TRUE) {
   load_rds(x_name, class = "tables", sub = sub, main = main, exists = exists)
 }
 
@@ -78,7 +96,10 @@ sbf_load_table <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), e
 #' @inheritParams sbf_load_object
 #' @return A ggplot object or NULL if doesn't exist.
 #' @export
-sbf_load_plot <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), exists = TRUE) {
+sbf_load_plot <- function(x_name,
+                          sub = sbf_get_sub(),
+                          main = sbf_get_main(),
+                          exists = TRUE) {
   load_rds(x_name, class = "plots", sub = sub, main = main, exists = exists)
 }
 
@@ -88,8 +109,17 @@ sbf_load_plot <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), ex
 #' @inheritParams sbf_load_object
 #' @return A data.frame or NULL if doesn't exist.
 #' @export
-sbf_load_plot_data <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(), exists = TRUE) {
-  load_rds(x_name, class = "plots", sub = sub, main = main, fun = get_plot_data, exists = exists)
+sbf_load_plot_data <- function(x_name,
+                               sub = sbf_get_sub(),
+                               main = sbf_get_main(),
+                               exists = TRUE) {
+  load_rds(x_name,
+    class = "plots",
+    sub = sub,
+    main = main,
+    fun = get_plot_data,
+    exists = exists
+  )
 }
 
 #' Load Data Frame from Database
@@ -100,8 +130,10 @@ sbf_load_plot_data <- function(x_name, sub = sbf_get_sub(), main = sbf_get_main(
 #' @inheritParams readwritesqlite::rws_read
 #' @return A data.frame of the table.
 #' @export
-sbf_load_data_from_db <- function(x_name, db_name = sbf_get_db_name(),
-                                  sub = sbf_get_sub(), main = sbf_get_main()) {
+sbf_load_data_from_db <- function(x_name,
+                                  db_name = sbf_get_db_name(),
+                                  sub = sbf_get_sub(),
+                                  main = sbf_get_main()) {
   chk_string(x_name)
   chk_string(db_name)
 
@@ -118,7 +150,8 @@ sbf_load_data_from_db <- function(x_name, db_name = sbf_get_db_name(),
 #' @return A data.frame of the table.
 #' @export
 sbf_load_db_metatable <- function(db_name = sbf_get_db_name(),
-                                  sub = sbf_get_sub(), main = sbf_get_main()) {
+                                  sub = sbf_get_sub(),
+                                  main = sbf_get_main()) {
   conn <- sbf_open_db(db_name, sub = sub, main = main)
   on.exit(sbf_close_db(conn))
 
@@ -163,8 +196,10 @@ load_rdss <- function(class, sub, main, env, rename, fun = NULL) {
 #' @param env The environment to  the objects into
 #' @return A invisble character vector of the objects' names.
 #' @export
-sbf_load_objects <- function(sub = sbf_get_sub(), main = sbf_get_main(),
-                             rename = identity, env = parent.frame()) {
+sbf_load_objects <- function(sub = sbf_get_sub(),
+                             main = sbf_get_main(),
+                             rename = identity,
+                             env = parent.frame()) {
   load_rdss("objects", sub = sub, main = main, env = env, rename = rename)
 }
 
@@ -174,8 +209,10 @@ sbf_load_objects <- function(sub = sbf_get_sub(), main = sbf_get_main(),
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the data frames' names.
 #' @export
-sbf_load_datas <- function(sub = sbf_get_sub(), main = sbf_get_main(),
-                           rename = identity, env = parent.frame()) {
+sbf_load_datas <- function(sub = sbf_get_sub(),
+                           main = sbf_get_main(),
+                           rename = identity,
+                           env = parent.frame()) {
   load_rdss("data", sub = sub, main = main, env = env, rename = rename)
 }
 
@@ -185,8 +222,10 @@ sbf_load_datas <- function(sub = sbf_get_sub(), main = sbf_get_main(),
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the data frames' names.
 #' @export
-sbf_load_tables <- function(sub = sbf_get_sub(), main = sbf_get_main(),
-                            rename = identity, env = parent.frame()) {
+sbf_load_tables <- function(sub = sbf_get_sub(),
+                            main = sbf_get_main(),
+                            rename = identity,
+                            env = parent.frame()) {
   load_rdss("tables", sub = sub, main = main, env = env, rename = rename)
 }
 
@@ -196,8 +235,10 @@ sbf_load_tables <- function(sub = sbf_get_sub(), main = sbf_get_main(),
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the numbers' names.
 #' @export
-sbf_load_numbers <- function(sub = sbf_get_sub(), main = sbf_get_main(),
-                             rename = identity, env = parent.frame()) {
+sbf_load_numbers <- function(sub = sbf_get_sub(),
+                             main = sbf_get_main(),
+                             rename = identity,
+                             env = parent.frame()) {
   load_rdss("numbers", sub = sub, main = main, env = env, rename = rename)
 }
 
@@ -207,8 +248,10 @@ sbf_load_numbers <- function(sub = sbf_get_sub(), main = sbf_get_main(),
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the string' names.
 #' @export
-sbf_load_strings <- function(sub = sbf_get_sub(), main = sbf_get_main(),
-                             rename = identity, env = parent.frame()) {
+sbf_load_strings <- function(sub = sbf_get_sub(),
+                             main = sbf_get_main(),
+                             rename = identity,
+                             env = parent.frame()) {
   load_rdss("strings", sub = sub, main = main, env = env, rename = rename)
 }
 
@@ -218,8 +261,10 @@ sbf_load_strings <- function(sub = sbf_get_sub(), main = sbf_get_main(),
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the blocks' names.
 #' @export
-sbf_load_blocks <- function(sub = sbf_get_sub(), main = sbf_get_main(),
-                            rename = identity, env = parent.frame()) {
+sbf_load_blocks <- function(sub = sbf_get_sub(),
+                            main = sbf_get_main(),
+                            rename = identity,
+                            env = parent.frame()) {
   load_rdss("blocks", sub = sub, main = main, env = env, rename = rename)
 }
 
@@ -229,8 +274,10 @@ sbf_load_blocks <- function(sub = sbf_get_sub(), main = sbf_get_main(),
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the plots' names.
 #' @export
-sbf_load_plots_data <- function(sub = sbf_get_sub(), main = sbf_get_main(),
-                                rename = identity, env = parent.frame()) {
+sbf_load_plots_data <- function(sub = sbf_get_sub(),
+                                main = sbf_get_main(),
+                                rename = identity,
+                                env = parent.frame()) {
   load_rdss("plots", sub = sub, main = main, env = env, rename = rename)
 }
 
@@ -240,8 +287,10 @@ sbf_load_plots_data <- function(sub = sbf_get_sub(), main = sbf_get_main(),
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the plots' names.
 #' @export
-sbf_load_plots_data <- function(sub = sbf_get_sub(), main = sbf_get_main(),
-                                rename = identity, env = parent.frame()) {
+sbf_load_plots_data <- function(sub = sbf_get_sub(),
+                                main = sbf_get_main(),
+                                rename = identity,
+                                env = parent.frame()) {
   load_rdss("plots",
     sub = sub, main = main, env = env, rename = rename,
     fun = get_plot_data
@@ -256,9 +305,11 @@ sbf_load_plots_data <- function(sub = sbf_get_sub(), main = sbf_get_main(),
 #' @inheritParams readwritesqlite::rws_write
 #' @return An invisible character vector of the paths to the saved objects.
 #' @export
-sbf_load_datas_from_db <- function(db_name = sbf_get_db_name(), sub = sbf_get_sub(),
+sbf_load_datas_from_db <- function(db_name = sbf_get_db_name(),
+                                   sub = sbf_get_sub(),
                                    main = sbf_get_main(),
-                                   rename = identity, env = parent.frame()) {
+                                   rename = identity,
+                                   env = parent.frame()) {
   chk_s3_class(env, "environment")
   chk_function(rename)
 
@@ -326,7 +377,12 @@ load_rdss_recursive <- function(x_name, class, sub, main, include_root,
   as_tibble(data)
 }
 
-subs_rds_recursive <- function(x_name, class, sub, main, include_root, ext = "rds") {
+subs_rds_recursive <- function(x_name,
+                               class,
+                               sub,
+                               main,
+                               include_root,
+                               ext = "rds") {
   chk_string(x_name)
   chk_s3_class(sub, "character")
   chk_range(length(sub), c(0L, 1L))
@@ -355,16 +411,19 @@ subs_rds_recursive <- function(x_name, class, sub, main, include_root, ext = "rd
 
 #' Load Objects as List Column in Data Frame
 #'
-#' Recursively loads all the objects with names matching the regular expression x_name as the
-#' the first (list) column (named objects) in a data frame.
+#' Recursively loads all the objects with names matching the regular expression
+#' x_name as the the first (list) column (named objects) in a data frame.
 #' Subsequent character vector columns specify the object names (named name)
 #' and sub folders (named sub1, sub2 etc).
 #' @inheritParams sbf_save_object
 #' @param x_name A string of the regular expression to match.
-#' @param include_root A flag indicating whether to include objects in the top sub folder.
+#' @param include_root A flag indicating whether to include objects in the top
+#' sub folder.
 #' @export
-sbf_load_objects_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
-                                       main = sbf_get_main(), include_root = TRUE) {
+sbf_load_objects_recursive <- function(x_name = ".*",
+                                       sub = sbf_get_sub(),
+                                       main = sbf_get_main(),
+                                       include_root = TRUE) {
   load_rdss_recursive(x_name, "objects",
     sub = sub, main = main,
     include_root = include_root
@@ -373,16 +432,18 @@ sbf_load_objects_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
 
 #' Load Data Frames as List Column in Data Frame
 #'
-#' Recursively loads all the data frames with names matching the regular expression x_name as the
-#' the first (list) column (named data) in a data frame.
+#' Recursively loads all the data frames with names matching the regular
+#' expression x_name as the first (list) column (named data) in a data frame.
 #' Subsequent character vector columns specify the object names (named name)
 #' and sub folders (named sub1, sub2 etc).
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @export
-sbf_load_datas_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
-                                     main = sbf_get_main(), include_root = TRUE) {
+sbf_load_datas_recursive <- function(x_name = ".*",
+                                     sub = sbf_get_sub(),
+                                     main = sbf_get_main(),
+                                     include_root = TRUE) {
   data <- load_rdss_recursive(x_name, "data",
     sub = sub, main = main,
     include_root = include_root
@@ -392,16 +453,18 @@ sbf_load_datas_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
 
 #' Load Numbers as Column in Data Frame
 #'
-#' Recursively loads all the numbers with names matching the regular expression x_name as the
-#' the first double column (named numbers) in a data frame.
+#' Recursively loads all the numbers with names matching the regular expression
+#' x_name as the first double column (named numbers) in a data frame.
 #' Subsequent character vector columns specify the object names (named name)
 #' and sub folders (named sub1, sub2 etc).
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @export
-sbf_load_numbers_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
-                                       main = sbf_get_main(), include_root = TRUE) {
+sbf_load_numbers_recursive <- function(x_name = ".*",
+                                       sub = sbf_get_sub(),
+                                       main = sbf_get_main(),
+                                       include_root = TRUE) {
   data <- load_rdss_recursive(x_name, "numbers",
     sub = sub, main = main,
     include_root = include_root
@@ -412,18 +475,22 @@ sbf_load_numbers_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
 
 #' Load Strings as Column in Data Frame
 #'
-#' Recursively loads all the numbers with names matching the regular expression x_name as the
-#' the first character column (named strings) in a data frame.
+#' Recursively loads all the numbers with names matching the regular expression
+#' x_name as the first character column (named strings) in a data frame.
 #' Subsequent character vector columns specify the object names (named name)
 #' and sub folders (named sub1, sub2 etc).
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
-#' @param tag A string of the regular expression that the tag must match to be included.
-#' @param meta A flag specifying whether to include the report, caption and any other metadata as columns.
+#' @param tag A string of the regular expression that the tag must match to be
+#' included.
+#' @param meta A flag specifying whether to include the report, caption and any
+#' other metadata as columns.
 #' @export
-sbf_load_strings_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
-                                       main = sbf_get_main(), include_root = TRUE,
+sbf_load_strings_recursive <- function(x_name = ".*",
+                                       sub = sbf_get_sub(),
+                                       main = sbf_get_main(),
+                                       include_root = TRUE,
                                        tag = ".*",
                                        meta = FALSE) {
   data <- load_rdss_recursive(x_name, "strings",
@@ -440,19 +507,23 @@ sbf_load_strings_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
 
 #' Load Data Frames as List Column in Data Frame
 #'
-#' Recursively loads all the data frames with names matching the regular expression x_name as the
-#' the first (list) column (named tables) in a data frame.
+#' Recursively loads all the data frames with names matching the regular
+#' expression x_name as the first (list) column (named tables) in a data frame.
 #' Subsequent character vector columns specify the object names (named name)
 #' and sub folders (named sub1, sub2 etc).
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
-#' @param tag A string of the regular expression that the tag must match to be included.
-#' @param meta A flag specifying whether to include the report, caption and any other metadata as columns.
+#' @param tag A string of the regular expression that the tag must match to be
+#' included.
+#' @param meta A flag specifying whether to include the report, caption and any
+#' other metadata as columns.
 #' @export
-sbf_load_tables_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
+sbf_load_tables_recursive <- function(x_name = ".*",
+                                      sub = sbf_get_sub(),
                                       main = sbf_get_main(),
-                                      include_root = TRUE, tag = ".*",
+                                      include_root = TRUE,
+                                      tag = ".*",
                                       meta = FALSE) {
   load_rdss_recursive(x_name, "tables",
     sub = sub, main = main,
@@ -462,8 +533,9 @@ sbf_load_tables_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
 
 #' Load Blocks as Column in Data Frame
 #'
-#' Recursively loads all the code blocks with names matching the regular expression x_name as the
-#' the first character column (named blocks) in a data frame.
+#' Recursively loads all the code blocks with names matching the regular
+#' expression x_name as the first character column (named blocks) in a data
+#' frame.
 #' Subsequent character vector columns specify the object names (named name)
 #' and sub folders (named sub1, sub2 etc).
 #'
@@ -471,9 +543,11 @@ sbf_load_tables_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_load_tables_recursive
 #' @export
-sbf_load_blocks_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
+sbf_load_blocks_recursive <- function(x_name = ".*",
+                                      sub = sbf_get_sub(),
                                       main = sbf_get_main(),
-                                      include_root = TRUE, tag = ".*",
+                                      include_root = TRUE,
+                                      tag = ".*",
                                       meta = FALSE) {
   data <- load_rdss_recursive(x_name, "blocks",
     sub = sub, main = main,
@@ -485,8 +559,8 @@ sbf_load_blocks_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
 
 #' Load Plots as List Column in Data Frame
 #'
-#' Recursively loads all the plots with names matching the regular expression x_name as the
-#' the first (list) column (named plots) in a data frame.
+#' Recursively loads all the plots with names matching the regular expression
+#' x_name as the first (list) column (named plots) in a data frame.
 #' Subsequent character vector columns specify the object names (named name)
 #' and sub folders (named sub1, sub2 etc).
 #'
@@ -494,9 +568,11 @@ sbf_load_blocks_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_load_tables_recursive
 #' @export
-sbf_load_plots_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
+sbf_load_plots_recursive <- function(x_name = ".*",
+                                     sub = sbf_get_sub(),
                                      main = sbf_get_main(),
-                                     include_root = TRUE, tag = ".*",
+                                     include_root = TRUE,
+                                     tag = ".*",
                                      meta = FALSE) {
   load_rdss_recursive(x_name, "plots",
     sub = sub, main = main,
@@ -506,8 +582,9 @@ sbf_load_plots_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
 
 #' Load Plots Data as List Column in Data Frame
 #'
-#' Recursively loads all the default data from the plots with names matching the regular expression x_name as the
-#' the first (list) column (named plots_data) in a data frame.
+#' Recursively loads all the default data from the plots with names matching
+#' the regular expression x_name as the first (list) column (named plots_data)
+#' in a data frame.
 #' Subsequent character vector columns specify the object names (named name)
 #' and sub folders (named sub1, sub2 etc).
 #'
@@ -515,9 +592,11 @@ sbf_load_plots_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_load_tables_recursive
 #' @export
-sbf_load_plots_data_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
+sbf_load_plots_data_recursive <- function(x_name = ".*",
+                                          sub = sbf_get_sub(),
                                           main = sbf_get_main(),
-                                          include_root = TRUE, tag = ".*",
+                                          include_root = TRUE,
+                                          tag = ".*",
                                           meta = FALSE) {
   data <- load_rdss_recursive(x_name, "plots",
     sub = sub, main = main,
@@ -540,9 +619,12 @@ sbf_load_plots_data_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_load_tables_recursive
 #' @export
-sbf_load_windows_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
+sbf_load_windows_recursive <- function(x_name = ".*",
+                                       sub = sbf_get_sub(),
                                        main = sbf_get_main(),
-                                       include_root = TRUE, tag = ".*", meta = FALSE) {
+                                       include_root = TRUE,
+                                       tag = ".*",
+                                       meta = FALSE) {
   data <- load_rdss_recursive(x_name, "windows",
     sub = sub, main = main,
     include_root = include_root, tag = tag,
@@ -560,8 +642,10 @@ sbf_load_windows_recursive <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @param x_name A string of the name.
 #' @inheritParams sbf_load_objects_recursive
 #' @export
-sbf_subs_object_recursive <- function(x_name, sub = sbf_get_sub(),
-                                      main = sbf_get_main(), include_root = TRUE) {
+sbf_subs_object_recursive <- function(x_name,
+                                      sub = sbf_get_sub(),
+                                      main = sbf_get_main(),
+                                      include_root = TRUE) {
   subs_rds_recursive(x_name, "objects",
     sub = sub, main = main,
     include_root = include_root
@@ -575,8 +659,10 @@ sbf_subs_object_recursive <- function(x_name, sub = sbf_get_sub(),
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_subs_object_recursive
 #' @export
-sbf_subs_data_recursive <- function(x_name, sub = sbf_get_sub(),
-                                    main = sbf_get_main(), include_root = TRUE) {
+sbf_subs_data_recursive <- function(x_name,
+                                    sub = sbf_get_sub(),
+                                    main = sbf_get_main(),
+                                    include_root = TRUE) {
   subs_rds_recursive(x_name, "data",
     sub = sub, main = main,
     include_root = include_root
@@ -590,8 +676,10 @@ sbf_subs_data_recursive <- function(x_name, sub = sbf_get_sub(),
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_subs_object_recursive
 #' @export
-sbf_subs_number_recursive <- function(x_name, sub = sbf_get_sub(),
-                                      main = sbf_get_main(), include_root = TRUE) {
+sbf_subs_number_recursive <- function(x_name,
+                                      sub = sbf_get_sub(),
+                                      main = sbf_get_main(),
+                                      include_root = TRUE) {
   subs_rds_recursive(x_name, "numbers",
     sub = sub, main = main,
     include_root = include_root
@@ -605,8 +693,10 @@ sbf_subs_number_recursive <- function(x_name, sub = sbf_get_sub(),
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_subs_object_recursive
 #' @export
-sbf_subs_string_recursive <- function(x_name, sub = sbf_get_sub(),
-                                      main = sbf_get_main(), include_root = TRUE) {
+sbf_subs_string_recursive <- function(x_name,
+                                      sub = sbf_get_sub(),
+                                      main = sbf_get_main(),
+                                      include_root = TRUE) {
   subs_rds_recursive(x_name, "strings",
     sub = sub, main = main,
     include_root = include_root
@@ -620,8 +710,10 @@ sbf_subs_string_recursive <- function(x_name, sub = sbf_get_sub(),
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_subs_object_recursive
 #' @export
-sbf_subs_block_recursive <- function(x_name, sub = sbf_get_sub(),
-                                     main = sbf_get_main(), include_root = TRUE) {
+sbf_subs_block_recursive <- function(x_name,
+                                     sub = sbf_get_sub(),
+                                     main = sbf_get_main(),
+                                     include_root = TRUE) {
   subs_rds_recursive(x_name, "blocks",
     sub = sub, main = main,
     include_root = include_root
@@ -635,8 +727,10 @@ sbf_subs_block_recursive <- function(x_name, sub = sbf_get_sub(),
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_subs_object_recursive
 #' @export
-sbf_subs_table_recursive <- function(x_name, sub = sbf_get_sub(),
-                                     main = sbf_get_main(), include_root = TRUE) {
+sbf_subs_table_recursive <- function(x_name,
+                                     sub = sbf_get_sub(),
+                                     main = sbf_get_main(),
+                                     include_root = TRUE) {
   subs_rds_recursive(x_name, "tables",
     sub = sub, main = main,
     include_root = include_root
@@ -650,8 +744,10 @@ sbf_subs_table_recursive <- function(x_name, sub = sbf_get_sub(),
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_subs_object_recursive
 #' @export
-sbf_subs_plot_recursive <- function(x_name, sub = sbf_get_sub(),
-                                    main = sbf_get_main(), include_root = TRUE) {
+sbf_subs_plot_recursive <- function(x_name,
+                                    sub = sbf_get_sub(),
+                                    main = sbf_get_main(),
+                                    include_root = TRUE) {
   subs_rds_recursive(x_name, "plots",
     sub = sub, main = main,
     include_root = include_root
@@ -665,8 +761,10 @@ sbf_subs_plot_recursive <- function(x_name, sub = sbf_get_sub(),
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_subs_object_recursive
 #' @export
-sbf_subs_window_recursive <- function(x_name, sub = sbf_get_sub(),
-                                      main = sbf_get_main(), include_root = TRUE) {
+sbf_subs_window_recursive <- function(x_name,
+                                      sub = sbf_get_sub(),
+                                      main = sbf_get_main(),
+                                      include_root = TRUE) {
   subs_rds_recursive(x_name, "windows",
     sub = sub, main = main,
     include_root = include_root

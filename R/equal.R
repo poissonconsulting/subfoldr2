@@ -1,8 +1,8 @@
 #' Is Equal Data
 #'
 #' Test if equal using \code{\link{all.equal}()}.
-#' If doesn't exist returns FALSE unless exists = FALSE in which case returns TRUE
-#' or exists = NA in which case returns NA.
+#' If doesn't exist returns FALSE unless exists = FALSE in which case returns
+#' TRUE or exists = NA in which case returns NA.
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_object
@@ -11,8 +11,10 @@
 #' @family equal
 #' @export
 sbf_is_equal_data <- function(x, x_name = substitute(x),
-                              sub = sbf_get_sub(), main = sbf_get_main(),
-                              exists = TRUE, tolerance = sqrt(.Machine$double.eps),
+                              sub = sbf_get_sub(),
+                              main = sbf_get_main(),
+                              exists = TRUE,
+                              tolerance = sqrt(.Machine$double.eps),
                               check.attributes = TRUE) {
   chk_s3_class(x, "data.frame")
   x_name <- chk_deparse(x_name)
@@ -50,9 +52,14 @@ sbf_is_equal_data <- function(x, x_name = substitute(x),
 #' @return A named logical vector.
 #' @family equal
 #' @export
-sbf_is_equal_datas <- function(x_name = ".*", sub = sbf_get_sub(), main = sbf_get_main(),
-                               archive = 1L, recursive = FALSE, include_root = TRUE,
-                               exists = TRUE, tolerance = sqrt(.Machine$double.eps),
+sbf_is_equal_datas <- function(x_name = ".*",
+                               sub = sbf_get_sub(),
+                               main = sbf_get_main(),
+                               archive = 1L,
+                               recursive = FALSE,
+                               include_root = TRUE,
+                               exists = TRUE,
+                               tolerance = sqrt(.Machine$double.eps),
                                check.attributes = TRUE) {
   if (!vld_whole_number(archive) && !vld_dir(archive)) {
     chkor_vld(vld_whole_number(archive), vld_dir(archive))

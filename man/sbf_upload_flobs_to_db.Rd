@@ -24,17 +24,19 @@ subdirectories are used irrespective of whether they include files and existing
 flobs are deleted if the corresponding subdirectory is empty.
 If sub = TRUE or sub = NA then recursion is just one subfolder deep.}
 
-\item{main}{A string specifying the path to the main folder (by default the current main folder)}
+\item{main}{A string specifying the path to the main folder (by default the
+current main folder)}
 
 \item{dir}{A string of the path to the directory to import the files from.
 Files need to be within nested folders like 'table1/column1/a.csv'.
 This structure is created automatically if save_all_flobs() function is used.}
 
-\item{dbflobr_sub}{A logical scalar specifying whether to import flobs based on their filename (sub = FALSE)
-or the name of their subdirectory (sub = TRUE) which must only contain 1 file.
-If sub = NA and replace = TRUE then the names of the
-subdirectories are used irrespective of whether they include files and existing
-flobs are deleted if the corresponding subdirectory is empty.
+\item{dbflobr_sub}{A logical scalar specifying whether to import flobs based
+on their filename (sub = FALSE) or the name of their subdirectory
+(sub = TRUE) which must only contain 1 file.
+If sub = NA and replace = TRUE then the names of the subdirectories are used
+irrespective of whether they include files and existing flobs are deleted
+if the corresponding subdirectory is empty.
 If sub = TRUE or sub = NA then recursion is just one subfolder deep.}
 
 \item{exists}{A logical scalar specifying whether the column must (TRUE) or
@@ -44,7 +46,8 @@ IF FALSE, a new BLOB column is created.}
 \item{replace}{A flag indicating whether to replace existing flobs (TRUE) or not (FALSE).}
 }
 \value{
-An invisible named list indicating directory path, file names and whether files were successfully written to database.
+An invisible named list indicating directory path, file names and
+whether files were successfully written to database.
 }
 \description{
 Uploads all files to database by default dir = NULL

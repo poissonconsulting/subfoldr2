@@ -23,8 +23,6 @@ sbf_compare_data <- function(x, x_name = substitute(x),
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
-  file <- file_path("data", sub, x_name)
-
   existing <- sbf_load_data(x_name, sub = sub, main = main, exists = NA)
   waldo::compare(existing, x,
     x_arg = "saved", y_arg = "current",
@@ -46,8 +44,11 @@ sbf_compare_data <- function(x, x_name = substitute(x),
 #' @return A named list of character vectors.
 #' @family compare
 #' @export
-sbf_compare_datas <- function(x_name = ".*", sub = sbf_get_sub(), main = sbf_get_main(),
-                              archive = 1L, recursive = FALSE, include_root = TRUE,
+sbf_compare_datas <- function(x_name = ".*", sub = sbf_get_sub(),
+                              main = sbf_get_main(),
+                              archive = 1L,
+                              recursive = FALSE,
+                              include_root = TRUE,
                               tolerance = sqrt(.Machine$double.eps),
                               ignore_attr = TRUE) {
   if (!requireNamespace("waldo", quietly = TRUE)) {

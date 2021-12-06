@@ -12,8 +12,10 @@ sbf_get_sub <- function() {
 #' Set Sub Folder
 #'
 #' @param ... One or more character vectors which are combined together.
-#' @param rm A flag specifying whether to remove the folder and all its contents if it already exists.
-#' @param ask A flag specifying whether to ask before removing the existing folder.
+#' @param rm A flag specifying whether to remove the folder and all its contents
+#' if it already exists.
+#' @param ask A flag specifying whether to ask before removing the existing
+#' folder.
 #' @return An invisible string specifying the new sub folder.
 #' @export
 sbf_set_sub <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {

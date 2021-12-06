@@ -7,7 +7,8 @@
 sbf_get_archive(main = sbf_get_main(), archive = 1L)
 }
 \arguments{
-\item{main}{A string specifying the path to the main folder (by default the current main folder)}
+\item{main}{A string specifying the path to the main folder (by default the
+current main folder)}
 
 \item{archive}{A positive whole number specifying the folder archived folder
 where 1L (the default) indicates the most recently archived folder or

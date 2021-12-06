@@ -3,15 +3,21 @@
 #' Copys an existing SQLite database to the subfolder.
 #'
 #' @inheritParams sbf_save_object
-#' @param path A string of the path to the database to copy (with the extension).
-#' @param db_name A string of the name for the new database (without the extension).
-#' @param exists A logical scalar specifying whether the new database must already exist.
-#' @param ask A flag specifying whether to ask before deleting an existing database (if exists = FALSE).
+#' @param path A string of the path to the database to copy
+#' (with the extension).
+#' @param db_name A string of the name for the new database
+#' (without the extension).
+#' @param exists A logical scalar specifying whether the new database must
+#' already exist.
+#' @param ask A flag specifying whether to ask before deleting an existing
+#' database (if exists = FALSE).
 #' @return A flag indicating whether successfully copied.
 #' @export
-sbf_copy_db <- function(path, db_name = sbf_get_db_name(), sub = sbf_get_sub(),
+sbf_copy_db <- function(path, db_name = sbf_get_db_name(),
+                        sub = sbf_get_sub(),
                         main = sbf_get_main(),
-                        exists = FALSE, ask = getOption("sbf.ask", TRUE)) {
+                        exists = FALSE,
+                        ask = getOption("sbf.ask", TRUE)) {
   chk_ext(path, c("db", "sqlite", "sqlite3"))
   chk_file(path)
 

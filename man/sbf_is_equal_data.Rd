@@ -19,9 +19,11 @@ sbf_is_equal_data(
 
 \item{x_name}{A string of the name.}
 
-\item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+\item{sub}{A string specifying the path to the sub folder (by default the
+current sub folder).}
 
-\item{main}{A string specifying the path to the main folder (by default the current main folder)}
+\item{main}{A string specifying the path to the main folder (by default the
+current main folder)}
 
 \item{exists}{A logical scalar specifying whether the file should exist.}
 
@@ -38,8 +40,8 @@ A named flag.
 }
 \description{
 Test if equal using \code{\link{all.equal}()}.
-If doesn't exist returns FALSE unless exists = FALSE in which case returns TRUE
-or exists = NA in which case returns NA.
+If doesn't exist returns FALSE unless exists = FALSE in which case returns
+TRUE or exists = NA in which case returns NA.
 }
 \seealso{
 Other equal: 

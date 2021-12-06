@@ -4,7 +4,10 @@ test_that("object", {
   withr::defer(sbf_reset())
 
   x <- 1
-  expect_identical(sbf_save_object(x), file.path(sbf_get_main(), "objects/x.rds"))
+  expect_identical(
+    sbf_save_object(x),
+    file.path(sbf_get_main(), "objects/x.rds")
+  )
 
   expect_match(sbf_list_objects("x"), "objects/x.rds$")
   expect_identical(names(sbf_list_objects("x")), "objects/x")
@@ -38,8 +41,11 @@ test_that("object", {
   )
 
   y <- 4
-  expect_identical(sbf_save_object(y), file.path(sbf_get_main(), "objects/y.rds"))
-  expect_equal(ignore_attr = TRUE, 
+  expect_identical(
+    sbf_save_object(y),
+    file.path(sbf_get_main(), "objects/y.rds")
+  )
+  expect_equivalent(
     sbf_list_objects("x", recursive = TRUE),
     c(
       file.path(sbf_get_main(), "objects/down/x.rds"),
@@ -83,9 +89,18 @@ test_that("object", {
     )
   )
 
-  expect_equal(ignore_attr = TRUE, sbf_list_objects("down", recursive = TRUE), character(0))
-  expect_equal(ignore_attr = TRUE, sbf_list_objects("rds", recursive = TRUE), character(0))
-  expect_identical(names(sbf_list_objects("rds", recursive = TRUE)), character(0))
+  expect_equivalent(
+    sbf_list_objects("down", recursive = TRUE),
+    character(0)
+  )
+  expect_equivalent(
+    sbf_list_objects("rds", recursive = TRUE),
+    character(0)
+  )
+  expect_identical(
+    names(sbf_list_objects("rds", recursive = TRUE)),
+    character(0)
+  )
 })
 
 test_that("data", {

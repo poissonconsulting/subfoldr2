@@ -24,13 +24,15 @@ sbf_save_aws_files(
 \arguments{
 \item{bucket_name}{A string of the AWS S3 bucket name.}
 
-\item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+\item{sub}{A string specifying the path to the sub folder (by default the
+current sub folder).}
 
-\item{main}{A string specifying the path to the main folder (by default the current main folder)}
+\item{main}{A string specifying the path to the main folder (by default the
+current main folder)}
 
 \item{data_type}{A string (by default `NULL`) for which data type to return.
 Check the folder names within the shiny-upload in AWS for options common
-examples include punch-data, tracks, logger, image and pdf.}
+  examples include punch-data, tracks, logger, image and pdf.}
 
 \item{year}{A whole number (by default `NULL`) indicating which year to
 return. Format YYYY.}

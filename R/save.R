@@ -157,7 +157,7 @@ split_excel_large <- function(x, x_name, max_sheets) {
 
 save_workbook <- function(x, sub, main, workbook_name, epgs) {
   x <- lapply(x, function(i) {
-    x <- process_sf_columns(i, epgs)
+    process_sf_columns(i, epgs)
   })
 
   save_rds(x, "excel", sub = sub, main = main, x_name = workbook_name)
@@ -168,8 +168,10 @@ save_workbook <- function(x, sub, main, workbook_name, epgs) {
 #'
 #' @param x The object to save.
 #' @param x_name A string of the name.
-#' @param sub A string specifying the path to the sub folder (by default the current sub folder).
-#' @param main A string specifying the path to the main folder (by default the current main folder)
+#' @param sub A string specifying the path to the sub folder (by default the
+#' current sub folder).
+#' @param main A string specifying the path to the main folder (by default the
+#' current main folder)
 #' @return An invisible string of the path to the saved object.
 #' @export
 sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
@@ -352,7 +354,8 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @param height A number of the plot width in inches.
 #' @param units A string of the units. Can be "in" (default) or "mm" or "cm".
 #' @param dpi A number of the resolution in dots per inch.
-#' @param csv A count specifying the maximum number of rows to save as a csv file.
+#' @param csv A count specifying the maximum number of rows to save as a csv
+#' file.
 #' @export
 sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
                           sub = sbf_get_sub(),
@@ -471,7 +474,8 @@ sbf_save_window <- function(x_name = "window",
 
 #' Extension-less Base File Names
 #'
-#' Just a wrapper on \code{\link{basename}()} and \code{\link[tools]{file_path_sans_ext}()}.
+#' Just a wrapper on \code{\link{basename}()} and
+#' \code{\link[tools]{file_path_sans_ext}()}.
 #'
 #' @param x A character vector of file paths.
 #' @return A character vector of extension-less base file names.
@@ -539,13 +543,13 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
 #' @details This takes a data frame and saves it to their own excel workbook.
 #'
 #' This function will split up large dataframes into smaller tables for writing
-#'  to excel because excel only allows a maximum number of 1,048,576. For the
-#'  `max_sheets` argument you can pass a number higher then the required
-#'  and it will only return as many sheets as there is data.
+#' to excel because excel only allows a maximum number of 1,048,576. For the
+#' `max_sheets` argument you can pass a number higher then the required
+#' and it will only return as many sheets as there is data.
 #'
 #' @param x The data frame to save.
 #' @param max_sheets An integer specifying the maximum number of sheets to split
-#'  your table into for writing to excel. The default is 1.
+#' your table into for writing to excel. The default is 1.
 #' @param epgs The projection to convert to
 #' @inheritParams sbf_save_object
 #' @family excel
@@ -678,13 +682,18 @@ sbf_save_data_to_db <- function(x, x_name = substitute(x),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_save_data_to_db
 #' @param x A data.frame with Table, Column and Description columns.
-#' @param strict A flag specifying whether to error if x has extraneous descriptions.
-#' @param overwrite A flag specifying whether to overwrite existing descriptions.
+#' @param strict A flag specifying whether to error if x has extraneous
+#' descriptions.
+#' @param overwrite A flag specifying whether to overwrite existing
+#' descriptions.
 #' @return A invisible data.frame of the altered descriptions.
 #' @export
-sbf_save_db_metatable_descriptions <- function(x, db_name = sbf_get_db_name(),
-                                               sub = sbf_get_sub(), main = sbf_get_main(),
-                                               overwrite = FALSE, strict = TRUE) {
+sbf_save_db_metatable_descriptions <- function(x,
+                                               db_name = sbf_get_db_name(),
+                                               sub = sbf_get_sub(),
+                                               main = sbf_get_main(),
+                                               overwrite = FALSE,
+                                               strict = TRUE) {
   check_data(x, values = list(Table = "", Column = "", Description = c("", NA)))
   chk_flag(overwrite)
   chk_flag(strict)
@@ -870,9 +879,11 @@ sbf_save_excels <- function(sub = sbf_get_sub(),
 #' @inheritParams readwritesqlite::rws_write
 #' @return An invisible character vector of the paths to the saved objects.
 #' @export
-sbf_save_datas_to_db <- function(db_name = sbf_get_db_name(), sub = sbf_get_sub(),
+sbf_save_datas_to_db <- function(db_name = sbf_get_db_name(),
+                                 sub = sbf_get_sub(),
                                  main = sbf_get_main(),
-                                 commit = TRUE, strict = TRUE,
+                                 commit = TRUE,
+                                 strict = TRUE,
                                  env = parent.frame(),
                                  silent = getOption("rws.silent", FALSE)) {
   chk_s3_class(env, "environment")
@@ -933,7 +944,7 @@ sbf_save_db_to_workbook <- function(workbook_name = sbf_get_workbook_name(),
 #'
 #' @param bucket_name A string of the AWS S3 bucket name.
 #' @param data_type A string (by default `NULL`) for which data type to return.
-#'   Check the folder names within the shiny-upload in AWS for options common
+#' Check the folder names within the shiny-upload in AWS for options common
 #'   examples include punch-data, tracks, logger, image and pdf.
 #' @param year A whole number (by default `NULL`) indicating which year to
 #'   return. Format YYYY.
