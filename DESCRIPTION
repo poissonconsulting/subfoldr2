@@ -51,7 +51,8 @@ Suggests:
     withr
 Remotes:
     poissonconsulting/flobr,
-    poissonconsulting/dbflobr
+    poissonconsulting/dbflobr,
+    poissonconsulting/readwriteaws
 RdMacros: 
     lifecycle
 Encoding: UTF-8
