@@ -6,8 +6,7 @@
 \alias{subfoldr2-package}
 \title{subfoldr2: Save and Load R Objects}
 \description{
-Facilitates saving and loading R objects, data
-    frames, tables, plots, text blocks and numbers to subfolders.
+Facilitates saving and loading R objects, data frames, tables, plots, text blocks and numbers to subfolders.
 }
 \author{
 \strong{Maintainer}: Joe Thorley \email{joe@poissonconsulting.ca} (\href{https://orcid.org/0000-0002-7683-4592}{ORCID})
