@@ -574,7 +574,7 @@ sbf_save_excel <- function(x,
   chk::chk_s3_class(sub, "character")
   chk::chk_range(length(sub))
   chk::chk_string(main)
-  chk::chk_null_or(epgs, chk::chk_number)
+  chk::chk_null_or(epgs, vld = chk::vld_number)
 
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
@@ -612,7 +612,7 @@ sbf_save_workbook <- function(workbook_name = basename(getwd()),
   chk::chk_s3_class(sub, "character")
   chk::chk_range(length(sub))
   chk::chk_string(main)
-  chk::chk_null_or(epgs, chk::chk_number)
+  chk::chk_null_or(epgs, vld = chk::vld_number)
   chk::chk_s3_class(env, "environment")
 
   names <- objects(envir = env)
