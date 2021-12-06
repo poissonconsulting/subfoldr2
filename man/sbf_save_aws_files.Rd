@@ -67,10 +67,12 @@ Download files from an AWS S3 bucket into the analysis.
 }
 \examples{
 \dontrun{
-sbf_save_aws_files(bucket_name = "exploit-upload-poissonconsulting", 
-data_type = "upload-recapture",
-year = 2021,
-file_name = "processed_data",
-file_extension = "csv")
+sbf_save_aws_files(
+  bucket_name = "exploit-upload-poissonconsulting",
+  data_type = "upload-recapture",
+  year = 2021,
+  file_name = "processed_data",
+  file_extension = "csv"
+)
 }
 }

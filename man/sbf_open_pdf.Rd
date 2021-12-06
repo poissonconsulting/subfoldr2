@@ -24,6 +24,6 @@ sbf_open_pdf(
 \item{height}{A positive number indicating the height in inches.}
 }
 \description{
-Opens a pdf device in the current pdfs subfolder using 
+Opens a pdf device in the current pdfs subfolder using
 \code{grDevices::\link[grDevices]{pdf}()}.
 }

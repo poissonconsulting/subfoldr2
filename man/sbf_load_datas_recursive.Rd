@@ -21,8 +21,8 @@ sbf_load_datas_recursive(
 \item{include_root}{A flag indicating whether to include objects in the top sub folder.}
 }
 \description{
-Recursively loads all the data frames with names matching the regular expression x_name as the 
+Recursively loads all the data frames with names matching the regular expression x_name as the
 the first (list) column (named data) in a data frame.
-Subsequent character vector columns specify the object names (named name) 
+Subsequent character vector columns specify the object names (named name)
 and sub folders (named sub1, sub2 etc).
 }

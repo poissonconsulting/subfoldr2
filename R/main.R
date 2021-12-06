@@ -12,7 +12,7 @@ sbf_get_main <- function() {
 #' Set Main
 #'
 #' The directory is created when needed if it doesn't already exist.
-#' 
+#'
 #' @inheritParams sbf_set_sub
 #' @return An invisible string of the path to the main folder.
 #' @export
@@ -22,7 +22,7 @@ sbf_set_main <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
   path <- file_path(..., collapse = TRUE)
   path <- sanitize_path(path, rm_leading = FALSE)
   options(sbf.main = path)
-  if(rm) rm_all(ask = ask)
+  if (rm) rm_all(ask = ask)
   invisible(path)
 }
 
@@ -47,13 +47,14 @@ sbf_reset_main <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 sbf_rm_main <- function(main = sbf_get_main(), ask = getOption("sbf.ask", TRUE)) {
   chk_flag(ask)
   chk_string(main)
-  
-  if(!fs::file_exists(main))
+
+  if (!fs::file_exists(main)) {
     return(invisible(main))
-  
+  }
+
   msg <- paste0("Delete directory '", main, "'?")
-  
-  if(!ask || yesno(msg)) {
+
+  if (!ask || yesno(msg)) {
     unlink(main, recursive = TRUE)
   }
   invisible(main)

@@ -46,8 +46,8 @@ A named logical vector.
 }
 \description{
 Test if data are equal using \code{\link{all.equal}()}.
-If doesn't exist in both returns FALSE 
-unless exists = FALSE in which case returns TRUE 
+If doesn't exist in both returns FALSE
+unless exists = FALSE in which case returns TRUE
 or exists = NA in which case returns NA.
 }
 \seealso{

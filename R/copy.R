@@ -9,8 +9,8 @@
 #' @param ask A flag specifying whether to ask before deleting an existing database (if exists = FALSE).
 #' @return A flag indicating whether successfully copied.
 #' @export
-sbf_copy_db <- function(path, db_name = sbf_get_db_name(), sub = sbf_get_sub(), 
-                        main = sbf_get_main(), 
+sbf_copy_db <- function(path, db_name = sbf_get_db_name(), sub = sbf_get_sub(),
+                        main = sbf_get_main(),
                         exists = FALSE, ask = getOption("sbf.ask", TRUE)) {
   chk_ext(path, c("db", "sqlite", "sqlite3"))
   chk_file(path)
@@ -20,16 +20,18 @@ sbf_copy_db <- function(path, db_name = sbf_get_db_name(), sub = sbf_get_sub(),
   chk_range(length(sub), c(0L, 1L))
   chk_string(main)
   chk_lgl(exists)
-  
+
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
-  
+
   file <- file_name(main, "dbs", sub, db_name, ext = "sqlite")
-  
+
   if (isTRUE(exists)) chk_file(file)
 
   if (isFALSE(exists) && file.exists(file)) {
-    if (ask && !yesno("Delete file '", file, "'?")) return(FALSE)
+    if (ask && !yesno("Delete file '", file, "'?")) {
+      return(FALSE)
+    }
     file.remove(file)
   }
   file.copy(path, file)

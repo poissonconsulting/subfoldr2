@@ -24,7 +24,7 @@ sbf_open_db(
 
 \item{exists}{A logical scalar specifying whether the database must already exist.}
 
-\item{caption}{A string specifying the database metadata table caption. 
+\item{caption}{A string specifying the database metadata table caption.
 If NULL the caption is unchanged.
 If the caption is not specified for a databases it is set to be "". Deprecated.}
 

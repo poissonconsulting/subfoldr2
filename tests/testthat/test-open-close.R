@@ -1,24 +1,28 @@
-test_that("pdf",{
+test_that("pdf", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   teardown(sbf_reset())
-  
+
   graphics.off()
   teardown(graphics.off())
-  
+
   expect_identical(dev.cur(), c("null device" = 1L))
   expect_identical(sbf_open_pdf("x"), file.path(sbf_get_main(), "pdfs/x.pdf"))
   expect_identical(dev.cur(), c("pdf" = 2L))
   expect_identical(sbf_close_pdf(), c("null device" = 1L))
   expect_identical(dev.cur(), c("null device" = 1L))
-  expect_identical(list.files(file.path(sbf_get_main(), "pdfs")),
-                   sort(c("x.pdf")))
+  expect_identical(
+    list.files(file.path(sbf_get_main(), "pdfs")),
+    sort(c("x.pdf"))
+  )
   expect_identical(sbf_open_pdf("x"), file.path(sbf_get_main(), "pdfs/x.pdf"))
   expect_identical(dev.cur(), c("pdf" = 2L))
   expect_identical(sbf_close_pdf(), c("null device" = 1L))
   expect_identical(dev.cur(), c("null device" = 1L))
-  expect_identical(list.files(file.path(sbf_get_main(), "pdfs")),
-                   sort(c("x.pdf")))
+  expect_identical(
+    list.files(file.path(sbf_get_main(), "pdfs")),
+    sort(c("x.pdf"))
+  )
 
   expect_identical(sbf_set_sub("sub"), "sub")
   expect_identical(dev.cur(), c("null device" = 1L))
@@ -28,13 +32,13 @@ test_that("pdf",{
   expect_identical(dev.cur(), c("null device" = 1L))
 })
 
-test_that("db",{
+test_that("db", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   teardown(sbf_reset())
-  
+
   teardown(graphics.off())
-  
+
   expect_error(sbf_open_db("x"), "^`file` must specify an existing file [(]'.*dbs/x.sqlite' can't be found[)].$", class = "chk_error")
 
   conn <- sbf_open_db("x", exists = NA)

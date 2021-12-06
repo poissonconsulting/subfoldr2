@@ -28,8 +28,8 @@ sbf_load_windows_recursive(
 }
 \description{
 Recursively loads all the paths
-to the png files with names matching the regular expression x_name as the 
+to the png files with names matching the regular expression x_name as the
 the first (list) column (named windows) in a data frame.
-Subsequent character vector columns specify the object names (named name) 
+Subsequent character vector columns specify the object names (named name)
 and sub folders (named sub1, sub2 etc).
 }

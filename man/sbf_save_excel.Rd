@@ -18,7 +18,7 @@ sbf_save_excel(
 
 \item{x_name}{A string of the name.}
 
-\item{max_sheets}{An integer specifying the maximum number of sheets to split 
+\item{max_sheets}{An integer specifying the maximum number of sheets to split
 your table into for writing to excel. The default is 1.}
 
 \item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
@@ -34,11 +34,11 @@ An invisible string of the path to the saved data.frame
 Save Dataframe to Excel Workbook
 }
 \details{
-This takes a data frame and saves it to their own excel workbook. 
+This takes a data frame and saves it to their own excel workbook.
 
 This function will split up large dataframes into smaller tables for writing
  to excel because excel only allows a maximum number of 1,048,576. For the
- `max_sheets` argument you can pass a number higher then the required 
+ `max_sheets` argument you can pass a number higher then the required
  and it will only return as many sheets as there is data.
 }
 \examples{

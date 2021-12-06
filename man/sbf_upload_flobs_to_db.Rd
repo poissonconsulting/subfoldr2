@@ -47,7 +47,7 @@ IF FALSE, a new BLOB column is created.}
 An invisible named list indicating directory path, file names and whether files were successfully written to database.
 }
 \description{
-Uploads all files to database by default dir = NULL 
+Uploads all files to database by default dir = NULL
 then uploads flobs subdirectory corresponding to database using
 dbflobr::import_all_flobs().
 }

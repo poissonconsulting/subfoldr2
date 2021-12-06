@@ -1,8 +1,9 @@
 get_path <- function(x_name, class, sub, main, ext, exists) {
   chk_lgl(exists)
   path <- create_file_path(x_name, class = class, sub = sub, main = main, ext = ext)
-  if(!is.na(exists))
+  if (!is.na(exists)) {
     check_files(path, exists = exists, x_name = "`x_name`")
+  }
   path
 }
 

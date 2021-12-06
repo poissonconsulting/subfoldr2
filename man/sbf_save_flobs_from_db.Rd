@@ -36,8 +36,8 @@ within a subdirectory are deleted.}
 An invisible named list of named vectors of the file names and new file names saved.
 }
 \description{
-Saves and systematically renames 
-all blobbed files by default (dir = NULL) to flobs sub directory 
+Saves and systematically renames
+all blobbed files by default (dir = NULL) to flobs sub directory
 corresponding to database using dbflobr::save_all_flobs().
 }
 \seealso{

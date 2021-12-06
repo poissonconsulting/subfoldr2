@@ -21,7 +21,7 @@ sbf_archive_main(
 An invisible string of the path to the archived folder.
 }
 \description{
-Archives main folder by copy to a director of the same name 
+Archives main folder by copy to a director of the same name
 with the current date and time appended.
 }
 \seealso{

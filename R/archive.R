@@ -1,6 +1,6 @@
 #' Archive Main Folder
-#' 
-#' Archives main folder by copy to a director of the same name 
+#'
+#' Archives main folder by copy to a director of the same name
 #' with the current date and time appended.
 #'
 #' @inheritParams sbf_save_object
@@ -14,13 +14,14 @@ sbf_archive_main <- function(main = sbf_get_main(), ask = getOption("sbf.ask", T
   chk_dir(main)
   chk_flag(ask)
   chk_string(tz)
-  
+
   archive <- get_new_main(main, tz)
-  if(fs::file_exists(archive)) {
+  if (fs::file_exists(archive)) {
     Sys.sleep(1L)
     archive <- get_new_main(main, tz)
-    if(fs::file_exists(archive)) 
+    if (fs::file_exists(archive)) {
       stop("File '", archive, "' already exists.")
+    }
   }
 
   msg <- paste0("Copy directory '", main, "' to '", archive, "'?")
@@ -32,7 +33,7 @@ sbf_archive_main <- function(main = sbf_get_main(), ask = getOption("sbf.ask", T
 }
 
 #' Unarchive Main Folder
-#' 
+#'
 #' Unarchives an archived main folder.
 #'
 #' @inheritParams sbf_save_object
@@ -45,18 +46,19 @@ sbf_archive_main <- function(main = sbf_get_main(), ask = getOption("sbf.ask", T
 #' @family  archive
 #' @export
 sbf_unarchive_main <- function(main = sbf_get_main(), archive = 1L, ask = getOption("sbf.ask", TRUE)) {
-  if(!vld_whole_number(archive) && !vld_dir(archive)) {
+  if (!vld_whole_number(archive) && !vld_dir(archive)) {
     chkor_vld(vld_whole_number(archive), vld_dir(archive))
   }
   chk_flag(ask)
-  
-  if(vld_numeric(archive))
+
+  if (vld_numeric(archive)) {
     archive <- sbf_get_archive(main = main, archive = archive)
+  }
 
   sbf_rm_main(main, ask = ask)
 
   msg <- paste0("Copy directory '", archive, "' to '", main, "'?")
-  
+
   if (!ask || yesno(msg)) {
     fs::dir_copy(archive, main, overwrite = FALSE)
     sbf_rm_main(archive, ask = FALSE)
@@ -77,15 +79,17 @@ sbf_get_archive <- function(main = sbf_get_main(), archive = 1L) {
   chk_string(main)
   chk_whole_number(archive)
   chk_gt(archive)
-  
+
   files <- fs::dir_ls(dirname(main), type = "directory", regexp = ".*-\\d{4,4}(-\\d{2,2}){5,5}$")
-  
-  if(!length(files))
-    stop("There are no archived folders for '", basename(main) , "' in '", dirname(main), "'.")
-  
-  if(length(files) < archive)
-    stop("There are only ", length(files), " archived folders for '", basename(main) , "' in '", dirname(main), "'.")
-  
+
+  if (!length(files)) {
+    stop("There are no archived folders for '", basename(main), "' in '", dirname(main), "'.")
+  }
+
+  if (length(files) < archive) {
+    stop("There are only ", length(files), " archived folders for '", basename(main), "' in '", dirname(main), "'.")
+  }
+
   files <- rev(sort(files))
   files[archive]
 }

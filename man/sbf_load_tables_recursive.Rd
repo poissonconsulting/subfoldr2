@@ -27,8 +27,8 @@ sbf_load_tables_recursive(
 \item{meta}{A flag specifying whether to include the report, caption and any other metadata as columns.}
 }
 \description{
-Recursively loads all the data frames with names matching the regular expression x_name as the 
+Recursively loads all the data frames with names matching the regular expression x_name as the
 the first (list) column (named tables) in a data frame.
-Subsequent character vector columns specify the object names (named name) 
+Subsequent character vector columns specify the object names (named name)
 and sub folders (named sub1, sub2 etc).
 }
