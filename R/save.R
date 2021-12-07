@@ -38,7 +38,11 @@ save_meta <- function(meta, class, sub, main, x_name) {
 
 read_metas <- function(x) {
   x <- lapply(x, replace_ext, new_ext = "toml")
-  lapply(x, blogdown::read_toml)
+  if (all(vapply(x, file.exists, FUN.VALUE = TRUE))) {
+    return(lapply(x, blogdown::read_toml))
+  }
+  x <- lapply(x, replace_ext, new_ext = "rda")
+  lapply(x, readRDS)
 }
 
 save_xlsx <- function(x, class, main, sub, x_name) {

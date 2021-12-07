@@ -631,6 +631,13 @@ sbf_load_windows_recursive <- function(x_name = ".*",
     include_root = include_root, tag = tag,
     meta = meta, ext = "toml", read_fun = blogdown::read_toml
   )
+  if (nrow(data) == 0) {
+    data <- load_rdss_recursive(x_name, "windows",
+                                sub = sub, main = main,
+                                include_root = include_root, tag = tag,
+                                meta = meta, ext = "rda")
+  }
+    
   data$file <- replace_ext(data$file, "png")
   data$windows <- data$file
   data

@@ -32,6 +32,7 @@ Description: Facilitates saving and loading R objects, data frames,
     tables, plots, text blocks and numbers to subfolders.
 License: MIT + file LICENSE
 Imports: 
+    blogdown,
     chk,
     data.table,
     DBI,
@@ -52,7 +53,6 @@ Imports:
     yesno
 Suggests: 
     blob,
-    blogdown,
     covr,
     daff,
     dbflobr,
