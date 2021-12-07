@@ -742,10 +742,7 @@ test_that("block", {
 test_that("plot", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
-
   sbf_close_windows()
-  teardown(sbf_close_windows())
 
   y <- 1
   expect_error(sbf_save_plot(y), "^`x` must inherit from S3 class 'ggplot'[.]$",
@@ -850,6 +847,17 @@ test_that("plot", {
       file.path(sbf_get_main(), "plots/z.rds")
     )
   )
+  
+  sbf_reset()
+  sbf_close_windows()
+  
+})
+
+test_that("clean after up previous test block in case errored, cant use defer with ggplot", {
+  expect_identical(1, 1)
+  sbf_reset()
+  sbf_close_windows()
+  
 })
 
 test_that("window", {
