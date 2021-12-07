@@ -324,7 +324,8 @@ sbf_load_datas_from_db <- function(db_name = sbf_get_db_name(),
 
 load_rdss_recursive <- function(x_name, class, sub, main, include_root,
                                 tag = ".*", meta = FALSE,
-                                fun = NULL, ext = "rds") {
+                                fun = NULL, ext = "rds",
+                                read_fun = readRDS) {
   chk_string(x_name)
   chk_character(sub)
   chk_range(length(sub))
@@ -356,7 +357,7 @@ load_rdss_recursive <- function(x_name, class, sub, main, include_root,
     return(data)
   }
 
-  objects <- lapply(names(files), readRDS)
+  objects <- lapply(names(files), read_fun)
   if (!is.null(fun)) {
     objects <- lapply(objects, fun)
   }
@@ -628,7 +629,7 @@ sbf_load_windows_recursive <- function(x_name = ".*",
   data <- load_rdss_recursive(x_name, "windows",
     sub = sub, main = main,
     include_root = include_root, tag = tag,
-    meta = meta, ext = "rda"
+    meta = meta, ext = "toml", read_fun = blogdown::read_toml
   )
   data$file <- replace_ext(data$file, "png")
   data$windows <- data$file

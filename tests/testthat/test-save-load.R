@@ -955,8 +955,8 @@ test_that("png", {
   
   data <- sbf_load_windows_recursive(sub = character(0), meta = TRUE)
   expect_s3_class(data, "tbl_df")
-  expect_identical(colnames(data), c("windows", "name", "sub", "file", "caption", "report", "tag", 
-                                     "width", "height", "dpi"))
+  expect_identical(colnames(data), c("windows", "name", "sub", "file", "caption", "dpi", "height", 
+                                     "report", "tag", "width"))
   expect_identical(data$name, c("example"))
 })
 
@@ -976,14 +976,12 @@ test_that("png2", {
   
   expect_identical(
     list.files(file.path(sbf_get_main(), "windows")),
-    sort(c("example.rda", "example.png", "x2.png", "x2.rda"))
+    sort(c("example.toml", "example.png", "x2.png", "x2.toml"))
   )
   
-  meta <- readRDS(paste0(file.path(sbf_get_main(), "windows", "example.rda")))
-  expect_identical(meta, list(
-    caption = "map", report = TRUE, tag = "",
-    width = 6, height = 5.992, dpi = 125
-  ))
+  meta <- blogdown::read_toml(paste0(file.path(sbf_get_main(), "windows", "example.toml")))
+  expect_identical(meta, list(caption = "map", dpi = 125L, height = 5.992, report = TRUE, 
+                              tag = "", width = 6L))
   
   data <- sbf_load_windows_recursive(sub = character(0))
   expect_s3_class(data, "tbl_df")
@@ -992,8 +990,8 @@ test_that("png2", {
   
   data <- sbf_load_windows_recursive(sub = character(0), meta = TRUE)
   expect_s3_class(data, "tbl_df")
-  expect_identical(colnames(data), c("windows", "name", "sub", "file", "caption", "report", "tag", 
-                                     "width", "height", "dpi"))
+  expect_identical(colnames(data), c("windows", "name", "sub", "file", "caption", "dpi", "height", 
+                                     "report", "tag", "width"))
   expect_identical(data$name, c("example", "x2"))
 })
 
