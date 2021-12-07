@@ -21,9 +21,11 @@ sbf_save_excel(
 \item{max_sheets}{An integer specifying the maximum number of sheets to split
 your table into for writing to excel. The default is 1.}
 
-\item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+\item{sub}{A string specifying the path to the sub folder (by default the
+current sub folder).}
 
-\item{main}{A string specifying the path to the main folder (by default the current main folder)}
+\item{main}{A string specifying the path to the main folder (by default the
+current main folder)}
 
 \item{epgs}{The projection to convert to}
 }
@@ -37,9 +39,9 @@ Save Dataframe to Excel Workbook
 This takes a data frame and saves it to their own excel workbook.
 
 This function will split up large dataframes into smaller tables for writing
- to excel because excel only allows a maximum number of 1,048,576. For the
- `max_sheets` argument you can pass a number higher then the required
- and it will only return as many sheets as there is data.
+to excel because excel only allows a maximum number of 1,048,576. For the
+`max_sheets` argument you can pass a number higher then the required
+and it will only return as many sheets as there is data.
 }
 \examples{
 \dontrun{

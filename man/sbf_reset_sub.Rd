@@ -7,9 +7,11 @@
 sbf_reset_sub(rm = FALSE, ask = getOption("sbf.ask", TRUE))
 }
 \arguments{
-\item{rm}{A flag specifying whether to remove the folder and all its contents if it already exists.}
+\item{rm}{A flag specifying whether to remove the folder and all its contents
+if it already exists.}
 
-\item{ask}{A flag specifying whether to ask before removing the existing folder.}
+\item{ask}{A flag specifying whether to ask before removing the existing
+folder.}
 }
 \value{
 An invisible character vector of length 0.

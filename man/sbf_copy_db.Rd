@@ -14,17 +14,23 @@ sbf_copy_db(
 )
 }
 \arguments{
-\item{path}{A string of the path to the database to copy (with the extension).}
+\item{path}{A string of the path to the database to copy
+(with the extension).}
 
-\item{db_name}{A string of the name for the new database (without the extension).}
+\item{db_name}{A string of the name for the new database
+(without the extension).}
 
-\item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+\item{sub}{A string specifying the path to the sub folder (by default the
+current sub folder).}
 
-\item{main}{A string specifying the path to the main folder (by default the current main folder)}
+\item{main}{A string specifying the path to the main folder (by default the
+current main folder)}
 
-\item{exists}{A logical scalar specifying whether the new database must already exist.}
+\item{exists}{A logical scalar specifying whether the new database must
+already exist.}
 
-\item{ask}{A flag specifying whether to ask before deleting an existing database (if exists = FALSE).}
+\item{ask}{A flag specifying whether to ask before deleting an existing
+database (if exists = FALSE).}
 }
 \value{
 A flag indicating whether successfully copied.

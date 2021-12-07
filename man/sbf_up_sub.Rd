@@ -9,9 +9,11 @@ sbf_up_sub(n = 1L, rm = FALSE, ask = getOption("sbf.ask", TRUE))
 \arguments{
 \item{n}{A positive int of the number of subfolders to move up.}
 
-\item{rm}{A flag specifying whether to remove the folder and all its contents if it already exists.}
+\item{rm}{A flag specifying whether to remove the folder and all its contents
+if it already exists.}
 
-\item{ask}{A flag specifying whether to ask before removing the existing folder.}
+\item{ask}{A flag specifying whether to ask before removing the existing
+folder.}
 }
 \value{
 An invisible string specifying the new sub folder.

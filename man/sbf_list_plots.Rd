@@ -16,13 +16,16 @@ sbf_list_plots(
 \arguments{
 \item{x_name}{A string of the name.}
 
-\item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+\item{sub}{A string specifying the path to the sub folder (by default the
+current sub folder).}
 
-\item{main}{A string specifying the path to the main folder (by default the current main folder)}
+\item{main}{A string specifying the path to the main folder (by default the
+current main folder)}
 
 \item{recursive}{A flag specifying whether to recurse into subfolders.}
 
-\item{include_root}{A flag indicating whether to include objects in the top sub folder.}
+\item{include_root}{A flag indicating whether to include objects in the top
+sub folder.}
 
 \item{ext}{A string of the file extension.}
 }

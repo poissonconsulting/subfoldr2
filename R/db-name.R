@@ -3,7 +3,8 @@
 #' Gets database name (without the extension or path).
 #' By default (ie if not set) 'database'.
 #'
-#' @return A string specifying the current database name (without the extension or path).
+#' @return A string specifying the current database name (without the extension
+#' or path).
 #' @family db_name
 #' @export
 #' @examples
@@ -16,8 +17,10 @@ sbf_get_db_name <- function() {
 #'
 #' Sets database name option (without the extension or path).
 #'
-#' @param db_name A string specifying the new database name (without the extension or path).
-#' @return An invisible string specifying the new database name (without the extension or path).
+#' @param db_name A string specifying the new database name
+#' (without the extension or path).
+#' @return An invisible string specifying the new database name
+#' (without the extension or path).
 #' @family db_name
 #' @export
 #' @examples

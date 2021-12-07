@@ -25,9 +25,11 @@ sbf_save_plot(
 
 \item{x_name}{A string of the name.}
 
-\item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+\item{sub}{A string specifying the path to the sub folder (by default the
+current sub folder).}
 
-\item{main}{A string specifying the path to the main folder (by default the current main folder)}
+\item{main}{A string specifying the path to the main folder (by default the
+current main folder)}
 
 \item{caption}{A string of the caption.}
 
@@ -47,7 +49,8 @@ sbf_save_plot(
 save images larger than 50x50 inches, to prevent the common error of
 specifying dimensions in pixels.}
 
-\item{csv}{A count specifying the maximum number of rows to save as a csv file.}
+\item{csv}{A count specifying the maximum number of rows to save as a csv
+file.}
 }
 \description{
 Saves a ggplot object.

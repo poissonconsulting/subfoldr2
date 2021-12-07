@@ -14,15 +14,18 @@ sbf_load_datas_recursive(
 \arguments{
 \item{x_name}{A string of the name.}
 
-\item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+\item{sub}{A string specifying the path to the sub folder (by default the
+current sub folder).}
 
-\item{main}{A string specifying the path to the main folder (by default the current main folder)}
+\item{main}{A string specifying the path to the main folder (by default the
+current main folder)}
 
-\item{include_root}{A flag indicating whether to include objects in the top sub folder.}
+\item{include_root}{A flag indicating whether to include objects in the top
+sub folder.}
 }
 \description{
-Recursively loads all the data frames with names matching the regular expression x_name as the
-the first (list) column (named data) in a data frame.
+Recursively loads all the data frames with names matching the regular
+expression x_name as the first (list) column (named data) in a data frame.
 Subsequent character vector columns specify the object names (named name)
 and sub folders (named sub1, sub2 etc).
 }

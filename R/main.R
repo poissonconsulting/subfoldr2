@@ -44,7 +44,8 @@ sbf_reset_main <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #' @return An invisible copy of the main folder.
 #' @family reset
 #' @export
-sbf_rm_main <- function(main = sbf_get_main(), ask = getOption("sbf.ask", TRUE)) {
+sbf_rm_main <- function(main = sbf_get_main(),
+                        ask = getOption("sbf.ask", TRUE)) {
   chk_flag(ask)
   chk_string(main)
 

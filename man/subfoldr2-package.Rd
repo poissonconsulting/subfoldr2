@@ -14,6 +14,8 @@ Facilitates saving and loading R objects, data frames, tables, plots, text block
 Other contributors:
 \itemize{
   \item Ayla Pearson (\href{https://orcid.org/0000-0001-7388-1222}{ORCID}) [contributor]
+  \item Evan Amies-Galonski \email{evan@poissonconsulting.ca} (\href{https://orcid.org/-3188}{ORCID}) [contributor]
+  \item Nadine Hussein \email{nadine@poissonconsulting.ca} (\href{https://orcid.org/0000-0003-4470-8361}{ORCID}) [contributor]
   \item Poisson Consulting [copyright holder, funder]
 }
 

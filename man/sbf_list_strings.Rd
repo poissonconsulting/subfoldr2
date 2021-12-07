@@ -16,16 +16,20 @@ sbf_list_strings(
 \arguments{
 \item{x_name}{A string of the name.}
 
-\item{sub}{A string specifying the path to the sub folder (by default the current sub folder).}
+\item{sub}{A string specifying the path to the sub folder (by default the
+current sub folder).}
 
-\item{main}{A string specifying the path to the main folder (by default the current main folder)}
+\item{main}{A string specifying the path to the main folder (by default the
+current main folder)}
 
 \item{recursive}{A flag specifying whether to recurse into subfolders.}
 
-\item{include_root}{A flag indicating whether to include objects in the top sub folder.}
+\item{include_root}{A flag indicating whether to include objects in the top
+sub folder.}
 
 \item{ext}{A string of the file extension.}
 }
 \description{
-Returns file paths for all string .rds files matching regular expression x_name.
+Returns file paths for all string .rds files matching regular expression
+x_name.
 }
