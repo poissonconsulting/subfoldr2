@@ -104,8 +104,7 @@ meta_to_character <- function(x) {
 }
 
 meta_columns <- function(x) {
-  x <- replace_ext(x, "rda")
-  x <- lapply(x, readRDS)
+  x <- read_metas(x)
   x <- lapply(x, as.data.frame, stringsAsFactors = FALSE)
   x <- lapply(x, meta_to_character)
   data.table::rbindlist(x)
