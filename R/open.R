@@ -52,6 +52,7 @@ sbf_open_pdf <- function(x_name = "plots",
 #' If the report status is not specified for a databases it is included in the
 #' report. deprecated.
 #' @param tag A string of the tag. Deprecated.
+#' @family database functions
 #' @export
 sbf_open_db <- function(db_name = sbf_get_db_name(),
                         sub = sbf_get_sub(),

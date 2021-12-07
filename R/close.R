@@ -12,6 +12,7 @@ sbf_close_pdf <- function() grDevices::dev.off()
 #'
 #' The function is just a wrapper on \code{\link[DBI]{dbDisconnect}(conn)}.
 #' @inheritParams DBI::dbDisconnect
+#' @family database functions
 #' @export
 sbf_close_db <- function(conn) DBI::dbDisconnect(conn)
 
