@@ -78,7 +78,7 @@ sbf_add_sub <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #' @export
 #' @examples
 #' sbf_set_sub("nameofsub/othersub/yetothersub")
-#' sbf_up_sub("anothername")
+#' sbf_up_sub()
 #' sbf_get_sub()
 #' sbf_reset_sub()
 sbf_up_sub <- function(n = 1L, rm = FALSE, ask = getOption("sbf.ask", TRUE)) {

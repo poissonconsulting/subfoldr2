@@ -23,7 +23,7 @@ Moves up the sub folder hierarchy.
 }
 \examples{
 sbf_set_sub("nameofsub/othersub/yetothersub")
-sbf_up_sub("anothername")
+sbf_up_sub()
 sbf_get_sub()
 sbf_reset_sub()
 }
