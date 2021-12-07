@@ -19,6 +19,11 @@ An invisible character vector of length 0.
 \description{
 Reset Sub Folder
 }
+\examples{
+sbf_set_sub("nameofsub")
+sbf_get_sub()
+sbf_reset_sub()
+}
 \seealso{
 Other reset: 
 \code{\link{sbf_reset_main}()},
