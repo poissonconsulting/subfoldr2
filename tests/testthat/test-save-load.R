@@ -85,12 +85,12 @@ test_that("object", {
   )
 
   data <- sbf_load_objects_recursive(sub = character(0))
-  expect_is(data, "tbl_df")
+  expect_s3_class(data, "tbl_df")
   expect_identical(
     colnames(data),
     c("objects", "name", "sub", "sub1", "sub2", "file")
   )
-  expect_is(data$objects, "list")
+  expect_type(data$objects, "list")
   expect_identical(unlist(data$objects), c(x, x, y))
   expect_identical(data$name, c("x", "x", "y"))
   expect_identical(data$sub1, c("t2", NA, NA))
@@ -106,7 +106,7 @@ test_that("object", {
   )
 
   data <- sbf_load_objects_recursive(sub = character(0), include_root = FALSE)
-  expect_is(data, "tbl_df")
+  expect_s3_class(data, "tbl_df")
   expect_identical(
     colnames(data),
     c("objects", "name", "sub", "sub1", "sub2", "file")
@@ -163,7 +163,7 @@ test_that("object", {
   sbf_save_object(x)
 
   data <- sbf_load_objects_recursive(sub = character(0))
-  expect_is(data, "tbl_df")
+  expect_s3_class(data, "tbl_df")
   expect_identical(
     colnames(data),
     c("objects", "name", "sub", "file")
@@ -174,7 +174,7 @@ test_that("object", {
   sbf_save_object(x)
 
   data <- sbf_load_objects_recursive(sub = character(0))
-  expect_is(data, "tbl_df")
+  expect_s3_class(data, "tbl_df")
   expect_identical(
     colnames(data),
     c("objects", "name", "sub", "sub1", "sub2", "file")
