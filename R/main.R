@@ -1,6 +1,7 @@
 #' Get Main
 #'
 #' @return A string specifying the main directory.
+#' @family directory functions
 #' @export
 #' @examples
 #' sbf_get_main()
@@ -15,6 +16,7 @@ sbf_get_main <- function() {
 #'
 #' @inheritParams sbf_set_sub
 #' @return An invisible string of the path to the main folder.
+#' @family directory functions
 #' @export
 sbf_set_main <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
   chk_flag(rm)
@@ -31,6 +33,7 @@ sbf_set_main <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #' @inheritParams sbf_set_sub
 #' @return An invisible copy of the string \code{"output"}.
 #' @family reset
+#' @family directory functions
 #' @export
 sbf_reset_main <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
   invisible(sbf_set_main("output", rm = rm, ask = ask))
@@ -43,6 +46,7 @@ sbf_reset_main <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #' @inheritParams sbf_set_sub
 #' @return An invisible copy of the main folder.
 #' @family reset
+#' @family directory functions
 #' @export
 sbf_rm_main <- function(main = sbf_get_main(),
                         ask = getOption("sbf.ask", TRUE)) {

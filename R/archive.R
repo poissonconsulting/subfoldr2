@@ -78,6 +78,7 @@ sbf_unarchive_main <- function(main = sbf_get_main(),
 #'
 #' @return A string of the path to the archived directory.
 #' @family archive
+#' @family directory functions
 #' @export
 sbf_get_archive <- function(main = sbf_get_main(), archive = 1L) {
   chk_string(main)

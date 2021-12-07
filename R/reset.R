@@ -1,9 +1,9 @@
 #' Reset Main, Sub and Database Name
 #'
 #' @return An invisible NULL.
-#' @family reset
+#' @family reset functions
+#' @family directory functions
 #' @export
-#'
 #' @examples
 #' sbf_reset()
 sbf_reset <- function() {
