@@ -362,7 +362,7 @@ test_that("string", {
   expect_identical(sbf_load_string("y"), "two words")
   expect_identical(
     list.files(file.path(sbf_get_main(), "strings")),
-    sort(c("y.rda", "y.rds", "y.txt"))
+    sort(c("y.toml", "y.rds", "y.txt"))
   )
   txt <- readLines(file.path(sbf_get_main(), "strings", "y.txt"), warn = FALSE)
   expect_equal(txt, "two words")
@@ -377,7 +377,7 @@ test_that("string", {
   )
   expect_identical(
     list.files(file.path(sbf_get_main(), "strings")),
-    sort(c("x.rda", "x.rds", "x.txt", "y.rda", "y.rds", "y.txt"))
+    sort(c("x.toml", "x.rds", "x.txt", "y.toml", "y.rds", "y.txt"))
   )
   x <- 0
   y <- 0
@@ -590,11 +590,11 @@ test_that("table", {
   expect_identical(sbf_load_table("x"), x)
   expect_identical(
     list.files(file.path(sbf_get_main(), "tables")),
-    sort(c("x.rda", "x.csv", "x.rds"))
+    sort(c("x.toml", "x.csv", "x.rds"))
   )
   csv <- read.csv(file.path(sbf_get_main(), "tables", "x.csv"))
   expect_equal(csv, x)
-  meta <- readRDS(paste0(file.path(sbf_get_main(), "tables", "x.rda")))
+  meta <- blogdown::read_toml(paste0(file.path(sbf_get_main(), "tables", "x.toml")))
   expect_identical(meta, list(caption = "", report = TRUE, tag = ""))
 
   y <- data.frame(z = 2L)
@@ -678,7 +678,7 @@ test_that("block", {
   expect_identical(sbf_load_block("y"), "two words")
   expect_identical(
     list.files(file.path(sbf_get_main(), "blocks")),
-    sort(c("y.rda", "y.rds", "y.txt"))
+    sort(c("y.toml", "y.rds", "y.txt"))
   )
   txt <- readLines(file.path(sbf_get_main(), "blocks", "y.txt"), warn = FALSE)
   expect_equal(txt, "two words")
@@ -773,7 +773,7 @@ test_that("plot", {
   expect_identical(
     list.files(file.path(sbf_get_main(), "plots")),
     sort(c(
-      "x.rda", "y.rda", "x.png", "x.rds",
+      "x.toml", "y.toml", "x.png", "x.rds",
       "y.csv", "y.png", "y.rds"
     ))
   )
@@ -802,7 +802,7 @@ test_that("plot", {
   expect_identical(
     list.files(file.path(sbf_get_main(), "plots")),
     sort(c(
-      "plot.rda", "x.rda", "y.rda", "z.rda",
+      "plot.toml", "x.toml", "y.toml", "z.toml",
       "plot.png", "plot.rds", "x.png", "x.rds",
       "y.csv", "y.png", "y.rds", "z.csv",
       "z.png", "z.rds"
@@ -826,15 +826,14 @@ test_that("plot", {
 
   data2 <- sbf_load_plots_recursive(meta = TRUE)
   expect_identical(colnames(data2), c(
-    "plots", "name", "sub", "file", "caption", "report",
-    "tag",
-    "width", "height", "dpi"
+    "plots", "name", "sub", "file", "caption", "dpi", 
+    "height", "report", "tag", "width"
   ))
   expect_identical(data2$caption[1:2], c("one c", ""))
   expect_identical(data2$report[1:2], c(FALSE, TRUE))
   expect_equal(data2$width[1:2], c(1.003937, 6.000000))
   expect_equal(data2$height[1:2], c(1.181102, 6.000000), tolerance = 1e-06)
-  expect_identical(data2$dpi[1:2], c(320, 300))
+  expect_equal(data2$dpi[1:2], c(320, 300))
 
   data <- sbf_load_plots_data_recursive()
   expect_s3_class(data, "tbl_df")
@@ -872,10 +871,10 @@ test_that("window", {
   sbf_close_window()
   expect_identical(
     list.files(file.path(sbf_get_main(), "windows")),
-    sort(c("window.rda", "window.png"))
+    sort(c("window.toml", "window.png"))
   )
 
-  meta <- readRDS(paste0(file.path(sbf_get_main(), "windows", "window.rda")))
+  meta <- blogdown::read_toml(paste0(file.path(sbf_get_main(), "windows", "window.toml")))
   expect_identical(meta, list(
     caption = "", report = TRUE,
     width = 6, height = 7, dpi = 300
@@ -895,10 +894,10 @@ test_that("window", {
 
   expect_identical(
     list.files(file.path(sbf_get_main(), "windows")),
-    sort(c("t2.rda", "window.rda", "t2.png", "window.png"))
+    sort(c("t2.toml", "window.toml", "t2.png", "window.png"))
   )
 
-  meta <- readRDS(paste0(file.path(sbf_get_main(), "windows", "t2.rda")))
+  meta <- blogdown::read_toml(paste0(file.path(sbf_get_main(), "windows", "t2.toml")))
   expect_identical(meta, list(
     caption = "nice one", report = FALSE,
     width = 4, height = 3, dpi = 72
@@ -940,13 +939,13 @@ test_that("png", {
 
   expect_identical(
     list.files(file.path(sbf_get_main(), "windows")),
-    sort(c("example.rda", "example.png"))
+    sort(c("example.toml", "example.png"))
   )
 
-  meta <- readRDS(paste0(file.path(sbf_get_main(), "windows", "example.rda")))
-  expect_identical(meta, list(
-    caption = "map", report = TRUE, tag = "",
-    width = 6, height = 5.992, dpi = 125
+  meta <- blogdown::read_toml(paste0(file.path(sbf_get_main(), "windows", "example.toml")))
+  expect_equal(meta, list(
+    caption = "map", dpi = 125, height = 5.992, report = TRUE, tag = "",
+    width = 6
   ))
 
   data <- sbf_load_windows_recursive(sub = character(0))

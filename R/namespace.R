@@ -5,4 +5,5 @@
 #' @importFrom stats setNames
 #' @importFrom tibble as_tibble tibble
 #' @importFrom tools file_ext
+#' @importFrom blogdown write_toml
 NULL

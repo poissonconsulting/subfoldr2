@@ -38,6 +38,7 @@ Imports:
 Suggests: 
     covr,
     blob,
+    blogdown,
     daff,
     dbflobr,
     flobr,
