@@ -3,7 +3,9 @@
 #' @return A string specifying the current sub folder.
 #' @export
 #' @examples
+#' sbf_set_sub("nameofsub")
 #' sbf_get_sub()
+#' sbf_reset_sub()
 sbf_get_sub <- function() {
   path <- getOption("sbf.sub", character(0))
   sanitize_path(path)
@@ -18,6 +20,10 @@ sbf_get_sub <- function() {
 #' folder.
 #' @return An invisible string specifying the new sub folder.
 #' @export
+#' @examples
+#' sbf_set_sub("nameofsub")
+#' sbf_get_sub()
+#' sbf_reset_sub()
 sbf_set_sub <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
   chk_flag(rm)
   chk_flag(ask)
@@ -34,6 +40,10 @@ sbf_set_sub <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #' @return An invisible character vector of length 0.
 #' @family reset
 #' @export
+#' @examples
+#' sbf_set_sub("nameofsub")
+#' sbf_get_sub()
+#' sbf_reset_sub()
 sbf_reset_sub <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
   invisible(sbf_set_sub(rm = rm, ask = ask))
 }
@@ -46,6 +56,11 @@ sbf_reset_sub <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #'
 #' @return An invisible string specifying the new sub folder.
 #' @export
+#' @examples
+#' sbf_set_sub("nameofsub")
+#' sbf_add_sub("anothername")
+#' sbf_get_sub()
+#' sbf_reset_sub()
 sbf_add_sub <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
   path <- file_path(..., collapse = TRUE)
   path <- sanitize_path(path)
@@ -61,6 +76,11 @@ sbf_add_sub <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #'
 #' @return An invisible string specifying the new sub folder.
 #' @export
+#' @examples
+#' sbf_set_sub("nameofsub/othersub/yetothersub")
+#' sbf_up_sub("anothername")
+#' sbf_get_sub()
+#' sbf_reset_sub()
 sbf_up_sub <- function(n = 1L, rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
   chk_whole_number(n)
   chk_gte(n)
