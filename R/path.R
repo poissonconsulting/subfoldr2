@@ -71,7 +71,7 @@ sbf_path_number <- function(x_name,
   chk_string(ext)
   chk_subset(ext, c("rds", "csv"))
   get_path(x_name,
-    class = "number",
+    class = "numbers",
     sub = sub,
     main = main,
     ext = ext,
@@ -93,7 +93,7 @@ sbf_path_string <- function(x_name,
   chk_string(ext)
   chk_subset(ext, c("rds", "txt"))
   get_path(x_name,
-    class = "string",
+    class = "strings",
     sub = sub,
     main = main,
     ext = ext,
