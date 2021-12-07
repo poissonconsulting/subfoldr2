@@ -42,13 +42,14 @@ sbf_number_exists <- function(x_name,
 }
 
 #' String Exists
-#'
+#' @description this function is now deprecated as of version 0.0.0.9045
 #' @inheritParams sbf_save_data
 #' @return A flag specifying whether the string exists.
 #' @export
 sbf_string_exists <- function(x_name,
                               sub = sbf_get_sub(),
                               main = sbf_get_main()) {
+  lifecycle::deprecate_soft("0.0.0.9045", "sbf_string_exists()")
   exists_rds(x_name, class = "strings", sub = sub, main = main)
 }
 
