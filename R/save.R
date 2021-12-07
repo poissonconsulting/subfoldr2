@@ -36,12 +36,9 @@ save_meta <- function(meta, class, sub, main, x_name) {
   invisible(file)
 }
 
-read_meta <- function(class, sub, main, x_name) {
-  file <- file_name(main, class, sub, x_name, "rda")
-  if (!file.exists(file)) {
-    return(list())
-  }
-  readRDS(file)
+read_metas <- function(x) {
+  x <- lapply(x, replace_ext, new_ext = "rda")
+  lapply(x, readRDS)
 }
 
 save_xlsx <- function(x, class, main, sub, x_name) {
