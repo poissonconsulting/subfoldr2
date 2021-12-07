@@ -13,5 +13,7 @@ A string specifying the current sub folder.
 Get Sub Folder
 }
 \examples{
+sbf_set_sub("nameofsub")
 sbf_get_sub()
+sbf_reset_sub()
 }

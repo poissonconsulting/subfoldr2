@@ -953,6 +953,49 @@ test_that("png", {
   expect_s3_class(data, "tbl_df")
   expect_identical(colnames(data), c("windows", "name", "sub", "file"))
   expect_identical(data$name, c("example"))
+  
+  data <- sbf_load_windows_recursive(sub = character(0), meta = TRUE)
+  expect_s3_class(data, "tbl_df")
+  expect_identical(colnames(data), c("windows", "name", "sub", "file", "caption", "report", "tag", 
+                                     "width", "height", "dpi"))
+  expect_identical(data$name, c("example"))
+})
+
+test_that("png2", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  teardown(sbf_reset())
+  
+  x <- system.file("extdata",
+                   "example.png",
+                   package = "subfoldr2",
+                   mustWork = TRUE
+  )
+  
+  sbf_save_png(x, caption = "map")
+  sbf_save_png(x, x_name = "x2", caption = "map2")
+  
+  expect_identical(
+    list.files(file.path(sbf_get_main(), "windows")),
+    sort(c("example.rda", "example.png", "x2.png", "x2.rda"))
+  )
+  
+  meta <- readRDS(paste0(file.path(sbf_get_main(), "windows", "example.rda")))
+  expect_identical(meta, list(
+    caption = "map", report = TRUE, tag = "",
+    width = 6, height = 5.992, dpi = 125
+  ))
+  
+  data <- sbf_load_windows_recursive(sub = character(0))
+  expect_s3_class(data, "tbl_df")
+  expect_identical(colnames(data), c("windows", "name", "sub", "file"))
+  expect_identical(data$name, c("example", "x2"))
+  
+  data <- sbf_load_windows_recursive(sub = character(0), meta = TRUE)
+  expect_s3_class(data, "tbl_df")
+  expect_identical(colnames(data), c("windows", "name", "sub", "file", "caption", "report", "tag", 
+                                     "width", "height", "dpi"))
+  expect_identical(data$name, c("example", "x2"))
 })
 
 test_that("save table glue", {
