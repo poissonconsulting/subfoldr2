@@ -36,13 +36,18 @@ save_meta <- function(meta, class, sub, main, x_name) {
   invisible(file)
 }
 
-read_metas <- function(x) {
-  x <- lapply(x, replace_ext, new_ext = "toml")
-  if (all(vapply(x, file.exists, FUN.VALUE = TRUE))) {
-    return(lapply(x, blogdown::read_toml))
+read_toml_rda <- function(x) {
+  chk_string(x)
+  x <- replace_ext(x, new_ext = "toml")
+  if(file.exists(x)) {
+    return(blogdown::read_toml(x))
   }
-  x <- lapply(x, replace_ext, new_ext = "rda")
-  lapply(x, readRDS)
+  x <- replace_ext(x, new_ext = "rda")
+  readRDS(x)
+}
+
+read_metas <- function(x) {
+  lapply(x, read_toml_rda)
 }
 
 save_xlsx <- function(x, class, main, sub, x_name) {
