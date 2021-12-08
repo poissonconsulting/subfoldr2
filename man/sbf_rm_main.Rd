@@ -22,7 +22,12 @@ Remove Main
 \seealso{
 Other reset: 
 \code{\link{sbf_reset_main}()},
-\code{\link{sbf_reset_sub}()},
-\code{\link{sbf_reset}()}
+\code{\link{sbf_reset_sub}()}
+
+Other housekeeping functions: 
+\code{\link{sbf_archive_main}()},
+\code{\link{sbf_rm_flobs}()},
+\code{\link{sbf_unarchive_main}()}
 }
+\concept{housekeeping functions}
 \concept{reset}

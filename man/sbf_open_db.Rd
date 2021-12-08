@@ -47,3 +47,14 @@ database (if exists = FALSE).}
 Opens a \code{\linkS4class{SQLiteConnection}} to a SQLite database.
 Foreign key constraints are enabled.
 }
+\seealso{
+Other database functions: 
+\code{\link{sbf_add_blob_column_to_db}()},
+\code{\link{sbf_close_db}()},
+\code{\link{sbf_copy_db}()},
+\code{\link{sbf_create_db}()},
+\code{\link{sbf_execute_db}()},
+\code{\link{sbf_query_db}()},
+\code{\link{sbf_upload_flobs_to_db}()}
+}
+\concept{database functions}

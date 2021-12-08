@@ -44,6 +44,7 @@ list_files <- function(x_name,
 #' @param x_name A regular expression of the object names to match.
 #' @param recursive A flag specifying whether to recurse into subfolders.
 #' @param ext A string of the file extension.
+#' @family list functions
 #' @export
 sbf_list_objects <- function(x_name = ".*", sub = sbf_get_sub(),
                              main = sbf_get_main(),
@@ -64,6 +65,7 @@ sbf_list_objects <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_list_objects
+#' @family list functions
 #' @export
 sbf_list_datas <- function(x_name = ".*", sub = sbf_get_sub(),
                            main = sbf_get_main(),
@@ -84,6 +86,7 @@ sbf_list_datas <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_list_objects
+#' @family list functions
 #' @export
 sbf_list_tables <- function(x_name = ".*", sub = sbf_get_sub(),
                             main = sbf_get_main(),
@@ -105,6 +108,7 @@ sbf_list_tables <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_list_objects
+#' @family list functions
 #' @export
 sbf_list_numbers <- function(x_name = ".*", sub = sbf_get_sub(),
                              main = sbf_get_main(),
@@ -126,6 +130,7 @@ sbf_list_numbers <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_list_objects
+#' @family list functions
 #' @export
 sbf_list_strings <- function(x_name = ".*", sub = sbf_get_sub(),
                              main = sbf_get_main(),
@@ -146,6 +151,7 @@ sbf_list_strings <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_list_objects
+#' @family list functions
 #' @export
 sbf_list_blocks <- function(x_name = ".*", sub = sbf_get_sub(),
                             main = sbf_get_main(),
@@ -166,6 +172,7 @@ sbf_list_blocks <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_list_objects
+#' @family list functions
 #' @export
 sbf_list_plots <- function(x_name = ".*", sub = sbf_get_sub(),
                            main = sbf_get_main(),
@@ -186,6 +193,7 @@ sbf_list_plots <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_list_objects
+#' @family list functions
 #' @export
 sbf_list_windows <- function(x_name = ".*", sub = sbf_get_sub(),
                              main = sbf_get_main(),
@@ -206,6 +214,7 @@ sbf_list_windows <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_list_objects
+#' @family list functions
 #' @export
 sbf_list_dbs <- function(x_name = ".*", sub = sbf_get_sub(),
                          main = sbf_get_main(),

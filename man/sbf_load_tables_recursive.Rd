@@ -37,3 +37,41 @@ expression x_name as the first (list) column (named tables) in a data frame.
 Subsequent character vector columns specify the object names (named name)
 and sub folders (named sub1, sub2 etc).
 }
+\seealso{
+Other load functions: 
+\code{\link{sbf_load_blocks_recursive}()},
+\code{\link{sbf_load_blocks}()},
+\code{\link{sbf_load_block}()},
+\code{\link{sbf_load_data_from_db}()},
+\code{\link{sbf_load_datas_from_db}()},
+\code{\link{sbf_load_datas_recursive}()},
+\code{\link{sbf_load_datas}()},
+\code{\link{sbf_load_data}()},
+\code{\link{sbf_load_db_metatable}()},
+\code{\link{sbf_load_numbers_recursive}()},
+\code{\link{sbf_load_numbers}()},
+\code{\link{sbf_load_number}()},
+\code{\link{sbf_load_objects_recursive}()},
+\code{\link{sbf_load_objects}()},
+\code{\link{sbf_load_object}()},
+\code{\link{sbf_load_plot_data}()},
+\code{\link{sbf_load_plots_data_recursive}()},
+\code{\link{sbf_load_plots_data}()},
+\code{\link{sbf_load_plots_recursive}()},
+\code{\link{sbf_load_plot}()},
+\code{\link{sbf_load_strings_recursive}()},
+\code{\link{sbf_load_strings}()},
+\code{\link{sbf_load_string}()},
+\code{\link{sbf_load_tables}()},
+\code{\link{sbf_load_table}()},
+\code{\link{sbf_load_windows_recursive}()},
+\code{\link{sbf_subs_block_recursive}()},
+\code{\link{sbf_subs_data_recursive}()},
+\code{\link{sbf_subs_number_recursive}()},
+\code{\link{sbf_subs_object_recursive}()},
+\code{\link{sbf_subs_plot_recursive}()},
+\code{\link{sbf_subs_string_recursive}()},
+\code{\link{sbf_subs_table_recursive}()},
+\code{\link{sbf_subs_window_recursive}()}
+}
+\concept{load functions}

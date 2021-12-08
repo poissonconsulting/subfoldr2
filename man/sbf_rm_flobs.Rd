@@ -25,3 +25,10 @@ A invisible string of the directory deleted.
 \description{
 Delete Flobs Subdfolder
 }
+\seealso{
+Other housekeeping functions: 
+\code{\link{sbf_archive_main}()},
+\code{\link{sbf_rm_main}()},
+\code{\link{sbf_unarchive_main}()}
+}
+\concept{housekeeping functions}

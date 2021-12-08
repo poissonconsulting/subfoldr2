@@ -32,3 +32,15 @@ sub folder.}
 \description{
 Returns file paths for all object files matching regular expression x_name.
 }
+\seealso{
+Other list functions: 
+\code{\link{sbf_list_blocks}()},
+\code{\link{sbf_list_datas}()},
+\code{\link{sbf_list_dbs}()},
+\code{\link{sbf_list_numbers}()},
+\code{\link{sbf_list_plots}()},
+\code{\link{sbf_list_strings}()},
+\code{\link{sbf_list_tables}()},
+\code{\link{sbf_list_windows}()}
+}
+\concept{list functions}

@@ -9,6 +9,7 @@
 #'
 #' @return An invisible string of the path to the archived folder.
 #' @family  archive
+#' @family housekeeping functions
 #' @export
 sbf_archive_main <- function(main = sbf_get_main(),
                              ask = getOption("sbf.ask", TRUE),
@@ -46,6 +47,7 @@ sbf_archive_main <- function(main = sbf_get_main(),
 #'
 #' @return An invisible string of the path to the previously archived folder.
 #' @family  archive
+#' @family housekeeping functions
 #' @export
 sbf_unarchive_main <- function(main = sbf_get_main(),
                                archive = 1L,
@@ -78,6 +80,7 @@ sbf_unarchive_main <- function(main = sbf_get_main(),
 #'
 #' @return A string of the path to the archived directory.
 #' @family archive
+#' @family directory functions
 #' @export
 sbf_get_archive <- function(main = sbf_get_main(), archive = 1L) {
   chk_string(main)

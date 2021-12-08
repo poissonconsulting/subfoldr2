@@ -7,6 +7,7 @@ exists_rds <- function(x_name, class, sub, main) {
 #' @description this function is now deprecated as of version 0.0.0.9045
 #' @inheritParams sbf_save_data
 #' @return A flag specifying whether the object exists.
+#' @family exists functions
 #' @export
 sbf_object_exists <- function(x_name,
                               sub = sbf_get_sub(),
@@ -20,6 +21,7 @@ sbf_object_exists <- function(x_name,
 #' @description this function is now deprecated as of version 0.0.0.9045
 #' @inheritParams sbf_save_data
 #' @return A flag specifying whether the data exists.
+#' @family exists functions
 #' @export
 sbf_data_exists <- function(x_name,
                             sub = sbf_get_sub(),
@@ -33,6 +35,7 @@ sbf_data_exists <- function(x_name,
 #' @description this function is now deprecated as of version 0.0.0.9045
 #' @inheritParams sbf_save_data
 #' @return A flag specifying whether the number exists.
+#' @family exists functions
 #' @export
 sbf_number_exists <- function(x_name,
                               sub = sbf_get_sub(),
@@ -45,6 +48,7 @@ sbf_number_exists <- function(x_name,
 #' @description this function is now deprecated as of version 0.0.0.9045
 #' @inheritParams sbf_save_data
 #' @return A flag specifying whether the string exists.
+#' @family exists functions
 #' @export
 sbf_string_exists <- function(x_name,
                               sub = sbf_get_sub(),
@@ -57,6 +61,7 @@ sbf_string_exists <- function(x_name,
 #' @description this function is now deprecated as of version 0.0.0.9045
 #' @inheritParams sbf_save_object
 #' @return A flag specifying whether the block exists.
+#' @family exists functions
 #' @export
 sbf_block_exists <- function(x_name,
                              sub = sbf_get_sub(),
@@ -69,6 +74,7 @@ sbf_block_exists <- function(x_name,
 #' @description this function is now deprecated as of version 0.0.0.9045
 #' @inheritParams sbf_save_object
 #' @return A flag specifying whether the table exists.
+#' @family exists functions
 #' @export
 sbf_table_exists <- function(x_name,
                              sub = sbf_get_sub(),
@@ -81,6 +87,7 @@ sbf_table_exists <- function(x_name,
 #' @description this function is now deprecated as of version 0.0.0.9045
 #' @inheritParams sbf_save_object
 #' @return A flag specifying whether the plot exists.
+#' @family exists functions
 #' @export
 sbf_plot_exists <- function(x_name,
                             sub = sbf_get_sub(),
