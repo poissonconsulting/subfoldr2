@@ -67,7 +67,7 @@
     <loc>/reference/sbf_compare_data.html</loc>
   </url>
   <url>
-    <loc>/reference/sbf_compare_datas.html</loc>
+    <loc>/reference/sbf_compare_data_archive.html</loc>
   </url>
   <url>
     <loc>/reference/sbf_copy_db.html</loc>
@@ -82,7 +82,7 @@
     <loc>/reference/sbf_diff_data.html</loc>
   </url>
   <url>
-    <loc>/reference/sbf_diff_datas.html</loc>
+    <loc>/reference/sbf_diff_data_archive.html</loc>
   </url>
   <url>
     <loc>/reference/sbf_diff_table.html</loc>
@@ -109,7 +109,7 @@
     <loc>/reference/sbf_is_equal_data.html</loc>
   </url>
   <url>
-    <loc>/reference/sbf_is_equal_datas.html</loc>
+    <loc>/reference/sbf_is_equal_data_archive.html</loc>
   </url>
   <url>
     <loc>/reference/sbf_list_blocks.html</loc>
@@ -287,6 +287,9 @@
   </url>
   <url>
     <loc>/reference/sbf_rm_main.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sbf_save_aws_files.html</loc>
   </url>
   <url>
     <loc>/reference/sbf_save_block.html</loc>
