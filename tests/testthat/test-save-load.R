@@ -1,7 +1,7 @@
 test_that("object", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   x <- 1
   expect_warning(sbf_load_objects(), "no objects to load")
@@ -85,12 +85,12 @@ test_that("object", {
   )
 
   data <- sbf_load_objects_recursive(sub = character(0))
-  expect_is(data, "tbl_df")
+  expect_s3_class(data, "tbl_df")
   expect_identical(
     colnames(data),
     c("objects", "name", "sub", "sub1", "sub2", "file")
   )
-  expect_is(data$objects, "list")
+  expect_type(data$objects, "list")
   expect_identical(unlist(data$objects), c(x, x, y))
   expect_identical(data$name, c("x", "x", "y"))
   expect_identical(data$sub1, c("t2", NA, NA))
@@ -106,7 +106,7 @@ test_that("object", {
   )
 
   data <- sbf_load_objects_recursive(sub = character(0), include_root = FALSE)
-  expect_is(data, "tbl_df")
+  expect_s3_class(data, "tbl_df")
   expect_identical(
     colnames(data),
     c("objects", "name", "sub", "sub1", "sub2", "file")
@@ -156,14 +156,14 @@ test_that("object", {
 test_that("object", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   x <- 1
   sbf_set_sub("one")
   sbf_save_object(x)
 
   data <- sbf_load_objects_recursive(sub = character(0))
-  expect_is(data, "tbl_df")
+  expect_s3_class(data, "tbl_df")
   expect_identical(
     colnames(data),
     c("objects", "name", "sub", "file")
@@ -174,7 +174,7 @@ test_that("object", {
   sbf_save_object(x)
 
   data <- sbf_load_objects_recursive(sub = character(0))
-  expect_is(data, "tbl_df")
+  expect_s3_class(data, "tbl_df")
   expect_identical(
     colnames(data),
     c("objects", "name", "sub", "sub1", "sub2", "file")
@@ -194,7 +194,7 @@ test_that("object", {
 test_that("data", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   y <- 1
   expect_warning(sbf_load_datas(), "no data to load")
@@ -263,7 +263,7 @@ test_that("data", {
 test_that("number", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   y <- numeric(0)
   expect_warning(sbf_load_numbers(), "no numbers to load")
@@ -343,7 +343,7 @@ test_that("number", {
 test_that("string", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   y <- "two words"
   expect_warning(sbf_load_strings(), "no strings to load")
@@ -425,7 +425,7 @@ test_that("string", {
 test_that("datas_to_db", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   x <- data.frame(x = 1)
   y <- data.frame(z = 3)
@@ -435,7 +435,7 @@ test_that("datas_to_db", {
   )
 
   conn <- sbf_open_db(exists = NA)
-  teardown(suppressWarnings(DBI::dbDisconnect(conn)))
+  withr::defer(suppressWarnings(DBI::dbDisconnect(conn)))
   expect_identical(
     list.files(file.path(sbf_get_main(), "dbs")),
     "database.sqlite"
@@ -564,7 +564,7 @@ test_that("datas_to_db", {
 test_that("table", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   y <- 1
   expect_warning(sbf_load_tables(), "no tables to load")
@@ -664,7 +664,7 @@ test_that("table", {
 test_that("block", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   sbf_set_main(tempdir())
   y <- "two words"
@@ -742,10 +742,7 @@ test_that("block", {
 test_that("plot", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
-
   sbf_close_windows()
-  teardown(sbf_close_windows())
 
   y <- 1
   expect_error(sbf_save_plot(y), "^`x` must inherit from S3 class 'ggplot'[.]$",
@@ -850,15 +847,26 @@ test_that("plot", {
       file.path(sbf_get_main(), "plots/z.rds")
     )
   )
+  
+  sbf_reset()
+  sbf_close_windows()
+  
+})
+
+test_that("clean after up previous test block in case errored, cant use defer with ggplot", {
+  expect_identical(1, 1)
+  sbf_reset()
+  sbf_close_windows()
+  
 })
 
 test_that("window", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   sbf_close_windows()
-  teardown(sbf_close_windows())
+  withr::defer(sbf_close_windows())
   expect_error(sbf_save_window(), "^No such device[.]$")
 
   skip("run locally as uses screen devices")
@@ -928,7 +936,7 @@ test_that("window", {
 test_that("png", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   x <- system.file("extdata",
     "example.png",
@@ -1001,7 +1009,7 @@ test_that("png2", {
 test_that("save table glue", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   data <- data.frame(x = 1)
   sbf_save_table(data, caption = "character")
@@ -1017,7 +1025,7 @@ test_that("save df as excel no sf columns", {
   sbf_reset()
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
 
   data <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
