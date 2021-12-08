@@ -32,3 +32,13 @@ A daff difference object.
 Find differences with existing table data.
 If doesn't exist (exists = NA) x is compared to itself.
 }
+\seealso{
+Other compare functions: 
+\code{\link{sbf_compare_datas}()},
+\code{\link{sbf_compare_data}()},
+\code{\link{sbf_diff_datas}()},
+\code{\link{sbf_diff_data}()},
+\code{\link{sbf_is_equal_datas}()},
+\code{\link{sbf_is_equal_data}()}
+}
+\concept{compare functions}
