@@ -35,5 +35,15 @@ Add named empty blob column to database
 Other flob: 
 \code{\link{sbf_save_flobs_from_db}()},
 \code{\link{sbf_upload_flobs_to_db}()}
+
+Other database functions: 
+\code{\link{sbf_close_db}()},
+\code{\link{sbf_copy_db}()},
+\code{\link{sbf_create_db}()},
+\code{\link{sbf_execute_db}()},
+\code{\link{sbf_open_db}()},
+\code{\link{sbf_query_db}()},
+\code{\link{sbf_upload_flobs_to_db}()}
 }
+\concept{database functions}
 \concept{flob}

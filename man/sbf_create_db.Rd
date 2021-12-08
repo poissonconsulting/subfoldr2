@@ -26,3 +26,14 @@ existing database.}
 \description{
 Create SQLite Database
 }
+\seealso{
+Other database functions: 
+\code{\link{sbf_add_blob_column_to_db}()},
+\code{\link{sbf_close_db}()},
+\code{\link{sbf_copy_db}()},
+\code{\link{sbf_execute_db}()},
+\code{\link{sbf_open_db}()},
+\code{\link{sbf_query_db}()},
+\code{\link{sbf_upload_flobs_to_db}()}
+}
+\concept{database functions}

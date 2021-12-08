@@ -19,8 +19,8 @@ rm_class <- function(sub, main, class, ask) {
 #'
 #' @inheritParams sbf_save_object
 #' @param ask A flag specifying whether to ask before deleting the subfolder.
-#'
 #' @return A invisible string of the directory deleted.
+#' @family housekeeping functions
 #' @export
 sbf_rm_flobs <- function(sub = sbf_get_sub(), main = sbf_get_main(),
                          ask = getOption("sbf.ask", TRUE)) {

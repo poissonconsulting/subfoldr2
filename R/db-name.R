@@ -6,6 +6,7 @@
 #' @return A string specifying the current database name (without the extension
 #' or path).
 #' @family db_name
+#' @family directory functions
 #' @export
 #' @examples
 #' sbf_get_db_name()
@@ -22,6 +23,7 @@ sbf_get_db_name <- function() {
 #' @return An invisible string specifying the new database name
 #' (without the extension or path).
 #' @family db_name
+#' @family directory functions
 #' @export
 #' @examples
 #' sbf_set_db_name("database")
@@ -39,6 +41,7 @@ sbf_set_db_name <- function(db_name = "database") {
 #'
 #' @return An invisible string of the 'database'.
 #' @family db_name reset
+#' @family directory functions
 #' @export
 #' @examples
 #' sbf_reset_db_name()

@@ -6,6 +6,7 @@
 #' @inheritParams dbflobr::add_blob_column
 #' @inheritParams sbf_open_db
 #' @return Invisible TRUE.
+#' @family database functions
 #' @export
 sbf_add_blob_column_to_db <- function(column_name,
                                       table_name,
@@ -87,6 +88,7 @@ sbf_save_flobs_from_db <- function(db_name = sbf_get_db_name(),
 #' If sub = TRUE or sub = NA then recursion is just one subfolder deep.
 #' @return An invisible named list indicating directory path, file names and
 #' whether files were successfully written to database.
+#' @family database functions
 #' @export
 sbf_upload_flobs_to_db <- function(db_name = sbf_get_db_name(),
                                    sub = sbf_get_sub(),

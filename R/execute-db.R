@@ -6,6 +6,7 @@
 #' @inheritParams sbf_open_db
 #' @param sql A string of the SQL statement to execute.
 #' @return A scalar numeric of the number of rows affected by the statement.
+#' @family database functions
 #' @export
 sbf_execute_db <- function(sql, db_name = sbf_get_db_name(),
                            sub = sbf_get_sub(),

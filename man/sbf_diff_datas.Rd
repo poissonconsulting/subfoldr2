@@ -42,8 +42,12 @@ Find differences with existing data.
 If doesn't exist  is compared to itself.
 }
 \seealso{
-Other compare: 
+Other compare functions: 
 \code{\link{sbf_compare_datas}()},
-\code{\link{sbf_compare_data}()}
+\code{\link{sbf_compare_data}()},
+\code{\link{sbf_diff_data}()},
+\code{\link{sbf_diff_table}()},
+\code{\link{sbf_is_equal_datas}()},
+\code{\link{sbf_is_equal_data}()}
 }
-\concept{compare}
+\concept{compare functions}

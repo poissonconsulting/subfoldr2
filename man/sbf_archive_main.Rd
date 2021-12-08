@@ -30,5 +30,11 @@ with the current date and time appended.
 Other archive: 
 \code{\link{sbf_get_archive}()},
 \code{\link{sbf_unarchive_main}()}
+
+Other housekeeping functions: 
+\code{\link{sbf_rm_flobs}()},
+\code{\link{sbf_rm_main}()},
+\code{\link{sbf_unarchive_main}()}
 }
 \concept{archive}
+\concept{housekeeping functions}

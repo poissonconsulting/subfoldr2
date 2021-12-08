@@ -15,3 +15,11 @@ sbf_open_window(width = 6, height = width)
 Opens a graphics window on any platform. By default the window is
 6 x 6 inches.
 }
+\seealso{
+Other graphic functions: 
+\code{\link{sbf_close_pdf}()},
+\code{\link{sbf_close_windows}()},
+\code{\link{sbf_close_window}()},
+\code{\link{sbf_open_pdf}()}
+}
+\concept{graphic functions}
