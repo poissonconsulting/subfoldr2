@@ -30,15 +30,24 @@ save_txt <- function(txt, class, sub, main, x_name) {
 }
 
 save_meta <- function(meta, class, sub, main, x_name) {
-  file <- file_name(main, class, sub, x_name, "rda")
+  file <- file_name(main, class, sub, x_name, "toml")
   meta <- lapply(meta, unname)
-  saveRDS(meta, file)
+  blogdown::write_toml(meta, file)
   invisible(file)
 }
 
+read_toml_rda <- function(x) {
+  chk_string(x)
+  x <- replace_ext(x, new_ext = "toml")
+  if(file.exists(x)) {
+    return(blogdown::read_toml(x))
+  }
+  x <- replace_ext(x, new_ext = "rda")
+  readRDS(x)
+}
+
 read_metas <- function(x) {
-  x <- lapply(x, replace_ext, new_ext = "rda")
-  lapply(x, readRDS)
+  lapply(x, read_toml_rda)
 }
 
 save_xlsx <- function(x, class, main, sub, x_name) {
@@ -47,7 +56,7 @@ save_xlsx <- function(x, class, main, sub, x_name) {
   invisible(file)
 }
 
-# this finds which columns have a sfc geomertry other then points
+# this finds which columns have a sfc geometry other then points
 # returns the names of the columns
 find_sfc_columns_to_drop <- function(table) {
   col_drop <- character()
