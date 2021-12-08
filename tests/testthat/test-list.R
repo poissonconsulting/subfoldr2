@@ -45,12 +45,13 @@ test_that("list object", {
     sbf_save_object(y),
     file.path(sbf_get_main(), "objects/y.rds")
   )
-  expect_equivalent(
+  expect_equal(
     sbf_list_objects("x", recursive = TRUE),
     c(
       file.path(sbf_get_main(), "objects/down/x.rds"),
       file.path(sbf_get_main(), "objects/x.rds")
-    )
+    ),
+    ignore_attr = TRUE
   )
 
   expect_equal(ignore_attr = TRUE, 
@@ -89,18 +90,13 @@ test_that("list object", {
     )
   )
 
-  expect_equivalent(
-    sbf_list_objects("down", recursive = TRUE),
+  expect_equal(ignore_attr = TRUE,
+               sbf_list_objects("down", recursive = TRUE),
     character(0)
   )
-  expect_equivalent(
-    sbf_list_objects("rds", recursive = TRUE),
-    character(0)
-  )
-  expect_identical(
-    names(sbf_list_objects("rds", recursive = TRUE)),
-    character(0)
-  )
+  expect_equal(ignore_attr = TRUE,
+               sbf_list_objects("rds", recursive = TRUE),
+    character(0))
 })
 
 test_that("data", {
