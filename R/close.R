@@ -3,6 +3,7 @@
 #' Closes the current graphics device.
 #'
 #' The function is just a wrapper on \code{\link[grDevices]{dev.off}()}.
+#' @family graphic functions
 #' @export
 sbf_close_pdf <- function() grDevices::dev.off()
 
@@ -21,6 +22,7 @@ sbf_close_db <- function(conn) DBI::dbDisconnect(conn)
 #' Closes the current graphics device.
 #'
 #' The function is just a wrapper on \code{\link[grDevices]{dev.off}()}.
+#' @family graphic functions
 #' @export
 sbf_close_window <- function() grDevices::dev.off()
 
@@ -29,5 +31,6 @@ sbf_close_window <- function() grDevices::dev.off()
 #' Closes all current graphics device.
 #'
 #' The function is just a wrapper on \code{\link[grDevices]{graphics.off}()}.
+#' @family graphic functions
 #' @export
 sbf_close_windows <- function() grDevices::graphics.off()
