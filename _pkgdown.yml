@@ -1,0 +1,152 @@
+destination: docs
+
+reference:
+
+- title: Save Items
+  contents:
+  - '`sbf_save_aws_files`'  
+  - '`sbf_save_block`'
+  - '`sbf_save_data`'
+  - '`sbf_save_data_to_db`'
+  - '`sbf_save_datas`'
+  - '`sbf_save_datas_to_db`'
+  - '`sbf_save_db_metatable_descriptions`'  
+  - '`sbf_save_db_to_workbook`'
+  - '`sbf_save_excel`'
+  - '`sbf_save_excels`'
+  - '`sbf_save_flobs_from_db`'
+  - '`sbf_save_number`'
+  - '`sbf_save_numbers`'
+  - '`sbf_save_object`'
+  - '`sbf_save_objects`'
+  - '`sbf_save_plot`'
+  - '`sbf_save_png`'
+  - '`sbf_save_string`'
+  - '`sbf_save_strings`'
+  - '`sbf_save_table`'
+  - '`sbf_save_window`'
+  - '`sbf_save_workbook`'
+- title: Load Items
+  contents:
+  - '`sbf_load_block`'
+  - '`sbf_load_blocks`'
+  - '`sbf_load_blocks_recursive`'
+  - '`sbf_load_data`'
+  - '`sbf_load_data_from_db`'
+  - '`sbf_load_datas`'
+  - '`sbf_load_datas_from_db`' 
+  - '`sbf_load_datas_recursive`'
+  - '`sbf_load_db_metatable`'
+  - '`sbf_load_number`'
+  - '`sbf_load_numbers`'
+  - '`sbf_load_numbers_recursive`'
+  - '`sbf_load_object`'
+  - '`sbf_load_objects`'
+  - '`sbf_load_objects_recursive`'
+  - '`sbf_load_plot`'
+  - '`sbf_load_plot_data`'
+  - '`sbf_load_plots_data`'
+  - '`sbf_load_plots_data_recursive`'
+  - '`sbf_load_plots_recursive`'
+  - '`sbf_load_string`'
+  - '`sbf_load_strings`'
+  - '`sbf_load_strings_recursive`'
+  - '`sbf_load_table`'
+  - '`sbf_load_tables`'
+  - '`sbf_load_tables_recursive`'
+  - '`sbf_load_windows_recursive`'
+- title: Compare Items
+  contents:
+  - '`sbf_compare_data`'
+  - '`sbf_compare_datas`'
+  - '`sbf_diff_data`'
+  - '`sbf_diff_datas`'
+  - '`sbf_diff_table`'
+  - '`sbf_is_equal_data`'
+  - '`sbf_is_equal_datas`'
+- title: Directory Operations
+  contents:
+  - '`sbf_set_sub`'
+  - '`sbf_reset_sub`'
+  - '`sbf_get_sub`'
+  - '`sbf_set_main`'  
+  - '`sbf_reset_main`'
+  - '`sbf_get_main`'  
+  - '`sbf_set_db_name`'
+  - '`sbf_reset_db_name`'
+  - '`sbf_get_db_name`'
+  - '`sbf_reset`'
+  - '`sbf_up_sub`'
+  - '`sbf_add_sub`'
+  - '`sbf_get_archive`'
+  - '`sbf_get_workbook_name`'
+- title: Database Operations
+  contents:
+  - '`sbf_open_db`'
+  - '`sbf_close_db`'
+  - '`sbf_copy_db`'
+  - '`sbf_query_db`'
+  - '`sbf_create_db`'
+  - '`sbf_execute_db`'  
+  - '`sbf_upload_flobs_to_db`'
+  - '`sbf_add_blob_column_to_db`'
+- title: Housekeeping
+  contents: 
+  - '`sbf_archive_main`'
+  - '`sbf_unarchive_main`'
+  - '`sbf_rm_main`'
+  - '`sbf_rm_flobs`'
+- title: Graphic Operations
+  desc: 
+  contents:
+  - '`sbf_open_pdf`'
+  - '`sbf_close_pdf`'
+  - '`sbf_open_window`'
+  - '`sbf_close_window`'
+  - '`sbf_close_windows`'
+- title: Path to Items
+  contents:
+  - '`sbf_path_block`'
+  - '`sbf_path_data`'
+  - '`sbf_path_db`'
+  - '`sbf_path_number`'
+  - '`sbf_path_object`'
+  - '`sbf_path_plot`'
+  - '`sbf_path_string`'
+  - '`sbf_path_table`'
+  - '`sbf_path_window`'
+- title: List Items File Paths
+  contents:
+  - '`sbf_list_blocks`'
+  - '`sbf_list_datas`'
+  - '`sbf_list_dbs`'
+  - '`sbf_list_numbers`'
+  - '`sbf_list_objects`'
+  - '`sbf_list_plots`'
+  - '`sbf_list_strings`'
+  - '`sbf_list_tables`'
+  - '`sbf_list_windows`'
+- title: Misc Group
+  contents:
+  - '`sbf_write_datas_to_xlsx`'
+  - '`sbf_basename_sans_ext`'
+  - '`sbf_print`'
+- title: Checks if Item Exists
+  contents: 
+  - '`sbf_block_exists`'
+  - '`sbf_data_exists`'
+  - '`sbf_number_exists`'
+  - '`sbf_object_exists`'
+  - '`sbf_plot_exists`'
+  - '`sbf_string_exists`'
+  - '`sbf_table_exists`'
+- title: Getting Subs (removing )
+  contents:
+  - '`sbf_subs_block_recursive`'
+  - '`sbf_subs_data_recursive`'
+  - '`sbf_subs_number_recursive`'
+  - '`sbf_subs_object_recursive`'
+  - '`sbf_subs_plot_recursive`'
+  - '`sbf_subs_string_recursive`'
+  - '`sbf_subs_table_recursive`'
+  - '`sbf_subs_window_recursive`'
