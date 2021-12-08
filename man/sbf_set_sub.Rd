@@ -21,3 +21,8 @@ An invisible string specifying the new sub folder.
 \description{
 Set Sub Folder
 }
+\examples{
+sbf_set_sub("nameofsub")
+sbf_get_sub()
+sbf_reset_sub()
+}

@@ -19,5 +19,5 @@ current main folder)}
 A flag specifying whether the object exists.
 }
 \description{
-Object Exists
+this function is now deprecated as of version 0.0.0.9045
 }

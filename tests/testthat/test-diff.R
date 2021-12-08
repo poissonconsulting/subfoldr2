@@ -31,7 +31,7 @@ test_that("diff_datas", {
   sbf_save_data(x)
   archive2 <- sbf_archive_main(ask = FALSE)
 
-  diff <- sbf_diff_datas(main = archive1, archive = archive2)
+  diff <- sbf_diff_data_archive(main = archive1, archive = archive2)
   expect_type(diff, "list")
   expect_identical(names(diff), "data/x")
   expect_s3_class(diff[[1]], "data_diff")
@@ -49,7 +49,7 @@ test_that("diff_datas", {
 
   archive1 <- sbf_archive_main(ask = FALSE)
 
-  diff <- sbf_diff_datas()
+  diff <- sbf_diff_data_archive()
   expect_identical(names(diff), c("data/x", "data/y"))
   expect_s3_class(diff[[1]], "data_diff")
   expect_s3_class(diff[[2]], "data_diff")

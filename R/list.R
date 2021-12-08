@@ -6,8 +6,8 @@ list_files <- function(x_name,
                        include_root,
                        ext = "rds") {
   chk_string(x_name)
-  chk_s3_class(sub, "character")
-  chk_range(length(sub), c(0L, 1L))
+  chk_character(sub)
+  chk_range(length(sub))
   chk_string(main)
   chk_flag(recursive)
   chk_flag(include_root)
