@@ -31,6 +31,8 @@ Authors@R: c(
 Description: Facilitates saving and loading R objects, data frames,
     tables, plots, text blocks and numbers to subfolders.
 License: MIT + file LICENSE
+Depends: 
+    R (>= 3.5)
 Imports: 
     blogdown,
     chk,

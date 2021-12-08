@@ -884,7 +884,7 @@ test_that("window", {
   sbf_open_window()
   plot(x ~ y, data = data.frame(x = c(5, 4), y = c(6, 7)))
   expect_identical(
-    sbf_save_window(height = 7L, dpi = 300L),
+    sbf_save_window(height = 7L, width = 4L, dpi = 300L),
     file.path(sbf_get_main(), "windows/window.png")
   )
   sbf_close_window()
@@ -895,8 +895,7 @@ test_that("window", {
   
   meta <- blogdown::read_toml(paste0(file.path(sbf_get_main(), "windows", "window.toml")))
   expect_identical(meta, list(
-    caption = "", report = TRUE,
-    width = 6, height = 7, dpi = 300
+    caption = "", dpi = 300L, height = 7L, report = TRUE, tag = "", width = 4L
   ))
   
   gp <- ggplot2::ggplot(
@@ -918,13 +917,13 @@ test_that("window", {
   
   meta <- blogdown::read_toml(paste0(file.path(sbf_get_main(), "windows", "t2.toml")))
   expect_identical(meta, list(
-    caption = "nice one", report = FALSE,
-    width = 4, height = 3, dpi = 72
+    caption = "nice one",  dpi = 72L, height = 3L, report = FALSE, tag = "", 
+    width = 4L
   ))
   
   data <- sbf_load_windows_recursive(sub = character(0))
   expect_s3_class(data, "tbl_df")
-  expect_identical(colnames(data), c("windows", "name", "file"))
+  expect_identical(colnames(data), c("windows", "name", "sub", "file"))
   expect_identical(data$name, c("t2", "window"))
   expect_identical(data$windows[1], "output/windows/t2.png")
   expect_identical(data$windows, data$file)
@@ -932,15 +931,34 @@ test_that("window", {
   data2 <- sbf_load_windows_recursive(sub = character(0), meta = TRUE)
   
   expect_identical(colnames(data2), c(
-    "windows", "name", "file", "caption",
-    "report", "width", "height", "dpi"
+    "windows", "name", "sub", "file", "caption", "dpi", "height", "report", 
+    "tag", "width"
   ))
-  expect_identical(data2[c("windows", "name", "file")], data)
+  
+  expect_identical(data2[c("windows", "name",  "sub", "file")], data)
   expect_identical(data2$caption, c("nice one", ""))
   expect_identical(data2$report, c(FALSE, TRUE))
-  expect_identical(data2$width, c(4, 6))
-  expect_identical(data2$height, c(3, 7))
-  expect_identical(data2$dpi, c(72, 300))
+  expect_identical(data2$width, c(4L, 4L))
+  expect_identical(data2$height, c(3L, 7L))
+  expect_identical(data2$dpi, c(72L, 300L))
+})
+
+test_that("window rda", {
+  sbf_reset()
+  sbf_set_main(system.file("testtomlrda", package = "subfoldr2"))
+  teardown(sbf_reset())
+  
+  data2 <- sbf_load_windows_recursive(sub = character(0), meta = TRUE)
+  
+  expect_identical(colnames(data2), c(
+    "windows", "name", "sub", "file", "caption", "report", "tag", "width", "height", "dpi"
+  ))
+  
+  expect_identical(data2$caption, c(""))
+  expect_identical(data2$report, c(TRUE))
+  expect_identical(data2$width, c(6))
+  expect_identical(data2$height, c(7))
+  expect_identical(data2$dpi, c(300L))
 })
 
 test_that("png", {
