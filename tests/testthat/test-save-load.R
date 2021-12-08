@@ -39,9 +39,6 @@ test_that("object", {
   expect_identical(x, 1)
   expect_identical(y, 2)
 
-  expect_true(sbf_object_exists("x"))
-  expect_false(sbf_object_exists("x2"))
-
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_object("x"), x)
 
