@@ -268,19 +268,6 @@ sbf_load_blocks <- function(sub = sbf_get_sub(),
   load_rdss("blocks", sub = sub, main = main, env = env, rename = rename)
 }
 
-#' Load Plots
-#'
-#' @inheritParams sbf_save_object
-#' @inheritParams sbf_load_objects
-#' @return A invisble character vector of the plots' names.
-#' @export
-sbf_load_plots_data <- function(sub = sbf_get_sub(),
-                                main = sbf_get_main(),
-                                rename = identity,
-                                env = parent.frame()) {
-  load_rdss("plots", sub = sub, main = main, env = env, rename = rename)
-}
-
 #' Load Plots Data
 #'
 #' @inheritParams sbf_save_object
