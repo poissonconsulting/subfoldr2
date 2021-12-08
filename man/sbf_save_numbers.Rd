@@ -25,3 +25,28 @@ An invisible character vector of the paths to the saved objects.
 \description{
 Save Numbers
 }
+\seealso{
+Other save functions: 
+\code{\link{sbf_basename_sans_ext}()},
+\code{\link{sbf_save_aws_files}()},
+\code{\link{sbf_save_block}()},
+\code{\link{sbf_save_data_to_db}()},
+\code{\link{sbf_save_datas_to_db}()},
+\code{\link{sbf_save_datas}()},
+\code{\link{sbf_save_data}()},
+\code{\link{sbf_save_db_metatable_descriptions}()},
+\code{\link{sbf_save_db_to_workbook}()},
+\code{\link{sbf_save_excels}()},
+\code{\link{sbf_save_excel}()},
+\code{\link{sbf_save_number}()},
+\code{\link{sbf_save_objects}()},
+\code{\link{sbf_save_object}()},
+\code{\link{sbf_save_plot}()},
+\code{\link{sbf_save_png}()},
+\code{\link{sbf_save_strings}()},
+\code{\link{sbf_save_string}()},
+\code{\link{sbf_save_table}()},
+\code{\link{sbf_save_window}()},
+\code{\link{sbf_save_workbook}()}
+}
+\concept{save functions}

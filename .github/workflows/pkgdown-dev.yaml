@@ -3,7 +3,7 @@ on:
     branches: 
       - dev
 
-name: pkgdown
+name: pkgdown-dev
 
 jobs:
   pkgdown:

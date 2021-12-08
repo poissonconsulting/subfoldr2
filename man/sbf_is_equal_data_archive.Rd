@@ -53,7 +53,12 @@ If doesn't exist in both returns FALSE, unless exists = FALSE in which case
 returns TRUE or exists = NA in which case returns NA.
 }
 \seealso{
-Other equal: 
+Other compare functions: 
+\code{\link{sbf_compare_data_archive}()},
+\code{\link{sbf_compare_data}()},
+\code{\link{sbf_diff_data_archive}()},
+\code{\link{sbf_diff_data}()},
+\code{\link{sbf_diff_table}()},
 \code{\link{sbf_is_equal_data}()}
 }
-\concept{equal}
+\concept{compare functions}

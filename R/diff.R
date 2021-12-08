@@ -6,6 +6,7 @@
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_object
 #' @return A daff difference object.
+#' @family compare functions
 #' @export
 sbf_diff_data <- function(x, 
                           x_name = substitute(x),
@@ -36,7 +37,7 @@ sbf_diff_data <- function(x,
 #' @inheritParams base::all.equal
 #' @inheritParams waldo::compare
 #' @return A named list of character vectors.
-#' @family compare
+#' @family compare functions
 #' @export
 sbf_diff_data_archive <- function(x_name = ".*",
                            sub = sbf_get_sub(),
@@ -92,6 +93,7 @@ sbf_diff_data_archive <- function(x_name = ".*",
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_object
 #' @return A daff difference object.
+#' @family compare functions
 #' @export
 sbf_diff_table <- function(x, 
                            x_name = substitute(x),

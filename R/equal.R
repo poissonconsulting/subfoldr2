@@ -8,7 +8,7 @@
 #' @inheritParams sbf_load_object
 #' @inheritParams base::all.equal
 #' @return A named flag.
-#' @family equal
+#' @family compare functions
 #' @export
 sbf_is_equal_data <- function(x, x_name = substitute(x),
                               sub = sbf_get_sub(),
@@ -49,7 +49,7 @@ sbf_is_equal_data <- function(x, x_name = substitute(x),
 #' @inheritParams sbf_unarchive_main
 #' @inheritParams base::all.equal
 #' @return A named logical vector.
-#' @family equal
+#' @family compare functions
 #' @export
 sbf_is_equal_data_archive <- function(x_name = ".*",
                                sub = sbf_get_sub(),

@@ -4,6 +4,7 @@
 #' @param db_name A string of the database name.
 #' @param ask A flag specifying whether to ask before deleting an
 #' existing database.
+#' @family database functions
 #' @export
 sbf_create_db <- function(db_name = sbf_get_db_name(),
                           sub = sbf_get_sub(),

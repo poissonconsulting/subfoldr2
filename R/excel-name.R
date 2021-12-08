@@ -4,6 +4,7 @@
 #'
 #' @return A string specifying the name of the current working directory
 #' @family excel
+#' @family directory functions
 #' @export
 #' @examples
 #' sbf_get_workbook_name()

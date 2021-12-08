@@ -7,7 +7,7 @@
 #' @inheritParams base::all.equal
 #' @inheritParams waldo::compare
 #' @return A character vector with class "waldo_compare".
-#' @family compare
+#' @family compare functions
 #' @export
 sbf_compare_data <- function(x, x_name = substitute(x),
                              sub = sbf_get_sub(), main = sbf_get_main(),
@@ -42,7 +42,7 @@ sbf_compare_data <- function(x, x_name = substitute(x),
 #' @inheritParams base::all.equal
 #' @inheritParams waldo::compare
 #' @return A named list of character vectors.
-#' @family compare
+#' @family compare functions
 #' @export
 sbf_compare_data_archive <- function(x_name = ".*", sub = sbf_get_sub(),
                               main = sbf_get_main(),

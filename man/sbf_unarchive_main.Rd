@@ -31,5 +31,11 @@ Unarchives an archived main folder.
 Other archive: 
 \code{\link{sbf_archive_main}()},
 \code{\link{sbf_get_archive}()}
+
+Other housekeeping functions: 
+\code{\link{sbf_archive_main}()},
+\code{\link{sbf_rm_flobs}()},
+\code{\link{sbf_rm_main}()}
 }
 \concept{archive}
+\concept{housekeeping functions}

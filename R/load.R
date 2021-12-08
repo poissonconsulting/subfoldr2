@@ -17,6 +17,7 @@ load_rds <- function(x_name, class, sub, main, fun = NULL, exists = TRUE) {
 #' @inheritParams sbf_save_data
 #' @param exists A logical scalar specifying whether the file should exist.
 #' @return An R object or NULL if doesn't exist.
+#' @family load functions
 #' @export
 sbf_load_object <- function(x_name,
                             sub = sbf_get_sub(),
@@ -30,6 +31,7 @@ sbf_load_object <- function(x_name,
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_object
 #' @return A data frame or NULL if doesn't exist.
+#' @family load functions
 #' @export
 sbf_load_data <- function(x_name,
                           sub = sbf_get_sub(),
@@ -43,6 +45,7 @@ sbf_load_data <- function(x_name,
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_object
 #' @return A number or NULL if doesn't exist.
+#' @family load functions
 #' @export
 sbf_load_number <- function(x_name,
                             sub = sbf_get_sub(),
@@ -56,6 +59,7 @@ sbf_load_number <- function(x_name,
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_object
 #' @return A string or NULL if doesn't exist.
+#' @family load functions
 #' @export
 sbf_load_string <- function(x_name,
                             sub = sbf_get_sub(),
@@ -69,6 +73,7 @@ sbf_load_string <- function(x_name,
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_object
 #' @return A code block or NULL if doesn't exist.
+#' @family load functions
 #' @export
 sbf_load_block <- function(x_name,
                            sub = sbf_get_sub(),
@@ -82,6 +87,7 @@ sbf_load_block <- function(x_name,
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_object
 #' @return A data frame or NULL if doesn't exist.
+#' @family load functions
 #' @export
 sbf_load_table <- function(x_name,
                            sub = sbf_get_sub(),
@@ -95,6 +101,7 @@ sbf_load_table <- function(x_name,
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_object
 #' @return A ggplot object or NULL if doesn't exist.
+#' @family load functions
 #' @export
 sbf_load_plot <- function(x_name,
                           sub = sbf_get_sub(),
@@ -108,6 +115,7 @@ sbf_load_plot <- function(x_name,
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_object
 #' @return A data.frame or NULL if doesn't exist.
+#' @family load functions
 #' @export
 sbf_load_plot_data <- function(x_name,
                                sub = sbf_get_sub(),
@@ -129,6 +137,7 @@ sbf_load_plot_data <- function(x_name,
 #' @inheritParams sbf_load_objects
 #' @inheritParams readwritesqlite::rws_read
 #' @return A data.frame of the table.
+#' @family load functions
 #' @export
 sbf_load_data_from_db <- function(x_name,
                                   db_name = sbf_get_db_name(),
@@ -148,6 +157,7 @@ sbf_load_data_from_db <- function(x_name,
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_save_data_to_db
 #' @return A data.frame of the table.
+#' @family load functions
 #' @export
 sbf_load_db_metatable <- function(db_name = sbf_get_db_name(),
                                   sub = sbf_get_sub(),
@@ -195,6 +205,7 @@ load_rdss <- function(class, sub, main, env, rename, fun = NULL) {
 #' Used to rename objects before they are loaded into the environment.
 #' @param env The environment to  the objects into
 #' @return A invisble character vector of the objects' names.
+#' @family load functions
 #' @export
 sbf_load_objects <- function(sub = sbf_get_sub(),
                              main = sbf_get_main(),
@@ -208,6 +219,7 @@ sbf_load_objects <- function(sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the data frames' names.
+#' @family load functions
 #' @export
 sbf_load_datas <- function(sub = sbf_get_sub(),
                            main = sbf_get_main(),
@@ -221,6 +233,7 @@ sbf_load_datas <- function(sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the data frames' names.
+#' @family load functions
 #' @export
 sbf_load_tables <- function(sub = sbf_get_sub(),
                             main = sbf_get_main(),
@@ -234,6 +247,7 @@ sbf_load_tables <- function(sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the numbers' names.
+#' @family load functions
 #' @export
 sbf_load_numbers <- function(sub = sbf_get_sub(),
                              main = sbf_get_main(),
@@ -247,6 +261,7 @@ sbf_load_numbers <- function(sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the string' names.
+#' @family load functions
 #' @export
 sbf_load_strings <- function(sub = sbf_get_sub(),
                              main = sbf_get_main(),
@@ -260,6 +275,7 @@ sbf_load_strings <- function(sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the blocks' names.
+#' @family load functions
 #' @export
 sbf_load_blocks <- function(sub = sbf_get_sub(),
                             main = sbf_get_main(),
@@ -268,24 +284,12 @@ sbf_load_blocks <- function(sub = sbf_get_sub(),
   load_rdss("blocks", sub = sub, main = main, env = env, rename = rename)
 }
 
-#' Load Plots
-#'
-#' @inheritParams sbf_save_object
-#' @inheritParams sbf_load_objects
-#' @return A invisble character vector of the plots' names.
-#' @export
-sbf_load_plots_data <- function(sub = sbf_get_sub(),
-                                main = sbf_get_main(),
-                                rename = identity,
-                                env = parent.frame()) {
-  load_rdss("plots", sub = sub, main = main, env = env, rename = rename)
-}
-
 #' Load Plots Data
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the plots' names.
+#' @family load functions
 #' @export
 sbf_load_plots_data <- function(sub = sbf_get_sub(),
                                 main = sbf_get_main(),
@@ -304,6 +308,7 @@ sbf_load_plots_data <- function(sub = sbf_get_sub(),
 #' @param db_name A string of the database name.
 #' @inheritParams readwritesqlite::rws_write
 #' @return An invisible character vector of the paths to the saved objects.
+#' @family load functions
 #' @export
 sbf_load_datas_from_db <- function(db_name = sbf_get_db_name(),
                                    sub = sbf_get_sub(),
@@ -419,6 +424,7 @@ subs_rds_recursive <- function(x_name,
 #' @param x_name A string of the regular expression to match.
 #' @param include_root A flag indicating whether to include objects in the top
 #' sub folder.
+#' @family load functions
 #' @export
 sbf_load_objects_recursive <- function(x_name = ".*",
                                        sub = sbf_get_sub(),
@@ -439,6 +445,7 @@ sbf_load_objects_recursive <- function(x_name = ".*",
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
+#' @family load functions
 #' @export
 sbf_load_datas_recursive <- function(x_name = ".*",
                                      sub = sbf_get_sub(),
@@ -460,6 +467,7 @@ sbf_load_datas_recursive <- function(x_name = ".*",
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
+#' @family load functions
 #' @export
 sbf_load_numbers_recursive <- function(x_name = ".*",
                                        sub = sbf_get_sub(),
@@ -486,6 +494,7 @@ sbf_load_numbers_recursive <- function(x_name = ".*",
 #' included.
 #' @param meta A flag specifying whether to include the report, caption and any
 #' other metadata as columns.
+#' @family load functions
 #' @export
 sbf_load_strings_recursive <- function(x_name = ".*",
                                        sub = sbf_get_sub(),
@@ -518,6 +527,7 @@ sbf_load_strings_recursive <- function(x_name = ".*",
 #' included.
 #' @param meta A flag specifying whether to include the report, caption and any
 #' other metadata as columns.
+#' @family load functions
 #' @export
 sbf_load_tables_recursive <- function(x_name = ".*",
                                       sub = sbf_get_sub(),
@@ -542,6 +552,7 @@ sbf_load_tables_recursive <- function(x_name = ".*",
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_load_tables_recursive
+#' @family load functions
 #' @export
 sbf_load_blocks_recursive <- function(x_name = ".*",
                                       sub = sbf_get_sub(),
@@ -567,6 +578,7 @@ sbf_load_blocks_recursive <- function(x_name = ".*",
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_load_tables_recursive
+#' @family load functions
 #' @export
 sbf_load_plots_recursive <- function(x_name = ".*",
                                      sub = sbf_get_sub(),
@@ -591,6 +603,7 @@ sbf_load_plots_recursive <- function(x_name = ".*",
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_load_tables_recursive
+#' @family load functions
 #' @export
 sbf_load_plots_data_recursive <- function(x_name = ".*",
                                           sub = sbf_get_sub(),
@@ -618,6 +631,7 @@ sbf_load_plots_data_recursive <- function(x_name = ".*",
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_load_tables_recursive
+#' @family load functions
 #' @export
 sbf_load_windows_recursive <- function(x_name = ".*",
                                        sub = sbf_get_sub(),
@@ -641,6 +655,7 @@ sbf_load_windows_recursive <- function(x_name = ".*",
 #' @inheritParams sbf_save_object
 #' @param x_name A string of the name.
 #' @inheritParams sbf_load_objects_recursive
+#' @family load functions
 #' @export
 sbf_subs_object_recursive <- function(x_name,
                                       sub = sbf_get_sub(),
@@ -658,6 +673,7 @@ sbf_subs_object_recursive <- function(x_name,
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_subs_object_recursive
+#' @family load functions
 #' @export
 sbf_subs_data_recursive <- function(x_name,
                                     sub = sbf_get_sub(),
@@ -675,6 +691,7 @@ sbf_subs_data_recursive <- function(x_name,
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_subs_object_recursive
+#' @family load functions
 #' @export
 sbf_subs_number_recursive <- function(x_name,
                                       sub = sbf_get_sub(),
@@ -692,6 +709,7 @@ sbf_subs_number_recursive <- function(x_name,
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_subs_object_recursive
+#' @family load functions
 #' @export
 sbf_subs_string_recursive <- function(x_name,
                                       sub = sbf_get_sub(),
@@ -709,6 +727,7 @@ sbf_subs_string_recursive <- function(x_name,
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_subs_object_recursive
+#' @family load functions
 #' @export
 sbf_subs_block_recursive <- function(x_name,
                                      sub = sbf_get_sub(),
@@ -726,6 +745,7 @@ sbf_subs_block_recursive <- function(x_name,
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_subs_object_recursive
+#' @family load functions
 #' @export
 sbf_subs_table_recursive <- function(x_name,
                                      sub = sbf_get_sub(),
@@ -743,6 +763,7 @@ sbf_subs_table_recursive <- function(x_name,
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_subs_object_recursive
+#' @family load functions
 #' @export
 sbf_subs_plot_recursive <- function(x_name,
                                     sub = sbf_get_sub(),
@@ -760,6 +781,7 @@ sbf_subs_plot_recursive <- function(x_name,
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_subs_object_recursive
+#' @family load functions
 #' @export
 sbf_subs_window_recursive <- function(x_name,
                                       sub = sbf_get_sub(),

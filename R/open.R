@@ -6,6 +6,7 @@
 #' @inheritParams sbf_save_object
 #' @param width A positive number indicating the width in inches.
 #' @param height A positive number indicating the height in inches.
+#' @family graphic functions
 #' @export
 sbf_open_pdf <- function(x_name = "plots",
                          sub = sbf_get_sub(),
@@ -52,6 +53,7 @@ sbf_open_pdf <- function(x_name = "plots",
 #' If the report status is not specified for a databases it is included in the
 #' report. deprecated.
 #' @param tag A string of the tag. Deprecated.
+#' @family database functions
 #' @export
 sbf_open_db <- function(db_name = sbf_get_db_name(),
                         sub = sbf_get_sub(),
@@ -104,6 +106,7 @@ sbf_open_db <- function(db_name = sbf_get_db_name(),
 #'
 #' @param width A positive number of the plotting area width in inches.
 #' @param height A positive number of the plotting area height in inches.
+#' @family graphic functions
 #' @export
 sbf_open_window <- function(width = 6, height = width) {
   fun <- switch(Sys.info()["sysname"],

@@ -21,3 +21,13 @@ A flag specifying whether the table exists.
 \description{
 this function is now deprecated as of version 0.0.0.9045
 }
+\seealso{
+Other exists functions: 
+\code{\link{sbf_block_exists}()},
+\code{\link{sbf_data_exists}()},
+\code{\link{sbf_number_exists}()},
+\code{\link{sbf_object_exists}()},
+\code{\link{sbf_plot_exists}()},
+\code{\link{sbf_string_exists}()}
+}
+\concept{exists functions}

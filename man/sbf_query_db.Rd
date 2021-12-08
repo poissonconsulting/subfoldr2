@@ -28,3 +28,14 @@ A scalar numeric of the number of rows affected by the statement.
 \description{
 Really just a wrapper on DBI::dbGetQuery().
 }
+\seealso{
+Other database functions: 
+\code{\link{sbf_add_blob_column_to_db}()},
+\code{\link{sbf_close_db}()},
+\code{\link{sbf_copy_db}()},
+\code{\link{sbf_create_db}()},
+\code{\link{sbf_execute_db}()},
+\code{\link{sbf_open_db}()},
+\code{\link{sbf_upload_flobs_to_db}()}
+}
+\concept{database functions}
