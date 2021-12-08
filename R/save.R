@@ -170,6 +170,7 @@ save_workbook <- function(x, sub, main, workbook_name, epgs) {
 #' @param main A string specifying the path to the main folder (by default the
 #' current main folder)
 #' @return An invisible string of the path to the saved object.
+#' @family save functions
 #' @export
 sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                             main = sbf_get_main()) {
@@ -191,6 +192,7 @@ sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @param x The data frame to save.
 #' @inheritParams sbf_save_object
 #' @return An invisible string of the path to the saved data.frame
+#' @family save functions
 #' @export
 sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                           main = sbf_get_main()) {
@@ -213,6 +215,7 @@ sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @param x The number to save.
 #' @inheritParams sbf_save_object
 #' @return An invisible string of the path to the saved object.
+#' @family save functions
 #' @export
 sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                             main = sbf_get_main()) {
@@ -241,6 +244,7 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @param report A flag specifying whether to include in a report.
 #' @param tag A string of the tag.
 #' @return An invisible string of the path to the saved object.
+#' @family save functions
 #' @export
 sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                             main = sbf_get_main(), report = TRUE, tag = "") {
@@ -272,6 +276,7 @@ sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @param report A flag specifying whether to include in a report.
 #' @param tag A string of the tag.
 #' @return An invisible string of the path to the saved object.
+#' @family save functions
 #' @export
 sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                            main = sbf_get_main(),
@@ -312,6 +317,7 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_save_table
 #' @return An invisible string of the path to the saved object.
+#' @family save functions
 #' @export
 sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                            main = sbf_get_main(),
@@ -353,6 +359,7 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @param dpi A number of the resolution in dots per inch.
 #' @param csv A count specifying the maximum number of rows to save as a csv
 #' file.
+#' @family save functions
 #' @export
 sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
                           sub = sbf_get_sub(),
@@ -421,7 +428,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_save_table
 #' @inheritParams sbf_save_plot
-#'
+#' @family save functions
 #' @export
 sbf_save_window <- function(x_name = "window",
                             sub = sbf_get_sub(),
@@ -476,6 +483,7 @@ sbf_save_window <- function(x_name = "window",
 #'
 #' @param x A character vector of file paths.
 #' @return A character vector of extension-less base file names.
+#' @family save functions
 #' @export
 #' @examples
 #' sbf_basename_sans_ext("path/file.ext")
@@ -493,7 +501,7 @@ sbf_basename_sans_ext <- function(x) {
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_save_table
 #' @inheritParams sbf_save_plot
-#'
+#' @family save functions
 #' @export
 sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
                          sub = sbf_get_sub(),
@@ -549,6 +557,7 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
 #' your table into for writing to excel. The default is 1.
 #' @param epgs The projection to convert to
 #' @inheritParams sbf_save_object
+#' @family save functions
 #' @family excel
 #' @return An invisible string of the path to the saved data.frame
 #' @examples
@@ -594,6 +603,7 @@ sbf_save_excel <- function(x,
 #' @inheritParams sbf_save_objects
 #' @family excel
 #' @return An invisible string of the path to the saved data.frame
+#' @family save functions
 #' @examples
 #' \dontrun{
 #' sbf_save_workbook()
@@ -647,6 +657,7 @@ sbf_save_workbook <- function(workbook_name = basename(getwd()),
 #' @inheritParams sbf_open_db
 #' @inheritParams readwritesqlite::rws_write
 #' @return An invisible character vector of the paths to the saved objects.
+#' @family save functions
 #' @export
 sbf_save_data_to_db <- function(x, x_name = substitute(x),
                                 db_name = sbf_get_db_name(),
@@ -684,6 +695,7 @@ sbf_save_data_to_db <- function(x, x_name = substitute(x),
 #' @param overwrite A flag specifying whether to overwrite existing
 #' descriptions.
 #' @return A invisible data.frame of the altered descriptions.
+#' @family save functions
 #' @export
 sbf_save_db_metatable_descriptions <- function(x,
                                                db_name = sbf_get_db_name(),
@@ -726,6 +738,7 @@ sbf_save_db_metatable_descriptions <- function(x,
 #' @inheritParams sbf_save_object
 #' @param env An environment.
 #' @return An invisible character vector of the paths to the saved objects.
+#' @family save functions
 #' @export
 sbf_save_objects <- function(sub = sbf_get_sub(),
                              main = sbf_get_main(), env = parent.frame()) {
@@ -750,6 +763,7 @@ sbf_save_objects <- function(sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_save_objects
 #' @return An invisible character vector of the paths to the saved objects.
+#' @family save functions
 #' @export
 sbf_save_datas <- function(sub = sbf_get_sub(),
                            main = sbf_get_main(), env = parent.frame()) {
@@ -778,6 +792,7 @@ sbf_save_datas <- function(sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_save_objects
 #' @return An invisible character vector of the paths to the saved objects.
+#' @family save functions
 #' @export
 sbf_save_numbers <- function(sub = sbf_get_sub(),
                              main = sbf_get_main(), env = parent.frame()) {
@@ -806,6 +821,7 @@ sbf_save_numbers <- function(sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_save_objects
 #' @return An invisible character vector of the paths to the saved objects.
+#' @family save functions
 #' @export
 sbf_save_strings <- function(sub = sbf_get_sub(),
                              main = sbf_get_main(), env = parent.frame()) {
@@ -838,6 +854,7 @@ sbf_save_strings <- function(sub = sbf_get_sub(),
 #' @inheritParams sbf_save_datas
 #' @family excel
 #' @return An invisible string of the path to the saved data.frame
+#' @family save functions
 #' @examples
 #' \dontrun{
 #' sbf_save_excels()
@@ -875,6 +892,7 @@ sbf_save_excels <- function(sub = sbf_get_sub(),
 #' @param db_name A string of the database name.
 #' @inheritParams readwritesqlite::rws_write
 #' @return An invisible character vector of the paths to the saved objects.
+#' @family save functions
 #' @export
 sbf_save_datas_to_db <- function(db_name = sbf_get_db_name(),
                                  sub = sbf_get_sub(),
@@ -903,6 +921,7 @@ sbf_save_datas_to_db <- function(db_name = sbf_get_db_name(),
 #' @inheritParams sbf_save_workbook
 #' @inheritParams sbf_open_db
 #' @family excel
+#' @family save functions
 #' @examples
 #' \dontrun{
 #' sbf_save_db_to_workbook()
@@ -964,6 +983,7 @@ sbf_save_db_to_workbook <- function(workbook_name = sbf_get_workbook_name(),
 #' @param region A string of the AWS region. The default is the environment
 #'   variable named `AWS_REGION`.
 #' @inheritParams sbf_save_object
+#' @family save functions
 #' @examples
 #' \dontrun{
 #' sbf_save_aws_files(

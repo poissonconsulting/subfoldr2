@@ -19,5 +19,15 @@ current main folder)}
 A flag specifying whether the data exists.
 }
 \description{
-Data Exists
+this function is now deprecated as of version 0.0.0.9045
 }
+\seealso{
+Other exists functions: 
+\code{\link{sbf_block_exists}()},
+\code{\link{sbf_number_exists}()},
+\code{\link{sbf_object_exists}()},
+\code{\link{sbf_plot_exists}()},
+\code{\link{sbf_string_exists}()},
+\code{\link{sbf_table_exists}()}
+}
+\concept{exists functions}

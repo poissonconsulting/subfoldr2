@@ -1,6 +1,7 @@
 #' Get Sub Folder
 #'
 #' @return A string specifying the current sub folder.
+#' @family directory functions
 #' @export
 #' @examples
 #' sbf_set_sub("nameofsub")
@@ -19,6 +20,7 @@ sbf_get_sub <- function() {
 #' @param ask A flag specifying whether to ask before removing the existing
 #' folder.
 #' @return An invisible string specifying the new sub folder.
+#' @family directory functions
 #' @export
 #' @examples
 #' sbf_set_sub("nameofsub")
@@ -39,6 +41,7 @@ sbf_set_sub <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #' @inheritParams sbf_set_sub
 #' @return An invisible character vector of length 0.
 #' @family reset
+#' @family directory functions
 #' @export
 #' @examples
 #' sbf_set_sub("nameofsub")
@@ -55,6 +58,7 @@ sbf_reset_sub <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #' @inheritParams sbf_set_sub
 #'
 #' @return An invisible string specifying the new sub folder.
+#' @family directory functions
 #' @export
 #' @examples
 #' sbf_set_sub("nameofsub")
@@ -73,8 +77,8 @@ sbf_add_sub <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #'
 #' @param n A positive int of the number of subfolders to move up.
 #' @inheritParams sbf_set_sub
-#'
 #' @return An invisible string specifying the new sub folder.
+#' @family directory functions
 #' @export
 #' @examples
 #' sbf_set_sub("nameofsub/othersub/yetothersub")

@@ -23,7 +23,7 @@ test_that("datas_to_db", {
 
   flob <- flobr::flob_obj
   conn <- sbf_open_db()
-  teardown(sbf_close_db(conn))
+  withr::defer(sbf_close_db(conn))
   dbflobr::write_flob(flob,
     "New",
     "df",

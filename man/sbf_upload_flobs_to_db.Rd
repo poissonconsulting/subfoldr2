@@ -58,5 +58,15 @@ dbflobr::import_all_flobs().
 Other flob: 
 \code{\link{sbf_add_blob_column_to_db}()},
 \code{\link{sbf_save_flobs_from_db}()}
+
+Other database functions: 
+\code{\link{sbf_add_blob_column_to_db}()},
+\code{\link{sbf_close_db}()},
+\code{\link{sbf_copy_db}()},
+\code{\link{sbf_create_db}()},
+\code{\link{sbf_execute_db}()},
+\code{\link{sbf_open_db}()},
+\code{\link{sbf_query_db}()}
 }
+\concept{database functions}
 \concept{flob}
