@@ -2,15 +2,8 @@
 % Please edit documentation in R/load.R
 \name{sbf_load_plots_data}
 \alias{sbf_load_plots_data}
-\title{Load Plots}
+\title{Load Plots Data}
 \usage{
-sbf_load_plots_data(
-  sub = sbf_get_sub(),
-  main = sbf_get_main(),
-  rename = identity,
-  env = parent.frame()
-)
-
 sbf_load_plots_data(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
@@ -33,12 +26,8 @@ Used to rename objects before they are loaded into the environment.}
 }
 \value{
 A invisble character vector of the plots' names.
-
-A invisble character vector of the plots' names.
 }
 \description{
-Load Plots
-
 Load Plots Data
 }
 \seealso{
