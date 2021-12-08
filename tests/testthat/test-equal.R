@@ -37,15 +37,15 @@ test_that("is_equal_datas", {
   sbf_archive_main(ask = FALSE)
 
   expect_identical(
-    sbf_is_equal_datas(),
+    sbf_is_equal_data_archive(),
     c("data/x" = TRUE, "data/y" = TRUE)
   )
   expect_identical(
-    sbf_is_equal_datas("x"),
+    sbf_is_equal_data_archive("x"),
     c("data/x" = TRUE)
   )
   expect_identical(
-    sbf_is_equal_datas("z"),
+    sbf_is_equal_data_archive("z"),
     structure(logical(0),
       .Names = character(0)
     )
@@ -53,54 +53,54 @@ test_that("is_equal_datas", {
 
   sbf_rm_main(ask = FALSE)
   expect_identical(
-    sbf_is_equal_datas(),
+    sbf_is_equal_data_archive(),
     c("data/x" = FALSE, "data/y" = FALSE)
   )
   expect_identical(
-    sbf_is_equal_datas(exists = FALSE),
+    sbf_is_equal_data_archive(exists = FALSE),
     c("data/x" = TRUE, "data/y" = TRUE)
   )
   expect_identical(
-    sbf_is_equal_datas(exists = NA),
+    sbf_is_equal_data_archive(exists = NA),
     c("data/x" = NA, "data/y" = NA)
   )
 
   sbf_save_data(x)
   expect_identical(
-    sbf_is_equal_datas(),
+    sbf_is_equal_data_archive(),
     c("data/x" = TRUE, "data/y" = FALSE)
   )
   expect_identical(
-    sbf_is_equal_datas(exists = FALSE),
+    sbf_is_equal_data_archive(exists = FALSE),
     c("data/x" = TRUE, "data/y" = TRUE)
   )
   expect_identical(
-    sbf_is_equal_datas(exists = NA),
+    sbf_is_equal_data_archive(exists = NA),
     c("data/x" = TRUE, "data/y" = NA)
   )
 
   sbf_save_data(x, "z")
   expect_identical(
-    sbf_is_equal_datas(),
+    sbf_is_equal_data_archive(),
     c("data/x" = TRUE, "data/y" = FALSE, "data/z" = FALSE)
   )
   expect_identical(
-    sbf_is_equal_datas(exists = FALSE),
+    sbf_is_equal_data_archive(exists = FALSE),
     c("data/x" = TRUE, "data/y" = TRUE, "data/z" = TRUE)
   )
   expect_identical(
-    sbf_is_equal_datas(exists = NA),
+    sbf_is_equal_data_archive(exists = NA),
     c("data/x" = TRUE, "data/y" = NA, "data/z" = NA)
   )
 
   y <- data.frame(x = 2)
   sbf_save_data(y)
   expect_identical(
-    sbf_is_equal_datas(),
+    sbf_is_equal_data_archive(),
     c("data/x" = TRUE, "data/y" = FALSE, "data/z" = FALSE)
   )
   expect_identical(
-    sbf_is_equal_datas(tolerance = 0.1),
+    sbf_is_equal_data_archive(tolerance = 0.1),
     c("data/x" = TRUE, "data/y" = TRUE, "data/z" = FALSE)
   )
 })
@@ -119,11 +119,11 @@ test_that("is_equal_datas", {
   archive2 <- sbf_archive_main(ask = FALSE)
 
   expect_identical(
-    sbf_is_equal_datas(main = archive1, archive = archive2),
+    sbf_is_equal_data_archive(main = archive1, archive = archive2),
     c("data/x" = FALSE)
   )
   expect_identical(
-    sbf_is_equal_datas(main = archive1, archive = archive2, tolerance = 0.1),
+    sbf_is_equal_data_archive(main = archive1, archive = archive2, tolerance = 0.1),
     c("data/x" = TRUE)
   )
 })

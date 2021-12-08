@@ -31,9 +31,9 @@ sbf_compare_data <- function(x, x_name = substitute(x),
   )
 }
 
-#' Compare Datas
+#' Compare Data Archive
 #'
-#' Test if data are equal using using waldo::compare.
+#' Compares existing data to archived data using using waldo::compare.
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_object
@@ -44,7 +44,7 @@ sbf_compare_data <- function(x, x_name = substitute(x),
 #' @return A named list of character vectors.
 #' @family compare
 #' @export
-sbf_compare_datas <- function(x_name = ".*", sub = sbf_get_sub(),
+sbf_compare_data_archive <- function(x_name = ".*", sub = sbf_get_sub(),
                               main = sbf_get_main(),
                               archive = 1L,
                               recursive = FALSE,

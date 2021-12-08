@@ -27,5 +27,5 @@ A daff difference object.
 }
 \description{
 Find differences with existing data.
-If doesn't existx is compared to itself.
+If doesn't exist, x is compared to itself.
 }
