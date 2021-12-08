@@ -27,15 +27,15 @@ A daff difference object.
 }
 \description{
 Find differences with existing data.
-If doesn't existx is compared to itself.
+If doesn't exist, x is compared to itself.
 }
 \seealso{
 Other compare functions: 
-\code{\link{sbf_compare_datas}()},
+\code{\link{sbf_compare_data_archive}()},
 \code{\link{sbf_compare_data}()},
-\code{\link{sbf_diff_datas}()},
+\code{\link{sbf_diff_data_archive}()},
 \code{\link{sbf_diff_table}()},
-\code{\link{sbf_is_equal_datas}()},
+\code{\link{sbf_is_equal_data_archive}()},
 \code{\link{sbf_is_equal_data}()}
 }
 \concept{compare functions}

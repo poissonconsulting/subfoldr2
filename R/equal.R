@@ -1,7 +1,7 @@
 #' Is Equal Data
 #'
-#' Test if equal using \code{\link{all.equal}()}.
-#' If doesn't exist returns FALSE unless exists = FALSE in which case returns
+#' Test if data is equal using \code{\link{all.equal}()}.
+#' If doesn't exist returns FALSE, unless exists = FALSE in which case returns
 #' TRUE or exists = NA in which case returns NA.
 #'
 #' @inheritParams sbf_save_object
@@ -37,12 +37,11 @@ sbf_is_equal_data <- function(x, x_name = substitute(x),
   setNames(equal, file)
 }
 
-#' Is Equal Datas
+#' Is Equal Data Archive
 #'
-#' Test if data are equal using \code{\link{all.equal}()}.
-#' If doesn't exist in both returns FALSE
-#' unless exists = FALSE in which case returns TRUE
-#' or exists = NA in which case returns NA.
+#' Test if existing data are equal to archived data using \code{\link{all.equal}()}.
+#' If doesn't exist in both returns FALSE, unless exists = FALSE in which case 
+#' returns TRUE or exists = NA in which case returns NA.
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_object
@@ -52,7 +51,7 @@ sbf_is_equal_data <- function(x, x_name = substitute(x),
 #' @return A named logical vector.
 #' @family compare functions
 #' @export
-sbf_is_equal_datas <- function(x_name = ".*",
+sbf_is_equal_data_archive <- function(x_name = ".*",
                                sub = sbf_get_sub(),
                                main = sbf_get_main(),
                                archive = 1L,

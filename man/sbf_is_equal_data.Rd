@@ -39,17 +39,17 @@ current main folder)}
 A named flag.
 }
 \description{
-Test if equal using \code{\link{all.equal}()}.
-If doesn't exist returns FALSE unless exists = FALSE in which case returns
+Test if data is equal using \code{\link{all.equal}()}.
+If doesn't exist returns FALSE, unless exists = FALSE in which case returns
 TRUE or exists = NA in which case returns NA.
 }
 \seealso{
 Other compare functions: 
-\code{\link{sbf_compare_datas}()},
+\code{\link{sbf_compare_data_archive}()},
 \code{\link{sbf_compare_data}()},
-\code{\link{sbf_diff_datas}()},
+\code{\link{sbf_diff_data_archive}()},
 \code{\link{sbf_diff_data}()},
 \code{\link{sbf_diff_table}()},
-\code{\link{sbf_is_equal_datas}()}
+\code{\link{sbf_is_equal_data_archive}()}
 }
 \concept{compare functions}

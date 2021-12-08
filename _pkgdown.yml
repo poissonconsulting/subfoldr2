@@ -58,12 +58,12 @@ reference:
 - title: Compare Items
   contents:
   - '`sbf_compare_data`'
-  - '`sbf_compare_datas`'
+  - '`sbf_compare_data_archive`'
   - '`sbf_diff_data`'
-  - '`sbf_diff_datas`'
+  - '`sbf_diff_data_archive`'
   - '`sbf_diff_table`'
   - '`sbf_is_equal_data`'
-  - '`sbf_is_equal_datas`'
+  - '`sbf_is_equal_data_archive`'
 - title: Directory Operations
   contents:
   - '`sbf_set_sub`'

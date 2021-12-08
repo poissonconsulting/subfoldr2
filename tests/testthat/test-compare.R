@@ -28,19 +28,19 @@ test_that("compare_datas", {
 
   archive1 <- sbf_archive_main(ask = FALSE)
 
-  comparison <- sbf_compare_datas()
+  comparison <- sbf_compare_data_archive()
 
   expect_type(comparison, "list")
   expect_identical(names(comparison), c("data/x", "data/y"))
   expect_s3_class(comparison[["data/x"]], "waldo_compare")
 
-  comparison <- sbf_compare_datas("x")
+  comparison <- sbf_compare_data_archive("x")
   expect_type(comparison, "list")
   expect_identical(names(comparison), "data/x")
   expect_s3_class(comparison[["data/x"]], "waldo_compare")
   expect_identical(nchar(comparison[["data/x"]]), integer(0))
 
-  comparison <- sbf_compare_datas("z")
+  comparison <- sbf_compare_data_archive("z")
   expect_type(comparison, "list")
   expect_identical(names(comparison), character(0))
 
@@ -48,13 +48,13 @@ test_that("compare_datas", {
 
   skip_on_ci()
 
-  comparison <- sbf_compare_datas()
+  comparison <- sbf_compare_data_archive()
   expect_type(comparison, "list")
   expect_identical(names(comparison), c("data/x", "data/y"))
   expect_s3_class(comparison[["data/x"]], "waldo_compare")
 
   sbf_save_data(x, "z")
-  comparison <- sbf_compare_datas()
+  comparison <- sbf_compare_data_archive()
   expect_type(comparison, "list")
   expect_identical(names(comparison), c("data/x", "data/y", "data/z"))
 })
@@ -73,7 +73,7 @@ test_that("compare_datas", {
   archive2 <- sbf_archive_main(ask = FALSE)
 
 
-  comparison <- sbf_compare_datas(
+  comparison <- sbf_compare_data_archive(
     main = archive1,
     archive = archive2,
     tolerance = 0.1
@@ -85,7 +85,7 @@ test_that("compare_datas", {
 
   skip_on_ci()
 
-  comparison <- sbf_compare_datas(main = archive1, archive = archive2)
+  comparison <- sbf_compare_data_archive(main = archive1, archive = archive2)
 
   expect_type(comparison, "list")
   expect_identical(names(comparison), "data/x")
