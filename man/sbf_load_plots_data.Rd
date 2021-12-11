@@ -57,14 +57,6 @@ Other load functions:
 \code{\link{sbf_load_tables_recursive}()},
 \code{\link{sbf_load_tables}()},
 \code{\link{sbf_load_table}()},
-\code{\link{sbf_load_windows_recursive}()},
-\code{\link{sbf_subs_block_recursive}()},
-\code{\link{sbf_subs_data_recursive}()},
-\code{\link{sbf_subs_number_recursive}()},
-\code{\link{sbf_subs_object_recursive}()},
-\code{\link{sbf_subs_plot_recursive}()},
-\code{\link{sbf_subs_string_recursive}()},
-\code{\link{sbf_subs_table_recursive}()},
-\code{\link{sbf_subs_window_recursive}()}
+\code{\link{sbf_load_windows_recursive}()}
 }
 \concept{load functions}
