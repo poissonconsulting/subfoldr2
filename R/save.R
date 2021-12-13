@@ -286,7 +286,7 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   valid <- vapply(x, is_valid_table_column, TRUE)
   if (any(!valid)) {
     abort_chk(
-      "the following columns in `x` are not logical, numeric, character, factor, Date or POSIXct: ",
+      "the following columns in `x` are not logical, numeric, character, factor, Date, hms or POSIXct: ",
       cc(names(x)[!valid], " and ")
     )
   }

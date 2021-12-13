@@ -575,7 +575,7 @@ test_that("table", {
   )
   x <- data.frame(x = 1)
   expect_error(sbf_save_table(data.frame(zz = I(list(t = 3))), x_name = "y"),
-    "^The following columns in `x` are not logical, numeric, character, factor, Date or POSIXct: 'zz'[.]$",
+    "^The following columns in `x` are not logical, numeric, character, factor, Date, hms or POSIXct: 'zz'[.]$",
     class = "chk_error"
   )
 

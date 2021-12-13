@@ -25,6 +25,7 @@ Imports:
     ggplot2,
     graphics,
     grDevices,
+    hms,
     lifecycle,
     png,
     readwritesqlite,
