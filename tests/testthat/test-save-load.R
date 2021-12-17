@@ -206,9 +206,9 @@ test_that("data", {
   expect_identical(sbf_load_data("x"), x)
   chk::expect_chk_error(sbf_load_data("x2"))
 
-  expect_true(sbf_data_exists("x"))
-  expect_false(sbf_data_exists("x2"))
-
+  lifecycle::expect_deprecated(sbf_data_exists("x"), "\\`sbf_data_exists\\(\\)\\` was deprecated in subfoldr2 0.0.0.9045.")
+  lifecycle::expect_deprecated(sbf_data_exists("x2"), "\\`sbf_data_exists\\(\\)\\` was deprecated in subfoldr2 0.0.0.9045.")
+  
   y <- data.frame(z = 3)
   expect_identical(
     sbf_save_datas(env = as.environment(list(x = x, y = y))),
@@ -278,8 +278,8 @@ test_that("number", {
     file.path(sbf_get_main(), "numbers/x.rds")
   )
 
-  expect_true(sbf_number_exists("x"))
-  expect_false(sbf_number_exists("x2"))
+  lifecycle::expect_deprecated(sbf_number_exists("x"), "\\`sbf_number_exists\\(\\)\\` was deprecated in subfoldr2 0.0.0.9045.")
+  lifecycle::expect_deprecated(sbf_number_exists("x2"), "\\`sbf_number_exists\\(\\)\\` was deprecated in subfoldr2 0.0.0.9045.")
 
   expect_identical(sbf_load_number("x"), 1)
   expect_identical(
@@ -353,8 +353,8 @@ test_that("string", {
     file.path(sbf_get_main(), "strings/y.rds")
   )
 
-  expect_true(sbf_string_exists("y"))
-  expect_false(sbf_string_exists("x2"))
+  lifecycle::expect_deprecated(sbf_string_exists("x"), "\\`sbf_string_exists\\(\\)\\` was deprecated in subfoldr2 0.0.0.9045.")
+  lifecycle::expect_deprecated(sbf_string_exists("x2"), "\\`sbf_string_exists\\(\\)\\` was deprecated in subfoldr2 0.0.0.9045.")
 
   expect_identical(sbf_load_string("y"), "two words")
   expect_identical(
@@ -581,8 +581,8 @@ test_that("table", {
 
   expect_identical(sbf_save_table(x), file.path(sbf_get_main(), "tables/x.rds"))
 
-  expect_true(sbf_table_exists("x"))
-  expect_false(sbf_table_exists("x2"))
+  lifecycle::expect_deprecated(sbf_table_exists("x"), "\\`sbf_table_exists\\(\\)\\` was deprecated in subfoldr2 0.0.0.9045.")
+  lifecycle::expect_deprecated(sbf_table_exists("x2"), "\\`sbf_table_exists\\(\\)\\` was deprecated in subfoldr2 0.0.0.9045.")
 
   expect_identical(sbf_load_table("x"), x)
   expect_identical(
@@ -669,8 +669,8 @@ test_that("block", {
   expect_error(sbf_save_block(), "argument \"x\" is missing, with no default")
   expect_identical(sbf_save_block(y), file.path(sbf_get_main(), "blocks/y.rds"))
 
-  expect_true(sbf_block_exists("y"))
-  expect_false(sbf_block_exists("x2"))
+  lifecycle::expect_deprecated(sbf_block_exists("x"), "\\`sbf_block_exists\\(\\)\\` was deprecated in subfoldr2 0.0.0.9045.")
+  lifecycle::expect_deprecated(sbf_block_exists("x2"), "\\`sbf_block_exists\\(\\)\\` was deprecated in subfoldr2 0.0.0.9045.")
 
   expect_identical(sbf_load_block("y"), "two words")
   expect_identical(
@@ -751,8 +751,8 @@ test_that("plot", {
   expect_true(all.equal(sbf_load_plot("x"), x))
   expect_identical(sbf_load_plot_data("x"), data.frame())
 
-  expect_true(sbf_plot_exists("x"))
-  expect_false(sbf_plot_exists("x2"))
+  lifecycle::expect_deprecated(sbf_plot_exists("x"), "\\`sbf_plot_exists\\(\\)\\` was deprecated in subfoldr2 0.0.0.9045.")
+  lifecycle::expect_deprecated(sbf_plot_exists("x2"), "\\`sbf_plot_exists\\(\\)\\` was deprecated in subfoldr2 0.0.0.9045.")
 
   y <- ggplot2::ggplot(
     data = data.frame(x = 1, y = 2),
