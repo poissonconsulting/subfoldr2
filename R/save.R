@@ -508,7 +508,8 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
                          main = sbf_get_main(),
                          caption = "", report = TRUE,
                          tag = "",
-                         width = NA, units = "in") {
+                         width = NA, units = "in",
+                         dpi = NULL) {
   chk_file(x)
   chk_ext(x, "png")
   chk_string(x_name)
@@ -516,6 +517,7 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
   chk_character(sub)
   chk_range(length(sub))
   chk_string(main)
+  chk_null_or(chk_range(dpi, c(10, 1000)))
 
   chk_string(caption)
   chk_flag(report)
@@ -530,7 +532,7 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
   dim <- plot_size(c(width, height = NA), units = units)
   png_dim <- png_dim(x)
   dim[2] <- dim[1] * png_dim[2] / png_dim[1]
-  dpi <- png_dim[1] / dim[1]
+  if(is.null(dpi)) dpi <- png_dim[1] / dim[1]
 
   filename <- file_name(main, "windows", sub, x_name, "png")
   file.copy(x, filename, overwrite = TRUE)

@@ -13,7 +13,8 @@ sbf_save_png(
   report = TRUE,
   tag = "",
   width = NA,
-  units = "in"
+  units = "in",
+  dpi = NULL
 )
 }
 \arguments{
@@ -36,6 +37,8 @@ current main folder)}
 \item{width}{A number of the plot width in inches.}
 
 \item{units}{A string of the units. Can be "in" (default) or "mm" or "cm".}
+
+\item{dpi}{A number of the resolution in dots per inch.}
 }
 \description{
 Saves a png file to the windows.
