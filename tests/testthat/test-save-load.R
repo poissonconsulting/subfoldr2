@@ -964,9 +964,6 @@ test_that("png", {
   expect_identical(colnames(data), c("windows", "name", "sub", "file", "caption", "report", "tag", 
                                      "width", "height", "dpi"))
   expect_identical(data$name, c("example"))
-  
-  expect_error(sbf_save_png(x, caption = "map", dpi = 1), "`dpi` must be between 10 and 1000, not 1.")
-  
 })
 
 test_that("png2", {
