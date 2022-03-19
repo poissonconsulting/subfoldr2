@@ -1537,3 +1537,43 @@ test_that("save df as gpkg with sf point column", {
   expect_identical(sf$X, data$X)
   expect_identical(sf$Y, data$Y)
 })
+
+
+test_that("save df as gpkg with linstring column and sf point", {
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+  
+  data <- data.frame(
+    Places = c("Yakoun Lake", "Meyer Lake"),
+    Activity = c("boating", "fishing"),
+    X = c(53.350808, 53.640981),
+    Y = c(-132.280579, -132.055175),
+    X2 = c(53.350808, 53.640981),
+    Y2 = c(-132.280579, -132.055175)
+  )
+  
+  sf <- convert_coords_to_sfc(data)
+  sf <- convert_coords_to_sfc(sf,
+                                coords = c("X2", "Y2"),
+                                sfc_name = "geometry2"
+  )
+  
+  sf <- sf::st_cast(sf, "LINESTRING")
+  
+  expect_warning(sbf_save_gpkg(sf), "Dropping column\\(s\\) geometry of class\\(es\\) sfc_POINT")
+  expect_output(gpkg <- sf::st_read(file.path(path, "gpkg/sf.gpkg")), "^Reading layer `sf' from data source ")  
+
+  expect_s3_class(gpkg, "sf")
+  
+  expect_identical(colnames(gpkg), c(
+    "Places", "Activity", "geom"
+  ))
+  
+  expect_identical(sf$Places, data$Places)
+  expect_identical(sf$Activity, data$Activity)
+  sf <- convert_sfc_to_coords(gpkg, "geom")
+  expect_identical(sf$X, data$X)
+  expect_identical(sf$Y, data$Y)
+})
