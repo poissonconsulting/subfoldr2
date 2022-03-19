@@ -47,6 +47,12 @@ save_xlsx <- function(x, class, main, sub, x_name) {
   invisible(file)
 }
 
+save_gpkg <- function(x, class, main, sub, x_name) {
+  file <- file_name(main, class, sub, x_name, "gpkg")
+  utils::capture.output(sf::st_write(x, file, delete_layer = TRUE))
+  invisible(file)
+}
+
 # this finds which columns have a sfc geomertry other then points
 # returns the names of the columns
 find_sfc_columns_to_drop <- function(table) {
@@ -592,6 +598,42 @@ sbf_save_excel <- function(x,
   save_xlsx(x, "excel", sub = sub, main = main, x_name = x_name)
 }
 
+#' Save sf data frame to Geopackage
+#'
+#' @details This takes an sf data frame and saves as geopackage.
+#'
+#' @param x The sf data frame to save.
+#' @inheritParams sbf_save_object
+#' @family save functions
+#' @family gpkg
+#' @return An invisible string of the path to the saved geopackage
+#' @examples
+#' \dontrun{
+#' sbf_save_gpkg()
+#' }
+#' @export
+sbf_save_gpkg <- function(x,
+                           x_name = substitute(x),
+                           sub = sbf_get_sub(),
+                           main = sbf_get_main()) {
+  
+  chk::chk_s3_class(x, "data.frame")
+  chk::chk_s3_class(x, "sf")
+  x_name <- chk_deparse(x_name)
+  
+  chk::chk_string(x_name)
+  chk::chk_gt(nchar(x_name))
+  chk::chk_character(sub)
+  chk::chk_range(length(sub))
+  chk::chk_string(main)
+
+  sub <- sanitize_path(sub)
+  main <- sanitize_path(main, rm_leading = FALSE)
+  
+  save_rds(x, "gpkg", sub = sub, main = main, x_name = x_name)
+  save_gpkg(x, "gpkg", sub = sub, main = main, x_name = x_name)
+}
+
 #' Save Dataframes to Excel Workbook
 #'
 #' This takes the data frames from the environment and saves them to a
@@ -609,7 +651,6 @@ sbf_save_excel <- function(x,
 #' sbf_save_workbook()
 #' }
 #' @export
-
 sbf_save_workbook <- function(workbook_name = basename(getwd()),
                               sub = sbf_get_sub(),
                               main = sbf_get_main(),
@@ -847,7 +888,7 @@ sbf_save_strings <- function(sub = sbf_get_sub(),
 
 #' Save Excels
 #'
-#' Saves tables from the environment to their own excel workbook. Each table
+#' Saves data frames from the environment to their own excel workbook. Each table
 #'   will be its own excel workbook.
 #'
 #' @param epgs The projection to convert to

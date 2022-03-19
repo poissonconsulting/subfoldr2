@@ -1509,3 +1509,31 @@ test_that("checking return value for sbf_save_data_to_db", {
 
   expect_match(return_path, "output/excel/data.xlsx$")
 })
+
+test_that("save df as gpkg with sf point column", {
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+  
+  data <- data.frame(
+    Places = c("Yakoun Lake", "Meyer Lake"),
+    Activity = c("boating", "fishing"),
+    X = c(53.350808, 53.640981),
+    Y = c(-132.280579, -132.055175)
+  )
+  
+  sf <- convert_coords_to_sfc(data)
+
+  sbf_save_gpkg(sf)
+  expect_output(gpkg <- sf::st_read(file.path(path, "gpkg/sf.gpkg")), "^Reading layer `sf' from data source ")
+  
+  expect_s3_class(gpkg, "sf")
+  
+  expect_identical(colnames(gpkg), c("Places", "Activity", "geom"))
+  sf <- convert_sfc_to_coords(gpkg, "geom")
+  expect_identical(sf$Places, data$Places)
+  expect_identical(sf$Activity, data$Activity)
+  expect_identical(sf$X, data$X)
+  expect_identical(sf$Y, data$Y)
+})

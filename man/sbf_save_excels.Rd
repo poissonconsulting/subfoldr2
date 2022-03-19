@@ -26,7 +26,7 @@ current main folder)}
 An invisible string of the path to the saved data.frame
 }
 \description{
-Saves tables from the environment to their own excel workbook. Each table
+Saves data frames from the environment to their own excel workbook. Each table
   will be its own excel workbook.
 }
 \examples{
@@ -52,6 +52,7 @@ Other save functions:
 \code{\link{sbf_save_db_metatable_descriptions}()},
 \code{\link{sbf_save_db_to_workbook}()},
 \code{\link{sbf_save_excel}()},
+\code{\link{sbf_save_gpkg}()},
 \code{\link{sbf_save_numbers}()},
 \code{\link{sbf_save_number}()},
 \code{\link{sbf_save_objects}()},

@@ -41,6 +41,7 @@ Other save functions:
 \code{\link{sbf_save_db_to_workbook}()},
 \code{\link{sbf_save_excels}()},
 \code{\link{sbf_save_excel}()},
+\code{\link{sbf_save_gpkg}()},
 \code{\link{sbf_save_numbers}()},
 \code{\link{sbf_save_objects}()},
 \code{\link{sbf_save_object}()},
