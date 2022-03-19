@@ -6,8 +6,12 @@ is.sfc <- function(x) {
   inherits(x, "sfc")
 }
 
+sfc_column_names <- function(x) {
+  colnames(x)[vapply(x, is.sfc, TRUE)]
+}
+
 any_sfc <- function(x) {
-  is.data.frame(x) && any(vapply(x, is.sfc, TRUE))
+  is.data.frame(x) && length(sfc_column_names)
 }
 
 hms_to_text <- function(x) {
