@@ -1570,10 +1570,10 @@ test_that("save df as gpkg with linstring column and sf point", {
   expect_identical(colnames(gpkg), c(
     "Places", "Activity", "geom"
   ))
-  
-  expect_identical(sf$Places, data$Places)
-  expect_identical(sf$Activity, data$Activity)
-  sf <- convert_sfc_to_coords(gpkg, "geom")
-  expect_identical(sf$X, data$X)
-  expect_identical(sf$Y, data$Y)
+  expect_s3_class(gpkg$geom, "sfc_LINESTRING")
+  expect_identical(gpkg$Places, data$Places)
+  expect_identical(gpkg$Activity, data$Activity)
+  gpkg <- convert_sfc_to_coords(gpkg, "geom")
+  expect_identical(gpkg$X, gpkg$X)
+  expect_identical(gpkg$Y, gpkg$Y)
 })
