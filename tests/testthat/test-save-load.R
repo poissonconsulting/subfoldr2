@@ -1556,6 +1556,32 @@ test_that("save sf as gpkg errors if gpkg", {
   expect_error(sbf_save_gpkg(gpkg), "'gpkg' is a reserved geopackage prefix\\.")
 })
 
+test_that("save sf as gpkg time", {
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+  
+  data <- data.frame(
+    time = hms::as_hms("12:01:03"),
+    X = c(53.350808),
+    Y = c(-132.280579)
+  )
+  
+  sff <- convert_coords_to_sfc(data)
+  
+  sbf_save_gpkg(sff)
+  expect_output(gpkg <- sf::st_read(file.path(path, "gpkg/sff.gpkg")), "^Reading layer `sff' from data source ")
+  
+  expect_s3_class(gpkg, "sf")
+  
+  expect_identical(colnames(gpkg), c("time", "geom"))
+  sf <- convert_sfc_to_coords(gpkg, "geom")
+  expect_identical(sf$time, as.character(data$time))
+  expect_identical(sf$X, data$X)
+  expect_identical(sf$Y, data$Y)
+})
+
 test_that("save df as gpkg with linstring column and sf point", {
   sbf_reset()
   path <- file.path(withr::local_tempdir(), "output")

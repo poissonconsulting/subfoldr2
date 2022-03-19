@@ -49,6 +49,7 @@ save_xlsx <- function(x, class, main, sub, x_name) {
 
 save_gpkg <- function(x, class, main, sub, x_name) {
   file <- file_name(main, class, sub, x_name, "gpkg")
+  x <- hms_to_text(x)
   utils::capture.output(sf::st_write(x, file, delete_layer = TRUE))
   invisible(file)
 }
