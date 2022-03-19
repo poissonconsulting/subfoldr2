@@ -626,7 +626,11 @@ sbf_save_gpkg <- function(x,
   chk::chk_character(sub)
   chk::chk_range(length(sub))
   chk::chk_string(main)
-
+  
+  if(x_name == "gpkg") {
+    chk::abort_chk("'gpkg' is a reserved geopackage prefix")
+  }
+  
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
   
@@ -922,6 +926,53 @@ sbf_save_excels <- function(sub = sbf_get_sub(),
   }
   names <- file_path(main, "excel", sub, names)
   names <- p0(names, ".xlsx")
+  invisible(names)
+}
+
+save_gpkgs <- function(x, x_name, sub, main, all_sfcs) {
+  files <- character()
+  if(is.sf(x)) {
+    files <- c(sbf_save_gpkg(x, x_name = x_name, main = main, sub = sub), files)
+  }
+  if(!all_sfcs) return(files)
+  files
+}
+
+#' Save sf data frames to Geopackages
+#' 
+#' An sf object of file name file_name is saved as file_name.gpkg.
+#' 
+#' By default (`all_sfcs = TRUE`) non-active sfc columns are saved
+#' as file_name_geometry_column_name.gpkg this includes data frames with
+#' no active sfc column.
+#'
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_save_objects
+#' @param all_sfcs A flag specifying whether to save non-active sfc columns as geopackages.
+#' @return An invisible character vector of the paths to the saved objects.
+#' @family save functions
+#' @export
+sbf_save_gpkgs <- function(sub = sbf_get_sub(),
+                           main = sbf_get_main(), env = parent.frame(),
+                           all_sfcs = TRUE) {
+  chk_s3_class(env, "environment")
+  
+  files <- character(0)
+  names <- objects(envir = env)
+  is <- vector("logical", length(names))
+  for (i in seq_along(names)) {
+    x_name <- names[i]
+    x <- get(x = x_name, envir = env)
+    if (any_sfc(x)) {
+      files <- c(files, save_gpkgs(x, sub = sub, main = main, x_name = x_name, all_sfcs = all_sfcs))
+    }
+  }
+  if (!length(files)) {
+    warning("no sfs to save")
+    invisible(character(0))
+  }
+  files <- basename(files)
+  names <- file_path(main, "gpkg", sub, files)
   invisible(names)
 }
 
