@@ -1,3 +1,14 @@
+<!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
+
+# subfoldr2 0.0.0.9046
+
+- Added `sbf_save_gpkgs()`.
+- Added `sbf_save_gpkg()`.
+- Allow time in tables.
+- Added `sbf_add_column_to_db()`.
+- Added dbflobr_sub arguments for saving and uploading flobs.
+
+
 # subfoldr2 0.0.0.9045
 
 - Added sbf_rm_flobs() and removed rm argument from sbf_save_flobs_from_db().
