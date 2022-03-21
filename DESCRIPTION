@@ -31,6 +31,7 @@ Imports:
     readwritesqlite,
     RSQLite,
     stats,
+    snakecase,
     tibble,
     tools,
     utils,

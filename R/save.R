@@ -932,10 +932,18 @@ sbf_save_excels <- function(sub = sbf_get_sub(),
 
 save_gpkgs <- function(x, x_name, sub, main, all_sfcs) {
   files <- character()
+  active_sfc_column_name <- active_sfc_column_name(x)
   if(is.sf(x)) {
     files <- c(sbf_save_gpkg(x, x_name = x_name, main = main, sub = sub), files)
+    if(!all_sfcs) return(files)
   }
-  if(!all_sfcs) return(files)
+  sfc_column_names <- sfc_column_names(x)
+  sfc_column_names <- setdiff(sfc_column_names, active_sfc_column_name)
+  for(sfc_column_name in sfc_column_names) {
+    x <- sf::st_set_geometry(x, sfc_column_name)
+    x_name_column_name <- snakecase::to_snake_case(paste(x_name, sfc_column_name, "_"))
+    files <- c(sbf_save_gpkg(x, x_name = x_name_column_name, main = main, sub = sub), files)
+  }
   files
 }
 

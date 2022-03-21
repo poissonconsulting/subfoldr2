@@ -1660,10 +1660,10 @@ test_that("save sf as gpkgs with linstring column and sf point and all_sfc = FAL
   data <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing"),
-    X = c(53.350808, 53.640981),
-    Y = c(-132.280579, -132.055175),
-    X2 = c(53.350808, 53.640981),
-    Y2 = c(-132.280579, -132.055175)
+    Y = c(53.350808, 53.640981),
+    X = c(-132.280579, -132.055175),
+    Y2 = c(53.350808, 53.640981),
+    X2 = c(-132.280579, -132.055175)
   )
   
   sf <- convert_coords_to_sfc(data)
@@ -1672,10 +1672,12 @@ test_that("save sf as gpkgs with linstring column and sf point and all_sfc = FAL
                               sfc_name = "geometry2"
   )
   
-  sf <- sf::st_cast(sf, "LINESTRING")
+  sf$geometry <- sf::st_cast(sf$geometry, "LINESTRING")
   
-  expect_warning(files <- sbf_save_gpkgs(), "Dropping column\\(s\\) geometry of class\\(es\\) sfc_POINT")
-  expect_match(files, "output/gpkg/sf.gpkg")
+  expect_warning(expect_warning(files <- sbf_save_gpkgs(), "Dropping column\\(s\\) geometry of class\\(es\\) sfc_LINESTRING"), "Dropping column\\(s\\) geometry2 of class\\(es\\) sfc_POINT")
+  expect_length(files, 2L)
+  expect_match(files[1], "output/gpkg/sf_geometry.gpkg")
+  expect_match(files[2], "output/gpkg/sf.gpkg")
   expect_output(gpkg <- sf::st_read(file.path(path, "gpkg/sf.gpkg")), "^Reading layer `sf' from data source ")  
   
   expect_s3_class(gpkg, "sf")
@@ -1683,7 +1685,7 @@ test_that("save sf as gpkgs with linstring column and sf point and all_sfc = FAL
   expect_identical(colnames(gpkg), c(
     "Places", "Activity", "geom"
   ))
-  expect_s3_class(gpkg$geom, "sfc_LINESTRING")
+  expect_s3_class(gpkg$geom, "sfc_POINT")
   expect_identical(gpkg$Places, data$Places)
   expect_identical(gpkg$Activity, data$Activity)
   gpkg <- convert_sfc_to_coords(gpkg, "geom")
