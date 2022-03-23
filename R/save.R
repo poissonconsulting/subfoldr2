@@ -1075,6 +1075,7 @@ sbf_save_db_to_workbook <- function(workbook_name = sbf_get_workbook_name(),
 #'   return. Do not include period.
 #' @param max_request_size A whole number (by default `1000`) indicating the
 #'   maximum number of files to be returned.
+#' @param ask A flag specifying whether to ask before overwriting files.
 #' @param silent A flag (by default `FALSE`) to silence messages about number of
 #'   files returned. Set to `TRUE` to silence messages.
 #' @param aws_access_key_id A string of your AWS user access key ID. The default
@@ -1096,7 +1097,6 @@ sbf_save_db_to_workbook <- function(workbook_name = sbf_get_workbook_name(),
 #' )
 #' }
 #' @export
-
 sbf_save_aws_files <- function(bucket_name,
                                sub = sbf_get_sub(),
                                main = sbf_get_main(),
@@ -1107,6 +1107,7 @@ sbf_save_aws_files <- function(bucket_name,
                                file_name = NULL,
                                file_extension = NULL,
                                max_request_size = 1000,
+                               ask = getOption("sbf.ask", TRUE),
                                silent = TRUE,
                                aws_access_key_id = Sys.getenv("AWS_ACCESS_KEY_ID"),
                                aws_secret_access_key = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
@@ -1138,6 +1139,7 @@ sbf_save_aws_files <- function(bucket_name,
     file_list = file_list,
     directory = dir,
     bucket_name = bucket_name,
+    ask = ask,
     aws_access_key_id = aws_access_key_id,
     aws_secret_access_key = aws_secret_access_key,
     region = region

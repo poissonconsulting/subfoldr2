@@ -15,6 +15,7 @@ sbf_save_aws_files(
   file_name = NULL,
   file_extension = NULL,
   max_request_size = 1000,
+  ask = getOption("sbf.ask", TRUE),
   silent = TRUE,
   aws_access_key_id = Sys.getenv("AWS_ACCESS_KEY_ID"),
   aws_secret_access_key = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
@@ -51,6 +52,8 @@ return. Do not include period.}
 
 \item{max_request_size}{A whole number (by default `1000`) indicating the
 maximum number of files to be returned.}
+
+\item{ask}{A flag specifying whether to ask before overwriting files.}
 
 \item{silent}{A flag (by default `FALSE`) to silence messages about number of
 files returned. Set to `TRUE` to silence messages.}
