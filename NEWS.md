@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
 
+# subfoldr2 0.0.0.9047
+
+- Added ask argument to `sbf_save_aws_files()`.
+
+
 # subfoldr2 0.0.0.9046
 
 - Added `sbf_save_gpkgs()`.
