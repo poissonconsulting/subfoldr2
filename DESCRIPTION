@@ -56,6 +56,7 @@ RdMacros:
     lifecycle
 Remotes:
     poissonconsulting/readwriteaws
+    poissonconsulting/psql
 Config/testthat/edition: 3
 Encoding: UTF-8
 RoxygenNote: 7.2.1
