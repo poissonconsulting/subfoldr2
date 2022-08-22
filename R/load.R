@@ -327,6 +327,46 @@ sbf_load_datas_from_db <- function(db_name = sbf_get_db_name(),
   invisible(names(datas))
 }
 
+#' Load Data Frames from PostgreSQL Database
+#'
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_load_objects
+#' @param db_name A string of the database name.
+#' @inheritParams psql::psql_list_tables
+#' @return An invisible character vector of the paths to the saved objects.
+#' @family load functions
+#' @export
+sbf_load_datas_from_psql <- function(db_name = sbf_get_db_name(),
+                                     schema = "public",
+                                     rename = identity,
+                                     env = parent.frame(),
+                                     config_path = getOption("psql.config_path", NULL),
+                                     config_value = getOption("psql.value", NULL)) {
+  chk_s3_class(env, "environment")
+  chk_function(rename)
+  
+  tbl_names <- psql::psql_list_tables(
+    schema = schema, 
+    config_path = config_path,
+    config_value = config_value
+  )
+  
+  datas <- lapply(
+    tbl_names, 
+    psql::psql_read_table, 
+    schema = schema, 
+    config_path = config_path,
+    config_value = config_value
+  )
+  names(datas) <- rename(names(datas))
+
+  mapply(assign, names(datas), datas, MoreArgs = list(envir = env))
+  invisible(names(datas))
+}
+
+
+
+
 load_rdss_recursive <- function(x_name, class, sub, main, include_root,
                                 tag = ".*", meta = FALSE,
                                 fun = NULL, ext = "rds") {

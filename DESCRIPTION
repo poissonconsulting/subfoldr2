@@ -36,7 +36,8 @@ Imports:
     tools,
     utils,
     writexl,
-    yesno
+    yesno,
+    psql
 Suggests: 
     blob,
     covr,
@@ -57,4 +58,4 @@ Remotes:
     poissonconsulting/readwriteaws
 Config/testthat/edition: 3
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
