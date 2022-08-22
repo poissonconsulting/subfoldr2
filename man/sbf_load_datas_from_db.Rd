@@ -2,7 +2,7 @@
 % Please edit documentation in R/load.R
 \name{sbf_load_datas_from_db}
 \alias{sbf_load_datas_from_db}
-\title{Save Data Frames to Database}
+\title{Load Data Frames from Database}
 \usage{
 sbf_load_datas_from_db(
   db_name = sbf_get_db_name(),
@@ -31,7 +31,7 @@ Used to rename objects before they are loaded into the environment.}
 An invisible character vector of the paths to the saved objects.
 }
 \description{
-Save Data Frames to Database
+Load Data Frames from Database
 }
 \seealso{
 Other load functions: 
