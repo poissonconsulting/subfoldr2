@@ -5,7 +5,6 @@
 \title{Load Data Frames from PostgreSQL Database}
 \usage{
 sbf_load_datas_from_psql(
-  db_name = sbf_get_db_name(),
   schema = "public",
   rename = identity,
   env = parent.frame(),
@@ -14,8 +13,6 @@ sbf_load_datas_from_psql(
 )
 }
 \arguments{
-\item{db_name}{A string of the database name.}
-
 \item{schema}{A string of the schema name. Default value is \code{"public"}.}
 
 \item{rename}{A single function argument which takes a character vector
@@ -34,7 +31,8 @@ the value from the psql.value option.}
 An invisible character vector of the paths to the saved objects.
 }
 \description{
-Load Data Frames from PostgreSQL Database
+Load all the tables in a schema as data frames into your environment from a 
+ PostgreSQL database.
 }
 \seealso{
 Other load functions: 

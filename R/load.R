@@ -328,10 +328,11 @@ sbf_load_datas_from_db <- function(db_name = sbf_get_db_name(),
 }
 
 #' Load Data Frames from PostgreSQL Database
+#' 
+#' Load all the tables in a schema as data frames into your environment from a 
+#'  PostgreSQL database.
 #'
-#' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
-#' @param db_name A string of the database name.
 #' @inheritParams psql::psql_list_tables
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family load functions
