@@ -336,8 +336,7 @@ sbf_load_datas_from_db <- function(db_name = sbf_get_db_name(),
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family load functions
 #' @export
-sbf_load_datas_from_psql <- function(db_name = sbf_get_db_name(),
-                                     schema = "public",
+sbf_load_datas_from_psql <- function(schema = "public",
                                      rename = identity,
                                      env = parent.frame(),
                                      config_path = getOption("psql.config_path", NULL),
@@ -358,8 +357,10 @@ sbf_load_datas_from_psql <- function(db_name = sbf_get_db_name(),
     config_path = config_path,
     config_value = config_value
   )
+  
+  names(datas) <- tbl_names
   names(datas) <- rename(names(datas))
-
+  
   mapply(assign, names(datas), datas, MoreArgs = list(envir = env))
   invisible(names(datas))
 }
