@@ -31,6 +31,7 @@ Other save functions:
 \code{\link{sbf_save_aws_files}()},
 \code{\link{sbf_save_block}()},
 \code{\link{sbf_save_data_to_db}()},
+\code{\link{sbf_save_data_to_pg}()},
 \code{\link{sbf_save_datas_to_db}()},
 \code{\link{sbf_save_datas}()},
 \code{\link{sbf_save_data}()},

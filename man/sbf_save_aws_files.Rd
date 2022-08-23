@@ -86,6 +86,7 @@ Other save functions:
 \code{\link{sbf_basename_sans_ext}()},
 \code{\link{sbf_save_block}()},
 \code{\link{sbf_save_data_to_db}()},
+\code{\link{sbf_save_data_to_pg}()},
 \code{\link{sbf_save_datas_to_db}()},
 \code{\link{sbf_save_datas}()},
 \code{\link{sbf_save_data}()},

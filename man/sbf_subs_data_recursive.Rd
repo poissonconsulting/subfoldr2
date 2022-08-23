@@ -33,7 +33,7 @@ Other load functions:
 \code{\link{sbf_load_block}()},
 \code{\link{sbf_load_data_from_db}()},
 \code{\link{sbf_load_datas_from_db}()},
-\code{\link{sbf_load_datas_from_psql}()},
+\code{\link{sbf_load_datas_from_pg}()},
 \code{\link{sbf_load_datas_recursive}()},
 \code{\link{sbf_load_datas}()},
 \code{\link{sbf_load_data}()},
