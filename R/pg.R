@@ -3,7 +3,7 @@
 #' Connect to a PostgreSQL database with a config.yml file.
 #' 
 #' @inheritParams psql::psql_connect
-#' @return
+#' @return An S4 object that inherits from DBIConnection.
 #' @export
 #' @details Wrapper on `psql::psql_connect()`
 #' @family postgresql functions
@@ -32,7 +32,7 @@ sbf_open_pg <- function(config_path = getOption("psql.config_path", NULL),
 #' 
 #' Close the PostgreSQL connection when you are done using a database. 
 #'
-#' @param conn 
+#' @inheritParams DBI::dbDisconnect
 #'
 #' @return TRUE (or errors).
 #' @export
@@ -90,12 +90,16 @@ sbf_save_pg <- function(
 #' @family postgresql functions
 #'
 #' @examples
+#' \dontrun{
+#' sbf_create_pg("new_database")
+#' sbf_create_pg("new_database", config_path = "keys/config.yml")
+#' }
 sbf_create_pg <- function(
     dbname,
     config_path = getOption("psql.config_path", NULL),
     config_value = getOption("psql.value", NULL)  
   ) {
-  psql::psql_createdb(
+  psql::psql_create_db(
     dbname = dbname,
     config_path = config_path,
     config_value = config_value
@@ -250,6 +254,7 @@ sbf_load_datas_from_pg <- function(schema = "public",
 #' argument to pass the table name.
 #'
 #' @inheritParams psql::psql_add_data
+#' @inheritParams sbf_save_data
 #'
 #' @return A scalar numeric.
 #' @export

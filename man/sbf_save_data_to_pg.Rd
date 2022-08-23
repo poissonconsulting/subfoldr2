@@ -13,7 +13,11 @@ sbf_save_data_to_pg(
 )
 }
 \arguments{
+\item{x}{The data frame to save.}
+
 \item{schema}{A string of the schema name. Default value is \code{"public"}.}
+
+\item{x_name}{A string of the name.}
 
 \item{config_path}{A string of a file path to the yaml configuration file.
 The default value grabs the file path from the psql.config_path option.}

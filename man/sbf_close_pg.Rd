@@ -7,7 +7,8 @@
 sbf_close_pg(conn)
 }
 \arguments{
-\item{conn}{}
+\item{conn}{A \linkS4class{DBIConnection} object, as returned by
+\code{\link[DBI:dbConnect]{dbConnect()}}.}
 }
 \value{
 TRUE (or errors).

@@ -28,6 +28,12 @@ Create a new PostgreSQL database.
 \details{
 Wrapper on `psql::psql_create_db()`
 }
+\examples{
+\dontrun{
+sbf_create_pg("new_database")
+sbf_create_pg("new_database", config_path = "keys/config.yml")
+}
+}
 \seealso{
 Other postgresql functions: 
 \code{\link{sbf_close_pg}()},

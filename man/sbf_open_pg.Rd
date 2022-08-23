@@ -16,6 +16,9 @@ The default value grabs the file path from the psql.config_path option.}
 \item{config_value}{A string of the name of value. The default value grabs
 the value from the psql.value option.}
 }
+\value{
+An S4 object that inherits from DBIConnection.
+}
 \description{
 Connect to a PostgreSQL database with a config.yml file.
 }
