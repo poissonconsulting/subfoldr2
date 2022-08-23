@@ -21,11 +21,11 @@
 #' }
 sbf_open_pg <- function(config_path = getOption("psql.config_path", NULL),
                         config_value = getOption("psql.value", NULL)) {
-  con <- psql::psql_connect(
+  conn <- psql::psql_connect(
     config_path = config_path, 
     config_value = config_value
   )
-  con
+  conn
 }
 
 #' Close PostgreSQL Connection
@@ -66,16 +66,12 @@ sbf_close_pg <- function(conn) {
 #' \dontrun{
 #' sbf_save_pg("/Users/user1/Dumps/dump_db.sql")
 #' }
-sbf_save_pg <- function(
-    path = "dump_db.sql",
-    config_path = getOption("psql.config_path", NULL),
-    config_value = getOption("psql.value", NULL)
-  ) {
-  psql::psql_backup(
-    path = path,
-    config_path = config_path, 
-    config_value = config_value
-  )
+sbf_save_pg <- function(path = "dump_db.sql",
+                        config_path = getOption("psql.config_path", NULL),
+                        config_value = getOption("psql.value", NULL)) {
+  psql::psql_backup(path = path,
+                    config_path = config_path,
+                    config_value = config_value)
 }
 
 #' Create PostgreSQL database
@@ -94,16 +90,12 @@ sbf_save_pg <- function(
 #' sbf_create_pg("new_database")
 #' sbf_create_pg("new_database", config_path = "keys/config.yml")
 #' }
-sbf_create_pg <- function(
-    dbname,
-    config_path = getOption("psql.config_path", NULL),
-    config_value = getOption("psql.value", NULL)  
-  ) {
-  psql::psql_create_db(
-    dbname = dbname,
-    config_path = config_path,
-    config_value = config_value
-  )
+sbf_create_pg <- function(dbname,
+                          config_path = getOption("psql.config_path", NULL),
+                          config_value = getOption("psql.value", NULL)) {
+  psql::psql_create_db(dbname = dbname,
+                       config_path = config_path,
+                       config_value = config_value)
 }
 
 #' Execute SQL statement for PostgreSQL database
@@ -128,16 +120,12 @@ sbf_create_pg <- function(
 #'   comment TEXT)"
 #' )
 #' }
-sbf_execute_pg <- function(
-    sql,
-    config_path = getOption("psql.config_path", NULL),
-    config_value = getOption("psql.value", NULL)
-  ) {
-  psql::psql_execute_db(
-    sql = sql,
-    config_path = config_path,
-    config_value = config_value
-  )
+sbf_execute_pg <- function(sql,
+                           config_path = getOption("psql.config_path", NULL),
+                           config_value = getOption("psql.value", NULL)) {
+  psql::psql_execute_db(sql = sql,
+                        config_path = config_path,
+                        config_value = config_value)
 }
 
 #' List tables in a schema
@@ -158,16 +146,12 @@ sbf_execute_pg <- function(
 #' )
 #' sbf_list_tables_pg()
 #' }
-sbf_list_tables_pg <- function(
-    schema = "public",
-    config_path = getOption("psql.config_path", NULL),
-    config_value = getOption("psql.value", NULL)
-  ) {
-  psql::psql_list_tables(
-    schema = schema,
-    config_path = config_path,
-    config_value = config_value
-  )
+sbf_list_tables_pg <- function(schema = "public",
+                               config_path = getOption("psql.config_path", NULL),
+                               config_value = getOption("psql.value", NULL)) {
+  psql::psql_list_tables(schema = schema,
+                         config_path = config_path,
+                         config_value = config_value)
 }
 
 #' Load a table from a PostgreSQL database
@@ -186,12 +170,10 @@ sbf_list_tables_pg <- function(
 #' sbf_load_data_from_pg("capture")
 #' sbf_load_data_from_pg("counts", "boat_count")
 #' }
-sbf_load_data_from_pg <- function(
-    tbl_name,
-    schema = "public",
-    config_path = getOption("psql.config_path", NULL),
-    config_value = getOption("psql.value", NULL)
-  ) {
+sbf_load_data_from_pg <- function(tbl_name,
+                                  schema = "public",
+                                  config_path = getOption("psql.config_path", NULL),
+                                  config_value = getOption("psql.value", NULL)) {
   psql::psql_read_table(
     tbl_name = tbl_name,
     schema = schema,
@@ -226,16 +208,14 @@ sbf_load_datas_from_pg <- function(schema = "public",
   chk_s3_class(env, "environment")
   chk_function(rename)
   
-  tbl_names <- psql::psql_list_tables(
-    schema = schema, 
-    config_path = config_path,
-    config_value = config_value
-  )
+  tbl_names <- psql::psql_list_tables(schema = schema,
+                                      config_path = config_path,
+                                      config_value = config_value)
   
   datas <- lapply(
-    tbl_names, 
-    psql::psql_read_table, 
-    schema = schema, 
+    tbl_names,
+    psql::psql_read_table,
+    schema = schema,
     config_path = config_path,
     config_value = config_value
   )
@@ -267,21 +247,16 @@ sbf_load_datas_from_pg <- function(schema = "public",
 #' sbf_save_data_to_pg(outing, "creel")
 #' sbf_save_data_to_pg(outing_new, "creel", "outing")
 #' }
-sbf_save_data_to_pg <- function(
-    x,
-    schema = "public",
-    x_name = NULL,
-    config_path = getOption("psql.config_path", NULL),
-    config_value = getOption("psql.value", NULL)
-  ) {
+sbf_save_data_to_pg <- function(x,
+                                schema = "public",
+                                x_name = NULL,
+                                config_path = getOption("psql.config_path", NULL),
+                                config_value = getOption("psql.value", NULL)) {
   psql::psql_add_data(
     tbl = x,
-    schema = schema, 
+    schema = schema,
     tbl_name = x_name,
     config_path = config_path,
     config_value = config_value
   )
 }
-
-
-
