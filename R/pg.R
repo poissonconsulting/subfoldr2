@@ -164,6 +164,7 @@ sbf_list_tables_pg <- function(schema = getOption("psql.schema", "public"),
 #' @export
 #' @details Wrapper on `psql::psql_read_table()`
 #' @family postgresql functions
+#' @family load functions
 #'
 #' @examples
 #' \dontrun{
