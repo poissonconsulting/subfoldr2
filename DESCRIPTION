@@ -55,7 +55,7 @@ Suggests:
 RdMacros: 
     lifecycle
 Remotes:
-    poissonconsulting/readwriteaws
+    poissonconsulting/readwriteaws,
     poissonconsulting/psql
 Config/testthat/edition: 3
 Encoding: UTF-8
