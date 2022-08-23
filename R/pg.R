@@ -317,7 +317,7 @@ sbf_reset_schema <- function() {
 #'
 #' @return An invisible string of the file path given
 #' @export
-#' @details This function is recommended to be added to your headed when used.
+#' @details This function is recommended to be added to your header when used.
 #' @family postgresql functions
 #'
 #' @examples
@@ -361,4 +361,54 @@ sbf_get_config_file <- function() {
 #' }
 sbf_reset_config_file <- function() {
   invisible(sbf_set_config_file(path = "config.yml"))
+}
+
+#' Set the Config Value
+#' 
+#' Wrapper for setting the `psql.config_value` options parameter.
+#'
+#' @param value A string of the config file value to grab.
+#'
+#' @return An invisible string of the value given
+#' @export
+#' @details This function is recommended to be added to your header when used.
+#' @family postgresql functions
+#'
+#' @examples
+#' \dontrun{
+#' sbf_set_config_value("shinyapp")
+#' }
+sbf_set_config_value <- function(value = NULL) {
+  chk::chk_null_or(value, vld = chk::vld_string)
+  options(psql.config_value = value)
+  invisible(value)
+}
+
+#' Get the Config File Value
+#' 
+#' Get the value set for the `psql.config_value` options parameter.
+#'
+#' @return A string of the config file value
+#' @export
+#' @family postgresql functions
+#'
+#' @examples
+#' \dontrun{
+#' sbf_get_config_file()
+#' }
+sbf_get_config_value <- function() {
+  getOption("psql.config_value", character(0))
+}
+
+#' Reset the Config File Value
+#' 
+#' Reset the value for `psql.config_value` to the default value.
+#'
+#' @return An invisible string of the default file path
+#' @export
+#' @family postgresql functions
+#'
+#' @examples
+sbf_reset_config_value <- function() {
+  invisible(sbf_set_config_value(value = NULL)) 
 }
