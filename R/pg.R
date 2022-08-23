@@ -146,7 +146,7 @@ sbf_execute_pg <- function(sql,
 #' )
 #' sbf_list_tables_pg()
 #' }
-sbf_list_tables_pg <- function(schema = "public",
+sbf_list_tables_pg <- function(schema = getOption("psql.schema", "public"),
                                config_path = getOption("psql.config_path", NULL),
                                config_value = getOption("psql.value", NULL)) {
   psql::psql_list_tables(schema = schema,
@@ -171,7 +171,7 @@ sbf_list_tables_pg <- function(schema = "public",
 #' sbf_load_data_from_pg("counts", "boat_count")
 #' }
 sbf_load_data_from_pg <- function(tbl_name,
-                                  schema = "public",
+                                  schema = getOption("psql.schema", "public"),
                                   config_path = getOption("psql.config_path", NULL),
                                   config_value = getOption("psql.value", NULL)) {
   psql::psql_read_table(
@@ -200,7 +200,7 @@ sbf_load_data_from_pg <- function(tbl_name,
 #' sbf_load_datas_from_pg(schema = "capture")
 #' sbf_load_datas_from_pg(rename = toupper)
 #' }
-sbf_load_datas_from_pg <- function(schema = "public",
+sbf_load_datas_from_pg <- function(schema = getOption("psql.schema", "public"),
                                    rename = identity,
                                    env = parent.frame(),
                                    config_path = getOption("psql.config_path", NULL),
@@ -248,7 +248,7 @@ sbf_load_datas_from_pg <- function(schema = "public",
 #' sbf_save_data_to_pg(outing_new, "creel", "outing")
 #' }
 sbf_save_data_to_pg <- function(x,
-                                schema = "public",
+                                schema = getOption("psql.schema", "public"),
                                 x_name = NULL,
                                 config_path = getOption("psql.config_path", NULL),
                                 config_value = getOption("psql.value", NULL)) {
@@ -259,4 +259,50 @@ sbf_save_data_to_pg <- function(x,
     config_path = config_path,
     config_value = config_value
   )
+}
+
+
+#' Set Schema Name
+#'
+#' @param schema A string of the schema name. Default value is `"public"`.
+#'
+#' @return An invisible schema name 
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' sbf_set_schema("capture")
+#' }
+sbf_set_schema <- function(schema = "public") {
+  chk::chk_string(schema)
+  options(psql.schema = schema)
+  invisible(schema)
+}
+
+#' Get Schema Name
+#'
+#' @return A string of the schema name. 
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' sbf_get_schema()
+#' }
+sbf_get_schema <- function() {
+  getOption("psql.schema", character(0))
+}
+
+#' Reset Schema Name
+#' 
+#' Reset schema name back to public
+#'
+#' @return An invisible string of the schema name the database is set to
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' sbf_reset_schema()
+#' }
+sbf_reset_schema <- function() {
+  invisible(sbf_set_schema(schema = "public"))
 }
