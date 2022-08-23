@@ -21,7 +21,7 @@
 #' }
 sbf_open_pg <- function(config_path = getOption("psql.config_path", NULL),
                         config_value = getOption("psql.value", NULL)) {
-  con <- psql:::psql_connect(
+  con <- psql::psql_connect(
     config_path = config_path, 
     config_value = config_value
   )
