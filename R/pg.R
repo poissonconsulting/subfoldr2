@@ -27,7 +27,6 @@ sbf_open_pg <- function(config_path = getOption("psql.config_path", NULL),
   con
 }
 
-
 #' Close PostgreSQL Connection
 #' 
 #' Close the PostgreSQL connection when you are done using a database. 
@@ -71,6 +70,40 @@ sbf_create_pg <- function(
     config_value = config_value
   )
 }
+
+#' Execute SQL statement for PostgreSQL database
+#'
+#' Execute PostgreSQL statements.
+#'
+#' @inheritParams psql::psql_execute_db
+#'
+#' @return A scalar numeric of the number of rows affected by the statement.
+#' @export
+#' @details Wrapper on `psql::psql_execute_db()`
+#'
+#' @examples
+#' \dontrun{
+#' sbf_execute_pg(
+#'   "CREATE SCHEMA boat_count"
+#' )
+#' sbf_execute_pg(
+#'   "CREATE TABLE boat_count.input (
+#'   file_name TEXT NOT NULL,
+#'   comment TEXT)"
+#' )
+#' }
+sbf_execute_pg <- function(
+    sql,
+    config_path = getOption("psql.config_path", NULL),
+    config_value = getOption("psql.value", NULL)
+  ) {
+  psql::psql_execute_db(
+    sql = sql,
+    config_path = config_path,
+    config_value = config_value
+  )
+}
+
 
 
 
