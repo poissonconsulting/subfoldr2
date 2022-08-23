@@ -170,3 +170,7 @@ reference:
   - '`sbf_subs_string_recursive`'
   - '`sbf_subs_table_recursive`'
   - '`sbf_subs_window_recursive`'
+- title: Other
+  contents:
+  - '`sbf_save_gpkg`'
+  - '`sbf_save_gpkgs`'
