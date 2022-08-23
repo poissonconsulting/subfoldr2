@@ -1,4 +1,4 @@
-test_that("checking sbf_load_datas_from_psql pulls tables", {
+test_that("checking sbf_load_datas_from_pg pulls tables", {
   skip_on_ci()
   # set up test
   dat <- data.frame(x = c(1:5), y = c(5:9))
@@ -43,7 +43,7 @@ test_that("checking sbf_load_datas_from_psql pulls tables", {
     )
   )
   # execute tests
-  output <- sbf_load_datas_from_psql(
+  output <- sbf_load_datas_from_pg(
     "boat_count",
     config_path = config_path
   )
@@ -52,7 +52,7 @@ test_that("checking sbf_load_datas_from_psql pulls tables", {
   expect_equal(input, dat)
 })
 
-test_that("checking sbf_load_datas_from_psql pulls tables and renames them", {
+test_that("checking sbf_load_datas_from_pg pulls tables and renames them", {
   skip_on_ci()
   # set up test
   dat <- data.frame(x = c(1:5), y = c(5:9))
@@ -97,7 +97,7 @@ test_that("checking sbf_load_datas_from_psql pulls tables and renames them", {
     )
   )
   # execute tests
-  output <- sbf_load_datas_from_psql(
+  output <- sbf_load_datas_from_pg(
     "boat_count",
     rename = toupper,
     config_path = config_path
