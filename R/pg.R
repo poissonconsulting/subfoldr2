@@ -261,13 +261,13 @@ sbf_save_data_to_pg <- function(x,
   )
 }
 
-
 #' Set Schema Name
 #'
 #' @param schema A string of the schema name. Default value is `"public"`.
 #'
 #' @return An invisible schema name 
 #' @export
+#' @family postgresql functions
 #'
 #' @examples
 #' \dontrun{
@@ -283,6 +283,7 @@ sbf_set_schema <- function(schema = "public") {
 #'
 #' @return A string of the schema name. 
 #' @export
+#' @family postgresql functions
 #'
 #' @examples
 #' \dontrun{
@@ -298,6 +299,7 @@ sbf_get_schema <- function() {
 #'
 #' @return An invisible string of the schema name the database is set to
 #' @export
+#' @family postgresql functions
 #'
 #' @examples
 #' \dontrun{
@@ -305,4 +307,58 @@ sbf_get_schema <- function() {
 #' }
 sbf_reset_schema <- function() {
   invisible(sbf_set_schema(schema = "public"))
+}
+
+#' Set the Config File path
+#' 
+#' A wrapper to quickly set the `psql.config_path` options parameter.
+#'
+#' @param path 
+#'
+#' @return An invisible string of the file path given
+#' @export
+#' @details This function is recommended to be added to your headed when used.
+#' @family postgresql functions
+#'
+#' @examples
+#' \dontrun{
+#' sbf_set_config_file()
+#' sbf_set_config_file("Keys/config-captures.yml")
+#' }
+sbf_set_config_file <- function(path = "config.yml") {
+  chk::chk_string(path)
+  options(psql.config_path = path)
+  invisible(path)
+}
+
+#' Get the Config File Path
+#' 
+#' Get the option set for psql.config_path
+#'
+#' @return A string of the config file path. 
+#' @export
+#' @family postgresql functions
+#'
+#' @examples
+#' \dontrun{
+#' sbf_get_config_file()
+#' }
+sbf_get_config_file <- function() {
+  getOption("psql.config_path", character(0))
+}
+
+#' Reset the Config File Path
+#' 
+#' Reset the psql.config_path option to the default value.
+#'
+#' @return An invisible string of the default file path
+#' @export
+#' @family postgresql functions
+#'
+#' @examples
+#' \dontrun{
+#' sbf_reset_config_file()
+#' }
+sbf_reset_config_file <- function() {
+  invisible(sbf_set_config_file(path = "config.yml"))
 }
