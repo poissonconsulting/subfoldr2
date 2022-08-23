@@ -166,9 +166,6 @@ sbf_list_tables_pg <- function(
   )
 }
 
-
-
-
 #' Load a table from a PostgreSQL database
 #'
 #' Read/load a table from a PostgreSQL database as a data frame into R.
