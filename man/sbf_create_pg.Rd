@@ -38,11 +38,20 @@ sbf_create_pg("new_database", config_path = "keys/config.yml")
 Other postgresql functions: 
 \code{\link{sbf_close_pg}()},
 \code{\link{sbf_execute_pg}()},
+\code{\link{sbf_get_config_file}()},
+\code{\link{sbf_get_config_value}()},
+\code{\link{sbf_get_schema}()},
 \code{\link{sbf_list_tables_pg}()},
 \code{\link{sbf_load_data_from_pg}()},
 \code{\link{sbf_load_datas_from_pg}()},
 \code{\link{sbf_open_pg}()},
+\code{\link{sbf_reset_config_file}()},
+\code{\link{sbf_reset_config_value}()},
+\code{\link{sbf_reset_schema}()},
 \code{\link{sbf_save_data_to_pg}()},
-\code{\link{sbf_save_pg}()}
+\code{\link{sbf_save_pg}()},
+\code{\link{sbf_set_config_file}()},
+\code{\link{sbf_set_config_value}()},
+\code{\link{sbf_set_schema}()}
 }
 \concept{postgresql functions}

@@ -394,7 +394,7 @@ sbf_set_config_value <- function(value = NULL) {
 #'
 #' @examples
 #' \dontrun{
-#' sbf_get_config_file()
+#' sbf_get_config_value()
 #' }
 sbf_get_config_value <- function() {
   getOption("psql.config_value", character(0))
@@ -409,6 +409,9 @@ sbf_get_config_value <- function() {
 #' @family postgresql functions
 #'
 #' @examples
+#' \dontrun{
+#' sbf_reset_config_value()
+#' }
 sbf_reset_config_value <- function() {
   invisible(sbf_set_config_value(value = NULL)) 
 }
