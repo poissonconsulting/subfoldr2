@@ -131,8 +131,34 @@ sbf_execute_pg <- function(
   )
 }
 
-
-
+#' List tables in a schema
+#'
+#' This function lists all the tables in a schema.
+#'
+#' @inheritParams psql::psql_list_tables
+#'
+#' @return A vector of table names
+#' @export
+#' @details Wrapper on `psql::psql_list_tables()`
+#'
+#' @examples
+#' \dontrun{
+#' sbf_list_tables_pg(
+#'   "boat_count"
+#' )
+#' sbf_list_tables_pg()
+#' }
+sbf_list_tables_pg <- function(
+    schema = "public",
+    config_path = getOption("psql.config_path", NULL),
+    config_value = getOption("psql.value", NULL)
+  ) {
+  psql::psql_list_tables(
+    schema = schema,
+    config_path = config_path,
+    config_value = config_value
+  )
+}
 
 
 
