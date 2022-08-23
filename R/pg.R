@@ -313,7 +313,8 @@ sbf_reset_schema <- function() {
 #' 
 #' A wrapper to quickly set the `psql.config_path` options parameter.
 #'
-#' @param path 
+#' @param path A file path to the location of the yaml file containing your 
+#'  connection details.
 #'
 #' @return An invisible string of the file path given
 #' @export

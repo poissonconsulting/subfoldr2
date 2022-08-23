@@ -7,7 +7,8 @@
 sbf_set_config_file(path = "config.yml")
 }
 \arguments{
-\item{path}{}
+\item{path}{A file path to the location of the yaml file containing your 
+connection details.}
 }
 \value{
 An invisible string of the file path given
