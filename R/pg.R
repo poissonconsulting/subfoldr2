@@ -205,8 +205,8 @@ sbf_load_data_from_pg <- function(
 #' @inheritParams psql::psql_list_tables
 #' @return An invisible character vector of the paths to the saved objects.
 #' @export
-#' @family load functions
 #' @family postgresql functions
+#' @family load functions
 #' 
 #' @examples
 #' \dontrun{
@@ -242,3 +242,41 @@ sbf_load_datas_from_pg <- function(schema = "public",
   mapply(assign, names(datas), datas, MoreArgs = list(envir = env))
   invisible(names(datas))
 }
+
+#' Add data frame to PostgreSQL database
+#'
+#' Add data with a data frame to your PostgreSQL database. The data frame name
+#' must match the table name in your database, if not use the `tbl_name`
+#' argument to pass the table name.
+#'
+#' @inheritParams psql::psql_add_data
+#'
+#' @return A scalar numeric.
+#' @export
+#' @details Wrapper on `psql::psql_add_data()`
+#' @family postgresql functions
+#' @family save functions
+#'
+#' @examples
+#' \dontrun{
+#' sbf_save_data_to_pg(outing, "creel")
+#' sbf_save_data_to_pg(outing_new, "creel", "outing")
+#' }
+sbf_save_data_to_pg <- function(
+    x,
+    schema = "public",
+    x_name = NULL,
+    config_path = getOption("psql.config_path", NULL),
+    config_value = getOption("psql.value", NULL)
+  ) {
+  psql::psql_add_data(
+    tbl = x,
+    schema = schema, 
+    tbl_name = x_name,
+    config_path = config_path,
+    config_value = config_value
+  )
+}
+
+
+
