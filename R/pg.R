@@ -48,6 +48,33 @@ sbf_close_pg <- function(conn) {
   TRUE
 }
 
+#' Save PostgreSQL backup
+#'
+#' Save a copy of your database in a plain text format. This saves all the SQL
+#' code to recreate the structure and data.
+#'
+#' @inheritParams psql::psql_backup
+#'
+#' @return TRUE (or errors)
+#' @export
+#' @details Wrapper on `psql::psql_backup()`
+#'
+#' @examples
+#' \dontrun{
+#' sbf_save_pg("/Users/user1/Dumps/dump_db.sql")
+#' }
+sbf_save_pg <- function(
+    path = "dump_db.sql",
+    config_path = getOption("psql.config_path", NULL),
+    config_value = getOption("psql.value", NULL)
+  ) {
+  psql::psql_backup(
+    path = path,
+    config_path = config_path, 
+    config_value = config_value
+  )
+}
+
 #' Create PostgreSQL database
 #'
 #' Create a new PostgreSQL database.
