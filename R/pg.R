@@ -34,28 +34,30 @@ sbf_open_pg <- function(config_path = getOption("psql.config_path", NULL),
 #'
 #' @param conn 
 #'
-#' @return TRUE
+#' @return TRUE (or errors).
 #' @export
 #' @details Wrapper on `DBI::dbDisconnect()`. It is important to remember to 
 #' close connections or your database performance can decrease over time. 
 #'
 #' @examples
+#' \dontrun{
+#' conn <- sbf_open_pg()
+#' sbf_close_pg(conn)
+#' }
 sbf_close_pg <- function(conn) {
   DBI::dbDisconnect(conn = conn)
   TRUE
 }
 
-
-
-
-#' Title
+#' Create PostgreSQL database
 #'
-#' @param dbname 
-#' @param config_path 
-#' @param config_value 
+#' Create a new PostgreSQL database.
 #'
-#' @return
+#' @inheritParams psql::psql_create_db
+#'
+#' @return TRUE (or errors).
 #' @export
+#' @details Wrapper on `psql::psql_create_db()`
 #'
 #' @examples
 sbf_create_pg <- function(
@@ -63,9 +65,11 @@ sbf_create_pg <- function(
     config_path = getOption("psql.config_path", NULL),
     config_value = getOption("psql.value", NULL)  
   ) {
-  
-  
-  
+  psql::psql_createdb(
+    dbname = dbname,
+    config_path = config_path,
+    config_value = config_value
+  )
 }
 
 
