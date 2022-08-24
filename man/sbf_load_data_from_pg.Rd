@@ -5,14 +5,14 @@
 \title{Load a table from a PostgreSQL database}
 \usage{
 sbf_load_data_from_pg(
-  tbl_name,
+  x,
   schema = getOption("psql.schema", "public"),
   config_path = getOption("psql.config_path", NULL),
   config_value = getOption("psql.value", NULL)
 )
 }
 \arguments{
-\item{tbl_name}{A string indicating the name of the table.}
+\item{x}{A string of the table name}
 
 \item{schema}{A string of the schema name. Default value is \code{"public"}.}
 

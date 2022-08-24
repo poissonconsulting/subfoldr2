@@ -159,6 +159,7 @@ sbf_list_tables_pg <- function(schema = getOption("psql.schema", "public"),
 #' Read/load a table from a PostgreSQL database as a data frame into R.
 #'
 #' @inheritParams psql::psql_read_table
+#' @param x A string of the table name
 #'
 #' @return A data frame
 #' @export
@@ -171,12 +172,12 @@ sbf_list_tables_pg <- function(schema = getOption("psql.schema", "public"),
 #' sbf_load_data_from_pg("capture")
 #' sbf_load_data_from_pg("counts", "boat_count")
 #' }
-sbf_load_data_from_pg <- function(tbl_name,
+sbf_load_data_from_pg <- function(x,
                                   schema = getOption("psql.schema", "public"),
                                   config_path = getOption("psql.config_path", NULL),
                                   config_value = getOption("psql.value", NULL)) {
   psql::psql_read_table(
-    tbl_name = tbl_name,
+    tbl_name = x,
     schema = schema,
     config_path = config_path,
     config_value = config_value
@@ -253,6 +254,7 @@ sbf_save_data_to_pg <- function(x,
                                 x_name = NULL,
                                 config_path = getOption("psql.config_path", NULL),
                                 config_value = getOption("psql.value", NULL)) {
+  if (is.null(x_name)) x_name <- deparse(substitute(x))
   psql::psql_add_data(
     tbl = x,
     schema = schema,

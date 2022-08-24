@@ -261,5 +261,141 @@ test_that("test sbf_list_tables_pg works", {
     config_path = config_path
   )
   expect_equal(output, c("counts"))
-  
+})
+
+test_that("test sbf_load_data_from_pg works", {
+  skip_on_ci()
+  # set up database
+  dat <- data.frame(
+    x = c(1:10),
+    y = c(rep("yes", 5), rep("no", 4), NA)
+  )
+  config_path <- system.file("testhelpers/config.yml", package = "psql")
+  psql::psql_execute_db("CREATE SCHEMA boat_count", config_path = config_path)
+  withr::defer(
+    try(
+      psql::psql_execute_db(
+        "DROP SCHEMA boat_count",
+        config_path = config_path
+      )
+    )
+  )
+  psql::psql_execute_db(
+    "CREATE TABLE boat_count.dat (
+     x INTEGER NOT NULL,
+     y TEXT)",
+    config_path = config_path
+  )
+  withr::defer(
+    try(
+      psql::psql_execute_db(
+        "DROP TABLE boat_count.dat",
+        config_path = config_path
+      )
+    )
+  )
+  psql::psql_add_data(dat, schema = "boat_count", config_path = config_path)
+  # execute tests
+  output <- sbf_load_data_from_pg(
+    x = "dat",
+    schema = "boat_count",
+    config_path = config_path
+  )
+  expect_equal(output, dat)
+  expect_s3_class(output, "data.frame")
+})
+
+test_that("test sbf_save_data_to_pg works when no x_name passed", {
+  skip_on_ci()
+  # set up test
+  dat <- data.frame(
+    x = c(1:10),
+    y = c(21:30)
+  )
+  config_path <- system.file("testhelpers/config.yml", package = "psql")
+  psql::psql_execute_db("CREATE SCHEMA boat_count", config_path = config_path)
+  withr::defer(
+    try(
+      psql::psql_execute_db(
+        "DROP SCHEMA boat_count",
+        config_path = config_path
+      ),
+      silent = TRUE
+    )
+  )
+  psql::psql_execute_db(
+    "CREATE TABLE boat_count.dat (
+     x INTEGER NOT NULL,
+     y INTEGER)",
+    config_path = config_path
+  )
+  withr::defer(
+    try(
+      psql::psql_execute_db(
+        "DROP TABLE boat_count.dat",
+        config_path = config_path
+      ),
+      silent = TRUE
+    )
+  )
+  output <- sbf_save_data_to_pg(
+    x = dat, 
+    schema = "boat_count",
+    config_path = config_path
+  )
+  query <- DBI::dbGetQuery(
+    psql::psql_connect(config_path = config_path),
+    "SELECT * FROM boat_count.dat"
+  )
+  # tests
+  expect_equal(output, 10)
+  expect_equal(query, dat)
+})
+
+test_that("test sbf_save_data_to_pg works with x_name passed", {
+  skip_on_ci()
+  # set up test
+  dat <- data.frame(
+    x = c(1:10),
+    y = c(21:30)
+  )
+  config_path <- system.file("testhelpers/config.yml", package = "psql")
+  psql::psql_execute_db("CREATE SCHEMA boat_count", config_path = config_path)
+  withr::defer(
+    try(
+      psql::psql_execute_db(
+        "DROP SCHEMA boat_count",
+        config_path = config_path
+      ),
+      silent = TRUE
+    )
+  )
+  psql::psql_execute_db(
+    "CREATE TABLE boat_count.data (
+     x INTEGER NOT NULL,
+     y INTEGER)",
+    config_path = config_path
+  )
+  withr::defer(
+    try(
+      psql::psql_execute_db(
+        "DROP TABLE boat_count.data",
+        config_path = config_path
+      ),
+      silent = TRUE
+    )
+  )
+  output <- sbf_save_data_to_pg(
+    x = dat, 
+    schema = "boat_count",
+    x_name = "data",
+    config_path = config_path
+  )
+  query <- DBI::dbGetQuery(
+    psql::psql_connect(config_path = config_path),
+    "SELECT * FROM boat_count.data"
+  )
+  # tests
+  expect_equal(output, 10)
+  expect_equal(query, dat)
 })
