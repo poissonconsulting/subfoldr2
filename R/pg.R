@@ -64,9 +64,9 @@ sbf_close_pg <- function(conn) {
 #'
 #' @examples
 #' \dontrun{
-#' sbf_save_pg("/Users/user1/Dumps/dump_db.sql")
+#' sbf_copy_pg("/Users/user1/Dumps/dump_db.sql")
 #' }
-sbf_save_pg <- function(path = "dump_db.sql",
+sbf_copy_pg <- function(path = "dump_db.sql",
                         config_path = getOption("psql.config_path", NULL),
                         config_value = getOption("psql.value", NULL)) {
   psql::psql_backup(path = path,

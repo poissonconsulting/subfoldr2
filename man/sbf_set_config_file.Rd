@@ -28,6 +28,7 @@ sbf_set_config_file("Keys/config-captures.yml")
 \seealso{
 Other postgresql functions: 
 \code{\link{sbf_close_pg}()},
+\code{\link{sbf_copy_pg}()},
 \code{\link{sbf_create_pg}()},
 \code{\link{sbf_execute_pg}()},
 \code{\link{sbf_get_config_file}()},
@@ -41,7 +42,6 @@ Other postgresql functions:
 \code{\link{sbf_reset_config_value}()},
 \code{\link{sbf_reset_schema}()},
 \code{\link{sbf_save_data_to_pg}()},
-\code{\link{sbf_save_pg}()},
 \code{\link{sbf_set_config_value}()},
 \code{\link{sbf_set_schema}()}
 }
