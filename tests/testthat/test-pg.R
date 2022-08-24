@@ -399,3 +399,4 @@ test_that("test sbf_save_data_to_pg works with x_name passed", {
   expect_equal(output, 10)
   expect_equal(query, dat)
 })
+
