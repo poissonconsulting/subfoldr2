@@ -49,5 +49,5 @@ jobs:
 
       - name: Test coverage
         run: |
-          covr::codecov(token = Sys.getenv("CODECOV_TOKE"))
+          covr::codecov(token = Sys.getenv("CODECOV_TOKEN"))
         shell: Rscript {0}
