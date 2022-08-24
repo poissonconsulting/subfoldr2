@@ -307,7 +307,7 @@ sbf_get_schema <- function() {
 #' sbf_reset_schema()
 #' }
 sbf_reset_schema <- function() {
-  invisible(sbf_set_schema(schema = "public"))
+  invisible(sbf_set_schema())
 }
 
 #' Set the Config File path
@@ -362,7 +362,7 @@ sbf_get_config_file <- function() {
 #' sbf_reset_config_file()
 #' }
 sbf_reset_config_file <- function() {
-  invisible(sbf_set_config_file(path = "config.yml"))
+  invisible(sbf_set_config_file())
 }
 
 #' Set the Config Value
@@ -415,5 +415,5 @@ sbf_get_config_value <- function() {
 #' sbf_reset_config_value()
 #' }
 sbf_reset_config_value <- function() {
-  invisible(sbf_set_config_value(value = NULL)) 
+  invisible(sbf_set_config_value()) 
 }
