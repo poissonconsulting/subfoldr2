@@ -97,7 +97,7 @@ reference:
   contents:
   - '`sbf_open_pg`'
   - '`sbf_close_pg`'
-  - '`sbf_copy_pg`'
+  - '`sbf_backup_pg`'
   - '`sbf_create_pg`'
   - '`sbf_execute_pg`'  
   - '`sbf_list_tables_pg`' 

@@ -174,12 +174,12 @@ test_that("test sbf_close_pg works", {
   )
 })
 
-test_that("test sbf_copy_pg works", {
+test_that("test sbf_back_pg works", {
   skip_on_ci()
   config_path <- system.file("testhelpers/config-hosted.yml", package = "psql")
   temp_dir <- withr::local_tempdir()
   dump_path <- file.path(temp_dir, "dump_db1.sql")
-  sbf_copy_pg(
+  sbf_backup_pg(
     path = dump_path,
     config_path = config_path
   )

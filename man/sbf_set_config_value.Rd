@@ -25,8 +25,8 @@ sbf_set_config_value("shinyapp")
 }
 \seealso{
 Other postgresql functions: 
+\code{\link{sbf_backup_pg}()},
 \code{\link{sbf_close_pg}()},
-\code{\link{sbf_copy_pg}()},
 \code{\link{sbf_create_pg}()},
 \code{\link{sbf_execute_pg}()},
 \code{\link{sbf_get_config_file}()},

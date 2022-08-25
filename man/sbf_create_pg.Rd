@@ -36,8 +36,8 @@ sbf_create_pg("new_database", config_path = "keys/config.yml")
 }
 \seealso{
 Other postgresql functions: 
+\code{\link{sbf_backup_pg}()},
 \code{\link{sbf_close_pg}()},
-\code{\link{sbf_copy_pg}()},
 \code{\link{sbf_execute_pg}()},
 \code{\link{sbf_get_config_file}()},
 \code{\link{sbf_get_config_value}()},

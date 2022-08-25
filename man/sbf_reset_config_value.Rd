@@ -19,8 +19,8 @@ sbf_reset_config_value()
 }
 \seealso{
 Other postgresql functions: 
+\code{\link{sbf_backup_pg}()},
 \code{\link{sbf_close_pg}()},
-\code{\link{sbf_copy_pg}()},
 \code{\link{sbf_create_pg}()},
 \code{\link{sbf_execute_pg}()},
 \code{\link{sbf_get_config_file}()},
