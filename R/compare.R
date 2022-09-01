@@ -45,12 +45,12 @@ sbf_compare_data <- function(x, x_name = substitute(x),
 #' @family compare functions
 #' @export
 sbf_compare_data_archive <- function(x_name = ".*", sub = sbf_get_sub(),
-                              main = sbf_get_main(),
-                              archive = 1L,
-                              recursive = FALSE,
-                              include_root = TRUE,
-                              tolerance = sqrt(.Machine$double.eps),
-                              ignore_attr = TRUE) {
+                                     main = sbf_get_main(),
+                                     archive = 1L,
+                                     recursive = FALSE,
+                                     include_root = TRUE,
+                                     tolerance = sqrt(.Machine$double.eps),
+                                     ignore_attr = TRUE) {
   if (!requireNamespace("waldo", quietly = TRUE)) {
     stop("Please `install.packages('waldo')`.", call. = FALSE)
   }
