@@ -1,7 +1,7 @@
 #' Open PostgreSQL Connection
-#' 
+#'
 #' Connect to a PostgreSQL database with a config.yml file.
-#' 
+#'
 #' @inheritParams psql::psql_connect
 #' @return An S4 object that inherits from DBIConnection.
 #' @export
@@ -22,22 +22,22 @@
 sbf_open_pg <- function(config_path = getOption("psql.config_path", NULL),
                         config_value = getOption("psql.value", NULL)) {
   conn <- psql::psql_connect(
-    config_path = config_path, 
+    config_path = config_path,
     config_value = config_value
   )
   conn
 }
 
 #' Close PostgreSQL Connection
-#' 
-#' Close the PostgreSQL connection when you are done using a database. 
+#'
+#' Close the PostgreSQL connection when you are done using a database.
 #'
 #' @inheritParams DBI::dbDisconnect
 #'
 #' @return TRUE (or errors).
 #' @export
-#' @details Wrapper on `DBI::dbDisconnect()`. It is important to remember to 
-#' close connections or your database performance can decrease over time. 
+#' @details Wrapper on `DBI::dbDisconnect()`. It is important to remember to
+#'   close connections or your database performance can decrease over time.
 #' @family postgresql functions
 #'
 #' @examples
@@ -185,9 +185,9 @@ sbf_load_data_from_pg <- function(x,
 }
 
 #' Load Data Frames from PostgreSQL Database
-#' 
-#' Load all the tables in a schema as data frames into your environment from a 
-#'  PostgreSQL database.
+#'
+#' Load all the tables in a schema as data frames into your environment from a
+#' PostgreSQL database.
 #'
 #' @inheritParams sbf_load_objects
 #' @inheritParams psql::psql_list_tables
@@ -195,7 +195,7 @@ sbf_load_data_from_pg <- function(x,
 #' @export
 #' @family postgresql functions
 #' @family load functions
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' sbf_load_datas_from_pg()
@@ -268,7 +268,7 @@ sbf_save_data_to_pg <- function(x,
 #'
 #' @param schema A string of the schema name. Default value is `"public"`.
 #'
-#' @return An invisible schema name 
+#' @return An invisible schema name
 #' @export
 #' @family postgresql functions
 #'
@@ -284,7 +284,7 @@ sbf_set_schema <- function(schema = "public") {
 
 #' Get Schema Name
 #'
-#' @return A string of the schema name. 
+#' @return A string of the schema name.
 #' @export
 #' @family postgresql functions
 #'
@@ -297,7 +297,7 @@ sbf_get_schema <- function() {
 }
 
 #' Reset Schema Name
-#' 
+#'
 #' Reset schema name back to public
 #'
 #' @return An invisible string of the schema name the database is set to
@@ -313,11 +313,11 @@ sbf_reset_schema <- function() {
 }
 
 #' Set the Config File path
-#' 
+#'
 #' A wrapper to quickly set the `psql.config_path` options parameter.
 #'
-#' @param path A file path to the location of the yaml file containing your 
-#'  connection details.
+#' @param path A file path to the location of the yaml file containing your
+#'   connection details.
 #'
 #' @return An invisible string of the file path given
 #' @export
@@ -336,10 +336,10 @@ sbf_set_config_file <- function(path = "config.yml") {
 }
 
 #' Get the Config File Path
-#' 
+#'
 #' Get the option set for psql.config_path
 #'
-#' @return A string of the config file path. 
+#' @return A string of the config file path.
 #' @export
 #' @family postgresql functions
 #'
@@ -352,7 +352,7 @@ sbf_get_config_file <- function() {
 }
 
 #' Reset the Config File Path
-#' 
+#'
 #' Reset the psql.config_path option to the default value.
 #'
 #' @return An invisible string of the default file path
@@ -368,7 +368,7 @@ sbf_reset_config_file <- function() {
 }
 
 #' Set the Config Value
-#' 
+#'
 #' Wrapper for setting the `psql.config_value` options parameter.
 #'
 #' @param value A string of the config file value to grab.
@@ -389,7 +389,7 @@ sbf_set_config_value <- function(value = NULL) {
 }
 
 #' Get the Config File Value
-#' 
+#'
 #' Get the value set for the `psql.config_value` options parameter.
 #'
 #' @return A string of the config file value
@@ -405,7 +405,7 @@ sbf_get_config_value <- function() {
 }
 
 #' Reset the Config File Value
-#' 
+#'
 #' Reset the value for `psql.config_value` to the default value.
 #'
 #' @return An invisible string of the default file path
