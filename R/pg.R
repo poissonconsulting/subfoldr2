@@ -213,7 +213,6 @@ sbf_load_datas_from_pg <- function(schema = getOption("psql.schema", "public"),
   tbl_names <- psql::psql_list_tables(schema = schema,
                                       config_path = config_path,
                                       config_value = config_value)
-  
   datas <- lapply(
     tbl_names,
     psql::psql_read_table,
@@ -221,10 +220,8 @@ sbf_load_datas_from_pg <- function(schema = getOption("psql.schema", "public"),
     config_path = config_path,
     config_value = config_value
   )
-  
   names(datas) <- tbl_names
   names(datas) <- rename(names(datas))
-  
   mapply(assign, names(datas), datas, MoreArgs = list(envir = env))
   invisible(names(datas))
 }
@@ -417,5 +414,5 @@ sbf_get_config_value <- function() {
 #' sbf_reset_config_value()
 #' }
 sbf_reset_config_value <- function() {
-  invisible(sbf_set_config_value()) 
+  invisible(sbf_set_config_value())
 }
