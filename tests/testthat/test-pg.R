@@ -60,7 +60,7 @@ test_that("test sbf_execute_pg works", {
 
 test_that("test sbf_list_tables_pg works", {
   skip_on_ci()
-  # set up 
+  # set up
   outing <- data.frame(x = 1:5, y = 6:10)
   local_config <- create_local_database(schema = "boat_count", table = outing)
   # test
@@ -73,7 +73,7 @@ test_that("test sbf_list_tables_pg works", {
 
 test_that("test sbf_load_data_from_pg works", {
   skip_on_ci()
-  # set up 
+  # set up
   outing <- data.frame(x = 1:5, y = 6:10)
   local_config <- create_local_database(schema = "boat_count", table = outing)
   # tests
@@ -127,11 +127,11 @@ test_that("test sbf_save_data_to_pg works when no x_name passed", {
   )
   # tests
   output <- sbf_save_data_to_pg(
-    x = outing, 
+    x = outing,
     schema = "boat_count",
     config_path = local_config
   )
-  query <- check_db_table(local_config,"boat_count", "outing")
+  query <- check_db_table(local_config, "boat_count", "outing")
   expect_equal(output, 5)
   expect_equal(query, outing)
 })
@@ -148,12 +148,12 @@ test_that("test sbf_save_data_to_pg works with x_name passed", {
   # tests
   outing_new <- data.frame(x = 1:2, y = 2:3)
   output <- sbf_save_data_to_pg(
-    x = outing_new, 
+    x = outing_new,
     schema = "boat_count",
     x_name = "outing",
     config_path = local_config
   )
-  query <- check_db_table(local_config,"boat_count", "outing")
+  query <- check_db_table(local_config, "boat_count", "outing")
   expect_equal(output, 2)
   expect_equal(query, outing_new)
 })
