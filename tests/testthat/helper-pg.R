@@ -110,6 +110,18 @@ local_connection <- function(file) {
   conn
 }
 
+local_connection_default <- function() {
+  conn <- DBI::dbConnect(
+    RPostgres::Postgres(),
+    host = "127.0.0.1",
+    port = 5432,
+    dbname = NULL,
+    user = NULL,
+    password = NULL
+  )
+  conn
+}
+
 check_schema_exists <- function(config_path) {
   withr::defer(DBI::dbDisconnect(conn))
   conn <- local_connection(config_path)
@@ -185,8 +197,6 @@ clean_up_db <- function(dbname = "newdb", env = parent.frame()) {
   
 }
 
-
-
 create_config_with_value_level <- function(env = parent.frame()) {
   # creates a config file with multi leveled values
   config_first <- create_local_database(env =  env)
@@ -202,4 +212,10 @@ create_config_with_value_level <- function(env = parent.frame()) {
   writeLines(config_new_deets, fileConn)
   close(fileConn)
   config_new
+}
+
+rename_and_remove_data <- function(data) {
+  new_dat <- data
+  rm(data)
+  invisible(new_dat)
 }

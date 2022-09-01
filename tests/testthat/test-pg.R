@@ -11,9 +11,8 @@ test_that("test sbf_close_pg works", {
   skip_on_ci()
   # set up
   withr::defer(suppressWarnings(DBI::dbDisconnect(conn)))
+  conn <- local_connection_default()
   # tests
-  ### switched to DBI fun for opening
-  conn <- sbf_open_pg(config_path = NULL, config_value = NULL)
   sbf_close_pg(conn)
   expect_error(
     DBI::dbExecute(conn, "SELECT 1+1;"),
@@ -92,9 +91,7 @@ test_that("checking sbf_load_datas_from_pg pulls data from tables", {
   # set up test
   outing <- data.frame(x = c(1:5), y = c(5:9))
   local_config <- create_local_database(schema = "boat_count", table = outing)
-  ### this needs to be wrapped up in a little helper fn 
-  outing_dat <- outing
-  rm(outing)
+  outing_dat <- rename_and_remove_data(outing)
   # execute tests
   output <- sbf_load_datas_from_pg(
     "boat_count",
