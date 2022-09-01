@@ -132,16 +132,6 @@ check_schema_exists <- function(config_path) {
   query
 }
 
-check_table_exists <- function(config_path) {
-  withr::defer(DBI::dbDisconnect(conn))
-  conn <- local_connection(config_path)
-  query <- DBI::dbGetQuery(
-    conn,
-    "SELECT * FROM pg_tables"
-  )
-  query$tablename
-}
-
 check_db_table <- function(config_path, schema, tbl_name) {
   cmd <- paste0("SELECT * FROM ", schema, ".", tbl_name)
   withr::defer(DBI::dbDisconnect(conn))
@@ -159,15 +149,6 @@ clean_up_schema <- function(config_path,
   withr::defer(DBI::dbDisconnect(conn))
   conn <- local_connection(config_path)
   cmd <- paste0("DROP SCHEMA ", schema)
-  withr::defer(try(DBI::dbExecute(conn, cmd), silent = TRUE))
-}
-
-clean_up_table <- function(config_path,
-                           table = "outing",
-                           env = parent.frame()) {
-  withr::defer(DBI::dbDisconnect(conn))
-  conn <- local_connection(config_path)
-  cmd <- paste0("DROP TABLE ", table)
   withr::defer(try(DBI::dbExecute(conn, cmd), silent = TRUE))
 }
 
@@ -194,24 +175,6 @@ clean_up_db <- function(dbname = "newdb", env = parent.frame()) {
       silent = TRUE
     )
   }, envir = env)
-  
-}
-
-create_config_with_value_level <- function(env = parent.frame()) {
-  # creates a config file with multi leveled values
-  config_first <- create_local_database(env =  env)
-  config_first_deets <- config::get(file = config_first)
-  config_new_deets <- paste0(
-    "default:\n database:\n   dbname: ", config_first_deets$dbname, "\n"
-  )
-  config_new <- withr::local_file(
-    "local_test_config2.yml",
-    .local_envir = env
-  )
-  fileConn <- file(config_new)
-  writeLines(config_new_deets, fileConn)
-  close(fileConn)
-  config_new
 }
 
 rename_and_remove_data <- function(data) {
