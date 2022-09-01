@@ -159,6 +159,34 @@ clean_up_table <- function(config_path,
   withr::defer(try(DBI::dbExecute(conn, cmd), silent = TRUE))
 }
 
+clean_up_db <- function(dbname = "newdb", env = parent.frame()) {
+  cmd <- paste0("DROP DATABASE ", dbname, ";")
+  withr::defer(DBI::dbDisconnect(conn), envir = env)
+  
+  conn <- DBI::dbConnect(
+    RPostgres::Postgres(),
+    host = "127.0.0.1",
+    port = 5432,
+    dbname = NULL,
+    user = NULL,
+    password = NULL
+  )
+  
+  withr::defer({
+    try(
+      result <- DBI::dbSendQuery(conn, cmd),
+      silent = TRUE
+    )
+    try(
+      DBI::dbClearResult(result),
+      silent = TRUE
+    )
+  }, envir = env)
+  
+}
+
+
+
 create_config_with_value_level <- function(env = parent.frame()) {
   # creates a config file with multi leveled values
   config_first <- create_local_database(env =  env)

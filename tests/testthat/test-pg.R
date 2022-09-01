@@ -1,110 +1,33 @@
-test_that("checking sbf_load_datas_from_pg pulls tables", {
+test_that("checking sbf_load_datas_from_pg pulls data from tables", {
   skip_on_ci()
   # set up test
-  dat <- data.frame(x = c(1:5), y = c(5:9))
-  config_path <- system.file("testhelpers/config.yml", package = "psql")
-  psql::psql_execute_db("CREATE SCHEMA boat_count", config_path = config_path)
-  withr::defer(
-    try(
-      psql::psql_execute_db(
-        "DROP SCHEMA boat_count",
-        config_path = config_path
-      )
-    )
-  )
-  psql::psql_execute_db(
-    "CREATE TABLE boat_count.input (
-     x INTEGER NOT NULL,
-     y INTEGER)",
-    config_path = config_path
-  )
-  psql::psql_add_data(dat, schema = "boat_count", tbl_name = "input", config_path = config_path)
-  withr::defer(
-    try(
-      psql::psql_execute_db(
-        "DROP TABLE boat_count.input",
-        config_path = config_path
-      )
-    )
-  )
-  psql::psql_execute_db(
-    "CREATE TABLE boat_count.counts (
-     x INTEGER NOT NULL,
-     y INTEGER)",
-    config_path = config_path
-  )
-  psql::psql_add_data(dat, schema = "boat_count", tbl_name = "counts", config_path = config_path)
-  withr::defer(
-    try(
-      psql::psql_execute_db(
-        "DROP TABLE boat_count.counts",
-        config_path = config_path
-      )
-    )
-  )
+  outing <- data.frame(x = c(1:5), y = c(5:9))
+  local_config <- create_local_database(schema = "boat_count", table = outing)
+  ### this needs to be wrapped up in a little helper fn 
+  outing_dat <- outing
+  rm(outing)
   # execute tests
   output <- sbf_load_datas_from_pg(
     "boat_count",
-    config_path = config_path
+    config_path = local_config
   )
-  expect_equal(sort(output), sort(c("input", "counts")))
-  expect_equal(counts, dat)
-  expect_equal(input, dat)
+  expect_equal(output, "outing")
+  expect_equal(outing, outing_dat)
 })
 
 test_that("checking sbf_load_datas_from_pg pulls tables and renames them", {
   skip_on_ci()
   # set up test
-  dat <- data.frame(x = c(1:5), y = c(5:9))
-  config_path <- system.file("testhelpers/config.yml", package = "psql")
-  psql::psql_execute_db("CREATE SCHEMA boat_count", config_path = config_path)
-  withr::defer(
-    try(
-      psql::psql_execute_db(
-        "DROP SCHEMA boat_count",
-        config_path = config_path
-      )
-    )
-  )
-  psql::psql_execute_db(
-    "CREATE TABLE boat_count.input (
-     x INTEGER NOT NULL,
-     y INTEGER)",
-    config_path = config_path
-  )
-  psql::psql_add_data(dat, schema = "boat_count", tbl_name = "input", config_path = config_path)
-  withr::defer(
-    try(
-      psql::psql_execute_db(
-        "DROP TABLE boat_count.input",
-        config_path = config_path
-      )
-    )
-  )
-  psql::psql_execute_db(
-    "CREATE TABLE boat_count.counts (
-     x INTEGER NOT NULL,
-     y INTEGER)",
-    config_path = config_path
-  )
-  psql::psql_add_data(dat, schema = "boat_count", tbl_name = "counts", config_path = config_path)
-  withr::defer(
-    try(
-      psql::psql_execute_db(
-        "DROP TABLE boat_count.counts",
-        config_path = config_path
-      )
-    )
-  )
+  outing <- data.frame(x = c(1:5), y = c(5:9))
+  local_config <- create_local_database(schema = "boat_count", table = outing)
   # execute tests
   output <- sbf_load_datas_from_pg(
     "boat_count",
     rename = toupper,
-    config_path = config_path
+    config_path = local_config
   )
-  expect_equal(sort(output), sort(c("INPUT", "COUNTS")))
-  expect_equal(COUNTS, dat)
-  expect_equal(INPUT, dat)
+  expect_equal(output, "OUTING")
+  expect_equal(OUTING, outing)
 })
 
 test_that("set and get schema", {
@@ -176,7 +99,7 @@ test_that("test sbf_close_pg works", {
 
 test_that("test sbf_back_pg works", {
   skip_on_ci()
-  config_path <- system.file("testhelpers/config-hosted.yml", package = "psql")
+  config_path <- create_local_database()
   temp_dir <- withr::local_tempdir()
   dump_path <- file.path(temp_dir, "dump_db1.sql")
   sbf_backup_pg(
@@ -190,16 +113,7 @@ test_that("test sbf_create_pg works", {
   skip_on_ci()
   output <- sbf_create_pg("newdb", NULL, NULL)
   # clean up afterwards
-  withr::defer({
-    try(
-      result <- DBI::dbSendQuery(psql::psql_connect(NULL, NULL), "DROP DATABASE newdb;"),
-      silent = TRUE
-    )
-    try(
-      DBI::dbClearResult(result),
-      silent = TRUE
-    )
-  })
+  clean_up_db("newdb")
   # test
   expect_true(output)
 })
