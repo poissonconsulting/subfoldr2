@@ -19,7 +19,7 @@ dbflobr::import_all_flobs()."><!-- mathjax --><script src="https://cdnjs.cloudfl
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">subfoldr2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9045</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9047</span>
       </span>
     </div>
 
@@ -51,21 +51,23 @@ dbflobr::import_all_flobs().</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">sbf_upload_flobs_to_db</span><span class="op">(</span>
-  db_name <span class="op">=</span> <span class="fu"><a href="sbf_get_db_name.html">sbf_get_db_name</a></span><span class="op">(</span><span class="op">)</span>,
-  sub <span class="op">=</span> <span class="fu"><a href="sbf_get_sub.html">sbf_get_sub</a></span><span class="op">(</span><span class="op">)</span>,
-  main <span class="op">=</span> <span class="fu"><a href="sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>,
-  dir <span class="op">=</span> <span class="cn">NULL</span>,
-  dbflobr_sub <span class="op">=</span> <span class="cn">FALSE</span>,
-  exists <span class="op">=</span> <span class="cn">FALSE</span>,
-  replace <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sbf_upload_flobs_to_db</span><span class="op">(</span></span>
+<span>  db_name <span class="op">=</span> <span class="fu"><a href="sbf_get_db_name.html">sbf_get_db_name</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  sub <span class="op">=</span> <span class="fu"><a href="sbf_get_sub.html">sbf_get_sub</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  main <span class="op">=</span> <span class="fu"><a href="sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  dir <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  dbflobr_sub <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  exists <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  replace <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>db_name</dt>
 <dd><p>A string of the database name.</p></dd>
+
+
 <dt>sub</dt>
 <dd><p>A logical scalar specifying whether to import flobs based on their filename (sub = FALSE)
 or the name of their subdirectory (sub = TRUE) which must only contain 1 file.
@@ -73,13 +75,19 @@ If sub = NA and replace = TRUE then the names of the
 subdirectories are used irrespective of whether they include files and existing
 flobs are deleted if the corresponding subdirectory is empty.
 If sub = TRUE or sub = NA then recursion is just one subfolder deep.</p></dd>
+
+
 <dt>main</dt>
 <dd><p>A string specifying the path to the main folder (by default the
 current main folder)</p></dd>
+
+
 <dt>dir</dt>
 <dd><p>A string of the path to the directory to import the files from.
 Files need to be within nested folders like 'table1/column1/a.csv'.
 This structure is created automatically if save_all_flobs() function is used.</p></dd>
+
+
 <dt>dbflobr_sub</dt>
 <dd><p>A logical scalar specifying whether to import flobs based
 on their filename (sub = FALSE) or the name of their subdirectory
@@ -88,16 +96,23 @@ If sub = NA and replace = TRUE then the names of the subdirectories are used
 irrespective of whether they include files and existing flobs are deleted
 if the corresponding subdirectory is empty.
 If sub = TRUE or sub = NA then recursion is just one subfolder deep.</p></dd>
+
+
 <dt>exists</dt>
 <dd><p>A logical scalar specifying whether the column must (TRUE) or
 mustn't (FALSE) already exist or whether it doesn't matter (NA).
 IF FALSE, a new BLOB column is created.</p></dd>
+
+
 <dt>replace</dt>
 <dd><p>A flag indicating whether to replace existing flobs (TRUE) or not (FALSE).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An invisible named list indicating directory path, file names and
+    
+
+<p>An invisible named list indicating directory path, file names and
 whether files were successfully written to database.</p>
     </div>
     <div id="see-also">
@@ -127,7 +142,7 @@ whether files were successfully written to database.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

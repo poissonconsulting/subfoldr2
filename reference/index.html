@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">subfoldr2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9045</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9047</span>
       </span>
     </div>
 
@@ -132,6 +132,10 @@
           <p><code><a href="sbf_save_workbook.html">sbf_save_workbook()</a></code> </p>
         </td>
         <td><p>Save Dataframes to Excel Workbook</p></td>
+      </tr><tr><td>
+          <p><code><a href="sbf_save_data_to_pg.html">sbf_save_data_to_pg()</a></code> </p>
+        </td>
+        <td><p>Add data frame to PostgreSQL database</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="load-items">Load Items <a href="#load-items" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
@@ -163,7 +167,7 @@
       </tr><tr><td>
           <p><code><a href="sbf_load_datas_from_db.html">sbf_load_datas_from_db()</a></code> </p>
         </td>
-        <td><p>Save Data Frames to Database</p></td>
+        <td><p>Load Data Frames from Database</p></td>
       </tr><tr><td>
           <p><code><a href="sbf_load_datas_recursive.html">sbf_load_datas_recursive()</a></code> </p>
         </td>
@@ -244,6 +248,14 @@
           <p><code><a href="sbf_load_windows_recursive.html">sbf_load_windows_recursive()</a></code> </p>
         </td>
         <td><p>Load Window Paths as Character Column in Data Frame</p></td>
+      </tr><tr><td>
+          <p><code><a href="sbf_load_data_from_pg.html">sbf_load_data_from_pg()</a></code> </p>
+        </td>
+        <td><p>Load a table from a PostgreSQL database</p></td>
+      </tr><tr><td>
+          <p><code><a href="sbf_load_datas_from_pg.html">sbf_load_datas_from_pg()</a></code> </p>
+        </td>
+        <td><p>Load Data Frames from PostgreSQL Database</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="compare-items">Compare Items <a href="#compare-items" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
@@ -337,7 +349,7 @@
         </td>
         <td><p>Get Workbook Name</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
-          <h2 id="database-operations">Database Operations <a href="#database-operations" class="anchor" aria-hidden="true"></a></h2>
+          <h2 id="sqlite-database-operations">SQLite Database Operations <a href="#sqlite-database-operations" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
         </th>
       </tr></tbody><tbody><tr><td>
@@ -372,6 +384,70 @@
           <p><code><a href="sbf_add_blob_column_to_db.html">sbf_add_blob_column_to_db()</a></code> </p>
         </td>
         <td><p>Add blob column</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h2 id="postgresql-database-operations">PostgreSQL Database Operations <a href="#postgresql-database-operations" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="sbf_open_pg.html">sbf_open_pg()</a></code> </p>
+        </td>
+        <td><p>Open PostgreSQL Connection</p></td>
+      </tr><tr><td>
+          <p><code><a href="sbf_close_pg.html">sbf_close_pg()</a></code> </p>
+        </td>
+        <td><p>Close PostgreSQL Connection</p></td>
+      </tr><tr><td>
+          <p><code><a href="sbf_backup_pg.html">sbf_backup_pg()</a></code> </p>
+        </td>
+        <td><p>Save PostgreSQL backup</p></td>
+      </tr><tr><td>
+          <p><code><a href="sbf_create_pg.html">sbf_create_pg()</a></code> </p>
+        </td>
+        <td><p>Create PostgreSQL database</p></td>
+      </tr><tr><td>
+          <p><code><a href="sbf_execute_pg.html">sbf_execute_pg()</a></code> </p>
+        </td>
+        <td><p>Execute SQL statement for PostgreSQL database</p></td>
+      </tr><tr><td>
+          <p><code><a href="sbf_list_tables_pg.html">sbf_list_tables_pg()</a></code> </p>
+        </td>
+        <td><p>List tables in a schema</p></td>
+      </tr><tr><td>
+          <p><code><a href="sbf_set_schema.html">sbf_set_schema()</a></code> </p>
+        </td>
+        <td><p>Set Schema Name</p></td>
+      </tr><tr><td>
+          <p><code><a href="sbf_get_schema.html">sbf_get_schema()</a></code> </p>
+        </td>
+        <td><p>Get Schema Name</p></td>
+      </tr><tr><td>
+          <p><code><a href="sbf_reset_schema.html">sbf_reset_schema()</a></code> </p>
+        </td>
+        <td><p>Reset Schema Name</p></td>
+      </tr><tr><td>
+          <p><code><a href="sbf_set_config_file.html">sbf_set_config_file()</a></code> </p>
+        </td>
+        <td><p>Set the Config File path</p></td>
+      </tr><tr><td>
+          <p><code><a href="sbf_get_config_file.html">sbf_get_config_file()</a></code> </p>
+        </td>
+        <td><p>Get the Config File Path</p></td>
+      </tr><tr><td>
+          <p><code><a href="sbf_reset_config_file.html">sbf_reset_config_file()</a></code> </p>
+        </td>
+        <td><p>Reset the Config File Path</p></td>
+      </tr><tr><td>
+          <p><code><a href="sbf_set_config_value.html">sbf_set_config_value()</a></code> </p>
+        </td>
+        <td><p>Set the Config Value</p></td>
+      </tr><tr><td>
+          <p><code><a href="sbf_get_config_value.html">sbf_get_config_value()</a></code> </p>
+        </td>
+        <td><p>Get the Config File Value</p></td>
+      </tr><tr><td>
+          <p><code><a href="sbf_reset_config_value.html">sbf_reset_config_value()</a></code> </p>
+        </td>
+        <td><p>Reset the Config File Value</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="housekeeping">Housekeeping <a href="#housekeeping" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
@@ -580,6 +656,18 @@
           <p><code><a href="sbf_subs_window_recursive.html">sbf_subs_window_recursive()</a></code> </p>
         </td>
         <td><p>Gets Subs of a Window as a Character Vector</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h2 id="other">Other <a href="#other" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="sbf_save_gpkg.html">sbf_save_gpkg()</a></code> </p>
+        </td>
+        <td><p>Save sf data frame to Geopackage</p></td>
+      </tr><tr><td>
+          <p><code><a href="sbf_save_gpkgs.html">sbf_save_gpkgs()</a></code> </p>
+        </td>
+        <td><p>Save sf data frames to Geopackages</p></td>
       </tr></tbody></table></div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -593,7 +681,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

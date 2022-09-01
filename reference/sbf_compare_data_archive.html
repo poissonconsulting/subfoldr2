@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">subfoldr2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9045</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9047</span>
       </span>
     </div>
 
@@ -47,41 +47,55 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">sbf_compare_data_archive</span><span class="op">(</span>
-  x_name <span class="op">=</span> <span class="st">".*"</span>,
-  sub <span class="op">=</span> <span class="fu"><a href="sbf_get_sub.html">sbf_get_sub</a></span><span class="op">(</span><span class="op">)</span>,
-  main <span class="op">=</span> <span class="fu"><a href="sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>,
-  archive <span class="op">=</span> <span class="fl">1L</span>,
-  recursive <span class="op">=</span> <span class="cn">FALSE</span>,
-  include_root <span class="op">=</span> <span class="cn">TRUE</span>,
-  tolerance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span><span class="op">)</span>,
-  ignore_attr <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sbf_compare_data_archive</span><span class="op">(</span></span>
+<span>  x_name <span class="op">=</span> <span class="st">".*"</span>,</span>
+<span>  sub <span class="op">=</span> <span class="fu"><a href="sbf_get_sub.html">sbf_get_sub</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  main <span class="op">=</span> <span class="fu"><a href="sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  archive <span class="op">=</span> <span class="fl">1L</span>,</span>
+<span>  recursive <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  include_root <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  tolerance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span><span class="op">)</span>,</span>
+<span>  ignore_attr <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x_name</dt>
 <dd><p>A string of the name.</p></dd>
+
+
 <dt>sub</dt>
 <dd><p>A string specifying the path to the sub folder (by default the
 current sub folder).</p></dd>
+
+
 <dt>main</dt>
 <dd><p>A string specifying the path to the main folder (by default the
 current main folder)</p></dd>
+
+
 <dt>archive</dt>
 <dd><p>A positive whole number specifying the folder archived folder
 where 1L (the default) indicates the most recently archived folder or
 a character string of the path to the archived folder.</p></dd>
+
+
 <dt>recursive</dt>
 <dd><p>A flag specifying whether to recurse into subfolders.</p></dd>
+
+
 <dt>include_root</dt>
 <dd><p>A flag indicating whether to include objects in the top
 sub folder.</p></dd>
+
+
 <dt>tolerance</dt>
 <dd><p>numeric \(\ge\) 0.  Differences smaller than
     <code>tolerance</code> are not reported.  The default value is close to
     <code>1.5e-8</code>.</p></dd>
+
+
 <dt>ignore_attr</dt>
 <dd><p>Ignore differences in specified attributes?
 Supply a character vector to ignore differences in named attributes.
@@ -92,10 +106,13 @@ will probably want to do this yourself.</p>
 to all ignore differences in all attributes. This is not generally
 recommended as it is a blunt tool that will ignore many important
 functional differences.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A named list of character vectors.</p>
+    
+
+<p>A named list of character vectors.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -120,7 +137,7 @@ functional differences.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

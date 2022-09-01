@@ -34,7 +34,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">subfoldr2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9045</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9047</span>
       </span>
     </div>
 
@@ -83,8 +83,8 @@
 </h2>
 <p>By default files are saved to <code>output</code> unless overridden using <code><a href="reference/sbf_set_main.html">sbf_set_main()</a></code> which can take a relative or absolute path.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">subfoldr2</span><span class="op">)</span>
-<span class="fu"><a href="reference/sbf_set_main.html">sbf_set_main</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"output"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">subfoldr2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/sbf_set_main.html">sbf_set_main</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"output"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="saving-and-loading-r-objects">Saving and Loading R Objects<a class="anchor" aria-label="anchor" href="#saving-and-loading-r-objects"></a>
@@ -94,73 +94,73 @@
 </h3>
 <p>An R object can be written using <code><a href="reference/sbf_save_object.html">sbf_save_object()</a></code> and read using <code><a href="reference/sbf_load_object.html">sbf_load_object()</a></code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span>
-<span class="fu"><a href="reference/sbf_save_object.html">sbf_save_object</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
-<span class="fu"><a href="reference/sbf_load_object.html">sbf_load_object</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span>
-<span class="co">#&gt; [1] 1</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="fu"><a href="reference/sbf_save_object.html">sbf_save_object</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/sbf_load_object.html">sbf_load_object</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1</span></span></code></pre></div>
 <p>All R objects are saved as <code>.rds</code> files in folder <code>objects</code> (in the main folder).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; [1] "objects/x.rds"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "objects/x.rds"</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="subfolders">Subfolders<a class="anchor" aria-label="anchor" href="#subfolders"></a>
 </h3>
 <p>The user can save objects to a particular sub folder within <code>objects</code> using <code><a href="reference/sbf_set_sub.html">sbf_set_sub()</a></code> or the <code>sub = sbf_get_sub()</code> argument of <code><a href="reference/sbf_save_object.html">sbf_save_object()</a></code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/sbf_set_sub.html">sbf_set_sub</a></span><span class="op">(</span><span class="st">"times2"</span><span class="op">)</span>
-<span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">*</span> <span class="fl">2</span>
-<span class="fu"><a href="reference/sbf_save_object.html">sbf_save_object</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
-<span class="fu"><a href="reference/sbf_save_object.html">sbf_save_object</a></span><span class="op">(</span><span class="va">x</span> <span class="op">*</span> <span class="fl">3</span>, x_name <span class="op">=</span> <span class="st">"x3"</span>, sub <span class="op">=</span> <span class="st">"times2/times3"</span><span class="op">)</span>
-<span class="fu"><a href="reference/sbf_save_object.html">sbf_save_object</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span>, x_name <span class="op">=</span> <span class="st">"df"</span>, sub <span class="op">=</span> <span class="st">"times2/times3"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; [1] "objects/times2/times3/df.rds" "objects/times2/times3/x3.rds"</span>
-<span class="co">#&gt; [3] "objects/times2/x.rds"         "objects/x.rds"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/sbf_set_sub.html">sbf_set_sub</a></span><span class="op">(</span><span class="st">"times2"</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">*</span> <span class="fl">2</span></span>
+<span><span class="fu"><a href="reference/sbf_save_object.html">sbf_save_object</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/sbf_save_object.html">sbf_save_object</a></span><span class="op">(</span><span class="va">x</span> <span class="op">*</span> <span class="fl">3</span>, x_name <span class="op">=</span> <span class="st">"x3"</span>, sub <span class="op">=</span> <span class="st">"times2/times3"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/sbf_save_object.html">sbf_save_object</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span>, x_name <span class="op">=</span> <span class="st">"df"</span>, sub <span class="op">=</span> <span class="st">"times2/times3"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "objects/times2/times3/df.rds" "objects/times2/times3/x3.rds"</span></span>
+<span><span class="co">#&gt; [3] "objects/times2/x.rds"         "objects/x.rds"</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="loading-multiple-objects">Loading Multiple Objects<a class="anchor" aria-label="anchor" href="#loading-multiple-objects"></a>
 </h3>
 <p>The user can load all the objects in the current sub folder into the calling environment using <code><a href="reference/sbf_load_objects.html">sbf_load_objects()</a></code> or recursively load all the objects as a list column in a data frame using <code><a href="reference/sbf_load_objects_recursive.html">sbf_load_objects_recursive()</a></code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_set_sub.html">sbf_set_sub</a></span><span class="op">(</span><span class="st">"times2"</span>, <span class="st">"times3"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] "times2/times3"</span>
-<span class="fu"><a href="reference/sbf_load_objects.html">sbf_load_objects</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; [1] "df" "x"  "x3"</span>
-<span class="fu"><a href="reference/sbf_load_objects_recursive.html">sbf_load_objects_recursive</a></span><span class="op">(</span>sub <span class="op">=</span> <span class="st">"times2"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 3 x 4</span>
-<span class="co">#&gt;   objects       name  sub     file                                              </span>
-<span class="co">#&gt;   &lt;list&gt;        &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;                                             </span>
-<span class="co">#&gt; 1 &lt;df[,0] [0 ×… df    "times… /var/folders/s3/3cc1k9p13mjgrqj490hdxl6w0000gn/T/…</span>
-<span class="co">#&gt; 2 &lt;dbl [1]&gt;     x3    "times… /var/folders/s3/3cc1k9p13mjgrqj490hdxl6w0000gn/T/…</span>
-<span class="co">#&gt; 3 &lt;dbl [1]&gt;     x     ""      /var/folders/s3/3cc1k9p13mjgrqj490hdxl6w0000gn/T/…</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_set_sub.html">sbf_set_sub</a></span><span class="op">(</span><span class="st">"times2"</span>, <span class="st">"times3"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "times2/times3"</span></span>
+<span><span class="fu"><a href="reference/sbf_load_objects.html">sbf_load_objects</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "df" "x"  "x3"</span></span>
+<span><span class="fu"><a href="reference/sbf_load_objects_recursive.html">sbf_load_objects_recursive</a></span><span class="op">(</span>sub <span class="op">=</span> <span class="st">"times2"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 3 x 4</span></span>
+<span><span class="co">#&gt;   objects       name  sub     file                                              </span></span>
+<span><span class="co">#&gt;   &lt;list&gt;        &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;                                             </span></span>
+<span><span class="co">#&gt; 1 &lt;df[,0] [0 ×… df    "times… /var/folders/s3/3cc1k9p13mjgrqj490hdxl6w0000gn/T/…</span></span>
+<span><span class="co">#&gt; 2 &lt;dbl [1]&gt;     x3    "times… /var/folders/s3/3cc1k9p13mjgrqj490hdxl6w0000gn/T/…</span></span>
+<span><span class="co">#&gt; 3 &lt;dbl [1]&gt;     x     ""      /var/folders/s3/3cc1k9p13mjgrqj490hdxl6w0000gn/T/…</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="deleting-subfolders">Deleting Subfolders<a class="anchor" aria-label="anchor" href="#deleting-subfolders"></a>
 </h3>
 <p>To recursively delete a sub folder call <code><a href="reference/sbf_set_sub.html">sbf_set_sub()</a></code> with <code>rm = TRUE</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/sbf_set_sub.html">sbf_set_sub</a></span><span class="op">(</span><span class="st">"times2"</span>, rm <span class="op">=</span> <span class="cn">TRUE</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; [1] "objects/x.rds"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/sbf_set_sub.html">sbf_set_sub</a></span><span class="op">(</span><span class="st">"times2"</span>, rm <span class="op">=</span> <span class="cn">TRUE</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "objects/x.rds"</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="saving-multiple-objects">Saving Multiple Objects<a class="anchor" aria-label="anchor" href="#saving-multiple-objects"></a>
 </h3>
 <p>All the objects in the calling environment can be saved to the current subdirectory using <code><a href="reference/sbf_save_objects.html">sbf_save_objects()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; [1] "df" "x"  "x3"</span>
-<span class="fu"><a href="reference/sbf_save_objects.html">sbf_save_objects</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; [1] "objects/times2/df.rds" "objects/times2/x.rds"  "objects/times2/x3.rds"</span>
-<span class="co">#&gt; [4] "objects/x.rds"</span>
-<span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">x3</span>, <span class="va">df</span><span class="op">)</span>
-<span class="fu"><a href="reference/sbf_load_objects.html">sbf_load_objects</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x3</span><span class="op">)</span>
-<span class="co">#&gt; [1] 6</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span>
-<span class="co">#&gt; data frame with 0 columns and 0 rows</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "df" "x"  "x3"</span></span>
+<span><span class="fu"><a href="reference/sbf_save_objects.html">sbf_save_objects</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "objects/times2/df.rds" "objects/times2/x.rds"  "objects/times2/x3.rds"</span></span>
+<span><span class="co">#&gt; [4] "objects/x.rds"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">x3</span>, <span class="va">df</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/sbf_load_objects.html">sbf_load_objects</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 6</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
+<span><span class="co">#&gt; data frame with 0 columns and 0 rows</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -173,17 +173,17 @@
 <li>data (objects inheriting from data.frame)</li>
 </ul>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/sbf_reset_sub.html">sbf_reset_sub</a></span><span class="op">(</span>rm <span class="op">=</span> <span class="cn">TRUE</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">data2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">6</span>, y <span class="op">=</span> <span class="fl">7</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span>
-<span class="va">chr</span> <span class="op">&lt;-</span> <span class="st">"some text"</span>
-<span class="va">vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span> <span class="co"># not saved as vector</span>
-<span class="fu"><a href="reference/sbf_save_datas.html">sbf_save_datas</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="reference/sbf_save_strings.html">sbf_save_strings</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="reference/sbf_save_numbers.html">sbf_save_numbers</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; [1] "data/data2.rds"  "data/df.rds"     "numbers/x.csv"   "numbers/x.rds"  </span>
-<span class="co">#&gt; [5] "numbers/x3.csv"  "numbers/x3.rds"  "strings/chr.rda" "strings/chr.rds"</span>
-<span class="co">#&gt; [9] "strings/chr.txt"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/sbf_reset_sub.html">sbf_reset_sub</a></span><span class="op">(</span>rm <span class="op">=</span> <span class="cn">TRUE</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">data2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">6</span>, y <span class="op">=</span> <span class="fl">7</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span></span>
+<span><span class="va">chr</span> <span class="op">&lt;-</span> <span class="st">"some text"</span></span>
+<span><span class="va">vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span> <span class="co"># not saved as vector</span></span>
+<span><span class="fu"><a href="reference/sbf_save_datas.html">sbf_save_datas</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/sbf_save_strings.html">sbf_save_strings</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/sbf_save_numbers.html">sbf_save_numbers</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="reference/sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "data/data2.rds"  "data/df.rds"     "numbers/x.csv"   "numbers/x.rds"  </span></span>
+<span><span class="co">#&gt; [5] "numbers/x3.csv"  "numbers/x3.rds"  "strings/chr.rda" "strings/chr.rds"</span></span>
+<span><span class="co">#&gt; [9] "strings/chr.txt"</span></span></code></pre></div>
 <p>All types of object are saved as rds files. However to facilitate viewing, each number is also saved as a csv file and each string is also saved as a txt file.</p>
 </div>
 <div class="section level2">
@@ -219,10 +219,8 @@
 <p>An existing png file can be imported into the windows subdirectories using <code><a href="reference/sbf_save_png.html">sbf_save_png()</a></code>.</p>
 </div>
 </div>
-<div class="section level2">
-<h2 id="connections">Connections<a class="anchor" aria-label="anchor" href="#connections"></a>
-</h2>
-</div>
+<div class="section level2"><h2 id="connections">Connections<a class="anchor" aria-label="anchor" href="#connections"></a>
+</h2></div>
 <div class="section level2">
 <h2 id="pdf-files">pdf Files<a class="anchor" aria-label="anchor" href="#pdf-files"></a>
 </h2>
@@ -245,8 +243,8 @@
 </h2>
 <p>To install the latest development version from GitHub <a href="https://github.com/poissonconsulting/subfoldr2" class="external-link">repository</a></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"poissonconsulting/subfoldr2"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"poissonconsulting/subfoldr2"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="contribution">Contribution<a class="anchor" aria-label="anchor" href="#contribution"></a>
@@ -277,6 +275,7 @@
 <ul class="list-unstyled">
 <li><a href="CONTRIBUTING.html">Contributing guide</a></li>
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
+<li><a href="SUPPORT.html">Getting help</a></li>
 </ul>
 </div>
 
@@ -317,7 +316,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer>

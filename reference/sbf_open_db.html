@@ -18,7 +18,7 @@ Foreign key constraints are enabled."><!-- mathjax --><script src="https://cdnjs
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">subfoldr2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9045</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9047</span>
       </span>
     </div>
 
@@ -49,47 +49,62 @@ Foreign key constraints are enabled.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">sbf_open_db</span><span class="op">(</span>
-  db_name <span class="op">=</span> <span class="fu"><a href="sbf_get_db_name.html">sbf_get_db_name</a></span><span class="op">(</span><span class="op">)</span>,
-  sub <span class="op">=</span> <span class="fu"><a href="sbf_get_sub.html">sbf_get_sub</a></span><span class="op">(</span><span class="op">)</span>,
-  main <span class="op">=</span> <span class="fu"><a href="sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>,
-  exists <span class="op">=</span> <span class="cn">TRUE</span>,
-  caption <span class="op">=</span> <span class="cn">NULL</span>,
-  report <span class="op">=</span> <span class="cn">NA</span>,
-  tag <span class="op">=</span> <span class="cn">NULL</span>,
-  ask <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"sbf.ask"</span>, <span class="cn">TRUE</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sbf_open_db</span><span class="op">(</span></span>
+<span>  db_name <span class="op">=</span> <span class="fu"><a href="sbf_get_db_name.html">sbf_get_db_name</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  sub <span class="op">=</span> <span class="fu"><a href="sbf_get_sub.html">sbf_get_sub</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  main <span class="op">=</span> <span class="fu"><a href="sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  exists <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  caption <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  report <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  tag <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ask <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"sbf.ask"</span>, <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>db_name</dt>
 <dd><p>A string of the database name.</p></dd>
+
+
 <dt>sub</dt>
 <dd><p>A string specifying the path to the sub folder (by default the
 current sub folder).</p></dd>
+
+
 <dt>main</dt>
 <dd><p>A string specifying the path to the main folder (by default the
 current main folder)</p></dd>
+
+
 <dt>exists</dt>
 <dd><p>A logical scalar specifying whether the database must already
 exist.</p></dd>
+
+
 <dt>caption</dt>
 <dd><p>A string specifying the database metadata table caption.
 If NULL the caption is unchanged.
 If the caption is not specified for a databases it is set to be "".
 Deprecated.</p></dd>
+
+
 <dt>report</dt>
 <dd><p>A logical scalar specifying whether to include the database
 metadata table in the report.
 If report = NA the setting is not changed. Soft-deprecated.
 If the report status is not specified for a databases it is included in the
 report. deprecated.</p></dd>
+
+
 <dt>tag</dt>
 <dd><p>A string of the tag. Deprecated.</p></dd>
+
+
 <dt>ask</dt>
 <dd><p>A flag specifying whether to ask before deleting an existing
 database (if exists = FALSE).</p></dd>
+
 </dl></div>
     <div id="see-also">
     <h2>See also</h2>
@@ -115,7 +130,7 @@ database (if exists = FALSE).</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

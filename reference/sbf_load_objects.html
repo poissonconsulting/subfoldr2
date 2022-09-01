@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">subfoldr2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9045</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9047</span>
       </span>
     </div>
 
@@ -47,12 +47,12 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">sbf_load_objects</span><span class="op">(</span>
-  sub <span class="op">=</span> <span class="fu"><a href="sbf_get_sub.html">sbf_get_sub</a></span><span class="op">(</span><span class="op">)</span>,
-  main <span class="op">=</span> <span class="fu"><a href="sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>,
-  rename <span class="op">=</span> <span class="va">identity</span>,
-  env <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">parent.frame</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sbf_load_objects</span><span class="op">(</span></span>
+<span>  sub <span class="op">=</span> <span class="fu"><a href="sbf_get_sub.html">sbf_get_sub</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  main <span class="op">=</span> <span class="fu"><a href="sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  rename <span class="op">=</span> <span class="va">identity</span>,</span>
+<span>  env <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">parent.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -60,19 +60,28 @@
     <dl><dt>sub</dt>
 <dd><p>A string specifying the path to the sub folder (by default the
 current sub folder).</p></dd>
+
+
 <dt>main</dt>
 <dd><p>A string specifying the path to the main folder (by default the
 current main folder)</p></dd>
+
+
 <dt>rename</dt>
 <dd><p>A single function argument which takes a character vector
 and returns a character vector of the same length.
 Used to rename objects before they are loaded into the environment.</p></dd>
+
+
 <dt>env</dt>
 <dd><p>The environment to  the objects into</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A invisble character vector of the objects' names.</p>
+    
+
+<p>A invisble character vector of the objects' names.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -81,7 +90,9 @@ Used to rename objects before they are loaded into the environment.</p></dd>
 <code><a href="sbf_load_blocks.html">sbf_load_blocks</a>()</code>,
 <code><a href="sbf_load_block.html">sbf_load_block</a>()</code>,
 <code><a href="sbf_load_data_from_db.html">sbf_load_data_from_db</a>()</code>,
+<code><a href="sbf_load_data_from_pg.html">sbf_load_data_from_pg</a>()</code>,
 <code><a href="sbf_load_datas_from_db.html">sbf_load_datas_from_db</a>()</code>,
+<code><a href="sbf_load_datas_from_pg.html">sbf_load_datas_from_pg</a>()</code>,
 <code><a href="sbf_load_datas_recursive.html">sbf_load_datas_recursive</a>()</code>,
 <code><a href="sbf_load_datas.html">sbf_load_datas</a>()</code>,
 <code><a href="sbf_load_data.html">sbf_load_data</a>()</code>,
@@ -125,7 +136,7 @@ Used to rename objects before they are loaded into the environment.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

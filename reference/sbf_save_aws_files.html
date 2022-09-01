@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">subfoldr2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9045</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9047</span>
       </span>
     </div>
 
@@ -47,68 +47,100 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">sbf_save_aws_files</span><span class="op">(</span>
-  <span class="va">bucket_name</span>,
-  sub <span class="op">=</span> <span class="fu"><a href="sbf_get_sub.html">sbf_get_sub</a></span><span class="op">(</span><span class="op">)</span>,
-  main <span class="op">=</span> <span class="fu"><a href="sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>,
-  data_type <span class="op">=</span> <span class="cn">NULL</span>,
-  year <span class="op">=</span> <span class="cn">NULL</span>,
-  month <span class="op">=</span> <span class="cn">NULL</span>,
-  day <span class="op">=</span> <span class="cn">NULL</span>,
-  file_name <span class="op">=</span> <span class="cn">NULL</span>,
-  file_extension <span class="op">=</span> <span class="cn">NULL</span>,
-  max_request_size <span class="op">=</span> <span class="fl">1000</span>,
-  silent <span class="op">=</span> <span class="cn">TRUE</span>,
-  aws_access_key_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"AWS_ACCESS_KEY_ID"</span><span class="op">)</span>,
-  aws_secret_access_key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"AWS_SECRET_ACCESS_KEY"</span><span class="op">)</span>,
-  region <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"AWS_REGION"</span>, <span class="st">"ca-central-1"</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sbf_save_aws_files</span><span class="op">(</span></span>
+<span>  <span class="va">bucket_name</span>,</span>
+<span>  sub <span class="op">=</span> <span class="fu"><a href="sbf_get_sub.html">sbf_get_sub</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  main <span class="op">=</span> <span class="fu"><a href="sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  data_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  year <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  month <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  day <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  file_name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  file_extension <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  max_request_size <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  ask <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"sbf.ask"</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  silent <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  aws_access_key_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"AWS_ACCESS_KEY_ID"</span><span class="op">)</span>,</span>
+<span>  aws_secret_access_key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"AWS_SECRET_ACCESS_KEY"</span><span class="op">)</span>,</span>
+<span>  region <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"AWS_REGION"</span>, <span class="st">"ca-central-1"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>bucket_name</dt>
 <dd><p>A string of the AWS S3 bucket name.</p></dd>
+
+
 <dt>sub</dt>
 <dd><p>A string specifying the path to the sub folder (by default the
 current sub folder).</p></dd>
+
+
 <dt>main</dt>
 <dd><p>A string specifying the path to the main folder (by default the
 current main folder)</p></dd>
+
+
 <dt>data_type</dt>
 <dd><p>A string (by default `NULL`) for which data type to return.
 Check the folder names within the shiny-upload in AWS for options common
   examples include punch-data, tracks, logger, image and pdf.</p></dd>
+
+
 <dt>year</dt>
 <dd><p>A whole number (by default `NULL`) indicating which year to
 return. Format YYYY.</p></dd>
+
+
 <dt>month</dt>
 <dd><p>A whole number (by default `NULL`) indicating which month to
 return. Format MM.</p></dd>
+
+
 <dt>day</dt>
 <dd><p>A whole number (by default `NULL`) indicating which day to return.
 Format DD.</p></dd>
+
+
 <dt>file_name</dt>
 <dd><p>A string (by default `NULL`) containing the name of the file
 to return. Do not include extension type.</p></dd>
+
+
 <dt>file_extension</dt>
 <dd><p>A string (by default `NULL`) with the file extension to
 return. Do not include period.</p></dd>
+
+
 <dt>max_request_size</dt>
 <dd><p>A whole number (by default `1000`) indicating the
 maximum number of files to be returned.</p></dd>
+
+
+<dt>ask</dt>
+<dd><p>A flag specifying whether to ask before overwriting files.</p></dd>
+
+
 <dt>silent</dt>
 <dd><p>A flag (by default `FALSE`) to silence messages about number of
 files returned. Set to `TRUE` to silence messages.</p></dd>
+
+
 <dt>aws_access_key_id</dt>
 <dd><p>A string of your AWS user access key ID. The default
 is the environment variable named `AWS_ACCESS_KEY_ID`.</p></dd>
+
+
 <dt>aws_secret_access_key</dt>
 <dd><p>A string of your AWS user secret access key. The
 default is the environment variable named `AWS_SECRET_ACCESS_KEY`.</p></dd>
+
+
 <dt>region</dt>
 <dd><p>A string of the AWS region. The default is the environment
 variable named `AWS_REGION`.</p></dd>
+
 </dl></div>
     <div id="see-also">
     <h2>See also</h2>
@@ -116,6 +148,7 @@ variable named `AWS_REGION`.</p></dd>
 <code><a href="sbf_basename_sans_ext.html">sbf_basename_sans_ext</a>()</code>,
 <code><a href="sbf_save_block.html">sbf_save_block</a>()</code>,
 <code><a href="sbf_save_data_to_db.html">sbf_save_data_to_db</a>()</code>,
+<code><a href="sbf_save_data_to_pg.html">sbf_save_data_to_pg</a>()</code>,
 <code><a href="sbf_save_datas_to_db.html">sbf_save_datas_to_db</a>()</code>,
 <code><a href="sbf_save_datas.html">sbf_save_datas</a>()</code>,
 <code><a href="sbf_save_data.html">sbf_save_data</a>()</code>,
@@ -123,6 +156,8 @@ variable named `AWS_REGION`.</p></dd>
 <code><a href="sbf_save_db_to_workbook.html">sbf_save_db_to_workbook</a>()</code>,
 <code><a href="sbf_save_excels.html">sbf_save_excels</a>()</code>,
 <code><a href="sbf_save_excel.html">sbf_save_excel</a>()</code>,
+<code><a href="sbf_save_gpkgs.html">sbf_save_gpkgs</a>()</code>,
+<code><a href="sbf_save_gpkg.html">sbf_save_gpkg</a>()</code>,
 <code><a href="sbf_save_numbers.html">sbf_save_numbers</a>()</code>,
 <code><a href="sbf_save_number.html">sbf_save_number</a>()</code>,
 <code><a href="sbf_save_objects.html">sbf_save_objects</a>()</code>,
@@ -138,15 +173,15 @@ variable named `AWS_REGION`.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">sbf_save_aws_files</span><span class="op">(</span></span>
-<span class="r-in">  bucket_name <span class="op">=</span> <span class="st">"exploit-upload-poissonconsulting"</span>,</span>
-<span class="r-in">  data_type <span class="op">=</span> <span class="st">"upload-recapture"</span>,</span>
-<span class="r-in">  year <span class="op">=</span> <span class="fl">2021</span>,</span>
-<span class="r-in">  file_name <span class="op">=</span> <span class="st">"processed_data"</span>,</span>
-<span class="r-in">  file_extension <span class="op">=</span> <span class="st">"csv"</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu">sbf_save_aws_files</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  bucket_name <span class="op">=</span> <span class="st">"exploit-upload-poissonconsulting"</span>,</span></span>
+<span class="r-in"><span>  data_type <span class="op">=</span> <span class="st">"upload-recapture"</span>,</span></span>
+<span class="r-in"><span>  year <span class="op">=</span> <span class="fl">2021</span>,</span></span>
+<span class="r-in"><span>  file_name <span class="op">=</span> <span class="st">"processed_data"</span>,</span></span>
+<span class="r-in"><span>  file_extension <span class="op">=</span> <span class="st">"csv"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -161,7 +196,7 @@ variable named `AWS_REGION`.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

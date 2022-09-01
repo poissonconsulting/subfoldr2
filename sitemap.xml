@@ -46,6 +46,9 @@
     <loc>/reference/sbf_archive_main.html</loc>
   </url>
   <url>
+    <loc>/reference/sbf_backup_pg.html</loc>
+  </url>
+  <url>
     <loc>/reference/sbf_basename_sans_ext.html</loc>
   </url>
   <url>
@@ -56,6 +59,9 @@
   </url>
   <url>
     <loc>/reference/sbf_close_pdf.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sbf_close_pg.html</loc>
   </url>
   <url>
     <loc>/reference/sbf_close_window.html</loc>
@@ -76,6 +82,9 @@
     <loc>/reference/sbf_create_db.html</loc>
   </url>
   <url>
+    <loc>/reference/sbf_create_pg.html</loc>
+  </url>
+  <url>
     <loc>/reference/sbf_data_exists.html</loc>
   </url>
   <url>
@@ -91,13 +100,25 @@
     <loc>/reference/sbf_execute_db.html</loc>
   </url>
   <url>
+    <loc>/reference/sbf_execute_pg.html</loc>
+  </url>
+  <url>
     <loc>/reference/sbf_get_archive.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sbf_get_config_file.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sbf_get_config_value.html</loc>
   </url>
   <url>
     <loc>/reference/sbf_get_db_name.html</loc>
   </url>
   <url>
     <loc>/reference/sbf_get_main.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sbf_get_schema.html</loc>
   </url>
   <url>
     <loc>/reference/sbf_get_sub.html</loc>
@@ -136,6 +157,9 @@
     <loc>/reference/sbf_list_tables.html</loc>
   </url>
   <url>
+    <loc>/reference/sbf_list_tables_pg.html</loc>
+  </url>
+  <url>
     <loc>/reference/sbf_list_windows.html</loc>
   </url>
   <url>
@@ -154,10 +178,16 @@
     <loc>/reference/sbf_load_data_from_db.html</loc>
   </url>
   <url>
+    <loc>/reference/sbf_load_data_from_pg.html</loc>
+  </url>
+  <url>
     <loc>/reference/sbf_load_datas.html</loc>
   </url>
   <url>
     <loc>/reference/sbf_load_datas_from_db.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sbf_load_datas_from_pg.html</loc>
   </url>
   <url>
     <loc>/reference/sbf_load_datas_recursive.html</loc>
@@ -232,6 +262,9 @@
     <loc>/reference/sbf_open_pdf.html</loc>
   </url>
   <url>
+    <loc>/reference/sbf_open_pg.html</loc>
+  </url>
+  <url>
     <loc>/reference/sbf_open_window.html</loc>
   </url>
   <url>
@@ -274,10 +307,19 @@
     <loc>/reference/sbf_reset.html</loc>
   </url>
   <url>
+    <loc>/reference/sbf_reset_config_file.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sbf_reset_config_value.html</loc>
+  </url>
+  <url>
     <loc>/reference/sbf_reset_db_name.html</loc>
   </url>
   <url>
     <loc>/reference/sbf_reset_main.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sbf_reset_schema.html</loc>
   </url>
   <url>
     <loc>/reference/sbf_reset_sub.html</loc>
@@ -301,6 +343,9 @@
     <loc>/reference/sbf_save_data_to_db.html</loc>
   </url>
   <url>
+    <loc>/reference/sbf_save_data_to_pg.html</loc>
+  </url>
+  <url>
     <loc>/reference/sbf_save_datas.html</loc>
   </url>
   <url>
@@ -320,6 +365,12 @@
   </url>
   <url>
     <loc>/reference/sbf_save_flobs_from_db.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sbf_save_gpkg.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sbf_save_gpkgs.html</loc>
   </url>
   <url>
     <loc>/reference/sbf_save_number.html</loc>
@@ -355,10 +406,19 @@
     <loc>/reference/sbf_save_workbook.html</loc>
   </url>
   <url>
+    <loc>/reference/sbf_set_config_file.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sbf_set_config_value.html</loc>
+  </url>
+  <url>
     <loc>/reference/sbf_set_db_name.html</loc>
   </url>
   <url>
     <loc>/reference/sbf_set_main.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sbf_set_schema.html</loc>
   </url>
   <url>
     <loc>/reference/sbf_set_sub.html</loc>

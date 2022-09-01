@@ -18,7 +18,7 @@ single excel workbook where each table is its own spreadsheet."><!-- mathjax -->
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">subfoldr2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9045</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9047</span>
       </span>
     </div>
 
@@ -49,13 +49,13 @@ single excel workbook where each table is its own spreadsheet.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">sbf_save_workbook</span><span class="op">(</span>
-  workbook_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,
-  sub <span class="op">=</span> <span class="fu"><a href="sbf_get_sub.html">sbf_get_sub</a></span><span class="op">(</span><span class="op">)</span>,
-  main <span class="op">=</span> <span class="fu"><a href="sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>,
-  env <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">parent.frame</a></span><span class="op">(</span><span class="op">)</span>,
-  epgs <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sbf_save_workbook</span><span class="op">(</span></span>
+<span>  workbook_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  sub <span class="op">=</span> <span class="fu"><a href="sbf_get_sub.html">sbf_get_sub</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  main <span class="op">=</span> <span class="fu"><a href="sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  env <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">parent.frame</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  epgs <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -63,20 +63,31 @@ single excel workbook where each table is its own spreadsheet.</p>
     <dl><dt>workbook_name</dt>
 <dd><p>The name of the excel workbook you are creating. Default
 is the base name of the current working directory.</p></dd>
+
+
 <dt>sub</dt>
 <dd><p>A string specifying the path to the sub folder (by default the
 current sub folder).</p></dd>
+
+
 <dt>main</dt>
 <dd><p>A string specifying the path to the main folder (by default the
 current main folder)</p></dd>
+
+
 <dt>env</dt>
 <dd><p>An environment.</p></dd>
+
+
 <dt>epgs</dt>
 <dd><p>The projection to convert to</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An invisible string of the path to the saved data.frame</p>
+    
+
+<p>An invisible string of the path to the saved data.frame</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -90,6 +101,7 @@ current main folder)</p></dd>
 <code><a href="sbf_save_aws_files.html">sbf_save_aws_files</a>()</code>,
 <code><a href="sbf_save_block.html">sbf_save_block</a>()</code>,
 <code><a href="sbf_save_data_to_db.html">sbf_save_data_to_db</a>()</code>,
+<code><a href="sbf_save_data_to_pg.html">sbf_save_data_to_pg</a>()</code>,
 <code><a href="sbf_save_datas_to_db.html">sbf_save_datas_to_db</a>()</code>,
 <code><a href="sbf_save_datas.html">sbf_save_datas</a>()</code>,
 <code><a href="sbf_save_data.html">sbf_save_data</a>()</code>,
@@ -97,6 +109,8 @@ current main folder)</p></dd>
 <code><a href="sbf_save_db_to_workbook.html">sbf_save_db_to_workbook</a>()</code>,
 <code><a href="sbf_save_excels.html">sbf_save_excels</a>()</code>,
 <code><a href="sbf_save_excel.html">sbf_save_excel</a>()</code>,
+<code><a href="sbf_save_gpkgs.html">sbf_save_gpkgs</a>()</code>,
+<code><a href="sbf_save_gpkg.html">sbf_save_gpkg</a>()</code>,
 <code><a href="sbf_save_numbers.html">sbf_save_numbers</a>()</code>,
 <code><a href="sbf_save_number.html">sbf_save_number</a>()</code>,
 <code><a href="sbf_save_objects.html">sbf_save_objects</a>()</code>,
@@ -111,9 +125,9 @@ current main folder)</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">sbf_save_workbook</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu">sbf_save_workbook</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -128,7 +142,7 @@ current main folder)</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

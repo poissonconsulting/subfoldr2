@@ -18,7 +18,7 @@ Each data frame is saved to a sheet with the same name."><!-- mathjax --><script
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">subfoldr2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9045</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9047</span>
       </span>
     </div>
 
@@ -49,29 +49,38 @@ Each data frame is saved to a sheet with the same name.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">sbf_write_datas_to_xlsx</span><span class="op">(</span>
-  <span class="va">path</span>,
-  exists <span class="op">=</span> <span class="cn">NA</span>,
-  env <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">parent.frame</a></span><span class="op">(</span><span class="op">)</span>,
-  ask <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"sbf.ask"</span>, <span class="cn">TRUE</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sbf_write_datas_to_xlsx</span><span class="op">(</span></span>
+<span>  <span class="va">path</span>,</span>
+<span>  exists <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  env <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">parent.frame</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  ask <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"sbf.ask"</span>, <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>path</dt>
 <dd><p>A string of the path to the xlsx file (with the extension).</p></dd>
+
+
 <dt>exists</dt>
 <dd><p>A logical scalar specifying whether the file should exist.</p></dd>
+
+
 <dt>env</dt>
 <dd><p>An environment.</p></dd>
+
+
 <dt>ask</dt>
 <dd><p>A flag specifying whether to ask before deleting an existing
 database (if exists = FALSE).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An invisible character vector of the names of the data frames.</p>
+    
+
+<p>An invisible character vector of the names of the data frames.</p>
     </div>
 
   </div>
@@ -86,7 +95,7 @@ database (if exists = FALSE).</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

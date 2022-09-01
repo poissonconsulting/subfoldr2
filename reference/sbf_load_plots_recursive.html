@@ -20,7 +20,7 @@ and sub folders (named sub1, sub2 etc)."><!-- mathjax --><script src="https://cd
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">subfoldr2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9045</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9047</span>
       </span>
     </div>
 
@@ -53,35 +53,46 @@ and sub folders (named sub1, sub2 etc).</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">sbf_load_plots_recursive</span><span class="op">(</span>
-  x_name <span class="op">=</span> <span class="st">".*"</span>,
-  sub <span class="op">=</span> <span class="fu"><a href="sbf_get_sub.html">sbf_get_sub</a></span><span class="op">(</span><span class="op">)</span>,
-  main <span class="op">=</span> <span class="fu"><a href="sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>,
-  include_root <span class="op">=</span> <span class="cn">TRUE</span>,
-  tag <span class="op">=</span> <span class="st">".*"</span>,
-  meta <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sbf_load_plots_recursive</span><span class="op">(</span></span>
+<span>  x_name <span class="op">=</span> <span class="st">".*"</span>,</span>
+<span>  sub <span class="op">=</span> <span class="fu"><a href="sbf_get_sub.html">sbf_get_sub</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  main <span class="op">=</span> <span class="fu"><a href="sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  include_root <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  tag <span class="op">=</span> <span class="st">".*"</span>,</span>
+<span>  meta <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x_name</dt>
 <dd><p>A string of the name.</p></dd>
+
+
 <dt>sub</dt>
 <dd><p>A string specifying the path to the sub folder (by default the
 current sub folder).</p></dd>
+
+
 <dt>main</dt>
 <dd><p>A string specifying the path to the main folder (by default the
 current main folder)</p></dd>
+
+
 <dt>include_root</dt>
 <dd><p>A flag indicating whether to include objects in the top
 sub folder.</p></dd>
+
+
 <dt>tag</dt>
 <dd><p>A string of the regular expression that the tag must match to be
 included.</p></dd>
+
+
 <dt>meta</dt>
 <dd><p>A flag specifying whether to include the report, caption and any
 other metadata as columns.</p></dd>
+
 </dl></div>
     <div id="see-also">
     <h2>See also</h2>
@@ -90,7 +101,9 @@ other metadata as columns.</p></dd>
 <code><a href="sbf_load_blocks.html">sbf_load_blocks</a>()</code>,
 <code><a href="sbf_load_block.html">sbf_load_block</a>()</code>,
 <code><a href="sbf_load_data_from_db.html">sbf_load_data_from_db</a>()</code>,
+<code><a href="sbf_load_data_from_pg.html">sbf_load_data_from_pg</a>()</code>,
 <code><a href="sbf_load_datas_from_db.html">sbf_load_datas_from_db</a>()</code>,
+<code><a href="sbf_load_datas_from_pg.html">sbf_load_datas_from_pg</a>()</code>,
 <code><a href="sbf_load_datas_recursive.html">sbf_load_datas_recursive</a>()</code>,
 <code><a href="sbf_load_datas.html">sbf_load_datas</a>()</code>,
 <code><a href="sbf_load_data.html">sbf_load_data</a>()</code>,
@@ -134,7 +147,7 @@ other metadata as columns.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>
