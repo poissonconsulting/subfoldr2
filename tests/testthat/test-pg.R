@@ -120,196 +120,85 @@ test_that("test sbf_create_pg works", {
 
 test_that("test sbf_execute_pg works", {
   skip_on_ci()
-  config_path <- system.file("testhelpers/config.yml", package = "psql")
+  # set up
+  local_config <- create_local_database()
+  clean_up_schema(local_config)
+  # test
   output <- sbf_execute_pg(
     "CREATE SCHEMA boat_count",
-    config_path = config_path
+    config_path = local_config
   )
-  withr::defer({
-    try(
-      sbf_execute_pg(
-        "DROP SCHEMA boat_count",
-        config_path = config_path
-      ),
-      silent = TRUE
-    )
-  })
-  query <- DBI::dbGetQuery(
-    psql::psql_connect(config_path = config_path),
-    "SELECT schema_name FROM information_schema.schemata"
-  )
+  schema_info <- check_schema_exists(local_config)
   expect_equal(output, 0L)
-  expect_true("boat_count" %in% query$schema_name)
+  expect_true("boat_count" %in% schema_info$schema_name)
 })
 
 test_that("test sbf_list_tables_pg works", {
   skip_on_ci()
-  # set up test
-  config_path <- system.file("testhelpers/config.yml", package = "psql")
-  sbf_execute_pg("CREATE SCHEMA boat_count", config_path = config_path)
-  withr::defer(
-    try(
-      psql::psql_execute_db(
-        "DROP SCHEMA boat_count",
-        config_path = config_path
-      )
-    )
-  )
-  sbf_execute_pg(
-    "CREATE TABLE boat_count.counts (
-     x INTEGER NOT NULL,
-     y INTEGER)",
-    config_path = config_path
-  )
-  withr::defer(
-    try(
-      psql::psql_execute_db(
-        "DROP TABLE boat_count.counts",
-        config_path = config_path
-      )
-    )
-  )
-  # execute tests
+  # set up 
+  outing <- data.frame(x = 1:5, y = 6:10)
+  local_config <- create_local_database(schema = "boat_count", table = outing)
+  # test
   output <- sbf_list_tables_pg(
     "boat_count",
-    config_path = config_path
+    config_path = local_config
   )
-  expect_equal(output, c("counts"))
+  expect_equal(output, "outing")
 })
 
 test_that("test sbf_load_data_from_pg works", {
   skip_on_ci()
   # set up database
-  dat <- data.frame(
-    x = c(1:10),
-    y = c(rep("yes", 5), rep("no", 4), NA)
-  )
-  config_path <- system.file("testhelpers/config.yml", package = "psql")
-  psql::psql_execute_db("CREATE SCHEMA boat_count", config_path = config_path)
-  withr::defer(
-    try(
-      psql::psql_execute_db(
-        "DROP SCHEMA boat_count",
-        config_path = config_path
-      )
-    )
-  )
-  psql::psql_execute_db(
-    "CREATE TABLE boat_count.dat (
-     x INTEGER NOT NULL,
-     y TEXT)",
-    config_path = config_path
-  )
-  withr::defer(
-    try(
-      psql::psql_execute_db(
-        "DROP TABLE boat_count.dat",
-        config_path = config_path
-      )
-    )
-  )
-  psql::psql_add_data(dat, schema = "boat_count", config_path = config_path)
+  outing <- data.frame(x = 1:5, y = 6:10)
+  local_config <- create_local_database(schema = "boat_count", table = outing)
   # execute tests
   output <- sbf_load_data_from_pg(
-    x = "dat",
+    x = "outing",
     schema = "boat_count",
-    config_path = config_path
+    config_path = local_config
   )
-  expect_equal(output, dat)
+  expect_equal(output, outing)
   expect_s3_class(output, "data.frame")
 })
 
 test_that("test sbf_save_data_to_pg works when no x_name passed", {
   skip_on_ci()
   # set up test
-  dat <- data.frame(
-    x = c(1:10),
-    y = c(21:30)
-  )
-  config_path <- system.file("testhelpers/config.yml", package = "psql")
-  psql::psql_execute_db("CREATE SCHEMA boat_count", config_path = config_path)
-  withr::defer(
-    try(
-      psql::psql_execute_db(
-        "DROP SCHEMA boat_count",
-        config_path = config_path
-      ),
-      silent = TRUE
-    )
-  )
-  psql::psql_execute_db(
-    "CREATE TABLE boat_count.dat (
-     x INTEGER NOT NULL,
-     y INTEGER)",
-    config_path = config_path
-  )
-  withr::defer(
-    try(
-      psql::psql_execute_db(
-        "DROP TABLE boat_count.dat",
-        config_path = config_path
-      ),
-      silent = TRUE
-    )
-  )
-  output <- sbf_save_data_to_pg(
-    x = dat, 
+  outing <- data.frame(x = 1:5, y = 6:10)
+  local_config <- create_local_database(
     schema = "boat_count",
-    config_path = config_path
-  )
-  query <- DBI::dbGetQuery(
-    psql::psql_connect(config_path = config_path),
-    "SELECT * FROM boat_count.dat"
+    table = outing,
+    data = FALSE
   )
   # tests
-  expect_equal(output, 10)
-  expect_equal(query, dat)
+  output <- sbf_save_data_to_pg(
+    x = outing, 
+    schema = "boat_count",
+    config_path = local_config
+  )
+  query <- check_db_table(local_config,"boat_count", "outing")
+  expect_equal(output, 5)
+  expect_equal(query, outing)
 })
 
 test_that("test sbf_save_data_to_pg works with x_name passed", {
   skip_on_ci()
-  # set up test
-  dat <- data.frame(
-    x = c(1:10),
-    y = c(21:30)
-  )
-  config_path <- system.file("testhelpers/config.yml", package = "psql")
-  psql::psql_execute_db("CREATE SCHEMA boat_count", config_path = config_path)
-  withr::defer(
-    try(
-      psql::psql_execute_db(
-        "DROP SCHEMA boat_count",
-        config_path = config_path
-      ),
-      silent = TRUE
-    )
-  )
-  psql::psql_execute_db(
-    "CREATE TABLE boat_count.data (
-     x INTEGER NOT NULL,
-     y INTEGER)",
-    config_path = config_path
-  )
-  withr::defer(
-    try(
-      psql::psql_execute_db(
-        "DROP TABLE boat_count.data",
-        config_path = config_path
-      ),
-      silent = TRUE
-    )
-  )
-  output <- sbf_save_data_to_pg(
-    x = dat, 
+  # set up
+  outing <- data.frame(x = 1:5, y = 6:10)
+  local_config <- create_local_database(
     schema = "boat_count",
-    x_name = "data",
-    config_path = config_path
-  )
-  query <- DBI::dbGetQuery(
-    psql::psql_connect(config_path = config_path),
-    "SELECT * FROM boat_count.data"
+    table = outing,
+    data = FALSE
   )
   # tests
-  expect_equal(output, 10)
-  expect_equal(query, dat)
+  outing_new <- data.frame(x = 1:2, y = 2:3)
+  output <- sbf_save_data_to_pg(
+    x = outing_new, 
+    schema = "boat_count",
+    x_name = "outing",
+    config_path = local_config
+  )
+  query <- check_db_table(local_config,"boat_count", "outing")
+  expect_equal(output, 2)
+  expect_equal(query, outing_new)
 })
