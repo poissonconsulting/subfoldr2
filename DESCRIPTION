@@ -40,6 +40,7 @@ Imports:
     psql
 Suggests: 
     blob,
+    config,
     covr,
     daff,
     dbflobr,
@@ -47,6 +48,7 @@ Suggests:
     glue,
     readwriteaws,
     readxl,
+    RPostgres,
     sf,
     testthat (>= 3.0.0),
     units,
