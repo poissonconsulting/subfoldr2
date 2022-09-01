@@ -301,7 +301,7 @@ sbf_load_plots_data <- function(sub = sbf_get_sub(),
   )
 }
 
-#' Save Data Frames to Database
+#' Load Data Frames from Database
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects

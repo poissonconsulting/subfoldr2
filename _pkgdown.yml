@@ -26,6 +26,7 @@ reference:
   - '`sbf_save_table`'
   - '`sbf_save_window`'
   - '`sbf_save_workbook`'
+  - '`sbf_save_data_to_pg`'
 - title: Load Items
   contents:
   - '`sbf_load_block`'
@@ -55,6 +56,8 @@ reference:
   - '`sbf_load_tables`'
   - '`sbf_load_tables_recursive`'
   - '`sbf_load_windows_recursive`'
+  - '`sbf_load_data_from_pg`'
+  - '`sbf_load_datas_from_pg`'
 - title: Compare Items
   contents:
   - '`sbf_compare_data`'
@@ -80,7 +83,7 @@ reference:
   - '`sbf_add_sub`'
   - '`sbf_get_archive`'
   - '`sbf_get_workbook_name`'
-- title: Database Operations
+- title: SQLite Database Operations
   contents:
   - '`sbf_open_db`'
   - '`sbf_close_db`'
@@ -90,6 +93,23 @@ reference:
   - '`sbf_execute_db`'  
   - '`sbf_upload_flobs_to_db`'
   - '`sbf_add_blob_column_to_db`'
+- title: PostgreSQL Database Operations
+  contents:
+  - '`sbf_open_pg`'
+  - '`sbf_close_pg`'
+  - '`sbf_backup_pg`'
+  - '`sbf_create_pg`'
+  - '`sbf_execute_pg`'  
+  - '`sbf_list_tables_pg`' 
+  - '`sbf_set_schema`' 
+  - '`sbf_get_schema`' 
+  - '`sbf_reset_schema`' 
+  - '`sbf_set_config_file`'
+  - '`sbf_get_config_file`'
+  - '`sbf_reset_config_file`'
+  - '`sbf_set_config_value`'
+  - '`sbf_get_config_value`'
+  - '`sbf_reset_config_value`'
 - title: Housekeeping
   contents: 
   - '`sbf_archive_main`'
@@ -150,3 +170,7 @@ reference:
   - '`sbf_subs_string_recursive`'
   - '`sbf_subs_table_recursive`'
   - '`sbf_subs_window_recursive`'
+- title: Other
+  contents:
+  - '`sbf_save_gpkg`'
+  - '`sbf_save_gpkgs`'

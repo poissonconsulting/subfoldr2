@@ -36,9 +36,11 @@ Imports:
     tools,
     utils,
     writexl,
-    yesno
+    yesno,
+    psql
 Suggests: 
     blob,
+    config,
     covr,
     daff,
     dbflobr,
@@ -46,6 +48,7 @@ Suggests:
     glue,
     readwriteaws,
     readxl,
+    RPostgres,
     sf,
     testthat (>= 3.0.0),
     units,
@@ -54,7 +57,8 @@ Suggests:
 RdMacros: 
     lifecycle
 Remotes:
-    poissonconsulting/readwriteaws
+    poissonconsulting/readwriteaws,
+    poissonconsulting/psql
 Config/testthat/edition: 3
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
