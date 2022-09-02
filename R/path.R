@@ -201,7 +201,6 @@ sbf_path_db <- function(x_name = sbf_get_db_name(),
                         ext = "sqlite",
                         exists = NA) {
   chk_string(ext)
-  chk_subset(ext, "sqlite")
   get_path(x_name,
     class = "dbs",
     sub = sub,
