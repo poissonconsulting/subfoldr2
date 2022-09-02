@@ -9,7 +9,7 @@ sbf_backup_pg(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   config_path = getOption("psql.config_path", NULL),
-  config_value = getOption("psql.value", NULL)
+  config_value = getOption("psql.config_value", NULL)
 )
 }
 \arguments{
@@ -25,7 +25,7 @@ current main folder)}
 The default value grabs the file path from the psql.config_path option.}
 
 \item{config_value}{A string of the name of value. The default value grabs
-the value from the psql.value option.}
+the value from the psql.config_value option.}
 }
 \value{
 TRUE (or errors)

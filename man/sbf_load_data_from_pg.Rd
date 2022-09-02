@@ -8,7 +8,7 @@ sbf_load_data_from_pg(
   x,
   schema = getOption("psql.schema", "public"),
   config_path = getOption("psql.config_path", NULL),
-  config_value = getOption("psql.value", NULL)
+  config_value = getOption("psql.config_value", NULL)
 )
 }
 \arguments{
@@ -20,7 +20,7 @@ sbf_load_data_from_pg(
 The default value grabs the file path from the psql.config_path option.}
 
 \item{config_value}{A string of the name of value. The default value grabs
-the value from the psql.value option.}
+the value from the psql.config_value option.}
 }
 \value{
 A data frame
