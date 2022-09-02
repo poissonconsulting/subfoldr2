@@ -56,6 +56,8 @@ sbf_close_pg <- function(conn) {
 #' code to recreate the structure and data.
 #'
 #' @inheritParams psql::psql_backup
+#' @inheritParams sbf_save_object
+#' @param db_dump_name A string of the name for the database backup file
 #'
 #' @return TRUE (or errors)
 #' @export
@@ -64,11 +66,16 @@ sbf_close_pg <- function(conn) {
 #'
 #' @examples
 #' \dontrun{
-#' sbf_backup_pg("/Users/user1/Dumps/dump_db.sql")
+#' sbf_backup_pg()
+#' 
+#' sbf_backup_pg("database-22")
 #' }
-sbf_backup_pg <- function(path = "dump_db.sql",
+sbf_backup_pg <- function(db_dump_name = sbf_get_db_name(),
+                          sub = sbf_get_sub(),
+                          main = sbf_get_main(),
                           config_path = getOption("psql.config_path", NULL),
                           config_value = getOption("psql.value", NULL)) {
+  path <- file_name(main, "dbs", sub, db_dump_name, ext = "sql")
   psql::psql_backup(
     path = path,
     config_path = config_path,

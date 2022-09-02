@@ -5,13 +5,21 @@
 \title{Save PostgreSQL backup}
 \usage{
 sbf_backup_pg(
-  path = "dump_db.sql",
+  db_dump_name = sbf_get_db_name(),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
   config_path = getOption("psql.config_path", NULL),
   config_value = getOption("psql.value", NULL)
 )
 }
 \arguments{
-\item{path}{A string of the file path to save the dumped database}
+\item{db_dump_name}{A string of the name for the database backup file}
+
+\item{sub}{A string specifying the path to the sub folder (by default the
+current sub folder).}
+
+\item{main}{A string specifying the path to the main folder (by default the
+current main folder)}
 
 \item{config_path}{A string of a file path to the yaml configuration file.
 The default value grabs the file path from the psql.config_path option.}
@@ -31,7 +39,9 @@ Wrapper on `psql::psql_backup()`
 }
 \examples{
 \dontrun{
-sbf_backup_pg("/Users/user1/Dumps/dump_db.sql")
+sbf_backup_pg()
+
+sbf_backup_pg("database-22")
 }
 }
 \seealso{
