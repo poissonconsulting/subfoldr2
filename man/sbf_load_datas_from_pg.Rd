@@ -31,8 +31,8 @@ the value from the psql.value option.}
 An invisible character vector of the paths to the saved objects.
 }
 \description{
-Load all the tables in a schema as data frames into your environment from a 
- PostgreSQL database.
+Load all the tables in a schema as data frames into your environment from a
+PostgreSQL database.
 }
 \examples{
 \dontrun{
