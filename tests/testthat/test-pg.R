@@ -20,18 +20,18 @@ test_that("test sbf_close_pg works", {
   )
 })
 
-test_that("test sbf_back_pg works", {
+test_that("test sbf_backup_pg works", {
   skip_on_ci()
   # set up
   config_path <- create_local_database()
   temp_dir <- withr::local_tempdir()
-  dump_path <- file.path(temp_dir, "dump_db1.sql")
   # tests
   sbf_backup_pg(
-    path = dump_path,
+    db_dump_name = "dump_db1",
+    main = temp_dir,
     config_path = config_path
   )
-  expect_true(file.exists(dump_path))
+  expect_true(file.exists(file.path(temp_dir, "dbs", "dump_db1.sql")))
 })
 
 test_that("test sbf_create_pg works", {
