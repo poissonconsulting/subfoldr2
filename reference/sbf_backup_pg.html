@@ -50,16 +50,28 @@ code to recreate the structure and data.</p>
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sbf_backup_pg</span><span class="op">(</span></span>
-<span>  path <span class="op">=</span> <span class="st">"dump_db.sql"</span>,</span>
+<span>  db_dump_name <span class="op">=</span> <span class="fu"><a href="sbf_get_db_name.html">sbf_get_db_name</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  sub <span class="op">=</span> <span class="fu"><a href="sbf_get_sub.html">sbf_get_sub</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  main <span class="op">=</span> <span class="fu"><a href="sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  config_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"psql.config_path"</span>, <span class="cn">NULL</span><span class="op">)</span>,</span>
-<span>  config_value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"psql.value"</span>, <span class="cn">NULL</span><span class="op">)</span></span>
+<span>  config_value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"psql.config_value"</span>, <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>path</dt>
-<dd><p>A string of the file path to save the dumped database</p></dd>
+    <dl><dt>db_dump_name</dt>
+<dd><p>A string of the name for the database backup file</p></dd>
+
+
+<dt>sub</dt>
+<dd><p>A string specifying the path to the sub folder (by default the
+current sub folder).</p></dd>
+
+
+<dt>main</dt>
+<dd><p>A string specifying the path to the main folder (by default the
+current main folder)</p></dd>
 
 
 <dt>config_path</dt>
@@ -69,7 +81,7 @@ The default value grabs the file path from the psql.config_path option.</p></dd>
 
 <dt>config_value</dt>
 <dd><p>A string of the name of value. The default value grabs
-the value from the psql.value option.</p></dd>
+the value from the psql.config_value option.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -107,7 +119,9 @@ the value from the psql.value option.</p></dd>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="fu">sbf_backup_pg</span><span class="op">(</span><span class="st">"/Users/user1/Dumps/dump_db.sql"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">sbf_backup_pg</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">sbf_backup_pg</span><span class="op">(</span><span class="st">"database-22"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
