@@ -9,7 +9,7 @@ sbf_save_data_to_pg(
   schema = getOption("psql.schema", "public"),
   x_name = NULL,
   config_path = getOption("psql.config_path", NULL),
-  config_value = getOption("psql.config_value", NULL)
+  config_value = getOption("psql.config_value", "default")
 )
 }
 \arguments{

@@ -8,7 +8,7 @@ sbf_load_data_from_pg(
   x,
   schema = getOption("psql.schema", "public"),
   config_path = getOption("psql.config_path", NULL),
-  config_value = getOption("psql.config_value", NULL)
+  config_value = getOption("psql.config_value", "default")
 )
 }
 \arguments{

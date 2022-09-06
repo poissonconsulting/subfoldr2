@@ -9,7 +9,7 @@ sbf_backup_pg(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   config_path = getOption("psql.config_path", NULL),
-  config_value = getOption("psql.config_value", NULL)
+  config_value = getOption("psql.config_value", "default")
 )
 }
 \arguments{

@@ -9,7 +9,7 @@ sbf_load_datas_from_pg(
   rename = identity,
   env = parent.frame(),
   config_path = getOption("psql.config_path", NULL),
-  config_value = getOption("psql.config_value", NULL)
+  config_value = getOption("psql.config_value", "default")
 )
 }
 \arguments{

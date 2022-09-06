@@ -7,7 +7,7 @@
 sbf_list_tables_pg(
   schema = getOption("psql.schema", "public"),
   config_path = getOption("psql.config_path", NULL),
-  config_value = getOption("psql.config_value", NULL)
+  config_value = getOption("psql.config_value", "default")
 )
 }
 \arguments{
