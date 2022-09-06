@@ -14,10 +14,12 @@ sbf_create_pg(
 \item{dbname}{A string of the name of the new database to create.}
 
 \item{config_path}{A string of a file path to the yaml configuration file.
-The default value grabs the file path from the psql.config_path option.}
+The default value grabs the file path from the psql.config_path option
+and uses \code{NULL} if no value supplied.}
 
 \item{config_value}{A string of the name of value. The default value grabs
-the value from the psql.config_value option.}
+the value from the psql.config_value option and uses \code{"default"} if no
+value is supplied.}
 }
 \value{
 TRUE (or errors).
