@@ -3,7 +3,7 @@ test_that("test sbf_open_pg works", {
   # set up
   withr::defer(DBI::dbDisconnect(conn))
   # tests
-  conn <- sbf_open_pg(config_path = NULL, config_value = NULL)
+  conn <- sbf_open_pg(config_path = NULL, config_value = "default")
   expect_s4_class(conn, "PqConnection")
 })
 
@@ -39,7 +39,7 @@ test_that("test sbf_create_pg works", {
   # set up
   clean_up_db("newdb")
   # tests
-  output <- sbf_create_pg("newdb", NULL, NULL)
+  output <- sbf_create_pg("newdb", NULL, "default")
   expect_true(output)
 })
 
@@ -200,5 +200,5 @@ test_that("reset config file value", {
   sbf_set_config_value(value)
   sbf_reset_config_value()
   set_value <- sbf_get_config_value()
-  expect_equal(set_value, character(0))
+  expect_equal(set_value, "default")
 })

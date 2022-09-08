@@ -7,17 +7,19 @@
 sbf_execute_pg(
   sql,
   config_path = getOption("psql.config_path", NULL),
-  config_value = getOption("psql.config_value", NULL)
+  config_value = getOption("psql.config_value", "default")
 )
 }
 \arguments{
 \item{sql}{A string of the SQL statement to execute.}
 
 \item{config_path}{A string of a file path to the yaml configuration file.
-The default value grabs the file path from the psql.config_path option.}
+The default value grabs the file path from the psql.config_path option
+and uses \code{NULL} if no value supplied.}
 
 \item{config_value}{A string of the name of value. The default value grabs
-the value from the psql.config_value option.}
+the value from the psql.config_value option and uses \code{"default"} if no
+value is supplied.}
 }
 \value{
 A scalar numeric of the number of rows affected by the statement.
