@@ -264,8 +264,8 @@ sbf_load_datas_from_pg <- function(schema = getOption("psql.schema", "public"),
 #' sbf_save_data_to_pg(outing_new, "creel", "outing")
 #' }
 sbf_save_data_to_pg <- function(x,
-                                schema = getOption("psql.schema", "public"),
                                 x_name = NULL,
+                                schema = getOption("psql.schema", "public"),
                                 config_path = getOption("psql.config_path", NULL),
                                 config_value = getOption("psql.config_value", "default")) {
   if (is.null(x_name)) x_name <- deparse(substitute(x))

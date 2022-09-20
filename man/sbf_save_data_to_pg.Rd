@@ -6,8 +6,8 @@
 \usage{
 sbf_save_data_to_pg(
   x,
-  schema = getOption("psql.schema", "public"),
   x_name = NULL,
+  schema = getOption("psql.schema", "public"),
   config_path = getOption("psql.config_path", NULL),
   config_value = getOption("psql.config_value", "default")
 )
@@ -15,9 +15,9 @@ sbf_save_data_to_pg(
 \arguments{
 \item{x}{The data frame to save.}
 
-\item{schema}{A string of the schema name. Default value is \code{"public"}.}
-
 \item{x_name}{A string of the name.}
+
+\item{schema}{A string of the schema name. Default value is \code{"public"}.}
 
 \item{config_path}{A string of a file path to the yaml configuration file.
 The default value grabs the file path from the psql.config_path option
