@@ -53,8 +53,8 @@ argument to pass the table name.</p>
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sbf_save_data_to_pg</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
-<span>  schema <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"psql.schema"</span>, <span class="st">"public"</span><span class="op">)</span>,</span>
 <span>  x_name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  schema <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"psql.schema"</span>, <span class="st">"public"</span><span class="op">)</span>,</span>
 <span>  config_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"psql.config_path"</span>, <span class="cn">NULL</span><span class="op">)</span>,</span>
 <span>  config_value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"psql.config_value"</span>, <span class="st">"default"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -66,12 +66,12 @@ argument to pass the table name.</p>
 <dd><p>The data frame to save.</p></dd>
 
 
-<dt>schema</dt>
-<dd><p>A string of the schema name. Default value is <code>"public"</code>.</p></dd>
-
-
 <dt>x_name</dt>
 <dd><p>A string of the name.</p></dd>
+
+
+<dt>schema</dt>
+<dd><p>A string of the schema name. Default value is <code>"public"</code>.</p></dd>
 
 
 <dt>config_path</dt>
