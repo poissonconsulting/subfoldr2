@@ -16,7 +16,7 @@ Other contributors:
   \item Ayla Pearson \email{ayla@poissonconsulting.ca} (\href{https://orcid.org/0000-0001-7388-1222}{ORCID}) [contributor]
   \item Evan Amies-Galonski \email{evan@poissonconsulting.ca} (\href{https://orcid.org/0000-0003-1096-2089}{ORCID}) [contributor]
   \item Nadine Hussein \email{nadine@poissonconsulting.ca} (\href{https://orcid.org/0000-0003-4470-8361}{ORCID}) [contributor]
-  \item Alan Constant \email{alan@poissonconsulting.ca} [contributor]
+  \item Alan Constant [contributor]
   \item Poisson Consulting [copyright holder, funder]
 }
 

@@ -32,6 +32,7 @@ Imports:
     RSQLite,
     stats,
     snakecase,
+    tidyplus,
     tibble,
     tools,
     utils,
@@ -61,4 +62,4 @@ Remotes:
     poissonconsulting/psql
 Config/testthat/edition: 3
 Encoding: UTF-8
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3

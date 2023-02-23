@@ -422,6 +422,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
 
   data <- x$data
   if (is.data.frame(data) && nrow(data) <= csv) {
+    data <- tidyplus::drop_uninformative_columns(data)
     save_csv(data, "plots", sub = sub, main = main, x_name = x_name)
   }
 
