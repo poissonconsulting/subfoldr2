@@ -19,7 +19,7 @@ save_rds <- function(x, class, main, sub, x_name) {
 save_csv <- function(x, class, sub, main, x_name) {
   x[vapply(x, is.list, TRUE)] <- NULL
   file <- file_name(main, class, sub, x_name, "csv")
-  write.csv(x, file, row.names = FALSE)
+  readr::write_csv(x, file)
   invisible(file)
 }
 
@@ -237,8 +237,10 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
+  
+  data <- data.frame(x_name = x)
 
-  save_csv(x, "numbers", sub = sub, main = main, x_name = x_name)
+  save_csv(data, "numbers", sub = sub, main = main, x_name = x_name)
   save_rds(x, "numbers", sub = sub, main = main, x_name = x_name)
 }
 

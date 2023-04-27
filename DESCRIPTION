@@ -29,6 +29,7 @@ Imports:
     lifecycle,
     png,
     readwritesqlite,
+    readr,
     RSQLite,
     stats,
     snakecase,
