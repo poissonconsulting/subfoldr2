@@ -336,16 +336,15 @@ test_that("number", {
   expect_null(sbf_load_number("x2", exists = NA))
   expect_null(sbf_load_number("x2", exists = FALSE))
   
-  sbf_reset_sub()
   z <- 4L
   expect_identical(
     sbf_save_number(z, x_name = "important_num"),
-    file.path(sbf_get_main(), "numbers/important_num.rds")
+    file.path(sbf_get_main(), "numbers/sub/important_num.rds")
   )
-  expect_true(file.exists(file.path(sbf_get_main(), "numbers/important_num.rds")))
-  expect_false(file.exists(file.path(sbf_get_main(), "numbers/z.rds")))
+  expect_true(file.exists(file.path(sbf_get_main(), "numbers/sub/important_num.rds")))
+  expect_false(file.exists(file.path(sbf_get_main(), "numbers/sub/z.rds")))
   expect_identical(sbf_load_number("important_num"), 4)
-  csv <- read.csv(file.path(sbf_get_main(), "numbers/important_num.csv"))
+  csv <- read.csv(file.path(sbf_get_main(), "numbers/sub/important_num.csv"))
   expect_equal(csv, data.frame(important_num = 4))
 })
 
