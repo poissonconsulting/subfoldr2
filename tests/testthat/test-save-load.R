@@ -353,8 +353,8 @@ test_that("string", {
     file.path(sbf_get_main(), "strings/y.rds")
   )
 
-  expect_true(sbf_string_exists("y"))
-  expect_false(sbf_string_exists("x2"))
+  expect_true(file.exists(file.path(sbf_get_main(), "strings", "y.rds")))
+  expect_false(file.exists(file.path(sbf_get_main(), "strings", "x2.rds")))
 
   expect_identical(sbf_load_string("y"), "two words")
   expect_identical(
