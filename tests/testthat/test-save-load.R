@@ -277,9 +277,9 @@ test_that("number", {
     sbf_save_number(x),
     file.path(sbf_get_main(), "numbers/x.rds")
   )
-
-  expect_true(sbf_number_exists("x"))
-  expect_false(sbf_number_exists("x2"))
+  
+  expect_true(file.exists(file.path(sbf_get_main(), "numbers", "x.rds")))
+  expect_false(file.exists(file.path(sbf_get_main(), "numbers", "x2.rds")))
 
   expect_identical(sbf_load_number("x"), 1)
   expect_identical(
