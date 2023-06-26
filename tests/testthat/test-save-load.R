@@ -206,8 +206,8 @@ test_that("data", {
   expect_identical(sbf_load_data("x"), x)
   chk::expect_chk_error(sbf_load_data("x2"))
 
-  expect_true(sbf_data_exists("x"))
-  expect_false(sbf_data_exists("x2"))
+  expect_true(file.exists(file.path(sbf_get_main(), "data", "x.rds")))
+  expect_false(file.exists(file.path(sbf_get_main(), "data", "x2.rds")))
 
   y <- data.frame(z = 3)
   expect_identical(
