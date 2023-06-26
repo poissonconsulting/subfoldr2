@@ -1169,12 +1169,14 @@ test_that("save df as excel with blob column", {
   sbf_set_main(path)
   withr::defer(sbf_reset())
 
-  data <- data.frame(
-    Places = c("Yakoun Lake", "Meyer Lake"),
-    Activity = c("boating", "fishing"),
-    Blob = c(
-      create_blob_object("hidden"),
-      create_blob_object("text")
+  expect_output(
+    data <- data.frame(
+      Places = c("Yakoun Lake", "Meyer Lake"),
+      Activity = c("boating", "fishing"),
+      Blob = c(
+        create_blob_object("hidden"),
+        create_blob_object("text")
+      )
     )
   )
 
