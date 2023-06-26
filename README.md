@@ -4,7 +4,7 @@
 
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
-[![R-CMD-check](https://github.com/poissonconsulting/subfoldr2/workflows/R-CMD-check/badge.svg)](https://github.com/poissonconsulting/subfoldr2/actions)
+[![R-CMD-check](https://github.com/poissonconsulting/subfoldr2/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/poissonconsulting/subfoldr2/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/poissonconsulting/subfoldr2/branch/master/graph/badge.svg)](https://codecov.io/gh/poissonconsulting/subfoldr2?branch=master)
 [![License:
@@ -15,17 +15,17 @@ MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org
 
 `subfoldr2` is an R package to facilitate the saving and loading of
 
--   R objects
--   data frames (and tables)
--   strings (and code blocks)
--   numbers
--   ggplot objects (and windows and png files)
+- R objects
+- data frames (and tables)
+- strings (and code blocks)
+- numbers
+- ggplot objects (and windows and png files)
 
 and the opening and closing of
 
--   graphics windows
--   pdfs
--   database (SQLite) connections
+- graphics windows
+- pdfs
+- database (SQLite) connections
 
 ## Main Folder
 
@@ -90,12 +90,12 @@ sbf_load_objects()
 ls()
 #> [1] "df" "x"  "x3"
 sbf_load_objects_recursive(sub = "times2")
-#> # A tibble: 3 x 4
-#>   objects       name  sub     file                                              
-#>   <list>        <chr> <chr>   <chr>                                             
-#> 1 <df[,0] [0 ×… df    "times… /var/folders/s3/3cc1k9p13mjgrqj490hdxl6w0000gn/T/…
-#> 2 <dbl [1]>     x3    "times… /var/folders/s3/3cc1k9p13mjgrqj490hdxl6w0000gn/T/…
-#> 3 <dbl [1]>     x     ""      /var/folders/s3/3cc1k9p13mjgrqj490hdxl6w0000gn/T/…
+#> # A tibble: 3 × 4
+#>   objects      name  sub      file                                              
+#>   <list>       <chr> <chr>    <chr>                                             
+#> 1 <df [0 × 0]> df    "times3" /var/folders/yr/tq_q43k50m795hb4y0njhyth0000gn/T/…
+#> 2 <dbl [1]>    x3    "times3" /var/folders/yr/tq_q43k50m795hb4y0njhyth0000gn/T/…
+#> 3 <dbl [1]>    x     ""       /var/folders/yr/tq_q43k50m795hb4y0njhyth0000gn/T/…
 ```
 
 ### Deleting Subfolders
@@ -135,15 +135,15 @@ The above functions for saving and loading R objects are members of
 families of functions for specific types of object. In particular there
 are family members for
 
--   numbers (numeric scalars)
--   strings (character scalars)
--   data (objects inheriting from data.frame)
+- numbers (numeric scalars)
+- strings (character scalars)
+- data (objects inheriting from data.frame)
 
 ``` r
 sbf_reset_sub(rm = TRUE, ask = FALSE)
 data2 <- data.frame(x = 5:6, y = 7:8)
 chr <- "some text"
-vec <- c(1,3) # not saved as vector
+vec <- c(1, 3) # not saved as vector
 sbf_save_datas()
 sbf_save_strings()
 sbf_save_numbers()
@@ -182,9 +182,9 @@ metadata.
 Plots are ggplot objects with caption, width and height (in inches) and
 dpi (dots per inch) metadata. Each plot is also saved as a png file of
 the specified dimensions and resolution and the default dataset if
-present (and ≤ 1,000 rows) is saved as a csv. By default the last ggplot
-object created, modified or plotted is saved and the dimensions are
-taken from the current graphics device.
+present (and $\leq$ 1,000 rows) is saved as a csv. By default the last
+ggplot object created, modified or plotted is saved and the dimensions
+are taken from the current graphics device.
 
 A platform independent graphics window can be opened using
 `sbf_open_window()`, where the `width` and `height` arguments are in
