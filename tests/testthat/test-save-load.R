@@ -581,8 +581,8 @@ test_that("table", {
 
   expect_identical(sbf_save_table(x), file.path(sbf_get_main(), "tables/x.rds"))
 
-  expect_true(sbf_table_exists("x"))
-  expect_false(sbf_table_exists("x2"))
+  expect_true(file.exists(file.path(sbf_get_main(), "tables/x.rds")))
+  expect_false(file.exists(file.path(sbf_get_main(), "tables/x2.rds")))
 
   expect_identical(sbf_load_table("x"), x)
   expect_identical(
@@ -669,8 +669,8 @@ test_that("block", {
   expect_error(sbf_save_block(), "argument \"x\" is missing, with no default")
   expect_identical(sbf_save_block(y), file.path(sbf_get_main(), "blocks/y.rds"))
 
-  expect_true(sbf_block_exists("y"))
-  expect_false(sbf_block_exists("x2"))
+  expect_true(file.exists(file.path(sbf_get_main(), "blocks/y.rds")))
+  expect_false(file.exists(file.path(sbf_get_main(), "blocks/x2.rds")))
 
   expect_identical(sbf_load_block("y"), "two words")
   expect_identical(
@@ -751,8 +751,8 @@ test_that("plot", {
   expect_true(all.equal(sbf_load_plot("x"), x))
   expect_identical(sbf_load_plot_data("x"), data.frame())
 
-  expect_true(sbf_plot_exists("x"))
-  expect_false(sbf_plot_exists("x2"))
+  expect_true(file.exists(file.path(sbf_get_main(), "plots/x.rds")))
+  expect_false(file.exists(file.path(sbf_get_main(), "plots/x2.rds")))
 
   y <- ggplot2::ggplot(
     data = data.frame(x = 1, y = 2),
@@ -847,7 +847,6 @@ test_that("plot", {
   
   sbf_reset()
   sbf_close_windows()
-  
 })
 
 test_that("clean after up previous test block in case errored, cant use defer with ggplot", {
@@ -969,7 +968,7 @@ test_that("png", {
 test_that("png2", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  teardown(sbf_reset())
+  withr::defer(sbf_reset())
   
   x <- system.file("extdata",
                    "example.png",
