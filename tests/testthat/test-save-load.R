@@ -345,7 +345,7 @@ test_that("number", {
   expect_false(file.exists(file.path(sbf_get_main(), "numbers/sub/z.rds")))
   expect_identical(sbf_load_number("important_num"), 4)
   csv <- read.csv(file.path(sbf_get_main(), "numbers/sub/important_num.csv"))
-  expect_equal(csv, data.frame(important_num = 4))
+  expect_equal(csv, data.frame(x = 4))
 })
 
 test_that("string", {
