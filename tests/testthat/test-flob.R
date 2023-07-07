@@ -22,8 +22,8 @@ test_that("datas_to_db", {
   sbf_save_data_to_db(df2)
 
   flob <- flobr::flob_obj
-  conn <- sbf_open_db()
   withr::defer(sbf_close_db(conn))
+  conn <- sbf_open_db()
   dbflobr::write_flob(flob,
     "New",
     "df",
@@ -31,9 +31,27 @@ test_that("datas_to_db", {
     conn
   )
 
-  expect_identical(
-    sbf_save_flobs_from_db(),
-    list(`df/New` = c(flobr.pdf = "a_-_1.pdf"))
+  expect_message(
+    expect_message(
+      expect_message(
+        expect_message(
+          expect_message(
+            expect_message(
+              expect_identical(
+                sbf_save_flobs_from_db(),
+                list(`df/New` = c(flobr.pdf = "a_-_1.pdf"))
+              ),
+              regexp = "Table name\\:"
+            ),
+            regexp = "Column name\\:"
+          ),
+          regexp = "Saving files to"
+        ),
+        regexp = "Row 1: file flobr.pdf renamed"
+      ),
+      regexp = "Row 2\\: no file found"
+    ),
+    regexp = "Row 3\\: no file found"
   )
 
   expect_identical(
@@ -41,16 +59,55 @@ test_that("datas_to_db", {
     "database/df/New/a_-_1.pdf"
   )
 
-  expect_error(sbf_upload_flobs_to_db())
-  expect_identical(
-    sbf_upload_flobs_to_db(exists = TRUE, replace = TRUE),
-    list(`df/New` = c(`a_-_1.pdf` = TRUE))
+  expect_message(
+    expect_message(
+      expect_error(
+        sbf_upload_flobs_to_db(), 
+        regexp = "`New` must not already exist in table `df`."
+      ),
+      regexp = "Table name\\:"
+    ),
+    regexp = "Column name\\:"
   )
-  expect_identical(sbf_upload_flobs_to_db(
-    exists = TRUE, replace = TRUE,
-    dir = file.path(sbf_get_main(), "flobs", sbf_get_db_name())
-  ), list(`df/New` = c(`a_-_1.pdf` = TRUE)))
 
+  expect_message(
+    expect_message(
+      expect_message(
+        expect_message(
+          expect_identical(
+            sbf_upload_flobs_to_db(exists = TRUE, replace = TRUE),
+            list(`df/New` = c(`a_-_1.pdf` = TRUE))
+          ), 
+          regexp = "Table name\\:"
+        ), 
+        regexp = "Column name\\:"
+      ), 
+      regexp = "Writing files to database"
+    ), 
+    regexp = "File 1\\: a\\_\\-\\_1\\.pdf written to database"
+  )
+  
+  expect_message(
+    expect_message(
+      expect_message(
+        expect_message(
+          expect_identical(
+            sbf_upload_flobs_to_db(
+              exists = TRUE, 
+              replace = TRUE,
+              dir = file.path(sbf_get_main(), "flobs", sbf_get_db_name())
+            ), 
+            list(`df/New` = c(`a_-_1.pdf` = TRUE))
+          ), 
+          regexp = "Table name\\:"
+        ), 
+        regexp = "Column name\\:"
+      ), 
+      regexp = "Writing files to database"
+    ), 
+    regexp = "File 1\\: a\\_\\-\\_1\\.pdf written to database"
+  )
+  
   sbf_rm_flobs(ask = FALSE)
   expect_error(sbf_upload_flobs_to_db())
 

@@ -9,7 +9,8 @@ test_that("sbf_print", {
   data <- data.frame(x = 1)
   gp <- ggplot2::ggplot(data = data, ggplot2::aes(x = x, y = y)) +
     ggplot2::geom_point()
-  expect_error(sbf_print(gp), "^ object 'y' not found\n$")
+  
+  expect_error(sbf_print(gp), ":geom_point()")
   data$y <- 1
   gp <- ggplot2::ggplot(data = data, ggplot2::aes(x = x, y = y)) +
     ggplot2::geom_point()
