@@ -128,12 +128,12 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "df" "x"  "x3"</span></span>
 <span><span class="fu"><a href="reference/sbf_load_objects_recursive.html">sbf_load_objects_recursive</a></span><span class="op">(</span>sub <span class="op">=</span> <span class="st">"times2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 3 x 4</span></span>
-<span><span class="co">#&gt;   objects       name  sub     file                                              </span></span>
-<span><span class="co">#&gt;   &lt;list&gt;        &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;                                             </span></span>
-<span><span class="co">#&gt; 1 &lt;df[,0] [0 ×… df    "times… /var/folders/s3/3cc1k9p13mjgrqj490hdxl6w0000gn/T/…</span></span>
-<span><span class="co">#&gt; 2 &lt;dbl [1]&gt;     x3    "times… /var/folders/s3/3cc1k9p13mjgrqj490hdxl6w0000gn/T/…</span></span>
-<span><span class="co">#&gt; 3 &lt;dbl [1]&gt;     x     ""      /var/folders/s3/3cc1k9p13mjgrqj490hdxl6w0000gn/T/…</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 3 × 4</span></span>
+<span><span class="co">#&gt;   objects      name  sub      file                                              </span></span>
+<span><span class="co">#&gt;   &lt;list&gt;       &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;                                             </span></span>
+<span><span class="co">#&gt; 1 &lt;df [0 × 0]&gt; df    "times3" /var/folders/yr/tq_q43k50m795hb4y0njhyth0000gn/T/…</span></span>
+<span><span class="co">#&gt; 2 &lt;dbl [1]&gt;    x3    "times3" /var/folders/yr/tq_q43k50m795hb4y0njhyth0000gn/T/…</span></span>
+<span><span class="co">#&gt; 3 &lt;dbl [1]&gt;    x     ""       /var/folders/yr/tq_q43k50m795hb4y0njhyth0000gn/T/…</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="deleting-subfolders">Deleting Subfolders<a class="anchor" aria-label="anchor" href="#deleting-subfolders"></a>
@@ -176,7 +176,7 @@
 <code class="sourceCode R"><span><span class="fu"><a href="reference/sbf_reset_sub.html">sbf_reset_sub</a></span><span class="op">(</span>rm <span class="op">=</span> <span class="cn">TRUE</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">data2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">6</span>, y <span class="op">=</span> <span class="fl">7</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span></span>
 <span><span class="va">chr</span> <span class="op">&lt;-</span> <span class="st">"some text"</span></span>
-<span><span class="va">vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span> <span class="co"># not saved as vector</span></span>
+<span><span class="va">vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span> <span class="co"># not saved as vector</span></span>
 <span><span class="fu"><a href="reference/sbf_save_datas.html">sbf_save_datas</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/sbf_save_strings.html">sbf_save_strings</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/sbf_save_numbers.html">sbf_save_numbers</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -203,7 +203,7 @@
 <div class="section level3">
 <h3 id="plots">Plots<a class="anchor" aria-label="anchor" href="#plots"></a>
 </h3>
-<p>Plots are ggplot objects with caption, width and height (in inches) and dpi (dots per inch) metadata. Each plot is also saved as a png file of the specified dimensions and resolution and the default dataset if present (and ≤ 1,000 rows) is saved as a csv. By default the last ggplot object created, modified or plotted is saved and the dimensions are taken from the current graphics device.</p>
+<p>Plots are ggplot objects with caption, width and height (in inches) and dpi (dots per inch) metadata. Each plot is also saved as a png file of the specified dimensions and resolution and the default dataset if present (and <span class="math inline">≤</span> 1,000 rows) is saved as a csv. By default the last ggplot object created, modified or plotted is saved and the dimensions are taken from the current graphics device.</p>
 <p>A platform independent graphics window can be opened using <code><a href="reference/sbf_open_window.html">sbf_open_window()</a></code>, where the <code>width</code> and <code>height</code> arguments are in inches, and closed using <code><a href="reference/sbf_close_window.html">sbf_close_window()</a></code>.</p>
 <p>In addition to individually or bulk loading ggplot objects, the user can individually or bulk load the default datasets using for example <code><a href="reference/sbf_load_plots_data.html">sbf_load_plots_data()</a></code>.</p>
 </div>
@@ -219,8 +219,10 @@
 <p>An existing png file can be imported into the windows subdirectories using <code><a href="reference/sbf_save_png.html">sbf_save_png()</a></code>.</p>
 </div>
 </div>
-<div class="section level2"><h2 id="connections">Connections<a class="anchor" aria-label="anchor" href="#connections"></a>
-</h2></div>
+<div class="section level2">
+<h2 id="connections">Connections<a class="anchor" aria-label="anchor" href="#connections"></a>
+</h2>
+</div>
 <div class="section level2">
 <h2 id="pdf-files">pdf Files<a class="anchor" aria-label="anchor" href="#pdf-files"></a>
 </h2>
@@ -244,7 +246,7 @@
 <p>To install the latest development version from GitHub <a href="https://github.com/poissonconsulting/subfoldr2" class="external-link">repository</a></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"poissonconsulting/subfoldr2"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"poissonconsulting/subfoldr2"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="contribution">Contribution<a class="anchor" aria-label="anchor" href="#contribution"></a>
@@ -299,7 +301,7 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
-<li><a href="https://github.com/poissonconsulting/subfoldr2/actions" class="external-link"><img src="https://github.com/poissonconsulting/subfoldr2/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/poissonconsulting/subfoldr2/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/poissonconsulting/subfoldr2/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://codecov.io/gh/poissonconsulting/subfoldr2?branch=master" class="external-link"><img src="https://codecov.io/gh/poissonconsulting/subfoldr2/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 <li><a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT"></a></li>
 </ul>
@@ -316,7 +318,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
