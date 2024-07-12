@@ -32,6 +32,19 @@ test_that("rm_main", {
   x <- 1
   sbf_save_number(x)
   expect_true(dir.exists(sbf_get_main()))
-  expect_identical(sbf_rm_main(ask = FALSE), sbf_get_main())
+  expect_message(expect_identical(sbf_rm_main(ask = FALSE), sbf_get_main()))
   expect_false(dir.exists(sbf_get_main()))
+})
+
+test_that("remove message", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+  
+  x <- 1
+  sbf_save_number(x)
+  expect_message(
+    sbf_rm_main(ask = FALSE),
+    paste0("Directory '", sbf_get_main(), "' deleted")
+  )
 })
