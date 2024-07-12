@@ -59,7 +59,7 @@ test_that("unarchive", {
   sbf_save_number(x)
   expect_message(archive3 <- sbf_archive_main(ask = FALSE))
 
-  # expect_identical(sbf_load_number("x"), 3)
+  expect_identical(sbf_load_number("x"), 3)
   expect_message(expect_message(expect_equal(sbf_unarchive_main(archive = archive1, ask = FALSE), archive1)))
   expect_identical(sbf_load_number("x"), 1)
   expect_message(expect_message(expect_equal(as.character(sbf_unarchive_main(ask = FALSE)), archive3)))
