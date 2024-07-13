@@ -135,7 +135,7 @@ test_that("object", {
     file.path(sbf_get_main(), "objects/t2/t3/x.rds")
   )
 
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
+  expect_message(expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0)))
   chk::expect_chk_error(sbf_load_object("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
   expect_identical(
@@ -242,7 +242,7 @@ test_that("data", {
 
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_data("x"), x)
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
+  expect_message(expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0)))
   chk::expect_chk_error(sbf_load_data("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
   expect_identical(
@@ -323,7 +323,7 @@ test_that("number", {
   chk::expect_chk_error(sbf_load_number("x2"))
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_number("x"), 1)
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
+  expect_message(expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0)))
   chk::expect_chk_error(sbf_load_number("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
   expect_identical(
@@ -409,7 +409,7 @@ test_that("string", {
   chk::expect_chk_error(sbf_load_string("x2"))
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_string("y"), "two words")
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
+  expect_message(expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0)))
   chk::expect_chk_error(sbf_load_string("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
   expect_identical(
@@ -654,7 +654,7 @@ test_that("table", {
   chk::expect_chk_error(sbf_load_table("x2"))
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_table("x"), x)
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
+  expect_message(expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0)))
   chk::expect_chk_error(sbf_load_table("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
   expect_identical(
@@ -732,7 +732,7 @@ test_that("block", {
   chk::expect_chk_error(sbf_load_block("x2"))
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_block("y"), "two words")
-  expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0))
+  expect_message(expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0)))
   chk::expect_chk_error(sbf_load_block("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
   expect_identical(

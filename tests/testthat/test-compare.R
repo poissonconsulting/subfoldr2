@@ -26,7 +26,7 @@ test_that("compare_datas", {
   y <- data.frame(x = 2.000001)
   sbf_save_data(y)
 
-  archive1 <- sbf_archive_main(ask = FALSE)
+  expect_message(archive1 <- sbf_archive_main(ask = FALSE))
 
   comparison <- sbf_compare_data_archive()
 
@@ -44,7 +44,7 @@ test_that("compare_datas", {
   expect_type(comparison, "list")
   expect_identical(names(comparison), character(0))
 
-  sbf_rm_main(ask = FALSE)
+  expect_message(sbf_rm_main(ask = FALSE))
 
   skip_on_ci()
 
@@ -66,11 +66,11 @@ test_that("compare_datas", {
 
   x <- data.frame(x = 1)
   sbf_save_data(x)
-  archive1 <- sbf_archive_main(ask = FALSE)
+  expect_message(archive1 <- sbf_archive_main(ask = FALSE))
 
   x <- data.frame(x = 1.00001)
   sbf_save_data(x)
-  archive2 <- sbf_archive_main(ask = FALSE)
+  expect_message(archive2 <- sbf_archive_main(ask = FALSE))
 
 
   comparison <- sbf_compare_data_archive(
