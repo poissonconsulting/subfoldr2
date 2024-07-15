@@ -18,8 +18,8 @@ sbf_get_workbook_name()
 \seealso{
 Other excel: 
 \code{\link{sbf_save_db_to_workbook}()},
-\code{\link{sbf_save_excels}()},
 \code{\link{sbf_save_excel}()},
+\code{\link{sbf_save_excels}()},
 \code{\link{sbf_save_workbook}()}
 
 Other directory functions: 
@@ -28,10 +28,10 @@ Other directory functions:
 \code{\link{sbf_get_db_name}()},
 \code{\link{sbf_get_main}()},
 \code{\link{sbf_get_sub}()},
+\code{\link{sbf_reset}()},
 \code{\link{sbf_reset_db_name}()},
 \code{\link{sbf_reset_main}()},
 \code{\link{sbf_reset_sub}()},
-\code{\link{sbf_reset}()},
 \code{\link{sbf_set_db_name}()},
 \code{\link{sbf_set_main}()},
 \code{\link{sbf_set_sub}()},

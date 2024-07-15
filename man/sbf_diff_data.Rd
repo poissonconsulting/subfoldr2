@@ -31,11 +31,11 @@ If doesn't exist, x is compared to itself.
 }
 \seealso{
 Other compare functions: 
-\code{\link{sbf_compare_data_archive}()},
 \code{\link{sbf_compare_data}()},
+\code{\link{sbf_compare_data_archive}()},
 \code{\link{sbf_diff_data_archive}()},
 \code{\link{sbf_diff_table}()},
-\code{\link{sbf_is_equal_data_archive}()},
-\code{\link{sbf_is_equal_data}()}
+\code{\link{sbf_is_equal_data}()},
+\code{\link{sbf_is_equal_data_archive}()}
 }
 \concept{compare functions}
