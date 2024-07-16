@@ -32,8 +32,8 @@ Opens a pdf device in the current pdfs subfolder using
 \seealso{
 Other graphic functions: 
 \code{\link{sbf_close_pdf}()},
-\code{\link{sbf_close_windows}()},
 \code{\link{sbf_close_window}()},
+\code{\link{sbf_close_windows}()},
 \code{\link{sbf_open_window}()}
 }
 \concept{graphic functions}

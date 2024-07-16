@@ -18,8 +18,8 @@ Opens a graphics window on any platform. By default the window is
 \seealso{
 Other graphic functions: 
 \code{\link{sbf_close_pdf}()},
-\code{\link{sbf_close_windows}()},
 \code{\link{sbf_close_window}()},
+\code{\link{sbf_close_windows}()},
 \code{\link{sbf_open_pdf}()}
 }
 \concept{graphic functions}
