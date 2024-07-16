@@ -16,7 +16,7 @@ test_that("test sbf_close_pg works", {
   sbf_close_pg(conn)
   expect_error(
     DBI::dbExecute(conn, "SELECT 1+1;"),
-    regexp = "external pointer is not valid"
+    regexp = "bad_weak_ptr"
   )
 })
 
