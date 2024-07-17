@@ -36,7 +36,8 @@ test_that("rm_main", {
   expect_false(dir.exists(sbf_get_main()))
 })
 
-test_that("remove message", {
+test_that("remove message mac and linux", {
+  skip_on_os("windows")
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
@@ -46,5 +47,20 @@ test_that("remove message", {
   expect_message(
     sbf_rm_main(ask = FALSE),
     paste0("Directory '", sbf_get_main(), "' deleted")
+  )
+})
+
+test_that("remove message windows", {
+  skip_on_os("mac")
+  skip_on_os("linux")
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+  
+  x <- 1
+  sbf_save_number(x)
+  expect_message(
+    sbf_rm_main(ask = FALSE),
+    "Directory '.*' deleted"
   )
 })
