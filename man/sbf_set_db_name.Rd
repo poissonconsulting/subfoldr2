@@ -31,10 +31,10 @@ Other directory functions:
 \code{\link{sbf_get_main}()},
 \code{\link{sbf_get_sub}()},
 \code{\link{sbf_get_workbook_name}()},
+\code{\link{sbf_reset}()},
 \code{\link{sbf_reset_db_name}()},
 \code{\link{sbf_reset_main}()},
 \code{\link{sbf_reset_sub}()},
-\code{\link{sbf_reset}()},
 \code{\link{sbf_set_main}()},
 \code{\link{sbf_set_sub}()},
 \code{\link{sbf_up_sub}()}

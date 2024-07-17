@@ -34,7 +34,7 @@ test_that("is_equal_datas", {
   y <- data.frame(x = 2.000001)
   sbf_save_data(y)
 
-  sbf_archive_main(ask = FALSE)
+  expect_message(sbf_archive_main(ask = FALSE))
 
   expect_identical(
     sbf_is_equal_data_archive(),
@@ -51,7 +51,7 @@ test_that("is_equal_datas", {
     )
   )
 
-  sbf_rm_main(ask = FALSE)
+  expect_message(sbf_rm_main(ask = FALSE))
   expect_identical(
     sbf_is_equal_data_archive(),
     c("data/x" = FALSE, "data/y" = FALSE)
@@ -112,11 +112,11 @@ test_that("is_equal_datas", {
 
   x <- data.frame(x = 1)
   sbf_save_data(x)
-  archive1 <- sbf_archive_main(ask = FALSE)
+  expect_message(archive1 <- sbf_archive_main(ask = FALSE))
 
   x <- data.frame(x = 1.00001)
   sbf_save_data(x)
-  archive2 <- sbf_archive_main(ask = FALSE)
+  expect_message(archive2 <- sbf_archive_main(ask = FALSE))
 
   expect_identical(
     sbf_is_equal_data_archive(main = archive1, archive = archive2),

@@ -14,8 +14,8 @@ The function is just a wrapper on \code{\link[grDevices]{dev.off}()}.
 }
 \seealso{
 Other graphic functions: 
-\code{\link{sbf_close_windows}()},
 \code{\link{sbf_close_window}()},
+\code{\link{sbf_close_windows}()},
 \code{\link{sbf_open_pdf}()},
 \code{\link{sbf_open_window}()}
 }

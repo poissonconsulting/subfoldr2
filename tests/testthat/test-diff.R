@@ -25,11 +25,11 @@ test_that("diff_datas", {
 
   x <- data.frame(x = 1)
   sbf_save_data(x)
-  archive1 <- sbf_archive_main(ask = FALSE)
+  expect_message(archive1 <- sbf_archive_main(ask = FALSE))
 
   x <- data.frame(x = 1.00001)
   sbf_save_data(x)
-  archive2 <- sbf_archive_main(ask = FALSE)
+  expect_message(archive2 <- sbf_archive_main(ask = FALSE))
 
   diff <- sbf_diff_data_archive(main = archive1, archive = archive2)
   expect_type(diff, "list")
@@ -47,7 +47,7 @@ test_that("diff_datas", {
   y <- data.frame(x = 2.000001)
   sbf_save_data(y)
 
-  archive1 <- sbf_archive_main(ask = FALSE)
+  expect_message(archive1 <- sbf_archive_main(ask = FALSE))
 
   diff <- sbf_diff_data_archive()
   expect_identical(names(diff), c("data/x", "data/y"))
