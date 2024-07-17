@@ -47,8 +47,6 @@ jobs:
           needs: check
           
       - uses: mxschmitt/action-tmate@v3
-        with:
-          detached: true
 
       - uses: r-lib/actions/check-r-package@v2
         with:
