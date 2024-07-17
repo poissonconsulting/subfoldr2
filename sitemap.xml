@@ -1,471 +1,158 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>/SUPPORT.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/pull_request_template.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/reexports.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_add_blob_column_to_db.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_add_sub.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_archive_main.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_backup_pg.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_basename_sans_ext.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_block_exists.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_close_db.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_close_pdf.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_close_pg.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_close_window.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_close_windows.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_compare_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_compare_data_archive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_copy_db.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_create_db.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_create_pg.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_data_exists.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_diff_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_diff_data_archive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_diff_table.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_execute_db.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_execute_pg.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_get_archive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_get_config_file.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_get_config_value.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_get_db_name.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_get_main.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_get_schema.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_get_sub.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_get_workbook_name.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_is_equal_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_is_equal_data_archive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_list_blocks.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_list_datas.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_list_dbs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_list_numbers.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_list_objects.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_list_plots.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_list_strings.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_list_tables.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_list_tables_pg.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_list_windows.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_block.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_blocks.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_blocks_recursive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_data_from_db.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_data_from_pg.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_datas.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_datas_from_db.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_datas_from_pg.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_datas_recursive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_db_metatable.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_number.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_numbers.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_numbers_recursive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_object.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_objects.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_objects_recursive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_plot_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_plots_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_plots_data_recursive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_plots_recursive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_string.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_strings.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_strings_recursive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_table.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_tables.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_tables_recursive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_load_windows_recursive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_number_exists.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_object_exists.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_open_db.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_open_pdf.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_open_pg.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_open_window.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_path_block.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_path_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_path_db.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_path_number.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_path_object.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_path_plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_path_string.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_path_table.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_path_window.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_plot_exists.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_print.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_query_db.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_reset.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_reset_config_file.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_reset_config_value.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_reset_db_name.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_reset_main.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_reset_schema.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_reset_sub.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_rm_flobs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_rm_main.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_aws_files.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_block.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_data_to_db.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_data_to_pg.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_datas.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_datas_to_db.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_db_metatable_descriptions.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_db_to_workbook.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_excel.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_excels.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_flobs_from_db.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_gpkg.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_gpkgs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_number.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_numbers.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_object.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_objects.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_png.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_string.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_strings.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_table.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_window.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_save_workbook.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_set_config_file.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_set_config_value.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_set_db_name.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_set_main.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_set_schema.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_set_sub.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_string_exists.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_subs_block_recursive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_subs_data_recursive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_subs_number_recursive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_subs_object_recursive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_subs_plot_recursive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_subs_string_recursive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_subs_table_recursive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_subs_window_recursive.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_table_exists.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_unarchive_main.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_up_sub.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_upload_flobs_to_db.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbf_write_datas_to_xlsx.html</loc>
-  </url>
-  <url>
-    <loc>/reference/subfoldr2-package.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>/CONTRIBUTING.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
+<url><loc>/SUPPORT.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/reexports.html</loc></url>
+<url><loc>/reference/sbf_add_blob_column_to_db.html</loc></url>
+<url><loc>/reference/sbf_add_sub.html</loc></url>
+<url><loc>/reference/sbf_archive_main.html</loc></url>
+<url><loc>/reference/sbf_backup_pg.html</loc></url>
+<url><loc>/reference/sbf_basename_sans_ext.html</loc></url>
+<url><loc>/reference/sbf_block_exists.html</loc></url>
+<url><loc>/reference/sbf_close_db.html</loc></url>
+<url><loc>/reference/sbf_close_pdf.html</loc></url>
+<url><loc>/reference/sbf_close_pg.html</loc></url>
+<url><loc>/reference/sbf_close_window.html</loc></url>
+<url><loc>/reference/sbf_close_windows.html</loc></url>
+<url><loc>/reference/sbf_compare_data.html</loc></url>
+<url><loc>/reference/sbf_compare_data_archive.html</loc></url>
+<url><loc>/reference/sbf_copy_db.html</loc></url>
+<url><loc>/reference/sbf_create_db.html</loc></url>
+<url><loc>/reference/sbf_create_pg.html</loc></url>
+<url><loc>/reference/sbf_data_exists.html</loc></url>
+<url><loc>/reference/sbf_diff_data.html</loc></url>
+<url><loc>/reference/sbf_diff_data_archive.html</loc></url>
+<url><loc>/reference/sbf_diff_table.html</loc></url>
+<url><loc>/reference/sbf_execute_db.html</loc></url>
+<url><loc>/reference/sbf_execute_pg.html</loc></url>
+<url><loc>/reference/sbf_get_archive.html</loc></url>
+<url><loc>/reference/sbf_get_config_file.html</loc></url>
+<url><loc>/reference/sbf_get_config_value.html</loc></url>
+<url><loc>/reference/sbf_get_db_name.html</loc></url>
+<url><loc>/reference/sbf_get_main.html</loc></url>
+<url><loc>/reference/sbf_get_schema.html</loc></url>
+<url><loc>/reference/sbf_get_sub.html</loc></url>
+<url><loc>/reference/sbf_get_workbook_name.html</loc></url>
+<url><loc>/reference/sbf_is_equal_data.html</loc></url>
+<url><loc>/reference/sbf_is_equal_data_archive.html</loc></url>
+<url><loc>/reference/sbf_list_blocks.html</loc></url>
+<url><loc>/reference/sbf_list_datas.html</loc></url>
+<url><loc>/reference/sbf_list_dbs.html</loc></url>
+<url><loc>/reference/sbf_list_numbers.html</loc></url>
+<url><loc>/reference/sbf_list_objects.html</loc></url>
+<url><loc>/reference/sbf_list_plots.html</loc></url>
+<url><loc>/reference/sbf_list_strings.html</loc></url>
+<url><loc>/reference/sbf_list_tables.html</loc></url>
+<url><loc>/reference/sbf_list_tables_pg.html</loc></url>
+<url><loc>/reference/sbf_list_windows.html</loc></url>
+<url><loc>/reference/sbf_load_block.html</loc></url>
+<url><loc>/reference/sbf_load_blocks.html</loc></url>
+<url><loc>/reference/sbf_load_blocks_recursive.html</loc></url>
+<url><loc>/reference/sbf_load_data.html</loc></url>
+<url><loc>/reference/sbf_load_data_from_db.html</loc></url>
+<url><loc>/reference/sbf_load_data_from_pg.html</loc></url>
+<url><loc>/reference/sbf_load_datas.html</loc></url>
+<url><loc>/reference/sbf_load_datas_from_db.html</loc></url>
+<url><loc>/reference/sbf_load_datas_from_pg.html</loc></url>
+<url><loc>/reference/sbf_load_datas_recursive.html</loc></url>
+<url><loc>/reference/sbf_load_db_metatable.html</loc></url>
+<url><loc>/reference/sbf_load_number.html</loc></url>
+<url><loc>/reference/sbf_load_numbers.html</loc></url>
+<url><loc>/reference/sbf_load_numbers_recursive.html</loc></url>
+<url><loc>/reference/sbf_load_object.html</loc></url>
+<url><loc>/reference/sbf_load_objects.html</loc></url>
+<url><loc>/reference/sbf_load_objects_recursive.html</loc></url>
+<url><loc>/reference/sbf_load_plot.html</loc></url>
+<url><loc>/reference/sbf_load_plot_data.html</loc></url>
+<url><loc>/reference/sbf_load_plots_data.html</loc></url>
+<url><loc>/reference/sbf_load_plots_data_recursive.html</loc></url>
+<url><loc>/reference/sbf_load_plots_recursive.html</loc></url>
+<url><loc>/reference/sbf_load_string.html</loc></url>
+<url><loc>/reference/sbf_load_strings.html</loc></url>
+<url><loc>/reference/sbf_load_strings_recursive.html</loc></url>
+<url><loc>/reference/sbf_load_table.html</loc></url>
+<url><loc>/reference/sbf_load_tables.html</loc></url>
+<url><loc>/reference/sbf_load_tables_recursive.html</loc></url>
+<url><loc>/reference/sbf_load_windows_recursive.html</loc></url>
+<url><loc>/reference/sbf_number_exists.html</loc></url>
+<url><loc>/reference/sbf_object_exists.html</loc></url>
+<url><loc>/reference/sbf_open_db.html</loc></url>
+<url><loc>/reference/sbf_open_pdf.html</loc></url>
+<url><loc>/reference/sbf_open_pg.html</loc></url>
+<url><loc>/reference/sbf_open_window.html</loc></url>
+<url><loc>/reference/sbf_path_block.html</loc></url>
+<url><loc>/reference/sbf_path_data.html</loc></url>
+<url><loc>/reference/sbf_path_db.html</loc></url>
+<url><loc>/reference/sbf_path_number.html</loc></url>
+<url><loc>/reference/sbf_path_object.html</loc></url>
+<url><loc>/reference/sbf_path_plot.html</loc></url>
+<url><loc>/reference/sbf_path_string.html</loc></url>
+<url><loc>/reference/sbf_path_table.html</loc></url>
+<url><loc>/reference/sbf_path_window.html</loc></url>
+<url><loc>/reference/sbf_plot_exists.html</loc></url>
+<url><loc>/reference/sbf_print.html</loc></url>
+<url><loc>/reference/sbf_query_db.html</loc></url>
+<url><loc>/reference/sbf_reset.html</loc></url>
+<url><loc>/reference/sbf_reset_config_file.html</loc></url>
+<url><loc>/reference/sbf_reset_config_value.html</loc></url>
+<url><loc>/reference/sbf_reset_db_name.html</loc></url>
+<url><loc>/reference/sbf_reset_main.html</loc></url>
+<url><loc>/reference/sbf_reset_schema.html</loc></url>
+<url><loc>/reference/sbf_reset_sub.html</loc></url>
+<url><loc>/reference/sbf_rm_flobs.html</loc></url>
+<url><loc>/reference/sbf_rm_main.html</loc></url>
+<url><loc>/reference/sbf_save_aws_files.html</loc></url>
+<url><loc>/reference/sbf_save_block.html</loc></url>
+<url><loc>/reference/sbf_save_data.html</loc></url>
+<url><loc>/reference/sbf_save_data_to_db.html</loc></url>
+<url><loc>/reference/sbf_save_data_to_pg.html</loc></url>
+<url><loc>/reference/sbf_save_datas.html</loc></url>
+<url><loc>/reference/sbf_save_datas_to_db.html</loc></url>
+<url><loc>/reference/sbf_save_db_metatable_descriptions.html</loc></url>
+<url><loc>/reference/sbf_save_db_to_workbook.html</loc></url>
+<url><loc>/reference/sbf_save_excel.html</loc></url>
+<url><loc>/reference/sbf_save_excels.html</loc></url>
+<url><loc>/reference/sbf_save_flobs_from_db.html</loc></url>
+<url><loc>/reference/sbf_save_gpkg.html</loc></url>
+<url><loc>/reference/sbf_save_gpkgs.html</loc></url>
+<url><loc>/reference/sbf_save_number.html</loc></url>
+<url><loc>/reference/sbf_save_numbers.html</loc></url>
+<url><loc>/reference/sbf_save_object.html</loc></url>
+<url><loc>/reference/sbf_save_objects.html</loc></url>
+<url><loc>/reference/sbf_save_plot.html</loc></url>
+<url><loc>/reference/sbf_save_png.html</loc></url>
+<url><loc>/reference/sbf_save_string.html</loc></url>
+<url><loc>/reference/sbf_save_strings.html</loc></url>
+<url><loc>/reference/sbf_save_table.html</loc></url>
+<url><loc>/reference/sbf_save_window.html</loc></url>
+<url><loc>/reference/sbf_save_workbook.html</loc></url>
+<url><loc>/reference/sbf_set_config_file.html</loc></url>
+<url><loc>/reference/sbf_set_config_value.html</loc></url>
+<url><loc>/reference/sbf_set_db_name.html</loc></url>
+<url><loc>/reference/sbf_set_main.html</loc></url>
+<url><loc>/reference/sbf_set_schema.html</loc></url>
+<url><loc>/reference/sbf_set_sub.html</loc></url>
+<url><loc>/reference/sbf_string_exists.html</loc></url>
+<url><loc>/reference/sbf_subs_block_recursive.html</loc></url>
+<url><loc>/reference/sbf_subs_data_recursive.html</loc></url>
+<url><loc>/reference/sbf_subs_number_recursive.html</loc></url>
+<url><loc>/reference/sbf_subs_object_recursive.html</loc></url>
+<url><loc>/reference/sbf_subs_plot_recursive.html</loc></url>
+<url><loc>/reference/sbf_subs_string_recursive.html</loc></url>
+<url><loc>/reference/sbf_subs_table_recursive.html</loc></url>
+<url><loc>/reference/sbf_subs_window_recursive.html</loc></url>
+<url><loc>/reference/sbf_table_exists.html</loc></url>
+<url><loc>/reference/sbf_unarchive_main.html</loc></url>
+<url><loc>/reference/sbf_up_sub.html</loc></url>
+<url><loc>/reference/sbf_upload_flobs_to_db.html</loc></url>
+<url><loc>/reference/sbf_write_datas_to_xlsx.html</loc></url>
+<url><loc>/reference/subfoldr2-package.html</loc></url>
 </urlset>
+
