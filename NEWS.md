@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
 
+# subfoldr2 0.1.0
+
+- Added echo response messages for both `sbf_archive_main()` and `sbf_rm_main()` (computer tells user what option they chose).
+
+
 # subfoldr2 0.0.0.9047
 
 - Added ask argument to `sbf_save_aws_files()`.
