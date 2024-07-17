@@ -19,27 +19,45 @@ test_that("archive message", {
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
   
-  x <- 1
-  sbf_save_number(x)
-  expect_message(
-    sbf_archive_main(ask = FALSE),
-    paste0("Directory '", sbf_get_main(), "' copied to '", sbf_get_main(), "-", dttr2::dtt_sys_date())
-  )
-})
-
-test_that("test2", {
-  sbf_reset()
-  sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  withr::defer(sbf_reset())
+  path <- as.character(str2expression(sprintf('"%s"', sbf_get_main())))
   
   x <- 1
   sbf_save_number(x)
   expect_message(
     sbf_archive_main(ask = FALSE),
-    paste0("Directory '", sbf_get_main(), "' copied to '", sbf_get_main())
+    paste0("Directory '", path, "' copied to '", path, "-", dttr2::dtt_sys_date())
   )
 })
 
+# expect_message(
+#   sbf_archive_main(ask = FALSE),
+#   cat(paste0("Directory '", sbf_get_main(), "' copied to '", sbf_get_main(), "-", dttr2::dtt_sys_date()))
+# )
+# 
+# paste0("Directory '", "/var/folders/yr/")
+# 
+# stringr::str_match()
+# file.path("/var/folders/yr/")
+# file.path("\\var\\folders\\yr/")
+# 
+# as.character("\\var\\folders\\yr/")
+# 
+# gsub("\\\\", "/", "\\var\\folders\\yr/")
+# 
+# as.character(str2expression(sprintf('"%s"', "\\var\\folders\\r/")))
+# as.character(str2expression(sprintf('"%s"', "/var/folders/r/")))
+# 
+# sprintf("%s", "\\var\\folders\\r/")
+# 
+# 
+# x <- cat("hello\\")
+# x
+# 
+# x <- toString(c("hello\\", c(1,2,3)))
+# x
+# 
+# x <- capture.output(cat("hello\\", c(1,2,3), sep=","))
+# x
 # test_that("get_archive", {
 #   sbf_reset()
 #   sbf_set_main(file.path(withr::local_tempdir(), "output"))
