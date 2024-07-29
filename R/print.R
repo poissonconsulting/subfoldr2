@@ -21,12 +21,16 @@ get_err_msg <- function() {
 #' @param newpage	draw new (empty) page first?
 #' @param vp	viewport to draw plot in
 #' @param ntry A positive whole number specifying the number of tries.
+#' @param plot A flag indicating whether or not to print the plot.
 #'
 #' @export
-sbf_print <- function(x, newpage = is.null(vp), vp = NULL, ntry = 3L) {
+sbf_print <- function(x, newpage = is.null(vp), vp = NULL, ntry = 3L, plot = getOption("sbf.plot", TRUE)) {
   chk::chk_is(x, "ggplot")
   chk::chk_whole_number(ntry)
   chk::chk_gt(ntry)
+  chk::chk_flag(plot)
+  
+  if(!plot) return(invisible())
 
   i <- 1
   while (i <= ntry) {
