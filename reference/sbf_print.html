@@ -47,7 +47,13 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sbf_print</span><span class="op">(</span><span class="va">x</span>, newpage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">vp</span><span class="op">)</span>, vp <span class="op">=</span> <span class="cn">NULL</span>, ntry <span class="op">=</span> <span class="fl">3L</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sbf_print</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  newpage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">vp</span><span class="op">)</span>,</span>
+<span>  vp <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ntry <span class="op">=</span> <span class="fl">3L</span>,</span>
+<span>  plot <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"sbf.plot"</span>, <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -68,6 +74,10 @@
 
 <dt id="arg-ntry">ntry<a class="anchor" aria-label="anchor" href="#arg-ntry"></a></dt>
 <dd><p>A positive whole number specifying the number of tries.</p></dd>
+
+
+<dt id="arg-plot">plot<a class="anchor" aria-label="anchor" href="#arg-plot"></a></dt>
+<dd><p>A flag indicating whether or not to print the plot.</p></dd>
 
 </dl></div>
     <div id="details">
