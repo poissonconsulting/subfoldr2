@@ -1,4 +1,9 @@
-<!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
+<!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
+
+# subfoldr2 0.2.0
+
+- Add plot argument to `sbf_print()` to skip the printing of plots.
+
 
 # subfoldr2 0.1.0
 
@@ -83,5 +88,4 @@
 # subfoldr2 0.0.0.9038
 
 - Added exists = TRUE to sbf_load_xx().
-
 
