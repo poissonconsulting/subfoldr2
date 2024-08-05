@@ -4,7 +4,13 @@
 \alias{sbf_print}
 \title{Print ggplot Object}
 \usage{
-sbf_print(x, newpage = is.null(vp), vp = NULL, ntry = 3L)
+sbf_print(
+  x,
+  newpage = is.null(vp),
+  vp = NULL,
+  ntry = 3L,
+  plot = getOption("sbf.plot", TRUE)
+)
 }
 \arguments{
 \item{x}{An object to print.}
@@ -14,6 +20,8 @@ sbf_print(x, newpage = is.null(vp), vp = NULL, ntry = 3L)
 \item{vp}{viewport to draw plot in}
 
 \item{ntry}{A positive whole number specifying the number of tries.}
+
+\item{plot}{A flag indicating whether or not to print the plot.}
 }
 \description{
 Retries printing a ggplot object if grid errors occurs.
