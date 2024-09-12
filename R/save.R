@@ -149,7 +149,7 @@ split_excel_large <- function(x, x_name, max_sheets) {
     x_names <- x_name
   } else {
     x_names <- character(length(x_split))
-    for (i in seq(length(x_split))) {
+    for (i in seq_along(x_split)) {
       x_names[i] <- paste0(x_name, "_", i)
     }
   }
