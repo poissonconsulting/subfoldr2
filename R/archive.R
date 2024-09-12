@@ -32,8 +32,7 @@ sbf_archive_main <- function(main = sbf_get_main(),
   if (!ask || yesno(msg)) {
     fs::dir_copy(main, archive, overwrite = FALSE)
     usethis::ui_done(paste0("Directory '", main, "' copied to '", archive, "'"))
-  }
-  else {
+  } else {
     usethis::ui_oops(paste0("Directory '", main, "' was not copied"))
   }
   return(invisible(archive))

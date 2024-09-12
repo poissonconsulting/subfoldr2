@@ -237,7 +237,7 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
-  
+
   data <- data.frame(x = x)
 
   save_csv(data, "numbers", sub = sub, main = main, x_name = x_name)
@@ -617,27 +617,26 @@ sbf_save_excel <- function(x,
 #' }
 #' @export
 sbf_save_gpkg <- function(x,
-                           x_name = substitute(x),
-                           sub = sbf_get_sub(),
-                           main = sbf_get_main()) {
-  
+                          x_name = substitute(x),
+                          sub = sbf_get_sub(),
+                          main = sbf_get_main()) {
   chk::chk_s3_class(x, "data.frame")
   chk::chk_s3_class(x, "sf")
   x_name <- chk_deparse(x_name)
-  
+
   chk::chk_string(x_name)
   chk::chk_gt(nchar(x_name))
   chk::chk_character(sub)
   chk::chk_range(length(sub))
   chk::chk_string(main)
-  
-  if(x_name == "gpkg") {
+
+  if (x_name == "gpkg") {
     chk::abort_chk("'gpkg' is a reserved geopackage prefix")
   }
-  
+
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
-  
+
   save_rds(x, "gpkg", sub = sub, main = main, x_name = x_name)
   save_gpkg(x, "gpkg", sub = sub, main = main, x_name = x_name)
 }
@@ -936,13 +935,15 @@ sbf_save_excels <- function(sub = sbf_get_sub(),
 save_gpkgs <- function(x, x_name, sub, main, all_sfcs) {
   files <- character()
   active_sfc_column_name <- active_sfc_column_name(x)
-  if(is.sf(x)) {
+  if (is.sf(x)) {
     files <- c(sbf_save_gpkg(x, x_name = x_name, main = main, sub = sub), files)
-    if(!all_sfcs) return(files)
+    if (!all_sfcs) {
+      return(files)
+    }
   }
   sfc_column_names <- sfc_column_names(x)
   sfc_column_names <- setdiff(sfc_column_names, active_sfc_column_name)
-  for(sfc_column_name in sfc_column_names) {
+  for (sfc_column_name in sfc_column_names) {
     x <- sf::st_set_geometry(x, sfc_column_name)
     x_name_column_name <- snakecase::to_snake_case(paste(x_name, sfc_column_name, "_"))
     files <- c(sbf_save_gpkg(x, x_name = x_name_column_name, main = main, sub = sub), files)
@@ -951,9 +952,9 @@ save_gpkgs <- function(x, x_name, sub, main, all_sfcs) {
 }
 
 #' Save sf data frames to Geopackages
-#' 
+#'
 #' An sf object of file name file_name is saved as file_name.gpkg.
-#' 
+#'
 #' By default (`all_sfcs = TRUE`) non-active sfc columns are saved
 #' as file_name_geometry_column_name.gpkg this includes data frames with
 #' no active sfc column.
@@ -968,7 +969,7 @@ sbf_save_gpkgs <- function(sub = sbf_get_sub(),
                            main = sbf_get_main(), env = parent.frame(),
                            all_sfcs = TRUE) {
   chk_s3_class(env, "environment")
-  
+
   files <- character(0)
   names <- objects(envir = env)
   is <- vector("logical", length(names))
@@ -1115,11 +1116,10 @@ sbf_save_aws_files <- function(bucket_name,
                                aws_access_key_id = Sys.getenv("AWS_ACCESS_KEY_ID"),
                                aws_secret_access_key = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
                                region = Sys.getenv("AWS_REGION", "ca-central-1")) {
-  
   if (!requireNamespace("readwriteaws")) {
     err("Package 'readwriteaws' must be installed.")
   }
-    
+
   file_list <- readwriteaws::rwa_list_su_files(
     bucket_name = bucket_name,
     data_type = data_type,

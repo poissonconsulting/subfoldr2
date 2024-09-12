@@ -3,7 +3,7 @@ create_local_database <- function(schema = NULL,
                                   data = TRUE,
                                   env = parent.frame()) {
   # create a local database, schema and table (with or without data)
-  # all objects that are created are removed (complete clean up) 
+  # all objects that are created are removed (complete clean up)
   chk::chk_null_or(schema, vld = chk::vld_string)
   chk::chk_null_or(table, vld = chk::vld_s3_class, class = "data.frame")
   chk::chk_flag(data)

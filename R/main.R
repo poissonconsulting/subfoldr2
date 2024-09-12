@@ -62,8 +62,7 @@ sbf_rm_main <- function(main = sbf_get_main(),
   if (!ask || yesno(msg)) {
     unlink(main, recursive = TRUE)
     usethis::ui_done(paste0("Directory '", main, "' deleted"))
-  }
-  else {
+  } else {
     usethis::ui_oops(paste0("Directory '", main, "' was not deleted"))
   }
   invisible(main)

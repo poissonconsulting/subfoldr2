@@ -40,7 +40,7 @@ sbf_is_equal_data <- function(x, x_name = substitute(x),
 #' Is Equal Data Archive
 #'
 #' Test if existing data are equal to archived data using [all.equal()].
-#' If doesn't exist in both returns FALSE, unless exists = FALSE in which case 
+#' If doesn't exist in both returns FALSE, unless exists = FALSE in which case
 #' returns TRUE or exists = NA in which case returns NA.
 #'
 #' @inheritParams sbf_save_object
@@ -52,14 +52,14 @@ sbf_is_equal_data <- function(x, x_name = substitute(x),
 #' @family compare functions
 #' @export
 sbf_is_equal_data_archive <- function(x_name = ".*",
-                               sub = sbf_get_sub(),
-                               main = sbf_get_main(),
-                               archive = 1L,
-                               recursive = FALSE,
-                               include_root = TRUE,
-                               exists = TRUE,
-                               tolerance = sqrt(.Machine$double.eps),
-                               check.attributes = TRUE) {
+                                      sub = sbf_get_sub(),
+                                      main = sbf_get_main(),
+                                      archive = 1L,
+                                      recursive = FALSE,
+                                      include_root = TRUE,
+                                      exists = TRUE,
+                                      tolerance = sqrt(.Machine$double.eps),
+                                      check.attributes = TRUE) {
   if (!vld_whole_number(archive) && !vld_dir(archive)) {
     chkor_vld(vld_whole_number(archive), vld_dir(archive))
   }
