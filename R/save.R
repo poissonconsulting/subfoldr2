@@ -488,8 +488,8 @@ sbf_save_window <- function(x_name = "window",
 
 #' Extension-less Base File Names
 #'
-#' Just a wrapper on \code{\link{basename}()} and
-#' \code{\link[tools]{file_path_sans_ext}()}.
+#' Just a wrapper on [basename()] and
+#' [tools::file_path_sans_ext()].
 #'
 #' @param x A character vector of file paths.
 #' @return A character vector of extension-less base file names.

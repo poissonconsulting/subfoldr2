@@ -31,7 +31,7 @@ sbf_set_main <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #' Reset Main
 #'
 #' @inheritParams sbf_set_sub
-#' @return An invisible copy of the string \code{"output"}.
+#' @return An invisible copy of the string `"output"`.
 #' @family reset
 #' @family directory functions
 #' @export

@@ -25,7 +25,7 @@ An S4 object that inherits from DBIConnection.
 Connect to a PostgreSQL database with a config.yml file.
 }
 \details{
-Wrapper on `psql::psql_connect()`
+Wrapper on \code{psql::psql_connect()}
 }
 \examples{
 \dontrun{

@@ -1,6 +1,6 @@
 #' Is Equal Data
 #'
-#' Test if data is equal using \code{\link{all.equal}()}.
+#' Test if data is equal using [all.equal()].
 #' If doesn't exist returns FALSE, unless exists = FALSE in which case returns
 #' TRUE or exists = NA in which case returns NA.
 #'
@@ -39,7 +39,7 @@ sbf_is_equal_data <- function(x, x_name = substitute(x),
 
 #' Is Equal Data Archive
 #'
-#' Test if existing data are equal to archived data using \code{\link{all.equal}()}.
+#' Test if existing data are equal to archived data using [all.equal()].
 #' If doesn't exist in both returns FALSE, unless exists = FALSE in which case 
 #' returns TRUE or exists = NA in which case returns NA.
 #'

@@ -1,7 +1,7 @@
 #' Open PDF Device
 #'
 #' Opens a pdf device in the current pdfs subfolder using
-#' \code{grDevices::\link[grDevices]{pdf}()}.
+#' `grDevices::[pdf][grDevices::pdf]()`.
 #'
 #' @inheritParams sbf_save_object
 #' @param width A positive number indicating the width in inches.
@@ -34,7 +34,7 @@ sbf_open_pdf <- function(x_name = "plots",
 
 #' Open SQLite Database Connection
 #'
-#' Opens a \code{\linkS4class{SQLiteConnection}} to a SQLite database.
+#' Opens a [SQLiteConnection-class] to a SQLite database.
 #' Foreign key constraints are enabled.
 #'
 #' @inheritParams sbf_save_object

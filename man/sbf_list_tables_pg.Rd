@@ -28,7 +28,7 @@ A vector of table names
 This function lists all the tables in a schema.
 }
 \details{
-Wrapper on `psql::psql_list_tables()`
+Wrapper on \code{psql::psql_list_tables()}
 }
 \examples{
 \dontrun{

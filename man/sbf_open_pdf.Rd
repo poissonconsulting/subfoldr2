@@ -27,7 +27,7 @@ current main folder)}
 }
 \description{
 Opens a pdf device in the current pdfs subfolder using
-\code{grDevices::\link[grDevices]{pdf}()}.
+\verb{grDevices::[pdf][grDevices::pdf]()}.
 }
 \seealso{
 Other graphic functions: 

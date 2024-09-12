@@ -10,7 +10,7 @@ sbf_get_config_value()
 A string of the config file value
 }
 \description{
-Get the value set for the `psql.config_value` options parameter.
+Get the value set for the \code{psql.config_value} options parameter.
 }
 \examples{
 \dontrun{
