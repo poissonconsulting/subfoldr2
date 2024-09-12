@@ -6,7 +6,7 @@
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-CMD-check](https://github.com/poissonconsulting/subfoldr2/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/poissonconsulting/subfoldr2/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/poissonconsulting/subfoldr2/branch/master/graph/badge.svg)](https://codecov.io/gh/poissonconsulting/subfoldr2?branch=master)
+coverage](https://codecov.io/gh/poissonconsulting/subfoldr2/graph/badge.svg)](https://app.codecov.io/gh/poissonconsulting/subfoldr2)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
@@ -93,9 +93,9 @@ sbf_load_objects_recursive(sub = "times2")
 #> # A tibble: 3 × 4
 #>   objects      name  sub      file                                              
 #>   <list>       <chr> <chr>    <chr>                                             
-#> 1 <df [0 × 0]> df    "times3" /var/folders/yr/tq_q43k50m795hb4y0njhyth0000gn/T/…
-#> 2 <dbl [1]>    x3    "times3" /var/folders/yr/tq_q43k50m795hb4y0njhyth0000gn/T/…
-#> 3 <dbl [1]>    x     ""       /var/folders/yr/tq_q43k50m795hb4y0njhyth0000gn/T/…
+#> 1 <df [0 × 0]> df    "times3" /var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/…
+#> 2 <dbl [1]>    x3    "times3" /var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/…
+#> 3 <dbl [1]>    x     ""       /var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/…
 ```
 
 ### Deleting Subfolders
@@ -141,6 +141,8 @@ are family members for
 
 ``` r
 sbf_reset_sub(rm = TRUE, ask = FALSE)
+#> ✔ Directory
+#> '/var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/RtmpaqbBNP/output' deleted
 data2 <- data.frame(x = 5:6, y = 7:8)
 chr <- "some text"
 vec <- c(1, 3) # not saved as vector
