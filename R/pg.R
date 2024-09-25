@@ -67,7 +67,7 @@ sbf_close_pg <- function(conn) {
 #' @examples
 #' \dontrun{
 #' sbf_backup_pg()
-#' 
+#'
 #' sbf_backup_pg("database-22")
 #' }
 sbf_backup_pg <- function(db_dump_name = sbf_get_db_name(),

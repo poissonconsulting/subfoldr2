@@ -29,8 +29,10 @@ sbf_print <- function(x, newpage = is.null(vp), vp = NULL, ntry = 3L, plot = get
   chk::chk_whole_number(ntry)
   chk::chk_gt(ntry)
   chk::chk_flag(plot)
-  
-  if(!plot) return(invisible())
+
+  if (!plot) {
+    return(invisible())
+  }
 
   i <- 1
   while (i <= ntry) {

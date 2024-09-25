@@ -14,7 +14,8 @@ test_that("is_equal_data", {
   expect_false(sbf_is_equal_data(y))
   expect_identical(names(sbf_is_equal_data(y)), "data/y")
   expect_equal(sbf_is_equal_data(y, exists = NA), NA,
-               ignore_attr = TRUE)
+    ignore_attr = TRUE
+  )
   expect_false(sbf_is_equal_data(y, exists = TRUE))
   expect_true(sbf_is_equal_data(y, exists = FALSE))
   expect_true(sbf_is_equal_data(y, "x"))

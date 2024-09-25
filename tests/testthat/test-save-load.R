@@ -277,7 +277,7 @@ test_that("number", {
     sbf_save_number(x),
     file.path(sbf_get_main(), "numbers/x.rds")
   )
-  
+
   expect_true(file.exists(file.path(sbf_get_main(), "numbers", "x.rds")))
   expect_false(file.exists(file.path(sbf_get_main(), "numbers", "x2.rds")))
 
@@ -335,7 +335,7 @@ test_that("number", {
   chk::expect_chk_error(sbf_load_number("x2", exists = TRUE))
   expect_null(sbf_load_number("x2", exists = NA))
   expect_null(sbf_load_number("x2", exists = FALSE))
-  
+
   z <- 4L
   expect_identical(
     sbf_save_number(z, x_name = "important_num"),
@@ -772,7 +772,7 @@ test_that("plot", {
   expect_identical(sbf_save_plot(y), file.path(sbf_get_main(), "plots/y.rds"))
 
   expect_true(all.equal(sbf_load_plot("y"), y))
-  
+
   expect_identical(sbf_load_plot_data("y"), data.frame(x = 1, y = 2))
 
   expect_identical(
@@ -855,7 +855,7 @@ test_that("plot", {
       file.path(sbf_get_main(), "plots/z.rds")
     )
   )
-  
+
   sbf_reset()
   sbf_close_windows()
 })
@@ -864,7 +864,6 @@ test_that("clean after up previous test block in case errored, cant use defer wi
   expect_identical(1, 1)
   sbf_reset()
   sbf_close_windows()
-  
 })
 
 test_that("window", {
@@ -968,11 +967,13 @@ test_that("png", {
   expect_s3_class(data, "tbl_df")
   expect_identical(colnames(data), c("windows", "name", "sub", "file"))
   expect_identical(data$name, c("example"))
-  
+
   data <- sbf_load_windows_recursive(sub = character(0), meta = TRUE)
   expect_s3_class(data, "tbl_df")
-  expect_identical(colnames(data), c("windows", "name", "sub", "file", "caption", "report", "tag", 
-                                     "width", "height", "dpi"))
+  expect_identical(colnames(data), c(
+    "windows", "name", "sub", "file", "caption", "report", "tag",
+    "width", "height", "dpi"
+  ))
   expect_identical(data$name, c("example"))
 })
 
@@ -980,36 +981,38 @@ test_that("png2", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
-  
+
   x <- system.file("extdata",
-                   "example.png",
-                   package = "subfoldr2",
-                   mustWork = TRUE
+    "example.png",
+    package = "subfoldr2",
+    mustWork = TRUE
   )
-  
+
   sbf_save_png(x, caption = "map")
   sbf_save_png(x, x_name = "x2", caption = "map2")
-  
+
   expect_identical(
     list.files(file.path(sbf_get_main(), "windows")),
     sort(c("example.rda", "example.png", "x2.png", "x2.rda"))
   )
-  
+
   meta <- readRDS(paste0(file.path(sbf_get_main(), "windows", "example.rda")))
   expect_identical(meta, list(
     caption = "map", report = TRUE, tag = "",
     width = 6, height = 5.992, dpi = 125
   ))
-  
+
   data <- sbf_load_windows_recursive(sub = character(0))
   expect_s3_class(data, "tbl_df")
   expect_identical(colnames(data), c("windows", "name", "sub", "file"))
   expect_identical(data$name, c("example", "x2"))
-  
+
   data <- sbf_load_windows_recursive(sub = character(0), meta = TRUE)
   expect_s3_class(data, "tbl_df")
-  expect_identical(colnames(data), c("windows", "name", "sub", "file", "caption", "report", "tag", 
-                                     "width", "height", "dpi"))
+  expect_identical(colnames(data), c(
+    "windows", "name", "sub", "file", "caption", "report", "tag",
+    "width", "height", "dpi"
+  ))
   expect_identical(data$name, c("example", "x2"))
 })
 
@@ -1527,21 +1530,21 @@ test_that("save df as gpkg with sf point column", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   data <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing"),
     X = c(53.350808, 53.640981),
     Y = c(-132.280579, -132.055175)
   )
-  
+
   sf <- convert_coords_to_sfc(data)
 
   sbf_save_gpkg(sf)
   expect_output(gpkg <- sf::st_read(file.path(path, "gpkg/sf.gpkg")), "^Reading layer `sf' from data source ")
-  
+
   expect_s3_class(gpkg, "sf")
-  
+
   expect_identical(colnames(gpkg), c("Places", "Activity", "geom"))
   sf <- convert_sfc_to_coords(gpkg, "geom")
   expect_identical(sf$Places, data$Places)
@@ -1555,16 +1558,16 @@ test_that("save sf as gpkg errors if gpkg", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   data <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing"),
     X = c(53.350808, 53.640981),
     Y = c(-132.280579, -132.055175)
   )
-  
+
   gpkg <- convert_coords_to_sfc(data)
-  
+
   expect_error(sbf_save_gpkg(gpkg), "'gpkg' is a reserved geopackage prefix\\.")
 })
 
@@ -1573,20 +1576,20 @@ test_that("save sf as gpkg time", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   data <- data.frame(
     time = hms::as_hms("12:01:03"),
     X = c(53.350808),
     Y = c(-132.280579)
   )
-  
+
   sff <- convert_coords_to_sfc(data)
-  
+
   sbf_save_gpkg(sff)
   expect_output(gpkg <- sf::st_read(file.path(path, "gpkg/sff.gpkg")), "^Reading layer `sff' from data source ")
-  
+
   expect_s3_class(gpkg, "sf")
-  
+
   expect_identical(colnames(gpkg), c("time", "geom"))
   sf <- convert_sfc_to_coords(gpkg, "geom")
   expect_identical(sf$time, as.character(data$time))
@@ -1599,7 +1602,7 @@ test_that("save df as gpkg with linstring column and sf point", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   data <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing"),
@@ -1608,20 +1611,20 @@ test_that("save df as gpkg with linstring column and sf point", {
     X2 = c(53.350808, 53.640981),
     Y2 = c(-132.280579, -132.055175)
   )
-  
+
   sf <- convert_coords_to_sfc(data)
   sf <- convert_coords_to_sfc(sf,
-                                coords = c("X2", "Y2"),
-                                sfc_name = "geometry2"
+    coords = c("X2", "Y2"),
+    sfc_name = "geometry2"
   )
-  
+
   sf <- sf::st_cast(sf, "LINESTRING")
-  
+
   expect_warning(sbf_save_gpkg(sf), "Dropping column\\(s\\) geometry of class\\(es\\) sfc_POINT")
-  expect_output(gpkg <- sf::st_read(file.path(path, "gpkg/sf.gpkg")), "^Reading layer `sf' from data source ")  
+  expect_output(gpkg <- sf::st_read(file.path(path, "gpkg/sf.gpkg")), "^Reading layer `sf' from data source ")
 
   expect_s3_class(gpkg, "sf")
-  
+
   expect_identical(colnames(gpkg), c(
     "Places", "Activity", "geom"
   ))
@@ -1635,7 +1638,7 @@ test_that("save sfs as gpkg and ignores data frame", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   data <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing"),
@@ -1648,11 +1651,11 @@ test_that("save sfs as gpkg and ignores data frame", {
   expect_identical(length(files), 2L)
   expect_match(files[1], "output/gpkg/sf\\.gpkg")
   expect_match(files[2], "output/gpkg/sf2\\.gpkg")
-  
+
   expect_output(gpkg <- sf::st_read(file.path(path, "gpkg/sf2.gpkg")), "^Reading layer `sf2' from data source ")
-  
+
   expect_s3_class(gpkg, "sf")
-  
+
   expect_identical(colnames(gpkg), c("Activity", "geom"))
   sf <- convert_sfc_to_coords(gpkg, "geom")
   expect_identical(sf$Activity, "boating")
@@ -1665,7 +1668,7 @@ test_that("save sf as gpkgs with linstring column and sf point and all_sfc = FAL
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   data <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing"),
@@ -1674,23 +1677,23 @@ test_that("save sf as gpkgs with linstring column and sf point and all_sfc = FAL
     Y2 = c(53.350808, 53.640981),
     X2 = c(-132.280579, -132.055175)
   )
-  
+
   sf <- convert_coords_to_sfc(data)
   sf <- convert_coords_to_sfc(sf,
-                              coords = c("X2", "Y2"),
-                              sfc_name = "geometry2"
+    coords = c("X2", "Y2"),
+    sfc_name = "geometry2"
   )
-  
+
   sf$geometry <- sf::st_cast(sf$geometry, "LINESTRING")
-  
+
   expect_warning(expect_warning(files <- sbf_save_gpkgs(), "Dropping column\\(s\\) geometry of class\\(es\\) sfc_LINESTRING"), "Dropping column\\(s\\) geometry2 of class\\(es\\) sfc_POINT")
   expect_length(files, 2L)
   expect_match(files[1], "output/gpkg/sf_geometry.gpkg")
   expect_match(files[2], "output/gpkg/sf.gpkg")
-  expect_output(gpkg <- sf::st_read(file.path(path, "gpkg/sf.gpkg")), "^Reading layer `sf' from data source ")  
-  
+  expect_output(gpkg <- sf::st_read(file.path(path, "gpkg/sf.gpkg")), "^Reading layer `sf' from data source ")
+
   expect_s3_class(gpkg, "sf")
-  
+
   expect_identical(colnames(gpkg), c(
     "Places", "Activity", "geom"
   ))

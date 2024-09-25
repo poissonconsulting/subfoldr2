@@ -38,7 +38,7 @@ sub folder.}
 A named list of character vectors.
 }
 \description{
-Find differences with existing data and archived data. 
+Find differences with existing data and archived data.
 If doesn't exist (exists = NA) x is compared to itself.
 }
 \seealso{

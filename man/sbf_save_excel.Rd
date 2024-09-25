@@ -40,7 +40,7 @@ This takes a data frame and saves it to their own excel workbook.
 
 This function will split up large dataframes into smaller tables for writing
 to excel because excel only allows a maximum number of 1,048,576. For the
-`max_sheets` argument you can pass a number higher then the required
+\code{max_sheets} argument you can pass a number higher then the required
 and it will only return as many sheets as there is data.
 }
 \examples{

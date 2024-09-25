@@ -37,7 +37,7 @@ Save a copy of your database in a plain text format. This saves all the SQL
 code to recreate the structure and data.
 }
 \details{
-Wrapper on `psql::psql_backup()`
+Wrapper on \code{psql::psql_backup()}
 }
 \examples{
 \dontrun{

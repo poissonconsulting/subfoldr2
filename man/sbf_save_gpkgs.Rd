@@ -29,7 +29,7 @@ An invisible character vector of the paths to the saved objects.
 An sf object of file name file_name is saved as file_name.gpkg.
 }
 \details{
-By default (`all_sfcs = TRUE`) non-active sfc columns are saved
+By default (\code{all_sfcs = TRUE}) non-active sfc columns are saved
 as file_name_geometry_column_name.gpkg this includes data frames with
 no active sfc column.
 }

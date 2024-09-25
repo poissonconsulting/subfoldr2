@@ -13,8 +13,8 @@ sbf_basename_sans_ext(x)
 A character vector of extension-less base file names.
 }
 \description{
-Just a wrapper on \code{\link{basename}()} and
-\code{\link[tools]{file_path_sans_ext}()}.
+Just a wrapper on \code{\link[=basename]{basename()}} and
+\code{\link[tools:fileutils]{tools::file_path_sans_ext()}}.
 }
 \examples{
 sbf_basename_sans_ext("path/file.ext")

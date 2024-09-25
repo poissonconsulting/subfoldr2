@@ -14,7 +14,7 @@ sbf_close_db(conn)
 Closes the database connection.
 }
 \details{
-The function is just a wrapper on \code{\link[DBI]{dbDisconnect}(conn)}.
+The function is just a wrapper on \verb{[dbDisconnect][DBI::dbDisconnect](conn)}.
 }
 \seealso{
 Other database functions: 

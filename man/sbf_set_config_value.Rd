@@ -13,7 +13,7 @@ sbf_set_config_value(value = NULL)
 An invisible string of the value given
 }
 \description{
-Wrapper for setting the `psql.config_value` options parameter.
+Wrapper for setting the \code{psql.config_value} options parameter.
 }
 \details{
 This function is recommended to be added to your header when used.

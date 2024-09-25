@@ -28,7 +28,7 @@ A scalar numeric of the number of rows affected by the statement.
 Execute PostgreSQL statements.
 }
 \details{
-Wrapper on `psql::psql_execute_db()`
+Wrapper on \code{psql::psql_execute_db()}
 }
 \examples{
 \dontrun{

@@ -31,41 +31,41 @@ current sub folder).}
 \item{main}{A string specifying the path to the main folder (by default the
 current main folder)}
 
-\item{data_type}{A string (by default `NULL`) for which data type to return.
+\item{data_type}{A string (by default \code{NULL}) for which data type to return.
 Check the folder names within the shiny-upload in AWS for options common
-  examples include punch-data, tracks, logger, image and pdf.}
+examples include punch-data, tracks, logger, image and pdf.}
 
-\item{year}{A whole number (by default `NULL`) indicating which year to
+\item{year}{A whole number (by default \code{NULL}) indicating which year to
 return. Format YYYY.}
 
-\item{month}{A whole number (by default `NULL`) indicating which month to
+\item{month}{A whole number (by default \code{NULL}) indicating which month to
 return. Format MM.}
 
-\item{day}{A whole number (by default `NULL`) indicating which day to return.
+\item{day}{A whole number (by default \code{NULL}) indicating which day to return.
 Format DD.}
 
-\item{file_name}{A string (by default `NULL`) containing the name of the file
+\item{file_name}{A string (by default \code{NULL}) containing the name of the file
 to return. Do not include extension type.}
 
-\item{file_extension}{A string (by default `NULL`) with the file extension to
+\item{file_extension}{A string (by default \code{NULL}) with the file extension to
 return. Do not include period.}
 
-\item{max_request_size}{A whole number (by default `1000`) indicating the
+\item{max_request_size}{A whole number (by default \code{1000}) indicating the
 maximum number of files to be returned.}
 
 \item{ask}{A flag specifying whether to ask before overwriting files.}
 
-\item{silent}{A flag (by default `FALSE`) to silence messages about number of
-files returned. Set to `TRUE` to silence messages.}
+\item{silent}{A flag (by default \code{FALSE}) to silence messages about number of
+files returned. Set to \code{TRUE} to silence messages.}
 
 \item{aws_access_key_id}{A string of your AWS user access key ID. The default
-is the environment variable named `AWS_ACCESS_KEY_ID`.}
+is the environment variable named \code{AWS_ACCESS_KEY_ID}.}
 
 \item{aws_secret_access_key}{A string of your AWS user secret access key. The
-default is the environment variable named `AWS_SECRET_ACCESS_KEY`.}
+default is the environment variable named \code{AWS_SECRET_ACCESS_KEY}.}
 
 \item{region}{A string of the AWS region. The default is the environment
-variable named `AWS_REGION`.}
+variable named \code{AWS_REGION}.}
 }
 \description{
 Download files from an AWS S3 bucket into the analysis.

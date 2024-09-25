@@ -31,7 +31,7 @@ A data frame
 Read/load a table from a PostgreSQL database as a data frame into R.
 }
 \details{
-Wrapper on `psql::psql_read_table()`
+Wrapper on \code{psql::psql_read_table()}
 }
 \examples{
 \dontrun{

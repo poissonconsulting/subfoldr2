@@ -14,7 +14,7 @@ connection details.}
 An invisible string of the file path given
 }
 \description{
-A wrapper to quickly set the `psql.config_path` options parameter.
+A wrapper to quickly set the \code{psql.config_path} options parameter.
 }
 \details{
 This function is recommended to be added to your header when used.

@@ -32,11 +32,11 @@ A scalar numeric.
 }
 \description{
 Add data with a data frame to your PostgreSQL database. The data frame name
-must match the table name in your database, if not use the `tbl_name`
+must match the table name in your database, if not use the \code{tbl_name}
 argument to pass the table name.
 }
 \details{
-Wrapper on `psql::psql_add_data()`
+Wrapper on \code{psql::psql_add_data()}
 }
 \examples{
 \dontrun{

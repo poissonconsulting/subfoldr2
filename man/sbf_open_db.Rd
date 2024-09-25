@@ -44,7 +44,7 @@ report. deprecated.}
 database (if exists = FALSE).}
 }
 \description{
-Opens a \code{\linkS4class{SQLiteConnection}} to a SQLite database.
+Opens a \linkS4class{SQLiteConnection} to a SQLite database.
 Foreign key constraints are enabled.
 }
 \seealso{

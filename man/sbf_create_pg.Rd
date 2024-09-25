@@ -28,7 +28,7 @@ TRUE (or errors).
 Create a new PostgreSQL database.
 }
 \details{
-Wrapper on `psql::psql_create_db()`
+Wrapper on \code{psql::psql_create_db()}
 }
 \examples{
 \dontrun{
