@@ -13,10 +13,8 @@ sbf_add_blob_column_to_db <- function(column_name,
                                       db_name = sbf_get_db_name(),
                                       sub = sbf_get_sub(),
                                       main = sbf_get_main()) {
-  if (!requireNamespace("dbflobr", quietly = TRUE)) {
-    stop("Please install.packages('dbflobr').")
-  }
-
+  rlang::check_installed("dbflobr")
+  
   conn <- sbf_open_db(db_name = db_name, sub = sub, main = main, exists = TRUE)
   on.exit(sbf_close_db(conn))
 
@@ -49,9 +47,7 @@ sbf_save_flobs_from_db <- function(db_name = sbf_get_db_name(),
                                    dir = NULL,
                                    dbflobr_sub = FALSE,
                                    replace = FALSE) {
-  if (!requireNamespace("dbflobr", quietly = TRUE)) {
-    stop("Please install.packages('dbflobr').")
-  }
+  rlang::check_installed("dbflobr")
 
   conn <- sbf_open_db(db_name = db_name, sub = sub, main = main, exists = TRUE)
   on.exit(sbf_close_db(conn))
@@ -97,9 +93,7 @@ sbf_upload_flobs_to_db <- function(db_name = sbf_get_db_name(),
                                    dbflobr_sub = FALSE,
                                    exists = FALSE,
                                    replace = FALSE) {
-  if (!requireNamespace("dbflobr", quietly = TRUE)) {
-    stop("Please install.packages('dbflobr').")
-  }
+  rlang::check_installed("dbflobr")
 
   conn <- sbf_open_db(db_name = db_name, sub = sub, main = main, exists = TRUE)
   on.exit(sbf_close_db(conn))

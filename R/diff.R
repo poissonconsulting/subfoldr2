@@ -15,10 +15,8 @@ sbf_diff_data <- function(x,
   chk_s3_class(x, "data.frame")
   x_name <- chk_deparse(x_name)
 
-  if (!requireNamespace("daff", quietly = TRUE)) {
-    stop("Please `install.packages('daff')`.", call. = FALSE)
-  }
-
+  rlang::check_installed("daff")
+  
   existing <- sbf_load_data(x_name, sub = sub, main = main, exists = NA)
   if (is.null(existing)) existing <- x
   daff::diff_data(existing, x)
@@ -48,10 +46,8 @@ sbf_diff_data_archive <- function(x_name = ".*",
                                   exists = NA) {
   chk_lgl(exists)
 
-  if (!requireNamespace("daff", quietly = TRUE)) {
-    stop("Please `install.packages('daff')`.", call. = FALSE)
-  }
-
+  rlang::check_installed("daff")
+  
   if (!vld_whole_number(archive) && !vld_dir(archive)) {
     chkor_vld(vld_whole_number(archive), vld_dir(archive))
   }
@@ -103,9 +99,7 @@ sbf_diff_table <- function(x,
   chk_s3_class(x, "data.frame")
   x_name <- chk_deparse(x_name)
 
-  if (!requireNamespace("daff", quietly = TRUE)) {
-    stop("Please `install.packages('daff')`.", call. = FALSE)
-  }
+  rlang::check_installed("daff")
 
   existing <- sbf_load_table(x_name, sub = sub, main = main, exists = exists)
   if (is.null(existing)) existing <- x
