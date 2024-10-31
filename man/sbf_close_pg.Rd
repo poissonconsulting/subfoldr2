@@ -17,8 +17,8 @@ TRUE (or errors).
 Close the PostgreSQL connection when you are done using a database.
 }
 \details{
-Wrapper on `DBI::dbDisconnect()`. It is important to remember to
-  close connections or your database performance can decrease over time.
+Wrapper on \code{DBI::dbDisconnect()}. It is important to remember to
+close connections or your database performance can decrease over time.
 }
 \examples{
 \dontrun{

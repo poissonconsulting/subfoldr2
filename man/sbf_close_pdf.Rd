@@ -10,7 +10,7 @@ sbf_close_pdf()
 Closes the current graphics device.
 }
 \details{
-The function is just a wrapper on \code{\link[grDevices]{dev.off}()}.
+The function is just a wrapper on \code{\link[grDevices:dev]{grDevices::dev.off()}}.
 }
 \seealso{
 Other graphic functions: 

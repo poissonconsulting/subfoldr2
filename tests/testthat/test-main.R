@@ -41,7 +41,7 @@ test_that("remove message mac and linux", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
-  
+
   x <- 1
   sbf_save_number(x)
   expect_message(
@@ -56,7 +56,7 @@ test_that("remove message windows", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
-  
+
   x <- 1
   sbf_save_number(x)
   expect_message(

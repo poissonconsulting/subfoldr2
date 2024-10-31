@@ -27,7 +27,7 @@ An invisible string of the path to the saved data.frame
 }
 \description{
 Saves data frames from the environment to their own excel workbook. Each table
-  will be its own excel workbook.
+will be its own excel workbook.
 }
 \examples{
 \dontrun{

@@ -7,7 +7,7 @@
 sbf_set_schema(schema = "public")
 }
 \arguments{
-\item{schema}{A string of the schema name. Default value is `"public"`.}
+\item{schema}{A string of the schema name. Default value is \code{"public"}.}
 }
 \value{
 An invisible schema name

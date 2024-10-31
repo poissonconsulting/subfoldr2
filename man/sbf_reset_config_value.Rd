@@ -10,7 +10,7 @@ sbf_reset_config_value()
 An invisible string of the default file path
 }
 \description{
-Reset the value for `psql.config_value` to the default value.
+Reset the value for \code{psql.config_value} to the default value.
 }
 \examples{
 \dontrun{

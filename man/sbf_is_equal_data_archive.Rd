@@ -48,8 +48,8 @@ sub folder.}
 A named logical vector.
 }
 \description{
-Test if existing data are equal to archived data using \code{\link{all.equal}()}.
-If doesn't exist in both returns FALSE, unless exists = FALSE in which case 
+Test if existing data are equal to archived data using \code{\link[=all.equal]{all.equal()}}.
+If doesn't exist in both returns FALSE, unless exists = FALSE in which case
 returns TRUE or exists = NA in which case returns NA.
 }
 \seealso{

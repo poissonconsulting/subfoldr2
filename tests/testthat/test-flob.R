@@ -62,7 +62,7 @@ test_that("datas_to_db", {
   expect_message(
     expect_message(
       expect_error(
-        sbf_upload_flobs_to_db(), 
+        sbf_upload_flobs_to_db(),
         regexp = "`New` must not already exist in table `df`."
       ),
       regexp = "Table name\\:"
@@ -77,37 +77,37 @@ test_that("datas_to_db", {
           expect_identical(
             sbf_upload_flobs_to_db(exists = TRUE, replace = TRUE),
             list(`df/New` = c(`a_-_1.pdf` = TRUE))
-          ), 
+          ),
           regexp = "Table name\\:"
-        ), 
+        ),
         regexp = "Column name\\:"
-      ), 
+      ),
       regexp = "Writing files to database"
-    ), 
+    ),
     regexp = "File 1\\: a\\_\\-\\_1\\.pdf written to database"
   )
-  
+
   expect_message(
     expect_message(
       expect_message(
         expect_message(
           expect_identical(
             sbf_upload_flobs_to_db(
-              exists = TRUE, 
+              exists = TRUE,
               replace = TRUE,
               dir = file.path(sbf_get_main(), "flobs", sbf_get_db_name())
-            ), 
+            ),
             list(`df/New` = c(`a_-_1.pdf` = TRUE))
-          ), 
+          ),
           regexp = "Table name\\:"
-        ), 
+        ),
         regexp = "Column name\\:"
-      ), 
+      ),
       regexp = "Writing files to database"
-    ), 
+    ),
     regexp = "File 1\\: a\\_\\-\\_1\\.pdf written to database"
   )
-  
+
   sbf_rm_flobs(ask = FALSE)
   expect_error(sbf_upload_flobs_to_db())
 
