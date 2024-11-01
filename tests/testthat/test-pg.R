@@ -1,3 +1,11 @@
+# If you get an error like:
+# ```
+# psql: error: connection to server on socket "/tmp/.s.PGSQL.5432" failed:
+# No such file or directory
+# Is the server running locally and accepting connections on that socket?
+# ```
+# Check the data-analysis-book section 9.5 for instructions on how to fix it.
+
 test_that("test sbf_open_pg works", {
   skip_on_ci()
   # set up
