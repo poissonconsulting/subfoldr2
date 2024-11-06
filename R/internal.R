@@ -216,8 +216,8 @@ compare_data <- function(name, main, archive, tolerance, ignore_attr) {
   main <- if (file.exists(main)) readRDS(main) else NULL
   archive <- if (file.exists(archive)) readRDS(archive) else NULL
 
-  waldo::compare(main, archive,
-    x_arg = "main", y_arg = "archive",
+  waldo::compare(archive, main,
+    x_arg = "archive", y_arg = "main",
     tolerance = tolerance,
     ignore_attr = ignore_attr
   )
