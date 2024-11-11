@@ -4,9 +4,6 @@
 # No such file or directory
 # Is the server running locally and accepting connections on that socket?
 # ```
-# Check the data-analysis-book section 9.5 for instructions on how to fix it.
-
-# OR
 
 # This error occurs because a local psql server isn't set up.
 # For these tests to pass you must set up a local psql server.
