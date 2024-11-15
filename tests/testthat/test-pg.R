@@ -1,3 +1,20 @@
+# If you get an error like:
+# ```
+# psql: error: connection to server on socket "/tmp/.s.PGSQL.5432" failed:
+# No such file or directory
+# Is the server running locally and accepting connections on that socket?
+# ```
+
+# This error occurs because a local psql server isn't set up.
+# For these tests to pass you must set up a local psql server.
+
+# 1. Restart PostgreSQL in the terminal:
+# `brew services restart postgresql`
+# 2. Create a new database of your computer username/home folder:
+# `createdb <computer_user>`
+# 3. Now try connecting again, with the psql command:
+# `psql`
+
 test_that("test sbf_open_pg works", {
   skip_on_ci()
   # set up
