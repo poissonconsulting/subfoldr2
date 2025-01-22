@@ -16,7 +16,7 @@ sbf_diff_data <- function(x,
   x_name <- chk_deparse(x_name)
 
   rlang::check_installed("daff")
-  
+
   existing <- sbf_load_data(x_name, sub = sub, main = main, exists = NA)
   if (is.null(existing)) existing <- x
   daff::diff_data(existing, x)
@@ -47,7 +47,7 @@ sbf_diff_data_archive <- function(x_name = ".*",
   chk_lgl(exists)
 
   rlang::check_installed("daff")
-  
+
   if (!vld_whole_number(archive) && !vld_dir(archive)) {
     chkor_vld(vld_whole_number(archive), vld_dir(archive))
   }

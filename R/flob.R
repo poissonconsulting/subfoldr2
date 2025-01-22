@@ -14,7 +14,7 @@ sbf_add_blob_column_to_db <- function(column_name,
                                       sub = sbf_get_sub(),
                                       main = sbf_get_main()) {
   rlang::check_installed("dbflobr")
-  
+
   conn <- sbf_open_db(db_name = db_name, sub = sub, main = main, exists = TRUE)
   on.exit(sbf_close_db(conn))
 
