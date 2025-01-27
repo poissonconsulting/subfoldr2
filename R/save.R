@@ -1063,9 +1063,9 @@ sbf_save_db_to_workbook <- function(workbook_name = sbf_get_workbook_name(),
 #'
 #' @description
 #' `r lifecycle::badge("superseded")`
-#' 
+#'
 #' `sbf_save_aws_files()` was moved to `subfoldr2ext::sbfx_save_aws_files()`.
-#' 
+#'
 #' Download files from an AWS S3 bucket into the analysis.
 #'
 #' @param bucket_name A string of the AWS S3 bucket name.

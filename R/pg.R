@@ -1,10 +1,10 @@
 #' Open PostgreSQL Connection
-#' 
+#'
 #' @description
 #' `r lifecycle::badge("superseded")`
-#' 
+#'
 #' `sbf_open_pg()` was moved to `subfoldr2ext::sbfx_open_pg()`.
-#' 
+#'
 #' Connect to a PostgreSQL database with a config.yml file.
 #'
 #' @inheritParams psql::psql_connect
@@ -37,9 +37,9 @@ sbf_open_pg <- function(config_path = getOption("psql.config_path", NULL),
 #'
 #' @description
 #' `r lifecycle::badge("superseded")`
-#' 
+#'
 #' `sbf_close_pg()` was moved to `subfoldr2ext::sbfx_close_pg()`.
-#' 
+#'
 #' Close the PostgreSQL connection when you are done using a database.
 #'
 #' @inheritParams DBI::dbDisconnect
@@ -67,9 +67,9 @@ sbf_close_pg <- function(conn) {
 #'
 #' @description
 #' `r lifecycle::badge("superseded")`
-#' 
+#'
 #' `sbf_backup_pg()` was moved to `subfoldr2ext::sbfx_backup_pg()`.
-#' 
+#'
 #' Save a copy of your database in a plain text format. This saves all the SQL
 #' code to recreate the structure and data.
 #'
@@ -104,9 +104,9 @@ sbf_backup_pg <- function(db_dump_name = sbf_get_db_name(),
 #'
 #' @description
 #' `r lifecycle::badge("superseded")`
-#' 
+#'
 #' `sbf_create_pg()` was moved to `subfoldr2ext::sbfx_create_pg()`.
-#' 
+#'
 #' Create a new PostgreSQL database.
 #'
 #' @inheritParams psql::psql_create_db
@@ -135,9 +135,9 @@ sbf_create_pg <- function(dbname,
 #'
 #' @description
 #' `r lifecycle::badge("superseded")`
-#' 
+#'
 #' `sbf_execute_pg()` was moved to `subfoldr2ext::sbfx_execute_pg()`.
-#' 
+#'
 #' Execute PostgreSQL statements.
 #'
 #' @inheritParams psql::psql_execute_db
@@ -169,12 +169,12 @@ sbf_execute_pg <- function(sql,
 }
 
 #' List tables in a schema
-#' 
+#'
 #' @description
 #' `r lifecycle::badge("superseded")`
-#' 
+#'
 #' `sbf_list_tables_pg()` was moved to `subfoldr2ext::sbfx_list_tables_pg()`.
-#' 
+#'
 #' This function lists all the tables in a schema.
 #'
 #' @inheritParams psql::psql_list_tables
@@ -205,9 +205,9 @@ sbf_list_tables_pg <- function(schema = getOption("psql.schema", "public"),
 #'
 #' @description
 #' `r lifecycle::badge("superseded")`
-#' 
+#'
 #' `sbf_load_data_from_pg()` was moved to `subfoldr2ext::sbfx_load_data_from_pg()`.
-#' 
+#'
 #' Read/load a table from a PostgreSQL database as a data frame into R.
 #'
 #' @inheritParams psql::psql_read_table
@@ -239,9 +239,9 @@ sbf_load_data_from_pg <- function(x,
 #'
 #' @description
 #' `r lifecycle::badge("superseded")`
-#' 
+#'
 #' `sbf_load_datas_from_pg()` was moved to `subfoldr2ext::sbfx_load_datas_from_pg()`.
-#' 
+#'
 #' Load all the tables in a schema as data frames into your environment from a
 #' PostgreSQL database.
 #'
@@ -274,9 +274,9 @@ sbf_load_datas_from_pg <- function(schema = getOption("psql.schema", "public"),
 #'
 #' @description
 #' `r lifecycle::badge("superseded")`
-#' 
+#'
 #' `sbf_save_data_to_pg()` was moved to `subfoldr2ext::sbfx_save_data_to_pg()`.
-#' 
+#'
 #' Add data with a data frame to your PostgreSQL database. The data frame name
 #' must match the table name in your database, if not use the `tbl_name`
 #' argument to pass the table name.
@@ -311,9 +311,9 @@ sbf_save_data_to_pg <- function(x,
 #'
 #' @description
 #' `r lifecycle::badge("superseded")`
-#' 
+#'
 #' `sbf_set_schema()` was moved to `subfoldr2ext::sbfx_set_schema()`.
-#' 
+#'
 #' @param schema A string of the schema name. Default value is `"public"`.
 #'
 #' @return An invisible schema name
@@ -336,9 +336,9 @@ sbf_set_schema <- function(schema = "public") {
 #'
 #' @description
 #' `r lifecycle::badge("superseded")`
-#' 
+#'
 #' `sbf_get_schema()` was moved to `subfoldr2ext::sbfx_get_schema()`.
-#' 
+#'
 #' @return A string of the schema name.
 #' @export
 #' @family postgresql functions
@@ -359,9 +359,9 @@ sbf_get_schema <- function() {
 #'
 #' @description
 #' `r lifecycle::badge("superseded")`
-#' 
+#'
 #' `sbf_reset_schema()` was moved to `subfoldr2ext::sbfx_reset_schema()`.
-#' 
+#'
 #' Reset schema name back to public
 #'
 #' @return An invisible string of the schema name the database is set to
@@ -384,9 +384,9 @@ sbf_reset_schema <- function() {
 #'
 #' @description
 #' `r lifecycle::badge("superseded")`
-#' 
+#'
 #' `sbf_set_config_file()` was moved to `subfoldr2ext::sbfx_set_config_file()`.
-#' 
+#'
 #' A wrapper to quickly set the `psql.config_path` options parameter.
 #'
 #' @param path A file path to the location of the yaml file containing your
@@ -414,9 +414,9 @@ sbf_set_config_file <- function(path = "config.yml") {
 #'
 #' @description
 #' `r lifecycle::badge("superseded")`
-#' 
+#'
 #' `sbf_get_config_file()` was moved to `subfoldr2ext::sbfx_get_config_file()`.
-#' 
+#'
 #' Get the option set for psql.config_path
 #'
 #' @return A string of the config file path.
@@ -439,9 +439,9 @@ sbf_get_config_file <- function() {
 #'
 #' @description
 #' `r lifecycle::badge("superseded")`
-#' 
+#'
 #' `sbf_reset_config_file()` was moved to `subfoldr2ext::sbfx_reset_config_file()`.
-#' 
+#'
 #' Reset the psql.config_path option to the default value.
 #'
 #' @return An invisible string of the default file path
@@ -464,9 +464,9 @@ sbf_reset_config_file <- function() {
 #'
 #' @description
 #' `r lifecycle::badge("superseded")`
-#' 
+#'
 #' `sbf_set_config_value()` was moved to `subfoldr2ext::sbfx_set_config_value()`.
-#' 
+#'
 #' Wrapper for setting the `psql.config_value` options parameter.
 #'
 #' @param value A string of the config file value to grab.
@@ -492,9 +492,9 @@ sbf_set_config_value <- function(value = NULL) {
 #'
 #' @description
 #' `r lifecycle::badge("superseded")`
-#' 
+#'
 #' `sbf_get_config_value()` was moved to `subfoldr2ext::sbfx_get_config_value()`.
-#' 
+#'
 #' Get the value set for the `psql.config_value` options parameter.
 #'
 #' @return A string of the config file value
@@ -517,9 +517,9 @@ sbf_get_config_value <- function() {
 #'
 #' @description
 #' `r lifecycle::badge("superseded")`
-#' 
+#'
 #' `sbf_reset_config_value()` was moved to `subfoldr2ext::sbfx_reset_config_value()`.
-#' 
+#'
 #' Reset the value for `psql.config_value` to the default value.
 #'
 #' @return An invisible string of the default file path
