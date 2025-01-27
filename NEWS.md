@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# subfoldr2 0.2.1
+
+- Moved functions requiring `psql` and `readwriteaws` (and associated tests) to `subfoldr2ext` and removed these dependencies.
+- General package upkeep.
+
 # subfoldr2 0.2.0
 
 - Add plot argument to `sbf_print()` to skip the printing of plots.
@@ -88,4 +93,3 @@
 # subfoldr2 0.0.0.9038
 
 - Added exists = TRUE to sbf_load_xx().
-
