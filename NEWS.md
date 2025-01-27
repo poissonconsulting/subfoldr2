@@ -1,6 +1,6 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
-# subfoldr2 0.2.1
+# subfoldr2 1.0.0
 
 - Moved functions requiring `psql` and `readwriteaws` (and associated tests) to `subfoldr2ext` and removed these dependencies.
 - General package upkeep.
