@@ -1061,6 +1061,11 @@ sbf_save_db_to_workbook <- function(workbook_name = sbf_get_workbook_name(),
 
 #' Download files from AWS S3
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `sbf_save_aws_files()` was moved to `subfoldr2ext::sbfx_save_aws_files()`.
+#'
 #' Download files from an AWS S3 bucket into the analysis.
 #'
 #' @param bucket_name A string of the AWS S3 bucket name.
@@ -1116,35 +1121,9 @@ sbf_save_aws_files <- function(bucket_name,
                                aws_access_key_id = Sys.getenv("AWS_ACCESS_KEY_ID"),
                                aws_secret_access_key = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
                                region = Sys.getenv("AWS_REGION", "ca-central-1")) {
-  rlang::check_installed("readwriteaws")
-
-  file_list <- readwriteaws::rwa_list_su_files(
-    bucket_name = bucket_name,
-    data_type = data_type,
-    year = year,
-    month = month,
-    day = day,
-    file_name = file_name,
-    file_extension = file_extension,
-    max_request_size = max_request_size,
-    silent = TRUE,
-    aws_access_key_id = aws_access_key_id,
-    aws_secret_access_key = aws_secret_access_key,
-    region = region
+  lifecycle::deprecate_stop(
+    "0.2.0",
+    "sbf_save_aws_files()",
+    "subfoldr2ext::sbfx_save_aws_files()"
   )
-
-  dir <- file_path(main, "aws", sub)
-  dir_create(dir)
-
-  readwriteaws::rwa_download_files(
-    file_list = file_list,
-    directory = dir,
-    bucket_name = bucket_name,
-    ask = ask,
-    aws_access_key_id = aws_access_key_id,
-    aws_secret_access_key = aws_secret_access_key,
-    region = region
-  )
-
-  invisible(file_list)
 }

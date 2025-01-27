@@ -64,7 +64,8 @@ using `sbf_set_sub()` or the `sub = sbf_get_sub()` argument of
     sbf_save_object(x * 3, x_name = "x3", sub = "times2/times3")
     sbf_save_object(data.frame(), x_name = "df", sub = "times2/times3")
     list.files(sbf_get_main(), recursive = TRUE)
-    #> [1] "objects/times2/times3/df.rds" "objects/times2/times3/x3.rds" "objects/times2/x.rds"         "objects/x.rds"
+    #> [1] "objects/times2/times3/df.rds" "objects/times2/times3/x3.rds" "objects/times2/x.rds"        
+    #> [4] "objects/x.rds"
 
 ### Loading Multiple Objects
 
@@ -80,11 +81,11 @@ the objects as a list column in a data frame using
     #> [1] "df" "x"  "x3"
     sbf_load_objects_recursive(sub = "times2")
     #> # A tibble: 3 × 4
-    #>   objects      name  sub      file                                                                                           
-    #>   <list>       <chr> <chr>    <chr>                                                                                          
-    #> 1 <df [0 × 0]> df    "times3" /var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/RtmpLaJ9DX/output/objects/times2/times3/df.rds
-    #> 2 <dbl [1]>    x3    "times3" /var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/RtmpLaJ9DX/output/objects/times2/times3/x3.rds
-    #> 3 <dbl [1]>    x     ""       /var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/RtmpLaJ9DX/output/objects/times2/x.rds
+    #>   objects      name  sub      file                                                                                     
+    #>   <list>       <chr> <chr>    <chr>                                                                                    
+    #> 1 <df [0 × 0]> df    "times3" /var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/Rtmp6AVvJK/output/objects/times2/times3…
+    #> 2 <dbl [1]>    x3    "times3" /var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/Rtmp6AVvJK/output/objects/times2/times3…
+    #> 3 <dbl [1]>    x     ""       /var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/Rtmp6AVvJK/output/objects/times2/x.rds
 
 ### Deleting Subfolders
 
@@ -125,7 +126,7 @@ are family members for
 <!-- -->
 
     sbf_reset_sub(rm = TRUE, ask = FALSE)
-    #> ✔ Directory '/var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/RtmpLaJ9DX/output' deleted
+    #> ✔ Directory '/var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/Rtmp6AVvJK/output' deleted
     data2 <- data.frame(x = 5:6, y = 7:8)
     chr <- "some text"
     vec <- c(1, 3) # not saved as vector
@@ -133,8 +134,8 @@ are family members for
     sbf_save_strings()
     sbf_save_numbers()
     list.files(sbf_get_main(), recursive = TRUE)
-    #> [1] "data/data2.rds"  "data/df.rds"     "numbers/x.csv"   "numbers/x.rds"   "numbers/x3.csv"  "numbers/x3.rds"  "strings/chr.rda"
-    #> [8] "strings/chr.rds" "strings/chr.txt"
+    #> [1] "data/data2.rds"  "data/df.rds"     "numbers/x.csv"   "numbers/x.rds"   "numbers/x3.csv"  "numbers/x3.rds" 
+    #> [7] "strings/chr.rda" "strings/chr.rds" "strings/chr.txt"
 
 All types of object are saved as rds files. However to facilitate
 viewing, each number is also saved as a csv file and each string is also

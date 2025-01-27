@@ -68,6 +68,10 @@ default is the environment variable named \code{AWS_SECRET_ACCESS_KEY}.}
 variable named \code{AWS_REGION}.}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+\code{sbf_save_aws_files()} was moved to \code{subfoldr2ext::sbfx_save_aws_files()}.
+
 Download files from an AWS S3 bucket into the analysis.
 }
 \examples{

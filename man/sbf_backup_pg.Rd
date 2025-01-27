@@ -33,6 +33,10 @@ value is supplied.}
 TRUE (or errors)
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+\code{sbf_backup_pg()} was moved to \code{subfoldr2ext::sbfx_backup_pg()}.
+
 Save a copy of your database in a plain text format. This saves all the SQL
 code to recreate the structure and data.
 }

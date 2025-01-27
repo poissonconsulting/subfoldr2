@@ -1,5 +1,10 @@
 #' Open PostgreSQL Connection
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `sbf_open_pg()` was moved to `subfoldr2ext::sbfx_open_pg()`.
+#'
 #' Connect to a PostgreSQL database with a config.yml file.
 #'
 #' @inheritParams psql::psql_connect
@@ -21,14 +26,19 @@
 #' }
 sbf_open_pg <- function(config_path = getOption("psql.config_path", NULL),
                         config_value = getOption("psql.config_value", "default")) {
-  conn <- psql::psql_connect(
-    config_path = config_path,
-    config_value = config_value
+  lifecycle::deprecate_stop(
+    "0.2.0",
+    "sbf_open_pg()",
+    "subfoldr2ext::sbfx_open_pg()"
   )
-  conn
 }
 
 #' Close PostgreSQL Connection
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `sbf_close_pg()` was moved to `subfoldr2ext::sbfx_close_pg()`.
 #'
 #' Close the PostgreSQL connection when you are done using a database.
 #'
@@ -46,11 +56,19 @@ sbf_open_pg <- function(config_path = getOption("psql.config_path", NULL),
 #' sbf_close_pg(conn)
 #' }
 sbf_close_pg <- function(conn) {
-  DBI::dbDisconnect(conn = conn)
-  TRUE
+  lifecycle::deprecate_stop(
+    "0.2.0",
+    "sbf_close_pg()",
+    "subfoldr2ext::sbfx_close_pg()"
+  )
 }
 
 #' Save PostgreSQL backup
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `sbf_backup_pg()` was moved to `subfoldr2ext::sbfx_backup_pg()`.
 #'
 #' Save a copy of your database in a plain text format. This saves all the SQL
 #' code to recreate the structure and data.
@@ -75,15 +93,19 @@ sbf_backup_pg <- function(db_dump_name = sbf_get_db_name(),
                           main = sbf_get_main(),
                           config_path = getOption("psql.config_path", NULL),
                           config_value = getOption("psql.config_value", "default")) {
-  path <- file_name(main, "dbs", sub, db_dump_name, ext = "sql")
-  psql::psql_backup(
-    path = path,
-    config_path = config_path,
-    config_value = config_value
+  lifecycle::deprecate_stop(
+    "0.2.0",
+    "sbf_backup_pg()",
+    "subfoldr2ext::sbfx_backup_pg()"
   )
 }
 
 #' Create PostgreSQL database
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `sbf_create_pg()` was moved to `subfoldr2ext::sbfx_create_pg()`.
 #'
 #' Create a new PostgreSQL database.
 #'
@@ -102,14 +124,19 @@ sbf_backup_pg <- function(db_dump_name = sbf_get_db_name(),
 sbf_create_pg <- function(dbname,
                           config_path = getOption("psql.config_path", NULL),
                           config_value = getOption("psql.config_value", "default")) {
-  psql::psql_create_db(
-    dbname = dbname,
-    config_path = config_path,
-    config_value = config_value
+  lifecycle::deprecate_stop(
+    "0.2.0",
+    "sbf_create_pg()",
+    "subfoldr2ext::sbfx_create_pg()"
   )
 }
 
 #' Execute SQL statement for PostgreSQL database
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `sbf_execute_pg()` was moved to `subfoldr2ext::sbfx_execute_pg()`.
 #'
 #' Execute PostgreSQL statements.
 #'
@@ -134,14 +161,19 @@ sbf_create_pg <- function(dbname,
 sbf_execute_pg <- function(sql,
                            config_path = getOption("psql.config_path", NULL),
                            config_value = getOption("psql.config_value", "default")) {
-  psql::psql_execute_db(
-    sql = sql,
-    config_path = config_path,
-    config_value = config_value
+  lifecycle::deprecate_stop(
+    "0.2.0",
+    "sbf_execute_pg()",
+    "subfoldr2ext::sbfx_execute_pg()"
   )
 }
 
 #' List tables in a schema
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `sbf_list_tables_pg()` was moved to `subfoldr2ext::sbfx_list_tables_pg()`.
 #'
 #' This function lists all the tables in a schema.
 #'
@@ -162,14 +194,19 @@ sbf_execute_pg <- function(sql,
 sbf_list_tables_pg <- function(schema = getOption("psql.schema", "public"),
                                config_path = getOption("psql.config_path", NULL),
                                config_value = getOption("psql.config_value", "default")) {
-  psql::psql_list_tables(
-    schema = schema,
-    config_path = config_path,
-    config_value = config_value
+  lifecycle::deprecate_stop(
+    "0.2.0",
+    "sbf_list_tables_pg()",
+    "subfoldr2ext::sbfx_list_tables_pg()"
   )
 }
 
 #' Load a table from a PostgreSQL database
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `sbf_load_data_from_pg()` was moved to `subfoldr2ext::sbfx_load_data_from_pg()`.
 #'
 #' Read/load a table from a PostgreSQL database as a data frame into R.
 #'
@@ -191,15 +228,19 @@ sbf_load_data_from_pg <- function(x,
                                   schema = getOption("psql.schema", "public"),
                                   config_path = getOption("psql.config_path", NULL),
                                   config_value = getOption("psql.config_value", "default")) {
-  psql::psql_read_table(
-    tbl_name = x,
-    schema = schema,
-    config_path = config_path,
-    config_value = config_value
+  lifecycle::deprecate_stop(
+    "0.2.0",
+    "sbf_load_data_from_pg()",
+    "subfoldr2ext::sbfx_load_data_from_pg()"
   )
 }
 
 #' Load Data Frames from PostgreSQL Database
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `sbf_load_datas_from_pg()` was moved to `subfoldr2ext::sbfx_load_datas_from_pg()`.
 #'
 #' Load all the tables in a schema as data frames into your environment from a
 #' PostgreSQL database.
@@ -222,28 +263,19 @@ sbf_load_datas_from_pg <- function(schema = getOption("psql.schema", "public"),
                                    env = parent.frame(),
                                    config_path = getOption("psql.config_path", NULL),
                                    config_value = getOption("psql.config_value", "default")) {
-  chk_s3_class(env, "environment")
-  chk_function(rename)
-
-  tbl_names <- psql::psql_list_tables(
-    schema = schema,
-    config_path = config_path,
-    config_value = config_value
+  lifecycle::deprecate_stop(
+    "0.2.0",
+    "sbf_load_datas_from_pg()",
+    "subfoldr2ext::sbfx_load_datas_from_pg()"
   )
-  datas <- lapply(
-    tbl_names,
-    psql::psql_read_table,
-    schema = schema,
-    config_path = config_path,
-    config_value = config_value
-  )
-  names(datas) <- tbl_names
-  names(datas) <- rename(names(datas))
-  mapply(assign, names(datas), datas, MoreArgs = list(envir = env))
-  invisible(names(datas))
 }
 
 #' Add data frame to PostgreSQL database
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `sbf_save_data_to_pg()` was moved to `subfoldr2ext::sbfx_save_data_to_pg()`.
 #'
 #' Add data with a data frame to your PostgreSQL database. The data frame name
 #' must match the table name in your database, if not use the `tbl_name`
@@ -268,17 +300,19 @@ sbf_save_data_to_pg <- function(x,
                                 schema = getOption("psql.schema", "public"),
                                 config_path = getOption("psql.config_path", NULL),
                                 config_value = getOption("psql.config_value", "default")) {
-  if (is.null(x_name)) x_name <- deparse(substitute(x))
-  psql::psql_add_data(
-    tbl = x,
-    schema = schema,
-    tbl_name = x_name,
-    config_path = config_path,
-    config_value = config_value
+  lifecycle::deprecate_stop(
+    "0.2.0",
+    "sbf_save_data_to_pg()",
+    "subfoldr2ext::sbfx_save_data_to_pg()"
   )
 }
 
 #' Set Schema Name
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `sbf_set_schema()` was moved to `subfoldr2ext::sbfx_set_schema()`.
 #'
 #' @param schema A string of the schema name. Default value is `"public"`.
 #'
@@ -291,12 +325,19 @@ sbf_save_data_to_pg <- function(x,
 #' sbf_set_schema("capture")
 #' }
 sbf_set_schema <- function(schema = "public") {
-  chk::chk_string(schema)
-  options(psql.schema = schema)
-  invisible(schema)
+  lifecycle::deprecate_stop(
+    "0.2.0",
+    "sbf_set_schema()",
+    "subfoldr2ext::sbfx_set_schema()"
+  )
 }
 
 #' Get Schema Name
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `sbf_get_schema()` was moved to `subfoldr2ext::sbfx_get_schema()`.
 #'
 #' @return A string of the schema name.
 #' @export
@@ -307,10 +348,19 @@ sbf_set_schema <- function(schema = "public") {
 #' sbf_get_schema()
 #' }
 sbf_get_schema <- function() {
-  getOption("psql.schema", character(0))
+  lifecycle::deprecate_stop(
+    "0.2.0",
+    "sbf_get_schema()",
+    "subfoldr2ext::sbfx_get_schema()"
+  )
 }
 
 #' Reset Schema Name
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `sbf_reset_schema()` was moved to `subfoldr2ext::sbfx_reset_schema()`.
 #'
 #' Reset schema name back to public
 #'
@@ -323,10 +373,19 @@ sbf_get_schema <- function() {
 #' sbf_reset_schema()
 #' }
 sbf_reset_schema <- function() {
-  invisible(sbf_set_schema())
+  lifecycle::deprecate_stop(
+    "0.2.0",
+    "sbf_reset_schema()",
+    "subfoldr2ext::sbfx_reset_schema()"
+  )
 }
 
 #' Set the Config File path
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `sbf_set_config_file()` was moved to `subfoldr2ext::sbfx_set_config_file()`.
 #'
 #' A wrapper to quickly set the `psql.config_path` options parameter.
 #'
@@ -344,12 +403,19 @@ sbf_reset_schema <- function() {
 #' sbf_set_config_file("Keys/config-captures.yml")
 #' }
 sbf_set_config_file <- function(path = "config.yml") {
-  chk::chk_string(path)
-  options(psql.config_path = path)
-  invisible(path)
+  lifecycle::deprecate_stop(
+    "0.2.0",
+    "sbf_set_config_file()",
+    "subfoldr2ext::sbfx_set_config_file()"
+  )
 }
 
 #' Get the Config File Path
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `sbf_get_config_file()` was moved to `subfoldr2ext::sbfx_get_config_file()`.
 #'
 #' Get the option set for psql.config_path
 #'
@@ -362,10 +428,19 @@ sbf_set_config_file <- function(path = "config.yml") {
 #' sbf_get_config_file()
 #' }
 sbf_get_config_file <- function() {
-  getOption("psql.config_path", character(0))
+  lifecycle::deprecate_stop(
+    "0.2.0",
+    "sbf_get_config_file()",
+    "subfoldr2ext::sbfx_get_config_file()"
+  )
 }
 
 #' Reset the Config File Path
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `sbf_reset_config_file()` was moved to `subfoldr2ext::sbfx_reset_config_file()`.
 #'
 #' Reset the psql.config_path option to the default value.
 #'
@@ -378,10 +453,19 @@ sbf_get_config_file <- function() {
 #' sbf_reset_config_file()
 #' }
 sbf_reset_config_file <- function() {
-  invisible(sbf_set_config_file())
+  lifecycle::deprecate_stop(
+    "0.2.0",
+    "sbf_reset_config_file()",
+    "subfoldr2ext::sbfx_reset_config_file()"
+  )
 }
 
 #' Set the Config Value
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `sbf_set_config_value()` was moved to `subfoldr2ext::sbfx_set_config_value()`.
 #'
 #' Wrapper for setting the `psql.config_value` options parameter.
 #'
@@ -397,12 +481,19 @@ sbf_reset_config_file <- function() {
 #' sbf_set_config_value("shinyapp")
 #' }
 sbf_set_config_value <- function(value = NULL) {
-  chk::chk_null_or(value, vld = chk::vld_string)
-  options(psql.config_value = value)
-  invisible(value)
+  lifecycle::deprecate_stop(
+    "0.2.0",
+    "sbf_set_config_value()",
+    "subfoldr2ext::sbfx_set_config_value()"
+  )
 }
 
 #' Get the Config File Value
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `sbf_get_config_value()` was moved to `subfoldr2ext::sbfx_get_config_value()`.
 #'
 #' Get the value set for the `psql.config_value` options parameter.
 #'
@@ -415,10 +506,19 @@ sbf_set_config_value <- function(value = NULL) {
 #' sbf_get_config_value()
 #' }
 sbf_get_config_value <- function() {
-  getOption("psql.config_value", "default")
+  lifecycle::deprecate_stop(
+    "0.2.0",
+    "sbf_get_config_value()",
+    "subfoldr2ext::sbfx_get_config_value()"
+  )
 }
 
 #' Reset the Config File Value
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `sbf_reset_config_value()` was moved to `subfoldr2ext::sbfx_reset_config_value()`.
 #'
 #' Reset the value for `psql.config_value` to the default value.
 #'
@@ -431,5 +531,9 @@ sbf_get_config_value <- function() {
 #' sbf_reset_config_value()
 #' }
 sbf_reset_config_value <- function() {
-  invisible(sbf_set_config_value())
+  lifecycle::deprecate_stop(
+    "0.2.0",
+    "sbf_reset_config_value()",
+    "subfoldr2ext::sbfx_reset_config_value()"
+  )
 }

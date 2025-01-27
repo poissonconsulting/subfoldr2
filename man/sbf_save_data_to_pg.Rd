@@ -31,6 +31,10 @@ value is supplied.}
 A scalar numeric.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+\code{sbf_save_data_to_pg()} was moved to \code{subfoldr2ext::sbfx_save_data_to_pg()}.
+
 Add data with a data frame to your PostgreSQL database. The data frame name
 must match the table name in your database, if not use the \code{tbl_name}
 argument to pass the table name.

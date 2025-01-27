@@ -25,6 +25,10 @@ value is supplied.}
 A scalar numeric of the number of rows affected by the statement.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+\code{sbf_execute_pg()} was moved to \code{subfoldr2ext::sbfx_execute_pg()}.
+
 Execute PostgreSQL statements.
 }
 \details{

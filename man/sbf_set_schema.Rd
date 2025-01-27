@@ -13,7 +13,9 @@ sbf_set_schema(schema = "public")
 An invisible schema name
 }
 \description{
-Set Schema Name
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+\code{sbf_set_schema()} was moved to \code{subfoldr2ext::sbfx_set_schema()}.
 }
 \examples{
 \dontrun{

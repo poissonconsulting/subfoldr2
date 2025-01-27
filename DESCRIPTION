@@ -28,7 +28,6 @@ Imports:
     hms,
     lifecycle,
     png,
-    psql,
     readr,
     readwritesqlite,
     rlang,
@@ -50,7 +49,6 @@ Suggests:
     dbflobr,
     flobr,
     glue,
-    readwriteaws,
     readxl,
     RPostgres,
     sf,
@@ -62,11 +60,9 @@ RdMacros:
     lifecycle
 Remotes:
     edwindj/daff,
-    poissonconsulting/readwriteaws,
-    poissonconsulting/readwritesqlite,
-    poissonconsulting/psql
+    poissonconsulting/readwritesqlite
+Config/Needs/website: poissonconsulting/poissontemplate
 Config/testthat/edition: 3
 Encoding: UTF-8
-RoxygenNote: 7.3.2.9000
 Roxygen: list(markdown = TRUE)
-Config/Needs/website: poissonconsulting/poissontemplate
+RoxygenNote: 7.3.2.9000

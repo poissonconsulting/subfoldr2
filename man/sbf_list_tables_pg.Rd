@@ -25,6 +25,10 @@ value is supplied.}
 A vector of table names
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+\code{sbf_list_tables_pg()} was moved to \code{subfoldr2ext::sbfx_list_tables_pg()}.
+
 This function lists all the tables in a schema.
 }
 \details{

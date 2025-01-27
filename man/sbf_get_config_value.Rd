@@ -10,6 +10,10 @@ sbf_get_config_value()
 A string of the config file value
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+\code{sbf_get_config_value()} was moved to \code{subfoldr2ext::sbfx_get_config_value()}.
+
 Get the value set for the \code{psql.config_value} options parameter.
 }
 \examples{

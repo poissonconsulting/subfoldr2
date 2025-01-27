@@ -14,6 +14,10 @@ connection details.}
 An invisible string of the file path given
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+\code{sbf_set_config_file()} was moved to \code{subfoldr2ext::sbfx_set_config_file()}.
+
 A wrapper to quickly set the \code{psql.config_path} options parameter.
 }
 \details{
