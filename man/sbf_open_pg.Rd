@@ -22,6 +22,10 @@ value is supplied.}
 An S4 object that inherits from DBIConnection.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+
+\code{sbf_open_pg()} was moved to \code{subfoldr2ext::sbfx_open_pg()}.
+
 Connect to a PostgreSQL database with a config.yml file.
 }
 \details{

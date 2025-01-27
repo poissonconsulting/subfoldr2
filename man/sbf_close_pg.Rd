@@ -14,6 +14,10 @@ sbf_close_pg(conn)
 TRUE (or errors).
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+
+\code{sbf_close_pg()} was moved to \code{subfoldr2ext::sbfx_close_pg()}.
+
 Close the PostgreSQL connection when you are done using a database.
 }
 \details{

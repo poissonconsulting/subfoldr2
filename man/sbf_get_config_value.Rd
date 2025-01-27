@@ -10,6 +10,10 @@ sbf_get_config_value()
 A string of the config file value
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+
+\code{sbf_get_config_value()} was moved to \code{subfoldr2ext::sbfx_get_config_value()}.
+
 Get the value set for the \code{psql.config_value} options parameter.
 }
 \examples{

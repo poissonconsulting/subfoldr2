@@ -10,6 +10,10 @@ sbf_reset_config_value()
 An invisible string of the default file path
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+
+\code{sbf_reset_config_value()} was moved to \code{subfoldr2ext::sbfx_reset_config_value()}.
+
 Reset the value for \code{psql.config_value} to the default value.
 }
 \examples{

@@ -10,6 +10,10 @@ sbf_get_config_file()
 A string of the config file path.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+
+\code{sbf_get_config_file()} was moved to \code{subfoldr2ext::sbfx_get_config_file()}.
+
 Get the option set for psql.config_path
 }
 \examples{

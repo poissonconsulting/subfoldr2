@@ -14,6 +14,10 @@ connection details.}
 An invisible string of the file path given
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+
+\code{sbf_set_config_file()} was moved to \code{subfoldr2ext::sbfx_set_config_file()}.
+
 A wrapper to quickly set the \code{psql.config_path} options parameter.
 }
 \details{

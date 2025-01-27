@@ -10,6 +10,10 @@ sbf_reset_schema()
 An invisible string of the schema name the database is set to
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+
+\code{sbf_reset_schema()} was moved to \code{subfoldr2ext::sbfx_reset_schema()}.
+
 Reset schema name back to public
 }
 \examples{

@@ -25,6 +25,10 @@ value is supplied.}
 A scalar numeric of the number of rows affected by the statement.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+
+\code{sbf_execute_pg()} was moved to \code{subfoldr2ext::sbfx_execute_pg()}.
+
 Execute PostgreSQL statements.
 }
 \details{

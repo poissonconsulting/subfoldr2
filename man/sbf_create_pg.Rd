@@ -25,6 +25,10 @@ value is supplied.}
 TRUE (or errors).
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+
+\code{sbf_create_pg()} was moved to \code{subfoldr2ext::sbfx_create_pg()}.
+
 Create a new PostgreSQL database.
 }
 \details{

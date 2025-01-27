@@ -13,6 +13,10 @@ sbf_set_config_value(value = NULL)
 An invisible string of the value given
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+
+\code{sbf_set_config_value()} was moved to \code{subfoldr2ext::sbfx_set_config_value()}.
+
 Wrapper for setting the \code{psql.config_value} options parameter.
 }
 \details{
