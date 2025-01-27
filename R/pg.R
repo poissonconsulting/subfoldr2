@@ -1,7 +1,7 @@
 #' Open PostgreSQL Connection
 #'
 #' @description
-#' `r lifecycle::badge("superseded")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `sbf_open_pg()` was moved to `subfoldr2ext::sbfx_open_pg()`.
 #'
@@ -36,7 +36,7 @@ sbf_open_pg <- function(config_path = getOption("psql.config_path", NULL),
 #' Close PostgreSQL Connection
 #'
 #' @description
-#' `r lifecycle::badge("superseded")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `sbf_close_pg()` was moved to `subfoldr2ext::sbfx_close_pg()`.
 #'
@@ -66,7 +66,7 @@ sbf_close_pg <- function(conn) {
 #' Save PostgreSQL backup
 #'
 #' @description
-#' `r lifecycle::badge("superseded")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `sbf_backup_pg()` was moved to `subfoldr2ext::sbfx_backup_pg()`.
 #'
@@ -103,7 +103,7 @@ sbf_backup_pg <- function(db_dump_name = sbf_get_db_name(),
 #' Create PostgreSQL database
 #'
 #' @description
-#' `r lifecycle::badge("superseded")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `sbf_create_pg()` was moved to `subfoldr2ext::sbfx_create_pg()`.
 #'
@@ -134,7 +134,7 @@ sbf_create_pg <- function(dbname,
 #' Execute SQL statement for PostgreSQL database
 #'
 #' @description
-#' `r lifecycle::badge("superseded")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `sbf_execute_pg()` was moved to `subfoldr2ext::sbfx_execute_pg()`.
 #'
@@ -171,7 +171,7 @@ sbf_execute_pg <- function(sql,
 #' List tables in a schema
 #'
 #' @description
-#' `r lifecycle::badge("superseded")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `sbf_list_tables_pg()` was moved to `subfoldr2ext::sbfx_list_tables_pg()`.
 #'
@@ -204,7 +204,7 @@ sbf_list_tables_pg <- function(schema = getOption("psql.schema", "public"),
 #' Load a table from a PostgreSQL database
 #'
 #' @description
-#' `r lifecycle::badge("superseded")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `sbf_load_data_from_pg()` was moved to `subfoldr2ext::sbfx_load_data_from_pg()`.
 #'
@@ -238,7 +238,7 @@ sbf_load_data_from_pg <- function(x,
 #' Load Data Frames from PostgreSQL Database
 #'
 #' @description
-#' `r lifecycle::badge("superseded")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `sbf_load_datas_from_pg()` was moved to `subfoldr2ext::sbfx_load_datas_from_pg()`.
 #'
@@ -273,7 +273,7 @@ sbf_load_datas_from_pg <- function(schema = getOption("psql.schema", "public"),
 #' Add data frame to PostgreSQL database
 #'
 #' @description
-#' `r lifecycle::badge("superseded")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `sbf_save_data_to_pg()` was moved to `subfoldr2ext::sbfx_save_data_to_pg()`.
 #'
@@ -310,7 +310,7 @@ sbf_save_data_to_pg <- function(x,
 #' Set Schema Name
 #'
 #' @description
-#' `r lifecycle::badge("superseded")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `sbf_set_schema()` was moved to `subfoldr2ext::sbfx_set_schema()`.
 #'
@@ -335,7 +335,7 @@ sbf_set_schema <- function(schema = "public") {
 #' Get Schema Name
 #'
 #' @description
-#' `r lifecycle::badge("superseded")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `sbf_get_schema()` was moved to `subfoldr2ext::sbfx_get_schema()`.
 #'
@@ -358,7 +358,7 @@ sbf_get_schema <- function() {
 #' Reset Schema Name
 #'
 #' @description
-#' `r lifecycle::badge("superseded")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `sbf_reset_schema()` was moved to `subfoldr2ext::sbfx_reset_schema()`.
 #'
@@ -383,7 +383,7 @@ sbf_reset_schema <- function() {
 #' Set the Config File path
 #'
 #' @description
-#' `r lifecycle::badge("superseded")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `sbf_set_config_file()` was moved to `subfoldr2ext::sbfx_set_config_file()`.
 #'
@@ -413,7 +413,7 @@ sbf_set_config_file <- function(path = "config.yml") {
 #' Get the Config File Path
 #'
 #' @description
-#' `r lifecycle::badge("superseded")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `sbf_get_config_file()` was moved to `subfoldr2ext::sbfx_get_config_file()`.
 #'
@@ -438,7 +438,7 @@ sbf_get_config_file <- function() {
 #' Reset the Config File Path
 #'
 #' @description
-#' `r lifecycle::badge("superseded")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `sbf_reset_config_file()` was moved to `subfoldr2ext::sbfx_reset_config_file()`.
 #'
@@ -463,7 +463,7 @@ sbf_reset_config_file <- function() {
 #' Set the Config Value
 #'
 #' @description
-#' `r lifecycle::badge("superseded")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `sbf_set_config_value()` was moved to `subfoldr2ext::sbfx_set_config_value()`.
 #'
@@ -491,7 +491,7 @@ sbf_set_config_value <- function(value = NULL) {
 #' Get the Config File Value
 #'
 #' @description
-#' `r lifecycle::badge("superseded")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `sbf_get_config_value()` was moved to `subfoldr2ext::sbfx_get_config_value()`.
 #'
@@ -516,7 +516,7 @@ sbf_get_config_value <- function() {
 #' Reset the Config File Value
 #'
 #' @description
-#' `r lifecycle::badge("superseded")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `sbf_reset_config_value()` was moved to `subfoldr2ext::sbfx_reset_config_value()`.
 #'

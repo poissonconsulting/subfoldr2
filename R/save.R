@@ -1062,7 +1062,7 @@ sbf_save_db_to_workbook <- function(workbook_name = sbf_get_workbook_name(),
 #' Download files from AWS S3
 #'
 #' @description
-#' `r lifecycle::badge("superseded")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `sbf_save_aws_files()` was moved to `subfoldr2ext::sbfx_save_aws_files()`.
 #'
