@@ -61,6 +61,7 @@ Other save functions:
 \code{\link{sbf_save_object}()},
 \code{\link{sbf_save_objects}()},
 \code{\link{sbf_save_plot}()},
+\code{\link{sbf_save_spatial}()},
 \code{\link{sbf_save_string}()},
 \code{\link{sbf_save_strings}()},
 \code{\link{sbf_save_table}()},

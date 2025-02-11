@@ -19,6 +19,7 @@ License: MIT + file LICENSE
 Imports: 
     chk,
     data.table,
+    dplyr,
     DBI,
     dttr2,
     fs,
