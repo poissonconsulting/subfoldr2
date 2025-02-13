@@ -9,6 +9,9 @@ load_rds <- function(x_name, class, sub, main, fun = NULL, exists = TRUE) {
   if (!is.null(fun)) {
     object <- fun(object)
   }
+  
+  if(class == "spatial") check_valid_spatial(object, x_name = x_name)
+  
   object
 }
 
@@ -52,8 +55,7 @@ sbf_load_spatial <- function(x_name,
                           sub = sbf_get_sub(),
                           main = sbf_get_main(),
                           exists = TRUE) {
-  load_rds(x_name, class = "spatial", sub = sub, main = main, exists = exists) |>
-    check_valid_spatial()
+  load_rds(x_name, class = "spatial", sub = sub, main = main, exists = exists)
 }
 
 #' Load Number
