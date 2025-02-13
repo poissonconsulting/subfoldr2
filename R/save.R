@@ -267,11 +267,7 @@ check_valid_spatial <- function(x, x_name = substitute(x)) {
   }
   
   index_name <- colnames(x)[1]
-  
-  if(index_name == geom_name) {
-    err(x_name, " must not have a first (index) column that is also the geometry column")
-  }
-  
+
   if(!chk::vld_not_any_na(x[[index_name]])) {
     err(x_name, " must not have a first (index) column with missing values")
   }
