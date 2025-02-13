@@ -901,6 +901,38 @@ sbf_save_datas <- function(sub = sbf_get_sub(),
   invisible(names)
 }
 
+#' Save Spatial Data Frames
+#'
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_save_objects
+#' @return An invisible character vector of the paths to the saved objects.
+#' @family save functions
+#' @export
+sbf_save_spatials <- function(sub = sbf_get_sub(),
+                           main = sbf_get_main(), env = parent.frame()) {
+  chk_s3_class(env, "environment")
+  
+  names <- objects(envir = env)
+  is <- vector("logical", length(names))
+  for (i in seq_along(names)) {
+    x_name <- names[i]
+    x <- get(x = x_name, envir = env)
+    is[i] <- is.data.frame(x)
+    if (is[i]) {
+      check_valid_spatial(x)
+      sbf_save_spatial(x, x_name, sub, main)
+    }
+  }
+  names <- names[is]
+  if (!length(names)) {
+    warning("no spatial datas to save")
+    invisible(character(0))
+  }
+  names <- file_path(main, "spatial", sub, names)
+  names <- p0(names, ".rds")
+  invisible(names)
+}
+
 #' Save Numbers
 #'
 #' @inheritParams sbf_save_object
