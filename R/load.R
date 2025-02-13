@@ -246,6 +246,20 @@ sbf_load_datas <- function(sub = sbf_get_sub(),
   load_rdss("data", sub = sub, main = main, env = env, rename = rename)
 }
 
+#' Load Spatial Datas
+#'
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_load_objects
+#' @return A invisble character vector of the data frames' names.
+#' @family load functions
+#' @export
+sbf_load_spatials <- function(sub = sbf_get_sub(),
+                           main = sbf_get_main(),
+                           rename = identity,
+                           env = parent.frame()) {
+  load_rdss("spatial", sub = sub, main = main, env = env, rename = rename)
+}
+
 #' Load Tables
 #'
 #' @inheritParams sbf_save_object
