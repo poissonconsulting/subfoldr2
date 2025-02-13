@@ -2,7 +2,7 @@
 % Please edit documentation in R/save.R
 \name{sbf_save_spatial}
 \alias{sbf_save_spatial}
-\title{Save Spatial}
+\title{Save Spatial Data}
 \usage{
 sbf_save_spatial(
   x,
@@ -28,7 +28,7 @@ An invisible string of the path to the saved data.frame
 \description{
 Saves an sf tbl with at least one row
 for which the first column (not a geometry) is unique
-with no missing values and only one geometry which must have a defined projection.
+with no missing values and only one geometry column which must have a defined projection.
 }
 \seealso{
 Other save functions: 
@@ -52,6 +52,7 @@ Other save functions:
 \code{\link{sbf_save_objects}()},
 \code{\link{sbf_save_plot}()},
 \code{\link{sbf_save_png}()},
+\code{\link{sbf_save_spatials}()},
 \code{\link{sbf_save_string}()},
 \code{\link{sbf_save_strings}()},
 \code{\link{sbf_save_table}()},

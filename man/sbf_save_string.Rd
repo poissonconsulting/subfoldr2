@@ -57,6 +57,7 @@ Other save functions:
 \code{\link{sbf_save_plot}()},
 \code{\link{sbf_save_png}()},
 \code{\link{sbf_save_spatial}()},
+\code{\link{sbf_save_spatials}()},
 \code{\link{sbf_save_strings}()},
 \code{\link{sbf_save_table}()},
 \code{\link{sbf_save_window}()},
