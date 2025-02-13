@@ -217,7 +217,7 @@ sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   save_rds(x, "data", sub = sub, main = main, x_name = x_name)
 }
 
-#' Save Spatial
+#' Save Spatial Data
 #' 
 #' Saves an sf tbl with at least one row 
 #' for which the first column (not a geometry) is unique
