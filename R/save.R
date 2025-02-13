@@ -230,18 +230,12 @@ sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @export
 sbf_save_spatial <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                           main = sbf_get_main()) {
-
-  x_name <- chk_deparse(x_name)
-  chk_string(x_name)
-  chk_gt(nchar(x_name))
+  
   chk_character(sub)
   chk_range(length(sub))
   chk_string(main)
   
-  check_dim(x, nrow, values = c(1L, Inf))
-  check_dim(x, ncol, values = c(2L, Inf))
-  
-  check_valid_spatial(x)
+  check_valid_spatial(x, x_name = x_name)
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
@@ -249,35 +243,44 @@ sbf_save_spatial <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   save_rds(x, "spatial", sub = sub, main = main, x_name = x_name)
 }
 
-check_valid_spatial <- function(x) {
-  
+check_valid_spatial <- function(x, x_name = substitute(x)) {
+
   rlang::check_installed("sf")
-  chk_s3_class(x, "sf")
+  chk_s3_class(x, "sf", x_name = x_name)
+
+  x_name <- chk_deparse(x_name)
+  chk_string(x_name)
+  chk_gt(nchar(x_name))
+  
+  check_dim(x, nrow, values = c(1L, Inf), x_name = x_name)
+  check_dim(x, ncol, values = c(2L, Inf), x_name = x_name)
   
   if(is.na(sf::st_crs(x))) {
-    err(x, " must not have a missing projection")
+    err(x_name, " must not have a missing projection")
   }
   
   geom_name <- dplyr::select(x, dplyr::where(is.sfc)) |>
     colnames()
   
   if(length(geom_name) != 1L) {
-    err(x, " must have exactly one geometry column")
+    err(x_name, " must have exactly one geometry column")
   }
   
   index_name <- colnames(x)[1]
   
   if(index_name == geom_name) {
-    err(x, " must not have a first (index) column that is also the geometry column")
+    err(x_name, " must not have a first (index) column that is also the geometry column")
   }
   
   if(!chk::vld_not_any_na(x[[index_name]])) {
-    err(x, " must not have a first (index) column with missing values")
+    err(x_name, " must not have a first (index) column with missing values")
   }
   
-  if(!chk::chk_unique(x[[index_name]])) {
-    err(x, " must not have a first (index) column with duplicated values")
+  if(!chk::vld_unique(x[[index_name]])) {
+    err(x_name, " must not have a first (index) column with duplicated values")
   }
+  
+  invisible(x)
 }
 
 #' Save Number
