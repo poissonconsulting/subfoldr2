@@ -40,6 +40,22 @@ sbf_load_data <- function(x_name,
   load_rds(x_name, class = "data", sub = sub, main = main, exists = exists)
 }
 
+#' Load Spatial Data
+#' Loads an sf tbl that must meet the same requirements as `sbf_save_spatial`.
+#'
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_load_object
+#' @return An sf tbl or NULL if doesn't exist.
+#' @family load functions
+#' @export
+sbf_load_spatial <- function(x_name,
+                          sub = sbf_get_sub(),
+                          main = sbf_get_main(),
+                          exists = TRUE) {
+  load_rds(x_name, class = "spatial", sub = sub, main = main, exists = exists) |>
+    check_valid_spatial()
+}
+
 #' Load Number
 #'
 #' @inheritParams sbf_save_object
