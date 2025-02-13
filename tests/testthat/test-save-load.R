@@ -189,10 +189,13 @@ test_that("object", {
 })
 
 test_that("spatial", {
+
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
 
+  expect_warning(sbf_load_spatials(), "no spatial to load")
+  
   y <- 1
   expect_error(check_valid_spatial(), "argument \"x\" is missing, with no default")
   expect_error(check_valid_spatial(y), "^Y must inherit from S3 class 'sf'[.]$")
@@ -230,22 +233,55 @@ test_that("spatial", {
   y <- sf::st_as_sf(y, crs = 3264)
   expect_identical(check_valid_spatial(y), y)
   
-  
-  
   expect_error(sbf_save_spatial(), "argument \"x\" is missing, with no default")
 
   y <- data.frame(index = c(1, 2))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y, crs = 3264)
   sbf_save_spatial(y)
-  
   expect_identical(sbf_save_spatial(y), file.path(sbf_get_main(), "spatial/y.rds"))
   expect_identical(sbf_load_spatial("y"), y)
-  chk::expect_chk_error(sbf_load_data("y2"))
-
+  chk::expect_chk_error(sbf_load_spatial("y2"))
   expect_true(file.exists(file.path(sbf_get_main(), "spatial", "y.rds")))
-  expect_false(file.exists(file.path(sbf_get_main(), "spatial", "y2.rds")))
+  expect_false(file.exists(file.path(sbf_get_main(), "spatial", "y2.rds"))) 
   
+  # overwrite spatial data with invalid. easier this way bc of withr temp dir 
+  y <- data.frame(index = c(1, 2))
+  y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
+  y <- sf::st_as_sf(y, crs = 3264)
+  sbf_save_spatial(y)
+  y <- data.frame(index = c(1, 2))
+  saveRDS(y, file.path(sbf_get_main(), "spatial/y.rds"))
+  expect_error(sbf_load_spatial("y"), "^Y must inherit from S3 class 'sf'[.]$")
+
+  y <- data.frame(index = c(1, 2))
+  y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
+  y <- sf::st_as_sf(y, crs = 3264)
+  z <- y
+  
+  expect_identical(
+    sbf_save_spatials(env = as.environment(list(y = y, z = z))),
+    c(
+      file.path(sbf_get_main(), "spatial/y.rds"),
+      file.path(sbf_get_main(), "spatial/z.rds")
+    )
+  )
+  
+  expect_identical(
+    list.files(file.path(sbf_get_main(), "spatial")),
+    sort(c("y.rds", "z.rds"))
+  )
+  
+  y <- 0
+  z <- 0
+  expect_identical(sbf_load_spatials(), c("y", "z"))
+  y2 <- data.frame(index = c(1, 2))
+  y2$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
+  y2 <- sf::st_as_sf(y, crs = 3264)
+  z2 <- y2
+  expect_identical(y, y2)
+  expect_identical(z, z2)
+
 })
 
 test_that("data", {
