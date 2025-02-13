@@ -44,8 +44,8 @@ sbf_load_data <- function(x_name,
 }
 
 #' Load Spatial Data
+#' 
 #' Loads an sf tbl that must meet the same requirements as `sbf_save_spatial`.
-#'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_object
 #' @return An sf tbl or NULL if doesn't exist.
@@ -247,7 +247,8 @@ sbf_load_datas <- function(sub = sbf_get_sub(),
 }
 
 #' Load Spatial Datas
-#'
+#' 
+#' Loads sf tbls that must meet the same requirements as `sbf_save_spatials`.
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
 #' @return A invisble character vector of the data frames' names.

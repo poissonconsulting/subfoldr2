@@ -2,8 +2,7 @@
 % Please edit documentation in R/load.R
 \name{sbf_load_spatial}
 \alias{sbf_load_spatial}
-\title{Load Spatial Data
-Loads an sf tbl that must meet the same requirements as \code{sbf_save_spatial}.}
+\title{Load Spatial Data}
 \usage{
 sbf_load_spatial(
   x_name,
@@ -27,7 +26,6 @@ current main folder)}
 An sf tbl or NULL if doesn't exist.
 }
 \description{
-Load Spatial Data
 Loads an sf tbl that must meet the same requirements as \code{sbf_save_spatial}.
 }
 \seealso{

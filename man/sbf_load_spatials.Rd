@@ -28,7 +28,7 @@ Used to rename objects before they are loaded into the environment.}
 A invisble character vector of the data frames' names.
 }
 \description{
-Load Spatial Datas
+Loads sf tbls that must meet the same requirements as \code{sbf_save_spatials}.
 }
 \seealso{
 Other load functions: 

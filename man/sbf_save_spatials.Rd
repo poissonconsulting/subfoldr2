@@ -23,7 +23,10 @@ current main folder)}
 An invisible character vector of the paths to the saved objects.
 }
 \description{
-Save Spatial Data Frames
+Saves sf tbls each with at least one row
+for which the first column (not a geometry) is unique
+with no missing values and only one geometry column which must have a defined projection.
+The functions expects that all data frames in the environment meet these requirements.
 }
 \seealso{
 Other save functions: 
