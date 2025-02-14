@@ -231,9 +231,14 @@ sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 sbf_save_spatial <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                           main = sbf_get_main()) {
   
+  chk_data(x)
   chk_character(sub)
   chk_range(length(sub))
   chk_string(main)
+  
+  x_name <- chk_deparse(x_name)
+  chk_string(x_name)
+  chk_gt(nchar(x_name))
   
   check_valid_spatial(x, x_name = x_name)
   
@@ -920,7 +925,6 @@ sbf_save_spatials <- function(sub = sbf_get_sub(),
     x <- get(x = x_name, envir = env)
     is[i] <- is.data.frame(x)
     if (is[i]) {
-      check_valid_spatial(x)
       sbf_save_spatial(x, x_name, sub, main)
     }
   }
