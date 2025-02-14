@@ -267,7 +267,6 @@ test_that("spatial", {
   expect_false(file.exists(file.path(sbf_get_main(), "spatial", "y2.rds"))) 
   suppressMessages(sbf_rm_main(ask = FALSE))
   
-  
   # overwrite good obj with bad, then check load in warnings
   y <- data.frame(index = c(1, 2))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
