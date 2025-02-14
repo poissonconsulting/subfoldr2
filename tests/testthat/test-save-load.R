@@ -218,6 +218,12 @@ test_that("spatial", {
   y <- sf::st_as_sf(y, crs = 3264)
   expect_error(check_valid_spatial(y), "^`y` must have exactly one geometry column[.]$")
 
+  y <- data.frame(index = c(1, 2))
+  y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
+  y <- sf::st_as_sf(y, crs = 3264)
+  y <- y[, 2:1]
+  expect_error(check_valid_spatial(y), "^`y` must not have a first \\(index\\) column that is also the geometry column[.]$")
+  
   y <- data.frame(index = c(1, NA))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y, crs = 3264)
