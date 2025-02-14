@@ -9,6 +9,11 @@ load_rds <- function(x_name, class, sub, main, fun = NULL, exists = TRUE) {
   if (!is.null(fun)) {
     object <- fun(object)
   }
+  
+  if(class == "spatial"){
+    valid <- valid_spatial(object)
+    if(!valid) wrn(backtick_chk(x_name), "is not a valid spatial object.")
+  }
 
   object
 }
@@ -205,6 +210,12 @@ load_rdss <- function(class, sub, main, env, rename, fun = NULL) {
   names <- tools::file_path_sans_ext(basename(files))
   for (i in seq_along(files)) {
     object <- readRDS(files[i])
+    
+    if(class == "spatial"){
+      valid <- valid_spatial(object)
+      if(!valid) wrn(backtick_chk(names[i]), "is not a valid spatial object.")
+    }
+      
     if (!is.null(fun)) {
       object <- fun(object)
     }
