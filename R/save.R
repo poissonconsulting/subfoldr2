@@ -925,6 +925,7 @@ sbf_save_spatials <- function(sub = sbf_get_sub(),
     x <- get(x = x_name, envir = env)
     is[i] <- is.data.frame(x)
     if (is[i]) {
+      x_name <- chk::backtick_chk(x_name)
       sbf_save_spatial(x, x_name, sub, main)
     }
   }
