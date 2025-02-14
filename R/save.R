@@ -288,6 +288,46 @@ check_spatial <- function(x, x_name = NULL) {
   invisible(x)
 }
 
+valid_spatial <- function(x) {
+  rlang::check_installed("sf")
+  
+  if(!vld_s3_class(x, "sf")) return(FALSE)
+  
+  try <- try(check_dim(x, nrow, values = c(1L, Inf)), silent = TRUE)
+  if(inherits(try, "try-error")) return(FALSE)
+    
+  try <- try(check_dim(x, ncol, values = c(2L, Inf)), silent = TRUE)
+  if(inherits(try, "try-error")) return(FALSE)
+  
+  if(is.na(sf::st_crs(x))) {
+    return(FALSE)
+  }
+  
+  geom_name <- dplyr::select(x, dplyr::where(is.sfc)) |>
+    colnames()
+  
+  if(length(geom_name) != 1L) {
+    return(FALSE)
+  }
+  
+  index_name <- colnames(x)[1]
+  
+  if(index_name == geom_name) {
+    return(FALSE)
+  }
+  
+  if(!chk::vld_not_any_na(x[[index_name]])) {
+    return(FALSE)
+  }
+  
+  if(!chk::vld_unique(x[[index_name]])) {
+    return(FALSE)
+  }
+  
+  return(TRUE)
+}
+
+
 #' Save Number
 #'
 #' @param x The number to save.
