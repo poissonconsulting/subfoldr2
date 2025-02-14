@@ -241,7 +241,7 @@ sbf_save_spatial <- function(x, x_name = NULL, sub = sbf_get_sub(),
   chk_range(length(sub))
   chk_string(main)
   
-  check_valid_spatial(x, x_name = x_name)
+  check_spatial(x, x_name = x_name)
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
@@ -249,7 +249,7 @@ sbf_save_spatial <- function(x, x_name = NULL, sub = sbf_get_sub(),
   save_rds(x, "spatial", sub = sub, main = main, x_name = x_name)
 }
 
-check_valid_spatial <- function(x, x_name = NULL) {
+check_spatial <- function(x, x_name = NULL) {
   rlang::check_installed("sf")
   
   if(is.null(x_name)) {

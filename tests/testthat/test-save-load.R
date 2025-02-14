@@ -197,47 +197,47 @@ test_that("spatial", {
   expect_warning(sbf_load_spatials(), "no spatial to load")
   
   y <- 1
-  expect_error(check_valid_spatial(), "argument \"x\" is missing, with no default")
-  expect_error(check_valid_spatial(y), "^`y` must inherit from S3 class 'sf'[.]$")
+  expect_error(check_spatial(), "argument \"x\" is missing, with no default")
+  expect_error(check_spatial(y), "^`y` must inherit from S3 class 'sf'[.]$")
 
   y <- sf::st_point(c(0, 1)) |> sf::st_sfc() %>% sf::st_as_sf()
   y <- y[0, ]
-  expect_error(check_valid_spatial(y), "^`nrow\\(`y`\\)` must be between 1 and Inf, not 0[.]$")
+  expect_error(check_spatial(y), "^`nrow\\(`y`\\)` must be between 1 and Inf, not 0[.]$")
 
   y <- sf::st_point(c(0, 1)) |> sf::st_sfc() %>% sf::st_as_sf()
-  expect_error(check_valid_spatial(y), "^`ncol\\(`y`\\)` must be between 2 and Inf, not 1[.]$")
+  expect_error(check_spatial(y), "^`ncol\\(`y`\\)` must be between 2 and Inf, not 1[.]$")
 
   y <- data.frame(index = c(1, 2))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y)
-  expect_error(check_valid_spatial(y), "^`y` must not have a missing projection[.]$")
+  expect_error(check_spatial(y), "^`y` must not have a missing projection[.]$")
 
   y <- data.frame(index = c(1, 2))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y$geometry2 <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y, crs = 3264)
-  expect_error(check_valid_spatial(y), "^`y` must have exactly one geometry column[.]$")
+  expect_error(check_spatial(y), "^`y` must have exactly one geometry column[.]$")
 
   y <- data.frame(index = c(1, 2))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y, crs = 3264)
   y <- y[, 2:1]
-  expect_error(check_valid_spatial(y), "^`y` must not have a first \\(index\\) column that is also the geometry column[.]$")
+  expect_error(check_spatial(y), "^`y` must not have a first \\(index\\) column that is also the geometry column[.]$")
   
   y <- data.frame(index = c(1, NA))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y, crs = 3264)
-  expect_error(check_valid_spatial(y), "^`y` must not have a first \\(index\\) column with missing values[.]$")
+  expect_error(check_spatial(y), "^`y` must not have a first \\(index\\) column with missing values[.]$")
 
   y <- data.frame(index = c(1, 1))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y, crs = 3264)
-  expect_error(check_valid_spatial(y), "^`y` must not have a first \\(index\\) column with duplicated values[.]$")
+  expect_error(check_spatial(y), "^`y` must not have a first \\(index\\) column with duplicated values[.]$")
 
   y <- data.frame(index = c(1, 2))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y, crs = 3264)
-  expect_identical(check_valid_spatial(y), y)
+  expect_identical(check_spatial(y), y)
   
   expect_error(sbf_save_spatial(), "argument \"x\" is missing, with no default")
 
