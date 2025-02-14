@@ -4,12 +4,7 @@
 \alias{sbf_save_spatial}
 \title{Save Spatial Data}
 \usage{
-sbf_save_spatial(
-  x,
-  x_name = substitute(x),
-  sub = sbf_get_sub(),
-  main = sbf_get_main()
-)
+sbf_save_spatial(x, x_name = NULL, sub = sbf_get_sub(), main = sbf_get_main())
 }
 \arguments{
 \item{x}{The sf tbl to save.}

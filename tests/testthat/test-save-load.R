@@ -198,7 +198,7 @@ test_that("spatial", {
   
   y <- 1
   expect_error(check_valid_spatial(), "argument \"x\" is missing, with no default")
-  expect_error(check_valid_spatial(y), "^Y must inherit from S3 class 'sf'[.]$")
+  expect_error(check_valid_spatial(y), "^`y` must inherit from S3 class 'sf'[.]$")
 
   y <- sf::st_point(c(0, 1)) |> sf::st_sfc() %>% sf::st_as_sf()
   y <- y[0, ]
@@ -210,23 +210,23 @@ test_that("spatial", {
   y <- data.frame(index = c(1, 2))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y)
-  expect_error(check_valid_spatial(y), "^Y must not have a missing projection[.]$")
+  expect_error(check_valid_spatial(y), "^`y` must not have a missing projection[.]$")
 
   y <- data.frame(index = c(1, 2))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y$geometry2 <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y, crs = 3264)
-  expect_error(check_valid_spatial(y), "^Y must have exactly one geometry column[.]$")
+  expect_error(check_valid_spatial(y), "^`y` must have exactly one geometry column[.]$")
 
   y <- data.frame(index = c(1, NA))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y, crs = 3264)
-  expect_error(check_valid_spatial(y), "^Y must not have a first \\(index\\) column with missing values[.]$")
+  expect_error(check_valid_spatial(y), "^`y` must not have a first \\(index\\) column with missing values[.]$")
 
   y <- data.frame(index = c(1, 1))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y, crs = 3264)
-  expect_error(check_valid_spatial(y), "^Y must not have a first \\(index\\) column with duplicated values[.]$")
+  expect_error(check_valid_spatial(y), "^`y` must not have a first \\(index\\) column with duplicated values[.]$")
 
   y <- data.frame(index = c(1, 2))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
@@ -244,15 +244,6 @@ test_that("spatial", {
   chk::expect_chk_error(sbf_load_spatial("y2"))
   expect_true(file.exists(file.path(sbf_get_main(), "spatial", "y.rds")))
   expect_false(file.exists(file.path(sbf_get_main(), "spatial", "y2.rds"))) 
-  
-  # overwrite spatial data with invalid. easier this way bc of withr temp dir 
-  y <- data.frame(index = c(1, 2))
-  y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
-  y <- sf::st_as_sf(y, crs = 3264)
-  sbf_save_spatial(y)
-  y <- data.frame(index = c(1, 2))
-  saveRDS(y, file.path(sbf_get_main(), "spatial/y.rds"))
-  expect_error(sbf_load_spatial("y"), "^Y must inherit from S3 class 'sf'[.]$")
 
   y <- data.frame(index = c(1, 2))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()

@@ -9,9 +9,7 @@ load_rds <- function(x_name, class, sub, main, fun = NULL, exists = TRUE) {
   if (!is.null(fun)) {
     object <- fun(object)
   }
-  
-  if(class == "spatial") check_valid_spatial(object, x_name = x_name)
-  
+
   object
 }
 

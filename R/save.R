@@ -1,6 +1,7 @@
 file_name <- function(main, class, sub, x_name, ext) {
   dir <- file_path(main, class, sub)
   dir_create(dir)
+  x_name <- chk::unbacktick_chk(x_name)
   file <- file_path(dir, x_name)
   ext <- sub("[.]$", "", ext)
   if (!identical(ext, file_ext(x_name))) {
@@ -228,17 +229,17 @@ sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @return An invisible string of the path to the saved data.frame
 #' @family save functions
 #' @export
-sbf_save_spatial <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
+sbf_save_spatial <- function(x, x_name = NULL, sub = sbf_get_sub(),
                           main = sbf_get_main()) {
   
-  chk_data(x)
+  if(is.null(x_name)) {
+    x_name <- chk::deparse_backtick_chk(substitute(x))
+  }
+
+  chk_data(x, x_name = x_name)
   chk_character(sub)
   chk_range(length(sub))
   chk_string(main)
-  
-  x_name <- chk_deparse(x_name)
-  chk_string(x_name)
-  chk_gt(nchar(x_name))
   
   check_valid_spatial(x, x_name = x_name)
   
@@ -248,14 +249,13 @@ sbf_save_spatial <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   save_rds(x, "spatial", sub = sub, main = main, x_name = x_name)
 }
 
-check_valid_spatial <- function(x, x_name = substitute(x)) {
-
+check_valid_spatial <- function(x, x_name = NULL) {
   rlang::check_installed("sf")
+  
+  if(is.null(x_name)) {
+    x_name <- chk::deparse_backtick_chk(substitute(x))
+  }
   chk_s3_class(x, "sf", x_name = x_name)
-
-  x_name <- chk_deparse(x_name)
-  chk_string(x_name)
-  chk_gt(nchar(x_name))
   
   check_dim(x, nrow, values = c(1L, Inf), x_name = x_name)
   check_dim(x, ncol, values = c(2L, Inf), x_name = x_name)
