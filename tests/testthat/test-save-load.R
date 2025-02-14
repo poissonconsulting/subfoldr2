@@ -193,9 +193,11 @@ test_that("spatial", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
-
+  
+  # test empty batch load while folder empty
   expect_warning(sbf_load_spatials(), "no spatial to load")
   
+  # test spatial checks
   y <- 1
   expect_error(check_spatial(), "argument \"x\" is missing, with no default")
   expect_error(check_spatial(y), "^`y` must inherit from S3 class 'sf'[.]$")
@@ -241,13 +243,17 @@ test_that("spatial", {
   y <- sf::st_as_sf(y, crs = 3264)
   expect_error(check_spatial(y), "^`y` must not have a first \\(index\\) column with duplicated values[.]$")
   expect_false(valid_spatial(y))
+  # test that spatial check remains within context of higher function
+  expect_error(sbf_save_spatial(y), "^`y` must not have a first \\(index\\) column with duplicated values[.]$")
   
+  # test case where checks pass
   y <- data.frame(index = c(1, 2))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y, crs = 3264)
   expect_identical(check_spatial(y), y)
   expect_true(valid_spatial(y))
   
+  # test save/load spatial
   expect_error(sbf_save_spatial(), "argument \"x\" is missing, with no default")
 
   y <- data.frame(index = c(1, 2))
@@ -259,7 +265,26 @@ test_that("spatial", {
   chk::expect_chk_error(sbf_load_spatial("y2"))
   expect_true(file.exists(file.path(sbf_get_main(), "spatial", "y.rds")))
   expect_false(file.exists(file.path(sbf_get_main(), "spatial", "y2.rds"))) 
+  suppressMessages(sbf_rm_main(ask = FALSE))
+  
+  
+  # overwrite good obj with bad, then check load in warnings
+  y <- data.frame(index = c(1, 2))
+  y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
+  y <- sf::st_as_sf(y, crs = 3264)
+  sbf_save_spatial(y)
 
+  y <- data.frame(x = 1)
+  saveRDS(y, file = file.path(sbf_get_main(), "spatial", "y.rds"))
+  saveRDS(y, file = file.path(sbf_get_main(), "spatial", "x.rds"))
+  expect_warning(sbf_load_spatial("y"), "^`y`is not a valid spatial object[.]$")
+
+  warnings <- capture_warnings(sbf_load_spatials())
+  expect_identical(warnings[1], "`x`is not a valid spatial object.")
+  expect_identical(warnings[2], "`y`is not a valid spatial object.")
+  suppressMessages(sbf_rm_main(ask = FALSE))
+  
+  # test pluralised spatial funs
   y <- data.frame(index = c(1, 2))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y, crs = 3264)
@@ -287,6 +312,7 @@ test_that("spatial", {
   z2 <- y2
   expect_identical(y, y2)
   expect_identical(z, z2)
+  suppressMessages(sbf_rm_main(ask = FALSE))
 
 })
 
