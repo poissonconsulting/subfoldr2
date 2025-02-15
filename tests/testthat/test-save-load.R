@@ -205,11 +205,11 @@ test_that("spatial", {
 
   y <- sf::st_point(c(0, 1)) |> sf::st_sfc() %>% sf::st_as_sf()
   y <- y[0, ]
-  expect_error(check_spatial(y), "^`nrow\\(`y`\\)` must be between 1 and Inf, not 0[.]$")
+  expect_error(check_spatial(y), "^`nrow\\(y\\)` must be between 1 and Inf, not 0[.]$")
   expect_false(valid_spatial(y))
   
   y <- sf::st_point(c(0, 1)) |> sf::st_sfc() %>% sf::st_as_sf()
-  expect_error(check_spatial(y), "^`ncol\\(`y`\\)` must be between 2 and Inf, not 1[.]$")
+  expect_error(check_spatial(y), "^`ncol\\(y\\)` must be between 2 and Inf, not 1[.]$")
   expect_false(valid_spatial(y))
   
   y <- data.frame(index = c(1, 2))
