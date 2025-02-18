@@ -74,6 +74,8 @@
 <url><loc>https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_plots_data.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_plots_data_recursive.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_plots_recursive.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_spatial.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_spatials.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_string.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_strings.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_strings_recursive.html</loc></url>
@@ -128,6 +130,8 @@
 <url><loc>https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_objects.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_plot.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_png.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_spatial.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_spatials.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_string.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_strings.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_table.html</loc></url>
