@@ -1,6 +1,7 @@
 file_name <- function(main, class, sub, x_name, ext) {
   dir <- file_path(main, class, sub)
   dir_create(dir)
+  x_name <- chk::unbacktick_chk(x_name)
   file <- file_path(dir, x_name)
   ext <- sub("[.]$", "", ext)
   if (!identical(ext, file_ext(x_name))) {
@@ -216,6 +217,116 @@ sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 
   save_rds(x, "data", sub = sub, main = main, x_name = x_name)
 }
+
+#' Save Spatial Data
+#' 
+#' Saves an sf tbl with at least one row 
+#' for which the first column (not a geometry) is unique
+#' with no missing values and only one geometry column which must have a defined projection.
+#'
+#' @param x The sf tbl to save.
+#' @inheritParams sbf_save_object
+#' @return An invisible string of the path to the saved data.frame
+#' @family save functions
+#' @export
+sbf_save_spatial <- function(x, x_name = NULL, sub = sbf_get_sub(),
+                          main = sbf_get_main()) {
+  
+  if(is.null(x_name)) {
+    x_name <- chk::deparse_backtick_chk(substitute(x))
+  }
+
+  chk_data(x, x_name = x_name)
+  chk_character(sub)
+  chk_range(length(sub))
+  chk_string(main)
+  
+  check_spatial(x, x_name = x_name)
+  
+  sub <- sanitize_path(sub)
+  main <- sanitize_path(main, rm_leading = FALSE)
+  
+  save_rds(x, "spatial", sub = sub, main = main, x_name = x_name)
+}
+
+check_spatial <- function(x, x_name = NULL) {
+  rlang::check_installed("sf")
+  
+  if(is.null(x_name)) {
+    x_name <- chk::deparse_backtick_chk(substitute(x))
+  }
+  chk_s3_class(x, "sf", x_name = x_name)
+  
+  check_dim(x, nrow, values = c(1L, Inf), x_name = x_name)
+  check_dim(x, ncol, values = c(2L, Inf), x_name = x_name)
+  
+  if(is.na(sf::st_crs(x))) {
+    err(x_name, " must not have a missing projection")
+  }
+  
+  geom_name <- dplyr::select(x, dplyr::where(is.sfc)) |>
+    colnames()
+  
+  if(length(geom_name) != 1L) {
+    err(x_name, " must have exactly one geometry column")
+  }
+  
+  index_name <- colnames(x)[1]
+  
+  if(index_name == geom_name) {
+    err(x_name, " must not have a first (index) column that is also the geometry column")
+  }
+
+  if(!chk::vld_not_any_na(x[[index_name]])) {
+    err(x_name, " must not have a first (index) column with missing values")
+  }
+  
+  if(!chk::vld_unique(x[[index_name]])) {
+    err(x_name, " must not have a first (index) column with duplicated values")
+  }
+  
+  invisible(x)
+}
+
+valid_spatial <- function(x) {
+  rlang::check_installed("sf")
+  
+  if(!vld_s3_class(x, "sf")) return(FALSE)
+  
+  try <- try(check_dim(x, nrow, values = c(1L, Inf)), silent = TRUE)
+  if(inherits(try, "try-error")) return(FALSE)
+    
+  try <- try(check_dim(x, ncol, values = c(2L, Inf)), silent = TRUE)
+  if(inherits(try, "try-error")) return(FALSE)
+  
+  if(is.na(sf::st_crs(x))) {
+    return(FALSE)
+  }
+  
+  geom_name <- dplyr::select(x, dplyr::where(is.sfc)) |>
+    colnames()
+  
+  if(length(geom_name) != 1L) {
+    return(FALSE)
+  }
+  
+  index_name <- colnames(x)[1]
+  
+  if(index_name == geom_name) {
+    return(FALSE)
+  }
+  
+  if(!chk::vld_not_any_na(x[[index_name]])) {
+    return(FALSE)
+  }
+  
+  if(!chk::vld_unique(x[[index_name]])) {
+    return(FALSE)
+  }
+  
+  return(TRUE)
+}
+
 
 #' Save Number
 #'
@@ -831,6 +942,43 @@ sbf_save_datas <- function(sub = sbf_get_sub(),
     invisible(character(0))
   }
   names <- file_path(main, "data", sub, names)
+  names <- p0(names, ".rds")
+  invisible(names)
+}
+
+#' Save Spatial Data Frames
+#'
+#' Saves sf tbls each with at least one row 
+#' for which the first column (not a geometry) is unique
+#' with no missing values and only one geometry column which must have a defined projection.
+#' The functions expects that all data frames in the environment meet these requirements.
+#'
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_save_objects
+#' @return An invisible character vector of the paths to the saved objects.
+#' @family save functions
+#' @export
+sbf_save_spatials <- function(sub = sbf_get_sub(),
+                           main = sbf_get_main(), env = parent.frame()) {
+  chk_s3_class(env, "environment")
+  
+  names <- objects(envir = env)
+  is <- vector("logical", length(names))
+  for (i in seq_along(names)) {
+    x_name <- names[i]
+    x <- get(x = x_name, envir = env)
+    is[i] <- is.data.frame(x)
+    if (is[i]) {
+      x_name <- chk::backtick_chk(x_name)
+      sbf_save_spatial(x, x_name, sub, main)
+    }
+  }
+  names <- names[is]
+  if (!length(names)) {
+    warning("no spatial datas to save")
+    invisible(character(0))
+  }
+  names <- file_path(main, "spatial", sub, names)
   names <- p0(names, ".rds")
   invisible(names)
 }

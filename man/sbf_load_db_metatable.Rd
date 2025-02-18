@@ -48,6 +48,8 @@ Other load functions:
 \code{\link{sbf_load_plots_data}()},
 \code{\link{sbf_load_plots_data_recursive}()},
 \code{\link{sbf_load_plots_recursive}()},
+\code{\link{sbf_load_spatial}()},
+\code{\link{sbf_load_spatials}()},
 \code{\link{sbf_load_string}()},
 \code{\link{sbf_load_strings}()},
 \code{\link{sbf_load_strings_recursive}()},
