@@ -10,7 +10,7 @@ sbf_compare_data(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   tolerance = sqrt(.Machine$double.eps),
-  ignore_attr = TRUE
+  ignore_attr = FALSE
 )
 }
 \arguments{

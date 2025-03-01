@@ -12,7 +12,7 @@
 sbf_compare_data <- function(x, x_name = substitute(x),
                              sub = sbf_get_sub(), main = sbf_get_main(),
                              tolerance = sqrt(.Machine$double.eps),
-                             ignore_attr = TRUE) {
+                             ignore_attr = FALSE) {
   rlang::check_installed("waldo")
 
   chk_s3_class(x, "data.frame")
@@ -48,7 +48,7 @@ sbf_compare_data_archive <- function(x_name = ".*", sub = sbf_get_sub(),
                                      recursive = FALSE,
                                      include_root = TRUE,
                                      tolerance = sqrt(.Machine$double.eps),
-                                     ignore_attr = TRUE) {
+                                     ignore_attr = FALSE) {
   rlang::check_installed("waldo")
 
   if (!vld_whole_number(archive) && !vld_dir(archive)) {
