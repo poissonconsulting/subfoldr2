@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# subfoldr2 1.0.1
+
+- Changing `sbf_compare_data()` default argument `ignore_attr` from `FALSE` to `TRUE` (#114).
+- Added `sbf_save_spatial()` (#111).
+
 # subfoldr2 1.0.0
 
 - Moved functions requiring `psql` and `readwriteaws` (and associated tests) to `subfoldr2ext` and removed these dependencies.
