@@ -12,7 +12,7 @@ sbf_compare_data_archive(
   recursive = FALSE,
   include_root = TRUE,
   tolerance = sqrt(.Machine$double.eps),
-  ignore_attr = TRUE
+  ignore_attr = FALSE
 )
 }
 \arguments{
