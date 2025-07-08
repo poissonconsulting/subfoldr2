@@ -9,10 +9,10 @@ load_rds <- function(x_name, class, sub, main, fun = NULL, exists = TRUE) {
   if (!is.null(fun)) {
     object <- fun(object)
   }
-  
-  if(class == "spatial"){
+
+  if (class == "spatial") {
     valid <- valid_spatial(object)
-    if(!valid) wrn(backtick_chk(x_name), "is not a valid spatial object.")
+    if (!valid) wrn(backtick_chk(x_name), "is not a valid spatial object.")
   }
 
   object
@@ -47,7 +47,7 @@ sbf_load_data <- function(x_name,
 }
 
 #' Load Spatial Data
-#' 
+#'
 #' Loads an sf tbl that must meet the same requirements as `sbf_save_spatial`.
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_object
@@ -55,9 +55,9 @@ sbf_load_data <- function(x_name,
 #' @family load functions
 #' @export
 sbf_load_spatial <- function(x_name,
-                          sub = sbf_get_sub(),
-                          main = sbf_get_main(),
-                          exists = TRUE) {
+                             sub = sbf_get_sub(),
+                             main = sbf_get_main(),
+                             exists = TRUE) {
   load_rds(x_name, class = "spatial", sub = sub, main = main, exists = exists)
 }
 
@@ -210,12 +210,12 @@ load_rdss <- function(class, sub, main, env, rename, fun = NULL) {
   names <- tools::file_path_sans_ext(basename(files))
   for (i in seq_along(files)) {
     object <- readRDS(files[i])
-    
-    if(class == "spatial"){
+
+    if (class == "spatial") {
       valid <- valid_spatial(object)
-      if(!valid) wrn(backtick_chk(names[i]), "is not a valid spatial object.")
+      if (!valid) wrn(backtick_chk(names[i]), "is not a valid spatial object.")
     }
-      
+
     if (!is.null(fun)) {
       object <- fun(object)
     }
@@ -256,7 +256,7 @@ sbf_load_datas <- function(sub = sbf_get_sub(),
 }
 
 #' Load Spatial Datas
-#' 
+#'
 #' Loads sf tbls that must meet the same requirements as `sbf_save_spatials`.
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
@@ -264,9 +264,9 @@ sbf_load_datas <- function(sub = sbf_get_sub(),
 #' @family load functions
 #' @export
 sbf_load_spatials <- function(sub = sbf_get_sub(),
-                           main = sbf_get_main(),
-                           rename = identity,
-                           env = parent.frame()) {
+                              main = sbf_get_main(),
+                              rename = identity,
+                              env = parent.frame()) {
   load_rdss("spatial", sub = sub, main = main, env = env, rename = rename)
 }
 
