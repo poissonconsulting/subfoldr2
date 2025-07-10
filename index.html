@@ -6,15 +6,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Save and Load R Objects • subfoldr2</title>
-<script src="katex-auto.js"></script><script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- katex math --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script><script src="katex-auto.js"></script><script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/Roboto_Condensed-0.4.10/font.css" rel="stylesheet">
 <link href="deps/Roboto_Mono-0.4.10/font.css" rel="stylesheet">
 <link href="deps/Playfair_Display-0.4.10/font.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><link href="deps/KaTex-0.16.10/katex.min.css" rel="stylesheet">
-<script src="deps/KaTex-0.16.10/katex.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Save and Load R Objects">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Save and Load R Objects">
 <meta name="description" content="Facilitates saving and loading R objects, data frames, tables, plots, text blocks and numbers to subfolders.">
 <meta property="og:description" content="Facilitates saving and loading R objects, data frames, tables, plots, text blocks and numbers to subfolders.">
 </head>
@@ -87,7 +87,8 @@
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span></code></pre></div>
 <p>All R objects are saved as <code>.rds</code> files in folder <code>objects</code> (in the main folder).</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">list.files</span>(<span class="fu">sbf_get_main</span>(), <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; [1] "objects/x.rds"</span></span></code></pre></div>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt;  [1] "data/data2.rds"  "data/df.rds"     "numbers/x.csv"   "numbers/x.rds"   "numbers/x3.csv"  "numbers/x3.rds"  "objects/x.rds"  </span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt;  [8] "strings/chr.rda" "strings/chr.rds" "strings/chr.txt"</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="subfolders">Subfolders<a class="anchor" aria-label="anchor" href="#subfolders"></a>
@@ -99,8 +100,10 @@
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">sbf_save_object</span>(x <span class="sc">*</span> <span class="dv">3</span>, <span class="at">x_name =</span> <span class="st">"x3"</span>, <span class="at">sub =</span> <span class="st">"times2/times3"</span>)</span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">sbf_save_object</span>(<span class="fu">data.frame</span>(), <span class="at">x_name =</span> <span class="st">"df"</span>, <span class="at">sub =</span> <span class="st">"times2/times3"</span>)</span>
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="fu">list.files</span>(<span class="fu">sbf_get_main</span>(), <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; [1] "objects/times2/times3/df.rds" "objects/times2/times3/x3.rds" "objects/times2/x.rds"        </span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; [4] "objects/x.rds"</span></span></code></pre></div>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt;  [1] "data/data2.rds"               "data/df.rds"                  "numbers/x.csv"                "numbers/x.rds"               </span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt;  [5] "numbers/x3.csv"               "numbers/x3.rds"               "objects/times2/times3/df.rds" "objects/times2/times3/x3.rds"</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt;  [9] "objects/times2/x.rds"         "objects/x.rds"                "strings/chr.rda"              "strings/chr.rds"             </span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; [13] "strings/chr.txt"</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="loading-multiple-objects">Loading Multiple Objects<a class="anchor" aria-label="anchor" href="#loading-multiple-objects"></a>
@@ -110,14 +113,14 @@
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; [1] "times2/times3"</span></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">sbf_load_objects</span>()</span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">ls</span>()</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; [1] "df" "x"  "x3"</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; [1] "chr"   "data2" "df"    "vec"   "x"     "x3"</span></span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="fu">sbf_load_objects_recursive</span>(<span class="at">sub =</span> <span class="st">"times2"</span>)</span>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 4</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt;   objects      name  sub      file                                                                                     </span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt;   &lt;list&gt;       &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;                                                                                    </span></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; 1 &lt;df [0 × 0]&gt; df    "times3" /var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/Rtmp6AVvJK/output/objects/times2/times3…</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; 2 &lt;dbl [1]&gt;    x3    "times3" /var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/Rtmp6AVvJK/output/objects/times2/times3…</span></span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; 3 &lt;dbl [1]&gt;    x     ""       /var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/Rtmp6AVvJK/output/objects/times2/x.rds</span></span></code></pre></div>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt;   objects      name  sub      file                                                                                           </span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt;   &lt;list&gt;       &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;                                                                                          </span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; 1 &lt;df [0 × 0]&gt; df    "times3" /var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/RtmpwTf1sn/output/objects/times2/times3/df.rds</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; 2 &lt;dbl [1]&gt;    x3    "times3" /var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/RtmpwTf1sn/output/objects/times2/times3/x3.rds</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; 3 &lt;dbl [1]&gt;    x     ""       /var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/RtmpwTf1sn/output/objects/times2/x.rds</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="deleting-subfolders">Deleting Subfolders<a class="anchor" aria-label="anchor" href="#deleting-subfolders"></a>
@@ -125,23 +128,27 @@
 <p>To recursively delete a sub folder call <code><a href="reference/sbf_set_sub.html">sbf_set_sub()</a></code> with <code>rm = TRUE</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">sbf_set_sub</span>(<span class="st">"times2"</span>, <span class="at">rm =</span> <span class="cn">TRUE</span>, <span class="at">ask =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">list.files</span>(<span class="fu">sbf_get_main</span>(), <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; [1] "objects/x.rds"</span></span></code></pre></div>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt;  [1] "data/data2.rds"  "data/df.rds"     "numbers/x.csv"   "numbers/x.rds"   "numbers/x3.csv"  "numbers/x3.rds"  "objects/x.rds"  </span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt;  [8] "strings/chr.rda" "strings/chr.rds" "strings/chr.txt"</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="saving-multiple-objects">Saving Multiple Objects<a class="anchor" aria-label="anchor" href="#saving-multiple-objects"></a>
 </h3>
 <p>All the objects in the calling environment can be saved to the current subdirectory using <code><a href="reference/sbf_save_objects.html">sbf_save_objects()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">ls</span>()</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt; [1] "df" "x"  "x3"</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt; [1] "chr"   "data2" "df"    "vec"   "x"     "x3"</span></span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">sbf_save_objects</span>()</span>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="fu">list.files</span>(<span class="fu">sbf_get_main</span>(), <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; [1] "objects/times2/df.rds" "objects/times2/x.rds"  "objects/times2/x3.rds" "objects/x.rds"</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="fu">rm</span>(x, x3, df)</span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="fu">sbf_load_objects</span>()</span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="fu">print</span>(x3)</span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; [1] 6</span></span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="fu">print</span>(df)</span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; data frame with 0 columns and 0 rows</span></span></code></pre></div>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt;  [1] "data/data2.rds"           "data/df.rds"              "numbers/x.csv"            "numbers/x.rds"           </span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt;  [5] "numbers/x3.csv"           "numbers/x3.rds"           "objects/times2/chr.rds"   "objects/times2/data2.rds"</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt;  [9] "objects/times2/df.rds"    "objects/times2/vec.rds"   "objects/times2/x.rds"     "objects/times2/x3.rds"   </span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; [13] "objects/x.rds"            "strings/chr.rda"          "strings/chr.rds"          "strings/chr.txt"</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="fu">rm</span>(x, x3, df)</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="fu">sbf_load_objects</span>()</span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="fu">print</span>(x3)</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; [1] 6</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="fu">print</span>(df)</span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt; data frame with 0 columns and 0 rows</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -154,7 +161,7 @@
 <li>data (objects inheriting from data.frame)</li>
 </ul>
 <!-- --><div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">sbf_reset_sub</span>(<span class="at">rm =</span> <span class="cn">TRUE</span>, <span class="at">ask =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; ✔ Directory '/var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/Rtmp6AVvJK/output' deleted</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; ✔ Directory '/var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/RtmpwTf1sn/output' deleted</span></span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>data2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">y =</span> <span class="dv">7</span><span class="sc">:</span><span class="dv">8</span>)</span>
 <span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>chr <span class="ot">&lt;-</span> <span class="st">"some text"</span></span>
 <span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>) <span class="co"># not saved as vector</span></span>
@@ -162,8 +169,8 @@
 <span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="fu">sbf_save_strings</span>()</span>
 <span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="fu">sbf_save_numbers</span>()</span>
 <span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="fu">list.files</span>(<span class="fu">sbf_get_main</span>(), <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; [1] "data/data2.rds"  "data/df.rds"     "numbers/x.csv"   "numbers/x.rds"   "numbers/x3.csv"  "numbers/x3.rds" </span></span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; [7] "strings/chr.rda" "strings/chr.rds" "strings/chr.txt"</span></span></code></pre></div>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; [1] "data/data2.rds"  "data/df.rds"     "numbers/x.csv"   "numbers/x.rds"   "numbers/x3.csv"  "numbers/x3.rds"  "strings/chr.rda"</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; [8] "strings/chr.rds" "strings/chr.txt"</span></span></code></pre></div>
 <p>All types of object are saved as rds files. However to facilitate viewing, each number is also saved as a csv file and each string is also saved as a txt file.</p>
 </div>
 <div class="section level2">
@@ -268,9 +275,9 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="https://www.poissonconsulting.ca/author/joe-thorley/" class="external-link">Joe Thorley</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-7683-4592" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<a href="https://www.poissonconsulting.ca/author/joe-thorley/" class="external-link">Joe Thorley</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-7683-4592" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 <li>
-<a href="https://www.poissonconsulting.ca/" class="external-link"><img src="https://github.com/poissonconsulting.png" height="24" alt=""></a> <br><small class="roles"> Copyright holder, funder </small>  </li>
+<a href="https://www.poissonconsulting.ca/" class="external-link"><img src="https://github.com/poissonconsulting.png" height="24" alt=""></a> <br><small class="roles"> Copyright holder, funder </small>   </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
@@ -294,7 +301,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>
