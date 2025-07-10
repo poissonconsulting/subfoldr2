@@ -63,6 +63,8 @@ RdMacros:
     lifecycle
 Remotes:
     edwindj/daff,
+    poissonconsulting/dbflobr,
+    poissonconsulting/flobr,
     poissonconsulting/readwritesqlite
 Config/Needs/website: poissonconsulting/poissontemplate
 Config/testthat/edition: 3

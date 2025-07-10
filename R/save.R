@@ -219,8 +219,8 @@ sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 }
 
 #' Save Spatial Data
-#' 
-#' Saves an sf tbl with at least one row 
+#'
+#' Saves an sf tbl with at least one row
 #' for which the first column (not a geometry) is unique
 #' with no missing values and only one geometry column which must have a defined projection.
 #'
@@ -230,9 +230,8 @@ sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @family save functions
 #' @export
 sbf_save_spatial <- function(x, x_name = NULL, sub = sbf_get_sub(),
-                          main = sbf_get_main()) {
-  
-  if(is.null(x_name)) {
+                             main = sbf_get_main()) {
+  if (is.null(x_name)) {
     x_name <- chk::deparse_backtick_chk(substitute(x))
   }
 
@@ -240,90 +239,96 @@ sbf_save_spatial <- function(x, x_name = NULL, sub = sbf_get_sub(),
   chk_character(sub)
   chk_range(length(sub))
   chk_string(main)
-  
+
   check_spatial(x, x_name = x_name)
-  
+
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
-  
+
   save_rds(x, "spatial", sub = sub, main = main, x_name = x_name)
 }
 
 check_spatial <- function(x, x_name = NULL) {
   rlang::check_installed("sf")
-  
-  if(is.null(x_name)) {
+
+  if (is.null(x_name)) {
     x_name <- chk::deparse_backtick_chk(substitute(x))
   }
   chk_s3_class(x, "sf", x_name = x_name)
-  
+
   check_dim(x, nrow, values = c(1L, Inf), x_name = x_name)
   check_dim(x, ncol, values = c(2L, Inf), x_name = x_name)
-  
-  if(is.na(sf::st_crs(x))) {
+
+  if (is.na(sf::st_crs(x))) {
     err(x_name, " must not have a missing projection")
   }
-  
+
   geom_name <- dplyr::select(x, dplyr::where(is.sfc)) |>
     colnames()
-  
-  if(length(geom_name) != 1L) {
+
+  if (length(geom_name) != 1L) {
     err(x_name, " must have exactly one geometry column")
   }
-  
+
   index_name <- colnames(x)[1]
-  
-  if(index_name == geom_name) {
+
+  if (index_name == geom_name) {
     err(x_name, " must not have a first (index) column that is also the geometry column")
   }
 
-  if(!chk::vld_not_any_na(x[[index_name]])) {
+  if (!chk::vld_not_any_na(x[[index_name]])) {
     err(x_name, " must not have a first (index) column with missing values")
   }
-  
-  if(!chk::vld_unique(x[[index_name]])) {
+
+  if (!chk::vld_unique(x[[index_name]])) {
     err(x_name, " must not have a first (index) column with duplicated values")
   }
-  
+
   invisible(x)
 }
 
 valid_spatial <- function(x) {
   rlang::check_installed("sf")
-  
-  if(!vld_s3_class(x, "sf")) return(FALSE)
-  
-  try <- try(check_dim(x, nrow, values = c(1L, Inf)), silent = TRUE)
-  if(inherits(try, "try-error")) return(FALSE)
-    
-  try <- try(check_dim(x, ncol, values = c(2L, Inf)), silent = TRUE)
-  if(inherits(try, "try-error")) return(FALSE)
-  
-  if(is.na(sf::st_crs(x))) {
+
+  if (!vld_s3_class(x, "sf")) {
     return(FALSE)
   }
-  
+
+  try <- try(check_dim(x, nrow, values = c(1L, Inf)), silent = TRUE)
+  if (inherits(try, "try-error")) {
+    return(FALSE)
+  }
+
+  try <- try(check_dim(x, ncol, values = c(2L, Inf)), silent = TRUE)
+  if (inherits(try, "try-error")) {
+    return(FALSE)
+  }
+
+  if (is.na(sf::st_crs(x))) {
+    return(FALSE)
+  }
+
   geom_name <- dplyr::select(x, dplyr::where(is.sfc)) |>
     colnames()
-  
-  if(length(geom_name) != 1L) {
+
+  if (length(geom_name) != 1L) {
     return(FALSE)
   }
-  
+
   index_name <- colnames(x)[1]
-  
-  if(index_name == geom_name) {
+
+  if (index_name == geom_name) {
     return(FALSE)
   }
-  
-  if(!chk::vld_not_any_na(x[[index_name]])) {
+
+  if (!chk::vld_not_any_na(x[[index_name]])) {
     return(FALSE)
   }
-  
-  if(!chk::vld_unique(x[[index_name]])) {
+
+  if (!chk::vld_unique(x[[index_name]])) {
     return(FALSE)
   }
-  
+
   return(TRUE)
 }
 
@@ -948,7 +953,7 @@ sbf_save_datas <- function(sub = sbf_get_sub(),
 
 #' Save Spatial Data Frames
 #'
-#' Saves sf tbls each with at least one row 
+#' Saves sf tbls each with at least one row
 #' for which the first column (not a geometry) is unique
 #' with no missing values and only one geometry column which must have a defined projection.
 #' The functions expects that all data frames in the environment meet these requirements.
@@ -959,9 +964,9 @@ sbf_save_datas <- function(sub = sbf_get_sub(),
 #' @family save functions
 #' @export
 sbf_save_spatials <- function(sub = sbf_get_sub(),
-                           main = sbf_get_main(), env = parent.frame()) {
+                              main = sbf_get_main(), env = parent.frame()) {
   chk_s3_class(env, "environment")
-  
+
   names <- objects(envir = env)
   is <- vector("logical", length(names))
   for (i in seq_along(names)) {
