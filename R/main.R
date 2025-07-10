@@ -23,6 +23,7 @@ sbf_set_main <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
   chk_flag(ask)
   path <- file_path(..., collapse = TRUE)
   path <- sanitize_path(path, rm_leading = FALSE)
+  if (!dir.exists(path)) err("The path `", path, "` does not exist.")
   options(sbf.main = path)
   if (rm) rm_all(ask = ask)
   invisible(path)
