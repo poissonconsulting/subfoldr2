@@ -8,7 +8,7 @@ sbf_print(
   x,
   newpage = is.null(vp),
   vp = NULL,
-  ntry = 3L,
+  ntry = getOption("sbf.ntry", 3L),
   plot = getOption("sbf.plot", TRUE)
 )
 }
