@@ -24,7 +24,7 @@ get_err_msg <- function() {
 #' @param plot A flag indicating whether or not to print the plot.
 #'
 #' @export
-sbf_print <- function(x, newpage = is.null(vp), vp = NULL, ntry = 3L, plot = getOption("sbf.plot", TRUE)) {
+sbf_print <- function(x, newpage = is.null(vp), vp = NULL, ntry = getOption("sbf.ntry", 3L), plot = getOption("sbf.plot", TRUE)) {
   chk::chk_is(x, "ggplot")
   chk::chk_whole_number(ntry)
   chk::chk_gt(ntry)
