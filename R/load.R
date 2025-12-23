@@ -195,7 +195,7 @@ load_rdss <- function(class, sub, main, env, rename, fun = NULL) {
   chk_string(main)
 
   chk_s3_class(env, "environment")
-  chk_function(rename, formals = 1L)
+  chk_function(rename)
 
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
