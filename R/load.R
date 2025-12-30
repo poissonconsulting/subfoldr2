@@ -360,7 +360,7 @@ sbf_load_datas_from_db <- function(db_name = sbf_get_db_name(),
   chk_s3_class(env, "environment")
   chk_function(rename)
 
-  conn <- sbf_open_db(db_name, sub = sub, main = main)
+  conn <- sbf_open_db(db_name, sub = sub, main = main, exists = TRUE)
   on.exit(sbf_close_db(conn))
 
   datas <- rws_read(conn)
