@@ -51,7 +51,9 @@ and sub folders (named sub1, sub2 etc).</p>
 <span>  x_name <span class="op">=</span> <span class="st">".*"</span>,</span>
 <span>  sub <span class="op">=</span> <span class="fu"><a href="sbf_get_sub.html">sbf_get_sub</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  main <span class="op">=</span> <span class="fu"><a href="sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  include_root <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  include_root <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  tag <span class="op">=</span> <span class="st">".*"</span>,</span>
+<span>  meta <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -76,6 +78,16 @@ current main folder)</p></dd>
 <dt id="arg-include-root">include_root<a class="anchor" aria-label="anchor" href="#arg-include-root"></a></dt>
 <dd><p>A flag indicating whether to include objects in the top
 sub folder.</p></dd>
+
+
+<dt id="arg-tag">tag<a class="anchor" aria-label="anchor" href="#arg-tag"></a></dt>
+<dd><p>A string of the regular expression that the tag must match to be
+included.</p></dd>
+
+
+<dt id="arg-meta">meta<a class="anchor" aria-label="anchor" href="#arg-meta"></a></dt>
+<dd><p>A flag specifying whether to include the report, caption and any
+other metadata as columns.</p></dd>
 
 </dl></div>
     <div class="section level2">

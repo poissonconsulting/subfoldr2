@@ -12,7 +12,9 @@ sbf_load_numbers_recursive(
   x_name = ".*",
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  include_root = TRUE
+  include_root = TRUE,
+  tag = ".*",
+  meta = FALSE
 )
 ```
 
@@ -35,6 +37,16 @@ sbf_load_numbers_recursive(
 - include_root:
 
   A flag indicating whether to include objects in the top sub folder.
+
+- tag:
+
+  A string of the regular expression that the tag must match to be
+  included.
+
+- meta:
+
+  A flag specifying whether to include the report, caption and any other
+  metadata as columns.
 
 ## See also
 
