@@ -1,5 +1,11 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# subfoldr2 1.0.1.9000
+
+- Added report and tag to number (#130, #131).
+- Dropped requirement that rename has only 1 formal argument.
+- Added abiliy to set number of attempts for plot as option.
+
 # subfoldr2 1.0.1
 
 - Changing `sbf_compare_data()` default argument `ignore_attr` from `FALSE` to `TRUE` (#114).
