@@ -413,7 +413,7 @@ test_that("number", {
   expect_identical(sbf_load_number("x"), 1)
   expect_identical(
     list.files(file.path(sbf_get_main(), "numbers")),
-    sort(c("x.csv", "x.rds"))
+    sort(c("x.csv", "x.rda", "x.rds"))
   )
   csv <- read.csv(file.path(sbf_get_main(), "numbers", "x.csv"))
   expect_equal(csv, data.frame(x = 1))
@@ -428,7 +428,7 @@ test_that("number", {
   )
   expect_identical(
     list.files(file.path(sbf_get_main(), "numbers")),
-    sort(c("x.csv", "x.rds", "y.csv", "y.rds"))
+    sort(c("x.csv", "x.rda", "x.rds", "y.csv", "y.rda", "y.rds"))
   )
   x <- 0
   y <- 0
