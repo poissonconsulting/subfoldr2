@@ -1,5 +1,9 @@
 # Changelog
 
+## subfoldr2 1.0.1.9000
+
+- Add report and tag to number (#130, \#131).
+
 ## subfoldr2 1.0.1
 
 - Changing
