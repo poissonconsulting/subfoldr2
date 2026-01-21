@@ -337,11 +337,13 @@ valid_spatial <- function(x) {
 #'
 #' @param x The number to save.
 #' @inheritParams sbf_save_object
+#' @param report A flag specifying whether to include in a report.
+#' @param tag A string of the tag.
 #' @return An invisible string of the path to the saved object.
 #' @family save functions
 #' @export
 sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
-                            main = sbf_get_main()) {
+                            main = sbf_get_main(), report = TRUE, tag = "") {
   x_name <- chk_deparse(x_name)
   chk_number(x)
   x <- as.double(x)
@@ -351,11 +353,16 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   chk_range(length(sub))
   chk_string(main)
 
+  chk_flag(report)
+  chk_string(tag)
+
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   data <- data.frame(x = x)
 
+  meta <- list(report = report, tag = tag)
+  save_meta(meta, "numbers", sub = sub, main = main, x_name = x_name)
   save_csv(data, "numbers", sub = sub, main = main, x_name = x_name)
   save_rds(x, "numbers", sub = sub, main = main, x_name = x_name)
 }

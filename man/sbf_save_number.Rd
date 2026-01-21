@@ -8,7 +8,9 @@ sbf_save_number(
   x,
   x_name = substitute(x),
   sub = sbf_get_sub(),
-  main = sbf_get_main()
+  main = sbf_get_main(),
+  report = TRUE,
+  tag = ""
 )
 }
 \arguments{
@@ -21,6 +23,10 @@ current sub folder).}
 
 \item{main}{A string specifying the path to the main folder (by default the
 current main folder)}
+
+\item{report}{A flag specifying whether to include in a report.}
+
+\item{tag}{A string of the tag.}
 }
 \value{
 An invisible string of the path to the saved object.

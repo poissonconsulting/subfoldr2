@@ -8,7 +8,9 @@ sbf_load_numbers_recursive(
   x_name = ".*",
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  include_root = TRUE
+  include_root = TRUE,
+  tag = ".*",
+  meta = FALSE
 )
 }
 \arguments{
@@ -22,6 +24,12 @@ current main folder)}
 
 \item{include_root}{A flag indicating whether to include objects in the top
 sub folder.}
+
+\item{tag}{A string of the regular expression that the tag must match to be
+included.}
+
+\item{meta}{A flag specifying whether to include the report, caption and any
+other metadata as columns.}
 }
 \description{
 Recursively loads all the numbers with names matching the regular expression
