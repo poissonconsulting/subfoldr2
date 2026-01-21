@@ -2,7 +2,9 @@
 
 ## subfoldr2 1.0.1.9000
 
-- Add report and tag to number (#130, \#131).
+- Added report and tag to number (#130, \#131).
+- Dropped requirement that rename has only 1 formal argument.
+- Added abiliy to set number of attempts for plot as option.
 
 ## subfoldr2 1.0.1
 
