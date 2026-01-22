@@ -10,7 +10,8 @@ sbf_save_number(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   report = TRUE,
-  tag = ""
+  tag = "",
+  signif = getOption("sbf.signif", 3L)
 )
 }
 \arguments{
@@ -27,6 +28,8 @@ current main folder)}
 \item{report}{A flag specifying whether to include in a report.}
 
 \item{tag}{A string of the tag.}
+
+\item{signif}{A positive whole number specifying the number of significant digits to round by.}
 }
 \value{
 An invisible string of the path to the saved object.
