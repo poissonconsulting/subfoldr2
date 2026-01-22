@@ -339,14 +339,15 @@ valid_spatial <- function(x) {
 #' @inheritParams sbf_save_object
 #' @param report A flag specifying whether to include in a report.
 #' @param tag A string of the tag.
+#' @param signif A positive whole number specifying the number of significant digits to round by.
 #' @return An invisible string of the path to the saved object.
 #' @family save functions
 #' @export
 sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
-                            main = sbf_get_main(), report = TRUE, tag = "") {
+                            main = sbf_get_main(), report = TRUE, tag = "",
+                           signif = getOption("sbf.signif", 22)) {
   x_name <- chk_deparse(x_name)
   chk_number(x)
-  x <- as.double(x)
   chk_string(x_name)
   chk_gt(nchar(x_name))
   chk_character(sub)
@@ -355,10 +356,14 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 
   chk_flag(report)
   chk_string(tag)
+  chk::chk_whole_number(signif)
+  chk_gt(signif)
 
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
+  x <- as.double(x)
+  x <- signif(x, digits = signif)
   data <- data.frame(x = x)
 
   meta <- list(report = report, tag = tag)

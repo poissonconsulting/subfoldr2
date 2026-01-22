@@ -475,6 +475,16 @@ test_that("number", {
   expect_identical(sbf_load_number("important_num"), 4)
   csv <- read.csv(file.path(sbf_get_main(), "numbers/sub/important_num.csv"))
   expect_equal(csv, data.frame(x = 4))
+
+  sbf_save_number(66666.6666, x_name = "sixes")
+  expect_identical(sbf_load_number("sixes"), 66666.6666)
+
+  sbf_save_number(66666.6666, x_name = "sixes", signif = 4)
+  expect_identical(sbf_load_number("sixes"), 66670)
+
+  withr::local_options(list(sbf.signif = 5))
+  sbf_save_number(66666.6666, x_name = "sixes")
+  expect_identical(sbf_load_number("sixes"), 66667)
 })
 
 test_that("string", {
