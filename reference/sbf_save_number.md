@@ -11,7 +11,8 @@ sbf_save_number(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   report = TRUE,
-  tag = ""
+  tag = "",
+  signif = getOption("sbf.signif", 22)
 )
 ```
 
@@ -42,6 +43,11 @@ sbf_save_number(
 - tag:
 
   A string of the tag.
+
+- signif:
+
+  A positive whole number specifying the number of significant digits to
+  round by.
 
 ## Value
 
