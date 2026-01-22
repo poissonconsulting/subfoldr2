@@ -1,5 +1,10 @@
 # Changelog
 
+## subfoldr2 1.0.1.9001
+
+- Add signif = options(sbr.signif, 3L) argument to sbf_save_number()
+  (#132, \#133).
+
 ## subfoldr2 1.0.1.9000
 
 - Added report and tag to number (#130, \#131).
