@@ -345,7 +345,7 @@ valid_spatial <- function(x) {
 #' @export
 sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                             main = sbf_get_main(), report = TRUE, tag = "",
-                           signif = getOption("sbf.signif", 3L)) {
+                           signif = getOption("sbf.signif", 22)) {
   x_name <- chk_deparse(x_name)
   chk_number(x)
   chk_string(x_name)

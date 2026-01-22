@@ -477,7 +477,7 @@ test_that("number", {
   expect_equal(csv, data.frame(x = 4))
 
   sbf_save_number(66666.6666, x_name = "sixes")
-  expect_identical(sbf_load_number("sixes"), 66700)
+  expect_identical(sbf_load_number("sixes"), 66666.6666)
 
   sbf_save_number(66666.6666, x_name = "sixes", signif = 4)
   expect_identical(sbf_load_number("sixes"), 66670)

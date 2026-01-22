@@ -11,7 +11,7 @@ sbf_save_number(
   main = sbf_get_main(),
   report = TRUE,
   tag = "",
-  signif = getOption("sbf.signif", 3L)
+  signif = getOption("sbf.signif", 22)
 )
 }
 \arguments{
