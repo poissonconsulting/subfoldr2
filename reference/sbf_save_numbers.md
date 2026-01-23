@@ -8,6 +8,7 @@ Save Numbers
 sbf_save_numbers(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
+  signif = getOption("sbf.signif", 22),
   env = parent.frame()
 )
 ```
@@ -23,6 +24,11 @@ sbf_save_numbers(
 
   A string specifying the path to the main folder (by default the
   current main folder)
+
+- signif:
+
+  A positive whole number specifying the number of significant digits to
+  round by.
 
 - env:
 
