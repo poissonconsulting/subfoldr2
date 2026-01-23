@@ -1,5 +1,10 @@
 # Changelog
 
+## subfoldr2 1.0.1.9002
+
+- Add `signif = getOption("sbf.signif", 22L)` argument to
+  `sbr_save_numbers()` (#134, \#135).
+
 ## subfoldr2 1.0.1.9001
 
 - Add signif = options(sbr.signif, 3L) argument to sbf_save_number()
