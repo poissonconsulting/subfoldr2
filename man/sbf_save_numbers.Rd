@@ -7,6 +7,7 @@
 sbf_save_numbers(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
+  signif = getOption("sbf.signif", 22),
   env = parent.frame()
 )
 }
@@ -16,6 +17,8 @@ current sub folder).}
 
 \item{main}{A string specifying the path to the main folder (by default the
 current main folder)}
+
+\item{signif}{A positive whole number specifying the number of significant digits to round by.}
 
 \item{env}{An environment.}
 }

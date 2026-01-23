@@ -1002,13 +1002,15 @@ sbf_save_spatials <- function(sub = sbf_get_sub(),
 
 #' Save Numbers
 #'
-#' @inheritParams sbf_save_object
+#' @inheritParams sbf_save_number
 #' @inheritParams sbf_save_objects
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
 #' @export
 sbf_save_numbers <- function(sub = sbf_get_sub(),
-                             main = sbf_get_main(), env = parent.frame()) {
+                             main = sbf_get_main(), 
+                             signif = getOption("sbf.signif", 22),
+                             env = parent.frame()) {
   chk_s3_class(env, "environment")
 
   names <- objects(envir = env)
@@ -1017,7 +1019,7 @@ sbf_save_numbers <- function(sub = sbf_get_sub(),
     x_name <- names[i]
     x <- get(x = x_name, envir = env)
     is[i] <- is_number(x)
-    if (is[i]) sbf_save_number(x, x_name, sub, main)
+    if (is[i]) sbf_save_number(x, x_name, sub = sub, main = main, signif = signif)
   }
   names <- names[is]
   if (!length(names)) {
