@@ -1,20 +1,20 @@
 load_rds <- function(x_name, class, sub, main, fun = NULL, exists = TRUE) {
   path <- get_path(x_name, class, sub, main, ext = "rds", exists = exists)
-
+  
   if (!vld_file(path)) {
     return(NULL)
   }
   object <- readRDS(path)
-
+  
   if (!is.null(fun)) {
     object <- fun(object)
   }
-
+  
   if (class == "spatial") {
     valid <- valid_spatial(object)
     if (!valid) wrn(backtick_chk(x_name), "is not a valid spatial object.")
   }
-
+  
   object
 }
 
@@ -143,11 +143,11 @@ sbf_load_plot_data <- function(x_name,
                                main = sbf_get_main(),
                                exists = TRUE) {
   load_rds(x_name,
-    class = "plots",
-    sub = sub,
-    main = main,
-    fun = get_plot_data,
-    exists = exists
+           class = "plots",
+           sub = sub,
+           main = main,
+           fun = get_plot_data,
+           exists = exists
   )
 }
 
@@ -166,10 +166,10 @@ sbf_load_data_from_db <- function(x_name,
                                   main = sbf_get_main()) {
   chk_string(x_name)
   chk_string(db_name)
-
+  
   conn <- sbf_open_db(db_name, sub = sub, main = main)
   on.exit(sbf_close_db(conn))
-
+  
   rws_read_table(x_name, conn = conn)
 }
 
@@ -185,7 +185,7 @@ sbf_load_db_metatable <- function(db_name = sbf_get_db_name(),
                                   main = sbf_get_main()) {
   conn <- sbf_open_db(db_name, sub = sub, main = main)
   on.exit(sbf_close_db(conn))
-
+  
   db_metatable_from_connection(conn)
 }
 
@@ -193,16 +193,16 @@ load_rdss <- function(class, sub, main, env, rename, fun = NULL) {
   chk_character(sub)
   chk_range(length(sub))
   chk_string(main)
-
+  
   chk_s3_class(env, "environment")
   chk_function(rename)
-
+  
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
-
+  
   path <- file_path(main, class, sub)
   files <- tools::list_files_with_exts(path, "rds")
-
+  
   if (!length(files)) {
     warning("no ", class, " to load")
     return(invisible(character(0)))
@@ -210,12 +210,12 @@ load_rdss <- function(class, sub, main, env, rename, fun = NULL) {
   names <- tools::file_path_sans_ext(basename(files))
   for (i in seq_along(files)) {
     object <- readRDS(files[i])
-
+    
     if (class == "spatial") {
       valid <- valid_spatial(object)
       if (!valid) wrn(backtick_chk(names[i]), "is not a valid spatial object.")
     }
-
+    
     if (!is.null(fun)) {
       object <- fun(object)
     }
@@ -338,8 +338,8 @@ sbf_load_plots_data <- function(sub = sbf_get_sub(),
                                 rename = identity,
                                 env = parent.frame()) {
   load_rdss("plots",
-    sub = sub, main = main, env = env, rename = rename,
-    fun = get_plot_data
+            sub = sub, main = main, env = env, rename = rename,
+            fun = get_plot_data
   )
 }
 
@@ -359,10 +359,10 @@ sbf_load_datas_from_db <- function(db_name = sbf_get_db_name(),
                                    env = parent.frame()) {
   chk_s3_class(env, "environment")
   chk_function(rename)
-
+  
   conn <- sbf_open_db(db_name, sub = sub, main = main)
   on.exit(sbf_close_db(conn))
-
+  
   datas <- rws_read(conn)
   names(datas) <- rename(names(datas))
   mapply(assign, names(datas), datas, MoreArgs = list(envir = env))
@@ -379,20 +379,20 @@ load_rdss_recursive <- function(x_name, class, sub, main, include_root,
   chk_flag(include_root)
   chk_string(tag)
   chk_flag(meta)
-
+  
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
-
+  
   dir <- file_path(main, class, sub)
-
+  
   ext <- p0("[.]", ext, "$")
-
+  
   files <- list.files(dir, pattern = ext, recursive = TRUE)
   names(files) <- file.path(dir, files)
   files <- sub(ext, "", files)
   files <- files[grepl(x_name, basename(files))]
   if (!include_root) files <- files[grepl("/", files)]
-
+  
   if (!length(files)) {
     data <- tibble(x = I(list()))
     class(data$x) <- "list"
@@ -408,23 +408,23 @@ load_rdss_recursive <- function(x_name, class, sub, main, include_root,
                                  pattern = paste0(drop, collapse = '|'),
                                  negate = TRUE)
   }
-
+  
   objects <- lapply(names(files), readRDS)
   if (!is.null(fun)) {
     objects <- lapply(objects, fun)
   }
-
+  
   data <- data.frame(x = I(objects))
   names(data) <- class
   data <- cbind(data, subfolder_columns(files))
-
+  
   is_tag <- rep(TRUE, nrow(data))
   if (tag != ".*") {
     is_tag <- grepl(tag, meta_columns(names(files))$tag)
   }
-
+  
   if (meta) data <- cbind(data, meta_columns(names(files)))
-
+  
   data <- data[is_tag, ]
   class(data[[1]]) <- "list"
   as_tibble(data)
@@ -441,24 +441,24 @@ subs_rds_recursive <- function(x_name,
   chk_range(length(sub))
   chk_string(main)
   chk_flag(include_root)
-
+  
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
-
+  
   dir <- file_path(main, class, sub)
-
+  
   ext <- p0("[.]", ext, "$")
   files <- list.files(dir, pattern = p0("^", x_name, ext), recursive = TRUE)
-
+  
   names(files) <- file.path(dir, files)
   files <- sub(ext, "", files)
   files <- files[basename(files) == x_name]
   if (!include_root) files <- files[grepl("/", files)]
-
+  
   if (!length(files)) {
     return(character(0))
   }
-
+  
   subfolder_columns(files)$sub
 }
 
@@ -479,8 +479,8 @@ sbf_load_objects_recursive <- function(x_name = ".*",
                                        main = sbf_get_main(),
                                        include_root = TRUE) {
   load_rdss_recursive(x_name, "objects",
-    sub = sub, main = main,
-    include_root = include_root
+                      sub = sub, main = main,
+                      include_root = include_root
   )
 }
 
@@ -500,8 +500,8 @@ sbf_load_datas_recursive <- function(x_name = ".*",
                                      main = sbf_get_main(),
                                      include_root = TRUE) {
   data <- load_rdss_recursive(x_name, "data",
-    sub = sub, main = main,
-    include_root = include_root
+                              sub = sub, main = main,
+                              include_root = include_root
   )
   data
 }
@@ -528,8 +528,8 @@ sbf_load_numbers_recursive <- function(x_name = ".*",
                                        tag = ".*",
                                        meta = FALSE) {
   data <- load_rdss_recursive(x_name, "numbers",
-    sub = sub, main = main,
-    include_root = include_root, tag = tag, meta = meta
+                              sub = sub, main = main,
+                              include_root = include_root, tag = tag, meta = meta
   )
   data[1] <- unname(unlist(data[1]))
   data
@@ -557,8 +557,8 @@ sbf_load_strings_recursive <- function(x_name = ".*",
                                        tag = ".*",
                                        meta = FALSE) {
   data <- load_rdss_recursive(x_name, "strings",
-    sub = sub, main = main,
-    include_root = include_root, tag = tag, meta = meta
+                              sub = sub, main = main,
+                              include_root = include_root, tag = tag, meta = meta
   )
   if (nrow(data)) {
     data[1] <- unname(unlist(data[1]))
@@ -590,8 +590,8 @@ sbf_load_tables_recursive <- function(x_name = ".*",
                                       tag = ".*",
                                       meta = FALSE) {
   load_rdss_recursive(x_name, "tables",
-    sub = sub, main = main,
-    include_root = include_root, tag = tag, meta = meta
+                      sub = sub, main = main,
+                      include_root = include_root, tag = tag, meta = meta
   )
 }
 
@@ -615,8 +615,8 @@ sbf_load_blocks_recursive <- function(x_name = ".*",
                                       tag = ".*",
                                       meta = FALSE) {
   data <- load_rdss_recursive(x_name, "blocks",
-    sub = sub, main = main,
-    include_root = include_root, tag = tag, meta = meta
+                              sub = sub, main = main,
+                              include_root = include_root, tag = tag, meta = meta
   )
   data[1] <- unname(unlist(data[1]))
   data
@@ -642,8 +642,8 @@ sbf_load_plots_recursive <- function(x_name = ".*",
                                      meta = FALSE,
                                      drop = character(0)) {
   load_rdss_recursive(x_name, "plots",
-    sub = sub, main = main,
-    include_root = include_root, tag = tag, meta = meta, drop = drop
+                      sub = sub, main = main,
+                      include_root = include_root, tag = tag, meta = meta, drop = drop
   )
 }
 
@@ -667,9 +667,9 @@ sbf_load_plots_data_recursive <- function(x_name = ".*",
                                           tag = ".*",
                                           meta = FALSE) {
   data <- load_rdss_recursive(x_name, "plots",
-    sub = sub, main = main,
-    include_root = include_root, tag = tag,
-    meta = meta, fun = get_plot_data
+                              sub = sub, main = main,
+                              include_root = include_root, tag = tag,
+                              meta = meta, fun = get_plot_data
   )
   names(data)[1] <- "plots_data"
   data
@@ -695,9 +695,9 @@ sbf_load_windows_recursive <- function(x_name = ".*",
                                        tag = ".*",
                                        meta = FALSE) {
   data <- load_rdss_recursive(x_name, "windows",
-    sub = sub, main = main,
-    include_root = include_root, tag = tag,
-    meta = meta, ext = "rda"
+                              sub = sub, main = main,
+                              include_root = include_root, tag = tag,
+                              meta = meta, ext = "rda"
   )
   data$file <- replace_ext(data$file, "png")
   data$windows <- data$file
@@ -717,8 +717,8 @@ sbf_subs_object_recursive <- function(x_name,
                                       main = sbf_get_main(),
                                       include_root = TRUE) {
   subs_rds_recursive(x_name, "objects",
-    sub = sub, main = main,
-    include_root = include_root
+                     sub = sub, main = main,
+                     include_root = include_root
   )
 }
 
@@ -735,8 +735,8 @@ sbf_subs_data_recursive <- function(x_name,
                                     main = sbf_get_main(),
                                     include_root = TRUE) {
   subs_rds_recursive(x_name, "data",
-    sub = sub, main = main,
-    include_root = include_root
+                     sub = sub, main = main,
+                     include_root = include_root
   )
 }
 
@@ -753,8 +753,8 @@ sbf_subs_number_recursive <- function(x_name,
                                       main = sbf_get_main(),
                                       include_root = TRUE) {
   subs_rds_recursive(x_name, "numbers",
-    sub = sub, main = main,
-    include_root = include_root
+                     sub = sub, main = main,
+                     include_root = include_root
   )
 }
 
@@ -771,8 +771,8 @@ sbf_subs_string_recursive <- function(x_name,
                                       main = sbf_get_main(),
                                       include_root = TRUE) {
   subs_rds_recursive(x_name, "strings",
-    sub = sub, main = main,
-    include_root = include_root
+                     sub = sub, main = main,
+                     include_root = include_root
   )
 }
 
@@ -789,8 +789,8 @@ sbf_subs_block_recursive <- function(x_name,
                                      main = sbf_get_main(),
                                      include_root = TRUE) {
   subs_rds_recursive(x_name, "blocks",
-    sub = sub, main = main,
-    include_root = include_root
+                     sub = sub, main = main,
+                     include_root = include_root
   )
 }
 
@@ -807,8 +807,8 @@ sbf_subs_table_recursive <- function(x_name,
                                      main = sbf_get_main(),
                                      include_root = TRUE) {
   subs_rds_recursive(x_name, "tables",
-    sub = sub, main = main,
-    include_root = include_root
+                     sub = sub, main = main,
+                     include_root = include_root
   )
 }
 
@@ -825,8 +825,8 @@ sbf_subs_plot_recursive <- function(x_name,
                                     main = sbf_get_main(),
                                     include_root = TRUE) {
   subs_rds_recursive(x_name, "plots",
-    sub = sub, main = main,
-    include_root = include_root
+                     sub = sub, main = main,
+                     include_root = include_root
   )
 }
 
@@ -843,7 +843,7 @@ sbf_subs_window_recursive <- function(x_name,
                                       main = sbf_get_main(),
                                       include_root = TRUE) {
   subs_rds_recursive(x_name, "windows",
-    sub = sub, main = main,
-    include_root = include_root
+                     sub = sub, main = main,
+                     include_root = include_root
   )
 }
