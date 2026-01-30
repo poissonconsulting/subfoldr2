@@ -370,7 +370,7 @@ sbf_load_datas_from_db <- function(db_name = sbf_get_db_name(),
 }
 
 load_rdss_recursive <- function(x_name, class, sub, main, include_root,
-                                tag = ".*", meta = FALSE,
+                                tag = ".*", meta = FALSE, drop = character(0),
                                 fun = NULL, ext = "rds") {
   chk_string(x_name)
   chk_character(sub)
@@ -401,6 +401,12 @@ load_rdss_recursive <- function(x_name, class, sub, main, include_root,
     data$sub <- character(0)
     data$file <- character(0)
     return(data)
+  }
+  
+  if(length(drop) > 0) {
+    files <- stringr::str_subset(files,
+                                 pattern = paste0(drop, collapse = '|'),
+                                 negate = TRUE)
   }
 
   objects <- lapply(names(files), readRDS)
