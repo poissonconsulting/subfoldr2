@@ -639,10 +639,11 @@ sbf_load_plots_recursive <- function(x_name = ".*",
                                      main = sbf_get_main(),
                                      include_root = TRUE,
                                      tag = ".*",
-                                     meta = FALSE) {
+                                     meta = FALSE
+                                     drop = character(0)) {
   load_rdss_recursive(x_name, "plots",
     sub = sub, main = main,
-    include_root = include_root, tag = tag, meta = meta
+    include_root = include_root, tag = tag, meta = meta, drop = drop
   )
 }
 
