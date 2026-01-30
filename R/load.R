@@ -630,6 +630,7 @@ sbf_load_blocks_recursive <- function(x_name = ".*",
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_load_tables_recursive
+#' @param drop A character vector specifying the sub folders and file names to exclude from the report or `NULL`.
 #' @family load functions
 #' @export
 sbf_load_plots_recursive <- function(x_name = ".*",
@@ -638,7 +639,7 @@ sbf_load_plots_recursive <- function(x_name = ".*",
                                      include_root = TRUE,
                                      tag = ".*",
                                      meta = FALSE,
-                                     drop = character(0)) {
+                                     drop = NULL) {
   load_rdss_recursive(x_name, "plots",
                       sub = sub, main = main,
                       include_root = include_root, tag = tag, meta = meta, drop = drop

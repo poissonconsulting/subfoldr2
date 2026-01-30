@@ -10,7 +10,8 @@ sbf_load_plots_recursive(
   main = sbf_get_main(),
   include_root = TRUE,
   tag = ".*",
-  meta = FALSE
+  meta = FALSE,
+  drop = NULL
 )
 }
 \arguments{
@@ -30,6 +31,8 @@ included.}
 
 \item{meta}{A flag specifying whether to include the report, caption and any
 other metadata as columns.}
+
+\item{drop}{A character vector specifying the sub folders and file names to exclude from the report or \code{NULL}.}
 }
 \description{
 Recursively loads all the plots with names matching the regular expression
