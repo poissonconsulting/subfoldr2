@@ -370,7 +370,7 @@ sbf_load_datas_from_db <- function(db_name = sbf_get_db_name(),
 }
 
 load_rdss_recursive <- function(x_name, class, sub, main, include_root,
-                                tag = ".*", meta = FALSE, drop = character(0),
+                                tag = ".*", meta = FALSE, drop = NULL,
                                 fun = NULL, ext = "rds") {
   chk_string(x_name)
   chk_character(sub)
@@ -379,6 +379,7 @@ load_rdss_recursive <- function(x_name, class, sub, main, include_root,
   chk_flag(include_root)
   chk_string(tag)
   chk_flag(meta)
+  chk_null_or(drop, vld = vld_character)
   
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
