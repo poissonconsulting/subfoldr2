@@ -20,6 +20,7 @@ Description: Facilitates saving and loading R objects, data frames,
 License: MIT + file LICENSE
 Imports: 
     chk,
+    cli,
     data.table,
     dplyr,
     DBI,

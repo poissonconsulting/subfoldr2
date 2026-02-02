@@ -3,7 +3,7 @@ test_that("archive", {
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
 
-  expect_chk_error(sbf_archive_main(ask = FALSE))
+  expect_message(sbf_archive_main(ask = FALSE))
 
   x <- 1
   sbf_save_number(x)
