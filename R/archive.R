@@ -14,9 +14,14 @@
 sbf_archive_main <- function(main = sbf_get_main(),
                              ask = getOption("sbf.ask", TRUE),
                              tz = dtt_default_tz()) {
-  chk_dir(main)
+  chk_string(main)
   chk_flag(ask)
   chk_string(tz)
+
+  if(!vld_dir(main)) {
+    cli::cli_alert_info(paste0("Directory '", main, "' does not exist."))
+    return(invisible(character()))
+  }
 
   archive <- get_new_main(main, tz)
   if (fs::file_exists(archive)) {
@@ -31,9 +36,9 @@ sbf_archive_main <- function(main = sbf_get_main(),
 
   if (!ask || yesno(msg)) {
     fs::dir_copy(main, archive, overwrite = FALSE)
-    usethis::ui_done(paste0("Directory '", main, "' copied to '", archive, "'"))
+    cli::cli_alert_success(paste0("Directory '", main, "' copied to '", archive, "'"))
   } else {
-    usethis::ui_oops(paste0("Directory '", main, "' was not copied"))
+    cli::cli_alert_warning(paste0("Directory '", main, "' was not copied"))
   }
   return(invisible(archive))
 }
