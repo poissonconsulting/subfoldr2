@@ -369,9 +369,30 @@ sbf_load_datas_from_db <- function(db_name = sbf_get_db_name(),
   invisible(names(datas))
 }
 
-load_rdss_recursive <- function(x_name, class, sub, main, include_root,
-                                tag = ".*", meta = FALSE, drop = NULL,
-                                fun = NULL, ext = "rds") {
+#' Load RDS files as List Column in Data Frame
+#' 
+#' **NOTE**: Currently only an internal function and not tested.
+#' 
+#' Recursively loads all RDS files with names matching the regular expression
+#' `x_name` as the first (list) column (named `object`) in a data frame.
+#' Subsequent character vector columns specify the object names (named name)
+#' and sub folders (named sub1, sub2 etc).
+#' 
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_load_objects_recursive
+#' @inheritParams sbf_load_tables_recursive
+#' @param drop A character vector specifying the sub folders and file names not
+#' to import or `NULL` (the default).
+#' @family load functions
+load_rdss_recursive <- function(x_name = ".*",
+                                class,
+                                sub = sbf_get_sub(),
+                                main = sbf_get_main(),
+                                include_root = TRUE,
+                                tag = ".*",
+                                meta = FALSE,
+                                fun = NULL,
+                                ext = "rds") {
   chk_string(x_name)
   chk_character(sub)
   chk_range(length(sub))
