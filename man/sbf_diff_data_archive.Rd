@@ -29,8 +29,7 @@ a character string of the path to the archived folder.}
 
 \item{recursive}{A flag specifying whether to recurse into subfolders.}
 
-\item{include_root}{A flag indicating whether to include objects in the top
-sub folder.}
+\item{include_root}{A flag indicating whether to include objects in the top}
 
 \item{exists}{A logical scalar specifying whether the file should exist.}
 }

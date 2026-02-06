@@ -10,7 +10,8 @@ sbf_load_blocks_recursive(
   main = sbf_get_main(),
   include_root = TRUE,
   tag = ".*",
-  meta = FALSE
+  meta = FALSE,
+  drop = NULL
 )
 }
 \arguments{
@@ -22,14 +23,17 @@ current sub folder).}
 \item{main}{A string specifying the path to the main folder (by default the
 current main folder)}
 
-\item{include_root}{A flag indicating whether to include objects in the top
-sub folder.}
+\item{include_root}{A flag indicating whether to include objects in the top}
 
 \item{tag}{A string of the regular expression that the tag must match to be
 included.}
 
 \item{meta}{A flag specifying whether to include the report, caption and any
 other metadata as columns.}
+
+\item{drop}{A character vector specifying the sub folders and file names not
+to import or \code{NULL} (the default).
+sub folder.}
 }
 \description{
 Recursively loads all the code blocks with names matching the regular
