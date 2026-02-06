@@ -53,6 +53,7 @@ Suggests:
     dbflobr,
     flobr,
     glue,
+    microbenchmark,
     readxl,
     RPostgres,
     sf,

@@ -8,7 +8,8 @@ sbf_load_objects_recursive(
   x_name = ".*",
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  include_root = TRUE
+  include_root = TRUE,
+  drop = NULL
 )
 }
 \arguments{
@@ -20,7 +21,10 @@ current sub folder).}
 \item{main}{A string specifying the path to the main folder (by default the
 current main folder)}
 
-\item{include_root}{A flag indicating whether to include objects in the top
+\item{include_root}{A flag indicating whether to include objects in the top}
+
+\item{drop}{A character vector specifying the sub folders and file names not
+to import or \code{NULL} (the default).
 sub folder.}
 }
 \description{

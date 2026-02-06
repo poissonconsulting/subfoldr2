@@ -20,8 +20,7 @@ current sub folder).}
 \item{main}{A string specifying the path to the main folder (by default the
 current main folder)}
 
-\item{include_root}{A flag indicating whether to include objects in the top
-sub folder.}
+\item{include_root}{A flag indicating whether to include objects in the top}
 }
 \description{
 Recursively returns all the subs of objects with name x_name.
