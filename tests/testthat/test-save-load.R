@@ -1923,7 +1923,6 @@ test_that("`sbf_load_plots_recursive()` drops relevant plots *before* loading th
     return(i)
   }, integer(1))
   
-  #' TODO: change to `{microbench}`
   t_dropped <- microbenchmark::microbenchmark({
     plot_subset <<- sbf_load_plots_recursive(main = temp_dir, drop = paste0("plot-", 2:10))
   }, unit = "millisecond")
