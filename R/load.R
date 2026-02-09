@@ -381,8 +381,11 @@ sbf_load_datas_from_db <- function(db_name = sbf_get_db_name(),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_load_tables_recursive
+#' @param class Class of object to import, which determines the sub to import from.
 #' @param drop A character vector specifying the sub folders and file names not
 #' to import or `NULL` (the default).
+#' @param ext Extension of the files (`".rds"` by default)
+#' @param fun function to apply to the object after import (`NULL` by default)
 #' @family load functions
 load_rdss_recursive <- function(x_name = ".*",
                                 class,

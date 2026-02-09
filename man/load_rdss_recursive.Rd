@@ -20,6 +20,8 @@ load_rdss_recursive(
 \arguments{
 \item{x_name}{A string of the name.}
 
+\item{class}{Class of object to import, which determines the sub to import from.}
+
 \item{sub}{A string specifying the path to the sub folder (by default the
 current sub folder).}
 
@@ -36,6 +38,10 @@ other metadata as columns.}
 
 \item{drop}{A character vector specifying the sub folders and file names not
 to import or \code{NULL} (the default).}
+
+\item{fun}{function to apply to the object after import (\code{NULL} by default)}
+
+\item{ext}{Extension of the files (\code{".rds"} by default)}
 }
 \description{
 \strong{NOTE}: Currently only an internal function and not tested.
