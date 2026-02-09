@@ -30,6 +30,7 @@ Loads an sf tbl that must meet the same requirements as \code{sbf_save_spatial}.
 }
 \seealso{
 Other load functions: 
+\code{\link{load_rdss_recursive}()},
 \code{\link{sbf_load_block}()},
 \code{\link{sbf_load_blocks}()},
 \code{\link{sbf_load_blocks_recursive}()},
