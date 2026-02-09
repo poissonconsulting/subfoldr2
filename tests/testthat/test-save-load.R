@@ -1966,7 +1966,7 @@ test_that("`load_rdss_recursive()` loads all possible RDS files when `drop = NUL
   saveRDS(2, paste0(temp_dir, "/test-files/file-2.rds"))
   saveRDS(3, paste0(temp_dir, "/test-files/file-3.rds"))
   
-  input <- subfoldr2::load_rdss_recursive(class = "test-files", main = temp_dir)
+  input <- subfoldr2:::load_rdss_recursive(class = "test-files", main = temp_dir)
   expect_equal(input$`test-files`[[1]], 1)
   expect_equal(input$`test-files`[[2]], 2)
   expect_equal(input$`test-files`[[3]], 3)
@@ -1980,7 +1980,7 @@ test_that("`load_rdss_recursive()` only loads RDS files that do not match the pa
   saveRDS(3, paste0(temp_dir, "/test-files/file-3.rds"))
   saveRDS(11, paste0(temp_dir, "/test-files/file-11.rds"))
   
-  input <- subfoldr2::load_rdss_recursive(class = "test-files", main = temp_dir,
+  input <- subfoldr2:::load_rdss_recursive(class = "test-files", main = temp_dir,
                                           drop = "1")
   expect_equal(nrow(input), length(c(2, 3)))
 })
