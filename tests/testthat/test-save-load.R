@@ -1952,3 +1952,42 @@ test_that("`sbf_load_plots_recursive()` returns a table with no rows if no argum
   expect_s3_class(out, "tbl_df")
   expect_equal(paste(colnames(out), collapse = ", "), "plots, name, sub, file")
 })
+
+test_that("`sbf_load_numbers_recursive()` drops only exact matches.", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  sbf_save_number(1, "one")
+  sbf_save_number(2, "ones")
+  sbf_set_sub("one")
+  sbf_save_number(3, "one")
+  sbf_save_number(4, "tone")
+  sbf_set_sub("bone")
+  sbf_save_number(5, "one")
+  sbf_save_number(6, "hone")
+  sbf_set_sub("bone", "zone")
+  sbf_save_number(7, "one")
+  sbf_save_number(8, "cone")
+  sbf_reset_sub()
+
+  numbers <- sbf_load_numbers_recursive()
+  numbers$file <- NULL
+
+  expect_snapshot(numbers)
+
+  numbers_one <- sbf_load_numbers_recursive(drop = "one")
+  numbers_one$file <- NULL
+
+  expect_snapshot(numbers_one)
+
+  numbers_bone <- sbf_load_numbers_recursive(drop = "bone")
+  numbers_bone$file <- NULL
+
+  expect_snapshot(numbers_bone)  
+
+  numbers_onebone <- sbf_load_numbers_recursive(drop = c("one", "bone"))
+  numbers_onebone$file <- NULL
+
+  expect_snapshot(numbers_onebone)
+})
