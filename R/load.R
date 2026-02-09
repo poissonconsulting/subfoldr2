@@ -406,12 +406,9 @@ load_rdss_recursive <- function(x_name = ".*",
   chk_string(tag)
   chk_flag(meta)
   chk_null_or(drop, vld = vld_character)
-  
-  # drop = "" drops all elements, since they all match "", and thus causes
-  # issues with data.frame(x = I(objects)) below:
-  # replacement has 1 row, data has 0
-  if(any(nchar(drop) == 0) | any(is.na(drop))) {
-    stop("All elements in `drop` must have at least one character")
+
+  if(!is.null(drop)) {
+    chk::chk_not_any_na(drop)
   }
   
   sub <- sanitize_path(sub)

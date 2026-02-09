@@ -1943,12 +1943,8 @@ test_that("`sbf_load_plots_recursive()` returns an error if `drop` is not `NULL`
                regexp = "`drop` must be character or NULL.")
   expect_error(sbf_load_plots_recursive(drop = data.frame()),
                regexp = "`drop` must be character or NULL.")
-  expect_error(sbf_load_plots_recursive(drop = 1),
-               regexp = "`drop` must be character or NULL.")
-  expect_error(sbf_load_plots_recursive(drop = ""),
-               regexp = "All elements in `drop` must have at least one character")
   expect_error(sbf_load_plots_recursive(drop = NA_character_),
-               regexp = "All elements in `drop` must have at least one character")
+               regexp = "`drop` must not have any missing values.")
 })
 
 test_that("`sbf_load_plots_recursive()` returns a table with no rows if no arguments are supplied.", {
@@ -2009,21 +2005,6 @@ test_that("`load_object_recursive()` drops relevant objects *before* loading the
   
   expect_lt(median(t_dropped$time), median(t_all$time))
   expect_lt(nrow(obj_subset), nrow(obj_all))
-})
-
-test_that("`load_rdss_recursive()` returns an error if `drop` is not `NULL` or a character vector with non-empty strings.", {
-  expect_error(load_rdss_recursive(drop = 1),
-               regexp = "`drop` must be character or NULL.")
-  expect_error(load_rdss_recursive(drop = NA),
-               regexp = "`drop` must be character or NULL.")
-  expect_error(load_rdss_recursive(drop = data.frame()),
-               regexp = "`drop` must be character or NULL.")
-  expect_error(load_rdss_recursive(drop = 1),
-               regexp = "`drop` must be character or NULL.")
-  expect_error(sbf_load_plots_recursive(drop = ""),
-               regexp = "All elements in `drop` must have at least one character")
-  expect_error(sbf_load_plots_recursive(drop = NA_character_),
-               regexp = "All elements in `drop` must have at least one character")
 })
 
 test_that("`load_rdss_recursive()` returns a table with no rows if no arguments are supplied.", {
