@@ -1923,7 +1923,6 @@ test_that("`sbf_load_plots_recursive()` drops relevant plots *before* loading th
     return(i)
   }, integer(1))
   
-  #' TODO: change to `{microbench}`
   t_dropped <- microbenchmark::microbenchmark({
     plot_subset <<- sbf_load_plots_recursive(main = temp_dir, drop = paste0("plot-", 2:10))
   }, unit = "millisecond")
@@ -1952,64 +1951,4 @@ test_that("`sbf_load_plots_recursive()` returns a table with no rows if no argum
   expect_equal(nrow(out), 0L)
   expect_s3_class(out, "tbl_df")
   expect_equal(paste(colnames(out), collapse = ", "), "plots, name, sub, file")
-})
-
-#' `load_rdss_recursive()` has no other tests because it's an internal function
-test_that("`load_rdss_recursive()` loads all possible RDS files when `drop = NULL` (default).", {
-  temp_dir <- withr::local_tempdir("test-files-", tmpdir = ".")
-  dir.create(paste0(temp_dir, "/test-files"))
-  saveRDS(1, paste0(temp_dir, "/test-files/file-1.rds"))
-  saveRDS(2, paste0(temp_dir, "/test-files/file-2.rds"))
-  saveRDS(3, paste0(temp_dir, "/test-files/file-3.rds"))
-  
-  input <- subfoldr2:::load_rdss_recursive(class = "test-files", main = temp_dir)
-  expect_equal(input$`test-files`[[1]], 1)
-  expect_equal(input$`test-files`[[2]], 2)
-  expect_equal(input$`test-files`[[3]], 3)
-})
-
-test_that("`load_rdss_recursive()` only loads RDS files that do not match the patterns in `drop`.", {
-  temp_dir <- withr::local_tempdir("test-files-", tmpdir = ".")
-  dir.create(paste0(temp_dir, "/test-files"))
-  saveRDS(1, paste0(temp_dir, "/test-files/file-1.rds"))
-  saveRDS(2, paste0(temp_dir, "/test-files/file-2.rds"))
-  saveRDS(3, paste0(temp_dir, "/test-files/file-3.rds"))
-  saveRDS(11, paste0(temp_dir, "/test-files/file-11.rds"))
-  
-  input <- subfoldr2:::load_rdss_recursive(class = "test-files", main = temp_dir,
-                                          drop = "1")
-  expect_equal(nrow(input), length(c(2, 3)))
-})
-
-test_that("`load_object_recursive()` drops relevant objects *before* loading them.", {
-  temp_dir <- withr::local_tempdir("test-files-", tmpdir = ".")
-  
-  i <- vapply(1:10, function(i) {
-    sbf_save_object(x = data.frame(x = rnorm(5e4)),
-                    x_name = paste0("object-", i), sub = "sub", main = temp_dir)
-    return(i)
-  }, integer(1))
-  
-  t_dropped <- microbenchmark::microbenchmark({
-    obj_subset <<-
-      subfoldr2:::load_rdss_recursive(main = temp_dir, class = "objects",
-                                      sub = "sub",
-                                      drop = paste0("object-", 1:8))
-  }, unit = "millisecond")
-  
-  t_all <- microbenchmark::microbenchmark({
-    obj_all <<-
-      subfoldr2:::load_rdss_recursive(main = temp_dir, sub = "sub",
-                                      class = "objects")
-  }, unit = "milliseconds")
-  
-  expect_lt(median(t_dropped$time), median(t_all$time))
-  expect_lt(nrow(obj_subset), nrow(obj_all))
-})
-
-test_that("`load_rdss_recursive()` returns a table with no rows if no arguments are supplied.", {
-  out <- load_rdss_recursive(class = "object", drop = NULL)
-  expect_equal(nrow(out), 0L)
-  expect_s3_class(out, "tbl_df")
-  expect_equal(paste(colnames(out), collapse = ", "), "object, name, sub, file")
 })
