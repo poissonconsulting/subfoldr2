@@ -1904,7 +1904,7 @@ test_that("`sbf_load_plots_recursive()` only loads plot that do not match the pa
   sbf_save_plot(x = p2, x_name = "plot-2", sub = "sub", main = temp_dir)
   sbf_save_plot(x = p3, x_name = "plot-3", sub = "sub", main = temp_dir)
   
-  input <- sbf_load_plots_recursive(sub = "sub", main = temp_dir, drop = "3")
+  input <- sbf_load_plots_recursive(sub = "sub", main = temp_dir, drop = "plot-3")
   
   expect_equal(input$plots[[1]]@labels$title, p1@labels$title)
   expect_equal(input$plots[[2]]@labels$title, p2@labels$title)
