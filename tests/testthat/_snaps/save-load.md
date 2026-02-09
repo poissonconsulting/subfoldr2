@@ -45,10 +45,8 @@
     Code
       numbers_onebone
     Output
-      # A tibble: 3 x 5
-        numbers name  sub         sub1  sub2 
-          <dbl> <chr> <chr>       <chr> <chr>
-      1       6 hone  "bone"      bone  <NA> 
-      2       8 cone  "bone/zone" bone  zone 
-      3       2 ones  ""          <NA>  <NA> 
+      # A tibble: 1 x 3
+        numbers name  sub  
+          <dbl> <chr> <chr>
+      1       2 ones  ""   
 

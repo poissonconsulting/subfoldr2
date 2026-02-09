@@ -435,7 +435,9 @@ load_rdss_recursive <- function(x_name = ".*",
   }
   
   if(length(drop) > 0) {
-    files <- files[!grepl(pattern = paste0("/", drop, "/"), x = paste0("/", files, "/"))]
+    pattern <- paste0(paste0("/", drop, "/"), collapse = "|")
+    x <- paste0("/", files, "/")
+    files <- files[!grepl(pattern = pattern, x = x)]
   }
   
   objects <- lapply(names(files), readRDS)
