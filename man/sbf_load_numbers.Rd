@@ -32,7 +32,6 @@ Load Numbers
 }
 \seealso{
 Other load functions: 
-\code{\link{load_rdss_recursive}()},
 \code{\link{sbf_load_block}()},
 \code{\link{sbf_load_blocks}()},
 \code{\link{sbf_load_blocks_recursive}()},
