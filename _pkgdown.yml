@@ -61,7 +61,6 @@ reference:
   - '`sbf_load_windows_recursive`'
   - '`sbf_load_data_from_pg`'
   - '`sbf_load_datas_from_pg`'
-  - '`load_rdss_recursive`'
 - title: Compare Items
   contents:
   - '`sbf_compare_data`'
