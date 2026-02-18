@@ -387,6 +387,7 @@ sbf_load_datas_from_db <- function(db_name = sbf_get_db_name(),
 #' @param ext Extension of the files (`".rds"` by default)
 #' @param fun function to apply to the object after import (`NULL` by default)
 #' @return a tibble of the loaded objects
+#' @family load functions
 load_rdss_recursive <- function(x_name = ".*",
                                 class,
                                 sub = sbf_get_sub(),
