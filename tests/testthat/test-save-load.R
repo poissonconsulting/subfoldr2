@@ -1942,7 +1942,7 @@ test_that("`sbf_load_plots_recursive()` returns a table with no rows if no argum
   out <- sbf_load_plots_recursive(drop = NULL)
   expect_equal(nrow(out), 0L)
   expect_s3_class(out, "tbl_df")
-  expect_equal(paste(colnames(out), collapse = ", "), "plots, name, sub, file")
+  expect_equal(colnames(out), c("plots", "name", "sub", "file"))
 })
 
 test_that("`sbf_load_numbers_recursive()` drops only exact matches.", {
