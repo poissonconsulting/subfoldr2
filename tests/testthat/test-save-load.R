@@ -1938,7 +1938,7 @@ test_that("`sbf_load_plots_recursive()` returns an error if `drop` is not `NULL`
                regexp = "`drop` must not have any missing values.")
 })
 
-test_that("`sbf_load_plots_recursive()` returns a table with no rows if no arguments are supplied.", {
+test_that("`sbf_load_plots_recursive()` returns a table with no rows if no objects are in the sub.", {
   out <- sbf_load_plots_recursive(drop = NULL)
   expect_equal(nrow(out), 0L)
   expect_s3_class(out, "tbl_df")
