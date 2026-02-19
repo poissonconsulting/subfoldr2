@@ -1005,6 +1005,107 @@ test_that("clean after up previous test block in case errored, cant use defer wi
   sbf_close_windows()
 })
 
+test_that("`sbf_load_plots_recursive()` loads all possible plots when `drop = NULL` (default), `drop = \"\"`, or `drop = character(0)`.", {
+  p1 <- ggplot2::ggplot() +
+    ggplot2::geom_point(ggplot2::aes(1, 1)) +
+    ggplot2::ggtitle("Plot 1")
+  p2 <- ggplot2::ggplot() +
+    ggplot2::geom_point(ggplot2::aes(2, 2)) +
+    ggplot2::ggtitle("Plot 2")
+  p3 <- ggplot2::ggplot() +
+    ggplot2::geom_point(ggplot2::aes(3, 3)) +
+    ggplot2::ggtitle("Plot 3")
+  
+  temp_dir <- withr::local_tempdir("test-files-", tmpdir = ".")
+  
+  sbf_save_plot(x = p1, x_name = "plot-1", sub = "sub", main = temp_dir)
+  sbf_save_plot(x = p2, x_name = "plot-2", sub = "sub", main = temp_dir)
+  sbf_save_plot(x = p3, x_name = "plot-3", sub = "sub", main = temp_dir)
+  
+  input <- sbf_load_plots_recursive(sub = "sub", main = temp_dir)
+  
+  expect_equal(nrow(input), 3L)
+  expect_s3_class(input$plots[[1]], "ggplot")
+  expect_equal(input$plots[[1]]@labels$title, p1@labels$title)
+  expect_equal(input$plots[[2]]@labels$title, p2@labels$title)
+  expect_equal(input$plots[[3]]@labels$title, p3@labels$title)
+  
+  input <- sbf_load_plots_recursive(sub = "sub", main = temp_dir,
+                                    drop = character(0))
+  
+  expect_equal(nrow(input), 3L)
+  expect_s3_class(input$plots[[1]], "ggplot")
+  expect_equal(input$plots[[1]]@labels$title, p1@labels$title)
+  expect_equal(input$plots[[2]]@labels$title, p2@labels$title)
+  expect_equal(input$plots[[3]]@labels$title, p3@labels$title)
+})
+
+test_that("`sbf_load_plots_recursive()` only loads plot that do not match the patterns in `drop`.", {
+  p1 <- ggplot2::ggplot() +
+    ggplot2::geom_point(ggplot2::aes(1, 1)) +
+    ggplot2::ggtitle("Plot 1")
+  p2 <- ggplot2::ggplot() +
+    ggplot2::geom_point(ggplot2::aes(2, 2)) +
+    ggplot2::ggtitle("Plot 2")
+  p3 <- ggplot2::ggplot() +
+    ggplot2::geom_point(ggplot2::aes(3, 3)) +
+    ggplot2::ggtitle("Plot 3")
+  
+  temp_dir <- withr::local_tempdir("test-files-", tmpdir = ".")
+  
+  sbf_save_plot(x = p1, x_name = "plot-1", sub = "sub", main = temp_dir)
+  sbf_save_plot(x = p2, x_name = "plot-2", sub = "sub", main = temp_dir)
+  sbf_save_plot(x = p3, x_name = "plot-3", sub = "sub", main = temp_dir)
+  
+  input <- sbf_load_plots_recursive(sub = "sub", main = temp_dir, drop = "plot-3")
+  
+  expect_equal(input$plots[[1]]@labels$title, p1@labels$title)
+  expect_equal(input$plots[[2]]@labels$title, p2@labels$title)
+  expect_equal(nrow(input), length(c(1, 2)))
+})
+
+test_that("`sbf_load_plots_recursive()` drops relevant plots *before* loading them.", {
+  p <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(1, 1))
+  
+  temp_dir <- withr::local_tempdir("test-files-", tmpdir = ".")
+  
+  i <- vapply(1:3, function(i) {
+    sbf_save_plot(x = p + ggplot2::ggtitle(paste("Plot", i)),
+                  x_name = paste0("plot-", i),
+                  sub = "sub", main = temp_dir)
+    return(i)
+  }, integer(1))
+  
+  t_dropped <- microbenchmark::microbenchmark({
+    plot_subset <- sbf_load_plots_recursive(main = temp_dir, drop = paste0("plot-", 2:10))
+  }, unit = "millisecond")
+  
+  t_all <- microbenchmark::microbenchmark({
+    plot_all <- sbf_load_plots_recursive(main = temp_dir)
+  }, unit = "millisecond")
+  
+  expect_lt(median(t_dropped$time), median(t_all$time))
+  expect_lt(nrow(plot_subset), nrow(plot_all))
+})
+
+test_that("`sbf_load_plots_recursive()` returns an error if `drop` is not `NULL` or a character vector with non-empty strings.", {
+  expect_error(sbf_load_plots_recursive(drop = 1),
+               regexp = "`drop` must be character or NULL.")
+  expect_error(sbf_load_plots_recursive(drop = NA),
+               regexp = "`drop` must be character or NULL.")
+  expect_error(sbf_load_plots_recursive(drop = data.frame()),
+               regexp = "`drop` must be character or NULL.")
+  expect_error(sbf_load_plots_recursive(drop = NA_character_),
+               regexp = "`drop` must not have any missing values.")
+})
+
+test_that("`sbf_load_plots_recursive()` returns a table with no rows if no objects are in the sub.", {
+  out <- sbf_load_plots_recursive(drop = NULL)
+  expect_equal(nrow(out), 0L)
+  expect_s3_class(out, "tbl_df")
+  expect_equal(colnames(out), c("plots", "name", "sub", "file"))
+})
+
 test_that("window", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
@@ -1842,107 +1943,6 @@ test_that("save sf as gpkgs with linstring column and sf point and all_sfc = FAL
   gpkg <- convert_sfc_to_coords(gpkg, "geom")
   expect_identical(gpkg$X, gpkg$X)
   expect_identical(gpkg$Y, gpkg$Y)
-})
-
-test_that("`sbf_load_plots_recursive()` loads all possible plots when `drop = NULL` (default), `drop = \"\"`, or `drop = character(0)`.", {
-  p1 <- ggplot2::ggplot() +
-    ggplot2::geom_point(ggplot2::aes(1, 1)) +
-    ggplot2::ggtitle("Plot 1")
-  p2 <- ggplot2::ggplot() +
-    ggplot2::geom_point(ggplot2::aes(2, 2)) +
-    ggplot2::ggtitle("Plot 2")
-  p3 <- ggplot2::ggplot() +
-    ggplot2::geom_point(ggplot2::aes(3, 3)) +
-    ggplot2::ggtitle("Plot 3")
-  
-  temp_dir <- withr::local_tempdir("test-files-", tmpdir = ".")
-  
-  sbf_save_plot(x = p1, x_name = "plot-1", sub = "sub", main = temp_dir)
-  sbf_save_plot(x = p2, x_name = "plot-2", sub = "sub", main = temp_dir)
-  sbf_save_plot(x = p3, x_name = "plot-3", sub = "sub", main = temp_dir)
-  
-  input <- sbf_load_plots_recursive(sub = "sub", main = temp_dir)
-  
-  expect_equal(nrow(input), 3L)
-  expect_s3_class(input$plots[[1]], "ggplot")
-  expect_equal(input$plots[[1]]@labels$title, p1@labels$title)
-  expect_equal(input$plots[[2]]@labels$title, p2@labels$title)
-  expect_equal(input$plots[[3]]@labels$title, p3@labels$title)
-  
-  input <- sbf_load_plots_recursive(sub = "sub", main = temp_dir,
-                                    drop = character(0))
-  
-  expect_equal(nrow(input), 3L)
-  expect_s3_class(input$plots[[1]], "ggplot")
-  expect_equal(input$plots[[1]]@labels$title, p1@labels$title)
-  expect_equal(input$plots[[2]]@labels$title, p2@labels$title)
-  expect_equal(input$plots[[3]]@labels$title, p3@labels$title)
-})
-
-test_that("`sbf_load_plots_recursive()` only loads plot that do not match the patterns in `drop`.", {
-  p1 <- ggplot2::ggplot() +
-    ggplot2::geom_point(ggplot2::aes(1, 1)) +
-    ggplot2::ggtitle("Plot 1")
-  p2 <- ggplot2::ggplot() +
-    ggplot2::geom_point(ggplot2::aes(2, 2)) +
-    ggplot2::ggtitle("Plot 2")
-  p3 <- ggplot2::ggplot() +
-    ggplot2::geom_point(ggplot2::aes(3, 3)) +
-    ggplot2::ggtitle("Plot 3")
-  
-  temp_dir <- withr::local_tempdir("test-files-", tmpdir = ".")
-  
-  sbf_save_plot(x = p1, x_name = "plot-1", sub = "sub", main = temp_dir)
-  sbf_save_plot(x = p2, x_name = "plot-2", sub = "sub", main = temp_dir)
-  sbf_save_plot(x = p3, x_name = "plot-3", sub = "sub", main = temp_dir)
-  
-  input <- sbf_load_plots_recursive(sub = "sub", main = temp_dir, drop = "plot-3")
-  
-  expect_equal(input$plots[[1]]@labels$title, p1@labels$title)
-  expect_equal(input$plots[[2]]@labels$title, p2@labels$title)
-  expect_equal(nrow(input), length(c(1, 2)))
-})
-
-test_that("`sbf_load_plots_recursive()` drops relevant plots *before* loading them.", {
-  p <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(1, 1))
-  
-  temp_dir <- withr::local_tempdir("test-files-", tmpdir = ".")
-  
-  i <- vapply(1:3, function(i) {
-    sbf_save_plot(x = p + ggplot2::ggtitle(paste("Plot", i)),
-                  x_name = paste0("plot-", i),
-                  sub = "sub", main = temp_dir)
-    return(i)
-  }, integer(1))
-  
-  t_dropped <- microbenchmark::microbenchmark({
-    plot_subset <- sbf_load_plots_recursive(main = temp_dir, drop = paste0("plot-", 2:10))
-  }, unit = "millisecond")
-  
-  t_all <- microbenchmark::microbenchmark({
-    plot_all <- sbf_load_plots_recursive(main = temp_dir)
-  }, unit = "millisecond")
-  
-  expect_lt(median(t_dropped$time), median(t_all$time))
-  expect_lt(nrow(plot_subset), nrow(plot_all))
-})
-
-test_that("`sbf_load_plots_recursive()` returns an error if `drop` is not `NULL` or a character vector with non-empty strings.", {
-  expect_error(sbf_load_plots_recursive(drop = 1),
-               regexp = "`drop` must be character or NULL.")
-  expect_error(sbf_load_plots_recursive(drop = NA),
-               regexp = "`drop` must be character or NULL.")
-  expect_error(sbf_load_plots_recursive(drop = data.frame()),
-               regexp = "`drop` must be character or NULL.")
-  expect_error(sbf_load_plots_recursive(drop = NA_character_),
-               regexp = "`drop` must not have any missing values.")
-})
-
-test_that("`sbf_load_plots_recursive()` returns a table with no rows if no objects are in the sub.", {
-  out <- sbf_load_plots_recursive(drop = NULL)
-  expect_equal(nrow(out), 0L)
-  expect_s3_class(out, "tbl_df")
-  expect_equal(colnames(out), c("plots", "name", "sub", "file"))
 })
 
 test_that("`sbf_load_numbers_recursive()` drops only exact matches.", {
