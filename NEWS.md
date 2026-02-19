@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# subfoldr2 1.0.1.9003
+
+- Adding fledge action (#142).
+
+- `sbf_archive_main()` now executes without an error if main doesn't exist (#139, #140).
+
+
 # subfoldr2 1.0.1.9002
 
 - Add `signif = getOption("sbf.signif", 22L)` argument to `sbr_save_numbers()` (#134, #135).
