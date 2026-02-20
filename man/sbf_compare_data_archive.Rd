@@ -30,8 +30,7 @@ a character string of the path to the archived folder.}
 
 \item{recursive}{A flag specifying whether to recurse into subfolders.}
 
-\item{include_root}{A flag indicating whether to include objects in the top
-sub folder.}
+\item{include_root}{A flag indicating whether to include objects in the top}
 
 \item{tolerance}{numeric \eqn{\ge} 0.  Differences smaller than
     \code{tolerance} are not reported.  The default value is close to

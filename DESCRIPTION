@@ -13,6 +13,8 @@ Authors@R: c(
     person("Duncan", "Kennedy", , "duncan@poissonconsulting.ca", role = "ctb",
            comment = c(ORCID = "0009-0001-4880-5751")),
     person("Alan", "Constant", role = "ctb"),
+    person("Stefano", "Mezzini", , "stefano@poissonconsulting.ca", role = "ctb",
+           comment = c(ORCID = "0000-0001-8551-7436")),
     person("Poisson Consulting", role = c("cph", "fnd"))
   )
 Description: Facilitates saving and loading R objects, data frames,
@@ -53,6 +55,7 @@ Suggests:
     dbflobr,
     flobr,
     glue,
+    microbenchmark,
     readxl,
     RPostgres,
     sf,

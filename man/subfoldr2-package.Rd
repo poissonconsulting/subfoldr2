@@ -18,6 +18,7 @@ Other contributors:
   \item Nadine Hussein \email{nadine@poissonconsulting.ca} (\href{https://orcid.org/0000-0003-4470-8361}{ORCID}) [contributor]
   \item Duncan Kennedy \email{duncan@poissonconsulting.ca} (\href{https://orcid.org/0009-0001-4880-5751}{ORCID}) [contributor]
   \item Alan Constant [contributor]
+  \item Stefano Mezzini \email{stefano@poissonconsulting.ca} (\href{https://orcid.org/0000-0001-8551-7436}{ORCID}) [contributor]
   \item Poisson Consulting [copyright holder, funder]
 }
 
