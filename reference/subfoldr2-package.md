@@ -24,4 +24,7 @@ Other contributors:
 
 - Alan Constant \[contributor\]
 
+- Stefano Mezzini <stefano@poissonconsulting.ca>
+  ([ORCID](https://orcid.org/0000-0001-8551-7436)) \[contributor\]
+
 - Poisson Consulting \[copyright holder, funder\]

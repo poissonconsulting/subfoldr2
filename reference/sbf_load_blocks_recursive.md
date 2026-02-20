@@ -14,7 +14,8 @@ sbf_load_blocks_recursive(
   main = sbf_get_main(),
   include_root = TRUE,
   tag = ".*",
-  meta = FALSE
+  meta = FALSE,
+  drop = NULL
 )
 ```
 
@@ -36,7 +37,7 @@ sbf_load_blocks_recursive(
 
 - include_root:
 
-  A flag indicating whether to include objects in the top sub folder.
+  A flag indicating whether to include objects in the top
 
 - tag:
 
@@ -48,9 +49,15 @@ sbf_load_blocks_recursive(
   A flag specifying whether to include the report, caption and any other
   metadata as columns.
 
+- drop:
+
+  A character vector specifying the sub folders and file names not to
+  import or `NULL` (the default). sub folder.
+
 ## See also
 
 Other load functions:
+[`load_rdss_recursive()`](https://poissonconsulting.github.io/subfoldr2/reference/load_rdss_recursive.md),
 [`sbf_load_block()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_block.md),
 [`sbf_load_blocks()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_blocks.md),
 [`sbf_load_data()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_data.md),

@@ -13,7 +13,7 @@ and sub folders (named sub1, sub2 etc)."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">subfoldr2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1.9003</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,8 @@ and sub folders (named sub1, sub2 etc).</p>
 <span>  x_name <span class="op">=</span> <span class="st">".*"</span>,</span>
 <span>  sub <span class="op">=</span> <span class="fu"><a href="sbf_get_sub.html">sbf_get_sub</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  main <span class="op">=</span> <span class="fu"><a href="sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  include_root <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  include_root <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  drop <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -74,13 +75,19 @@ current main folder)</p></dd>
 
 
 <dt id="arg-include-root">include_root<a class="anchor" aria-label="anchor" href="#arg-include-root"></a></dt>
-<dd><p>A flag indicating whether to include objects in the top
+<dd><p>A flag indicating whether to include objects in the top</p></dd>
+
+
+<dt id="arg-drop">drop<a class="anchor" aria-label="anchor" href="#arg-drop"></a></dt>
+<dd><p>A character vector specifying the sub folders and file names not
+to import or <code>NULL</code> (the default).
 sub folder.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other load functions:
+<code><a href="load_rdss_recursive.html">load_rdss_recursive()</a></code>,
 <code><a href="sbf_load_block.html">sbf_load_block()</a></code>,
 <code><a href="sbf_load_blocks.html">sbf_load_blocks()</a></code>,
 <code><a href="sbf_load_blocks_recursive.html">sbf_load_blocks_recursive()</a></code>,

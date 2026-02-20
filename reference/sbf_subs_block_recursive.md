@@ -31,11 +31,12 @@ sbf_subs_block_recursive(
 
 - include_root:
 
-  A flag indicating whether to include objects in the top sub folder.
+  A flag indicating whether to include objects in the top
 
 ## See also
 
 Other load functions:
+[`load_rdss_recursive()`](https://poissonconsulting.github.io/subfoldr2/reference/load_rdss_recursive.md),
 [`sbf_load_block()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_block.md),
 [`sbf_load_blocks()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_blocks.md),
 [`sbf_load_blocks_recursive()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_blocks_recursive.md),

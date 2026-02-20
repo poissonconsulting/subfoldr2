@@ -1,5 +1,12 @@
 # Changelog
 
+## subfoldr2 1.0.1.9003
+
+- Adding fledge action (#142).
+
+- [`sbf_archive_main()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_archive_main.md)
+  now executes without an error if main doesn’t exist (#139, \#140).
+
 ## subfoldr2 1.0.1.9002
 
 - Add `signif = getOption("sbf.signif", 22L)` argument to

@@ -1,15 +1,21 @@
-# Load Object
+# Load RDS files as List Column in Data Frame
 
-Load Object
+**NOTE**: Currently only an internal function and not tested.
 
 ## Usage
 
 ``` r
-sbf_load_object(
-  x_name,
+load_rdss_recursive(
+  x_name = ".*",
+  class,
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  exists = TRUE
+  include_root = TRUE,
+  tag = ".*",
+  meta = FALSE,
+  drop = NULL,
+  fun = NULL,
+  ext = "rds"
 )
 ```
 
@@ -18,6 +24,10 @@ sbf_load_object(
 - x_name:
 
   A string of the name.
+
+- class:
+
+  Class of object to import, which determines the sub to import from.
 
 - sub:
 
@@ -29,18 +39,47 @@ sbf_load_object(
   A string specifying the path to the main folder (by default the
   current main folder)
 
-- exists:
+- include_root:
 
-  A logical scalar specifying whether the file should exist.
+  A flag indicating whether to include objects in the top
+
+- tag:
+
+  A string of the regular expression that the tag must match to be
+  included.
+
+- meta:
+
+  A flag specifying whether to include the report, caption and any other
+  metadata as columns.
+
+- drop:
+
+  A character vector specifying the sub folders and file names not to
+  import or `NULL` (the default).
+
+- fun:
+
+  function to apply to the object after import (`NULL` by default)
+
+- ext:
+
+  Extension of the files (`".rds"` by default)
 
 ## Value
 
-An R object or NULL if doesn't exist.
+a tibble of the loaded objects
+
+## Details
+
+Recursively loads all RDS files with names matching the regular
+expression `x_name` as the first (list) column (named `object`) in a
+data frame. Subsequent character vector columns specify the object names
+(named name) and sub folders (named sub1, sub2 etc).
 
 ## See also
 
 Other load functions:
-[`load_rdss_recursive()`](https://poissonconsulting.github.io/subfoldr2/reference/load_rdss_recursive.md),
 [`sbf_load_block()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_block.md),
 [`sbf_load_blocks()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_blocks.md),
 [`sbf_load_blocks_recursive()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_blocks_recursive.md),
@@ -55,6 +94,7 @@ Other load functions:
 [`sbf_load_number()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_number.md),
 [`sbf_load_numbers()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_numbers.md),
 [`sbf_load_numbers_recursive()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_numbers_recursive.md),
+[`sbf_load_object()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_object.md),
 [`sbf_load_objects()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_objects.md),
 [`sbf_load_objects_recursive()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_objects_recursive.md),
 [`sbf_load_plot()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_plot.md),

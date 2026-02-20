@@ -24,17 +24,20 @@
 
 - **Alan Constant**. Contributor.
 
+- **Stefano Mezzini**. Contributor.
+  [](https://orcid.org/0000-0001-8551-7436)
+
 - **[![](https://github.com/poissonconsulting.png)](https://www.poissonconsulting.ca/)**.
   Copyright holder, funder.
 
 ## Citation
 
 Thorley J (2026). *subfoldr2: Save and Load R Objects*. R package
-version 1.0.1.9002.
+version 1.0.1.9003.
 
     @Manual{,
       title = {subfoldr2: Save and Load R Objects},
       author = {Joe Thorley},
       year = {2026},
-      note = {R package version 1.0.1.9002},
+      note = {R package version 1.0.1.9003},
     }
