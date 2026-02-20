@@ -1031,6 +1031,15 @@ test_that("`sbf_load_plots_recursive()` loads all possible plots when `drop = NU
   expect_equal(input$plots[[3]]@labels$title, p3@labels$title)
   
   input <- sbf_load_plots_recursive(sub = "sub", main = temp_dir,
+                                    drop = "")
+  
+  expect_equal(nrow(input), 3L)
+  expect_s3_class(input$plots[[1]], "ggplot")
+  expect_equal(input$plots[[1]]@labels$title, p1@labels$title)
+  expect_equal(input$plots[[2]]@labels$title, p2@labels$title)
+  expect_equal(input$plots[[3]]@labels$title, p3@labels$title)
+  
+  input <- sbf_load_plots_recursive(sub = "sub", main = temp_dir,
                                     drop = character(0))
   
   expect_equal(nrow(input), 3L)
