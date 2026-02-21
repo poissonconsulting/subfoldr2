@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# subfoldr2 1.0.1.9004
+
+- Allow `load_rdss_recursive()` to exclude files (#136).
+
+
 # subfoldr2 1.0.1.9003
 
 - Adding fledge action (#142).
