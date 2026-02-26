@@ -448,7 +448,12 @@ load_rdss_recursive <- function(x_name = ".*",
   
   data <- data.frame(x = I(objects))
   names(data) <- class
-  data <- cbind(data, subfolder_columns(files))
+  if (length(files) > 0) {
+    data <- cbind(data, subfolder_columns(files))
+  } else {
+    data <- tibble(objects = list(), name = "", sub = "")
+    colnames(data)[1] <- class
+  }
   
   is_tag <- rep(TRUE, nrow(data))
   if (tag != ".*") {
