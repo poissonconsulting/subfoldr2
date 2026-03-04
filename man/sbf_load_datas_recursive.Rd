@@ -21,11 +21,11 @@ current sub folder).}
 \item{main}{A string specifying the path to the main folder (by default the
 current main folder)}
 
-\item{include_root}{A flag indicating whether to include objects in the top}
-
-\item{drop}{A character vector specifying the sub folders and file names not
-to import or \code{NULL} (the default).
+\item{include_root}{A flag indicating whether to include objects in the top
 sub folder.}
+
+\item{drop}{A character vector specifying the names of sub folders
+and files to drop or \code{NULL} (the default).}
 }
 \description{
 Recursively loads all the data frames with names matching the regular

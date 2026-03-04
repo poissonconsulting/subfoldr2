@@ -1081,12 +1081,12 @@ test_that("`sbf_load_plots_recursive()` drops relevant plots *before* loading th
   i <- vapply(1:3, function(i) {
     sbf_save_plot(x = p + ggplot2::ggtitle(paste("Plot", i)),
                   x_name = paste0("plot-", i),
-                  sub = "sub", main = temp_dir)
+                  sub = paste0("sub", i), main = temp_dir)
     return(i)
   }, integer(1))
   
   t_dropped <- suppressWarnings(microbenchmark::microbenchmark({
-    plot_subset <- sbf_load_plots_recursive(main = temp_dir, drop = paste0("plot-", 2:10))
+    plot_subset <- sbf_load_plots_recursive(main = temp_dir, drop = c("sub1", "sub2"))
   }, unit = "millisecond"))
   
   t_all <- suppressWarnings(microbenchmark::microbenchmark({
@@ -1954,6 +1954,38 @@ test_that("save sf as gpkgs with linstring column and sf point and all_sfc = FAL
   expect_identical(gpkg$Y, gpkg$Y)
 })
 
+test_that("`sbf_load_numbers_recursive()` drops based on file name.", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  sbf_save_number(1, "one")
+  sbf_save_number(1, "two")
+
+  numbers <- sbf_load_numbers_recursive(drop = "two")
+  numbers$file <- NULL
+
+  expect_snapshot(numbers)
+})
+
+test_that("`sbf_load_numbers_recursive()` drops based on nested file name.", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  sbf_save_number(1, "one")
+  sbf_save_number(1, "two")
+  sbf_set_sub("three")
+  sbf_save_number(1, "one")
+  sbf_save_number(1, "two")
+
+  numbers <- sbf_load_numbers_recursive()
+  numbers$file <- NULL
+
+  expect_snapshot(numbers)
+})
+
+
 test_that("`sbf_load_numbers_recursive()` drops only exact matches.", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
@@ -1981,6 +2013,12 @@ test_that("`sbf_load_numbers_recursive()` drops only exact matches.", {
   numbers_one$file <- NULL
 
   expect_snapshot(numbers_one)
+
+  ## doesn't recognize regular expressions so keeps all
+  numbers_dotone <- sbf_load_numbers_recursive(drop = ".*one")
+  numbers_dotone$file <- NULL
+
+  expect_snapshot(numbers_dotone)
 
   numbers_bone <- sbf_load_numbers_recursive(drop = "bone")
   numbers_bone$file <- NULL
