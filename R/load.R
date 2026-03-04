@@ -434,7 +434,7 @@ load_rdss_recursive <- function(x_name = ".*",
     return(data)
   }
   
-  if(length(drop)) {
+  if(length(drop) > 0) {
     drop <- purrr::map_lgl(path_split(files), \(x) length(intersect(x, drop)) > 0)
     files <- files[!drop]
   }
