@@ -23,7 +23,8 @@ current sub folder).}
 \item{main}{A string specifying the path to the main folder (by default the
 current main folder)}
 
-\item{include_root}{A flag indicating whether to include objects in the top}
+\item{include_root}{A flag indicating whether to include objects in the top
+sub folder.}
 
 \item{tag}{A string of the regular expression that the tag must match to be
 included.}
@@ -31,9 +32,8 @@ included.}
 \item{meta}{A flag specifying whether to include the report, caption and any
 other metadata as columns.}
 
-\item{drop}{A character vector specifying the sub folders and file names not
-to import or \code{NULL} (the default).
-sub folder.}
+\item{drop}{A character vector specifying the names of sub folders
+and files to drop or \code{NULL} (the default).}
 }
 \description{
 Recursively loads all the plots with names matching the regular expression
