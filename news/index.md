@@ -1,5 +1,11 @@
 # Changelog
 
+## subfoldr2 1.0.1.9004
+
+- Allow
+  [`load_rdss_recursive()`](https://poissonconsulting.github.io/subfoldr2/reference/load_rdss_recursive.md)
+  to exclude files (#136).
+
 ## subfoldr2 1.0.1.9003
 
 - Adding fledge action (#142).

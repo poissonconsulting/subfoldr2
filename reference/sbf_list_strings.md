@@ -38,7 +38,7 @@ sbf_list_strings(
 
 - include_root:
 
-  A flag indicating whether to include objects in the top
+  A flag indicating whether to include objects in the top sub folder.
 
 - ext:
 

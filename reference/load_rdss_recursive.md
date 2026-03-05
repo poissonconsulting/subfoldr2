@@ -41,7 +41,7 @@ load_rdss_recursive(
 
 - include_root:
 
-  A flag indicating whether to include objects in the top
+  A flag indicating whether to include objects in the top sub folder.
 
 - tag:
 
@@ -55,8 +55,8 @@ load_rdss_recursive(
 
 - drop:
 
-  A character vector specifying the sub folders and file names not to
-  import or `NULL` (the default).
+  A character vector specifying the names of sub folders and files to
+  drop or `NULL` (the default).
 
 - fun:
 
