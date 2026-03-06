@@ -1146,8 +1146,9 @@ test_that("sbf_load_plots_recursive() fails if at least one sub is populated and
                       sub = character(0), file = character(0)))
   
   sbf_save_plot(x = p1, x_name = "plot-1", sub = "sub", main = temp_dir)
-  expect_error(sbf_load_plots_recursive(sub = "", main = temp_dir, drop = "sub"),
-               "replacement has 1 row, data has 0")
+  expect_equal(sbf_load_plots_recursive(sub = "", main = temp_dir, drop = "sub"),
+               tibble(plots = list(), name = character(0),
+                      sub = character(0), file = character(0)))
   
   sbf_save_plot(x = p2, x_name = "plot-2", sub = "sub", main = temp_dir)
   sbf_save_plot(x = p3, x_name = "plot-3", sub = "sub", main = temp_dir)
