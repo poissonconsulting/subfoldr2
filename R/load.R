@@ -382,8 +382,7 @@ sbf_load_datas_from_db <- function(db_name = sbf_get_db_name(),
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_load_tables_recursive
 #' @param class Class of object to import, which determines the sub to import from.
-#' @param drop A character vector specifying the sub folders and file names not
-#' to import or `NULL` (the default).
+#' @inheritParams params
 #' @param ext Extension of the files (`".rds"` by default)
 #' @param fun function to apply to the object after import (`NULL` by default)
 #' @return a tibble of the loaded objects
@@ -436,9 +435,8 @@ load_rdss_recursive <- function(x_name = ".*",
   }
   
   if(length(drop) > 0) {
-    pattern <- paste0(paste0("/", drop, "/"), collapse = "|")
-    x <- paste0("/", files, "/")
-    files <- files[!grepl(pattern = pattern, x = x)]
+    drop <- purrr::map_lgl(path_split(files), \(x) length(intersect(x, drop)) > 0)
+    files <- files[!drop]
   }
   
   objects <- lapply(names(files), readRDS)
@@ -486,7 +484,7 @@ subs_rds_recursive <- function(x_name,
   
   ext <- p0("[.]", ext, "$")
   files <- list.files(dir, pattern = p0("^", x_name, ext), recursive = TRUE)
-  
+ 
   names(files) <- file.path(dir, files)
   files <- sub(ext, "", files)
   files <- files[basename(files) == x_name]
@@ -506,10 +504,9 @@ subs_rds_recursive <- function(x_name,
 #' Subsequent character vector columns specify the object names (named name)
 #' and sub folders (named sub1, sub2 etc).
 #' @inheritParams sbf_save_object
+#' @inheritParams params
 #' @param x_name A string of the regular expression to match.
 #' @param include_root A flag indicating whether to include objects in the top
-#' @param drop A character vector specifying the sub folders and file names not
-#' to import or `NULL` (the default).
 #' sub folder.
 #' @family load functions
 #' @export

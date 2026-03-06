@@ -27,6 +27,27 @@
       1 <ggplt2::> plot-2 sub2 
       2 <ggplt2::> plot-3 sub3 
 
+# `sbf_load_numbers_recursive()` drops based on file name.
+
+    Code
+      numbers
+    Output
+      # A tibble: 1 x 3
+        numbers name  sub  
+          <dbl> <chr> <chr>
+      1       1 one   ""   
+
+# `sbf_load_numbers_recursive()` drops based on nested file name.
+
+    Code
+      numbers
+    Output
+      # A tibble: 2 x 3
+        numbers name  sub  
+          <dbl> <chr> <chr>
+      1       1 one   ""   
+      2       1 two   ""   
+
 # `sbf_load_numbers_recursive()` drops only exact matches.
 
     Code
@@ -55,6 +76,23 @@
       1       6 hone  "bone"      bone  <NA> 
       2       8 cone  "bone/zone" bone  zone 
       3       2 ones  ""          <NA>  <NA> 
+
+---
+
+    Code
+      numbers_dotone
+    Output
+      # A tibble: 8 x 5
+        numbers name  sub         sub1  sub2 
+          <dbl> <chr> <chr>       <chr> <chr>
+      1       6 hone  "bone"      bone  <NA> 
+      2       5 one   "bone"      bone  <NA> 
+      3       8 cone  "bone/zone" bone  zone 
+      4       7 one   "bone/zone" bone  zone 
+      5       1 one   ""          <NA>  <NA> 
+      6       3 one   "one"       one   <NA> 
+      7       4 tone  "one"       one   <NA> 
+      8       2 ones  ""          <NA>  <NA> 
 
 ---
 
