@@ -50,3 +50,32 @@
           <dbl> <chr> <chr>
       1       2 ones  ""   
 
+# sbf_load_plots_recursive() fails if at least one sub is populated and we drop all subs.
+
+    Code
+      out <- sbf_load_plots_recursive(main = temp_dir)
+      out$file <- NULL
+      out
+    Output
+      # A tibble: 5 x 3
+        plots      name   sub  
+        <list>     <chr>  <chr>
+      1 <ggplt2::> plot-1 sub  
+      2 <ggplt2::> plot-2 sub  
+      3 <ggplt2::> plot-3 sub  
+      4 <ggplt2::> plot-2 sub2 
+      5 <ggplt2::> plot-3 sub3 
+
+---
+
+    Code
+      out <- sbf_load_plots_recursive(main = temp_dir, drop = "sub")
+      out$file <- NULL
+      out
+    Output
+      # A tibble: 2 x 3
+        plots      name   sub  
+        <list>     <chr>  <chr>
+      1 <ggplt2::> plot-2 sub2 
+      2 <ggplt2::> plot-3 sub3 
+

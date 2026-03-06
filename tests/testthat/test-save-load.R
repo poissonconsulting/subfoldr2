@@ -1992,3 +1992,52 @@ test_that("`sbf_load_numbers_recursive()` drops only exact matches.", {
 
   expect_snapshot(numbers_onebone)
 })
+test_that("sbf_load_plots_recursive() fails if at least one sub is populated and we drop all subs.", {
+  temp_dir <- withr::local_tempdir(pattern = "test-files-", tmpdir = ".")
+  temp_dir <- gsub("./", "", temp_dir, fixed = TRUE)
+  sbf_set_main(temp_dir)
+  
+  p1 <- ggplot2::ggplot() +
+    ggplot2::geom_point(ggplot2::aes(1, 1)) +
+    ggplot2::ggtitle("Plot 1")
+  p2 <- ggplot2::ggplot() +
+    ggplot2::geom_point(ggplot2::aes(2, 2)) +
+    ggplot2::ggtitle("Plot 2")
+  p3 <- ggplot2::ggplot() +
+    ggplot2::geom_point(ggplot2::aes(3, 3)) +
+    ggplot2::ggtitle("Plot 3")
+  
+  expect_identical(sbf_load_plots_recursive(main = "nonexistent"),
+                   tibble(plots = list(), name = character(0),
+                          sub = character(0), file = character(0)))
+  
+  expect_identical(sbf_load_plots_recursive(main = "nonexistent", sub = "nope"),
+                   tibble(plots = list(), name = character(0),
+                          sub = character(0), file = character(0)))
+  
+  dir.create(paste0(sbf_get_main(), '/plots/sub'), recursive = TRUE)
+  
+  # succeeds because the "sub" sub is empty
+  expect_equal(sbf_load_plots_recursive(main = temp_dir, drop = "sub"),
+               tibble(plots = list(), name = character(0),
+                      sub = character(0), file = character(0)))
+  
+  sbf_save_plot(x = p1, x_name = "plot-1", sub = "sub", main = temp_dir)
+  expect_error(sbf_load_plots_recursive(sub = "", main = temp_dir, drop = "sub"),
+               "replacement has 1 row, data has 0")
+  
+  sbf_save_plot(x = p2, x_name = "plot-2", sub = "sub", main = temp_dir)
+  sbf_save_plot(x = p3, x_name = "plot-3", sub = "sub", main = temp_dir)
+  sbf_save_plot(x = p2, x_name = "plot-2", sub = "sub2", main = temp_dir)
+  sbf_save_plot(x = p3, x_name = "plot-3", sub = "sub3", main = temp_dir)
+  
+  expect_snapshot({
+    out <- sbf_load_plots_recursive(main = temp_dir)
+    out$file <- NULL
+    out})
+  
+  expect_snapshot({
+    out <- sbf_load_plots_recursive(main = temp_dir, drop = "sub")
+    out$file <- NULL
+    out})
+})
