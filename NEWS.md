@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# subfoldr2 1.0.1.9006
+
+- Create an empty tibble without `subfolder_columns()` (#144).
+
+
 # subfoldr2 1.0.1.9005
 
 - Drop should list exact matches of subfolders or files to drop (#147).
