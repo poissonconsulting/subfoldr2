@@ -1,0 +1,43 @@
+schema: spec-driven
+
+# Project context (optional)
+# This is shown to AI when creating artifacts.
+# Add your tech stack, conventions, style guides, domain knowledge, etc.
+context: |
+  Project: subfoldr2 - an R package that facilitates saving and loading
+  R objects, data frames, tables, plots, text blocks and numbers to
+  subfolders of a single main output directory.
+
+  Tech stack: R with roxygen2 documentation, testthat edition 3 tests,
+  pkgdown for the docs website.
+  Key dependencies: chk (assertions), cli/usethis (messaging), dplyr,
+  data.table, ggplot2, readr, writexl, RSQLite, DBI, readwritesqlite,
+  dttr2, fs, tibble, snakecase, yesno, lifecycle.
+  Suggested: sf, daff, dbflobr, flobr, waldo, blob, config, RPostgres,
+  readxl, units, withr, microbenchmark.
+
+  Conventions:
+  - All exported functions are prefixed with `sbf_`.
+  - Artefact classes map to subdirectory names under the main folder:
+    `objects/`, `data/`, `tables/`, `numbers/`, `strings/`, `blocks/`,
+    `plots/`, `windows/`, `pdfs/`, `dbs/`, `flobs/`, `spatial/`,
+    `gpkg/`, `excel/`.
+  - The current main folder is stored in `options("sbf.main")`
+    (default `"output"`).
+  - The current sub folder is stored in `options("sbf.sub")`
+    (default `character(0)`).
+  - The current database name is stored in `options("sbf.db_name")`
+    (default `"database"`).
+  - Saving generally writes an `.rds` file; metadata-bearing classes
+    also write a `.rda` metadata file and a human-viewable sidecar
+    (`.csv` for numbers/tables/plot data, `.txt` for strings/blocks,
+    `.png` for plots/windows, `.xlsx` for excel, `.gpkg` for gpkg).
+  - Many deprecated PostgreSQL / AWS helpers exist that hard-stop and
+    redirect callers to the `subfoldr2ext` package.
+
+rules:
+  specs:
+    - Describe user-observable behaviour of the existing R package.
+    - Reference function names with backticks (e.g. `sbf_save_object()`).
+    - Requirements should be testable - tie scenarios to observable
+      side effects (files written, options set, connections returned).
