@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# subfoldr2 1.0.1.9007
+
+- Add CODEOWNERS assigning @joethorley (#152).
+
+
 # subfoldr2 1.0.1.9006
 
 - Create an empty tibble without `subfolder_columns()` (#144).
