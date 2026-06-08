@@ -54,7 +54,8 @@ By default it saves the last plot to be modified or created.</p>
 <span>  height <span class="op">=</span> <span class="va">width</span>,</span>
 <span>  dpi <span class="op">=</span> <span class="fl">300</span>,</span>
 <span>  limitsize <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  csv <span class="op">=</span> <span class="fl">1000L</span></span>
+<span>  csv <span class="op">=</span> <span class="fl">1000L</span>,</span>
+<span>  drop_uninformative_cols <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -117,6 +118,12 @@ specifying dimensions in pixels.</p></dd>
 <dt id="arg-csv">csv<a class="anchor" aria-label="anchor" href="#arg-csv"></a></dt>
 <dd><p>A count specifying the maximum number of rows to save as a csv
 file.</p></dd>
+
+
+<dt id="arg-drop-uninformative-cols">drop_uninformative_cols<a class="anchor" aria-label="anchor" href="#arg-drop-uninformative-cols"></a></dt>
+<dd><p>A flag indicating whether to drop
+uninformative columns via <code><a href="https://poissonconsulting.github.io/tidyplus/reference/drop_uninformative_columns.html" class="external-link">tidyplus::drop_uninformative_columns()</a></code>
+(<code>TRUE</code>, default) or not (<code>FALSE</code>).</p></dd>
 
 </dl></div>
     <div class="section level2">

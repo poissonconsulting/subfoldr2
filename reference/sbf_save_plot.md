@@ -19,7 +19,8 @@ sbf_save_plot(
   height = width,
   dpi = 300,
   limitsize = TRUE,
-  csv = 1000L
+  csv = 1000L,
+  drop_uninformative_cols = TRUE
 )
 ```
 
@@ -80,6 +81,12 @@ sbf_save_plot(
 - csv:
 
   A count specifying the maximum number of rows to save as a csv file.
+
+- drop_uninformative_cols:
+
+  A flag indicating whether to drop uninformative columns via
+  [`tidyplus::drop_uninformative_columns()`](https://poissonconsulting.github.io/tidyplus/reference/drop_uninformative_columns.html)
+  (`TRUE`, default) or not (`FALSE`).
 
 ## See also
 
