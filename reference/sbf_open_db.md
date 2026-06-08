@@ -1,7 +1,7 @@
 # Open SQLite Database Connection
 
 Opens a
-[RSQLite::SQLiteConnection](https://rsqlite.r-dbi.org/reference/SQLiteConnection-class.html)
+[SQLiteConnection](https://rsqlite.r-dbi.org/reference/SQLiteConnection-class.html)
 to a SQLite database. Foreign key constraints are enabled.
 
 ## Usage
