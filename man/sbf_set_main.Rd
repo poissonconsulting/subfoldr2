@@ -22,19 +22,19 @@ An invisible string of the path to the main folder.
 The directory is created when needed if it doesn't already exist.
 }
 \seealso{
-Other directory functions: 
-\code{\link{sbf_add_sub}()},
-\code{\link{sbf_get_archive}()},
-\code{\link{sbf_get_db_name}()},
-\code{\link{sbf_get_main}()},
-\code{\link{sbf_get_sub}()},
-\code{\link{sbf_get_workbook_name}()},
-\code{\link{sbf_reset}()},
-\code{\link{sbf_reset_db_name}()},
-\code{\link{sbf_reset_main}()},
-\code{\link{sbf_reset_sub}()},
-\code{\link{sbf_set_db_name}()},
-\code{\link{sbf_set_sub}()},
-\code{\link{sbf_up_sub}()}
+Other directory functions:
+\code{\link[=sbf_add_sub]{sbf_add_sub()}},
+\code{\link[=sbf_get_archive]{sbf_get_archive()}},
+\code{\link[=sbf_get_db_name]{sbf_get_db_name()}},
+\code{\link[=sbf_get_main]{sbf_get_main()}},
+\code{\link[=sbf_get_sub]{sbf_get_sub()}},
+\code{\link[=sbf_get_workbook_name]{sbf_get_workbook_name()}},
+\code{\link[=sbf_reset]{sbf_reset()}},
+\code{\link[=sbf_reset_db_name]{sbf_reset_db_name()}},
+\code{\link[=sbf_reset_main]{sbf_reset_main()}},
+\code{\link[=sbf_reset_sub]{sbf_reset_sub()}},
+\code{\link[=sbf_set_db_name]{sbf_set_db_name()}},
+\code{\link[=sbf_set_sub]{sbf_set_sub()}},
+\code{\link[=sbf_up_sub]{sbf_up_sub()}}
 }
 \concept{directory functions}

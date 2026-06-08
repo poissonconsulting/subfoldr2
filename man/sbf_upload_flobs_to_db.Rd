@@ -55,18 +55,18 @@ then uploads flobs subdirectory corresponding to database using
 dbflobr::import_all_flobs().
 }
 \seealso{
-Other flob: 
-\code{\link{sbf_add_blob_column_to_db}()},
-\code{\link{sbf_save_flobs_from_db}()}
+Other flob:
+\code{\link[=sbf_add_blob_column_to_db]{sbf_add_blob_column_to_db()}},
+\code{\link[=sbf_save_flobs_from_db]{sbf_save_flobs_from_db()}}
 
-Other database functions: 
-\code{\link{sbf_add_blob_column_to_db}()},
-\code{\link{sbf_close_db}()},
-\code{\link{sbf_copy_db}()},
-\code{\link{sbf_create_db}()},
-\code{\link{sbf_execute_db}()},
-\code{\link{sbf_open_db}()},
-\code{\link{sbf_query_db}()}
+Other database functions:
+\code{\link[=sbf_add_blob_column_to_db]{sbf_add_blob_column_to_db()}},
+\code{\link[=sbf_close_db]{sbf_close_db()}},
+\code{\link[=sbf_copy_db]{sbf_copy_db()}},
+\code{\link[=sbf_create_db]{sbf_create_db()}},
+\code{\link[=sbf_execute_db]{sbf_execute_db()}},
+\code{\link[=sbf_open_db]{sbf_open_db()}},
+\code{\link[=sbf_query_db]{sbf_query_db()}}
 }
 \concept{database functions}
 \concept{flob}

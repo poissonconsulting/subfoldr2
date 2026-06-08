@@ -28,14 +28,14 @@ An invisible string of the path to the previously archived folder.
 Unarchives an archived main folder.
 }
 \seealso{
-Other archive: 
-\code{\link{sbf_archive_main}()},
-\code{\link{sbf_get_archive}()}
+Other archive:
+\code{\link[=sbf_archive_main]{sbf_archive_main()}},
+\code{\link[=sbf_get_archive]{sbf_get_archive()}}
 
-Other housekeeping functions: 
-\code{\link{sbf_archive_main}()},
-\code{\link{sbf_rm_flobs}()},
-\code{\link{sbf_rm_main}()}
+Other housekeeping functions:
+\code{\link[=sbf_archive_main]{sbf_archive_main()}},
+\code{\link[=sbf_rm_flobs]{sbf_rm_flobs()}},
+\code{\link[=sbf_rm_main]{sbf_rm_main()}}
 }
 \concept{archive}
 \concept{housekeeping functions}

@@ -32,18 +32,18 @@ Invisible TRUE.
 Add named empty blob column to database
 }
 \seealso{
-Other flob: 
-\code{\link{sbf_save_flobs_from_db}()},
-\code{\link{sbf_upload_flobs_to_db}()}
+Other flob:
+\code{\link[=sbf_save_flobs_from_db]{sbf_save_flobs_from_db()}},
+\code{\link[=sbf_upload_flobs_to_db]{sbf_upload_flobs_to_db()}}
 
-Other database functions: 
-\code{\link{sbf_close_db}()},
-\code{\link{sbf_copy_db}()},
-\code{\link{sbf_create_db}()},
-\code{\link{sbf_execute_db}()},
-\code{\link{sbf_open_db}()},
-\code{\link{sbf_query_db}()},
-\code{\link{sbf_upload_flobs_to_db}()}
+Other database functions:
+\code{\link[=sbf_close_db]{sbf_close_db()}},
+\code{\link[=sbf_copy_db]{sbf_copy_db()}},
+\code{\link[=sbf_create_db]{sbf_create_db()}},
+\code{\link[=sbf_execute_db]{sbf_execute_db()}},
+\code{\link[=sbf_open_db]{sbf_open_db()}},
+\code{\link[=sbf_query_db]{sbf_query_db()}},
+\code{\link[=sbf_upload_flobs_to_db]{sbf_upload_flobs_to_db()}}
 }
 \concept{database functions}
 \concept{flob}

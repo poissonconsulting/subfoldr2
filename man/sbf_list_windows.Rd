@@ -33,14 +33,14 @@ sub folder.}
 Returns file paths for all window files matching regular expression x_name.
 }
 \seealso{
-Other list functions: 
-\code{\link{sbf_list_blocks}()},
-\code{\link{sbf_list_datas}()},
-\code{\link{sbf_list_dbs}()},
-\code{\link{sbf_list_numbers}()},
-\code{\link{sbf_list_objects}()},
-\code{\link{sbf_list_plots}()},
-\code{\link{sbf_list_strings}()},
-\code{\link{sbf_list_tables}()}
+Other list functions:
+\code{\link[=sbf_list_blocks]{sbf_list_blocks()}},
+\code{\link[=sbf_list_datas]{sbf_list_datas()}},
+\code{\link[=sbf_list_dbs]{sbf_list_dbs()}},
+\code{\link[=sbf_list_numbers]{sbf_list_numbers()}},
+\code{\link[=sbf_list_objects]{sbf_list_objects()}},
+\code{\link[=sbf_list_plots]{sbf_list_plots()}},
+\code{\link[=sbf_list_strings]{sbf_list_strings()}},
+\code{\link[=sbf_list_tables]{sbf_list_tables()}}
 }
 \concept{list functions}

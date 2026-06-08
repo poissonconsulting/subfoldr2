@@ -44,12 +44,12 @@ If doesn't exist returns FALSE, unless exists = FALSE in which case returns
 TRUE or exists = NA in which case returns NA.
 }
 \seealso{
-Other compare functions: 
-\code{\link{sbf_compare_data}()},
-\code{\link{sbf_compare_data_archive}()},
-\code{\link{sbf_diff_data}()},
-\code{\link{sbf_diff_data_archive}()},
-\code{\link{sbf_diff_table}()},
-\code{\link{sbf_is_equal_data_archive}()}
+Other compare functions:
+\code{\link[=sbf_compare_data]{sbf_compare_data()}},
+\code{\link[=sbf_compare_data_archive]{sbf_compare_data_archive()}},
+\code{\link[=sbf_diff_data]{sbf_diff_data()}},
+\code{\link[=sbf_diff_data_archive]{sbf_diff_data_archive()}},
+\code{\link[=sbf_diff_table]{sbf_diff_table()}},
+\code{\link[=sbf_is_equal_data_archive]{sbf_is_equal_data_archive()}}
 }
 \concept{compare functions}

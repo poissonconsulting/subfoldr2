@@ -27,14 +27,14 @@ Archives main folder by copy to a director of the same name
 with the current date and time appended.
 }
 \seealso{
-Other archive: 
-\code{\link{sbf_get_archive}()},
-\code{\link{sbf_unarchive_main}()}
+Other archive:
+\code{\link[=sbf_get_archive]{sbf_get_archive()}},
+\code{\link[=sbf_unarchive_main]{sbf_unarchive_main()}}
 
-Other housekeeping functions: 
-\code{\link{sbf_rm_flobs}()},
-\code{\link{sbf_rm_main}()},
-\code{\link{sbf_unarchive_main}()}
+Other housekeeping functions:
+\code{\link[=sbf_rm_flobs]{sbf_rm_flobs()}},
+\code{\link[=sbf_rm_main]{sbf_rm_main()}},
+\code{\link[=sbf_unarchive_main]{sbf_unarchive_main()}}
 }
 \concept{archive}
 \concept{housekeeping functions}

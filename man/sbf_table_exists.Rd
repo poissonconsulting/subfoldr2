@@ -22,12 +22,12 @@ A flag specifying whether the table exists.
 this function is now deprecated as of version 0.0.0.9045
 }
 \seealso{
-Other exists functions: 
-\code{\link{sbf_block_exists}()},
-\code{\link{sbf_data_exists}()},
-\code{\link{sbf_number_exists}()},
-\code{\link{sbf_object_exists}()},
-\code{\link{sbf_plot_exists}()},
-\code{\link{sbf_string_exists}()}
+Other exists functions:
+\code{\link[=sbf_block_exists]{sbf_block_exists()}},
+\code{\link[=sbf_data_exists]{sbf_data_exists()}},
+\code{\link[=sbf_number_exists]{sbf_number_exists()}},
+\code{\link[=sbf_object_exists]{sbf_object_exists()}},
+\code{\link[=sbf_plot_exists]{sbf_plot_exists()}},
+\code{\link[=sbf_string_exists]{sbf_string_exists()}}
 }
 \concept{exists functions}

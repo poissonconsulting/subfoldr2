@@ -16,10 +16,10 @@ Opens a graphics window on any platform. By default the window is
 6 x 6 inches.
 }
 \seealso{
-Other graphic functions: 
-\code{\link{sbf_close_pdf}()},
-\code{\link{sbf_close_window}()},
-\code{\link{sbf_close_windows}()},
-\code{\link{sbf_open_pdf}()}
+Other graphic functions:
+\code{\link[=sbf_close_pdf]{sbf_close_pdf()}},
+\code{\link[=sbf_close_window]{sbf_close_window()}},
+\code{\link[=sbf_close_windows]{sbf_close_windows()}},
+\code{\link[=sbf_open_pdf]{sbf_open_pdf()}}
 }
 \concept{graphic functions}

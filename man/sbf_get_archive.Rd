@@ -21,24 +21,24 @@ A string of the path to the archived directory.
 Get Archive Directory
 }
 \seealso{
-Other archive: 
-\code{\link{sbf_archive_main}()},
-\code{\link{sbf_unarchive_main}()}
+Other archive:
+\code{\link[=sbf_archive_main]{sbf_archive_main()}},
+\code{\link[=sbf_unarchive_main]{sbf_unarchive_main()}}
 
-Other directory functions: 
-\code{\link{sbf_add_sub}()},
-\code{\link{sbf_get_db_name}()},
-\code{\link{sbf_get_main}()},
-\code{\link{sbf_get_sub}()},
-\code{\link{sbf_get_workbook_name}()},
-\code{\link{sbf_reset}()},
-\code{\link{sbf_reset_db_name}()},
-\code{\link{sbf_reset_main}()},
-\code{\link{sbf_reset_sub}()},
-\code{\link{sbf_set_db_name}()},
-\code{\link{sbf_set_main}()},
-\code{\link{sbf_set_sub}()},
-\code{\link{sbf_up_sub}()}
+Other directory functions:
+\code{\link[=sbf_add_sub]{sbf_add_sub()}},
+\code{\link[=sbf_get_db_name]{sbf_get_db_name()}},
+\code{\link[=sbf_get_main]{sbf_get_main()}},
+\code{\link[=sbf_get_sub]{sbf_get_sub()}},
+\code{\link[=sbf_get_workbook_name]{sbf_get_workbook_name()}},
+\code{\link[=sbf_reset]{sbf_reset()}},
+\code{\link[=sbf_reset_db_name]{sbf_reset_db_name()}},
+\code{\link[=sbf_reset_main]{sbf_reset_main()}},
+\code{\link[=sbf_reset_sub]{sbf_reset_sub()}},
+\code{\link[=sbf_set_db_name]{sbf_set_db_name()}},
+\code{\link[=sbf_set_main]{sbf_set_main()}},
+\code{\link[=sbf_set_sub]{sbf_set_sub()}},
+\code{\link[=sbf_up_sub]{sbf_up_sub()}}
 }
 \concept{archive}
 \concept{directory functions}

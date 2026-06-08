@@ -44,17 +44,17 @@ report. deprecated.}
 database (if exists = FALSE).}
 }
 \description{
-Opens a \link[RSQLite:SQLiteConnection-class]{RSQLite::SQLiteConnection} to a SQLite database.
+Opens a \link[RSQLite:SQLiteConnection-class]{SQLiteConnection} to a SQLite database.
 Foreign key constraints are enabled.
 }
 \seealso{
-Other database functions: 
-\code{\link{sbf_add_blob_column_to_db}()},
-\code{\link{sbf_close_db}()},
-\code{\link{sbf_copy_db}()},
-\code{\link{sbf_create_db}()},
-\code{\link{sbf_execute_db}()},
-\code{\link{sbf_query_db}()},
-\code{\link{sbf_upload_flobs_to_db}()}
+Other database functions:
+\code{\link[=sbf_add_blob_column_to_db]{sbf_add_blob_column_to_db()}},
+\code{\link[=sbf_close_db]{sbf_close_db()}},
+\code{\link[=sbf_copy_db]{sbf_copy_db()}},
+\code{\link[=sbf_create_db]{sbf_create_db()}},
+\code{\link[=sbf_execute_db]{sbf_execute_db()}},
+\code{\link[=sbf_query_db]{sbf_query_db()}},
+\code{\link[=sbf_upload_flobs_to_db]{sbf_upload_flobs_to_db()}}
 }
 \concept{database functions}
