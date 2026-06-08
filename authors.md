@@ -23,6 +23,7 @@
   Contributor. [](https://orcid.org/0009-0001-4880-5751)
 
 - **Alan Constant**. Contributor.
+  [](https://orcid.org/0000-0002-1652-4031)
 
 - **Stefano Mezzini**. Contributor.
   [](https://orcid.org/0000-0001-8551-7436)
@@ -33,11 +34,11 @@
 ## Citation
 
 Thorley J (2026). *subfoldr2: Save and Load R Objects*. R package
-version 1.0.1.9006.
+version 1.0.1.9007.
 
     @Manual{,
       title = {subfoldr2: Save and Load R Objects},
       author = {Joe Thorley},
       year = {2026},
-      note = {R package version 1.0.1.9006},
+      note = {R package version 1.0.1.9007},
     }
