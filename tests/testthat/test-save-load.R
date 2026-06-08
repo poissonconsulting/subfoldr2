@@ -906,6 +906,15 @@ test_that("plot", {
   expect_false(file.exists(file.path(sbf_get_main(), "plots/x2.rds")))
   
   y <- ggplot2::ggplot(
+    data = data.frame(x = 1, y = 2, z = NA_real_),
+    ggplot2::aes(x = x, y = y)
+  )
+  expect_identical(sbf_save_plot(y, drop_uninformative_cols = TRUE),
+                   file.path(sbf_get_main(), "plots/y.rds"))
+  expect_error(read.csv(paste0(sbf_get_main(), "/plots/y.csv")),
+               "no lines available in input")
+  
+  y <- ggplot2::ggplot(
     data = data.frame(x = 1:3, y = 2:4, z = NA_real_),
     ggplot2::aes(x = x, y = y)
   )
