@@ -17,7 +17,8 @@ sbf_save_plot(
   height = width,
   dpi = 300,
   limitsize = TRUE,
-  csv = 1000L
+  csv = 1000L,
+  drop_uninformative_cols = TRUE
 )
 }
 \arguments{
@@ -51,6 +52,10 @@ specifying dimensions in pixels.}
 
 \item{csv}{A count specifying the maximum number of rows to save as a csv
 file.}
+
+\item{drop_uninformative_cols}{A flag indicating whether to drop
+uninformative columns via \code{tidyplus::drop_uninformative_columns()}
+(\code{TRUE}, default) or not (\code{FALSE}).}
 }
 \description{
 Saves a ggplot object.

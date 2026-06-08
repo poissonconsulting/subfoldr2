@@ -496,6 +496,9 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @param dpi A number of the resolution in dots per inch.
 #' @param csv A count specifying the maximum number of rows to save as a csv
 #' file.
+#' @param drop_uninformative_cols A flag indicating whether to drop
+#' uninformative columns via `tidyplus::drop_uninformative_columns()`
+#' (`TRUE`, default) or not (`FALSE`).
 #' @family save functions
 #' @export
 sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
@@ -506,7 +509,8 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
                           units = "in",
                           width = NA, height = width, dpi = 300,
                           limitsize = TRUE,
-                          csv = 1000L) {
+                          csv = 1000L,
+                          drop_uninformative_cols = TRUE) {
   chk_s3_class(x, "ggplot")
   x_name <- chk_deparse(x_name)
   if (identical(x_name, "ggplot2::last_plot()")) {
@@ -531,6 +535,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   chk_gt(dpi)
   chk_whole_number(csv)
   chk_gte(csv)
+  chk_flag(drop_uninformative_cols)
 
   csv <- as.integer(csv)
 
@@ -552,7 +557,9 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
 
   data <- x$data
   if (is.data.frame(data) && nrow(data) <= csv) {
-    data <- tidyplus::drop_uninformative_columns(data)
+    if (drop_uninformative_cols) {
+      data <- tidyplus::drop_uninformative_columns(data, )
+    }
     save_csv(data, "plots", sub = sub, main = main, x_name = x_name)
   }
 
