@@ -17,13 +17,13 @@ Closes the database connection.
 The function is just a wrapper on \verb{[dbDisconnect][DBI::dbDisconnect](conn)}.
 }
 \seealso{
-Other database functions: 
-\code{\link{sbf_add_blob_column_to_db}()},
-\code{\link{sbf_copy_db}()},
-\code{\link{sbf_create_db}()},
-\code{\link{sbf_execute_db}()},
-\code{\link{sbf_open_db}()},
-\code{\link{sbf_query_db}()},
-\code{\link{sbf_upload_flobs_to_db}()}
+Other database functions:
+\code{\link[=sbf_add_blob_column_to_db]{sbf_add_blob_column_to_db()}},
+\code{\link[=sbf_copy_db]{sbf_copy_db()}},
+\code{\link[=sbf_create_db]{sbf_create_db()}},
+\code{\link[=sbf_execute_db]{sbf_execute_db()}},
+\code{\link[=sbf_open_db]{sbf_open_db()}},
+\code{\link[=sbf_query_db]{sbf_query_db()}},
+\code{\link[=sbf_upload_flobs_to_db]{sbf_upload_flobs_to_db()}}
 }
 \concept{database functions}

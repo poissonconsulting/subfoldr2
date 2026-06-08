@@ -46,12 +46,12 @@ A character vector with class "waldo_compare".
 Compares data using waldo::compare.
 }
 \seealso{
-Other compare functions: 
-\code{\link{sbf_compare_data_archive}()},
-\code{\link{sbf_diff_data}()},
-\code{\link{sbf_diff_data_archive}()},
-\code{\link{sbf_diff_table}()},
-\code{\link{sbf_is_equal_data}()},
-\code{\link{sbf_is_equal_data_archive}()}
+Other compare functions:
+\code{\link[=sbf_compare_data_archive]{sbf_compare_data_archive()}},
+\code{\link[=sbf_diff_data]{sbf_diff_data()}},
+\code{\link[=sbf_diff_data_archive]{sbf_diff_data_archive()}},
+\code{\link[=sbf_diff_table]{sbf_diff_table()}},
+\code{\link[=sbf_is_equal_data]{sbf_is_equal_data()}},
+\code{\link[=sbf_is_equal_data_archive]{sbf_is_equal_data_archive()}}
 }
 \concept{compare functions}

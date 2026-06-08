@@ -11,6 +11,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{dttr2}{\code{\link[dttr2]{dtt_default_tz}}}
+  \item{dttr2}{\code{\link[dttr2:dtt_default_tz]{dtt_default_tz()}}}
 }}
 

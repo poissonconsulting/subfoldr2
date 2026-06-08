@@ -10,13 +10,13 @@ sbf_close_windows()
 Closes all current graphics device.
 }
 \details{
-The function is just a wrapper on \code{\link[grDevices:dev]{grDevices::graphics.off()}}.
+The function is just a wrapper on \code{\link[grDevices:graphics.off]{grDevices::graphics.off()}}.
 }
 \seealso{
-Other graphic functions: 
-\code{\link{sbf_close_pdf}()},
-\code{\link{sbf_close_window}()},
-\code{\link{sbf_open_pdf}()},
-\code{\link{sbf_open_window}()}
+Other graphic functions:
+\code{\link[=sbf_close_pdf]{sbf_close_pdf()}},
+\code{\link[=sbf_close_window]{sbf_close_window()}},
+\code{\link[=sbf_open_pdf]{sbf_open_pdf()}},
+\code{\link[=sbf_open_window]{sbf_open_window()}}
 }
 \concept{graphic functions}
