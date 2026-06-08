@@ -61,6 +61,12 @@ uninformative columns via \code{tidyplus::drop_uninformative_columns()}
 Saves a ggplot object.
 By default it saves the last plot to be modified or created.
 }
+\details{
+Saves a csv of the data of each layer.
+If multiple layers are present, saves an xlsx workbook with one sheet per layer.
+Sheets are named \verb{i_<geomType>_layer}, where \code{i} is an index from 1 to the
+number of layers and \verb{<geomType>} is the layer class (e.g., \code{geomPoint}).
+}
 \seealso{
 Other save functions:
 \code{\link[=sbf_basename_sans_ext]{sbf_basename_sans_ext()}},
