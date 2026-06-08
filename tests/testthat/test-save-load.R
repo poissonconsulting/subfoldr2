@@ -897,7 +897,8 @@ test_that("plot", {
   )
   
   x <- ggplot2::ggplot()
-  expect_identical(sbf_save_plot(x), file.path(sbf_get_main(), "plots/x.rds"))
+  expect_identical(sbf_save_plot(x, drop_uninformative_cols = TRUE),
+                   file.path(sbf_get_main(), "plots/x.rds"))
   expect_true(all.equal(sbf_load_plot("x"), x))
   expect_identical(sbf_load_plot_data("x"), data.frame())
   
@@ -905,14 +906,23 @@ test_that("plot", {
   expect_false(file.exists(file.path(sbf_get_main(), "plots/x2.rds")))
   
   y <- ggplot2::ggplot(
-    data = data.frame(x = 1, y = 2),
+    data = data.frame(x = 1:3, y = 2:4, z = NA_real_),
     ggplot2::aes(x = x, y = y)
   )
+  expect_identical(sbf_save_plot(y, drop_uninformative_cols = FALSE),
+                   file.path(sbf_get_main(), "plots/y.rds"))
+  expect_identical(read.csv(paste0(sbf_get_main(), "/plots/y.csv")),
+                   data.frame(x = 1:3, y = 2:4, z = NA))
+  
   expect_identical(sbf_save_plot(y), file.path(sbf_get_main(), "plots/y.rds"))
   
   expect_true(all.equal(sbf_load_plot("y"), y))
   
-  expect_identical(sbf_load_plot_data("y"), data.frame(x = 1, y = 2))
+  expect_identical(sbf_load_plot_data("y"),
+                   data.frame(x = 1:3, y = 2:4, z = NA_real_))
+  
+  expect_identical(read.csv(paste0(sbf_get_main(), "/plots/y.csv")),
+                   data.frame(x = 1:3, y = 2:4))
   
   expect_identical(
     list.files(file.path(sbf_get_main(), "plots")),
@@ -924,7 +934,7 @@ test_that("plot", {
   
   expect_identical(sbf_load_plots_data(), c("x", "y"))
   expect_identical(x, data.frame())
-  expect_identical(y, data.frame(x = 1, y = 2))
+  expect_identical(y, data.frame(x = 1:3, y = 2:4, z = NA_real_))
   
   z <- ggplot2::ggplot(
     data = data.frame(x = 2, y = 3),
