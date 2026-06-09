@@ -568,15 +568,15 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
     # - a patchwork of patchworks requires a iterative unlisting
     # - will need separate names for each patch for the workbook. should
     # probably be something like (1.1 + 1.2) / (2.1 + 2.2)
-    p_patches <-
-      (
-        (ggplot2::ggplot() + ggplot2::geom_line(aes(mpg, cyl, color = cyl), mtcars)) +
-          (ggplot2::ggplot() + ggplot2::geom_line(aes(Sepal.Length, Petal.Length), iris))
-      ) /
-      (
-        (ggplot2::ggplot() + ggplot2::geom_point(aes(mpg, cyl, color = cyl), mtcars)) +
-          (ggplot2::ggplot() + ggplot2::geom_point(aes(Sepal.Length, Petal.Length), iris))
-      )
+    # p_patches <-
+    #   (
+    #     (ggplot2::ggplot() + ggplot2::geom_line(aes(mpg, cyl, color = cyl), mtcars)) +
+    #       (ggplot2::ggplot() + ggplot2::geom_line(aes(Sepal.Length, Petal.Length), iris))
+    #   ) /
+    #   (
+    #     (ggplot2::ggplot() + ggplot2::geom_point(aes(mpg, cyl, color = cyl), mtcars)) +
+    #       (ggplot2::ggplot() + ggplot2::geom_point(aes(Sepal.Length, Petal.Length), iris))
+    #   )
   } else {
     # note: cowplot::plot_grid() does not have specific classes!
     # use {patchwork} instead
