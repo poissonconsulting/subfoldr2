@@ -57,6 +57,7 @@ Suggests:
     flobr,
     glue,
     microbenchmark,
+    patchwork,
     readxl,
     RPostgres,
     sf,
