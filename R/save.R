@@ -580,6 +580,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   } else {
     # note: cowplot::plot_grid() does not have specific classes!
     # use {patchwork} instead
+    mapping <- NULL # to avoid note during R CMD check on mapping not existing
     layers <- dplyr::filter(ggplot2::summarise_layers(ggplot2::ggplot_build(x)),
                             purrr::map_int(mapping, length) > 0)
     n_layers <- nrow(layers)
@@ -587,7 +588,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
       sheet_list <-
         purrr::map(1:n_layers, function(layer_index) {
           data <- ggplot2::layer_data(x, i = layer_index)
-          data <- dplyr::select(data, ! c(PANEL, group))
+          data <- dplyr::select(data, ! c("PANEL", "group"))
           if (is.data.frame(data) && nrow(data) <= csv) {
             if (drop_uninformative_cols) {
               data <- tidyplus::drop_uninformative_columns(data)

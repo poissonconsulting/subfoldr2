@@ -1007,9 +1007,9 @@ test_that("plot", {
   # tests for checking that data for different layers save individually
   # and redundantly
   p_layers <- ggplot2::ggplot() +
-    ggplot2::geom_point(ggplot2::aes(mpg, cyl), mtcars) +
-    ggplot2::geom_line(ggplot2::aes(mpg, cyl), mtcars) +
-    ggplot2::geom_line(ggplot2::aes(Sepal.Length, Petal.Length), iris)
+    ggplot2::geom_point(ggplot2::aes(mpg, cyl), datasets::mtcars) +
+    ggplot2::geom_line(ggplot2::aes(mpg, cyl), datasets::mtcars) +
+    ggplot2::geom_line(ggplot2::aes(Sepal.Length, Petal.Length), datasets::iris)
   
   expect_identical(sbf_save_plot(p_layers),
                    file.path(sbf_get_main(), "plots", "p_layers.rds"))
@@ -1058,12 +1058,12 @@ test_that("plot", {
   p_patches <-
     patchwork:::`/.ggplot`(
       ggplot2:::`+`(
-        (ggplot2::ggplot() + ggplot2::geom_line(ggplot2::aes(mpg, cyl, color = cyl), mtcars)),
-        (ggplot2::ggplot() + ggplot2::geom_line(ggplot2::aes(Sepal.Length, Petal.Length), iris))
+        (ggplot2::ggplot() + ggplot2::geom_line(ggplot2::aes(mpg, cyl, color = cyl), datasets::mtcars)),
+        (ggplot2::ggplot() + ggplot2::geom_line(ggplot2::aes(Sepal.Length, Petal.Length), datasets::iris))
       ), 
       ggplot2:::`+`(
-        (ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(mpg, cyl, color = cyl), mtcars)),
-        (ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(Sepal.Length, Petal.Length), iris))
+        (ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(mpg, cyl, color = cyl), datasets::mtcars)),
+        (ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(Sepal.Length, Petal.Length), datasets::iris))
       )
     )
   
