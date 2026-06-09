@@ -203,14 +203,14 @@ test_that("spatial", {
   expect_false(valid_spatial(y))
   
   y <- sf::st_point(c(0, 1)) |>
-    sf::st_sfc() %>%
+    sf::st_sfc() |>
     sf::st_as_sf()
   y <- y[0, ]
   expect_error(check_spatial(y), "^`nrow\\(y\\)` must be between 1 and Inf, not 0[.]$")
   expect_false(valid_spatial(y))
   
   y <- sf::st_point(c(0, 1)) |>
-    sf::st_sfc() %>%
+    sf::st_sfc() |>
     sf::st_as_sf()
   expect_error(check_spatial(y), "^`ncol\\(y\\)` must be between 2 and Inf, not 1[.]$")
   expect_false(valid_spatial(y))
@@ -1048,9 +1048,9 @@ test_that("plot", {
     )
   )
   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                                 "1_GeomPoint") %>%
+                                 "1_GeomPoint") |>
                  dplyr::arrange(x, y),
-               dplyr::tibble(read.csv(file.path(sbf_get_main(), "plots", "p_layers_2_GeomLine.csv"))) %>%
+               dplyr::tibble(read.csv(file.path(sbf_get_main(), "plots", "p_layers_2_GeomLine.csv"))) |>
                  dplyr::arrange(x, y))
   
   # tests for checking that data for different patchwork patches save

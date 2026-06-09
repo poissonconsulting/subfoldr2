@@ -602,7 +602,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
                      x_name = paste0(x_name, "_", layer_index, "_", layer_class))
           }
           data
-        }) %>%
+        }) |>
         purrr::set_names(paste0(1:n_layers, "_",
                                 purrr::map_chr(x$layers, function(.x) {
                                   class(.x$geom)[1]
