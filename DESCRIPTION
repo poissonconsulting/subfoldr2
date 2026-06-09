@@ -29,7 +29,7 @@ Imports:
     DBI,
     dttr2,
     fs,
-    ggplot2,
+    ggplot2 (>= 4.0.0),
     graphics,
     grDevices,
     hms,
