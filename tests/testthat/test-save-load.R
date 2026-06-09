@@ -911,8 +911,8 @@ test_that("plot", {
   )
   expect_identical(sbf_save_plot(y, drop_uninformative_cols = FALSE),
                    file.path(sbf_get_main(), "plots/y.rds"))
-  expect_identical(read.csv(paste0(sbf_get_main(), "/plots/y.csv")),
-                   data.frame(x = 1:3, y = 2:4, z = NA))
+  expect_identical(read.csv(file.path(sbf_get_main(), "plots/y_0_EmptyGeom.csv")),
+                   data.frame(x = 1:3, y = 2:4))
   
   expect_identical(sbf_save_plot(y), file.path(sbf_get_main(), "plots/y.rds"))
   
@@ -921,14 +921,14 @@ test_that("plot", {
   expect_identical(sbf_load_plot_data("y"),
                    data.frame(x = 1:3, y = 2:4, z = NA_real_))
   
-  expect_identical(read.csv(paste0(sbf_get_main(), "/plots/y.csv")),
+  expect_identical(read.csv(paste0(sbf_get_main(), "/plots/y_0_EmptyGeom.csv")),
                    data.frame(x = 1:3, y = 2:4))
   
   expect_identical(
     list.files(file.path(sbf_get_main(), "plots")),
     sort(c(
-      "x.rda", "y.rda", "x.png", "x.rds",
-      "y.csv", "y.png", "y.rds"
+      "x_0_EmptyGeom.csv", "x.png", "x.rda", "x.rds", "x.xlsx",
+      "y_0_EmptyGeom.csv", "y.png", "y.rda", "y.rds", "y.xlsx"
     ))
   )
   
@@ -949,18 +949,17 @@ test_that("plot", {
   )
   expect_identical(sbf_save_plot(
     csv = 1L, dpi = 320L, caption = "one c",
-    report = FALSE, width = 2.55, height = 3L, units = "cm"
-  ), file.path(sbf_get_main(), "plots/plot.rds"))
+    report = FALSE, width = 2.55, height = 3L,
+    units = "cm"),
+    file.path(sbf_get_main(), "plots/plot.rds"))
   expect_true(all.equal(sbf_load_plot("plot"), t))
   
   expect_identical(
     list.files(file.path(sbf_get_main(), "plots")),
-    sort(c(
-      "plot.rda", "x.rda", "y.rda", "z.rda",
-      "plot.png", "plot.rds", "x.png", "x.rds",
-      "y.csv", "y.png", "y.rds", "z.csv",
-      "z.png", "z.rds"
-    ))
+    c("plot.png", "plot.rda", "plot.rds", "plot.xlsx",
+      "x.png", "x.rda", "x.rds", "x.xlsx", "x_0_EmptyGeom.csv",
+      "y.png", "y.rda", "y.rds", "y.xlsx", "y_0_EmptyGeom.csv",
+      "z.png", "z.rda", "z.rds", "z.xlsx", "z_0_EmptyGeom.csv")
   )
   
   data <- sbf_load_plots_recursive()
@@ -1008,9 +1007,9 @@ test_that("plot", {
   # tests for checking that data for different layers save individually
   # and redundantly
   p_layers <- ggplot2::ggplot() +
-    ggplot2::geom_point(aes(mpg, cyl), mtcars) +
-    ggplot2::geom_line(aes(mpg, cyl), mtcars) +
-    ggplot2::geom_line(aes(Sepal.Length, Petal.Length), iris)
+    ggplot2::geom_point(ggplot2::aes(mpg, cyl), mtcars) +
+    ggplot2::geom_line(ggplot2::aes(mpg, cyl), mtcars) +
+    ggplot2::geom_line(ggplot2::aes(Sepal.Length, Petal.Length), iris)
   
   expect_identical(sbf_save_plot(p_layers),
                    file.path(sbf_get_main(), "plots", "p_layers.rds"))
@@ -1057,57 +1056,18 @@ test_that("plot", {
   # tests for checking that data for different patchwork patches save
   # individually and redundantly
   p_patches <-
-    (
-      (ggplot2::ggplot() + ggplot2::geom_line(aes(mpg, cyl, color = cyl), mtcars)) +
-        (ggplot2::ggplot() + ggplot2::geom_line(aes(Sepal.Length, Petal.Length), iris))
-    ) /
-    (
-      (ggplot2::ggplot() + ggplot2::geom_point(aes(mpg, cyl, color = cyl), mtcars)) +
-        (ggplot2::ggplot() + ggplot2::geom_point(aes(Sepal.Length, Petal.Length), iris))
+    patchwork:::`/.ggplot`(
+      ggplot2:::`+`(
+        (ggplot2::ggplot() + ggplot2::geom_line(ggplot2::aes(mpg, cyl, color = cyl), mtcars)),
+        (ggplot2::ggplot() + ggplot2::geom_line(ggplot2::aes(Sepal.Length, Petal.Length), iris))
+      ), 
+      ggplot2:::`+`(
+        (ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(mpg, cyl, color = cyl), mtcars)),
+        (ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(Sepal.Length, Petal.Length), iris))
+      )
     )
   
-  expect_identical(sbf_save_plot(p_layers),
-                   file.path(sbf_get_main(), "plots", "p_layers.rds"))
-  expect_true(file.exists(file.path(sbf_get_main(), "plots", "p_layers.png")))
-  expect_true(file.exists(file.path(sbf_get_main(), "plots", "p_layers.rds")))
-  expect_true(file.exists(file.path(sbf_get_main(), "plots", "p_layers.xlsx")))
-  expect_true(file.exists(file.path(sbf_get_main(), "plots", "p_layers_1_GeomPoint.csv")))
-  expect_true(file.exists(file.path(sbf_get_main(), "plots", "p_layers_2_GeomLine.csv")))
-  expect_true(file.exists(file.path(sbf_get_main(), "plots", "p_layers_3_GeomLine.csv")))
-  expect_equal(readxl::excel_sheets(file.path(sbf_get_main(), "plots", "p_layers.xlsx")),
-               c("1_GeomPoint", "2_GeomLine", "3_GeomLine"))
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                                 "1_GeomPoint"),
-               dplyr::tibble(ggplot2::ggplot_build(p_layers)@data[[1]][, c("x", "y")]))
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                                 "2_GeomLine"),
-               dplyr::tibble(ggplot2::ggplot_build(p_layers)@data[[2]][, c("x", "y")]))
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                                 "3_GeomLine"),
-               dplyr::tibble(ggplot2::ggplot_build(p_layers)@data[[3]][, c("x", "y")]))
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                                 "1_GeomPoint"),
-               dplyr::tibble(read.csv(file.path(sbf_get_main(), "plots", "p_layers_1_GeomPoint.csv"))))
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                                 "2_GeomLine"),
-               dplyr::tibble(read.csv(file.path(sbf_get_main(), "plots", "p_layers_2_GeomLine.csv"))))
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                                 "3_GeomLine"),
-               dplyr::tibble(read.csv(file.path(sbf_get_main(), "plots", "p_layers_3_GeomLine.csv"))))
-  
-  expect_error( # datasets are redundant but different because of row order
-    expect_equal(
-      readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                        "1_GeomPoint"),
-      dplyr::tibble(read.csv(file.path(sbf_get_main(), "plots", "p_layers_2_GeomLine.csv")))
-    )
-  )
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                                 "1_GeomPoint") %>%
-                 dplyr::arrange(x, y),
-               dplyr::tibble(read.csv(file.path(sbf_get_main(), "plots", "p_layers_2_GeomLine.csv"))) %>%
-                 dplyr::arrange(x, y))
-  
+  # TODO: add tests for {patchwork}
   
   sbf_reset()
   sbf_close_windows()
