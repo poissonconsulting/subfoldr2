@@ -481,6 +481,66 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   save_rds(x, "blocks", sub = sub, main = main, x_name = x_name)
 }
 
+#' Unstitch patches
+#' 
+#' Separates patches from a multi-panel plot created via `{patchwork}` into a
+#' list of the individual plots.
+#' 
+#' @param x An object of class `"ggplot"` and generally also `"patchwork"`.
+#' 
+#' @details
+#' Iteratively splits `patchwork` objects into smaller elements until a list of
+#' simple `ggplot` plots is created.
+#' If `x` is a `ggplot` object but not a `patchwork` object, it is simply
+#' returned.
+#'
+#' @keywords internal
+#' @examples
+#' p_patches <- patchwork:::`/.ggplot`(
+#'   ggplot2:::`+`(
+#'     ggplot2::ggplot() +
+#'       ggplot2::geom_line(ggplot2::aes(mpg, cyl, color = cyl), datasets::mtcars) +
+#'       ggplot2::ggtitle("1"),
+#'     ggplot2::ggplot() +
+#'       ggplot2::geom_line(ggplot2::aes(Sepal.Length, Petal.Length), datasets::iris) +
+#'       ggplot2::ggtitle("2")
+#'   ),
+#'   ggplot2:::`+`(
+#'     ggplot2::ggplot() +
+#'       ggplot2::geom_point(ggplot2::aes(mpg, cyl, color = cyl), datasets::mtcars) +
+#'       ggplot2::ggtitle("3"),
+#'     ggplot2:::`+`(
+#'       ggplot2::ggplot() +
+#'         ggplot2::geom_point(ggplot2::aes(Sepal.Length, Petal.Length), datasets::iris) +
+#'         ggplot2::ggtitle("4"),
+#'       ggplot2::ggplot() +
+#'         ggplot2::geom_point(ggplot2::aes(Sepal.Length, Petal.Length, color = Species),
+#'                             datasets::iris) +
+#'         ggplot2::ggtitle("5") +
+#'         ggplot2::theme(legend.position = "none")
+#'     )
+#'   )
+#' )
+#' l <- unstitch_patches(p_patches)
+#' do.call(patchwork::wrap_plots, sample(l, size = 5, replace = FALSE))
+unstitch_patches <- function(x) {
+  chk_true(inherits(x, "ggplot"))
+  if (! inherits(x, "patchwork")) {
+    return(x)
+  } else {
+    plot_list <- list()
+    
+    for (i in 1:length(x)) {
+      if (inherits(x[[i]], "patchwork")) {
+        plot_list <- c(plot_list, unstitch_patches(x[[i]]))
+      } else {
+        plot_list <- c(plot_list, list(x[[i]]))
+      }
+    }
+    return(plot_list)
+  }
+}
+
 #' Save Plot
 #'
 #' Saves a ggplot object.
