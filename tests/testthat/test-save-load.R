@@ -1054,8 +1054,6 @@ test_that("plot", {
                  dplyr::tibble() |>
                  dplyr::mutate(PANEL = as.character(PANEL)))
   
-  #' *HERE*
-  
   expect_error( # datasets are redundant but different because of row order
     expect_equal(
       readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
