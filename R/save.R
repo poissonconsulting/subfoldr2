@@ -577,51 +577,59 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
     #     (ggplot2::ggplot() + ggplot2::geom_point(aes(mpg, cyl, color = cyl), mtcars)) +
     #       (ggplot2::ggplot() + ggplot2::geom_point(aes(Sepal.Length, Petal.Length), iris))
     #   )
-  } else {
+  } else { # assumed to be regular ggplot2 plot (see note below)
     # note: cowplot::plot_grid() does not have specific classes!
     # use {patchwork} instead
     mapping <- NULL # to avoid note during R CMD check on mapping not existing
+    sheet_list <- list(data = NULL)
     layers <- dplyr::filter(ggplot2::summarise_layers(ggplot2::ggplot_build(x)),
                             purrr::map_int(mapping, length) > 0)
-    n_layers <- nrow(layers)
-    if (n_layers > 0) {
-      sheet_list <-
+    n_layers <- length(x@layers)
+    
+    main_data <- x@data
+    if (is.data.frame(main_data)) {
+      if (drop_uninformative_cols) {
+        main_data <- tidyplus::drop_uninformative_columns(main_data)
+      }
+      
+      if (nrow(main_data) && ncol(main_data)) {
+        if (nrow(main_data) <= csv) {
+          save_csv(x = main_data, class = "plots", sub = sub, main = main,
+                   x_name = x_name)
+        }
+        sheet_list[1] <- list(data = main_data)
+      }
+    } else {
+      main_data <- data.frame()
+    }
+    
+    if (n_layers) {
+      sheet_list[(1:n_layers) + length(sheet_list)] <-
         purrr::map(1:n_layers, function(layer_index) {
           data <- ggplot2::layer_data(x, i = layer_index)
-          data <- dplyr::select(data, ! c("PANEL", "group"))
           if (is.data.frame(data) && nrow(data) <= csv) {
             if (drop_uninformative_cols) {
               data <- tidyplus::drop_uninformative_columns(data)
             }
-            if (length(x$layers) == 0) { # no layers but aes() is specified
-              layer_class <- "EmptyGeom"
-              layer_index <- 0
-            } else {
-              layer_class <- class(x$layers[[layer_index]]$geom)[1]
-            }
-            save_csv(x = data, class = "plots", sub = sub, main = main,
-                     x_name = paste0(x_name, "_", layer_index, "_", layer_class))
+            data
+          } else {
+            NULL
           }
-          data
-        }) |>
-        purrr::set_names(paste0(1:n_layers, "_",
-                                purrr::map_chr(x$layers, function(.x) {
-                                  class(.x$geom)[1]
-                                })))
-      
-      save_xlsx(sheet_list, "plots", sub = sub, main = main, x_name = x_name)
-    } else { # no layers or aes() specified
-      layer_index <- 0
-      layer_class <- "EmptyGeom"
-      data <- data.frame()
-      sheet_list <- list(EmptyLayer = data)
-      save_csv(x = data, class = "plots", sub = sub, main = main,
-               x_name = paste0(x_name, "_", layer_index, "_", layer_class))
-      save_xlsx(sheet_list, "plots", sub = sub, main = main, x_name = x_name)
-      data
+        })
+      names(sheet_list) <- c(
+        "data",
+        purrr::map_chr(1:n_layers, function(layer_index) {
+          name <- class(x@layers[[layer_index]]$geom)[1]
+          name <- gsub("Geom", "", name)
+          name <- paste0(layer_index, "_", tolower(name))
+        }))
     }
   }
   
+  sheet_list <- sheet_list[!purrr::map_lgl(sheet_list, is.null)]
+  if (length(sheet_list)) {
+    save_xlsx(sheet_list, "plots", sub = sub, main = main, x_name = x_name)
+  }
   save_rds(x, "plots", sub = sub, main = main, x_name = x_name)
 }
 
