@@ -922,11 +922,11 @@ test_that("plot", {
   expect_true(all.equal(sbf_load_plot("y"), y))
   expect_identical(sbf_load_plot_data("y"),
                    data.frame(x = 1:3, y = 2:4, z = NA_real_))
-  expect_identical(read.csv(paste0(sbf_get_main(), "/plots/y.csv")),
+  expect_identical(read.csv(file.path(sbf_get_main(), "plots", "y.csv")),
                    data.frame(x = 1:3, y = 2:4))
-  expect_identical(readxl::read_xlsx(paste0(sbf_get_main(), "/plots/y.xlsx")),
+  expect_identical(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "y.xlsx")),
                    dplyr::tibble(x = as.numeric(1:3), y = as.numeric(2:4)))
-  expect_identical(readxl::excel_sheets(paste0(sbf_get_main(), "/plots/y.xlsx")),
+  expect_identical(readxl::excel_sheets(file.file(sbf_get_main(), "plots", "y.xlsx")),
                    "data")
   
   expect_identical(
