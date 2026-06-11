@@ -711,8 +711,8 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   } else { # assumed to be regular ggplot2 plot (see note below)
     # note: cowplot::plot_grid() does not have specific classes!
     # use {patchwork} instead
-    mapping <- NULL # to avoid note during R CMD check on mapping not existing
     sheet_list <- list(data = NULL)
+    mapping <- NULL # to avoid note during R CMD check on mapping not existing
     layers <- dplyr::filter(ggplot2::summarise_layers(ggplot2::ggplot_build(x)),
                             purrr::map_int(mapping, length) > 0)
     n_layers <- length(x@layers)
