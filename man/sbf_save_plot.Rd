@@ -62,10 +62,60 @@ Saves a ggplot object.
 By default it saves the last plot to be modified or created.
 }
 \details{
-Saves a csv of the data of each layer.
-If multiple layers are present, saves an xlsx workbook with one sheet per layer.
-Sheets are named \verb{i_<geomType>_layer}, where \code{i} is an index from 1 to the
-number of layers and \verb{<geomType>} is the layer class (e.g., \code{geomPoint}).
+{The function saves:
+\enumerate{
+\item a \code{csv} of the data passed to \code{ggplot()} (if \code{nrow(x@data) > 1}), and
+\item an \code{xlsx} workbook with a sheet for the data in the \code{csv} and a sheet for
+the data in each plot layer.
+\item A \code{png} file of the plot
+\item An \code{rda} file of the plot metadata
+\item An \code{rds} file of the plot
+\item A \code{csv} of the data passed to \code{ggplot()} (as long as \code{nrow(x@data) > 1}).
+If \code{x} is a patchwork object, only the data for the first patch is saved
+to maintain compatibility with previous versions.
+\item An \code{xlsx} workbook for the data passed each \code{ggplot()} call and each
+related layer.
+Sheets are labelled \verb{<p>_<l>_<geom>}, where \verb{<p>} is the row-wise patch
+index (1 if \code{x} is a simple \code{ggplot} plot), \verb{<l>} is the layer index,
+and \verb{<geom>} is the layer type (e.g., \code{point}, \code{line}).
+}
+
+\code{csv} and \code{xlsx} files are named using the \code{x_name} argument.
+Note that not specifying \code{x} will overwrite existing files that used
+\code{x_name = "plot"}.
+}
+}
+\examples{
+\dontrun{
+require(ggplot2)
+require(patchwork)
+ggplot(mtcars) +
+  geom_line(aes(mpg, cyl, color = cyl), mtcars) +
+  ggtitle("1")
+sbf_save_plot()
+
+p_patches <-
+  ((ggplot(mtcars) +
+      geom_line(aes(mpg, cyl, color = cyl), mtcars) +
+      ggtitle("1")) +
+     (ggplot() +
+        geom_line(aes(Sepal.Length, Petal.Length), iris) +
+        ggtitle("2"))) /
+  ((ggplot() +
+      geom_point(aes(mpg, cyl, color = cyl), mtcars) +
+      ggtitle("3")) +
+     ((ggplot(iris) +
+         geom_point(aes(Sepal.Length, Petal.Length)) +
+         ggtitle("4")) +
+        (ggplot() +
+           geom_point(aes(Sepal.Length, Petal.Length, color = Species),
+                      iris) +
+           ggtitle("5") +
+           theme(legend.position = "none"))))
+p_patches
+sbf_save_plot(p_patches)
+}
+
 }
 \seealso{
 Other save functions:

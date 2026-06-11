@@ -543,13 +543,62 @@ unstitch_patches <- function(x) {
 #' uninformative columns via `tidyplus::drop_uninformative_columns()`
 #' (`TRUE`, default) or not (`FALSE`).
 #' @details
-#' Saves a csv of the data of each layer.
-#' If multiple layers are present, saves an xlsx workbook with one sheet per layer.
-#' Sheets are named `i_<geomType>_layer`, where `i` is an index from 1 to the
-#' number of layers and `<geomType>` is the layer class (e.g., `geomPoint`).
+#' {The function saves:
+#' 
+#' 4. a `csv` of the data passed to `ggplot()` (if `nrow(x@data) > 1`), and
+#' 5. an `xlsx` workbook with a sheet for the data in the `csv` and a sheet for
+#' the data in each plot layer.
+#' 
+#' 1. A `png` file of the plot
+#' 2. An `rda` file of the plot metadata
+#' 3. An `rds` file of the plot
+#' 4. A `csv` of the data passed to `ggplot()` (as long as `nrow(x@data) > 1`).
+#' If `x` is a patchwork object, only the data for the first patch is saved
+#' to maintain compatibility with previous versions.
+#' 5. An `xlsx` workbook for the data passed each `ggplot()` call and each
+#' related layer.
+#' Sheets are labelled `<p>_<l>_<geom>`, where `<p>` is the row-wise patch
+#' index (1 if `x` is a simple `ggplot` plot), `<l>` is the layer index,
+#' and `<geom>` is the layer type (e.g., `point`, `line`).
+#' 
+#' `csv` and `xlsx` files are named using the `x_name` argument.
+#' Note that not specifying `x` will overwrite existing files that used
+#' `x_name = "plot"`.
+#' }
 #' 
 #' @family save functions
 #' @export
+#' @examples
+#' \dontrun{
+#' require(ggplot2)
+#' require(patchwork)
+#' ggplot(mtcars) +
+#'   geom_line(aes(mpg, cyl, color = cyl), mtcars) +
+#'   ggtitle("1")
+#' sbf_save_plot()
+#' 
+#' p_patches <-
+#'   ((ggplot(mtcars) +
+#'       geom_line(aes(mpg, cyl, color = cyl), mtcars) +
+#'       ggtitle("1")) +
+#'      (ggplot() +
+#'         geom_line(aes(Sepal.Length, Petal.Length), iris) +
+#'         ggtitle("2"))) /
+#'   ((ggplot() +
+#'       geom_point(aes(mpg, cyl, color = cyl), mtcars) +
+#'       ggtitle("3")) +
+#'      ((ggplot(iris) +
+#'          geom_point(aes(Sepal.Length, Petal.Length)) +
+#'          ggtitle("4")) +
+#'         (ggplot() +
+#'            geom_point(aes(Sepal.Length, Petal.Length, color = Species),
+#'                       iris) +
+#'            ggtitle("5") +
+#'            theme(legend.position = "none"))))
+#' p_patches
+#' sbf_save_plot(p_patches)
+#' }
+#' 
 sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
                           sub = sbf_get_sub(),
                           main = sbf_get_main(),
@@ -605,21 +654,64 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   save_meta(meta, "plots", sub = sub, main = main, x_name = x_name)
   
   if (inherits(x, "patchwork")) {
-    # TODO: add functionality for {patchwork}:
-    # - could make a single ggplot with all the layers from the patches and then
-    # run the code in the else for regular ggplot items
-    # - a patchwork of patchworks requires a iterative unlisting
-    # - will need separate names for each patch for the workbook. should
-    # probably be something like (1.1 + 1.2) / (2.1 + 2.2)
-    # p_patches <-
-    #   (
-    #     (ggplot2::ggplot() + ggplot2::geom_line(aes(mpg, cyl, color = cyl), mtcars)) +
-    #       (ggplot2::ggplot() + ggplot2::geom_line(aes(Sepal.Length, Petal.Length), iris))
-    #   ) /
-    #   (
-    #     (ggplot2::ggplot() + ggplot2::geom_point(aes(mpg, cyl, color = cyl), mtcars)) +
-    #       (ggplot2::ggplot() + ggplot2::geom_point(aes(Sepal.Length, Petal.Length), iris))
-    #   )
+    plot_list <- unstitch_patches(x)
+    
+    # only first plot is saved as csv to maintain previous functionality
+    main_data_1 <- plot_list[[1]]@data
+    if (is.data.frame(main_data_1) && nrow(main_data_1) && nrow(main_data_1)) {
+      if (drop_uninformative_cols) {
+        main_data_1 <- tidyplus::drop_uninformative_columns(main_data_1)
+      }
+      
+      if (ncol(main_data_1) <= csv) {
+        save_csv(x = main_data_1, class = "plots", sub = sub, main = main,
+                 x_name = x_name)
+      }
+    }
+    
+    sheet_list <- list(data = NULL)
+    
+    purrr::imap(plot_list, function(.p, .i) {
+      .x_name <- paste0(x_name, "_", .i)
+      mapping <- NULL # to avoid note during R CMD check on mapping not existing
+      .sheet_list <- list(data = NULL)
+      layers <- dplyr::filter(ggplot2::summarise_layers(ggplot2::ggplot_build(x)),
+                              purrr::map_int(mapping, length) > 0)
+      n_layers <- length(.p@layers)
+      
+      main_data <- .p@data
+      
+      if (is.data.frame(main_data)) {
+        if (drop_uninformative_cols) {
+          main_data <- tidyplus::drop_uninformative_columns(main_data)
+        }
+        .sheet_list[1] <- list(data = main_data)
+        names(.sheet_list)[length(.sheet_list)] <- paste0(.i, "_0_data")
+      }
+      
+      if (n_layers) {
+        .sheet_list[(1:n_layers) + length(.sheet_list)] <-
+          purrr::map(1:n_layers, function(layer_index) {
+            data <- ggplot2::layer_data(.p, i = layer_index)
+            if (is.data.frame(data) && nrow(data) <= csv) {
+              if (drop_uninformative_cols) {
+                data <- tidyplus::drop_uninformative_columns(data)
+              }
+              data
+            } else {
+              NULL
+            }
+          })
+      }
+      names(.sheet_list) <- c(
+        paste0(.i, "_0_data"),
+        purrr::map_chr(1:n_layers, function(layer_index) {
+          name <- class(.p@layers[[layer_index]]$geom)[1]
+          name <- gsub("Geom", "", name)
+          name <- paste0(.i, "_", layer_index, "_", tolower(name))
+        }))
+      sheet_list <<- c(sheet_list, .sheet_list)
+    })
   } else { # assumed to be regular ggplot2 plot (see note below)
     # note: cowplot::plot_grid() does not have specific classes!
     # use {patchwork} instead
@@ -642,8 +734,6 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
         }
         sheet_list[1] <- list(data = main_data)
       }
-    } else {
-      main_data <- data.frame()
     }
     
     if (n_layers) {
@@ -660,11 +750,11 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
           }
         })
       names(sheet_list) <- c(
-        "data",
+        "1_0_data",
         purrr::map_chr(1:n_layers, function(layer_index) {
           name <- class(x@layers[[layer_index]]$geom)[1]
           name <- gsub("Geom", "", name)
-          name <- paste0(layer_index, "_", tolower(name))
+          name <- paste0("1_", layer_index, "_", tolower(name))
         }))
     }
   }
