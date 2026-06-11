@@ -888,6 +888,8 @@ test_that("block", {
 
 test_that("plot", {
   expect_true(TRUE)
+  expect_identical(read.csv(file.path(sbf_get_main(), "plots/y.csv")),
+                   data.frame(x = 1:3, y = 2:4, z = NA))
 })
 
 test_that("clean after up previous test block in case errored, cant use defer with ggplot", {
