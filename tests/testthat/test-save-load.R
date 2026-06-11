@@ -1080,15 +1080,57 @@ test_that("plot", {
       ), 
       ggplot2:::`+`(
         (ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(mpg, cyl, color = cyl), datasets::mtcars)),
-        (ggplot2::ggplot(datasets::iris) + ggplot2::geom_point(ggplot2::aes(Sepal.Length, Petal.Length)))
+        ggplot2:::`+`(
+          (ggplot2::ggplot(datasets::iris) + ggplot2::geom_point(ggplot2::aes(Sepal.Length, Petal.Length))),
+          (ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(Sepal.Length, Petal.Length, color = Species), datasets::iris)))
       )
     )
   
-  # TODO: add tests for {patchwork}:
-  # - file names
-  # - sheet names
-  # - equality of datasets
-  
+  expect_identical(sbf_save_plot(p_patches),
+                   file.path(sbf_get_main(), "plots", "p_patches.rds"))
+  expect_identical(
+    list.files(file.path(sbf_get_main(), "plots")),
+    c("p_layers.png", "p_layers.rda", "p_layers.rds", "p_layers.xlsx", # has data & layers
+      "p_patches.csv", "p_patches.png", "p_patches.rda", "p_patches.rds", "p_patches.xlsx",
+      "plot.png", "plot.rda", "plot.rds", "plot.xlsx", # has data but no layers
+      "x.png", "x.rda", "x.rds", # no data or layers
+      "y.csv", "y.png", "y.rda", "y.rds", "y.xlsx", # has data but no layers
+      "z.png", "z.rda", "z.rds") # has one-row data and no layers
+  )
+  expect_equal(readxl::excel_sheets(file.path(sbf_get_main(), "plots", "p_patches.xlsx")),
+               c("1_0_data", "1_1_line",
+                 "2_1_line",
+                 "3_1_point",
+                 "4_0_data", "4_1_point",
+                 "5_1_point"))
+  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
+                                 "1_0_data"),
+               dplyr::tibble(datasets::mtcars))
+  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
+                                 "1_1_line"),
+               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[1]][[1]])@data[[1]]) |>
+                 dplyr::tibble())
+  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
+                                 "2_1_line"),
+               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[1]][[2]])@data[[1]]) |>
+                 dplyr::tibble())
+  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
+                                 "3_1_point"),
+               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[2]][[1]])@data[[1]]) |>
+                 dplyr::tibble())
+  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
+                                 "4_0_data"),
+               dplyr::tibble(datasets::iris) |>
+                 dplyr::mutate(Species = as.character(Species)))
+  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
+                                 "4_1_point"),
+               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[2]][[2]][[1]])@data[[1]]) |>
+                 dplyr::tibble())
+  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
+                                 "5_1_point"),
+               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[2]][[2]][[2]])@data[[1]]) |>
+                 dplyr::tibble() %>%
+                 dplyr::mutate(group = as.numeric(group)))
   
   sbf_reset()
   sbf_close_windows()
