@@ -28,7 +28,7 @@ p_patches <-
   ((ggplot() + ggtitle("3")) +
      ((ggplot() + ggtitle("4")) + ggplot() + ggtitle("5")))
 p_patches
-l <- unstitch_patches(p_patches)
+l <- subfoldr2:::unstitch_patches(p_patches)
 do.call(patchwork::wrap_plots, sample(l, size = 5, replace = FALSE))
 }
 \keyword{internal}

@@ -504,7 +504,7 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #'   ((ggplot() + ggtitle("3")) +
 #'      ((ggplot() + ggtitle("4")) + ggplot() + ggtitle("5")))
 #' p_patches
-#' l <- unstitch_patches(p_patches)
+#' l <- subfoldr2:::unstitch_patches(p_patches)
 #' do.call(patchwork::wrap_plots, sample(l, size = 5, replace = FALSE))
 unstitch_patches <- function(x) {
   chk_true(inherits(x, "ggplot"))
