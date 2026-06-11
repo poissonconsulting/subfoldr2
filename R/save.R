@@ -759,6 +759,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   if (length(sheet_list)) {
     save_xlsx(sheet_list, "plots", sub = sub, main = main, x_name = x_name)
   }
+  
   save_rds(x, "plots", sub = sub, main = main, x_name = x_name)
 }
 
