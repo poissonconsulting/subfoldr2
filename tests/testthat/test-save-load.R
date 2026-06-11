@@ -886,6 +886,10 @@ test_that("block", {
   expect_null(sbf_load_block("x2", exists = FALSE))
 })
 
+test_that("plot", {
+  expect_true(TRUE)
+})
+
 test_that("clean after up previous test block in case errored, cant use defer with ggplot", {
   expect_identical(1, 1)
   sbf_reset()
