@@ -1089,6 +1089,7 @@ test_that("plot", {
   # - sheet names
   # - equality of datasets
   
+  
   sbf_reset()
   sbf_close_windows()
 })
