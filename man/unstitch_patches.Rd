@@ -20,31 +20,14 @@ If \code{x} is a \code{ggplot} object but not a \code{patchwork} object, it is s
 returned.
 }
 \examples{
-p_patches <- patchwork:::`/.ggplot`(
-  ggplot2:::`+`(
-    ggplot2::ggplot() +
-      ggplot2::geom_line(ggplot2::aes(mpg, cyl, color = cyl), datasets::mtcars) +
-      ggplot2::ggtitle("1"),
-    ggplot2::ggplot() +
-      ggplot2::geom_line(ggplot2::aes(Sepal.Length, Petal.Length), datasets::iris) +
-      ggplot2::ggtitle("2")
-  ),
-  ggplot2:::`+`(
-    ggplot2::ggplot() +
-      ggplot2::geom_point(ggplot2::aes(mpg, cyl, color = cyl), datasets::mtcars) +
-      ggplot2::ggtitle("3"),
-    ggplot2:::`+`(
-      ggplot2::ggplot() +
-        ggplot2::geom_point(ggplot2::aes(Sepal.Length, Petal.Length), datasets::iris) +
-        ggplot2::ggtitle("4"),
-      ggplot2::ggplot() +
-        ggplot2::geom_point(ggplot2::aes(Sepal.Length, Petal.Length, color = Species),
-                            datasets::iris) +
-        ggplot2::ggtitle("5") +
-        ggplot2::theme(legend.position = "none")
-    )
-  )
-)
+require(ggplot2)
+require(patchwork)
+p <- ggplot()
+p_patches <-
+  ((ggplot() + ggtitle("1")) + (ggplot() + ggtitle("2"))) /
+  ((ggplot() + ggtitle("3")) +
+     ((ggplot() + ggtitle("4")) + ggplot() + ggtitle("5")))
+p_patches
 l <- unstitch_patches(p_patches)
 do.call(patchwork::wrap_plots, sample(l, size = 5, replace = FALSE))
 }
