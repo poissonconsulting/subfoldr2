@@ -64,9 +64,6 @@ By default it saves the last plot to be modified or created.
 \details{
 {The function saves:
 \enumerate{
-\item a \code{csv} of the data passed to \code{ggplot()} (if \code{nrow(x@data) > 1}), and
-\item an \code{xlsx} workbook with a sheet for the data in the \code{csv} and a sheet for
-the data in each plot layer.
 \item A \code{png} file of the plot
 \item An \code{rda} file of the plot metadata
 \item An \code{rds} file of the plot
@@ -74,7 +71,7 @@ the data in each plot layer.
 If \code{x} is a patchwork object, only the data for the first patch is saved
 to maintain compatibility with previous versions.
 \item An \code{xlsx} workbook for the data passed each \code{ggplot()} call and each
-related layer.
+layer in the related plot.
 Sheets are labelled \verb{<p>_<l>_<geom>}, where \verb{<p>} is the row-wise patch
 index (1 if \code{x} is a simple \code{ggplot} plot), \verb{<l>} is the layer index,
 and \verb{<geom>} is the layer type (e.g., \code{point}, \code{line}).

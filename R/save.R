@@ -545,10 +545,6 @@ unstitch_patches <- function(x) {
 #' @details
 #' {The function saves:
 #' 
-#' 4. a `csv` of the data passed to `ggplot()` (if `nrow(x@data) > 1`), and
-#' 5. an `xlsx` workbook with a sheet for the data in the `csv` and a sheet for
-#' the data in each plot layer.
-#' 
 #' 1. A `png` file of the plot
 #' 2. An `rda` file of the plot metadata
 #' 3. An `rds` file of the plot
@@ -556,7 +552,7 @@ unstitch_patches <- function(x) {
 #' If `x` is a patchwork object, only the data for the first patch is saved
 #' to maintain compatibility with previous versions.
 #' 5. An `xlsx` workbook for the data passed each `ggplot()` call and each
-#' related layer.
+#' layer in the related plot.
 #' Sheets are labelled `<p>_<l>_<geom>`, where `<p>` is the row-wise patch
 #' index (1 if `x` is a simple `ggplot` plot), `<l>` is the layer index,
 #' and `<geom>` is the layer type (e.g., `point`, `line`).
