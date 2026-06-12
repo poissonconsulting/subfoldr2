@@ -896,19 +896,19 @@ test_that("plot", {
                class = "chk_error"
   )
 
-#   x <- ggplot2::ggplot()
-#   expect_identical(sbf_save_plot(x, drop_uninformative_cols = TRUE),
-#                    file.path(sbf_get_main(), "plots/x.rds"))
-#   expect_true(all.equal(sbf_load_plot("x"), x))
-#   expect_identical(sbf_load_plot_data("x"), data.frame())
-#   
-#   expect_true(file.exists(file.path(sbf_get_main(), "plots/x.rds")))
-#   expect_false(file.exists(file.path(sbf_get_main(), "plots/x2.rds")))
-#   
-#   # x has no csv or xlsx because it has no main data or layers
-#   expect_identical(list.files(file.path(sbf_get_main(), "plots")),
-#                    c("x.png", "x.rda", "x.rds"))
-#   
+  x <- ggplot2::ggplot()
+  expect_identical(sbf_save_plot(x, drop_uninformative_cols = TRUE),
+                   file.path(sbf_get_main(), "plots/x.rds"))
+  expect_true(all.equal(sbf_load_plot("x"), x))
+  expect_identical(sbf_load_plot_data("x"), data.frame())
+
+  expect_true(file.exists(file.path(sbf_get_main(), "plots/x.rds")))
+  expect_false(file.exists(file.path(sbf_get_main(), "plots/x2.rds")))
+
+  # x has no csv or xlsx because it has no main data or layers
+  expect_identical(list.files(file.path(sbf_get_main(), "plots")),
+                   c("x.png", "x.rda", "x.rds"))
+
 #   y <- ggplot2::ggplot(
 #     data = data.frame(x = 1:3, y = 2:4, z = NA_real_),
 #     ggplot2::aes(x = x, y = y)
