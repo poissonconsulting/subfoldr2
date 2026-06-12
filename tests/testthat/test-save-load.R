@@ -891,11 +891,11 @@ test_that("plot", {
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   sbf_close_windows()
 
-#   y <- 1
-#   expect_error(sbf_save_plot(y), "^`x` must inherit from S3 class 'ggplot'[.]$",
-#                class = "chk_error"
-#   )
-#   
+  y <- 1
+  expect_error(sbf_save_plot(y), "^`x` must inherit from S3 class 'ggplot'[.]$",
+               class = "chk_error"
+  )
+
 #   x <- ggplot2::ggplot()
 #   expect_identical(sbf_save_plot(x, drop_uninformative_cols = TRUE),
 #                    file.path(sbf_get_main(), "plots/x.rds"))
