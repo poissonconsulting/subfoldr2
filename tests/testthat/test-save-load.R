@@ -887,10 +887,10 @@ test_that("block", {
 })
 
 test_that("plot", {
-#   sbf_reset()
-#   sbf_set_main(file.path(withr::local_tempdir(), "output"))
-#   sbf_close_windows()
-#   
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  sbf_close_windows()
+
 #   y <- 1
 #   expect_error(sbf_save_plot(y), "^`x` must inherit from S3 class 'ggplot'[.]$",
 #                class = "chk_error"
@@ -1131,9 +1131,9 @@ test_that("plot", {
 #                tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[2]][[2]][[2]])@data[[1]]) |>
 #                  dplyr::tibble() %>%
 #                  dplyr::mutate(group = as.numeric(group)))
-#   
-#   sbf_reset()
-#   sbf_close_windows()
+
+  sbf_reset()
+  sbf_close_windows()
 })
 
 test_that("clean after up previous test block in case errored, cant use defer with ggplot", {
