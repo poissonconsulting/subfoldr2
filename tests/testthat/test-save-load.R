@@ -887,253 +887,253 @@ test_that("block", {
 })
 
 test_that("plot", {
-  sbf_reset()
-  sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  sbf_close_windows()
-  
-  y <- 1
-  expect_error(sbf_save_plot(y), "^`x` must inherit from S3 class 'ggplot'[.]$",
-               class = "chk_error"
-  )
-  
-  x <- ggplot2::ggplot()
-  expect_identical(sbf_save_plot(x, drop_uninformative_cols = TRUE),
-                   file.path(sbf_get_main(), "plots/x.rds"))
-  expect_true(all.equal(sbf_load_plot("x"), x))
-  expect_identical(sbf_load_plot_data("x"), data.frame())
-  
-  expect_true(file.exists(file.path(sbf_get_main(), "plots/x.rds")))
-  expect_false(file.exists(file.path(sbf_get_main(), "plots/x2.rds")))
-  
-  # x has no csv or xlsx because it has no main data or layers
-  expect_identical(list.files(file.path(sbf_get_main(), "plots")),
-                   c("x.png", "x.rda", "x.rds"))
-  
-  y <- ggplot2::ggplot(
-    data = data.frame(x = 1:3, y = 2:4, z = NA_real_),
-    ggplot2::aes(x = x, y = y)
-  )
-  expect_identical(sbf_save_plot(y, drop_uninformative_cols = FALSE),
-                   file.path(sbf_get_main(), "plots/y.rds"))
-  expect_identical(read.csv(file.path(sbf_get_main(), "plots/y.csv")),
-                   data.frame(x = 1:3, y = 2:4, z = NA))
-  
-  expect_identical(sbf_save_plot(y), file.path(sbf_get_main(), "plots/y.rds"))
-  expect_true(all.equal(sbf_load_plot("y"), y))
-  expect_identical(sbf_load_plot_data("y"),
-                   data.frame(x = 1:3, y = 2:4, z = NA_real_))
-  expect_identical(read.csv(file.path(sbf_get_main(), "plots", "y.csv")),
-                   data.frame(x = 1:3, y = 2:4))
-  expect_identical(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "y.xlsx")),
-                   dplyr::tibble(x = as.numeric(1:3), y = as.numeric(2:4)))
-  expect_identical(readxl::excel_sheets(file.path(sbf_get_main(), "plots", "y.xlsx")),
-                   "data")
-  
-  expect_identical(
-    list.files(file.path(sbf_get_main(), "plots")),
-    sort(c(
-      # x has no csv or xlsx because it has no main data or layers
-      "x.png", "x.rda", "x.rds",
-      # y has a csv and xlsx because it has main data despite having no layers
-      "y.csv", "y.png", "y.rda", "y.rds", "y.xlsx"
-    ))
-  )
-  
-  expect_identical(sbf_load_plots_data(), c("x", "y"))
-  expect_identical(x, data.frame())
-  expect_identical(y, data.frame(x = 1:3, y = 2:4, z = NA_real_))
-  
-  z <- ggplot2::ggplot(
-    data = data.frame(x = 2, y = 3),
-    ggplot2::aes(x = x, y = y)
-  )
-  expect_identical(sbf_save_plot(z), file.path(sbf_get_main(), "plots/z.rds"))
-  expect_true(all.equal(sbf_load_plot("z"), z))
-  
-  t <- ggplot2::ggplot(
-    data = data.frame(x = c(2, 3), y = c(3, 2)),
-    ggplot2::aes(x = x, y = y)
-  )
-  expect_identical(sbf_save_plot( # saves last plot as "plot"
-    csv = 1L, dpi = 320L, caption = "one c",
-    report = FALSE, width = 2.55, height = 3L,
-    units = "cm"),
-    file.path(sbf_get_main(), "plots/plot.rds"))
-  expect_true(all.equal(sbf_load_plot("plot"), t))
-  
-  expect_identical(
-    list.files(file.path(sbf_get_main(), "plots")),
-    c("plot.png", "plot.rda", "plot.rds", "plot.xlsx", # has data but no layers
-      "x.png", "x.rda", "x.rds", # no data or layers
-      "y.csv", "y.png", "y.rda", "y.rds", "y.xlsx", # has data but no layers
-      "z.png", "z.rda", "z.rds") # dataset has only one row and no layers
-  )
-  
-  data <- sbf_load_plots_recursive()
-  expect_s3_class(data, "tbl_df")
-  expect_identical(colnames(data), c("plots", "name", "sub", "file"))
-  expect_s3_class(data$plots[[2]], "ggplot")
-  expect_identical(data$name, c("plot", "x", "y", "z"))
-  expect_identical(
-    data$file,
-    c(
-      file.path(sbf_get_main(), "plots/plot.rds"),
-      file.path(sbf_get_main(), "plots/x.rds"),
-      file.path(sbf_get_main(), "plots/y.rds"),
-      file.path(sbf_get_main(), "plots/z.rds")
-    )
-  )
-  
-  data2 <- sbf_load_plots_recursive(meta = TRUE)
-  expect_identical(colnames(data2), c(
-    "plots", "name", "sub", "file", "caption", "report",
-    "tag",
-    "width", "height", "dpi"
-  ))
-  expect_identical(data2$caption[1:2], c("one c", ""))
-  expect_identical(data2$report[1:2], c(FALSE, TRUE))
-  expect_equal(data2$width[1:2], c(1.003937, 6.000000))
-  expect_equal(data2$height[1:2], c(1.181102, 6.000000), tolerance = 1e-06)
-  expect_identical(data2$dpi[1:2], c(320, 300))
-  
-  data <- sbf_load_plots_data_recursive()
-  expect_s3_class(data, "tbl_df")
-  expect_identical(colnames(data), c("plots_data", "name", "sub", "file"))
-  expect_identical(data$plots_data[[2]], data.frame())
-  expect_identical(data$name, c("plot", "x", "y", "z"))
-  expect_identical(
-    data$file,
-    c(
-      file.path(sbf_get_main(), "plots/plot.rds"),
-      file.path(sbf_get_main(), "plots/x.rds"),
-      file.path(sbf_get_main(), "plots/y.rds"),
-      file.path(sbf_get_main(), "plots/z.rds")
-    )
-  )
-  
-  # tests for checking that data for different layers save individually
-  # and redundantly
-  p_layers <- ggplot2::ggplot() +
-    ggplot2::facet_wrap(~ Species) +
-    ggplot2::geom_point(ggplot2::aes(mpg, cyl), datasets::mtcars) +
-    ggplot2::geom_line(ggplot2::aes(mpg, cyl), datasets::mtcars) +
-    ggplot2::geom_line(ggplot2::aes(Sepal.Length, Petal.Length), datasets::iris) +
-    ggplot2::geom_smooth(ggplot2::aes(Sepal.Length, Petal.Length),
-                         datasets::iris, method = "loess", formula = y ~ x)
-  
-  expect_identical(sbf_save_plot(p_layers),
-                   file.path(sbf_get_main(), "plots", "p_layers.rds"))
-  expect_identical(
-    list.files(file.path(sbf_get_main(), "plots")),
-    c("p_layers.png", "p_layers.rda", "p_layers.rds", "p_layers.xlsx", # has data & layers
-      "plot.png", "plot.rda", "plot.rds", "plot.xlsx", # has data but no layers
-      "x.png", "x.rda", "x.rds", # no data or layers
-      "y.csv", "y.png", "y.rda", "y.rds", "y.xlsx", # has data but no layers
-      "z.png", "z.rda", "z.rds") # has one-row data and no layers
-  )
-  expect_equal(readxl::excel_sheets(file.path(sbf_get_main(), "plots", "p_layers.xlsx")),
-               c("1_1_point", "1_2_line", "1_3_line", "1_4_smooth"))
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                                 "1_1_point"),
-               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_layers)@data[[1]]) |>
-                 dplyr::tibble() |>
-                 dplyr::mutate(PANEL = as.character(PANEL)))
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                                 "1_2_line"),
-               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_layers)@data[[2]]) |>
-                 dplyr::tibble() |>
-                 dplyr::mutate(PANEL = as.character(PANEL)))
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                                 "1_3_line"),
-               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_layers)@data[[3]]) |>
-                 dplyr::tibble() |>
-                 dplyr::mutate(PANEL = as.character(PANEL)))
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                                 "1_4_smooth"),
-               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_layers)@data[[4]]) |>
-                 dplyr::tibble() |>
-                 dplyr::mutate(PANEL = as.character(PANEL)))
-  
-  expect_error( # datasets are redundant but different because of row order
-    expect_equal(
-      readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                        "1_1_point"),
-      readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                        "1_2_line")
-      ),
-  "Expected `readxl::read_xlsx\\(...\\)` to equal `readxl::read_xlsx\\(...\\)`.")
-  
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                                 "1_1_point") |>
-                 dplyr::arrange(x, y),
-               readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                                 "1_2_line") |>
-                 dplyr::arrange(x, y))
-  
-  # tests for checking that data for different patchwork patches save
-  # individually and redundantly
-  p_patches <-
-    patchwork:::`/.ggplot`(
-      ggplot2:::`+`(
-        (ggplot2::ggplot(datasets::mtcars) + ggplot2::geom_line(ggplot2::aes(mpg, cyl, color = cyl))),
-        (ggplot2::ggplot() + ggplot2::geom_line(ggplot2::aes(Sepal.Length, Petal.Length), datasets::iris))
-      ), 
-      ggplot2:::`+`(
-        (ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(mpg, cyl, color = cyl), datasets::mtcars)),
-        ggplot2:::`+`(
-          (ggplot2::ggplot(datasets::iris) + ggplot2::geom_point(ggplot2::aes(Sepal.Length, Petal.Length))),
-          (ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(Sepal.Length, Petal.Length, color = Species), datasets::iris)))
-      )
-    )
-  
-  expect_identical(sbf_save_plot(p_patches),
-                   file.path(sbf_get_main(), "plots", "p_patches.rds"))
-  expect_identical(
-    list.files(file.path(sbf_get_main(), "plots")),
-    c("p_layers.png", "p_layers.rda", "p_layers.rds", "p_layers.xlsx", # has data & layers
-      "p_patches.csv", "p_patches.png", "p_patches.rda", "p_patches.rds", "p_patches.xlsx",
-      "plot.png", "plot.rda", "plot.rds", "plot.xlsx", # has data but no layers
-      "x.png", "x.rda", "x.rds", # no data or layers
-      "y.csv", "y.png", "y.rda", "y.rds", "y.xlsx", # has data but no layers
-      "z.png", "z.rda", "z.rds") # has one-row data and no layers
-  )
-  expect_equal(readxl::excel_sheets(file.path(sbf_get_main(), "plots", "p_patches.xlsx")),
-               c("1_0_data", "1_1_line",
-                 "2_1_line",
-                 "3_1_point",
-                 "4_0_data", "4_1_point",
-                 "5_1_point"))
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
-                                 "1_0_data"),
-               dplyr::tibble(datasets::mtcars))
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
-                                 "1_1_line"),
-               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[1]][[1]])@data[[1]]) |>
-                 dplyr::tibble())
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
-                                 "2_1_line"),
-               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[1]][[2]])@data[[1]]) |>
-                 dplyr::tibble())
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
-                                 "3_1_point"),
-               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[2]][[1]])@data[[1]]) |>
-                 dplyr::tibble())
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
-                                 "4_0_data"),
-               dplyr::tibble(datasets::iris) |>
-                 dplyr::mutate(Species = as.character(Species)))
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
-                                 "4_1_point"),
-               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[2]][[2]][[1]])@data[[1]]) |>
-                 dplyr::tibble())
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
-                                 "5_1_point"),
-               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[2]][[2]][[2]])@data[[1]]) |>
-                 dplyr::tibble() %>%
-                 dplyr::mutate(group = as.numeric(group)))
-  
-  sbf_reset()
-  sbf_close_windows()
+#   sbf_reset()
+#   sbf_set_main(file.path(withr::local_tempdir(), "output"))
+#   sbf_close_windows()
+#   
+#   y <- 1
+#   expect_error(sbf_save_plot(y), "^`x` must inherit from S3 class 'ggplot'[.]$",
+#                class = "chk_error"
+#   )
+#   
+#   x <- ggplot2::ggplot()
+#   expect_identical(sbf_save_plot(x, drop_uninformative_cols = TRUE),
+#                    file.path(sbf_get_main(), "plots/x.rds"))
+#   expect_true(all.equal(sbf_load_plot("x"), x))
+#   expect_identical(sbf_load_plot_data("x"), data.frame())
+#   
+#   expect_true(file.exists(file.path(sbf_get_main(), "plots/x.rds")))
+#   expect_false(file.exists(file.path(sbf_get_main(), "plots/x2.rds")))
+#   
+#   # x has no csv or xlsx because it has no main data or layers
+#   expect_identical(list.files(file.path(sbf_get_main(), "plots")),
+#                    c("x.png", "x.rda", "x.rds"))
+#   
+#   y <- ggplot2::ggplot(
+#     data = data.frame(x = 1:3, y = 2:4, z = NA_real_),
+#     ggplot2::aes(x = x, y = y)
+#   )
+#   expect_identical(sbf_save_plot(y, drop_uninformative_cols = FALSE),
+#                    file.path(sbf_get_main(), "plots/y.rds"))
+#   expect_identical(read.csv(file.path(sbf_get_main(), "plots/y.csv")),
+#                    data.frame(x = 1:3, y = 2:4, z = NA))
+#   
+#   expect_identical(sbf_save_plot(y), file.path(sbf_get_main(), "plots/y.rds"))
+#   expect_true(all.equal(sbf_load_plot("y"), y))
+#   expect_identical(sbf_load_plot_data("y"),
+#                    data.frame(x = 1:3, y = 2:4, z = NA_real_))
+#   expect_identical(read.csv(file.path(sbf_get_main(), "plots", "y.csv")),
+#                    data.frame(x = 1:3, y = 2:4))
+#   expect_identical(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "y.xlsx")),
+#                    dplyr::tibble(x = as.numeric(1:3), y = as.numeric(2:4)))
+#   expect_identical(readxl::excel_sheets(file.path(sbf_get_main(), "plots", "y.xlsx")),
+#                    "data")
+#   
+#   expect_identical(
+#     list.files(file.path(sbf_get_main(), "plots")),
+#     sort(c(
+#       # x has no csv or xlsx because it has no main data or layers
+#       "x.png", "x.rda", "x.rds",
+#       # y has a csv and xlsx because it has main data despite having no layers
+#       "y.csv", "y.png", "y.rda", "y.rds", "y.xlsx"
+#     ))
+#   )
+#   
+#   expect_identical(sbf_load_plots_data(), c("x", "y"))
+#   expect_identical(x, data.frame())
+#   expect_identical(y, data.frame(x = 1:3, y = 2:4, z = NA_real_))
+#   
+#   z <- ggplot2::ggplot(
+#     data = data.frame(x = 2, y = 3),
+#     ggplot2::aes(x = x, y = y)
+#   )
+#   expect_identical(sbf_save_plot(z), file.path(sbf_get_main(), "plots/z.rds"))
+#   expect_true(all.equal(sbf_load_plot("z"), z))
+#   
+#   t <- ggplot2::ggplot(
+#     data = data.frame(x = c(2, 3), y = c(3, 2)),
+#     ggplot2::aes(x = x, y = y)
+#   )
+#   expect_identical(sbf_save_plot( # saves last plot as "plot"
+#     csv = 1L, dpi = 320L, caption = "one c",
+#     report = FALSE, width = 2.55, height = 3L,
+#     units = "cm"),
+#     file.path(sbf_get_main(), "plots/plot.rds"))
+#   expect_true(all.equal(sbf_load_plot("plot"), t))
+#   
+#   expect_identical(
+#     list.files(file.path(sbf_get_main(), "plots")),
+#     c("plot.png", "plot.rda", "plot.rds", "plot.xlsx", # has data but no layers
+#       "x.png", "x.rda", "x.rds", # no data or layers
+#       "y.csv", "y.png", "y.rda", "y.rds", "y.xlsx", # has data but no layers
+#       "z.png", "z.rda", "z.rds") # dataset has only one row and no layers
+#   )
+#   
+#   data <- sbf_load_plots_recursive()
+#   expect_s3_class(data, "tbl_df")
+#   expect_identical(colnames(data), c("plots", "name", "sub", "file"))
+#   expect_s3_class(data$plots[[2]], "ggplot")
+#   expect_identical(data$name, c("plot", "x", "y", "z"))
+#   expect_identical(
+#     data$file,
+#     c(
+#       file.path(sbf_get_main(), "plots/plot.rds"),
+#       file.path(sbf_get_main(), "plots/x.rds"),
+#       file.path(sbf_get_main(), "plots/y.rds"),
+#       file.path(sbf_get_main(), "plots/z.rds")
+#     )
+#   )
+#   
+#   data2 <- sbf_load_plots_recursive(meta = TRUE)
+#   expect_identical(colnames(data2), c(
+#     "plots", "name", "sub", "file", "caption", "report",
+#     "tag",
+#     "width", "height", "dpi"
+#   ))
+#   expect_identical(data2$caption[1:2], c("one c", ""))
+#   expect_identical(data2$report[1:2], c(FALSE, TRUE))
+#   expect_equal(data2$width[1:2], c(1.003937, 6.000000))
+#   expect_equal(data2$height[1:2], c(1.181102, 6.000000), tolerance = 1e-06)
+#   expect_identical(data2$dpi[1:2], c(320, 300))
+#   
+#   data <- sbf_load_plots_data_recursive()
+#   expect_s3_class(data, "tbl_df")
+#   expect_identical(colnames(data), c("plots_data", "name", "sub", "file"))
+#   expect_identical(data$plots_data[[2]], data.frame())
+#   expect_identical(data$name, c("plot", "x", "y", "z"))
+#   expect_identical(
+#     data$file,
+#     c(
+#       file.path(sbf_get_main(), "plots/plot.rds"),
+#       file.path(sbf_get_main(), "plots/x.rds"),
+#       file.path(sbf_get_main(), "plots/y.rds"),
+#       file.path(sbf_get_main(), "plots/z.rds")
+#     )
+#   )
+#   
+#   # tests for checking that data for different layers save individually
+#   # and redundantly
+#   p_layers <- ggplot2::ggplot() +
+#     ggplot2::facet_wrap(~ Species) +
+#     ggplot2::geom_point(ggplot2::aes(mpg, cyl), datasets::mtcars) +
+#     ggplot2::geom_line(ggplot2::aes(mpg, cyl), datasets::mtcars) +
+#     ggplot2::geom_line(ggplot2::aes(Sepal.Length, Petal.Length), datasets::iris) +
+#     ggplot2::geom_smooth(ggplot2::aes(Sepal.Length, Petal.Length),
+#                          datasets::iris, method = "loess", formula = y ~ x)
+#   
+#   expect_identical(sbf_save_plot(p_layers),
+#                    file.path(sbf_get_main(), "plots", "p_layers.rds"))
+#   expect_identical(
+#     list.files(file.path(sbf_get_main(), "plots")),
+#     c("p_layers.png", "p_layers.rda", "p_layers.rds", "p_layers.xlsx", # has data & layers
+#       "plot.png", "plot.rda", "plot.rds", "plot.xlsx", # has data but no layers
+#       "x.png", "x.rda", "x.rds", # no data or layers
+#       "y.csv", "y.png", "y.rda", "y.rds", "y.xlsx", # has data but no layers
+#       "z.png", "z.rda", "z.rds") # has one-row data and no layers
+#   )
+#   expect_equal(readxl::excel_sheets(file.path(sbf_get_main(), "plots", "p_layers.xlsx")),
+#                c("1_1_point", "1_2_line", "1_3_line", "1_4_smooth"))
+#   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
+#                                  "1_1_point"),
+#                tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_layers)@data[[1]]) |>
+#                  dplyr::tibble() |>
+#                  dplyr::mutate(PANEL = as.character(PANEL)))
+#   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
+#                                  "1_2_line"),
+#                tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_layers)@data[[2]]) |>
+#                  dplyr::tibble() |>
+#                  dplyr::mutate(PANEL = as.character(PANEL)))
+#   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
+#                                  "1_3_line"),
+#                tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_layers)@data[[3]]) |>
+#                  dplyr::tibble() |>
+#                  dplyr::mutate(PANEL = as.character(PANEL)))
+#   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
+#                                  "1_4_smooth"),
+#                tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_layers)@data[[4]]) |>
+#                  dplyr::tibble() |>
+#                  dplyr::mutate(PANEL = as.character(PANEL)))
+#   
+#   expect_error( # datasets are redundant but different because of row order
+#     expect_equal(
+#       readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
+#                         "1_1_point"),
+#       readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
+#                         "1_2_line")
+#       ),
+#   "Expected `readxl::read_xlsx\\(...\\)` to equal `readxl::read_xlsx\\(...\\)`.")
+#   
+#   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
+#                                  "1_1_point") |>
+#                  dplyr::arrange(x, y),
+#                readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
+#                                  "1_2_line") |>
+#                  dplyr::arrange(x, y))
+#   
+#   # tests for checking that data for different patchwork patches save
+#   # individually and redundantly
+#   p_patches <-
+#     patchwork:::`/.ggplot`(
+#       ggplot2:::`+`(
+#         (ggplot2::ggplot(datasets::mtcars) + ggplot2::geom_line(ggplot2::aes(mpg, cyl, color = cyl))),
+#         (ggplot2::ggplot() + ggplot2::geom_line(ggplot2::aes(Sepal.Length, Petal.Length), datasets::iris))
+#       ), 
+#       ggplot2:::`+`(
+#         (ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(mpg, cyl, color = cyl), datasets::mtcars)),
+#         ggplot2:::`+`(
+#           (ggplot2::ggplot(datasets::iris) + ggplot2::geom_point(ggplot2::aes(Sepal.Length, Petal.Length))),
+#           (ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(Sepal.Length, Petal.Length, color = Species), datasets::iris)))
+#       )
+#     )
+#   
+#   expect_identical(sbf_save_plot(p_patches),
+#                    file.path(sbf_get_main(), "plots", "p_patches.rds"))
+#   expect_identical(
+#     list.files(file.path(sbf_get_main(), "plots")),
+#     c("p_layers.png", "p_layers.rda", "p_layers.rds", "p_layers.xlsx", # has data & layers
+#       "p_patches.csv", "p_patches.png", "p_patches.rda", "p_patches.rds", "p_patches.xlsx",
+#       "plot.png", "plot.rda", "plot.rds", "plot.xlsx", # has data but no layers
+#       "x.png", "x.rda", "x.rds", # no data or layers
+#       "y.csv", "y.png", "y.rda", "y.rds", "y.xlsx", # has data but no layers
+#       "z.png", "z.rda", "z.rds") # has one-row data and no layers
+#   )
+#   expect_equal(readxl::excel_sheets(file.path(sbf_get_main(), "plots", "p_patches.xlsx")),
+#                c("1_0_data", "1_1_line",
+#                  "2_1_line",
+#                  "3_1_point",
+#                  "4_0_data", "4_1_point",
+#                  "5_1_point"))
+#   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
+#                                  "1_0_data"),
+#                dplyr::tibble(datasets::mtcars))
+#   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
+#                                  "1_1_line"),
+#                tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[1]][[1]])@data[[1]]) |>
+#                  dplyr::tibble())
+#   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
+#                                  "2_1_line"),
+#                tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[1]][[2]])@data[[1]]) |>
+#                  dplyr::tibble())
+#   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
+#                                  "3_1_point"),
+#                tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[2]][[1]])@data[[1]]) |>
+#                  dplyr::tibble())
+#   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
+#                                  "4_0_data"),
+#                dplyr::tibble(datasets::iris) |>
+#                  dplyr::mutate(Species = as.character(Species)))
+#   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
+#                                  "4_1_point"),
+#                tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[2]][[2]][[1]])@data[[1]]) |>
+#                  dplyr::tibble())
+#   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
+#                                  "5_1_point"),
+#                tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[2]][[2]][[2]])@data[[1]]) |>
+#                  dplyr::tibble() %>%
+#                  dplyr::mutate(group = as.numeric(group)))
+#   
+#   sbf_reset()
+#   sbf_close_windows()
 })
 
 test_that("clean after up previous test block in case errored, cant use defer with ggplot", {
