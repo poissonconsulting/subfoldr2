@@ -915,8 +915,7 @@ test_that("plot", {
   )
   expect_identical(sbf_save_plot(y, drop_uninformative_cols = TRUE),
                    file.path(sbf_get_main(), "plots/y.rds"))
-  expect_error(read.csv(paste0(sbf_get_main(), "/plots/y.csv")),
-               "no lines available in input")
+  expect_false(file.exists(paste0(sbf_get_main(), "plots/y.csv")))
   
   y <- ggplot2::ggplot(
     data = data.frame(x = 1:3, y = 2:4, z = NA_real_),
