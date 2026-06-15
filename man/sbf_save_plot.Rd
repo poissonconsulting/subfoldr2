@@ -62,25 +62,24 @@ Saves a ggplot object.
 By default it saves the last plot to be modified or created.
 }
 \details{
-{The function saves:
+The function saves:
 \enumerate{
-\item A \code{png} file of the plot
-\item An \code{rda} file of the plot metadata
-\item An \code{rds} file of the plot
-\item A \code{csv} of the data passed to \code{ggplot()} (as long as \code{nrow(x@data) > 1}).
-If \code{x} is a patchwork object, only the data for the first patch is saved
-to maintain compatibility with previous versions.
-\item An \code{xlsx} workbook for the data passed each \code{ggplot()} call and each
-layer in the related plot.
-Sheets are labelled \verb{<p>_<l>_<geom>}, where \verb{<p>} is the row-wise patch
-index (1 if \code{x} is a simple \code{ggplot} plot), \verb{<l>} is the layer index,
-and \verb{<geom>} is the layer type (e.g., \code{point}, \code{line}).
+\item A \code{png} file of the plot.
+\item An \code{rda} file of the plot metadata.
+\item An \code{rds} file of the plot.
+\item A \code{csv} of the data passed to \code{ggplot()}, provided it has at least one row
+and no more than \code{csv} rows. If \code{x} is a \code{{patchwork}} object, only the data
+for the first patch is saved, to maintain compatibility with previous
+versions.
+\item An \code{xlsx} workbook with a sheet for the data passed to each \code{ggplot()}
+call and a sheet for each geom layer. Sheets are labelled \verb{<p>_<l>_<geom>},
+where \verb{<p>} is the patch index (1 for a simple \code{ggplot}), \verb{<l>} is the layer
+index (\code{0} for the \code{ggplot()} data), and \verb{<geom>} is the layer type (e.g.
+\code{point}, \code{line}). Layers with more than \code{csv} rows are omitted.
 }
 
-\code{csv} and \code{xlsx} files are named using the \code{x_name} argument.
-Note that not specifying \code{x} will overwrite existing files that used
-\code{x_name = "plot"}.
-}
+The \code{csv} and \code{xlsx} files are named using the \code{x_name} argument. Not
+specifying \code{x} overwrites existing files that used \code{x_name = "plot"}.
 }
 \examples{
 \dontrun{

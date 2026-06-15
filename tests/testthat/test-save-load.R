@@ -944,7 +944,7 @@ test_that("plot", {
   expect_identical(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "y.xlsx")),
                    dplyr::tibble(x = as.numeric(1:3), y = as.numeric(2:4)))
   expect_identical(readxl::excel_sheets(file.path(sbf_get_main(), "plots", "y.xlsx")),
-                   "data")
+                   "1_0_data")
 
   expect_identical(sbf_load_plots_data(), c("x", "y"))
   expect_identical(x, data.frame())
