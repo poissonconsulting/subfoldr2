@@ -924,6 +924,15 @@ test_that("plot", {
   )
   expect_identical(sbf_save_plot(y, drop_uninformative_cols = FALSE),
                    file.path(sbf_get_main(), "plots/y.rds"))
+  expect_identical(
+    list.files(file.path(sbf_get_main(), "plots")),
+    sort(c(
+      # x has no csv or xlsx because it has no main data or layers
+      "x.png", "x.rda", "x.rds",
+      # y has a csv and xlsx because it has main data despite having no layers
+      "y.csv", "y.png", "y.rda", "y.rds", "y.xlsx"
+    ))
+  )
   expect_identical(read.csv(file.path(sbf_get_main(), "plots/y.csv")),
                    data.frame(x = 1:3, y = 2:4, z = NA))
 
@@ -937,16 +946,6 @@ test_that("plot", {
                    dplyr::tibble(x = as.numeric(1:3), y = as.numeric(2:4)))
   expect_identical(readxl::excel_sheets(file.path(sbf_get_main(), "plots", "y.xlsx")),
                    "data")
-
-  expect_identical(
-    list.files(file.path(sbf_get_main(), "plots")),
-    sort(c(
-      # x has no csv or xlsx because it has no main data or layers
-      "x.png", "x.rda", "x.rds",
-      # y has a csv and xlsx because it has main data despite having no layers
-      "y.csv", "y.png", "y.rda", "y.rds", "y.xlsx"
-    ))
-  )
 
   expect_identical(sbf_load_plots_data(), c("x", "y"))
   expect_identical(x, data.frame())
