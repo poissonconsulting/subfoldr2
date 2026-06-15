@@ -1,5 +1,16 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# subfoldr2 1.0.1.9008
+
+- Add `drop_uninformative_cols` argument to control whether columns are dropped in the saved csv (#156).
+
+- Update to `{roxygen}` v. 8.0.0.9000 (#155).
+
+- Update Evan Amies-Galonski email and remove Duncan Kennedy email (#154).
+
+- Add/correct author ORCID(s) in DESCRIPTION (#153).
+
+
 # subfoldr2 1.0.1.9007
 
 - Add CODEOWNERS assigning @joethorley (#152).
