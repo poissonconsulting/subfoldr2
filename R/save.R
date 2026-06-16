@@ -503,7 +503,7 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #'   length(subfoldr2:::unstitch_patches(pw))
 #' }
 unstitch_patches <- function(x) {
-  chk_s3_class(x, "ggplot")
+  chk_s3_class(x, "ggplot") # update to S7 check once available in {chk}
   if (!inherits(x, "patchwork")) {
     return(x)
   }
