@@ -68,7 +68,7 @@ The function saves:
 \item An \code{rda} file of the plot metadata.
 \item An \code{rds} file of the plot.
 \item A \code{csv} of the data passed to \code{ggplot()}, provided it has at least one row
-and no more than \code{csv} rows. If \code{x} is a \code{{patchwork}} object, only the data
+and no more than \code{csv} rows. If \code{x} is a \code{patchwork} object, only the data
 for the first patch is saved, to maintain compatibility with previous
 versions.
 \item An \code{xlsx} workbook with a sheet for the data passed to each \code{ggplot()}

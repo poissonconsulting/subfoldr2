@@ -585,7 +585,7 @@ get_plot_layer_sheets <- function(p, prefix, csv, drop_uninformative_cols) {
 #' 2. An `rda` file of the plot metadata.
 #' 3. An `rds` file of the plot.
 #' 4. A `csv` of the data passed to `ggplot()`, provided it has at least one row
-#' and no more than `csv` rows. If `x` is a `{patchwork}` object, only the data
+#' and no more than `csv` rows. If `x` is a `patchwork` object, only the data
 #' for the first patch is saved, to maintain compatibility with previous
 #' versions.
 #' 5. An `xlsx` workbook with a sheet for the data passed to each `ggplot()`
