@@ -521,7 +521,7 @@ unstitch_patches <- function(x) {
 # Named list (one element) of the data passed to `ggplot()` for a single plot,
 # or an empty list when there is no informative data frame. The sheet is named
 # "<prefix>_0_data".
-plot_data_sheet <- function(p, prefix, drop_uninformative_cols) {
+get_plot_data_sheet <- function(p, prefix, drop_uninformative_cols) {
   data <- p@data
   if (!is.data.frame(data)) {
     return(list())
@@ -538,7 +538,7 @@ plot_data_sheet <- function(p, prefix, drop_uninformative_cols) {
 # Named list of the data for each geom layer of a single plot, named
 # "<prefix>_<layer>_<geom>". Layers whose data is not a data frame or exceeds
 # `csv` rows are returned as `NULL` and dropped by the caller.
-plot_layer_sheets <- function(p, prefix, csv, drop_uninformative_cols) {
+get_plot_layer_sheets <- function(p, prefix, csv, drop_uninformative_cols) {
   n_layers <- length(p@layers)
   if (!n_layers) {
     return(list())
@@ -702,8 +702,8 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
 
   sheet_list <- purrr::imap(plot_list, function(p, i) {
     c(
-      plot_data_sheet(p, i, drop_uninformative_cols),
-      plot_layer_sheets(p, i, csv, drop_uninformative_cols)
+      get_plot_data_sheet(p, i, drop_uninformative_cols),
+      get_plot_layer_sheets(p, i, csv, drop_uninformative_cols)
     )
   })
   sheet_list <- purrr::compact(purrr::list_flatten(sheet_list))
