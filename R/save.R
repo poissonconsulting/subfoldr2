@@ -422,12 +422,14 @@ sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @param caption A string of the caption.
 #' @param report A flag specifying whether to include in a report.
 #' @param tag A string of the tag.
+#' @param notes A string of additional notes to save with the metadata.
 #' @return An invisible string of the path to the saved object.
 #' @family save functions
 #' @export
 sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                            main = sbf_get_main(),
-                           caption = "", report = TRUE, tag = "") {
+                           caption = "", report = TRUE, tag = "",
+                           notes = "") {
   x_name <- chk_deparse(x_name)
   chk_s3_class(x, "data.frame")
   valid <- vapply(x, is_valid_table_column, TRUE)
@@ -446,11 +448,12 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   chk_string(caption)
   chk_flag(report)
   chk_string(tag)
+  chk_string(notes)
 
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
-  meta <- list(caption = caption, report = report, tag = tag)
+  meta <- list(caption = caption, report = report, tag = tag, notes = notes)
   save_meta(meta, "tables", sub = sub, main = main, x_name = x_name)
   save_csv(x, "tables", sub = sub, main = main, x_name = x_name)
   save_rds(x, "tables", sub = sub, main = main, x_name = x_name)
@@ -468,7 +471,8 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @export
 sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                            main = sbf_get_main(),
-                           caption = "", report = TRUE, tag = "") {
+                           caption = "", report = TRUE, tag = "",
+                           notes = "") {
   chk_string(x)
   chk_gt(nchar(x))
   x_name <- chk_deparse(x_name)
@@ -481,11 +485,12 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   chk_string(caption)
   chk_flag(report)
   chk_string(tag)
+  chk_string(notes)
 
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
-  meta <- list(caption = caption, report = report, tag = tag)
+  meta <- list(caption = caption, report = report, tag = tag, notes = notes)
   save_meta(meta, "blocks", sub = sub, main = main, x_name = x_name)
   save_txt(x, "blocks", sub = sub, main = main, x_name = x_name)
   save_rds(x, "blocks", sub = sub, main = main, x_name = x_name)
@@ -645,6 +650,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
                           main = sbf_get_main(),
                           caption = "", report = TRUE,
                           tag = "",
+                          notes = "",
                           units = "in",
                           width = NA, height = width, dpi = 300,
                           limitsize = TRUE,
@@ -664,6 +670,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   chk_string(caption)
   chk_flag(report)
   chk_string(tag)
+  chk_string(notes)
   chk_string(units)
   chk_subset(units, c("in", "mm", "cm"))
 
@@ -688,7 +695,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   )
 
   meta <- list(
-    caption = caption, report = report, tag = tag,
+    caption = caption, report = report, tag = tag, notes = notes,
     width = dim[1], height = dim[2],
     dpi = dpi
   )
@@ -737,6 +744,7 @@ sbf_save_window <- function(x_name = "window",
                             sub = sbf_get_sub(),
                             main = sbf_get_main(),
                             caption = "", report = TRUE, tag = "",
+                            notes = "",
                             width = NA, height = width, units = "in",
                             dpi = 300) {
   chk_string(x_name)
@@ -747,6 +755,7 @@ sbf_save_window <- function(x_name = "window",
   chk_string(caption)
   chk_flag(report)
   chk_string(tag)
+  chk_string(notes)
 
   chk_string(units)
   chk_subset(units, c("in", "mm", "cm"))
@@ -772,7 +781,7 @@ sbf_save_window <- function(x_name = "window",
   )
 
   meta <- list(
-    caption = caption, report = report, tag = tag,
+    caption = caption, report = report, tag = tag, notes = notes,
     width = dim[1], height = dim[2], dpi = dpi
   )
   save_meta(meta, "windows", sub = sub, main = main, x_name = x_name)
@@ -811,6 +820,7 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
                          main = sbf_get_main(),
                          caption = "", report = TRUE,
                          tag = "",
+                         notes = "",
                          width = NA, units = "in") {
   chk_file(x)
   chk_ext(x, "png")
@@ -823,6 +833,7 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
   chk_string(caption)
   chk_flag(report)
   chk_string(tag)
+  chk_string(notes)
 
   chk_string(units)
   chk_subset(units, c("in", "mm", "cm"))
@@ -839,7 +850,7 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
   file.copy(x, filename, overwrite = TRUE)
 
   meta <- list(
-    caption = caption, report = report, tag = tag,
+    caption = caption, report = report, tag = tag, notes = notes,
     width = dim[1], height = dim[2], dpi = dpi
   )
   save_meta(meta, "windows", sub = sub, main = main, x_name = x_name)
