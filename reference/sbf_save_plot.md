@@ -74,9 +74,10 @@ sbf_save_plot(
 
 - limitsize:
 
-  When `TRUE` (the default), `ggsave()` will not save images larger than
-  50x50 inches, to prevent the common error of specifying dimensions in
-  pixels.
+  When `TRUE` (the default),
+  [`ggsave()`](https://ggplot2.tidyverse.org/reference/ggsave.html) will
+  not save images larger than 50x50 inches, to prevent the common error
+  of specifying dimensions in pixels.
 
 - csv:
 
@@ -87,6 +88,34 @@ sbf_save_plot(
   A flag indicating whether to drop uninformative columns via
   [`tidyplus::drop_uninformative_columns()`](https://poissonconsulting.github.io/tidyplus/reference/drop_uninformative_columns.html)
   (`TRUE`, default) or not (`FALSE`).
+
+## Details
+
+The function saves:
+
+1.  A `png` file of the plot.
+
+2.  An `rda` file of the plot metadata.
+
+3.  An `rds` file of the plot.
+
+4.  A `csv` of the data passed to
+    [`ggplot()`](https://ggplot2.tidyverse.org/reference/ggplot.html),
+    provided it has at least one row and no more than `csv` rows. If `x`
+    is a `patchwork` object, only the data for the first patch is saved,
+    to maintain compatibility with previous versions.
+
+5.  An `xlsx` workbook with a sheet for the data passed to each
+    [`ggplot()`](https://ggplot2.tidyverse.org/reference/ggplot.html)
+    call and a sheet for each geom layer. Sheets are labelled
+    `<p>_<l>_<geom>`, where `<p>` is the patch index (1 for a simple
+    `ggplot`), `<l>` is the layer index (`0` for the
+    [`ggplot()`](https://ggplot2.tidyverse.org/reference/ggplot.html)
+    data), and `<geom>` is the layer type (e.g. `point`, `line`). Layers
+    with more than `csv` rows are omitted.
+
+The `csv` and `xlsx` files are named using the `x_name` argument. Not
+specifying `x` overwrites existing files that used `x_name = "plot"`.
 
 ## See also
 
@@ -117,3 +146,37 @@ Other save functions:
 [`sbf_save_table()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_table.md),
 [`sbf_save_window()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_window.md),
 [`sbf_save_workbook()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_workbook.md)
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+require(ggplot2)
+require(patchwork)
+ggplot(mtcars) +
+  geom_line(aes(mpg, cyl, color = cyl), mtcars) +
+  ggtitle("1")
+sbf_save_plot()
+
+p_patches <-
+  ((ggplot(mtcars) +
+      geom_line(aes(mpg, cyl, color = cyl), mtcars) +
+      ggtitle("1")) +
+     (ggplot() +
+        geom_line(aes(Sepal.Length, Petal.Length), iris) +
+        ggtitle("2"))) /
+  ((ggplot() +
+      geom_point(aes(mpg, cyl, color = cyl), mtcars) +
+      ggtitle("3")) +
+     ((ggplot(iris) +
+         geom_point(aes(Sepal.Length, Petal.Length)) +
+         ggtitle("4")) +
+        (ggplot() +
+           geom_point(aes(Sepal.Length, Petal.Length, color = Species),
+                      iris) +
+           ggtitle("5") +
+           theme(legend.position = "none"))))
+p_patches
+sbf_save_plot(p_patches)
+} # }
+```
