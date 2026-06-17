@@ -26,6 +26,7 @@ Other reset:
 
 Other housekeeping functions:
 \code{\link[=sbf_archive_main]{sbf_archive_main()}},
+\code{\link[=sbf_convert_meta]{sbf_convert_meta()}},
 \code{\link[=sbf_rm_flobs]{sbf_rm_flobs()}},
 \code{\link[=sbf_unarchive_main]{sbf_unarchive_main()}}
 }

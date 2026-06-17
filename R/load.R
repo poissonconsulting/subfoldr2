@@ -397,7 +397,8 @@ load_rdss_recursive <- function(x_name = ".*",
                                 meta = FALSE,
                                 drop = NULL,
                                 fun = NULL,
-                                ext = "rds") {
+                                ext = "rds",
+                                read = TRUE) {
   chk_string(x_name)
   chk_character(sub)
   chk_range(length(sub))
@@ -416,11 +417,15 @@ load_rdss_recursive <- function(x_name = ".*",
   
   dir <- file_path(main, class, sub)
   
-  ext <- p0("[.]", ext, "$")
-  
+  ext <- p0("[.](", paste(ext, collapse = "|"), ")$")
+
   files <- list.files(dir, pattern = ext, recursive = TRUE)
   names(files) <- file.path(dir, files)
   files <- sub(ext, "", files)
+  # multiple matching extensions (e.g. legacy `.rda` and new `.yaml` metadata)
+  # can map to the same object; keep only the first occurrence of each stem
+  keep <- !duplicated(files)
+  files <- files[keep]
   files <- files[grepl(x_name, basename(files))]
   if (!include_root) files <- files[grepl("/", files)]
   
@@ -439,7 +444,11 @@ load_rdss_recursive <- function(x_name = ".*",
     files <- files[!drop]
   }
   
-  objects <- lapply(names(files), readRDS)
+  if (read) {
+    objects <- lapply(names(files), readRDS)
+  } else {
+    objects <- vector("list", length(files))
+  }
   if (!is.null(fun)) {
     objects <- lapply(objects, fun)
   }
@@ -747,7 +756,8 @@ sbf_load_windows_recursive <- function(x_name = ".*",
   data <- load_rdss_recursive(x_name, "windows",
                               sub = sub, main = main,
                               include_root = include_root, tag = tag,
-                              meta = meta, ext = "rda", drop = drop
+                              meta = meta, ext = c("yaml", "rda"), drop = drop,
+                              read = FALSE
   )
   data$file <- replace_ext(data$file, "png")
   data$windows <- data$file

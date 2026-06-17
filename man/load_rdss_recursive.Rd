@@ -14,7 +14,8 @@ load_rdss_recursive(
   meta = FALSE,
   drop = NULL,
   fun = NULL,
-  ext = "rds"
+  ext = "rds",
+  read = TRUE
 )
 }
 \arguments{

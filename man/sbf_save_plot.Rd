@@ -65,7 +65,7 @@ By default it saves the last plot to be modified or created.
 The function saves:
 \enumerate{
 \item A \code{png} file of the plot.
-\item An \code{rda} file of the plot metadata.
+\item A \code{yaml} file of the plot metadata.
 \item An \code{rds} file of the plot.
 \item A \code{csv} of the data passed to \code{ggplot()}, provided it has at least one row
 and no more than \code{csv} rows. If \code{x} is a \code{patchwork} object, only the data
