@@ -521,13 +521,10 @@ unstitch_patches <- function(x) {
 # Named list (one element) of the data passed to `ggplot()` for a single plot,
 # or an empty list when there is no informative data frame. The sheet is named
 # "<prefix>_0_data".
-get_plot_data_sheet <- function(p, prefix, drop_uninformative_cols) {
+get_plot_data_sheet <- function(p, prefix) {
   data <- p@data
   if (!is.data.frame(data)) {
     return(list())
-  }
-  if (drop_uninformative_cols) {
-    data <- tidyplus::drop_uninformative_columns(data)
   }
   if (!nrow(data) || !ncol(data)) {
     return(list())
@@ -538,7 +535,7 @@ get_plot_data_sheet <- function(p, prefix, drop_uninformative_cols) {
 # Named list of the data for each geom layer of a single plot, named
 # "<prefix>_<layer>_<geom>". Layers whose data is not a data frame or exceeds
 # `csv` rows are returned as `NULL` and dropped by the caller.
-get_plot_layer_sheets <- function(p, prefix, csv, drop_uninformative_cols) {
+get_plot_layer_sheets <- function(p, prefix, csv) {
   n_layers <- length(p@layers)
   if (!n_layers) {
     return(list())
@@ -547,9 +544,6 @@ get_plot_layer_sheets <- function(p, prefix, csv, drop_uninformative_cols) {
     data <- ggplot2::layer_data(p, i = layer)
     if (!is.data.frame(data) || nrow(data) > csv) {
       return(NULL)
-    }
-    if (drop_uninformative_cols) {
-      data <- tidyplus::drop_uninformative_columns(data)
     }
     data
   })
@@ -575,9 +569,6 @@ get_plot_layer_sheets <- function(p, prefix, csv, drop_uninformative_cols) {
 #' @param dpi A number of the resolution in dots per inch.
 #' @param csv A count specifying the maximum number of rows to save as a csv
 #' file.
-#' @param drop_uninformative_cols A flag indicating whether to drop
-#' uninformative columns via `tidyplus::drop_uninformative_columns()`
-#' (`TRUE`, default) or not (`FALSE`).
 #' @details
 #' The function saves:
 #'
@@ -588,6 +579,8 @@ get_plot_layer_sheets <- function(p, prefix, csv, drop_uninformative_cols) {
 #' and no more than `csv` rows. If `x` is a `patchwork` object, only the data
 #' for the first patch is saved, to maintain compatibility with previous
 #' versions.
+#' Uninformative columns are dropped via `tidyplus::drop_uninformative_columns()`
+#' using default arguments.
 #' 5. An `xlsx` workbook with a sheet for the data passed to each `ggplot()`
 #' call and a sheet for each geom layer. Sheets are labelled `<p>_<l>_<geom>`,
 #' where `<p>` is the patch index (1 for a simple `ggplot`), `<l>` is the layer
@@ -638,8 +631,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
                           units = "in",
                           width = NA, height = width, dpi = 300,
                           limitsize = TRUE,
-                          csv = 1000L,
-                          drop_uninformative_cols = TRUE) {
+                          csv = 1000L) {
   chk_s3_class(x, "ggplot")
   x_name <- chk_deparse(x_name)
   if (identical(x_name, "ggplot2::last_plot()")) {
@@ -664,7 +656,6 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   chk_gt(dpi)
   chk_whole_number(csv)
   chk_gte(csv)
-  chk_flag(drop_uninformative_cols)
 
   csv <- as.integer(csv)
 
@@ -692,18 +683,16 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   # only the first plot's data is saved as a csv, to maintain previous behaviour
   data <- plot_list[[1]]@data
   if (is.data.frame(data)) {
-    if (drop_uninformative_cols) {
-      data <- tidyplus::drop_uninformative_columns(data)
-    }
     if (nrow(data) && ncol(data) && nrow(data) <= csv) {
-      save_csv(data, "plots", sub = sub, main = main, x_name = x_name)
+      save_csv(tidyplus::drop_uninformative_columns(data),
+               "plots", sub = sub, main = main, x_name = x_name)
     }
   }
 
   sheet_list <- purrr::imap(plot_list, function(p, i) {
     c(
-      get_plot_data_sheet(p, i, drop_uninformative_cols),
-      get_plot_layer_sheets(p, i, csv, drop_uninformative_cols)
+      get_plot_data_sheet(p, i),
+      get_plot_layer_sheets(p, i, csv)
     )
   })
   sheet_list <- purrr::compact(purrr::list_flatten(sheet_list))
