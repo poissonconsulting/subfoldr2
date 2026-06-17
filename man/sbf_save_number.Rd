@@ -11,6 +11,7 @@ sbf_save_number(
   main = sbf_get_main(),
   report = TRUE,
   tag = "",
+  notes = "",
   signif = getOption("sbf.signif", 22)
 )
 }
@@ -28,6 +29,8 @@ current main folder)}
 \item{report}{A flag specifying whether to include in a report.}
 
 \item{tag}{A string of the tag.}
+
+\item{notes}{A string of additional notes to save with the metadata.}
 
 \item{signif}{A positive whole number specifying the number of significant digits to round by.}
 }

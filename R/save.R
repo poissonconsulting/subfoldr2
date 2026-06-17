@@ -349,12 +349,14 @@ valid_spatial <- function(x) {
 #' @inheritParams sbf_save_object
 #' @param report A flag specifying whether to include in a report.
 #' @param tag A string of the tag.
+#' @param notes A string of additional notes to save with the metadata.
 #' @param signif A positive whole number specifying the number of significant digits to round by.
 #' @return An invisible string of the path to the saved object.
 #' @family save functions
 #' @export
 sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
                             main = sbf_get_main(), report = TRUE, tag = "",
+                            notes = "",
                            signif = getOption("sbf.signif", 22)) {
   x_name <- chk_deparse(x_name)
   chk_number(x)
@@ -366,6 +368,7 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 
   chk_flag(report)
   chk_string(tag)
+  chk_string(notes)
   chk::chk_whole_number(signif)
   chk_gt(signif)
 
@@ -376,7 +379,7 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   x <- signif(x, digits = signif)
   data <- data.frame(x = x)
 
-  meta <- list(report = report, tag = tag)
+  meta <- list(report = report, tag = tag, notes = notes)
   save_meta(meta, "numbers", sub = sub, main = main, x_name = x_name)
   save_csv(data, "numbers", sub = sub, main = main, x_name = x_name)
   save_rds(x, "numbers", sub = sub, main = main, x_name = x_name)
@@ -390,11 +393,13 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @inheritParams sbf_save_object
 #' @param report A flag specifying whether to include in a report.
 #' @param tag A string of the tag.
+#' @param notes A string of additional notes to save with the metadata.
 #' @return An invisible string of the path to the saved object.
 #' @family save functions
 #' @export
 sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
-                            main = sbf_get_main(), report = TRUE, tag = "") {
+                            main = sbf_get_main(), report = TRUE, tag = "",
+                            notes = "") {
   x_name <- chk_deparse(x_name)
   chk_string(x)
   chk_string(x_name)
@@ -405,11 +410,12 @@ sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 
   chk_flag(report)
   chk_string(tag)
+  chk_string(notes)
 
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
-  meta <- list(report = report, tag = tag)
+  meta <- list(report = report, tag = tag, notes = notes)
   save_meta(meta, "strings", sub = sub, main = main, x_name = x_name)
   save_txt(x, "strings", sub = sub, main = main, x_name = x_name)
   save_rds(x, "strings", sub = sub, main = main, x_name = x_name)

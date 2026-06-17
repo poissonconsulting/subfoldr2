@@ -2333,3 +2333,30 @@ test_that("notes column tolerates legacy metadata without notes", {
   data <- data[order(data$name), ]
   expect_identical(data$notes, c("n1", NA_character_))
 })
+
+test_that("notes argument is saved for numbers and strings", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  sbf_save_number(1, x_name = "n", notes = "num note")
+  sbf_save_string("s", x_name = "s", notes = "str note")
+
+  num_meta <- yaml::read_yaml(file.path(sbf_get_main(), "numbers", "n.yaml"))
+  expect_identical(num_meta, list(report = TRUE, tag = "", notes = "num note"))
+
+  str_meta <- yaml::read_yaml(file.path(sbf_get_main(), "strings", "s.yaml"))
+  expect_identical(str_meta, list(report = TRUE, tag = "", notes = "str note"))
+
+  expect_identical(sbf_load_numbers_recursive(meta = TRUE)$notes, "num note")
+  expect_identical(sbf_load_strings_recursive(meta = TRUE)$notes, "str note")
+
+  expect_error(
+    sbf_save_number(1, x_name = "n2", notes = 1),
+    class = "chk_error"
+  )
+  expect_error(
+    sbf_save_string("s", x_name = "s2", notes = 1),
+    class = "chk_error"
+  )
+})

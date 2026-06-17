@@ -10,7 +10,8 @@ sbf_save_string(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   report = TRUE,
-  tag = ""
+  tag = "",
+  notes = ""
 )
 }
 \arguments{
@@ -27,6 +28,8 @@ current main folder)}
 \item{report}{A flag specifying whether to include in a report.}
 
 \item{tag}{A string of the tag.}
+
+\item{notes}{A string of additional notes to save with the metadata.}
 }
 \value{
 An invisible string of the path to the saved object.
