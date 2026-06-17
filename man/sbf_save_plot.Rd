@@ -61,6 +61,58 @@ uninformative columns via \code{tidyplus::drop_uninformative_columns()}
 Saves a ggplot object.
 By default it saves the last plot to be modified or created.
 }
+\details{
+The function saves:
+\enumerate{
+\item A \code{png} file of the plot.
+\item An \code{rda} file of the plot metadata.
+\item An \code{rds} file of the plot.
+\item A \code{csv} of the data passed to \code{ggplot()}, provided it has at least one row
+and no more than \code{csv} rows. If \code{x} is a \code{patchwork} object, only the data
+for the first patch is saved, to maintain compatibility with previous
+versions.
+\item An \code{xlsx} workbook with a sheet for the data passed to each \code{ggplot()}
+call and a sheet for each geom layer. Sheets are labelled \verb{<p>_<l>_<geom>},
+where \verb{<p>} is the patch index (1 for a simple \code{ggplot}), \verb{<l>} is the layer
+index (\code{0} for the \code{ggplot()} data), and \verb{<geom>} is the layer type (e.g.
+\code{point}, \code{line}). Layers with more than \code{csv} rows are omitted.
+}
+
+The \code{csv} and \code{xlsx} files are named using the \code{x_name} argument. Not
+specifying \code{x} overwrites existing files that used \code{x_name = "plot"}.
+}
+\examples{
+\dontrun{
+require(ggplot2)
+require(patchwork)
+ggplot(mtcars) +
+  geom_line(aes(mpg, cyl, color = cyl), mtcars) +
+  ggtitle("1")
+sbf_save_plot()
+
+p_patches <-
+  ((ggplot(mtcars) +
+      geom_line(aes(mpg, cyl, color = cyl), mtcars) +
+      ggtitle("1")) +
+     (ggplot() +
+        geom_line(aes(Sepal.Length, Petal.Length), iris) +
+        ggtitle("2"))) /
+  ((ggplot() +
+      geom_point(aes(mpg, cyl, color = cyl), mtcars) +
+      ggtitle("3")) +
+     ((ggplot(iris) +
+         geom_point(aes(Sepal.Length, Petal.Length)) +
+         ggtitle("4")) +
+        (ggplot() +
+           geom_point(aes(Sepal.Length, Petal.Length, color = Species),
+                      iris) +
+           ggtitle("5") +
+           theme(legend.position = "none"))))
+p_patches
+sbf_save_plot(p_patches)
+}
+
+}
 \seealso{
 Other save functions:
 \code{\link[=sbf_basename_sans_ext]{sbf_basename_sans_ext()}},

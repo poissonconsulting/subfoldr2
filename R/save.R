@@ -481,6 +481,85 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
   save_rds(x, "blocks", sub = sub, main = main, x_name = x_name)
 }
 
+#' Unstitch patches
+#' 
+#' Separates patches from a multi-panel plot created via `{patchwork}` into a
+#' list of the individual plots.
+#' 
+#' @param x An object of class `"ggplot"` and generally also `"patchwork"`.
+#' 
+#' @details
+#' Iteratively splits `patchwork` objects into smaller elements until a list of
+#' simple `ggplot` plots is created.
+#' If `x` is a `ggplot` object but not a `patchwork` object, it is simply
+#' returned.
+#'
+#' @keywords internal
+#' @examples
+#' p <- ggplot2::ggplot() + ggplot2::ggtitle("1")
+#' # combine into a patchwork then split it back into its individual plots
+#' if (requireNamespace("patchwork", quietly = TRUE)) {
+#'   pw <- patchwork::wrap_plots(p, p)
+#'   length(subfoldr2:::unstitch_patches(pw))
+#' }
+unstitch_patches <- function(x) {
+  chk_s3_class(x, "ggplot") # update to S7 check once available in {chk}
+  if (!inherits(x, "patchwork")) {
+    return(x)
+  }
+  plot_list <- list()
+  for (i in seq_along(x)) {
+    if (inherits(x[[i]], "patchwork")) {
+      plot_list <- c(plot_list, unstitch_patches(x[[i]]))
+    } else {
+      plot_list <- c(plot_list, list(x[[i]]))
+    }
+  }
+  plot_list
+}
+
+# Named list (one element) of the data passed to `ggplot()` for a single plot,
+# or an empty list when there is no informative data frame. The sheet is named
+# "<prefix>_0_data".
+get_plot_data_sheet <- function(p, prefix, drop_uninformative_cols) {
+  data <- p@data
+  if (!is.data.frame(data)) {
+    return(list())
+  }
+  if (drop_uninformative_cols) {
+    data <- tidyplus::drop_uninformative_columns(data)
+  }
+  if (!nrow(data) || !ncol(data)) {
+    return(list())
+  }
+  stats::setNames(list(data), paste0(prefix, "_0_data"))
+}
+
+# Named list of the data for each geom layer of a single plot, named
+# "<prefix>_<layer>_<geom>". Layers whose data is not a data frame or exceeds
+# `csv` rows are returned as `NULL` and dropped by the caller.
+get_plot_layer_sheets <- function(p, prefix, csv, drop_uninformative_cols) {
+  n_layers <- length(p@layers)
+  if (!n_layers) {
+    return(list())
+  }
+  sheets <- purrr::map(seq_len(n_layers), function(layer) {
+    data <- ggplot2::layer_data(p, i = layer)
+    if (!is.data.frame(data) || nrow(data) > csv) {
+      return(NULL)
+    }
+    if (drop_uninformative_cols) {
+      data <- tidyplus::drop_uninformative_columns(data)
+    }
+    data
+  })
+  names(sheets) <- purrr::map_chr(seq_len(n_layers), function(layer) {
+    geom <- tolower(gsub("Geom", "", class(p@layers[[layer]]$geom)[1]))
+    paste0(prefix, "_", layer, "_", geom)
+  })
+  sheets
+}
+
 #' Save Plot
 #'
 #' Saves a ggplot object.
@@ -499,8 +578,58 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @param drop_uninformative_cols A flag indicating whether to drop
 #' uninformative columns via `tidyplus::drop_uninformative_columns()`
 #' (`TRUE`, default) or not (`FALSE`).
+#' @details
+#' The function saves:
+#'
+#' 1. A `png` file of the plot.
+#' 2. An `rda` file of the plot metadata.
+#' 3. An `rds` file of the plot.
+#' 4. A `csv` of the data passed to `ggplot()`, provided it has at least one row
+#' and no more than `csv` rows. If `x` is a `patchwork` object, only the data
+#' for the first patch is saved, to maintain compatibility with previous
+#' versions.
+#' 5. An `xlsx` workbook with a sheet for the data passed to each `ggplot()`
+#' call and a sheet for each geom layer. Sheets are labelled `<p>_<l>_<geom>`,
+#' where `<p>` is the patch index (1 for a simple `ggplot`), `<l>` is the layer
+#' index (`0` for the `ggplot()` data), and `<geom>` is the layer type (e.g.
+#' `point`, `line`). Layers with more than `csv` rows are omitted.
+#'
+#' The `csv` and `xlsx` files are named using the `x_name` argument. Not
+#' specifying `x` overwrites existing files that used `x_name = "plot"`.
+#'
 #' @family save functions
 #' @export
+#' @examples
+#' \dontrun{
+#' require(ggplot2)
+#' require(patchwork)
+#' ggplot(mtcars) +
+#'   geom_line(aes(mpg, cyl, color = cyl), mtcars) +
+#'   ggtitle("1")
+#' sbf_save_plot()
+#' 
+#' p_patches <-
+#'   ((ggplot(mtcars) +
+#'       geom_line(aes(mpg, cyl, color = cyl), mtcars) +
+#'       ggtitle("1")) +
+#'      (ggplot() +
+#'         geom_line(aes(Sepal.Length, Petal.Length), iris) +
+#'         ggtitle("2"))) /
+#'   ((ggplot() +
+#'       geom_point(aes(mpg, cyl, color = cyl), mtcars) +
+#'       ggtitle("3")) +
+#'      ((ggplot(iris) +
+#'          geom_point(aes(Sepal.Length, Petal.Length)) +
+#'          ggtitle("4")) +
+#'         (ggplot() +
+#'            geom_point(aes(Sepal.Length, Petal.Length, color = Species),
+#'                       iris) +
+#'            ggtitle("5") +
+#'            theme(legend.position = "none"))))
+#' p_patches
+#' sbf_save_plot(p_patches)
+#' }
+#' 
 sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
                           sub = sbf_get_sub(),
                           main = sbf_get_main(),
@@ -555,12 +684,31 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   )
   save_meta(meta, "plots", sub = sub, main = main, x_name = x_name)
 
-  data <- x$data
-  if (is.data.frame(data) && nrow(data) <= csv) {
+  # patchwork plots are split into their individual plots; a simple ggplot is
+  # treated as a single-element list. Note that cowplot::plot_grid() has no
+  # distinguishing class and is not supported; use {patchwork} instead.
+  plot_list <- if (inherits(x, "patchwork")) unstitch_patches(x) else list(x)
+
+  # only the first plot's data is saved as a csv, to maintain previous behaviour
+  data <- plot_list[[1]]@data
+  if (is.data.frame(data)) {
     if (drop_uninformative_cols) {
       data <- tidyplus::drop_uninformative_columns(data)
     }
-    save_csv(data, "plots", sub = sub, main = main, x_name = x_name)
+    if (nrow(data) && ncol(data) && nrow(data) <= csv) {
+      save_csv(data, "plots", sub = sub, main = main, x_name = x_name)
+    }
+  }
+
+  sheet_list <- purrr::imap(plot_list, function(p, i) {
+    c(
+      get_plot_data_sheet(p, i, drop_uninformative_cols),
+      get_plot_layer_sheets(p, i, csv, drop_uninformative_cols)
+    )
+  })
+  sheet_list <- purrr::compact(purrr::list_flatten(sheet_list))
+  if (length(sheet_list)) {
+    save_xlsx(sheet_list, "plots", sub = sub, main = main, x_name = x_name)
   }
 
   save_rds(x, "plots", sub = sub, main = main, x_name = x_name)
