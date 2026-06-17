@@ -1,5 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.claude$
 ^\.github$
 ^data-raw$
 ^docs$
