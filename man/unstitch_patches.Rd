@@ -20,15 +20,11 @@ If \code{x} is a \code{ggplot} object but not a \code{patchwork} object, it is s
 returned.
 }
 \examples{
-require(ggplot2)
-require(patchwork)
-p <- ggplot()
-p_patches <-
-  ((ggplot() + ggtitle("1")) + (ggplot() + ggtitle("2"))) /
-  ((ggplot() + ggtitle("3")) +
-     ((ggplot() + ggtitle("4")) + ggplot() + ggtitle("5")))
-p_patches
-l <- subfoldr2:::unstitch_patches(p_patches)
-do.call(patchwork::wrap_plots, sample(l, size = 5, replace = FALSE))
+p <- ggplot2::ggplot() + ggplot2::ggtitle("1")
+# combine into a patchwork then split it back into its individual plots
+if (requireNamespace("patchwork", quietly = TRUE)) {
+  pw <- patchwork::wrap_plots(p, p)
+  length(subfoldr2:::unstitch_patches(pw))
+}
 }
 \keyword{internal}
