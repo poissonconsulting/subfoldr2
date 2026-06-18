@@ -1,5 +1,14 @@
 # Changelog
 
+## subfoldr2 1.0.1.9009
+
+- Add fledge-bump workflow
+- Add fledge-tag-on-merge workflow
+- Save datasets for all layers of a
+  [ggplot2](https://ggplot2.tidyverse.org) plot and
+  [patchwork](https://patchwork.data-imaginist.com) multi-panel plots
+  (#157)
+
 ## subfoldr2 1.0.1.9008
 
 - Add `drop_uninformative_cols` argument to control whether columns are
