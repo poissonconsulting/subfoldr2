@@ -1,4 +1,3 @@
-# FIXME: confirmation messages on refusal
 file_name <- function(main, class, sub, x_name, ext) {
   dir <- file_path(main, class, sub)
   dir_create(dir)
