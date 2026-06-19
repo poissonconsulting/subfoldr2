@@ -2232,7 +2232,8 @@ test_that("drop_uninformative_cols is being soft-deprecated with a warning.", {
   dir.create("output/plots")
   sbf_set_main(file.path(getwd(), "output"))
   expect_warning(
-    sbf_save_plot(ggplot2::ggplot(), drop_uninformative_cols = TRUE),
+    sbf_save_plot(ggplot2::ggplot(), x_name = "test_plot",
+                  drop_uninformative_cols = TRUE),
     p0("The\\s`drop_uninformative_cols`\\sargument\\sof\\s`sbf_save_plot",
        "\\(\\)`\\sis\\sdeprecated\\sas\\sof\\ssubfoldr2\\sVERSION.")
   )
