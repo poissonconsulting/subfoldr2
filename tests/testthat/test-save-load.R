@@ -2227,18 +2227,6 @@ test_that("`sbf_load_numbers_recursive()` drops only exact matches.", {
 
 test_that("drop_uninformative_cols is being soft-deprecated with a warning.", {
   expect_warning(
-    get_plot_data_sheet(ggplot2::ggplot(), prefix = 1,
-                        drop_uninformative_cols = TRUE),
-    p0("The\\s`drop_uninformative_cols`\\sargument\\sof\\s`get_plot_data_sheet",
-       "\\(\\)`\\sis\\sdeprecated\\sas\\sof\\ssubfoldr2\\sVERSION.")
-)
-  expect_warning(
-    get_plot_layer_sheets(ggplot2::ggplot(), prefix = 1,
-                        drop_uninformative_cols = TRUE),
-    p0("The\\s`drop_uninformative_cols`\\sargument\\sof\\s`get_plot_layer_sheets",
-       "\\(\\)`\\sis\\sdeprecated\\sas\\sof\\ssubfoldr2\\sVERSION.")
-  )
-  expect_warning(
     sbf_save_plot(ggplot2::ggplot(), drop_uninformative_cols = TRUE),
     p0("The\\s`drop_uninformative_cols`\\sargument\\sof\\s`sbf_save_plot",
        "\\(\\)`\\sis\\sdeprecated\\sas\\sof\\ssubfoldr2\\sVERSION.")
