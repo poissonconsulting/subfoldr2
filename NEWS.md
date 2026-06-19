@@ -1,3 +1,12 @@
+<!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
+
+# subfoldr2 1.0.1.9009
+
+* Add fledge-bump workflow
+* Add fledge-tag-on-merge workflow
+- Save datasets for all layers of a `{ggplot2}` plot and `{patchwork}` multi-panel plots (#157)
+
+
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
 # subfoldr2 1.0.1.9008
