@@ -2226,6 +2226,9 @@ test_that("`sbf_load_numbers_recursive()` drops only exact matches.", {
 })
 
 test_that("drop_uninformative_cols is being soft-deprecated with a warning.", {
+  setwd(withr::local_tempdir())
+  dir.create("output")
+  dir.create("output/plots")
   expect_warning(
     sbf_save_plot(ggplot2::ggplot(), drop_uninformative_cols = TRUE),
     p0("The\\s`drop_uninformative_cols`\\sargument\\sof\\s`sbf_save_plot",
