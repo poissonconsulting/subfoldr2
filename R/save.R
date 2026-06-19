@@ -1,3 +1,4 @@
+# FIXME: confirmation messages on refusal
 file_name <- function(main, class, sub, x_name, ext) {
   dir <- file_path(main, class, sub)
   dir_create(dir)
@@ -521,10 +522,18 @@ unstitch_patches <- function(x) {
 # Named list (one element) of the data passed to `ggplot()` for a single plot,
 # or an empty list when there is no informative data frame. The sheet is named
 # "<prefix>_0_data".
-get_plot_data_sheet <- function(p, prefix) {
+get_plot_data_sheet <- function(p, prefix, drop_uninformative_cols) {
+  if(!missing(drop_uninformative_cols)) {
+    lifecycle::deprecate_warn("VERSION", "get_plot_data_sheet(drop_uninformative_cols)")
+  }
+  chk_flag(drop_uninformative_cols)
+  
   data <- p@data
   if (!is.data.frame(data)) {
     return(list())
+  }
+  if (drop_uninformative_cols) {
+    data <- tidyplus::drop_uninformative_columns(data)
   }
   if (!nrow(data) || !ncol(data)) {
     return(list())
@@ -535,7 +544,12 @@ get_plot_data_sheet <- function(p, prefix) {
 # Named list of the data for each geom layer of a single plot, named
 # "<prefix>_<layer>_<geom>". Layers whose data is not a data frame or exceeds
 # `csv` rows are returned as `NULL` and dropped by the caller.
-get_plot_layer_sheets <- function(p, prefix, csv) {
+get_plot_layer_sheets <- function(p, prefix, csv, drop_uninformative_cols) {
+  if(!missing(drop_uninformative_cols)) {
+    lifecycle::deprecate_warn("VERSION", "get_plot_layer_sheets(drop_uninformative_cols)")
+  }
+  chk_flag(drop_uninformative_cols)
+  
   n_layers <- length(p@layers)
   if (!n_layers) {
     return(list())
@@ -544,6 +558,9 @@ get_plot_layer_sheets <- function(p, prefix, csv) {
     data <- ggplot2::layer_data(p, i = layer)
     if (!is.data.frame(data) || nrow(data) > csv) {
       return(NULL)
+    }
+    if (drop_uninformative_cols) {
+      data <- tidyplus::drop_uninformative_columns(data)
     }
     data
   })
@@ -569,6 +586,12 @@ get_plot_layer_sheets <- function(p, prefix, csv) {
 #' @param dpi A number of the resolution in dots per inch.
 #' @param csv A count specifying the maximum number of rows to save as a csv
 #' file.
+#' @param drop_uninformative_cols A flag indicating whether to drop
+#' uninformative columns via `tidyplus::drop_uninformative_columns()`
+#' (`TRUE`; default) or not (`FALSE`).
+#' Currently soft-deprecated.
+#' Will be fully deprecated in future versions so that uninformative columns are
+#' always dropped in csv files and always kept in xlsx files.
 #' @details
 #' The function saves:
 #'
@@ -579,8 +602,6 @@ get_plot_layer_sheets <- function(p, prefix, csv) {
 #' and no more than `csv` rows. If `x` is a `patchwork` object, only the data
 #' for the first patch is saved, to maintain compatibility with previous
 #' versions.
-#' Uninformative columns are dropped via `tidyplus::drop_uninformative_columns()`
-#' using default arguments.
 #' 5. An `xlsx` workbook with a sheet for the data passed to each `ggplot()`
 #' call and a sheet for each geom layer. Sheets are labelled `<p>_<l>_<geom>`,
 #' where `<p>` is the patch index (1 for a simple `ggplot`), `<l>` is the layer
@@ -631,7 +652,12 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
                           units = "in",
                           width = NA, height = width, dpi = 300,
                           limitsize = TRUE,
-                          csv = 1000L) {
+                          csv = 1000L,
+                          drop_uninformative_cols = TRUE) {
+  if(!missing(drop_uninformative_cols)) {
+    lifecycle::deprecate_warn("VERSION", "sbf_save_plot(drop_uninformative_cols)")
+  }
+  
   chk_s3_class(x, "ggplot")
   x_name <- chk_deparse(x_name)
   if (identical(x_name, "ggplot2::last_plot()")) {
@@ -648,6 +674,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   chk_string(tag)
   chk_string(units)
   chk_subset(units, c("in", "mm", "cm"))
+  chk_flag(drop_uninformative_cols)
 
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
@@ -683,16 +710,18 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   # only the first plot's data is saved as a csv, to maintain previous behaviour
   data <- plot_list[[1]]@data
   if (is.data.frame(data)) {
+    if (drop_uninformative_cols) {
+      data <- tidyplus::drop_uninformative_columns(data)
+    }
     if (nrow(data) && ncol(data) && nrow(data) <= csv) {
-      save_csv(tidyplus::drop_uninformative_columns(data),
-               "plots", sub = sub, main = main, x_name = x_name)
+      save_csv(data, "plots", sub = sub, main = main, x_name = x_name)
     }
   }
 
   sheet_list <- purrr::imap(plot_list, function(p, i) {
     c(
-      get_plot_data_sheet(p, i),
-      get_plot_layer_sheets(p, i, csv)
+      get_plot_data_sheet(p, i, drop_uninformative_cols),
+      get_plot_layer_sheets(p, i, csv, drop_uninformative_cols)
     )
   })
   sheet_list <- purrr::compact(purrr::list_flatten(sheet_list))

@@ -939,7 +939,7 @@ test_that("plot", {
   expect_identical(read.csv(file.path(sbf_get_main(), "plots", "y.csv")),
                    data.frame(x = 1:3, y = 2:4))
   expect_identical(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "y.xlsx")),
-                   dplyr::tibble(x = as.numeric(1:3), y = as.numeric(2:4), z = NA))
+                   dplyr::tibble(x = as.numeric(1:3), y = as.numeric(2:4)))
   expect_identical(readxl::excel_sheets(file.path(sbf_get_main(), "plots", "y.xlsx")),
                    "1_0_data")
 
@@ -970,7 +970,7 @@ test_that("plot", {
     c("plot.png", "plot.rda", "plot.rds", "plot.xlsx", # has data but no layers
       "x.png", "x.rda", "x.rds", # no data or layers
       "y.csv", "y.png", "y.rda", "y.rds", "y.xlsx", # has data but no layers
-      "z.csv", "z.png", "z.rda", "z.rds", "z.xlsx") # data w one row and no layers
+      "z.png", "z.rda", "z.rds") # data w one row and no layers
   )
 
   data <- sbf_load_plots_recursive()
@@ -1033,29 +1033,28 @@ test_that("plot", {
       "plot.png", "plot.rda", "plot.rds", "plot.xlsx", # has data but no layers
       "x.png", "x.rda", "x.rds", # no data or layers
       "y.csv", "y.png", "y.rda", "y.rds", "y.xlsx", # has data but no layers
-      "z.csv", "z.png", "z.rda", "z.rds", "z.xlsx") # data w one row and no layers
+      "z.png", "z.rda", "z.rds") # data w one row and no layers
   )
   expect_equal(readxl::excel_sheets(file.path(sbf_get_main(), "plots", "p_layers.xlsx")),
                c("1_1_point", "1_2_line", "1_3_line", "1_4_smooth"))
   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
                                  "1_1_point"),
-               (ggplot2::ggplot_build(p_layers)@data[[1]]) |>
+               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_layers)@data[[1]]) |>
                  dplyr::tibble() |>
-                 dplyr::mutate(PANEL = as.character(PANEL),
-                               group = `attr<-`(group, "n", NULL)))
+                 dplyr::mutate(PANEL = as.character(PANEL)))
   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
                                  "1_2_line"),
-               (ggplot2::ggplot_build(p_layers)@data[[2]]) |>
+               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_layers)@data[[2]]) |>
                  dplyr::tibble() |>
                  dplyr::mutate(PANEL = as.character(PANEL)))
   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
                                  "1_3_line"),
-               (ggplot2::ggplot_build(p_layers)@data[[3]]) |>
+               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_layers)@data[[3]]) |>
                  dplyr::tibble() |>
                  dplyr::mutate(PANEL = as.character(PANEL)))
   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
                                  "1_4_smooth"),
-               (ggplot2::ggplot_build(p_layers)@data[[4]]) |>
+               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_layers)@data[[4]]) |>
                  dplyr::tibble() |>
                  dplyr::mutate(PANEL = as.character(PANEL)))
 
@@ -1070,11 +1069,11 @@ test_that("plot", {
 
   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
                                  "1_1_point") |>
-                 dplyr::select(x, y, PANEL, group, colour, alpha) |>
+                 dplyr::select(x, y, PANEL) |>
                  dplyr::arrange(x, y),
                readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
                                  "1_2_line") |>
-                 dplyr::select(x, y, PANEL, group, colour, alpha) |>
+                 dplyr::select(x, y, PANEL) |>
                  dplyr::arrange(x, y))
 
   # tests for checking that data for different patchwork patches save
@@ -1102,7 +1101,7 @@ test_that("plot", {
       "plot.png", "plot.rda", "plot.rds", "plot.xlsx", # has data but no layers
       "x.png", "x.rda", "x.rds", # no data or layers
       "y.csv", "y.png", "y.rda", "y.rds", "y.xlsx", # has data but no layers
-      "z.csv", "z.png", "z.rda", "z.rds", "z.xlsx") # has one-row data and no layers
+      "z.png", "z.rda", "z.rds") # has one-row data and no layers
   )
   expect_equal(readxl::excel_sheets(file.path(sbf_get_main(), "plots", "p_patches.xlsx")),
                c("1_0_data", "1_1_line",
@@ -1115,38 +1114,29 @@ test_that("plot", {
                dplyr::tibble(datasets::mtcars))
   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
                                  "1_1_line"),
-               (ggplot2::ggplot_build(p_patches[[1]][[1]])@data[[1]]) |>
-                 dplyr::tibble() |>
-                 dplyr::mutate(PANEL = as.character(PANEL),
-                               group = `attr<-`(group, "n", NULL)))
+               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[1]][[1]])@data[[1]]) |>
+                 dplyr::tibble())
   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
                                  "2_1_line"),
-               (ggplot2::ggplot_build(p_patches[[1]][[2]])@data[[1]]) |>
-                 dplyr::tibble() |>
-                 dplyr::mutate(PANEL = as.character(PANEL),
-                               group = `attr<-`(group, "n", NULL)))
+               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[1]][[2]])@data[[1]]) |>
+                 dplyr::tibble())
   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
                                  "3_1_point"),
-               (ggplot2::ggplot_build(p_patches[[2]][[1]])@data[[1]]) |>
-                 dplyr::tibble() |>
-                 dplyr::mutate(PANEL = as.character(PANEL),
-                               group = `attr<-`(group, "n", NULL)))
+               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[2]][[1]])@data[[1]]) |>
+                 dplyr::tibble())
   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
                                  "4_0_data"),
                dplyr::tibble(datasets::iris) |>
                  dplyr::mutate(Species = as.character(Species)))
   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
                                  "4_1_point"),
-               (ggplot2::ggplot_build(p_patches[[2]][[2]][[1]])@data[[1]]) |>
-                 dplyr::tibble() |>
-                 dplyr::mutate(PANEL = as.character(PANEL),
-                               group = `attr<-`(group, "n", NULL)))
+               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[2]][[2]][[1]])@data[[1]]) |>
+                 dplyr::tibble())
   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
                                  "5_1_point"),
-               (ggplot2::ggplot_build(p_patches[[2]][[2]][[2]])@data[[1]]) |>
+               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[2]][[2]][[2]])@data[[1]]) |>
                  dplyr::tibble() |>
-                 dplyr::mutate(PANEL = as.character(PANEL),
-                               group = `attr<-`(group, "n", NULL)))
+                 dplyr::mutate(group = `attr<-`(group, "n", NULL)))
   
   sbf_reset()
   sbf_close_windows()
@@ -2234,3 +2224,24 @@ test_that("`sbf_load_numbers_recursive()` drops only exact matches.", {
 
   expect_snapshot(numbers_onebone)
 })
+
+test_that("drop_uninformative_cols is being soft-deprecated with a warning.", {
+  expect_warning(
+    get_plot_data_sheet(ggplot2::ggplot(), prefix = 1,
+                        drop_uninformative_cols = TRUE),
+    p0("The\\s`drop_uninformative_cols`\\sargument\\sof\\s`get_plot_data_sheet",
+       "\\(\\)`\\sis\\sdeprecated\\sas\\sof\\ssubfoldr2\\sVERSION.")
+)
+  expect_warning(
+    get_plot_layer_sheets(ggplot2::ggplot(), prefix = 1,
+                        drop_uninformative_cols = TRUE),
+    p0("The\\s`drop_uninformative_cols`\\sargument\\sof\\s`get_plot_layer_sheets",
+       "\\(\\)`\\sis\\sdeprecated\\sas\\sof\\ssubfoldr2\\sVERSION.")
+  )
+  expect_warning(
+    sbf_save_plot(ggplot2::ggplot(), drop_uninformative_cols = TRUE),
+    p0("The\\s`drop_uninformative_cols`\\sargument\\sof\\s`sbf_save_plot",
+       "\\(\\)`\\sis\\sdeprecated\\sas\\sof\\ssubfoldr2\\sVERSION.")
+  )
+})
+  
