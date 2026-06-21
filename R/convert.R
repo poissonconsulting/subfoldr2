@@ -19,7 +19,7 @@ sbf_convert_meta <- function(main = sbf_get_main(),
   main <- sanitize_path(main, rm_leading = FALSE)
 
   if (!dir.exists(main)) {
-    cli::cli_alert_info("Directory {.val {main}} does not exist.")
+    cli::cli_alert_info("Directory {.file {main}} does not exist.")
     return(invisible(character(0)))
   }
 
@@ -27,7 +27,7 @@ sbf_convert_meta <- function(main = sbf_get_main(),
                       full.names = TRUE)
 
   if (!length(files)) {
-    cli::cli_alert_info("No {.val .rda} metadata files to convert.")
+    cli::cli_alert_info("No {.file .rda} metadata files to convert.")
     return(invisible(character(0)))
   }
 
@@ -51,7 +51,7 @@ sbf_convert_meta <- function(main = sbf_get_main(),
   yaml_files <- unname(yaml_files)
 
   cli::cli_alert_success(
-    "Converted {length(yaml_files)} metadata file{?s} to {.val .yaml}."
+    "Converted {length(yaml_files)} metadata file{?s} to {.file .yaml}."
   )
   invisible(yaml_files)
 }
