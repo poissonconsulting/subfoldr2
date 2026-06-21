@@ -2310,7 +2310,7 @@ test_that("notes argument is saved to metadata", {
 
   expect_error(
     sbf_save_table(x, x_name = "y", notes = 1),
-    class = "chk_error"
+    "`notes` must be a string \\(non-missing character scalar\\)."
   )
 })
 
@@ -2324,13 +2324,13 @@ test_that("notes column tolerates legacy metadata without notes", {
   sbf_save_table(x, x_name = "new", caption = "c1", notes = "n1")
   # legacy-style save without notes (emulate pre-notes metadata)
   sbf_save_table(x, x_name = "old", caption = "c2")
-  old_yaml <- file.path(sbf_get_main(), "tables", "old.yaml")
-  meta <- yaml::read_yaml(old_yaml)
+  old_yaml_filename <- file.path(sbf_get_main(), "tables", "old.yaml")
+  meta <- yaml::read_yaml(old_yaml_filename)
   meta$notes <- NULL
-  yaml::write_yaml(meta, old_yaml)
+  yaml::write_yaml(meta, old_yaml_filename)
+  expect_identical(yaml::read_yaml(old_yaml_filename), meta)
 
   data <- sbf_load_tables_recursive(meta = TRUE)
-  data <- data[order(data$name), ]
   expect_identical(data$notes, c("n1", NA_character_))
 })
 
@@ -2353,10 +2353,10 @@ test_that("notes argument is saved for numbers and strings", {
 
   expect_error(
     sbf_save_number(1, x_name = "n2", notes = 1),
-    class = "chk_error"
+    "`notes` must be a string \\(non-missing character scalar\\)"
   )
   expect_error(
     sbf_save_string("s", x_name = "s2", notes = 1),
-    class = "chk_error"
+    "`notes` must be a string \\(non-missing character scalar\\)"
   )
 })
