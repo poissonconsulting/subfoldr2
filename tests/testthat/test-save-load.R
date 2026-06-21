@@ -1466,15 +1466,18 @@ test_that("png2", {
   expect_identical(data$name, c("example", "x2"))
 })
 
-test_that("load_rdss_recursive() errors if read = TRUE with a non-rds ext", {
-  expect_error(
-    load_rdss_recursive(class = "plots", ext = "yaml"),
-    "`read` must be FALSE unless `ext` is \"rds\""
-  )
-  expect_error(
-    load_rdss_recursive(class = "plots", ext = c("yaml", "rda")),
-    "`read` must be FALSE unless `ext` is \"rds\""
-  )
+test_that("load_rdss_recursive() lists non-rds files without reading them", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  sbf_save_table(data.frame(z = 1L), x_name = "x", caption = "cap")
+
+  # non-rds extensions (e.g. yaml metadata) are listed but not deserialized,
+  # so this does not attempt readRDS() on a yaml file
+  data <- load_rdss_recursive(class = "tables", ext = "yaml")
+  expect_identical(data$name, "x")
+  expect_identical(data$tables, list(NULL))
 })
 
 test_that("save table glue", {

@@ -385,9 +385,6 @@ sbf_load_datas_from_db <- function(db_name = sbf_get_db_name(),
 #' @inheritParams params
 #' @param ext Extension of the files (`".rds"` by default)
 #' @param fun function to apply to the object after import (`NULL` by default)
-#' @param read A flag specifying whether to read each file with `readRDS()`
-#' (`TRUE` by default). Must be `FALSE` when `ext` is not `"rds"` as only
-#' `.rds` files can be deserialized.
 #' @return a tibble of the loaded objects
 #' @family load functions
 #' @keywords internal
@@ -400,8 +397,7 @@ load_rdss_recursive <- function(x_name = ".*",
                                 meta = FALSE,
                                 drop = NULL,
                                 fun = NULL,
-                                ext = "rds",
-                                read = TRUE) {
+                                ext = "rds") {
   chk_string(x_name)
   chk_character(sub)
   chk_range(length(sub))
@@ -411,17 +407,14 @@ load_rdss_recursive <- function(x_name = ".*",
   chk_flag(meta)
   chk_null_or(drop, vld = vld_character)
   chk_character(ext)
-  chk_flag(read)
 
   if(!is.null(drop)) {
     chk::chk_not_any_na(drop)
   }
 
   # only `.rds` files can be deserialized with readRDS(); other extensions
-  # (e.g. `.yaml`/`.rda` metadata for windows) must be listed with read = FALSE
-  if (read && !identical(ext, "rds")) {
-    err("`read` must be FALSE unless `ext` is ", "\"rds\"")
-  }
+  # (e.g. the `.yaml`/`.rda` metadata used by windows) are listed but not read
+  read <- identical(ext, "rds")
 
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
@@ -767,8 +760,7 @@ sbf_load_windows_recursive <- function(x_name = ".*",
   data <- load_rdss_recursive(x_name, "windows",
                               sub = sub, main = main,
                               include_root = include_root, tag = tag,
-                              meta = meta, ext = c("yaml", "rda"), drop = drop,
-                              read = FALSE
+                              meta = meta, ext = c("yaml", "rda"), drop = drop
   )
   data$file <- replace_ext(data$file, "png")
   data$windows <- data$file
