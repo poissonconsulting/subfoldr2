@@ -397,8 +397,7 @@ load_rdss_recursive <- function(x_name = ".*",
                                 meta = FALSE,
                                 drop = NULL,
                                 fun = NULL,
-                                ext = "rds",
-                                read = TRUE) {
+                                ext = "rds") {
   chk_string(x_name)
   chk_character(sub)
   chk_range(length(sub))
@@ -407,17 +406,22 @@ load_rdss_recursive <- function(x_name = ".*",
   chk_string(tag)
   chk_flag(meta)
   chk_null_or(drop, vld = vld_character)
+  chk_character(ext)
 
   if(!is.null(drop)) {
     chk::chk_not_any_na(drop)
   }
-  
+
+  # only `.rds` files can be deserialized with readRDS(); other extensions
+  # (e.g. the `.yaml`/`.rda` metadata used by windows) are listed but not read
+  read <- identical(ext, "rds")
+
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
   
   dir <- file_path(main, class, sub)
   
-  ext <- p0("[.](", paste(ext, collapse = "|"), ")$")
+  ext <- p0("[.](", p(ext, collapse = "|"), ")$")
 
   files <- list.files(dir, pattern = ext, recursive = TRUE)
   names(files) <- file.path(dir, files)
@@ -756,8 +760,7 @@ sbf_load_windows_recursive <- function(x_name = ".*",
   data <- load_rdss_recursive(x_name, "windows",
                               sub = sub, main = main,
                               include_root = include_root, tag = tag,
-                              meta = meta, ext = c("yaml", "rda"), drop = drop,
-                              read = FALSE
+                              meta = meta, ext = c("yaml", "rda"), drop = drop
   )
   data$file <- replace_ext(data$file, "png")
   data$windows <- data$file
