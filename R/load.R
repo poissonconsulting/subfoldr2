@@ -385,6 +385,9 @@ sbf_load_datas_from_db <- function(db_name = sbf_get_db_name(),
 #' @inheritParams params
 #' @param ext Extension of the files (`".rds"` by default)
 #' @param fun function to apply to the object after import (`NULL` by default)
+#' @param read A flag specifying whether to read each file with `readRDS()`
+#' (`TRUE` by default). Must be `FALSE` when `ext` is not `"rds"` as only
+#' `.rds` files can be deserialized.
 #' @return a tibble of the loaded objects
 #' @family load functions
 #' @keywords internal

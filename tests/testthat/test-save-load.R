@@ -970,10 +970,12 @@ test_that("plot", {
 
   expect_identical(
     list.files(file.path(sbf_get_main(), "plots")),
-    sort(c("plot.png", "plot.yaml", "plot.rds", "plot.xlsx", # has data but no layers
-      "x.png", "x.yaml", "x.rds", # no data or layers
-      "y.csv", "y.png", "y.yaml", "y.rds", "y.xlsx", # has data but no layers
-      "z.png", "z.yaml", "z.rds")) # dataset has only one row and no layers
+    c(
+      "plot.png", "plot.rds", "plot.xlsx", "plot.yaml", # has data but no layers
+      "x.png", "x.rds", "x.yaml", # no data or layers
+      "y.csv", "y.png", "y.rds", "y.xlsx", "y.yaml", # has data but no layers
+      "z.png", "z.rds", "z.yaml" # dataset has only one row and no layers
+    )
   )
 
   data <- sbf_load_plots_recursive()
@@ -1032,11 +1034,13 @@ test_that("plot", {
                    file.path(sbf_get_main(), "plots", "p_layers.rds"))
   expect_identical(
     list.files(file.path(sbf_get_main(), "plots")),
-    sort(c("p_layers.png", "p_layers.yaml", "p_layers.rds", "p_layers.xlsx", # has data & layers
-      "plot.png", "plot.yaml", "plot.rds", "plot.xlsx", # has data but no layers
-      "x.png", "x.yaml", "x.rds", # no data or layers
-      "y.csv", "y.png", "y.yaml", "y.rds", "y.xlsx", # has data but no layers
-      "z.png", "z.yaml", "z.rds")) # has one-row data and no layers
+    c(
+      "p_layers.png", "p_layers.rds", "p_layers.xlsx", "p_layers.yaml", # has data & layers
+      "plot.png", "plot.rds", "plot.xlsx", "plot.yaml", # has data but no layers
+      "x.png", "x.rds", "x.yaml", # no data or layers
+      "y.csv", "y.png", "y.rds", "y.xlsx", "y.yaml", # has data but no layers
+      "z.png", "z.rds", "z.yaml" # has one-row data and no layers
+    )
   )
   expect_equal(readxl::excel_sheets(file.path(sbf_get_main(), "plots", "p_layers.xlsx")),
                c("1_1_point", "1_2_line", "1_3_line", "1_4_smooth"))
@@ -1097,12 +1101,14 @@ test_that("plot", {
                    file.path(sbf_get_main(), "plots", "p_patches.rds"))
   expect_identical(
     list.files(file.path(sbf_get_main(), "plots")),
-    sort(c("p_layers.png", "p_layers.yaml", "p_layers.rds", "p_layers.xlsx", # has data & layers
-      "p_patches.csv", "p_patches.png", "p_patches.yaml", "p_patches.rds", "p_patches.xlsx",
-      "plot.png", "plot.yaml", "plot.rds", "plot.xlsx", # has data but no layers
-      "x.png", "x.yaml", "x.rds", # no data or layers
-      "y.csv", "y.png", "y.yaml", "y.rds", "y.xlsx", # has data but no layers
-      "z.png", "z.yaml", "z.rds")) # has one-row data and no layers
+    c(
+      "p_layers.png", "p_layers.rds", "p_layers.xlsx", "p_layers.yaml", # has data & layers
+      "p_patches.csv", "p_patches.png", "p_patches.rds", "p_patches.xlsx", "p_patches.yaml",
+      "plot.png", "plot.rds", "plot.xlsx", "plot.yaml", # has data but no layers
+      "x.png", "x.rds", "x.yaml", # no data or layers
+      "y.csv", "y.png", "y.rds", "y.xlsx", "y.yaml", # has data but no layers
+      "z.png", "z.rds", "z.yaml" # has one-row data and no layers
+    )
   )
   expect_equal(readxl::excel_sheets(file.path(sbf_get_main(), "plots", "p_patches.xlsx")),
                c("1_0_data", "1_1_line",
@@ -2258,6 +2264,35 @@ test_that("metadata is saved as readable yaml", {
   expect_true(any(grepl("caption: a caption", readLines(yaml_file))))
 })
 
+test_that("multiline captions are handled correctly", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  x <- data.frame(z = 1L)
+  sbf_save_table(x, x_name = "x", caption = "a\nmultiline
+  caption", tag = "tag-1")
+
+  yaml_file <- file.path(sbf_get_main(), "tables", "x.yaml")
+  expect_true(file.exists(yaml_file))
+  expect_false(file.exists(file.path(sbf_get_main(), "tables", "x.rda")))
+
+  meta <- yaml::read_yaml(yaml_file)
+  expect_identical( # with visible new line
+    meta,
+    list(caption = "a\nmultiline
+  caption", report = TRUE, tag = "tag-1")
+  )
+  expect_identical( # with a newline character \n
+    meta,
+    list(caption = "a\nmultiline\n  caption", report = TRUE, tag = "tag-1")
+  )
+
+  expect_true(all(c("caption: |-",
+                    paste0("  ", c("a", "multiline", "  caption")))
+                  %in% readLines(yaml_file)))
+})
+
 test_that("legacy .rda metadata is still readable", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
@@ -2289,13 +2324,12 @@ test_that("sbf_convert_meta converts legacy .rda to .yaml and deletes .rda", {
   yaml_file <- file.path(sbf_get_main(), "tables", "x.yaml")
   meta <- yaml::read_yaml(yaml_file)
   file.remove(yaml_file)
-  rda_file <- file.path(sbf_get_main(), "tables", "x.rda")
-  saveRDS(meta, rda_file)
+  saveRDS(meta, file.path(sbf_get_main(), "tables", "x.rda"))
 
   converted <- sbf_convert_meta(ask = FALSE)
   expect_identical(converted, yaml_file)
   expect_true(file.exists(yaml_file))
-  expect_false(file.exists(rda_file))
+  expect_false(file.exists(file.path(sbf_get_main(), "tables", "x.rda")))
   expect_identical(yaml::read_yaml(yaml_file), meta)
 
   # nothing left to convert

@@ -44,6 +44,10 @@ and files to drop or \code{NULL} (the default).}
 \item{fun}{function to apply to the object after import (\code{NULL} by default)}
 
 \item{ext}{Extension of the files (\code{".rds"} by default)}
+
+\item{read}{A flag specifying whether to read each file with \code{readRDS()}
+(\code{TRUE} by default). Must be \code{FALSE} when \code{ext} is not \code{"rds"} as only
+\code{.rds} files can be deserialized.}
 }
 \value{
 a tibble of the loaded objects
