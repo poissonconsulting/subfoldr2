@@ -1460,6 +1460,17 @@ test_that("png2", {
   expect_identical(data$name, c("example", "x2"))
 })
 
+test_that("load_rdss_recursive() errors if read = TRUE with a non-rds ext", {
+  expect_error(
+    load_rdss_recursive(class = "plots", ext = "yaml"),
+    "`read` must be FALSE unless `ext` is \"rds\""
+  )
+  expect_error(
+    load_rdss_recursive(class = "plots", ext = c("yaml", "rda")),
+    "`read` must be FALSE unless `ext` is \"rds\""
+  )
+})
+
 test_that("save table glue", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))

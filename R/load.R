@@ -407,11 +407,19 @@ load_rdss_recursive <- function(x_name = ".*",
   chk_string(tag)
   chk_flag(meta)
   chk_null_or(drop, vld = vld_character)
+  chk_character(ext)
+  chk_flag(read)
 
   if(!is.null(drop)) {
     chk::chk_not_any_na(drop)
   }
-  
+
+  # only `.rds` files can be deserialized with readRDS(); other extensions
+  # (e.g. `.yaml`/`.rda` metadata for windows) must be listed with read = FALSE
+  if (read && !identical(ext, "rds")) {
+    err("`read` must be FALSE unless `ext` is ", "\"rds\"")
+  }
+
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
   
