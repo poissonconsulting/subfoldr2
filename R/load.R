@@ -428,7 +428,7 @@ load_rdss_recursive <- function(x_name = ".*",
   
   dir <- file_path(main, class, sub)
   
-  ext <- p0("[.](", paste(ext, collapse = "|"), ")$")
+  ext <- p0("[.](", p(ext, collapse = "|"), ")$")
 
   files <- list.files(dir, pattern = ext, recursive = TRUE)
   names(files) <- file.path(dir, files)
