@@ -50,6 +50,7 @@ Imports:
     usethis,
     utils,
     writexl,
+    yaml,
     yesno
 Suggests: 
     blob,

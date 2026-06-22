@@ -119,6 +119,7 @@ reference:
   - '`sbf_unarchive_main`'
   - '`sbf_rm_main`'
   - '`sbf_rm_flobs`'
+  - '`sbf_convert_meta`'
 - title: Graphic Operations
   desc: 
   contents:

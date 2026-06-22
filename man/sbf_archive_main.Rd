@@ -32,6 +32,7 @@ Other archive:
 \code{\link[=sbf_unarchive_main]{sbf_unarchive_main()}}
 
 Other housekeeping functions:
+\code{\link[=sbf_convert_meta]{sbf_convert_meta()}},
 \code{\link[=sbf_rm_flobs]{sbf_rm_flobs()}},
 \code{\link[=sbf_rm_main]{sbf_rm_main()}},
 \code{\link[=sbf_unarchive_main]{sbf_unarchive_main()}}

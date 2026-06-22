@@ -413,7 +413,7 @@ test_that("number", {
   expect_identical(sbf_load_number("x"), 1)
   expect_identical(
     list.files(file.path(sbf_get_main(), "numbers")),
-    sort(c("x.csv", "x.rda", "x.rds"))
+    sort(c("x.csv", "x.yaml", "x.rds"))
   )
   csv <- read.csv(file.path(sbf_get_main(), "numbers", "x.csv"))
   expect_equal(csv, data.frame(x = 1))
@@ -428,7 +428,7 @@ test_that("number", {
   )
   expect_identical(
     list.files(file.path(sbf_get_main(), "numbers")),
-    sort(c("x.csv", "x.rda", "x.rds", "y.csv", "y.rda", "y.rds"))
+    sort(c("x.csv", "x.yaml", "x.rds", "y.csv", "y.yaml", "y.rds"))
   )
   x <- 0
   y <- 0
@@ -509,7 +509,7 @@ test_that("string", {
   expect_identical(sbf_load_string("y"), "two words")
   expect_identical(
     list.files(file.path(sbf_get_main(), "strings")),
-    sort(c("y.rda", "y.rds", "y.txt"))
+    sort(c("y.yaml", "y.rds", "y.txt"))
   )
   txt <- readLines(file.path(sbf_get_main(), "strings", "y.txt"), warn = FALSE)
   expect_equal(txt, "two words")
@@ -524,7 +524,7 @@ test_that("string", {
   )
   expect_identical(
     list.files(file.path(sbf_get_main(), "strings")),
-    sort(c("x.rda", "x.rds", "x.txt", "y.rda", "y.rds", "y.txt"))
+    sort(c("x.yaml", "x.rds", "x.txt", "y.yaml", "y.rds", "y.txt"))
   )
   x <- 0
   y <- 0
@@ -737,11 +737,11 @@ test_that("table", {
   expect_identical(sbf_load_table("x"), x)
   expect_identical(
     list.files(file.path(sbf_get_main(), "tables")),
-    sort(c("x.rda", "x.csv", "x.rds"))
+    sort(c("x.yaml", "x.csv", "x.rds"))
   )
   csv <- read.csv(file.path(sbf_get_main(), "tables", "x.csv"))
   expect_equal(csv, x)
-  meta <- readRDS(paste0(file.path(sbf_get_main(), "tables", "x.rda")))
+  meta <- yaml::read_yaml(file.path(sbf_get_main(), "tables", "x.yaml"))
   expect_identical(meta, list(caption = "", report = TRUE, tag = ""))
   
   y <- data.frame(z = 2L)
@@ -825,7 +825,7 @@ test_that("block", {
   expect_identical(sbf_load_block("y"), "two words")
   expect_identical(
     list.files(file.path(sbf_get_main(), "blocks")),
-    sort(c("y.rda", "y.rds", "y.txt"))
+    sort(c("y.yaml", "y.rds", "y.txt"))
   )
   txt <- readLines(file.path(sbf_get_main(), "blocks", "y.txt"), warn = FALSE)
   expect_equal(txt, "two words")
@@ -906,7 +906,7 @@ test_that("plot", {
 
   # x has no csv or xlsx because it has no main data or layers
   expect_identical(list.files(file.path(sbf_get_main(), "plots")),
-                   c("x.png", "x.rda", "x.rds"))
+                   c("x.png", "x.rds", "x.yaml"))
 
   y <- ggplot2::ggplot(
     data = data.frame(x = 1, y = 2, z = NA_real_),
@@ -924,9 +924,9 @@ test_that("plot", {
     list.files(file.path(sbf_get_main(), "plots")),
     sort(c(
       # x has no csv or xlsx because it has no main data or layers
-      "x.png", "x.rda", "x.rds",
+      "x.png", "x.yaml", "x.rds",
       # y has a csv and xlsx because it has main data despite having no layers
-      "y.csv", "y.png", "y.rda", "y.rds", "y.xlsx"
+      "y.csv", "y.png", "y.yaml", "y.rds", "y.xlsx"
     ))
   )
   expect_identical(read.csv(file.path(sbf_get_main(), "plots/y.csv")),
@@ -967,10 +967,12 @@ test_that("plot", {
 
   expect_identical(
     list.files(file.path(sbf_get_main(), "plots")),
-    c("plot.png", "plot.rda", "plot.rds", "plot.xlsx", # has data but no layers
-      "x.png", "x.rda", "x.rds", # no data or layers
-      "y.csv", "y.png", "y.rda", "y.rds", "y.xlsx", # has data but no layers
-      "z.png", "z.rda", "z.rds") # data w one row and no layers
+    c(
+      "plot.png", "plot.rds", "plot.xlsx", "plot.yaml", # has data but no layers
+      "x.png", "x.rds", "x.yaml", # no data or layers
+      "y.csv", "y.png", "y.rds", "y.xlsx", "y.yaml", # has data but no layers
+      "z.png", "z.rds", "z.yaml" # dataset has only one row and no layers
+    )
   )
 
   data <- sbf_load_plots_recursive()
@@ -1029,11 +1031,13 @@ test_that("plot", {
                    file.path(sbf_get_main(), "plots", "p_layers.rds"))
   expect_identical(
     list.files(file.path(sbf_get_main(), "plots")),
-    c("p_layers.png", "p_layers.rda", "p_layers.rds", "p_layers.xlsx", # has data & layers
-      "plot.png", "plot.rda", "plot.rds", "plot.xlsx", # has data but no layers
-      "x.png", "x.rda", "x.rds", # no data or layers
-      "y.csv", "y.png", "y.rda", "y.rds", "y.xlsx", # has data but no layers
-      "z.png", "z.rda", "z.rds") # data w one row and no layers
+    c(
+      "p_layers.png", "p_layers.rds", "p_layers.xlsx", "p_layers.yaml", # has data & layers
+      "plot.png", "plot.rds", "plot.xlsx", "plot.yaml", # has data but no layers
+      "x.png", "x.rds", "x.yaml", # no data or layers
+      "y.csv", "y.png", "y.rds", "y.xlsx", "y.yaml", # has data but no layers
+      "z.png", "z.rds", "z.yaml" # has one-row data and no layers
+    )
   )
   expect_equal(readxl::excel_sheets(file.path(sbf_get_main(), "plots", "p_layers.xlsx")),
                c("1_1_point", "1_2_line", "1_3_line", "1_4_smooth"))
@@ -1096,12 +1100,14 @@ test_that("plot", {
                    file.path(sbf_get_main(), "plots", "p_patches.rds"))
   expect_identical(
     list.files(file.path(sbf_get_main(), "plots")),
-    c("p_layers.png", "p_layers.rda", "p_layers.rds", "p_layers.xlsx", # has data & layers
-      "p_patches.csv", "p_patches.png", "p_patches.rda", "p_patches.rds", "p_patches.xlsx",
-      "plot.png", "plot.rda", "plot.rds", "plot.xlsx", # has data but no layers
-      "x.png", "x.rda", "x.rds", # no data or layers
-      "y.csv", "y.png", "y.rda", "y.rds", "y.xlsx", # has data but no layers
-      "z.png", "z.rda", "z.rds") # has one-row data and no layers
+    c(
+      "p_layers.png", "p_layers.rds", "p_layers.xlsx", "p_layers.yaml", # has data & layers
+      "p_patches.csv", "p_patches.png", "p_patches.rds", "p_patches.xlsx", "p_patches.yaml",
+      "plot.png", "plot.rds", "plot.xlsx", "plot.yaml", # has data but no layers
+      "x.png", "x.rds", "x.yaml", # no data or layers
+      "y.csv", "y.png", "y.rds", "y.xlsx", "y.yaml", # has data but no layers
+      "z.png", "z.rds", "z.yaml" # has one-row data and no layers
+    )
   )
   expect_equal(readxl::excel_sheets(file.path(sbf_get_main(), "plots", "p_patches.xlsx")),
                c("1_0_data", "1_1_line",
@@ -1329,10 +1335,10 @@ test_that("window", {
   sbf_close_window()
   expect_identical(
     list.files(file.path(sbf_get_main(), "windows")),
-    sort(c("window.rda", "window.png"))
+    sort(c("window.yaml", "window.png"))
   )
   
-  meta <- readRDS(paste0(file.path(sbf_get_main(), "windows", "window.rda")))
+  meta <- yaml::read_yaml(file.path(sbf_get_main(), "windows", "window.yaml"))
   expect_identical(meta, list(
     caption = "", report = TRUE,
     width = 6, height = 7, dpi = 300
@@ -1352,10 +1358,10 @@ test_that("window", {
   
   expect_identical(
     list.files(file.path(sbf_get_main(), "windows")),
-    sort(c("t2.rda", "window.rda", "t2.png", "window.png"))
+    sort(c("t2.yaml", "window.yaml", "t2.png", "window.png"))
   )
   
-  meta <- readRDS(paste0(file.path(sbf_get_main(), "windows", "t2.rda")))
+  meta <- yaml::read_yaml(file.path(sbf_get_main(), "windows", "t2.yaml"))
   expect_identical(meta, list(
     caption = "nice one", report = FALSE,
     width = 4, height = 3, dpi = 72
@@ -1397,10 +1403,10 @@ test_that("png", {
   
   expect_identical(
     list.files(file.path(sbf_get_main(), "windows")),
-    sort(c("example.rda", "example.png"))
+    sort(c("example.yaml", "example.png"))
   )
   
-  meta <- readRDS(paste0(file.path(sbf_get_main(), "windows", "example.rda")))
+  meta <- yaml::read_yaml(file.path(sbf_get_main(), "windows", "example.yaml"))
   expect_identical(meta, list(
     caption = "map", report = TRUE, tag = "",
     width = 6, height = 5.992, dpi = 125
@@ -1436,10 +1442,10 @@ test_that("png2", {
   
   expect_identical(
     list.files(file.path(sbf_get_main(), "windows")),
-    sort(c("example.rda", "example.png", "x2.png", "x2.rda"))
+    sort(c("example.yaml", "example.png", "x2.png", "x2.yaml"))
   )
   
-  meta <- readRDS(paste0(file.path(sbf_get_main(), "windows", "example.rda")))
+  meta <- yaml::read_yaml(file.path(sbf_get_main(), "windows", "example.yaml"))
   expect_identical(meta, list(
     caption = "map", report = TRUE, tag = "",
     width = 6, height = 5.992, dpi = 125
@@ -1457,6 +1463,22 @@ test_that("png2", {
     "width", "height", "dpi"
   ))
   expect_identical(data$name, c("example", "x2"))
+})
+
+test_that("load_rdss_recursive() lists non-rds files without reading them", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  sbf_save_table(data.frame(z = 1L), x_name = "x", caption = "cap")
+  sbf_save_table(data.frame(z = 1L), x_name = "x2", caption = "cap")
+  
+  # non-rds extensions (e.g. yaml metadata) are listed but not deserialized,
+  # so this does not attempt readRDS() on a yaml file
+  data <- load_rdss_recursive(class = "tables", ext = "yaml")
+  expect_identical(nrow(data), 2L)
+  expect_identical(data$name, c("x", "x2"))
+  expect_identical(data$tables, list(NULL, NULL))
 })
 
 test_that("save table glue", {
@@ -2224,8 +2246,97 @@ test_that("`sbf_load_numbers_recursive()` drops only exact matches.", {
 
   expect_snapshot(numbers_onebone)
 })
+ 
+test_that("metadata is saved as readable yaml", {
+  x <- data.frame(z = 1L)
+  sbf_save_table(x, x_name = "x", caption = "a caption", tag = "tag-1")
 
-test_that("drop_uninformative_cols is being soft-deprecated with a warning.", {
+  yaml_file <- file.path(sbf_get_main(), "tables", "x.yaml")
+  expect_true(file.exists(yaml_file))
+  expect_false(file.exists(file.path(sbf_get_main(), "tables", "x.rda")))
+
+  meta <- yaml::read_yaml(yaml_file)
+  expect_identical(
+    meta,
+    list(caption = "a caption", report = TRUE, tag = "tag-1")
+  )
+  # human readable
+  expect_true(any(grepl("caption: a caption", readLines(yaml_file))))
+})
+
+test_that("multiline captions are handled correctly", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  x <- data.frame(z = 1L)
+  sbf_save_table(x, x_name = "x", caption = "a\nmultiline
+  caption", tag = "tag-1")
+
+  yaml_file <- file.path(sbf_get_main(), "tables", "x.yaml")
+  expect_true(file.exists(yaml_file))
+  expect_false(file.exists(file.path(sbf_get_main(), "tables", "x.rda")))
+
+  meta <- yaml::read_yaml(yaml_file)
+  expect_identical( # with visible new line
+    meta,
+    list(caption = "a\nmultiline
+  caption", report = TRUE, tag = "tag-1")
+  )
+  expect_identical( # with a newline character \n
+    meta,
+    list(caption = "a\nmultiline\n  caption", report = TRUE, tag = "tag-1")
+  )
+
+  expect_true(all(c("caption: |-",
+                    paste0("  ", c("a", "multiline", "  caption")))
+                  %in% readLines(yaml_file)))
+})
+
+test_that("legacy .rda metadata is still readable", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  x <- data.frame(z = 1L)
+  sbf_save_table(x, x_name = "x", caption = "legacy caption", tag = "old")
+
+  # emulate a folder created before the switch to yaml
+  yaml_file <- file.path(sbf_get_main(), "tables", "x.yaml")
+  meta <- yaml::read_yaml(yaml_file)
+  file.remove(yaml_file)
+  saveRDS(meta, file.path(sbf_get_main(), "tables", "x.rda"))
+
+  data <- sbf_load_tables_recursive(meta = TRUE)
+  expect_identical(data$caption, "legacy caption")
+  expect_identical(data$tag, "old")
+})
+
+test_that("sbf_convert_meta converts legacy .rda to .yaml and deletes .rda", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  x <- data.frame(z = 1L)
+  sbf_save_table(x, x_name = "x", caption = "cap", tag = "t")
+
+  # emulate legacy .rda metadata
+  yaml_file <- file.path(sbf_get_main(), "tables", "x.yaml")
+  meta <- yaml::read_yaml(yaml_file)
+  file.remove(yaml_file)
+  saveRDS(meta, file.path(sbf_get_main(), "tables", "x.rda"))
+
+  converted <- sbf_convert_meta(ask = FALSE)
+  expect_identical(converted, yaml_file)
+  expect_true(file.exists(yaml_file))
+  expect_false(file.exists(file.path(sbf_get_main(), "tables", "x.rda")))
+  expect_identical(yaml::read_yaml(yaml_file), meta)
+
+  # nothing left to convert
+  expect_identical(sbf_convert_meta(ask = FALSE), character(0))
+})
+  
+ test_that("drop_uninformative_cols is being soft-deprecated with a warning.", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
@@ -2237,4 +2348,4 @@ test_that("drop_uninformative_cols is being soft-deprecated with a warning.", {
   p0("The `drop_uninformative_cols` argument of `sbf_save_plot",
        "\\(\\)` is deprecated as of subfoldr2"))
 })
-  
+ 

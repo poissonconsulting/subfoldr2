@@ -156,7 +156,7 @@ to be saved individually with an optional caption using
 `sbf_save_table()`. As a result tables cannot be bulk saved however they
 can be bulked loaded. Each table is also saved as csv file (to
 facilitate viewing) and the metadata including the caption are saved as
-an rda file (to facilitate report production).
+a yaml file (to facilitate report production).
 
 To save a table which is not intended for a report set the argument
 `report = FALSE`.

@@ -31,15 +31,25 @@ save_txt <- function(txt, class, sub, main, x_name) {
 }
 
 save_meta <- function(meta, class, sub, main, x_name) {
-  file <- file_name(main, class, sub, x_name, "rda")
+  file <- file_name(main, class, sub, x_name, "yaml")
   meta <- lapply(meta, unname)
-  saveRDS(meta, file)
+  yaml::write_yaml(meta, file)
   invisible(file)
 }
 
+# Reads a single metadata file, preferring the `.yaml` file and falling back to
+# the legacy `.rda` (an RDS file) for backwards compatibility with output
+# created before metadata was stored as YAML.
+read_meta <- function(x) {
+  yaml_file <- replace_ext(x, "yaml")
+  if (file.exists(yaml_file)) {
+    return(yaml::read_yaml(yaml_file))
+  }
+  readRDS(replace_ext(x, "rda"))
+}
+
 read_metas <- function(x) {
-  x <- lapply(x, replace_ext, new_ext = "rda")
-  lapply(x, readRDS)
+  lapply(x, read_meta)
 }
 
 save_xlsx <- function(x, class, main, sub, x_name) {
@@ -585,7 +595,7 @@ get_plot_layer_sheets <- function(p, prefix, csv, drop_uninformative_cols) {
 #' The function saves:
 #'
 #' 1. A `png` file of the plot.
-#' 2. An `rda` file of the plot metadata.
+#' 2. A `yaml` file of the plot metadata.
 #' 3. An `rds` file of the plot.
 #' 4. A `csv` of the data passed to `ggplot()`, provided it has at least one row
 #' and no more than `csv` rows. If `x` is a `patchwork` object, only the data
