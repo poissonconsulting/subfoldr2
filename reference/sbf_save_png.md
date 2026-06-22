@@ -13,6 +13,7 @@ sbf_save_png(
   caption = "",
   report = TRUE,
   tag = "",
+  notes = "",
   width = NA,
   units = "in"
 )
@@ -49,6 +50,10 @@ sbf_save_png(
 - tag:
 
   A string of the tag.
+
+- notes:
+
+  A string of additional notes to save with the metadata.
 
 - width:
 

@@ -12,7 +12,8 @@ sbf_save_string(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   report = TRUE,
-  tag = ""
+  tag = "",
+  notes = ""
 )
 ```
 
@@ -43,6 +44,10 @@ sbf_save_string(
 - tag:
 
   A string of the tag.
+
+- notes:
+
+  A string of additional notes to save with the metadata.
 
 ## Value
 

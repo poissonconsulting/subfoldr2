@@ -14,6 +14,7 @@ sbf_save_plot(
   caption = "",
   report = TRUE,
   tag = "",
+  notes = "",
   units = "in",
   width = NA,
   height = width,
@@ -55,6 +56,10 @@ sbf_save_plot(
 - tag:
 
   A string of the tag.
+
+- notes:
+
+  A string of additional notes to save with the metadata.
 
 - units:
 

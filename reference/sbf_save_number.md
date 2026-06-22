@@ -12,6 +12,7 @@ sbf_save_number(
   main = sbf_get_main(),
   report = TRUE,
   tag = "",
+  notes = "",
   signif = getOption("sbf.signif", 22)
 )
 ```
@@ -43,6 +44,10 @@ sbf_save_number(
 - tag:
 
   A string of the tag.
+
+- notes:
+
+  A string of additional notes to save with the metadata.
 
 - signif:
 

@@ -12,6 +12,7 @@ sbf_save_window(
   caption = "",
   report = TRUE,
   tag = "",
+  notes = "",
   width = NA,
   height = width,
   units = "in",
@@ -46,6 +47,10 @@ sbf_save_window(
 - tag:
 
   A string of the tag.
+
+- notes:
+
+  A string of additional notes to save with the metadata.
 
 - width:
 
