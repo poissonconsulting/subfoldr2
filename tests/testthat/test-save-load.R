@@ -1472,12 +1472,14 @@ test_that("load_rdss_recursive() lists non-rds files without reading them", {
   withr::defer(sbf_reset())
 
   sbf_save_table(data.frame(z = 1L), x_name = "x", caption = "cap")
-
+  sbf_save_table(data.frame(z = 1L), x_name = "x2", caption = "cap")
+  
   # non-rds extensions (e.g. yaml metadata) are listed but not deserialized,
   # so this does not attempt readRDS() on a yaml file
   data <- load_rdss_recursive(class = "tables", ext = "yaml")
-  expect_identical(data$name, "x")
-  expect_identical(data$tables, list(NULL))
+  expect_identical(nrow(data), 2L)
+  expect_identical(data$name, c("x", "x2"))
+  expect_identical(data$tables, list(NULL, NULL))
 })
 
 test_that("save table glue", {
