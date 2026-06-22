@@ -31,5 +31,6 @@ Other reset:
 
 Other housekeeping functions:
 [`sbf_archive_main()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_archive_main.md),
+[`sbf_convert_meta()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_convert_meta.md),
 [`sbf_rm_flobs()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_rm_flobs.md),
 [`sbf_unarchive_main()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_unarchive_main.md)

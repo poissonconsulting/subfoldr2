@@ -39,6 +39,7 @@ Other archive:
 [`sbf_unarchive_main()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_unarchive_main.md)
 
 Other housekeeping functions:
+[`sbf_convert_meta()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_convert_meta.md),
 [`sbf_rm_flobs()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_rm_flobs.md),
 [`sbf_rm_main()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_rm_main.md),
 [`sbf_unarchive_main()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_unarchive_main.md)

@@ -97,7 +97,7 @@ The function saves:
 
 1.  A `png` file of the plot.
 
-2.  An `rda` file of the plot metadata.
+2.  A `yaml` file of the plot metadata.
 
 3.  An `rds` file of the plot.
 

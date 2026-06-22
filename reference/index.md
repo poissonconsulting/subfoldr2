@@ -228,6 +228,8 @@
   : Remove Main
 - [`sbf_rm_flobs()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_rm_flobs.md)
   : Delete Flobs Subdfolder
+- [`sbf_convert_meta()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_convert_meta.md)
+  : Convert Legacy Metadata Files to YAML
 
 ## Graphic Operations
 
