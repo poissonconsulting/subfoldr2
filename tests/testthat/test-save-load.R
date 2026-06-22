@@ -2226,16 +2226,15 @@ test_that("`sbf_load_numbers_recursive()` drops only exact matches.", {
 })
 
 test_that("drop_uninformative_cols is being soft-deprecated with a warning.", {
-  options(lifecycle_verbosity = "warning")
-  setwd(withr::local_tempdir())
-  dir.create("output")
-  dir.create("output/plots")
-  sbf_set_main(file.path(getwd(), "output"))
-  expect_warning(
-    sbf_save_plot(ggplot2::ggplot(), x_name = "test_plot",
-                  drop_uninformative_cols = TRUE),
-    p0("The\\s`drop_uninformative_cols`\\sargument\\sof\\s`sbf_save_plot",
-       "\\(\\)`\\sis\\sdeprecated\\sas\\sof\\ssubfoldr2\\sVERSION.")
-  )
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  gp <- ggplot2::ggplot() +
+  ggplot2::geom_point(ggplot2::aes(3, 3))
+    
+  lifecycle::expect_deprecated(sbf_save_plot(x = gp, x_name = "plot-1", drop_uninformative_cols = TRUE), 
+  p0("The `drop_uninformative_cols` argument of `sbf_save_plot",
+       "\\(\\)` is deprecated as of subfoldr2"))
 })
   
