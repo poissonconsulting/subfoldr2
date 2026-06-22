@@ -742,7 +742,7 @@ test_that("table", {
   csv <- read.csv(file.path(sbf_get_main(), "tables", "x.csv"))
   expect_equal(csv, x)
   meta <- yaml::read_yaml(file.path(sbf_get_main(), "tables", "x.yaml"))
-  expect_identical(meta, list(caption = "", report = TRUE, tag = ""))
+  expect_identical(meta, list(caption = "", report = TRUE, tag = "", notes = ""))
   
   y <- data.frame(z = 2L)
   expect_identical(
@@ -2262,7 +2262,7 @@ test_that("metadata is saved as readable yaml", {
   meta <- yaml::read_yaml(yaml_file)
   expect_identical(
     meta,
-    list(caption = "a caption", report = TRUE, tag = "tag-1")
+    list(caption = "a caption", report = TRUE, tag = "tag-1", notes = "")
   )
   # human readable
   expect_true(any(grepl("caption: a caption", readLines(yaml_file))))
@@ -2285,11 +2285,11 @@ test_that("multiline captions are handled correctly", {
   expect_identical( # with visible new line
     meta,
     list(caption = "a\nmultiline
-  caption", report = TRUE, tag = "tag-1")
+  caption", report = TRUE, tag = "tag-1", notes = "")
   )
   expect_identical( # with a newline character \n
     meta,
-    list(caption = "a\nmultiline\n  caption", report = TRUE, tag = "tag-1")
+    list(caption = "a\nmultiline\n  caption", report = TRUE, tag = "tag-1", notes = "")
   )
 
   expect_true(all(c("caption: |-",
