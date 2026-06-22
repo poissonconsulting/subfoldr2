@@ -522,8 +522,6 @@ unstitch_patches <- function(x) {
 # or an empty list when there is no informative data frame. The sheet is named
 # "<prefix>_0_data".
 get_plot_data_sheet <- function(p, prefix, drop_uninformative_cols) {
-  chk_flag(drop_uninformative_cols)
-  
   data <- p@data
   if (!is.data.frame(data)) {
     return(list())
@@ -541,8 +539,6 @@ get_plot_data_sheet <- function(p, prefix, drop_uninformative_cols) {
 # "<prefix>_<layer>_<geom>". Layers whose data is not a data frame or exceeds
 # `csv` rows are returned as `NULL` and dropped by the caller.
 get_plot_layer_sheets <- function(p, prefix, csv, drop_uninformative_cols) {
-  chk_flag(drop_uninformative_cols)
-  
   n_layers <- length(p@layers)
   if (!n_layers) {
     return(list())
