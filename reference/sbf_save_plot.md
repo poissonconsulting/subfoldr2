@@ -87,7 +87,9 @@ sbf_save_plot(
 
   A flag indicating whether to drop uninformative columns via
   [`tidyplus::drop_uninformative_columns()`](https://poissonconsulting.github.io/tidyplus/reference/drop_uninformative_columns.html)
-  (`TRUE`, default) or not (`FALSE`).
+  (`TRUE`; default) or not (`FALSE`). Currently soft-deprecated. Will be
+  fully deprecated in future versions so that uninformative columns are
+  always dropped in csv files and always kept in xlsx files.
 
 ## Details
 
