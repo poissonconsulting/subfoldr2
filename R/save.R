@@ -648,7 +648,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
                           csv = 1000L,
                           drop_uninformative_cols = TRUE) {
   if(!missing(drop_uninformative_cols)) {
-    lifecycle::deprecate_warn("VERSION", "sbf_save_plot(drop_uninformative_cols)")
+    lifecycle::deprecate_warn("1.0.1.9010", "sbf_save_plot(drop_uninformative_cols)")
   }
   
   chk_s3_class(x, "ggplot")
