@@ -12,6 +12,7 @@ sbf_save_png(
   caption = "",
   report = TRUE,
   tag = "",
+  notes = "",
   width = NA,
   units = "in"
 )
@@ -32,6 +33,8 @@ current main folder)}
 \item{report}{A flag specifying whether to include in a report.}
 
 \item{tag}{A string of the tag.}
+
+\item{notes}{A string of additional notes to save with the metadata.}
 
 \item{width}{A number of the plot width in inches.}
 

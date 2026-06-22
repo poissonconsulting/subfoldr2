@@ -742,7 +742,7 @@ test_that("table", {
   csv <- read.csv(file.path(sbf_get_main(), "tables", "x.csv"))
   expect_equal(csv, x)
   meta <- yaml::read_yaml(file.path(sbf_get_main(), "tables", "x.yaml"))
-  expect_identical(meta, list(caption = "", report = TRUE, tag = ""))
+  expect_identical(meta, list(caption = "", report = TRUE, tag = "", notes = ""))
   
   y <- data.frame(z = 2L)
   expect_identical(
@@ -773,7 +773,7 @@ test_that("table", {
     colnames(data2),
     c(
       "tables", "name", "sub", "file",
-      "caption", "report", "tag"
+      "caption", "report", "tag", "notes"
     )
   )
   expect_identical(data2[c("tables", "name", "sub", "file")], data)
@@ -859,7 +859,7 @@ test_that("block", {
     colnames(data2),
     c(
       "blocks", "name", "sub", "file",
-      "caption", "report", "tag"
+      "caption", "report", "tag", "notes"
     )
   )
   expect_identical(data2[c("blocks", "name", "sub", "file")], data)
@@ -993,7 +993,7 @@ test_that("plot", {
   data2 <- sbf_load_plots_recursive(meta = TRUE)
   expect_identical(colnames(data2), c(
     "plots", "name", "sub", "file", "caption", "report",
-    "tag",
+    "tag", "notes",
     "width", "height", "dpi"
   ))
   expect_identical(data2$caption[1:2], c("one c", ""))
@@ -1340,7 +1340,7 @@ test_that("window", {
   
   meta <- yaml::read_yaml(file.path(sbf_get_main(), "windows", "window.yaml"))
   expect_identical(meta, list(
-    caption = "", report = TRUE,
+    caption = "", report = TRUE, tag = "", notes = "",
     width = 6, height = 7, dpi = 300
   ))
   
@@ -1363,7 +1363,7 @@ test_that("window", {
   
   meta <- yaml::read_yaml(file.path(sbf_get_main(), "windows", "t2.yaml"))
   expect_identical(meta, list(
-    caption = "nice one", report = FALSE,
+    caption = "nice one", report = FALSE, tag = "", notes = "",
     width = 4, height = 3, dpi = 72
   ))
   
@@ -1408,7 +1408,7 @@ test_that("png", {
   
   meta <- yaml::read_yaml(file.path(sbf_get_main(), "windows", "example.yaml"))
   expect_identical(meta, list(
-    caption = "map", report = TRUE, tag = "",
+    caption = "map", report = TRUE, tag = "", notes = "",
     width = 6, height = 5.992, dpi = 125
   ))
   
@@ -1420,7 +1420,7 @@ test_that("png", {
   data <- sbf_load_windows_recursive(sub = character(0), meta = TRUE)
   expect_s3_class(data, "tbl_df")
   expect_identical(colnames(data), c(
-    "windows", "name", "sub", "file", "caption", "report", "tag",
+    "windows", "name", "sub", "file", "caption", "report", "tag", "notes",
     "width", "height", "dpi"
   ))
   expect_identical(data$name, c("example"))
@@ -1447,7 +1447,7 @@ test_that("png2", {
   
   meta <- yaml::read_yaml(file.path(sbf_get_main(), "windows", "example.yaml"))
   expect_identical(meta, list(
-    caption = "map", report = TRUE, tag = "",
+    caption = "map", report = TRUE, tag = "", notes = "",
     width = 6, height = 5.992, dpi = 125
   ))
   
@@ -1459,7 +1459,7 @@ test_that("png2", {
   data <- sbf_load_windows_recursive(sub = character(0), meta = TRUE)
   expect_s3_class(data, "tbl_df")
   expect_identical(colnames(data), c(
-    "windows", "name", "sub", "file", "caption", "report", "tag",
+    "windows", "name", "sub", "file", "caption", "report", "tag", "notes",
     "width", "height", "dpi"
   ))
   expect_identical(data$name, c("example", "x2"))
@@ -2246,8 +2246,12 @@ test_that("`sbf_load_numbers_recursive()` drops only exact matches.", {
 
   expect_snapshot(numbers_onebone)
 })
- 
+
 test_that("metadata is saved as readable yaml", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
   x <- data.frame(z = 1L)
   sbf_save_table(x, x_name = "x", caption = "a caption", tag = "tag-1")
 
@@ -2258,7 +2262,7 @@ test_that("metadata is saved as readable yaml", {
   meta <- yaml::read_yaml(yaml_file)
   expect_identical(
     meta,
-    list(caption = "a caption", report = TRUE, tag = "tag-1")
+    list(caption = "a caption", report = TRUE, tag = "tag-1", notes = "")
   )
   # human readable
   expect_true(any(grepl("caption: a caption", readLines(yaml_file))))
@@ -2281,11 +2285,11 @@ test_that("multiline captions are handled correctly", {
   expect_identical( # with visible new line
     meta,
     list(caption = "a\nmultiline
-  caption", report = TRUE, tag = "tag-1")
+  caption", report = TRUE, tag = "tag-1", notes = "")
   )
   expect_identical( # with a newline character \n
     meta,
-    list(caption = "a\nmultiline\n  caption", report = TRUE, tag = "tag-1")
+    list(caption = "a\nmultiline\n  caption", report = TRUE, tag = "tag-1", notes = "")
   )
 
   expect_true(all(c("caption: |-",
@@ -2335,12 +2339,78 @@ test_that("sbf_convert_meta converts legacy .rda to .yaml and deletes .rda", {
   # nothing left to convert
   expect_identical(sbf_convert_meta(ask = FALSE), character(0))
 })
-  
- test_that("drop_uninformative_cols is being soft-deprecated with a warning.", {
+
+test_that("notes argument is saved to metadata", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
 
+  x <- data.frame(z = 1L)
+  sbf_save_table(x, x_name = "x", caption = "cap", notes = "a note")
+
+  meta <- yaml::read_yaml(file.path(sbf_get_main(), "tables", "x.yaml"))
+  expect_identical(
+    meta,
+    list(caption = "cap", report = TRUE, tag = "", notes = "a note")
+  )
+
+  data <- sbf_load_tables_recursive(meta = TRUE)
+  expect_identical(data$notes, "a note")
+
+  expect_error(
+    sbf_save_table(x, x_name = "y", notes = 1),
+    "`notes` must be a string \\(non-missing character scalar\\)."
+  )
+})
+
+test_that("notes column tolerates legacy metadata without notes", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  x <- data.frame(z = 1L)
+  # new-style save with notes
+  sbf_save_table(x, x_name = "new", caption = "c1", notes = "n1")
+  # legacy-style save without notes (emulate pre-notes metadata)
+  sbf_save_table(x, x_name = "old", caption = "c2")
+  old_yaml_filename <- file.path(sbf_get_main(), "tables", "old.yaml")
+  meta <- yaml::read_yaml(old_yaml_filename)
+  meta$notes <- NULL
+  yaml::write_yaml(meta, old_yaml_filename)
+  expect_identical(yaml::read_yaml(old_yaml_filename), meta)
+
+  data <- sbf_load_tables_recursive(meta = TRUE)
+  expect_identical(data$notes, c("n1", NA_character_))
+})
+
+test_that("notes argument is saved for numbers and strings", {
+  sbf_save_number(1, x_name = "n", notes = "num note")
+  sbf_save_string("s", x_name = "s", notes = "str note")
+
+  num_meta <- yaml::read_yaml(file.path(sbf_get_main(), "numbers", "n.yaml"))
+  expect_identical(num_meta, list(report = TRUE, tag = "", notes = "num note"))
+
+  str_meta <- yaml::read_yaml(file.path(sbf_get_main(), "strings", "s.yaml"))
+  expect_identical(str_meta, list(report = TRUE, tag = "", notes = "str note"))
+
+  expect_identical(sbf_load_numbers_recursive(meta = TRUE)$notes, "num note")
+  expect_identical(sbf_load_strings_recursive(meta = TRUE)$notes, "str note")
+
+  expect_error(
+    sbf_save_number(1, x_name = "n2", notes = 1),
+    "`notes` must be a string \\(non-missing character scalar\\)"
+  )
+  expect_error(
+    sbf_save_string("s", x_name = "s2", notes = 1),
+    "`notes` must be a string \\(non-missing character scalar\\)"
+  )
+})
+
+ test_that("drop_uninformative_cols is being soft-deprecated with a warning.", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+     
   gp <- ggplot2::ggplot() +
   ggplot2::geom_point(ggplot2::aes(3, 3))
     

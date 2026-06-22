@@ -100,6 +100,9 @@ meta_to_character <- function(x) {
   if ("tag" %in% colnames(x)) {
     x$tag <- as.character(x$tag)
   }
+  if ("notes" %in% colnames(x)) {
+    x$notes <- as.character(x$notes)
+  }
   x
 }
 
@@ -107,7 +110,7 @@ meta_columns <- function(x) {
   x <- read_metas(x)
   x <- lapply(x, as.data.frame, stringsAsFactors = FALSE)
   x <- lapply(x, meta_to_character)
-  data.table::rbindlist(x)
+  data.table::rbindlist(x, fill = TRUE)
 }
 
 get_plot_data <- function(x) {

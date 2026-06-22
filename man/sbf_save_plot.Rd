@@ -12,6 +12,7 @@ sbf_save_plot(
   caption = "",
   report = TRUE,
   tag = "",
+  notes = "",
   units = "in",
   width = NA,
   height = width,
@@ -37,6 +38,8 @@ current main folder)}
 \item{report}{A flag specifying whether to include in a report.}
 
 \item{tag}{A string of the tag.}
+
+\item{notes}{A string of additional notes to save with the metadata.}
 
 \item{units}{A string of the units. Can be "in" (default) or "mm" or "cm".}
 
