@@ -897,8 +897,7 @@ test_that("plot", {
   )
 
   x <- ggplot2::ggplot()
-  expect_identical(sbf_save_plot(x, drop_uninformative_cols = TRUE),
-                   file.path(sbf_get_main(), "plots/x.rds"))
+  expect_identical(sbf_save_plot(x), file.path(sbf_get_main(), "plots/x.rds"))
   expect_true(all.equal(sbf_load_plot("x"), x))
   expect_identical(sbf_load_plot_data("x"), data.frame())
 
@@ -913,16 +912,14 @@ test_that("plot", {
     data = data.frame(x = 1, y = 2, z = NA_real_),
     ggplot2::aes(x = x, y = y)
   )
-  expect_identical(sbf_save_plot(y, drop_uninformative_cols = TRUE),
-                   file.path(sbf_get_main(), "plots/y.rds"))
+  expect_identical(sbf_save_plot(y), file.path(sbf_get_main(), "plots/y.rds"))
   expect_false(file.exists(paste0(sbf_get_main(), "plots/y.csv")))
   
   y <- ggplot2::ggplot(
     data = data.frame(x = 1:3, y = 2:4, z = NA_real_),
     ggplot2::aes(x = x, y = y)
   )
-  expect_identical(sbf_save_plot(y, drop_uninformative_cols = FALSE),
-                   file.path(sbf_get_main(), "plots/y.rds"))
+  expect_identical(sbf_save_plot(y), file.path(sbf_get_main(), "plots/y.rds"))
   expect_identical(
     list.files(file.path(sbf_get_main(), "plots")),
     sort(c(
@@ -933,7 +930,7 @@ test_that("plot", {
     ))
   )
   expect_identical(read.csv(file.path(sbf_get_main(), "plots/y.csv")),
-                   data.frame(x = 1:3, y = 2:4, z = NA))
+                   data.frame(x = 1:3, y = 2:4))
 
   expect_identical(sbf_save_plot(y), file.path(sbf_get_main(), "plots/y.rds"))
   expect_true(all.equal(sbf_load_plot("y"), y))
@@ -973,7 +970,7 @@ test_that("plot", {
     c("plot.png", "plot.rda", "plot.rds", "plot.xlsx", # has data but no layers
       "x.png", "x.rda", "x.rds", # no data or layers
       "y.csv", "y.png", "y.rda", "y.rds", "y.xlsx", # has data but no layers
-      "z.png", "z.rda", "z.rds") # dataset has only one row and no layers
+      "z.png", "z.rda", "z.rds") # data w one row and no layers
   )
 
   data <- sbf_load_plots_recursive()
@@ -1036,7 +1033,7 @@ test_that("plot", {
       "plot.png", "plot.rda", "plot.rds", "plot.xlsx", # has data but no layers
       "x.png", "x.rda", "x.rds", # no data or layers
       "y.csv", "y.png", "y.rda", "y.rds", "y.xlsx", # has data but no layers
-      "z.png", "z.rda", "z.rds") # has one-row data and no layers
+      "z.png", "z.rda", "z.rds") # data w one row and no layers
   )
   expect_equal(readxl::excel_sheets(file.path(sbf_get_main(), "plots", "p_layers.xlsx")),
                c("1_1_point", "1_2_line", "1_3_line", "1_4_smooth"))
@@ -1072,9 +1069,11 @@ test_that("plot", {
 
   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
                                  "1_1_point") |>
+                 dplyr::select(x, y, PANEL) |>
                  dplyr::arrange(x, y),
                readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
                                  "1_2_line") |>
+                 dplyr::select(x, y, PANEL) |>
                  dplyr::arrange(x, y))
 
   # tests for checking that data for different patchwork patches save
@@ -1136,9 +1135,9 @@ test_that("plot", {
   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
                                  "5_1_point"),
                tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[2]][[2]][[2]])@data[[1]]) |>
-                 dplyr::tibble() %>%
-                 dplyr::mutate(group = as.numeric(group)))
-
+                 dplyr::tibble() |>
+                 dplyr::mutate(group = `attr<-`(group, "n", NULL)))
+  
   sbf_reset()
   sbf_close_windows()
 })
@@ -2225,3 +2224,17 @@ test_that("`sbf_load_numbers_recursive()` drops only exact matches.", {
 
   expect_snapshot(numbers_onebone)
 })
+
+test_that("drop_uninformative_cols is being soft-deprecated with a warning.", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  gp <- ggplot2::ggplot() +
+  ggplot2::geom_point(ggplot2::aes(3, 3))
+    
+  lifecycle::expect_deprecated(sbf_save_plot(x = gp, x_name = "plot-1", drop_uninformative_cols = TRUE), 
+  p0("The `drop_uninformative_cols` argument of `sbf_save_plot",
+       "\\(\\)` is deprecated as of subfoldr2"))
+})
+  

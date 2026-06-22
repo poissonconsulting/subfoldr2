@@ -577,7 +577,10 @@ get_plot_layer_sheets <- function(p, prefix, csv, drop_uninformative_cols) {
 #' file.
 #' @param drop_uninformative_cols A flag indicating whether to drop
 #' uninformative columns via `tidyplus::drop_uninformative_columns()`
-#' (`TRUE`, default) or not (`FALSE`).
+#' (`TRUE`; default) or not (`FALSE`).
+#' Currently soft-deprecated.
+#' Will be fully deprecated in future versions so that uninformative columns are
+#' always dropped in csv files and always kept in xlsx files.
 #' @details
 #' The function saves:
 #'
@@ -640,6 +643,10 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
                           limitsize = TRUE,
                           csv = 1000L,
                           drop_uninformative_cols = TRUE) {
+  if(!missing(drop_uninformative_cols)) {
+    lifecycle::deprecate_warn("1.0.1.9010", "sbf_save_plot(drop_uninformative_cols)")
+  }
+  
   chk_s3_class(x, "ggplot")
   x_name <- chk_deparse(x_name)
   if (identical(x_name, "ggplot2::last_plot()")) {
@@ -656,6 +663,7 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   chk_string(tag)
   chk_string(units)
   chk_subset(units, c("in", "mm", "cm"))
+  chk_flag(drop_uninformative_cols)
 
   sub <- sanitize_path(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
@@ -664,7 +672,6 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
   chk_gt(dpi)
   chk_whole_number(csv)
   chk_gte(csv)
-  chk_flag(drop_uninformative_cols)
 
   csv <- as.integer(csv)
 
