@@ -742,7 +742,7 @@ test_that("table", {
   csv <- read.csv(file.path(sbf_get_main(), "tables", "x.csv"))
   expect_equal(csv, x)
   meta <- yaml::read_yaml(file.path(sbf_get_main(), "tables", "x.yaml"))
-  expect_identical(meta, list(caption = "", report = TRUE, tag = "", notes = ""))
+  expect_identical(meta, list(caption = "", report = TRUE, tag = ""))
   
   y <- data.frame(z = 2L)
   expect_identical(
@@ -897,8 +897,7 @@ test_that("plot", {
   )
 
   x <- ggplot2::ggplot()
-  expect_identical(sbf_save_plot(x, drop_uninformative_cols = TRUE),
-                   file.path(sbf_get_main(), "plots/x.rds"))
+  expect_identical(sbf_save_plot(x), file.path(sbf_get_main(), "plots/x.rds"))
   expect_true(all.equal(sbf_load_plot("x"), x))
   expect_identical(sbf_load_plot_data("x"), data.frame())
 
@@ -913,16 +912,14 @@ test_that("plot", {
     data = data.frame(x = 1, y = 2, z = NA_real_),
     ggplot2::aes(x = x, y = y)
   )
-  expect_identical(sbf_save_plot(y, drop_uninformative_cols = TRUE),
-                   file.path(sbf_get_main(), "plots/y.rds"))
+  expect_identical(sbf_save_plot(y), file.path(sbf_get_main(), "plots/y.rds"))
   expect_false(file.exists(paste0(sbf_get_main(), "plots/y.csv")))
   
   y <- ggplot2::ggplot(
     data = data.frame(x = 1:3, y = 2:4, z = NA_real_),
     ggplot2::aes(x = x, y = y)
   )
-  expect_identical(sbf_save_plot(y, drop_uninformative_cols = FALSE),
-                   file.path(sbf_get_main(), "plots/y.rds"))
+  expect_identical(sbf_save_plot(y), file.path(sbf_get_main(), "plots/y.rds"))
   expect_identical(
     list.files(file.path(sbf_get_main(), "plots")),
     sort(c(
@@ -933,7 +930,7 @@ test_that("plot", {
     ))
   )
   expect_identical(read.csv(file.path(sbf_get_main(), "plots/y.csv")),
-                   data.frame(x = 1:3, y = 2:4, z = NA))
+                   data.frame(x = 1:3, y = 2:4))
 
   expect_identical(sbf_save_plot(y), file.path(sbf_get_main(), "plots/y.rds"))
   expect_true(all.equal(sbf_load_plot("y"), y))
@@ -1076,9 +1073,11 @@ test_that("plot", {
 
   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
                                  "1_1_point") |>
+                 dplyr::select(x, y, PANEL) |>
                  dplyr::arrange(x, y),
                readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
                                  "1_2_line") |>
+                 dplyr::select(x, y, PANEL) |>
                  dplyr::arrange(x, y))
 
   # tests for checking that data for different patchwork patches save
@@ -1142,9 +1141,9 @@ test_that("plot", {
   expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
                                  "5_1_point"),
                tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[2]][[2]][[2]])@data[[1]]) |>
-                 dplyr::tibble() %>%
-                 dplyr::mutate(group = as.numeric(group)))
-
+                 dplyr::tibble() |>
+                 dplyr::mutate(group = `attr<-`(group, "n", NULL)))
+  
   sbf_reset()
   sbf_close_windows()
 })
@@ -1472,12 +1471,14 @@ test_that("load_rdss_recursive() lists non-rds files without reading them", {
   withr::defer(sbf_reset())
 
   sbf_save_table(data.frame(z = 1L), x_name = "x", caption = "cap")
-
+  sbf_save_table(data.frame(z = 1L), x_name = "x2", caption = "cap")
+  
   # non-rds extensions (e.g. yaml metadata) are listed but not deserialized,
   # so this does not attempt readRDS() on a yaml file
   data <- load_rdss_recursive(class = "tables", ext = "yaml")
-  expect_identical(data$name, "x")
-  expect_identical(data$tables, list(NULL))
+  expect_identical(nrow(data), 2L)
+  expect_identical(data$name, c("x", "x2"))
+  expect_identical(data$tables, list(NULL, NULL))
 })
 
 test_that("save table glue", {
@@ -2261,7 +2262,7 @@ test_that("metadata is saved as readable yaml", {
   meta <- yaml::read_yaml(yaml_file)
   expect_identical(
     meta,
-    list(caption = "a caption", report = TRUE, tag = "tag-1", notes = "")
+    list(caption = "a caption", report = TRUE, tag = "tag-1")
   )
   # human readable
   expect_true(any(grepl("caption: a caption", readLines(yaml_file))))
@@ -2383,10 +2384,6 @@ test_that("notes column tolerates legacy metadata without notes", {
 })
 
 test_that("notes argument is saved for numbers and strings", {
-  sbf_reset()
-  sbf_set_main(file.path(withr::local_tempdir(), "output"))
-  withr::defer(sbf_reset())
-
   sbf_save_number(1, x_name = "n", notes = "num note")
   sbf_save_string("s", x_name = "s", notes = "str note")
 
@@ -2408,3 +2405,17 @@ test_that("notes argument is saved for numbers and strings", {
     "`notes` must be a string \\(non-missing character scalar\\)"
   )
 })
+
+ test_that("drop_uninformative_cols is being soft-deprecated with a warning.", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+     
+  gp <- ggplot2::ggplot() +
+  ggplot2::geom_point(ggplot2::aes(3, 3))
+    
+  lifecycle::expect_deprecated(sbf_save_plot(x = gp, x_name = "plot-1", drop_uninformative_cols = TRUE), 
+  p0("The `drop_uninformative_cols` argument of `sbf_save_plot",
+       "\\(\\)` is deprecated as of subfoldr2"))
+})
+ 

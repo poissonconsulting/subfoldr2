@@ -58,7 +58,10 @@ file.}
 
 \item{drop_uninformative_cols}{A flag indicating whether to drop
 uninformative columns via \code{tidyplus::drop_uninformative_columns()}
-(\code{TRUE}, default) or not (\code{FALSE}).}
+(\code{TRUE}; default) or not (\code{FALSE}).
+Currently soft-deprecated.
+Will be fully deprecated in future versions so that uninformative columns are
+always dropped in csv files and always kept in xlsx files.}
 }
 \description{
 Saves a ggplot object.
