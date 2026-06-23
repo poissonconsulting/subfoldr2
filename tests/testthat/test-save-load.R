@@ -1481,6 +1481,77 @@ test_that("load_rdss_recursive() lists non-rds files without reading them", {
   expect_identical(data$tables, list(NULL, NULL))
 })
 
+test_that("load_rdss_recursive() informs user on which folders were dropped.", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+  
+  expect_warning(
+    sbf_load_tables_recursive(drop = "bad-dir"),
+    "No files found, so no files were dropped\\."
+  )
+  
+  for (i in 1:3) {
+    for (j in 1:4) {
+      sbf_save_table(data.frame(z = i), x_name = p0("t", j), sub = p0("sub", i),
+                     caption = "cap")
+    }
+  }
+  
+  expect_identical(
+    list.files(file.path(sbf_get_main(), "tables"), pattern = "rds", recursive = TRUE),
+    c("sub1/t1.rds", "sub1/t2.rds", "sub1/t3.rds", "sub1/t4.rds",
+      "sub2/t1.rds", "sub2/t2.rds", "sub2/t3.rds", "sub2/t4.rds",
+      "sub3/t1.rds", "sub3/t2.rds", "sub3/t3.rds", "sub3/t4.rds")
+  )
+  
+  expect_identical(
+    sbf_load_tables_recursive()$name,
+    c("t1", "t2", "t3", "t4", "t1", "t2", "t3", "t4", "t1", "t2", "t3", "t4")
+  )
+  
+  expect_snapshot( # to deal with multiline warning
+    expect_identical(
+      sbf_load_tables_recursive(drop = "t1")$name,
+      c("t2", "t3", "t4", "t2", "t3", "t4", "t2", "t3", "t4")
+    )
+  )
+  
+  expect_identical(
+    suppressMessages(sbf_load_tables_recursive(drop = c("t1", "t2"))),
+    suppressMessages(sbf_load_tables_recursive(drop = c("t2", "t1"))),
+  )
+  
+  # none dropped because the files are searched for within "output/tables"
+  expect_warning(
+    sbf_load_tables_recursive(drop = "tables"),
+    "No files or folders matched `drop`, so no files were dropped\\."
+  )
+  
+  # none dropped because "sub" != "sub\d"
+  expect_warning(
+    sbf_load_tables_recursive(drop = "sub"),
+    "No files or folders matched `drop`, so no files were dropped\\."
+  )
+  
+  expect_snapshot(sbf_load_tables_recursive(drop = "sub1"))
+  expect_message(sbf_load_tables_recursive(drop = "sub1"))
+  expect_identical(
+    nrow(suppressMessages(sbf_load_tables_recursive(drop = "sub1"))),
+    2L * 4L)
+  
+  expect_snapshot(sbf_load_tables_recursive(drop = c("sub1", "sub2")))
+  expect_message(sbf_load_tables_recursive(drop = c("sub1", "sub2")))
+  expect_identical(
+    nrow(
+      suppressMessages(
+        sbf_load_tables_recursive(drop = c("sub1", "sub2"))
+      )),
+    1L * 4L)
+  
+  sbf_load_tables(main = sbf_get_main(), sub = "sub1")
+})
+
 test_that("save table glue", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
