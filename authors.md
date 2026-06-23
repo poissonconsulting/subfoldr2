@@ -34,11 +34,11 @@
 ## Citation
 
 Thorley J (2026). *subfoldr2: Save and Load R Objects*. R package
-version 1.0.1.9009.
+version 1.0.1.9010.
 
     @Manual{,
       title = {subfoldr2: Save and Load R Objects},
       author = {Joe Thorley},
       year = {2026},
-      note = {R package version 1.0.1.9009},
+      note = {R package version 1.0.1.9010},
     }

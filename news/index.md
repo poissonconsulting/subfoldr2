@@ -1,5 +1,9 @@
 # Changelog
 
+## subfoldr2 1.0.1.9010
+
+- removed `drop-uninformative-cols` argument (#169)
+
 ## subfoldr2 1.0.1.9009
 
 - Add fledge-bump workflow
