@@ -369,9 +369,9 @@ sbf_load_datas_from_db <- function(db_name = sbf_get_db_name(),
   invisible(names(datas))
 }
 
-#' Load RDS files as List Column in Data Frame
+#' Load RDS files as List Column in tibble
 #'
-#' **NOTE**: Currently only an internal function and not tested.
+#' Load RDS files as list column in a tibble.
 #'
 #' Recursively loads all RDS files with names matching the regular expression
 #' `x_name` as the first (list) column (named `object`) in a data frame.

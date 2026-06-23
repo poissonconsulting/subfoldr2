@@ -2,7 +2,7 @@
 % Please edit documentation in R/load.R
 \name{load_rdss_recursive}
 \alias{load_rdss_recursive}
-\title{Load RDS files as List Column in Data Frame}
+\title{Load RDS files as List Column in tibble}
 \usage{
 load_rdss_recursive(
   x_name = ".*",
@@ -48,7 +48,7 @@ and files to drop or \code{NULL} (the default).}
 a tibble of the loaded objects
 }
 \description{
-\strong{NOTE}: Currently only an internal function and not tested.
+Load RDS files as list column in a tibble.
 }
 \details{
 Recursively loads all RDS files with names matching the regular expression
