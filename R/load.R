@@ -434,6 +434,9 @@ load_rdss_recursive <- function(x_name = ".*",
   if (!include_root) files <- files[grepl("/", files)]
   
   if (!length(files)) {
+    if (length(drop) > 0) {
+      cli::cli_warn("No files found, so no files were dropped.")
+    }
     data <- tibble(x = I(list()))
     class(data$x) <- "list"
     names(data) <- class
@@ -443,9 +446,17 @@ load_rdss_recursive <- function(x_name = ".*",
     return(data)
   }
   
-  if(length(drop) > 0) {
+  if (length(drop) > 0) {
     drop <- purrr::map_lgl(path_split(files), \(x) length(intersect(x, drop)) > 0)
+    dropped <- files[drop]
+    dropped_dirs <- unique(gsub("/[^/]*$", "", dropped))
     files <- files[!drop]
+    if(any(drop)) {
+      cli::cli_inform(c("Dropped:",
+                        setNames(names(dropped), rep("!", sum(drop)))))
+    } else {
+      cli::cli_warn("No files or folders matched `drop`, so no files were dropped.")
+    }
   }
   
   if (read) {
