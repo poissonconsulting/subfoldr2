@@ -1517,6 +1517,11 @@ test_that("load_rdss_recursive() informs user on which folders were dropped.", {
     )
   )
   
+  expect_message(sbf_load_tables_recursive(drop = "t1"))
+  expect_no_message(sbf_load_tables_recursive(drop = "t1", quiet = TRUE))
+  expect_warning(sbf_load_tables_recursive(drop = "fake-dir", quiet = TRUE),
+                 "No files or folders matched `drop`, so no files were dropped\\.")
+  
   expect_identical(
     suppressMessages(sbf_load_tables_recursive(drop = c("t1", "t2"))),
     suppressMessages(sbf_load_tables_recursive(drop = c("t2", "t1"))),
