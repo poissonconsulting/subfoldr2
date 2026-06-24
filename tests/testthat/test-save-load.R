@@ -1545,7 +1545,7 @@ test_that("load_rdss_recursive() informs user on which folders were dropped.", {
   
   expect_snapshot(
     sbf_load_tables_recursive(drop = "sub1") %>%
-      dplyr::mutate(file = gsub(p0(sbf_get_main(), "/tables/"), "", file))
+      dplyr::mutate(file = gsub(file.path(sbf_get_main(), "tables", ""), "", file))
     )
   expect_message(sbf_load_tables_recursive(drop = "sub1"))
   expect_identical(

@@ -47,8 +47,8 @@
 ---
 
     Code
-      sbf_load_tables_recursive(drop = "sub1") %>% dplyr::mutate(file = gsub(p0(
-        sbf_get_main(), "/tables/"), "", file))
+      sbf_load_tables_recursive(drop = "sub1") %>% dplyr::mutate(file = gsub(
+        file.path(sbf_get_main(), "tables", ""), "", file))
     Message
       Dropped:
       ! sub1/t1
