@@ -48,7 +48,7 @@
 
     Code
       sbf_load_tables_recursive(drop = "sub1") %>% dplyr::mutate(file = gsub(
-        file.path(sbf_get_main(), "tables", ""), "", file))
+        ".*tables.", "", file))
     Message
       Dropped:
       ! sub1/t1
@@ -72,7 +72,7 @@
 
     Code
       sbf_load_tables_recursive(drop = c("sub1", "sub2")) %>% dplyr::mutate(file = gsub(
-        p0(sbf_get_main(), "/tables/"), "", file))
+        ".*tables.", "", file))
     Message
       Dropped:
       ! sub1/t1
