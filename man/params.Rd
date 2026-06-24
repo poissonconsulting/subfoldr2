@@ -11,6 +11,9 @@
 
 \item{drop}{A character vector specifying the names of sub folders
 and files to drop or \code{NULL} (the default).}
+
+\item{quiet}{A flag indicating whether messages should be silenced.
+Warnings are still returned regardless.}
 }
 \description{
 Default parameter descriptions which may be overridden in individual

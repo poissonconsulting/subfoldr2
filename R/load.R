@@ -381,12 +381,10 @@ sbf_load_datas_from_db <- function(db_name = sbf_get_db_name(),
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_load_tables_recursive
-#' @param class Class of object to import, which determines the sub to import from.
 #' @inheritParams params
+#' @param class Class of object to import, which determines the sub to import from.
 #' @param ext Extension of the files (`".rds"` by default)
 #' @param fun function to apply to the object after import (`NULL` by default)
-#' @param quiet A flag indicating whether messages should be silenced.
-#' Warnings are still returned regardless.
 #' @return a tibble of the loaded objects
 #' @family load functions
 #' @keywords internal
@@ -535,7 +533,7 @@ subs_rds_recursive <- function(x_name,
 #' and sub folders (named sub1, sub2 etc).
 #' @inheritParams sbf_save_object
 #' @inheritParams params
-#' @inheritParams load_rdss_recursive
+#' @inheritParams params
 #' @param x_name A string of the regular expression to match.
 #' @param include_root A flag indicating whether to include objects in the top
 #' sub folder.
@@ -562,7 +560,7 @@ sbf_load_objects_recursive <- function(x_name = ".*",
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
-#' @inheritParams load_rdss_recursive
+#' @inheritParams params
 #' @family load functions
 #' @export
 sbf_load_datas_recursive <- function(x_name = ".*",
@@ -588,7 +586,7 @@ sbf_load_datas_recursive <- function(x_name = ".*",
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
-#' @inheritParams load_rdss_recursive
+#' @inheritParams params
 #' @param tag A string of the regular expression that the tag must match to be
 #' included.
 #' @param meta A flag specifying whether to include the report, caption and any
@@ -621,7 +619,7 @@ sbf_load_numbers_recursive <- function(x_name = ".*",
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
-#' @inheritParams load_rdss_recursive
+#' @inheritParams params
 #' @param tag A string of the regular expression that the tag must match to be
 #' included.
 #' @param meta A flag specifying whether to include the report, caption and any
@@ -656,9 +654,10 @@ sbf_load_strings_recursive <- function(x_name = ".*",
 #' Subsequent character vector columns specify the object names (named name)
 #' and sub folders (named sub1, sub2 etc).
 #'
+#' @inheritParams params
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
-#' @inheritParams load_rdss_recursive
+#' @inheritParams params
 #' @param tag A string of the regular expression that the tag must match to be
 #' included.
 #' @param meta A flag specifying whether to include the report, caption and any
@@ -691,7 +690,7 @@ sbf_load_tables_recursive <- function(x_name = ".*",
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_load_tables_recursive
-#' @inheritParams load_rdss_recursive
+#' @inheritParams params
 #' @family load functions
 #' @export
 sbf_load_blocks_recursive <- function(x_name = ".*",
@@ -721,7 +720,7 @@ sbf_load_blocks_recursive <- function(x_name = ".*",
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_load_tables_recursive
-#' @inheritParams load_rdss_recursive
+#' @inheritParams params
 #' @family load functions
 #' @export
 sbf_load_plots_recursive <- function(x_name = ".*",
@@ -750,7 +749,7 @@ sbf_load_plots_recursive <- function(x_name = ".*",
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_load_tables_recursive
-#' @inheritParams load_rdss_recursive
+#' @inheritParams params
 #' @family load functions
 #' @export
 sbf_load_plots_data_recursive <- function(x_name = ".*",
@@ -782,7 +781,7 @@ sbf_load_plots_data_recursive <- function(x_name = ".*",
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_load_tables_recursive
-#' @inheritParams load_rdss_recursive
+#' @inheritParams params
 #' @family load functions
 #' @export
 sbf_load_windows_recursive <- function(x_name = ".*",
