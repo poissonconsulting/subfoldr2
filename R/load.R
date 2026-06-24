@@ -451,12 +451,10 @@ load_rdss_recursive <- function(x_name = ".*",
   if (length(drop) > 0) {
     drop <- purrr::map_lgl(path_split(files), \(x) length(intersect(x, drop)) > 0)
     dropped <- files[drop]
-    dropped_dirs <- unique(gsub("/[^/]*$", "", dropped))
     files <- files[!drop]
     if (any(drop)) {
       if (!quiet) {
-        cli::cli_inform(c("Dropped:",
-                          setNames(names(dropped), rep("!", sum(drop)))))
+        cli::cli_inform(c("Dropped:", setNames(dropped, rep("!", sum(drop)))))
       }
     } else {
       cli::cli_warn("No files or folders matched `drop`, so no files were dropped.")
