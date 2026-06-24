@@ -385,6 +385,8 @@ sbf_load_datas_from_db <- function(db_name = sbf_get_db_name(),
 #' @inheritParams params
 #' @param ext Extension of the files (`".rds"` by default)
 #' @param fun function to apply to the object after import (`NULL` by default)
+#' @param quiet A flag indicating whether messages should be silenced.
+#' Warnings are still returned regardless.
 #' @return a tibble of the loaded objects
 #' @family load functions
 #' @keywords internal
@@ -397,7 +399,8 @@ load_rdss_recursive <- function(x_name = ".*",
                                 meta = FALSE,
                                 drop = NULL,
                                 fun = NULL,
-                                ext = "rds") {
+                                ext = "rds",
+                                quiet = FALSE) {
   chk_string(x_name)
   chk_character(sub)
   chk_range(length(sub))
@@ -407,6 +410,7 @@ load_rdss_recursive <- function(x_name = ".*",
   chk_flag(meta)
   chk_null_or(drop, vld = vld_character)
   chk_character(ext)
+  chk_flag(quiet)
 
   if(!is.null(drop)) {
     chk::chk_not_any_na(drop)
@@ -451,9 +455,11 @@ load_rdss_recursive <- function(x_name = ".*",
     dropped <- files[drop]
     dropped_dirs <- unique(gsub("/[^/]*$", "", dropped))
     files <- files[!drop]
-    if(any(drop)) {
-      cli::cli_inform(c("Dropped:",
-                        setNames(names(dropped), rep("!", sum(drop)))))
+    if (any(drop)) {
+      if (!quiet) {
+        cli::cli_inform(c("Dropped:",
+                          setNames(names(dropped), rep("!", sum(drop)))))
+      }
     } else {
       cli::cli_warn("No files or folders matched `drop`, so no files were dropped.")
     }
@@ -529,6 +535,7 @@ subs_rds_recursive <- function(x_name,
 #' and sub folders (named sub1, sub2 etc).
 #' @inheritParams sbf_save_object
 #' @inheritParams params
+#' @inheritParams load_rdss_recursive
 #' @param x_name A string of the regular expression to match.
 #' @param include_root A flag indicating whether to include objects in the top
 #' sub folder.
@@ -538,10 +545,11 @@ sbf_load_objects_recursive <- function(x_name = ".*",
                                        sub = sbf_get_sub(),
                                        main = sbf_get_main(),
                                        include_root = TRUE,
-                                       drop = NULL) {
+                                       drop = NULL,
+                                       quiet = FALSE) {
   load_rdss_recursive(x_name, "objects",
                       sub = sub, main = main,
-                      include_root = include_root, drop = drop
+                      include_root = include_root, drop = drop, quiet = quiet
   )
 }
 
@@ -554,16 +562,19 @@ sbf_load_objects_recursive <- function(x_name = ".*",
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
+#' @inheritParams load_rdss_recursive
 #' @family load functions
 #' @export
 sbf_load_datas_recursive <- function(x_name = ".*",
                                      sub = sbf_get_sub(),
                                      main = sbf_get_main(),
                                      include_root = TRUE,
-                                     drop = NULL) {
+                                     drop = NULL,
+                                     quiet = FALSE) {
   data <- load_rdss_recursive(x_name, "data",
                               sub = sub, main = main,
-                              include_root = include_root, drop = drop
+                              include_root = include_root, drop = drop,
+                              quiet = quiet
   )
   data
 }
@@ -577,6 +588,7 @@ sbf_load_datas_recursive <- function(x_name = ".*",
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
+#' @inheritParams load_rdss_recursive
 #' @param tag A string of the regular expression that the tag must match to be
 #' included.
 #' @param meta A flag specifying whether to include the report, caption and any
@@ -589,11 +601,12 @@ sbf_load_numbers_recursive <- function(x_name = ".*",
                                        include_root = TRUE,
                                        tag = ".*",
                                        meta = FALSE,
-                                       drop = NULL) {
+                                       drop = NULL,
+                                       quiet = FALSE) {
   data <- load_rdss_recursive(x_name, "numbers",
                               sub = sub, main = main,
                               include_root = include_root, tag = tag,
-                              meta = meta, drop = drop
+                              meta = meta, drop = drop, quiet = quiet
   )
   data[1] <- unname(unlist(data[1]))
   data
@@ -608,6 +621,7 @@ sbf_load_numbers_recursive <- function(x_name = ".*",
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
+#' @inheritParams load_rdss_recursive
 #' @param tag A string of the regular expression that the tag must match to be
 #' included.
 #' @param meta A flag specifying whether to include the report, caption and any
@@ -620,11 +634,12 @@ sbf_load_strings_recursive <- function(x_name = ".*",
                                        include_root = TRUE,
                                        tag = ".*",
                                        meta = FALSE,
-                                       drop = NULL) {
+                                       drop = NULL,
+                                       quiet = FALSE) {
   data <- load_rdss_recursive(x_name, "strings",
                               sub = sub, main = main,
                               include_root = include_root, tag = tag,
-                              meta = meta, drop = drop
+                              meta = meta, drop = drop, quiet = quiet
   )
   if (nrow(data)) {
     data[1] <- unname(unlist(data[1]))
@@ -643,6 +658,7 @@ sbf_load_strings_recursive <- function(x_name = ".*",
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
+#' @inheritParams load_rdss_recursive
 #' @param tag A string of the regular expression that the tag must match to be
 #' included.
 #' @param meta A flag specifying whether to include the report, caption and any
@@ -655,11 +671,12 @@ sbf_load_tables_recursive <- function(x_name = ".*",
                                       include_root = TRUE,
                                       tag = ".*",
                                       meta = FALSE,
-                                      drop = NULL) {
+                                      drop = NULL,
+                                      quiet = FALSE) {
   load_rdss_recursive(x_name, "tables",
                       sub = sub, main = main,
                       include_root = include_root, tag = tag, meta = meta,
-                      drop = drop
+                      drop = drop, quiet = quiet
   )
 }
 
@@ -674,6 +691,7 @@ sbf_load_tables_recursive <- function(x_name = ".*",
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_load_tables_recursive
+#' @inheritParams load_rdss_recursive
 #' @family load functions
 #' @export
 sbf_load_blocks_recursive <- function(x_name = ".*",
@@ -682,11 +700,12 @@ sbf_load_blocks_recursive <- function(x_name = ".*",
                                       include_root = TRUE,
                                       tag = ".*",
                                       meta = FALSE,
-                                      drop = NULL) {
+                                      drop = NULL,
+                                      quiet = FALSE) {
   data <- load_rdss_recursive(x_name, "blocks",
                               sub = sub, main = main,
                               include_root = include_root, tag = tag,
-                              meta = meta, drop = drop
+                              meta = meta, drop = drop, quiet = quiet
   )
   data[1] <- unname(unlist(data[1]))
   data
@@ -702,6 +721,7 @@ sbf_load_blocks_recursive <- function(x_name = ".*",
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_load_tables_recursive
+#' @inheritParams load_rdss_recursive
 #' @family load functions
 #' @export
 sbf_load_plots_recursive <- function(x_name = ".*",
@@ -710,11 +730,12 @@ sbf_load_plots_recursive <- function(x_name = ".*",
                                      include_root = TRUE,
                                      tag = ".*",
                                      meta = FALSE,
-                                     drop = NULL) {
+                                     drop = NULL,
+                                     quiet = FALSE) {
   load_rdss_recursive(x_name, "plots",
                       sub = sub, main = main,
                       include_root = include_root, tag = tag, meta = meta,
-                      drop = drop
+                      drop = drop, quiet = quiet
   )
 }
 
@@ -729,6 +750,7 @@ sbf_load_plots_recursive <- function(x_name = ".*",
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_load_tables_recursive
+#' @inheritParams load_rdss_recursive
 #' @family load functions
 #' @export
 sbf_load_plots_data_recursive <- function(x_name = ".*",
@@ -737,12 +759,13 @@ sbf_load_plots_data_recursive <- function(x_name = ".*",
                                           include_root = TRUE,
                                           tag = ".*",
                                           meta = FALSE,
-                                          drop = NULL) {
+                                          drop = NULL,
+                                          quiet = FALSE) {
   data <- load_rdss_recursive(x_name, "plots",
                               sub = sub, main = main,
                               include_root = include_root, tag = tag,
                               meta = meta, fun = get_plot_data,
-                              drop = drop
+                              drop = drop, quiet = quiet
   )
   names(data)[1] <- "plots_data"
   data
@@ -759,6 +782,7 @@ sbf_load_plots_data_recursive <- function(x_name = ".*",
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
 #' @inheritParams sbf_load_tables_recursive
+#' @inheritParams load_rdss_recursive
 #' @family load functions
 #' @export
 sbf_load_windows_recursive <- function(x_name = ".*",
@@ -767,11 +791,13 @@ sbf_load_windows_recursive <- function(x_name = ".*",
                                        include_root = TRUE,
                                        tag = ".*",
                                        meta = FALSE,
-                                       drop = NULL) {
+                                       drop = NULL,
+                                       quiet = FALSE) {
   data <- load_rdss_recursive(x_name, "windows",
                               sub = sub, main = main,
                               include_root = include_root, tag = tag,
-                              meta = meta, ext = c("yaml", "rda"), drop = drop
+                              meta = meta, ext = c("yaml", "rda"), drop = drop,
+                              quiet = quiet
   )
   data$file <- replace_ext(data$file, "png")
   data$windows <- data$file

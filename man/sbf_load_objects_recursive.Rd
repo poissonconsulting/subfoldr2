@@ -9,7 +9,8 @@ sbf_load_objects_recursive(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   include_root = TRUE,
-  drop = NULL
+  drop = NULL,
+  quiet = FALSE
 )
 }
 \arguments{
@@ -26,6 +27,9 @@ sub folder.}
 
 \item{drop}{A character vector specifying the names of sub folders
 and files to drop or \code{NULL} (the default).}
+
+\item{quiet}{A flag indicating whether messages should be silenced.
+Warnings are still returned regardless.}
 }
 \description{
 Recursively loads all the objects with names matching the regular expression

@@ -14,7 +14,8 @@ load_rdss_recursive(
   meta = FALSE,
   drop = NULL,
   fun = NULL,
-  ext = "rds"
+  ext = "rds",
+  quiet = FALSE
 )
 }
 \arguments{
@@ -43,6 +44,9 @@ and files to drop or \code{NULL} (the default).}
 \item{fun}{function to apply to the object after import (\code{NULL} by default)}
 
 \item{ext}{Extension of the files (\code{".rds"} by default)}
+
+\item{quiet}{A flag indicating whether messages should be silenced.
+Warnings are still returned regardless.}
 }
 \value{
 a tibble of the loaded objects

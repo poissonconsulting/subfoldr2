@@ -11,7 +11,8 @@ sbf_load_numbers_recursive(
   include_root = TRUE,
   tag = ".*",
   meta = FALSE,
-  drop = NULL
+  drop = NULL,
+  quiet = FALSE
 )
 }
 \arguments{
@@ -34,6 +35,9 @@ other metadata as columns.}
 
 \item{drop}{A character vector specifying the names of sub folders
 and files to drop or \code{NULL} (the default).}
+
+\item{quiet}{A flag indicating whether messages should be silenced.
+Warnings are still returned regardless.}
 }
 \description{
 Recursively loads all the numbers with names matching the regular expression
