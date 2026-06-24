@@ -1510,7 +1510,7 @@ test_that("load_rdss_recursive() informs user on which folders were dropped.", {
     c("t1", "t2", "t3", "t4", "t1", "t2", "t3", "t4", "t1", "t2", "t3", "t4")
   )
   
-  expect_snapshot( # to deal with multiline warning
+  expect_snapshot( # to deal with multiline message
     expect_identical(
       sbf_load_tables_recursive(drop = "t1")$name,
       c("t2", "t3", "t4", "t2", "t3", "t4", "t2", "t3", "t4")
@@ -1553,8 +1553,6 @@ test_that("load_rdss_recursive() informs user on which folders were dropped.", {
         sbf_load_tables_recursive(drop = c("sub1", "sub2"))
       )),
     1L * 4L)
-  
-  sbf_load_tables(main = sbf_get_main(), sub = "sub1")
 })
 
 test_that("save table glue", {
