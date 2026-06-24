@@ -2,7 +2,7 @@
 % Please edit documentation in R/load.R
 \name{load_rdss_recursive}
 \alias{load_rdss_recursive}
-\title{Load RDS files as List Column in Data Frame}
+\title{Load RDS files as List Column in tibble}
 \usage{
 load_rdss_recursive(
   x_name = ".*",
@@ -14,7 +14,8 @@ load_rdss_recursive(
   meta = FALSE,
   drop = NULL,
   fun = NULL,
-  ext = "rds"
+  ext = "rds",
+  quiet = FALSE
 )
 }
 \arguments{
@@ -43,12 +44,15 @@ and files to drop or \code{NULL} (the default).}
 \item{fun}{function to apply to the object after import (\code{NULL} by default)}
 
 \item{ext}{Extension of the files (\code{".rds"} by default)}
+
+\item{quiet}{A flag indicating whether messages should be silenced.
+Warnings are still returned regardless.}
 }
 \value{
 a tibble of the loaded objects
 }
 \description{
-\strong{NOTE}: Currently only an internal function and not tested.
+Load RDS files as list column in a tibble.
 }
 \details{
 Recursively loads all RDS files with names matching the regular expression

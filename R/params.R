@@ -8,9 +8,11 @@
 #' A string is a non-missing character scalar.
 #
 #' @inheritParams rlang::args_dots_empty
+## add parameter descriptions here
 #' @param drop A character vector specifying the names of sub folders 
 #' and files to drop or `NULL` (the default).
-## add parameter descriptions here
+#' @param quiet A flag indicating whether messages should be silenced.
+#' Warnings are still returned regardless.
 #' @keywords internal
 #' @aliases parameters arguments args
 #' @usage NULL

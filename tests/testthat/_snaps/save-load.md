@@ -18,6 +18,12 @@
 
     Code
       out <- sbf_load_plots_recursive(main = temp_dir, drop = "sub")
+    Message
+      Dropped:
+      ! sub/plot-1
+      ! sub/plot-2
+      ! sub/plot-3
+    Code
       out$file <- NULL
       out
     Output
@@ -26,6 +32,65 @@
         <list>     <chr>  <chr>
       1 <ggplt2::> plot-2 sub2 
       2 <ggplt2::> plot-3 sub3 
+
+# load_rdss_recursive() informs user on which folders were dropped.
+
+    Code
+      expect_identical(sbf_load_tables_recursive(drop = "t1")$name, c("t2", "t3",
+        "t4", "t2", "t3", "t4", "t2", "t3", "t4"))
+    Message
+      Dropped:
+      ! sub1/t1
+      ! sub2/t1
+      ! sub3/t1
+
+---
+
+    Code
+      sbf_load_tables_recursive(drop = "sub1") %>% dplyr::mutate(file = gsub(
+        ".*tables.", "", file))
+    Message
+      Dropped:
+      ! sub1/t1
+      ! sub1/t2
+      ! sub1/t3
+      ! sub1/t4
+    Output
+      # A tibble: 8 x 4
+        tables       name  sub   file       
+        <list>       <chr> <chr> <chr>      
+      1 <df [1 x 1]> t1    sub2  sub2/t1.rds
+      2 <df [1 x 1]> t2    sub2  sub2/t2.rds
+      3 <df [1 x 1]> t3    sub2  sub2/t3.rds
+      4 <df [1 x 1]> t4    sub2  sub2/t4.rds
+      5 <df [1 x 1]> t1    sub3  sub3/t1.rds
+      6 <df [1 x 1]> t2    sub3  sub3/t2.rds
+      7 <df [1 x 1]> t3    sub3  sub3/t3.rds
+      8 <df [1 x 1]> t4    sub3  sub3/t4.rds
+
+---
+
+    Code
+      sbf_load_tables_recursive(drop = c("sub1", "sub2")) %>% dplyr::mutate(file = gsub(
+        ".*tables.", "", file))
+    Message
+      Dropped:
+      ! sub1/t1
+      ! sub1/t2
+      ! sub1/t3
+      ! sub1/t4
+      ! sub2/t1
+      ! sub2/t2
+      ! sub2/t3
+      ! sub2/t4
+    Output
+      # A tibble: 4 x 4
+        tables       name  sub   file       
+        <list>       <chr> <chr> <chr>      
+      1 <df [1 x 1]> t1    sub3  sub3/t1.rds
+      2 <df [1 x 1]> t2    sub3  sub3/t2.rds
+      3 <df [1 x 1]> t3    sub3  sub3/t3.rds
+      4 <df [1 x 1]> t4    sub3  sub3/t4.rds
 
 # `sbf_load_numbers_recursive()` drops based on file name.
 

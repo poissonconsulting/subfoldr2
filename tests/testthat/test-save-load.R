@@ -1179,8 +1179,10 @@ test_that("`sbf_load_plots_recursive()` loads all possible plots when `drop = NU
   expect_equal(input$plots[[2]]@labels$title, p2@labels$title)
   expect_equal(input$plots[[3]]@labels$title, p3@labels$title)
   
-  input <- sbf_load_plots_recursive(sub = "sub", main = temp_dir,
-                                    drop = "")
+  expect_warning({
+    input <- sbf_load_plots_recursive(sub = "sub", main = temp_dir,
+                                      drop = "")
+  }, "No files or folders matched `drop`, so no files were dropped.")
   
   expect_equal(nrow(input), 3L)
   expect_s3_class(input$plots[[1]], "ggplot")
@@ -1290,9 +1292,11 @@ test_that("sbf_load_plots_recursive() fails if at least one sub is populated and
   dir.create(paste0(sbf_get_main(), '/plots/sub'), recursive = TRUE)
   
   # succeeds because the "sub" sub is empty
-  expect_equal(sbf_load_plots_recursive(main = temp_dir, drop = "sub"),
-               tibble(plots = list(), name = character(0),
-                      sub = character(0), file = character(0)))
+  expect_warning({
+    expect_equal(sbf_load_plots_recursive(main = temp_dir, drop = "sub"),
+                 tibble(plots = list(), name = character(0),
+                        sub = character(0), file = character(0)))
+  }, "No files found, so no files were dropped.")
   
   sbf_save_plot(x = p1, x_name = "plot-1", sub = "sub", main = temp_dir)
   expect_equal(sbf_load_plots_recursive(sub = "", main = temp_dir, drop = "sub"),
@@ -1479,6 +1483,86 @@ test_that("load_rdss_recursive() lists non-rds files without reading them", {
   expect_identical(nrow(data), 2L)
   expect_identical(data$name, c("x", "x2"))
   expect_identical(data$tables, list(NULL, NULL))
+})
+
+test_that("load_rdss_recursive() informs user on which folders were dropped.", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+  
+  expect_warning(
+    sbf_load_tables_recursive(drop = "bad-dir"),
+    "No files found, so no files were dropped\\."
+  )
+  
+  for (i in 1:3) {
+    for (j in 1:4) {
+      sbf_save_table(data.frame(z = i), x_name = p0("t", j), sub = p0("sub", i),
+                     caption = "cap")
+    }
+  }
+  
+  expect_identical(
+    list.files(file.path(sbf_get_main(), "tables"), pattern = "rds", recursive = TRUE),
+    c("sub1/t1.rds", "sub1/t2.rds", "sub1/t3.rds", "sub1/t4.rds",
+      "sub2/t1.rds", "sub2/t2.rds", "sub2/t3.rds", "sub2/t4.rds",
+      "sub3/t1.rds", "sub3/t2.rds", "sub3/t3.rds", "sub3/t4.rds")
+  )
+  
+  expect_identical(
+    sbf_load_tables_recursive()$name,
+    c("t1", "t2", "t3", "t4", "t1", "t2", "t3", "t4", "t1", "t2", "t3", "t4")
+  )
+  
+  expect_snapshot( # to deal with multiline message
+    expect_identical(
+      sbf_load_tables_recursive(drop = "t1")$name,
+      c("t2", "t3", "t4", "t2", "t3", "t4", "t2", "t3", "t4")
+    )
+  )
+  
+  expect_message(sbf_load_tables_recursive(drop = "t1"))
+  expect_no_message(sbf_load_tables_recursive(drop = "t1", quiet = TRUE))
+  expect_warning(sbf_load_tables_recursive(drop = "fake-dir", quiet = TRUE),
+                 "No files or folders matched `drop`, so no files were dropped\\.")
+  
+  expect_identical(
+    suppressMessages(sbf_load_tables_recursive(drop = c("t1", "t2"))),
+    suppressMessages(sbf_load_tables_recursive(drop = c("t2", "t1"))),
+  )
+  
+  # none dropped because the files are searched for within "output/tables"
+  expect_warning(
+    sbf_load_tables_recursive(drop = "tables"),
+    "No files or folders matched `drop`, so no files were dropped\\."
+  )
+  
+  # none dropped because "sub" != "sub\d"
+  expect_warning(
+    sbf_load_tables_recursive(drop = "sub"),
+    "No files or folders matched `drop`, so no files were dropped\\."
+  )
+  
+  expect_snapshot(
+    sbf_load_tables_recursive(drop = "sub1") %>%
+      dplyr::mutate(file = gsub(".*tables.", "", file))
+    )
+  expect_message(sbf_load_tables_recursive(drop = "sub1"))
+  expect_identical(
+    nrow(suppressMessages(sbf_load_tables_recursive(drop = "sub1"))),
+    2L * 4L)
+  
+  expect_snapshot(
+    sbf_load_tables_recursive(drop = c("sub1", "sub2")) %>%
+      dplyr::mutate(file = gsub(".*tables.", "", file))
+  )
+  expect_message(sbf_load_tables_recursive(drop = c("sub1", "sub2")))
+  expect_identical(
+    nrow(
+      suppressMessages(
+        sbf_load_tables_recursive(drop = c("sub1", "sub2"))
+      )),
+    1L * 4L)
 })
 
 test_that("save table glue", {
@@ -2231,7 +2315,9 @@ test_that("`sbf_load_numbers_recursive()` drops only exact matches.", {
   expect_snapshot(numbers_one)
 
   ## doesn't recognize regular expressions so keeps all
-  numbers_dotone <- sbf_load_numbers_recursive(drop = ".*one")
+  expect_warning({
+    numbers_dotone <- sbf_load_numbers_recursive(drop = ".*one")
+  }, "No files or folders matched `drop`, so no files were dropped.")
   numbers_dotone$file <- NULL
 
   expect_snapshot(numbers_dotone)
@@ -2384,26 +2470,28 @@ test_that("notes column tolerates legacy metadata without notes", {
 })
 
 test_that("notes argument is saved for numbers and strings", {
-  sbf_save_number(1, x_name = "n", notes = "num note")
-  sbf_save_string("s", x_name = "s", notes = "str note")
-
-  num_meta <- yaml::read_yaml(file.path(sbf_get_main(), "numbers", "n.yaml"))
-  expect_identical(num_meta, list(report = TRUE, tag = "", notes = "num note"))
-
-  str_meta <- yaml::read_yaml(file.path(sbf_get_main(), "strings", "s.yaml"))
-  expect_identical(str_meta, list(report = TRUE, tag = "", notes = "str note"))
-
-  expect_identical(sbf_load_numbers_recursive(meta = TRUE)$notes, "num note")
-  expect_identical(sbf_load_strings_recursive(meta = TRUE)$notes, "str note")
-
-  expect_error(
-    sbf_save_number(1, x_name = "n2", notes = 1),
-    "`notes` must be a string \\(non-missing character scalar\\)"
-  )
-  expect_error(
-    sbf_save_string("s", x_name = "s2", notes = 1),
-    "`notes` must be a string \\(non-missing character scalar\\)"
-  )
+  withr::with_tempdir({
+    sbf_save_number(1, x_name = "n", notes = "num note")
+    sbf_save_string("s", x_name = "s", notes = "str note")
+    
+    num_meta <- yaml::read_yaml(file.path(sbf_get_main(), "numbers", "n.yaml"))
+    expect_identical(num_meta, list(report = TRUE, tag = "", notes = "num note"))
+    
+    str_meta <- yaml::read_yaml(file.path(sbf_get_main(), "strings", "s.yaml"))
+    expect_identical(str_meta, list(report = TRUE, tag = "", notes = "str note"))
+    
+    expect_identical(sbf_load_numbers_recursive(meta = TRUE)$notes, "num note")
+    expect_identical(sbf_load_strings_recursive(meta = TRUE)$notes, "str note")
+    
+    expect_error(
+      sbf_save_number(1, x_name = "n2", notes = 1),
+      "`notes` must be a string \\(non-missing character scalar\\)"
+    )
+    expect_error(
+      sbf_save_string("s", x_name = "s2", notes = 1),
+      "`notes` must be a string \\(non-missing character scalar\\)"
+    )
+  })
 })
 
  test_that("drop_uninformative_cols is being soft-deprecated with a warning.", {
