@@ -329,7 +329,7 @@ test_that("data", {
   
   expect_error(sbf_save_data(), "argument \"x\" is missing, with no default")
   expect_error(sbf_save_data(y),
-               "^`x` must inherit from S3 class 'data.frame'[.]$",
+               "^`x` must inherit from S3 class 'data.frame', not S3 class 'numeric'[.]$",
                class = "chk_error"
   )
   x <- data.frame(x = 1)
