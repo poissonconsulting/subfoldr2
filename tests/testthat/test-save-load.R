@@ -1566,6 +1566,7 @@ test_that("load_rdss_recursive() informs user on which folders were dropped.", {
         sbf_load_tables_recursive(drop = c("sub1", "sub2"))
       )),
     1L * 4L)
+  options(sbf.list.dropped = FALSE)
 })
 
 test_that("save table glue", {
