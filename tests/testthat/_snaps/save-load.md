@@ -18,12 +18,6 @@
 
     Code
       out <- sbf_load_plots_recursive(main = temp_dir, drop = "sub")
-    Message
-      Dropped:
-      ! sub/plot-1
-      ! sub/plot-2
-      ! sub/plot-3
-    Code
       out$file <- NULL
       out
     Output
