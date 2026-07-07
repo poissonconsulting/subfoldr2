@@ -1,3 +1,5 @@
+options(sbf.list.dropped = FALSE)
+
 test_that("object", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
@@ -1486,6 +1488,7 @@ test_that("load_rdss_recursive() lists non-rds files without reading them", {
 })
 
 test_that("load_rdss_recursive() informs user on which folders were dropped.", {
+  options(sbf.list.dropped = TRUE)
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())

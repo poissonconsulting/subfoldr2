@@ -398,7 +398,7 @@ load_rdss_recursive <- function(x_name = ".*",
                                 drop = NULL,
                                 fun = NULL,
                                 ext = "rds",
-                                quiet = FALSE) {
+                                quiet = !getOption("sbf.list.dropped", TRUE)) {
   chk_string(x_name)
   chk_character(sub)
   chk_range(length(sub))
@@ -542,7 +542,7 @@ sbf_load_objects_recursive <- function(x_name = ".*",
                                        main = sbf_get_main(),
                                        include_root = TRUE,
                                        drop = NULL,
-                                       quiet = FALSE) {
+                                       quiet = !getOption("sbf.list.dropped", TRUE)) {
   load_rdss_recursive(x_name, "objects",
                       sub = sub, main = main,
                       include_root = include_root, drop = drop, quiet = quiet
@@ -566,7 +566,7 @@ sbf_load_datas_recursive <- function(x_name = ".*",
                                      main = sbf_get_main(),
                                      include_root = TRUE,
                                      drop = NULL,
-                                     quiet = FALSE) {
+                                     quiet = !getOption("sbf.list.dropped", TRUE)) {
   data <- load_rdss_recursive(x_name, "data",
                               sub = sub, main = main,
                               include_root = include_root, drop = drop,
@@ -598,7 +598,7 @@ sbf_load_numbers_recursive <- function(x_name = ".*",
                                        tag = ".*",
                                        meta = FALSE,
                                        drop = NULL,
-                                       quiet = FALSE) {
+                                       quiet = !getOption("sbf.list.dropped", TRUE)) {
   data <- load_rdss_recursive(x_name, "numbers",
                               sub = sub, main = main,
                               include_root = include_root, tag = tag,
@@ -631,7 +631,7 @@ sbf_load_strings_recursive <- function(x_name = ".*",
                                        tag = ".*",
                                        meta = FALSE,
                                        drop = NULL,
-                                       quiet = FALSE) {
+                                       quiet = !getOption("sbf.list.dropped", TRUE)) {
   data <- load_rdss_recursive(x_name, "strings",
                               sub = sub, main = main,
                               include_root = include_root, tag = tag,
@@ -669,7 +669,7 @@ sbf_load_tables_recursive <- function(x_name = ".*",
                                       tag = ".*",
                                       meta = FALSE,
                                       drop = NULL,
-                                      quiet = FALSE) {
+                                      quiet = !getOption("sbf.list.dropped", TRUE)) {
   load_rdss_recursive(x_name, "tables",
                       sub = sub, main = main,
                       include_root = include_root, tag = tag, meta = meta,
@@ -698,7 +698,7 @@ sbf_load_blocks_recursive <- function(x_name = ".*",
                                       tag = ".*",
                                       meta = FALSE,
                                       drop = NULL,
-                                      quiet = FALSE) {
+                                      quiet = !getOption("sbf.list.dropped", TRUE)) {
   data <- load_rdss_recursive(x_name, "blocks",
                               sub = sub, main = main,
                               include_root = include_root, tag = tag,
@@ -728,7 +728,7 @@ sbf_load_plots_recursive <- function(x_name = ".*",
                                      tag = ".*",
                                      meta = FALSE,
                                      drop = NULL,
-                                     quiet = FALSE) {
+                                     quiet = !getOption("sbf.list.dropped", TRUE)) {
   load_rdss_recursive(x_name, "plots",
                       sub = sub, main = main,
                       include_root = include_root, tag = tag, meta = meta,
@@ -757,7 +757,7 @@ sbf_load_plots_data_recursive <- function(x_name = ".*",
                                           tag = ".*",
                                           meta = FALSE,
                                           drop = NULL,
-                                          quiet = FALSE) {
+                                          quiet = !getOption("sbf.list.dropped", TRUE)) {
   data <- load_rdss_recursive(x_name, "plots",
                               sub = sub, main = main,
                               include_root = include_root, tag = tag,
@@ -789,7 +789,7 @@ sbf_load_windows_recursive <- function(x_name = ".*",
                                        tag = ".*",
                                        meta = FALSE,
                                        drop = NULL,
-                                       quiet = FALSE) {
+                                       quiet = !getOption("sbf.list.dropped", TRUE)) {
   data <- load_rdss_recursive(x_name, "windows",
                               sub = sub, main = main,
                               include_root = include_root, tag = tag,
