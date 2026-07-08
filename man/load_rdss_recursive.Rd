@@ -15,7 +15,7 @@ load_rdss_recursive(
   drop = NULL,
   fun = NULL,
   ext = "rds",
-  quiet = !getOption("sbf.list.dropped", TRUE)
+  quiet = !getOption("sbf.quiet", TRUE)
 )
 }
 \arguments{
@@ -47,7 +47,7 @@ and files to drop or \code{NULL} (the default).}
 
 \item{quiet}{A flag indicating whether messages should be silenced.
 Warnings are still returned regardless.
-Can be set globally using the option \code{sbf.list.dropped}.}
+Can be set globally using the option \code{sbf.quiet}.}
 }
 \value{
 a tibble of the loaded objects

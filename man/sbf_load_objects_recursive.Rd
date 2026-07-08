@@ -10,7 +10,7 @@ sbf_load_objects_recursive(
   main = sbf_get_main(),
   include_root = TRUE,
   drop = NULL,
-  quiet = !getOption("sbf.list.dropped", TRUE)
+  quiet = !getOption("sbf.quiet", TRUE)
 )
 }
 \arguments{
@@ -30,7 +30,7 @@ and files to drop or \code{NULL} (the default).}
 
 \item{quiet}{A flag indicating whether messages should be silenced.
 Warnings are still returned regardless.
-Can be set globally using the option \code{sbf.list.dropped}.}
+Can be set globally using the option \code{sbf.quiet}.}
 }
 \description{
 Recursively loads all the objects with names matching the regular expression

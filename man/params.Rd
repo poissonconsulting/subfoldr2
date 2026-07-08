@@ -14,7 +14,7 @@ and files to drop or \code{NULL} (the default).}
 
 \item{quiet}{A flag indicating whether messages should be silenced.
 Warnings are still returned regardless.
-Can be set globally using the option \code{sbf.list.dropped}.}
+Can be set globally using the option \code{sbf.quiet}.}
 }
 \description{
 Default parameter descriptions which may be overridden in individual

@@ -13,7 +13,7 @@
 #' and files to drop or `NULL` (the default).
 #' @param quiet A flag indicating whether messages should be silenced.
 #' Warnings are still returned regardless.
-#' Can be set globally using the option `sbf.list.dropped`.
+#' Can be set globally using the option `sbf.quiet`.
 #' @keywords internal
 #' @aliases parameters arguments args
 #' @usage NULL

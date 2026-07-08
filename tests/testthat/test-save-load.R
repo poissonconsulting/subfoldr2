@@ -1,4 +1,4 @@
-options(sbf.list.dropped = FALSE)
+options(sbf.quiet = FALSE)
 
 test_that("object", {
   sbf_reset()
@@ -1488,7 +1488,7 @@ test_that("load_rdss_recursive() lists non-rds files without reading them", {
 })
 
 test_that("load_rdss_recursive() informs user on which folders were dropped.", {
-  options(sbf.list.dropped = TRUE)
+  options(sbf.quiet = TRUE)
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
@@ -1566,7 +1566,7 @@ test_that("load_rdss_recursive() informs user on which folders were dropped.", {
         sbf_load_tables_recursive(drop = c("sub1", "sub2"))
       )),
     1L * 4L)
-  options(sbf.list.dropped = FALSE)
+  options(sbf.quiet = FALSE)
 })
 
 test_that("save table glue", {
