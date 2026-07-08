@@ -20,8 +20,10 @@ By default files are saved to `output` unless overridden using
 [`sbf_set_main()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_set_main.md)
 which can take a relative or absolute path.
 
-``` R
+``` r
+
 library(subfoldr2)
+#> Warning: package 'subfoldr2' was built under R version 4.6.1
 sbf_set_main(tempdir(), "output")
 ```
 
@@ -34,7 +36,8 @@ An R object can be written using
 and read using
 [`sbf_load_object()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_object.md).
 
-``` R
+``` r
+
 x <- 1
 sbf_save_object(x)
 sbf_load_object("x")
@@ -44,10 +47,10 @@ sbf_load_object("x")
 All R objects are saved as `.rds` files in folder `objects` (in the main
 folder).
 
-``` R
+``` r
+
 list.files(sbf_get_main(), recursive = TRUE)
-#>  [1] "data/data2.rds"  "data/df.rds"     "numbers/x.csv"   "numbers/x.rds"   "numbers/x3.csv"  "numbers/x3.rds"  "objects/x.rds"  
-#>  [8] "strings/chr.rda" "strings/chr.rds" "strings/chr.txt"
+#> [1] "objects/x.rds"
 ```
 
 ### Subfolders
@@ -58,17 +61,16 @@ using
 or the `sub = sbf_get_sub()` argument of
 [`sbf_save_object()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_object.md).
 
-``` R
+``` r
+
 sbf_set_sub("times2")
 x <- x * 2
 sbf_save_object(x)
 sbf_save_object(x * 3, x_name = "x3", sub = "times2/times3")
 sbf_save_object(data.frame(), x_name = "df", sub = "times2/times3")
 list.files(sbf_get_main(), recursive = TRUE)
-#>  [1] "data/data2.rds"               "data/df.rds"                  "numbers/x.csv"                "numbers/x.rds"               
-#>  [5] "numbers/x3.csv"               "numbers/x3.rds"               "objects/times2/times3/df.rds" "objects/times2/times3/x3.rds"
-#>  [9] "objects/times2/x.rds"         "objects/x.rds"                "strings/chr.rda"              "strings/chr.rds"             
-#> [13] "strings/chr.txt"
+#> [1] "objects/times2/times3/df.rds" "objects/times2/times3/x3.rds"
+#> [3] "objects/times2/x.rds"         "objects/x.rds"
 ```
 
 ### Loading Multiple Objects
@@ -80,19 +82,20 @@ or recursively load all the objects as a list column in a data frame
 using
 [`sbf_load_objects_recursive()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_objects_recursive.md).
 
-``` R
+``` r
+
 print(sbf_set_sub("times2", "times3"))
 #> [1] "times2/times3"
 sbf_load_objects()
 ls()
-#> [1] "chr"   "data2" "df"    "vec"   "x"     "x3"
+#> [1] "df" "x"  "x3"
 sbf_load_objects_recursive(sub = "times2")
 #> # A tibble: 3 × 4
-#>   objects      name  sub      file                                                                                           
-#>   <list>       <chr> <chr>    <chr>                                                                                          
-#> 1 <df [0 × 0]> df    "times3" /var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/RtmpwTf1sn/output/objects/times2/times3/df.rds
-#> 2 <dbl [1]>    x3    "times3" /var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/RtmpwTf1sn/output/objects/times2/times3/x3.rds
-#> 3 <dbl [1]>    x     ""       /var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/RtmpwTf1sn/output/objects/times2/x.rds
+#>   objects      name  sub      file                                              
+#>   <list>       <chr> <chr>    <chr>                                             
+#> 1 <df [0 × 0]> df    "times3" /var/folders/wm/nrx2jrjj4w9by90n6p29bps80000gn/T/…
+#> 2 <dbl [1]>    x3    "times3" /var/folders/wm/nrx2jrjj4w9by90n6p29bps80000gn/T/…
+#> 3 <dbl [1]>    x     ""       /var/folders/wm/nrx2jrjj4w9by90n6p29bps80000gn/T/…
 ```
 
 ### Deleting Subfolders
@@ -101,11 +104,11 @@ To recursively delete a sub folder call
 [`sbf_set_sub()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_set_sub.md)
 with `rm = TRUE`.
 
-``` R
+``` r
+
 sbf_set_sub("times2", rm = TRUE, ask = FALSE)
 list.files(sbf_get_main(), recursive = TRUE)
-#>  [1] "data/data2.rds"  "data/df.rds"     "numbers/x.csv"   "numbers/x.rds"   "numbers/x3.csv"  "numbers/x3.rds"  "objects/x.rds"  
-#>  [8] "strings/chr.rda" "strings/chr.rds" "strings/chr.txt"
+#> [1] "objects/x.rds"
 ```
 
 ### Saving Multiple Objects
@@ -114,15 +117,14 @@ All the objects in the calling environment can be saved to the current
 subdirectory using
 [`sbf_save_objects()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_objects.md).
 
-``` R
+``` r
+
 ls()
-#> [1] "chr"   "data2" "df"    "vec"   "x"     "x3"
+#> [1] "df" "x"  "x3"
 sbf_save_objects()
 list.files(sbf_get_main(), recursive = TRUE)
-#>  [1] "data/data2.rds"           "data/df.rds"              "numbers/x.csv"            "numbers/x.rds"           
-#>  [5] "numbers/x3.csv"           "numbers/x3.rds"           "objects/times2/chr.rds"   "objects/times2/data2.rds"
-#>  [9] "objects/times2/df.rds"    "objects/times2/vec.rds"   "objects/times2/x.rds"     "objects/times2/x3.rds"   
-#> [13] "objects/x.rds"            "strings/chr.rda"          "strings/chr.rds"          "strings/chr.txt"
+#> [1] "objects/times2/df.rds" "objects/times2/x.rds"  "objects/times2/x3.rds"
+#> [4] "objects/x.rds"
 rm(x, x3, df)
 sbf_load_objects()
 print(x3)
@@ -141,9 +143,11 @@ are family members for
 - strings (character scalars)
 - data (objects inheriting from data.frame)
 
-``` R
+``` r
+
 sbf_reset_sub(rm = TRUE, ask = FALSE)
-#> ✔ Directory '/var/folders/yg/xzvpt0r53gsgj094f3sxb1n00000gn/T/RtmpwTf1sn/output' deleted
+#> ✔ Directory
+#> '/var/folders/wm/nrx2jrjj4w9by90n6p29bps80000gn/T/RtmpHna2jz/output' deleted
 data2 <- data.frame(x = 5:6, y = 7:8)
 chr <- "some text"
 vec <- c(1, 3) # not saved as vector
@@ -151,8 +155,9 @@ sbf_save_datas()
 sbf_save_strings()
 sbf_save_numbers()
 list.files(sbf_get_main(), recursive = TRUE)
-#> [1] "data/data2.rds"  "data/df.rds"     "numbers/x.csv"   "numbers/x.rds"   "numbers/x3.csv"  "numbers/x3.rds"  "strings/chr.rda"
-#> [8] "strings/chr.rds" "strings/chr.txt"
+#>  [1] "data/data2.rds"   "data/df.rds"      "numbers/x.csv"    "numbers/x.rds"   
+#>  [5] "numbers/x.yaml"   "numbers/x3.csv"   "numbers/x3.rds"   "numbers/x3.yaml" 
+#>  [9] "strings/chr.rds"  "strings/chr.txt"  "strings/chr.yaml"
 ```
 
 All types of object are saved as rds files. However to facilitate
@@ -183,11 +188,24 @@ metadata.
 ### Plots
 
 Plots are ggplot objects with caption, width and height (in inches) and
-dpi (dots per inch) metadata. Each plot is also saved as a png file of
-the specified dimensions and resolution and the default dataset if
-present (and ≤ 1,000 rows) is saved as a csv. By default the last ggplot
-object created, modified or plotted is saved and the dimensions are
-taken from the current graphics device.
+dpi (dots per inch) metadata. Each plot is also saved as:
+
+1.  A png file of the plot.
+2.  A yaml file of the plot metadata.
+3.  An rds file of the plot.
+4.  A csv of the data passed to `ggplot()` (i.e., the ‘main dataset’),
+    provided it has at least one row (and \le 1,000 rows. If the plot is
+    a `patchwork` object, only the data for the first patch is saved, to
+    maintain compatibility with previous versions.
+5.  An xlsx workbook with a sheet for the data passed to (each call of)
+    `ggplot()` and a sheet for each `geom_*()` layer. Sheets are
+    labelled `<p>_<l>_<geom>`, where `<p>` is the patch index (1 for a
+    simple ggplot), `<l>` is the layer index (0 for the `ggplot()`
+    data), and `<geom>` is the layer type (e.g. point, line). Layers
+    with \> 1,000 rows are omitted by default.
+
+By default the last ggplot object created, modified or plotted is saved
+and the dimensions are taken from the current graphics device.
 
 A platform independent graphics window can be opened using
 [`sbf_open_window()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_open_window.md),
@@ -255,7 +273,8 @@ Reports can be generated using the
 To install the latest development version from GitHub
 [repository](https://github.com/poissonconsulting/subfoldr2)
 
-``` R
+``` r
+
 # install.packages("remotes")
 remotes::install_github("poissonconsulting/subfoldr2")
 ```
