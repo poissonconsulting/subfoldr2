@@ -91,13 +91,13 @@ print(sbf_set_sub("times2", "times3"))
 sbf_load_objects()
 ls()
 #> [1] "df" "x"  "x3"
-sbf_load_objects_recursive(sub = "times2")
-#> # A tibble: 3 × 4
-#>   objects      name  sub      file                                              
-#>   <list>       <chr> <chr>    <chr>                                             
-#> 1 <df [0 × 0]> df    "times3" /var/folders/wm/nrx2jrjj4w9by90n6p29bps80000gn/T/…
-#> 2 <dbl [1]>    x3    "times3" /var/folders/wm/nrx2jrjj4w9by90n6p29bps80000gn/T/…
-#> 3 <dbl [1]>    x     ""       /var/folders/wm/nrx2jrjj4w9by90n6p29bps80000gn/T/…
+dplyr::select(sbf_load_objects_recursive(sub = "times2"), ! file)
+#> # A tibble: 3 × 3
+#>   objects      name  sub     
+#>   <list>       <chr> <chr>   
+#> 1 <df [0 × 0]> df    "times3"
+#> 2 <dbl [1]>    x3    "times3"
+#> 3 <dbl [1]>    x     ""
 ```
 
 ### Deleting Subfolders
@@ -142,9 +142,7 @@ are family members for
 - data (objects inheriting from data.frame)
 
 ``` r
-sbf_reset_sub(rm = TRUE, ask = FALSE)
-#> ✔ Directory
-#> '/var/folders/wm/nrx2jrjj4w9by90n6p29bps80000gn/T/RtmpHna2jz/output' deleted
+suppressMessages(sbf_reset_sub(rm = TRUE, ask = FALSE)) # to not print tempdir
 data2 <- data.frame(x = 5:6, y = 7:8)
 chr <- "some text"
 vec <- c(1, 3) # not saved as vector
