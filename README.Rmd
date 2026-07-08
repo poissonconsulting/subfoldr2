@@ -149,14 +149,20 @@ Code blocks are strings which include optional caption and language metadata.
 ### Plots
 
 Plots are ggplot objects with caption, width and height (in inches) and dpi (dots per inch) metadata.
-Each plot is also saved as a png file of the specified dimensions and resolution and the default dataset if present (and $\leq$ 1,000 rows) is saved as a csv.
+Each plot is also saved as:
+
+1. A png file of the plot.
+2. A yaml file of the plot metadata.
+3. An rds file of the plot.
+4. A csv of the data passed to `ggplot()` (i.e., the 'main dataset'), provided it has at least one row (and $\le 1,000$ rows. If the plot is a `patchwork` object, only the data for the first patch is saved, to maintain compatibility with previous versions.
+5. An xlsx workbook with a sheet for the data passed to (each call of) `ggplot()` and a sheet for each `geom_*()` layer. Sheets are labelled `<p>_<l>_<geom>`, where `<p>` is the patch index (1 for a simple ggplot), `<l>` is the layer index (0 for the `ggplot()` data), and `<geom>` is the layer type (e.g. point, line). Layers with > 1,000 rows are omitted by default.
+
 By default the last ggplot object created, modified or plotted is saved and the dimensions are taken from the current graphics device.
 
 A platform independent graphics window can be opened using `sbf_open_window()`, where the `width` and `height` arguments are in inches,
 and closed using `sbf_close_window()`.
 
-In addition to individually or bulk loading ggplot objects, the user can individually or bulk load the default datasets
-using for example `sbf_load_plots_data()`.
+In addition to individually or bulk loading ggplot objects, the user can individually or bulk load the default datasets using for example `sbf_load_plots_data()`.
 
 ### Windows
 
