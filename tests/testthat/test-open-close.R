@@ -42,7 +42,8 @@ test_that("db", {
 
   withr::defer(graphics.off())
 
-  expect_error(sbf_open_db("x"),
+  expect_error(
+    sbf_open_db("x"),
     "^`file` must specify an existing file [(]'.*dbs/x.sqlite' can't be found[)].$",
     class = "chk_error"
   )

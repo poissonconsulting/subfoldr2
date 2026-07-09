@@ -8,17 +8,21 @@
 #' @return A daff difference object.
 #' @family compare functions
 #' @export
-sbf_diff_data <- function(x,
-                          x_name = substitute(x),
-                          sub = sbf_get_sub(),
-                          main = sbf_get_main()) {
+sbf_diff_data <- function(
+  x,
+  x_name = substitute(x),
+  sub = sbf_get_sub(),
+  main = sbf_get_main()
+) {
   chk_s3_class(x, "data.frame")
   x_name <- chk_deparse(x_name)
 
   rlang::check_installed("daff")
 
   existing <- sbf_load_data(x_name, sub = sub, main = main, exists = NA)
-  if (is.null(existing)) existing <- x
+  if (is.null(existing)) {
+    existing <- x
+  }
   daff::diff_data(existing, x)
 }
 
@@ -37,13 +41,15 @@ sbf_diff_data <- function(x,
 #' @return A named list of character vectors.
 #' @family compare functions
 #' @export
-sbf_diff_data_archive <- function(x_name = ".*",
-                                  sub = sbf_get_sub(),
-                                  main = sbf_get_main(),
-                                  archive = 1L,
-                                  recursive = FALSE,
-                                  include_root = TRUE,
-                                  exists = NA) {
+sbf_diff_data_archive <- function(
+  x_name = ".*",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  archive = 1L,
+  recursive = FALSE,
+  include_root = TRUE,
+  exists = NA
+) {
   chk_lgl(exists)
 
   rlang::check_installed("daff")
@@ -56,13 +62,19 @@ sbf_diff_data_archive <- function(x_name = ".*",
   }
 
   main_files <- sbf_list_datas(
-    x_name = x_name, sub = sub, main = main,
-    recursive = recursive, include_root = include_root
+    x_name = x_name,
+    sub = sub,
+    main = main,
+    recursive = recursive,
+    include_root = include_root
   )
 
   archive_files <- sbf_list_datas(
-    x_name = x_name, sub = sub, main = archive,
-    recursive = recursive, include_root = include_root
+    x_name = x_name,
+    sub = sub,
+    main = archive,
+    recursive = recursive,
+    include_root = include_root
   )
 
   all_file_names <- union(names(main_files), names(archive_files))
@@ -73,9 +85,11 @@ sbf_diff_data_archive <- function(x_name = ".*",
 
   all_file_names <- sort(all_file_names)
 
-  diff <- lapply(all_file_names,
+  diff <- lapply(
+    all_file_names,
     FUN = diff_data,
-    main = main, archive = archive
+    main = main,
+    archive = archive
   )
   names(diff) <- all_file_names
   diff
@@ -91,17 +105,21 @@ sbf_diff_data_archive <- function(x_name = ".*",
 #' @return A daff difference object.
 #' @family compare functions
 #' @export
-sbf_diff_table <- function(x,
-                           x_name = substitute(x),
-                           sub = sbf_get_sub(),
-                           main = sbf_get_main(),
-                           exists = NA) {
+sbf_diff_table <- function(
+  x,
+  x_name = substitute(x),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  exists = NA
+) {
   chk_s3_class(x, "data.frame")
   x_name <- chk_deparse(x_name)
 
   rlang::check_installed("daff")
 
   existing <- sbf_load_table(x_name, sub = sub, main = main, exists = exists)
-  if (is.null(existing)) existing <- x
+  if (is.null(existing)) {
+    existing <- x
+  }
   daff::diff_data(existing, x)
 }

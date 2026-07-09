@@ -8,18 +8,21 @@
 #' @return Invisible TRUE.
 #' @family database functions
 #' @export
-sbf_add_blob_column_to_db <- function(column_name,
-                                      table_name,
-                                      db_name = sbf_get_db_name(),
-                                      sub = sbf_get_sub(),
-                                      main = sbf_get_main()) {
+sbf_add_blob_column_to_db <- function(
+  column_name,
+  table_name,
+  db_name = sbf_get_db_name(),
+  sub = sbf_get_sub(),
+  main = sbf_get_main()
+) {
   rlang::check_installed("dbflobr")
 
   conn <- sbf_open_db(db_name = db_name, sub = sub, main = main, exists = TRUE)
   on.exit(sbf_close_db(conn))
 
   dbflobr::add_blob_column(
-    column_name = column_name, table_name = table_name,
+    column_name = column_name,
+    table_name = table_name,
     conn = conn
   )
 }
@@ -41,12 +44,14 @@ sbf_add_blob_column_to_db <- function(column_name,
 #' @return An invisible named list of named vectors of the file names and new
 #' file names saved.
 #' @export
-sbf_save_flobs_from_db <- function(db_name = sbf_get_db_name(),
-                                   sub = sbf_get_sub(),
-                                   main = sbf_get_main(),
-                                   dir = NULL,
-                                   dbflobr_sub = FALSE,
-                                   replace = FALSE) {
+sbf_save_flobs_from_db <- function(
+  db_name = sbf_get_db_name(),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  dir = NULL,
+  dbflobr_sub = FALSE,
+  replace = FALSE
+) {
   rlang::check_installed("dbflobr")
 
   conn <- sbf_open_db(db_name = db_name, sub = sub, main = main, exists = TRUE)
@@ -86,13 +91,15 @@ sbf_save_flobs_from_db <- function(db_name = sbf_get_db_name(),
 #' whether files were successfully written to database.
 #' @family database functions
 #' @export
-sbf_upload_flobs_to_db <- function(db_name = sbf_get_db_name(),
-                                   sub = sbf_get_sub(),
-                                   main = sbf_get_main(),
-                                   dir = NULL,
-                                   dbflobr_sub = FALSE,
-                                   exists = FALSE,
-                                   replace = FALSE) {
+sbf_upload_flobs_to_db <- function(
+  db_name = sbf_get_db_name(),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  dir = NULL,
+  dbflobr_sub = FALSE,
+  exists = FALSE,
+  replace = FALSE
+) {
   rlang::check_installed("dbflobr")
 
   conn <- sbf_open_db(db_name = db_name, sub = sub, main = main, exists = TRUE)
@@ -104,7 +111,10 @@ sbf_upload_flobs_to_db <- function(db_name = sbf_get_db_name(),
     dir <- file_path(main, "flobs", sub, db_name)
   }
   dbflobr::import_all_flobs(
-    conn = conn, dir = dir, exists = exists, replace = replace,
+    conn = conn,
+    dir = dir,
+    exists = exists,
+    replace = replace,
     sub = dbflobr_sub
   )
 }

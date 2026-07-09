@@ -8,9 +8,12 @@
 #' @return A scalar numeric of the number of rows affected by the statement.
 #' @family database functions
 #' @export
-sbf_query_db <- function(sql, db_name = sbf_get_db_name(),
-                         sub = sbf_get_sub(),
-                         main = sbf_get_main()) {
+sbf_query_db <- function(
+  sql,
+  db_name = sbf_get_db_name(),
+  sub = sbf_get_sub(),
+  main = sbf_get_main()
+) {
   chk_string(sql)
   chk_gt(nchar(sql))
 

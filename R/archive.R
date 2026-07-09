@@ -11,14 +11,16 @@
 #' @family  archive
 #' @family housekeeping functions
 #' @export
-sbf_archive_main <- function(main = sbf_get_main(),
-                             ask = getOption("sbf.ask", TRUE),
-                             tz = dtt_default_tz()) {
+sbf_archive_main <- function(
+  main = sbf_get_main(),
+  ask = getOption("sbf.ask", TRUE),
+  tz = dtt_default_tz()
+) {
   chk_string(main)
   chk_flag(ask)
   chk_string(tz)
 
-  if(!vld_dir(main)) {
+  if (!vld_dir(main)) {
     cli::cli_alert_info(paste0("Directory '", main, "' does not exist."))
     return(invisible(character()))
   }
@@ -36,7 +38,13 @@ sbf_archive_main <- function(main = sbf_get_main(),
 
   if (!ask || yesno(msg)) {
     fs::dir_copy(main, archive, overwrite = FALSE)
-    cli::cli_alert_success(paste0("Directory '", main, "' copied to '", archive, "'"))
+    cli::cli_alert_success(paste0(
+      "Directory '",
+      main,
+      "' copied to '",
+      archive,
+      "'"
+    ))
   } else {
     cli::cli_alert_warning(paste0("Directory '", main, "' was not copied"))
   }
@@ -57,9 +65,11 @@ sbf_archive_main <- function(main = sbf_get_main(),
 #' @family  archive
 #' @family housekeeping functions
 #' @export
-sbf_unarchive_main <- function(main = sbf_get_main(),
-                               archive = 1L,
-                               ask = getOption("sbf.ask", TRUE)) {
+sbf_unarchive_main <- function(
+  main = sbf_get_main(),
+  archive = 1L,
+  ask = getOption("sbf.ask", TRUE)
+) {
   if (!vld_whole_number(archive) && !vld_dir(archive)) {
     chkor_vld(vld_whole_number(archive), vld_dir(archive))
   }
@@ -95,7 +105,8 @@ sbf_get_archive <- function(main = sbf_get_main(), archive = 1L) {
   chk_whole_number(archive)
   chk_gt(archive)
 
-  files <- fs::dir_ls(dirname(main),
+  files <- fs::dir_ls(
+    dirname(main),
     type = "directory",
     regexp = ".*-\\d{4,4}(-\\d{2,2}){5,5}$"
   )
@@ -103,8 +114,10 @@ sbf_get_archive <- function(main = sbf_get_main(), archive = 1L) {
   if (!length(files)) {
     stop(
       "There are no archived folders for '",
-      basename(main), "' in '",
-      dirname(main), "'."
+      basename(main),
+      "' in '",
+      dirname(main),
+      "'."
     )
   }
 
@@ -113,8 +126,10 @@ sbf_get_archive <- function(main = sbf_get_main(), archive = 1L) {
       "There are only ",
       length(files),
       " archived folders for '",
-      basename(main), "' in '",
-      dirname(main), "'."
+      basename(main),
+      "' in '",
+      dirname(main),
+      "'."
     )
   }
 

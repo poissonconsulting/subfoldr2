@@ -11,8 +11,12 @@
 #'
 #' @return An invisible character vector of the names of the data frames.
 #' @export
-sbf_write_datas_to_xlsx <- function(path, exists = NA, env = parent.frame(),
-                                    ask = getOption("sbf.ask", TRUE)) {
+sbf_write_datas_to_xlsx <- function(
+  path,
+  exists = NA,
+  env = parent.frame(),
+  ask = getOption("sbf.ask", TRUE)
+) {
   chk_string(path)
   chk_lgl(exists)
   chk_flag(ask)
@@ -20,7 +24,9 @@ sbf_write_datas_to_xlsx <- function(path, exists = NA, env = parent.frame(),
 
   rlang::check_installed("writexl")
 
-  if (isTRUE(exists)) chk_file(file)
+  if (isTRUE(exists)) {
+    chk_file(file)
+  }
 
   if (isFALSE(exists) && file.exists(file)) {
     if (ask && !yesno("Delete file '", file, "'?")) {

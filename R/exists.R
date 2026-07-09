@@ -9,9 +9,11 @@ exists_rds <- function(x_name, class, sub, main) {
 #' @return A flag specifying whether the object exists.
 #' @family exists functions
 #' @export
-sbf_object_exists <- function(x_name,
-                              sub = sbf_get_sub(),
-                              main = sbf_get_main()) {
+sbf_object_exists <- function(
+  x_name,
+  sub = sbf_get_sub(),
+  main = sbf_get_main()
+) {
   lifecycle::deprecate_soft("0.0.0.9045", "sbf_object_exists()")
   exists_rds(x_name, class = "objects", sub = sub, main = main)
 }
@@ -23,9 +25,11 @@ sbf_object_exists <- function(x_name,
 #' @return A flag specifying whether the data exists.
 #' @family exists functions
 #' @export
-sbf_data_exists <- function(x_name,
-                            sub = sbf_get_sub(),
-                            main = sbf_get_main()) {
+sbf_data_exists <- function(
+  x_name,
+  sub = sbf_get_sub(),
+  main = sbf_get_main()
+) {
   lifecycle::deprecate_soft("0.0.0.9045", "sbf_data_exists()")
   exists_rds(x_name, class = "data", sub = sub, main = main)
 }
@@ -37,9 +41,11 @@ sbf_data_exists <- function(x_name,
 #' @return A flag specifying whether the number exists.
 #' @family exists functions
 #' @export
-sbf_number_exists <- function(x_name,
-                              sub = sbf_get_sub(),
-                              main = sbf_get_main()) {
+sbf_number_exists <- function(
+  x_name,
+  sub = sbf_get_sub(),
+  main = sbf_get_main()
+) {
   lifecycle::deprecate_soft("0.0.0.9045", "sbf_number_exists()")
   exists_rds(x_name, class = "numbers", sub = sub, main = main)
 }
@@ -50,9 +56,11 @@ sbf_number_exists <- function(x_name,
 #' @return A flag specifying whether the string exists.
 #' @family exists functions
 #' @export
-sbf_string_exists <- function(x_name,
-                              sub = sbf_get_sub(),
-                              main = sbf_get_main()) {
+sbf_string_exists <- function(
+  x_name,
+  sub = sbf_get_sub(),
+  main = sbf_get_main()
+) {
   lifecycle::deprecate_soft("0.0.0.9045", "sbf_string_exists()")
   exists_rds(x_name, class = "strings", sub = sub, main = main)
 }
@@ -63,9 +71,11 @@ sbf_string_exists <- function(x_name,
 #' @return A flag specifying whether the block exists.
 #' @family exists functions
 #' @export
-sbf_block_exists <- function(x_name,
-                             sub = sbf_get_sub(),
-                             main = sbf_get_main()) {
+sbf_block_exists <- function(
+  x_name,
+  sub = sbf_get_sub(),
+  main = sbf_get_main()
+) {
   lifecycle::deprecate_soft("0.0.0.9045", "sbf_block_exists()")
   exists_rds(x_name, class = "blocks", sub = sub, main = main)
 }
@@ -76,9 +86,11 @@ sbf_block_exists <- function(x_name,
 #' @return A flag specifying whether the table exists.
 #' @family exists functions
 #' @export
-sbf_table_exists <- function(x_name,
-                             sub = sbf_get_sub(),
-                             main = sbf_get_main()) {
+sbf_table_exists <- function(
+  x_name,
+  sub = sbf_get_sub(),
+  main = sbf_get_main()
+) {
   lifecycle::deprecate_soft("0.0.0.9045", "sbf_table_exists()")
   exists_rds(x_name, class = "tables", sub = sub, main = main)
 }
@@ -89,9 +101,11 @@ sbf_table_exists <- function(x_name,
 #' @return A flag specifying whether the plot exists.
 #' @family exists functions
 #' @export
-sbf_plot_exists <- function(x_name,
-                            sub = sbf_get_sub(),
-                            main = sbf_get_main()) {
+sbf_plot_exists <- function(
+  x_name,
+  sub = sbf_get_sub(),
+  main = sbf_get_main()
+) {
   lifecycle::deprecate_soft("0.0.0.9045", "sbf_plot_exists()")
   exists_rds(x_name, class = "plots", sub = sub, main = main)
 }

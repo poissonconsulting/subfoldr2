@@ -8,11 +8,13 @@
 #' @param height A positive number indicating the height in inches.
 #' @family graphic functions
 #' @export
-sbf_open_pdf <- function(x_name = "plots",
-                         sub = sbf_get_sub(),
-                         main = sbf_get_main(),
-                         width = 6,
-                         height = width) {
+sbf_open_pdf <- function(
+  x_name = "plots",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  width = 6,
+  height = width
+) {
   chk_string(x_name)
   chk_gt(nchar(x_name))
   chk_character(sub)
@@ -55,22 +57,28 @@ sbf_open_pdf <- function(x_name = "plots",
 #' @param tag A string of the tag. Deprecated.
 #' @family database functions
 #' @export
-sbf_open_db <- function(db_name = sbf_get_db_name(),
-                        sub = sbf_get_sub(),
-                        main = sbf_get_main(),
-                        exists = TRUE,
-                        caption = NULL,
-                        report = NA,
-                        tag = NULL,
-                        ask = getOption("sbf.ask", TRUE)) {
+sbf_open_db <- function(
+  db_name = sbf_get_db_name(),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  exists = TRUE,
+  caption = NULL,
+  report = NA,
+  tag = NULL,
+  ask = getOption("sbf.ask", TRUE)
+) {
   chk_string(db_name)
   chk_character(sub)
   chk_range(length(sub))
   chk_string(main)
   chk_lgl(exists)
   chk_lgl(report)
-  if (!is.null(caption)) chk_string(caption)
-  if (!is.null(tag)) chk_string(tag)
+  if (!is.null(caption)) {
+    chk_string(caption)
+  }
+  if (!is.null(tag)) {
+    chk_string(tag)
+  }
 
   if (!missing(caption)) {
     lifecycle::deprecate_stop("0.0.0.9039", "sbf_open_db(caption = )")
@@ -87,7 +95,9 @@ sbf_open_db <- function(db_name = sbf_get_db_name(),
 
   file <- file_name(main, "dbs", sub, db_name, ext = "sqlite")
 
-  if (isTRUE(exists)) chk_file(file)
+  if (isTRUE(exists)) {
+    chk_file(file)
+  }
 
   if (isFALSE(exists) && file.exists(file)) {
     if (ask && !yesno("Delete file '", file, "'?")) {
@@ -109,7 +119,8 @@ sbf_open_db <- function(db_name = sbf_get_db_name(),
 #' @family graphic functions
 #' @export
 sbf_open_window <- function(width = 6, height = width) {
-  fun <- switch(Sys.info()["sysname"],
+  fun <- switch(
+    Sys.info()["sysname"],
     Windows = grDevices::windows,
     Darwin = grDevices::quartz,
     grDevices::x11

@@ -22,8 +22,11 @@ rm_class <- function(sub, main, class, ask) {
 #' @return A invisible string of the directory deleted.
 #' @family housekeeping functions
 #' @export
-sbf_rm_flobs <- function(sub = sbf_get_sub(), main = sbf_get_main(),
-                         ask = getOption("sbf.ask", TRUE)) {
+sbf_rm_flobs <- function(
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  ask = getOption("sbf.ask", TRUE)
+) {
   chk_flag(ask)
 
   rm_class(sub = sub, main = main, class = "flobs", ask = ask)

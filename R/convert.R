@@ -11,8 +11,10 @@
 #' created.
 #' @family housekeeping functions
 #' @export
-sbf_convert_meta <- function(main = sbf_get_main(),
-                             ask = getOption("sbf.ask", TRUE)) {
+sbf_convert_meta <- function(
+  main = sbf_get_main(),
+  ask = getOption("sbf.ask", TRUE)
+) {
   chk_string(main)
   chk_flag(ask)
 
@@ -23,8 +25,12 @@ sbf_convert_meta <- function(main = sbf_get_main(),
     return(invisible(character(0)))
   }
 
-  files <- list.files(main, pattern = "[.]rda$", recursive = TRUE,
-                      full.names = TRUE)
+  files <- list.files(
+    main,
+    pattern = "[.]rda$",
+    recursive = TRUE,
+    full.names = TRUE
+  )
 
   if (!length(files)) {
     cli::cli_alert_info("No '.rda' metadata files to convert.")
@@ -32,22 +38,31 @@ sbf_convert_meta <- function(main = sbf_get_main(),
   }
 
   msg <- paste0(
-    "Convert ", length(files), " '.rda' metadata file",
-    if (length(files) > 1) "s" else "", " in directory '", main,
+    "Convert ",
+    length(files),
+    " '.rda' metadata file",
+    if (length(files) > 1) "s" else "",
+    " in directory '",
+    main,
     "' to '.yaml' and delete the '.rda' file",
-    if (length(files) > 1) "s" else "", "?"
+    if (length(files) > 1) "s" else "",
+    "?"
   )
   if (ask && !yesno(msg)) {
     return(invisible(character(0)))
   }
 
-  yaml_files <- vapply(files, function(file) {
-    meta <- readRDS(file)
-    yaml_file <- replace_ext(file, "yaml")
-    yaml::write_yaml(meta, yaml_file)
-    file.remove(file)
-    yaml_file
-  }, character(1))
+  yaml_files <- vapply(
+    files,
+    function(file) {
+      meta <- readRDS(file)
+      yaml_file <- replace_ext(file, "yaml")
+      yaml::write_yaml(meta, yaml_file)
+      file.remove(file)
+      yaml_file
+    },
+    character(1)
+  )
   yaml_files <- unname(yaml_files)
 
   cli::cli_alert_success(
