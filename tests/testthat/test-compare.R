@@ -72,7 +72,6 @@ test_that("compare_datas", {
   sbf_save_data(x)
   expect_message(archive2 <- sbf_archive_main(ask = FALSE))
 
-
   comparison <- sbf_compare_data_archive(
     main = archive1,
     archive = archive2,

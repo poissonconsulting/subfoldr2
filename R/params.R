@@ -8,7 +8,7 @@
 #' A string is a non-missing character scalar.
 #
 #' @inheritParams rlang::args_dots_empty
-#' @param drop A character vector specifying the names of sub folders 
+#' @param drop A character vector specifying the names of sub folders
 #' and files to drop or `NULL` (the default).
 ## add parameter descriptions here
 #' @keywords internal

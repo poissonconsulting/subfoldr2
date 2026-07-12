@@ -1,10 +1,12 @@
-list_files <- function(x_name,
-                       class,
-                       sub,
-                       main,
-                       recursive,
-                       include_root,
-                       ext = "rds") {
+list_files <- function(
+  x_name,
+  class,
+  sub,
+  main,
+  recursive,
+  include_root,
+  ext = "rds"
+) {
   chk_string(x_name)
   chk_character(sub)
   chk_range(length(sub))
@@ -25,7 +27,9 @@ list_files <- function(x_name,
   names(files) <- file.path(dir, files)
   files <- sub(ext, "", files)
   files <- files[grepl(x_name, basename(files))]
-  if (!include_root) files <- files[grepl("/", files)]
+  if (!include_root) {
+    files <- files[grepl("/", files)]
+  }
   names <- file_path(class, sub, files)
   files <- names(files)
   if (length(files)) {
@@ -46,16 +50,24 @@ list_files <- function(x_name,
 #' @param ext A string of the file extension.
 #' @family list functions
 #' @export
-sbf_list_objects <- function(x_name = ".*", sub = sbf_get_sub(),
-                             main = sbf_get_main(),
-                             recursive = FALSE, include_root = TRUE,
-                             ext = "rds") {
+sbf_list_objects <- function(
+  x_name = ".*",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  recursive = FALSE,
+  include_root = TRUE,
+  ext = "rds"
+) {
   chk_string(ext)
   chk_subset(ext, "rds")
-  list_files(x_name, "objects",
-    sub = sub, main = main,
+  list_files(
+    x_name,
+    "objects",
+    sub = sub,
+    main = main,
     recursive = recursive,
-    include_root = include_root, ext = ext
+    include_root = include_root,
+    ext = ext
   )
 }
 
@@ -67,16 +79,24 @@ sbf_list_objects <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @inheritParams sbf_list_objects
 #' @family list functions
 #' @export
-sbf_list_datas <- function(x_name = ".*", sub = sbf_get_sub(),
-                           main = sbf_get_main(),
-                           recursive = FALSE, include_root = TRUE,
-                           ext = "rds") {
+sbf_list_datas <- function(
+  x_name = ".*",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  recursive = FALSE,
+  include_root = TRUE,
+  ext = "rds"
+) {
   chk_string(ext)
   chk_subset(ext, "rds")
-  list_files(x_name, "data",
-    sub = sub, main = main,
+  list_files(
+    x_name,
+    "data",
+    sub = sub,
+    main = main,
     recursive = recursive,
-    include_root = include_root, ext = ext
+    include_root = include_root,
+    ext = ext
   )
 }
 
@@ -88,16 +108,24 @@ sbf_list_datas <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @inheritParams sbf_list_objects
 #' @family list functions
 #' @export
-sbf_list_tables <- function(x_name = ".*", sub = sbf_get_sub(),
-                            main = sbf_get_main(),
-                            recursive = FALSE, include_root = TRUE,
-                            ext = "rds") {
+sbf_list_tables <- function(
+  x_name = ".*",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  recursive = FALSE,
+  include_root = TRUE,
+  ext = "rds"
+) {
   chk_string(ext)
   chk_subset(ext, c("rds", "csv"))
-  list_files(x_name, "tables",
-    sub = sub, main = main,
+  list_files(
+    x_name,
+    "tables",
+    sub = sub,
+    main = main,
     recursive = recursive,
-    include_root = include_root, ext = ext
+    include_root = include_root,
+    ext = ext
   )
 }
 
@@ -110,16 +138,24 @@ sbf_list_tables <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @inheritParams sbf_list_objects
 #' @family list functions
 #' @export
-sbf_list_numbers <- function(x_name = ".*", sub = sbf_get_sub(),
-                             main = sbf_get_main(),
-                             recursive = FALSE, include_root = TRUE,
-                             ext = "rds") {
+sbf_list_numbers <- function(
+  x_name = ".*",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  recursive = FALSE,
+  include_root = TRUE,
+  ext = "rds"
+) {
   chk_string(ext)
   chk_subset(ext, c("rds", "csv"))
-  list_files(x_name, "numbers",
-    sub = sub, main = main,
+  list_files(
+    x_name,
+    "numbers",
+    sub = sub,
+    main = main,
     recursive = recursive,
-    include_root = include_root, ext = ext
+    include_root = include_root,
+    ext = ext
   )
 }
 
@@ -132,16 +168,24 @@ sbf_list_numbers <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @inheritParams sbf_list_objects
 #' @family list functions
 #' @export
-sbf_list_strings <- function(x_name = ".*", sub = sbf_get_sub(),
-                             main = sbf_get_main(),
-                             recursive = FALSE, include_root = TRUE,
-                             ext = "rds") {
+sbf_list_strings <- function(
+  x_name = ".*",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  recursive = FALSE,
+  include_root = TRUE,
+  ext = "rds"
+) {
   chk_string(ext)
   chk_subset(ext, c("rds", "txt"))
-  list_files(x_name, "strings",
-    sub = sub, main = main,
+  list_files(
+    x_name,
+    "strings",
+    sub = sub,
+    main = main,
     recursive = recursive,
-    include_root = include_root, ext = ext
+    include_root = include_root,
+    ext = ext
   )
 }
 
@@ -153,16 +197,24 @@ sbf_list_strings <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @inheritParams sbf_list_objects
 #' @family list functions
 #' @export
-sbf_list_blocks <- function(x_name = ".*", sub = sbf_get_sub(),
-                            main = sbf_get_main(),
-                            recursive = FALSE, include_root = TRUE,
-                            ext = "rds") {
+sbf_list_blocks <- function(
+  x_name = ".*",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  recursive = FALSE,
+  include_root = TRUE,
+  ext = "rds"
+) {
   chk_string(ext)
   chk_subset(ext, c("rds", "txt"))
-  list_files(x_name, "blocks",
-    sub = sub, main = main,
+  list_files(
+    x_name,
+    "blocks",
+    sub = sub,
+    main = main,
     recursive = recursive,
-    include_root = include_root, ext = ext
+    include_root = include_root,
+    ext = ext
   )
 }
 
@@ -174,16 +226,24 @@ sbf_list_blocks <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @inheritParams sbf_list_objects
 #' @family list functions
 #' @export
-sbf_list_plots <- function(x_name = ".*", sub = sbf_get_sub(),
-                           main = sbf_get_main(),
-                           recursive = FALSE, include_root = TRUE,
-                           ext = "rds") {
+sbf_list_plots <- function(
+  x_name = ".*",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  recursive = FALSE,
+  include_root = TRUE,
+  ext = "rds"
+) {
   chk_string(ext)
   chk_subset(ext, c("rds", "png"))
-  list_files(x_name, "plots",
-    sub = sub, main = main,
+  list_files(
+    x_name,
+    "plots",
+    sub = sub,
+    main = main,
     recursive = recursive,
-    include_root = include_root, ext = ext
+    include_root = include_root,
+    ext = ext
   )
 }
 
@@ -195,16 +255,24 @@ sbf_list_plots <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @inheritParams sbf_list_objects
 #' @family list functions
 #' @export
-sbf_list_windows <- function(x_name = ".*", sub = sbf_get_sub(),
-                             main = sbf_get_main(),
-                             recursive = FALSE, include_root = TRUE,
-                             ext = "png") {
+sbf_list_windows <- function(
+  x_name = ".*",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  recursive = FALSE,
+  include_root = TRUE,
+  ext = "png"
+) {
   chk_string(ext)
   chk_subset(ext, "png")
-  list_files(x_name, "windows",
-    sub = sub, main = main,
+  list_files(
+    x_name,
+    "windows",
+    sub = sub,
+    main = main,
     recursive = recursive,
-    include_root = include_root, ext = ext
+    include_root = include_root,
+    ext = ext
   )
 }
 
@@ -216,15 +284,23 @@ sbf_list_windows <- function(x_name = ".*", sub = sbf_get_sub(),
 #' @inheritParams sbf_list_objects
 #' @family list functions
 #' @export
-sbf_list_dbs <- function(x_name = ".*", sub = sbf_get_sub(),
-                         main = sbf_get_main(),
-                         recursive = FALSE, include_root = TRUE,
-                         ext = "sqlite") {
+sbf_list_dbs <- function(
+  x_name = ".*",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  recursive = FALSE,
+  include_root = TRUE,
+  ext = "sqlite"
+) {
   chk_string(ext)
   chk_subset(ext, "sqlite")
-  list_files(x_name, "dbs",
-    sub = sub, main = main,
+  list_files(
+    x_name,
+    "dbs",
+    sub = sub,
+    main = main,
     recursive = recursive,
-    include_root = include_root, ext = ext
+    include_root = include_root,
+    ext = ext
   )
 }

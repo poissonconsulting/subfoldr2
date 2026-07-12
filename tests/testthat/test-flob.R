@@ -6,14 +6,18 @@ test_that("datas_to_db", {
   sbf_create_db()
 
   # 2 column pk
-  sbf_execute_db("CREATE TABLE df (
+  sbf_execute_db(
+    "CREATE TABLE df (
                 char TEXT NOT NULL,
                 num REAL NOT NULL,
-                PRIMARY KEY (char, num))")
+                PRIMARY KEY (char, num))"
+  )
 
   # one column pk with empty
-  sbf_execute_db("CREATE TABLE df2 (
-                char TEXT PRIMARY KEY NOT NULL)")
+  sbf_execute_db(
+    "CREATE TABLE df2 (
+                char TEXT PRIMARY KEY NOT NULL)"
+  )
 
   # one column pk with two blob cols
   df <- data.frame(char = c("a", "a", "b"), num = c(1, 2.1, 1))
@@ -24,13 +28,13 @@ test_that("datas_to_db", {
   flob <- flobr::flob_obj
   withr::defer(sbf_close_db(conn))
   conn <- sbf_open_db()
-  dbflobr::write_flob(flob,
+  dbflobr::write_flob(
+    flob,
     "New",
     "df",
     key = data.frame(char = "a", num = 1),
     conn
   )
-
 
   expect_message(
     expect_message(

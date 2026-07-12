@@ -27,7 +27,9 @@ file_path <- function(..., collapse = FALSE) {
 sanitize_path <- function(path, rm_leading = TRUE) {
   path <- sub("//", "/", path)
   path <- sub("(.+)(/$)", "\\1", path)
-  if (isTRUE(rm_leading)) path <- sub("(^/)(.*)", "\\2", path)
+  if (isTRUE(rm_leading)) {
+    path <- sub("(^/)(.*)", "\\2", path)
+  }
   path
 }
 
@@ -77,11 +79,12 @@ sub_name <- function(data) {
     return(data)
   }
   data <- data[!grepl("^sub\\d", colnames(data))]
-  data$sub <- apply(sub,
-    MARGIN = 1,
-    function(x) paste0(na_omit(x), collapse = "/")
-  )
-  if (ncol(sub) > 1) data <- cbind(data, sub)
+  data$sub <- apply(sub, MARGIN = 1, function(x) {
+    paste0(na_omit(x), collapse = "/")
+  })
+  if (ncol(sub) > 1) {
+    data <- cbind(data, sub)
+  }
   data
 }
 
@@ -122,11 +125,7 @@ get_plot_data <- function(x) {
 }
 
 plot_size <- function(dim, units) {
-  dim <- dim / switch(units,
-    "in" = 1,
-    "cm" = 2.54,
-    "mm" = 25.4
-  )
+  dim <- dim / switch(units, "in" = 1, "cm" = 2.54, "mm" = 25.4)
 
   if (any(is.na(dim))) {
     if (!length(grDevices::dev.list())) {
@@ -203,7 +202,9 @@ all_equal_data <- function(name, main, archive, tolerance, check.attributes) {
   main <- readRDS(main)
   archive <- readRDS(archive)
 
-  vld_true(all.equal(main, archive,
+  vld_true(all.equal(
+    main,
+    archive,
     tolerance = tolerance,
     check.attributes = check.attributes
   ))
@@ -219,8 +220,11 @@ compare_data <- function(name, main, archive, tolerance, ignore_attr) {
   main <- if (file.exists(main)) readRDS(main) else NULL
   archive <- if (file.exists(archive)) readRDS(archive) else NULL
 
-  waldo::compare(archive, main,
-    x_arg = "archive", y_arg = "main",
+  waldo::compare(
+    archive,
+    main,
+    x_arg = "archive",
+    y_arg = "main",
     tolerance = tolerance,
     ignore_attr = ignore_attr
   )
@@ -245,9 +249,11 @@ diff_data <- function(name, main, archive) {
   daff::diff_data(archive, main)
 }
 
-convert_coords_to_sfc <- function(x,
-                                  coords = c("X", "Y"),
-                                  sfc_name = "geometry") {
+convert_coords_to_sfc <- function(
+  x,
+  coords = c("X", "Y"),
+  sfc_name = "geometry"
+) {
   # this is a simplified version of ps_coords_to_sfc
   chk::chk_s3_class(x, "data.frame")
   chk::chk_vector(coords)
@@ -262,7 +268,8 @@ convert_coords_to_sfc <- function(x,
 
   y <- x[!is.na(x[[coords[1]]]) & !is.na(x[[coords[2]]]), ]
 
-  sfc <- sf::st_multipoint(matrix(c(y[[coords[1]]], y[[coords[2]]]), ncol = 2),
+  sfc <- sf::st_multipoint(
+    matrix(c(y[[coords[1]]], y[[coords[2]]]), ncol = 2),
     dim = "XY"
   )
   sfc <- sf::st_sfc(sfc, crs = 4326)
@@ -288,17 +295,17 @@ convert_coords_to_sfc <- function(x,
 
 check_is_sfc <- function(x) {
   sfc_names <- colnames(x)
-  sfc_names <- sfc_names[vapply(x, function(x) {
-    inherits(x, "sfc")
-  }, TRUE)]
+  sfc_names <- sfc_names[vapply(
+    x,
+    function(x) {
+      inherits(x, "sfc")
+    },
+    TRUE
+  )]
   sfc_names
 }
 
-convert_sfc_to_coords <- function(x,
-                                  sfc_name,
-                                  X = "X",
-                                  Y = "Y",
-                                  Z = "Z") {
+convert_sfc_to_coords <- function(x, sfc_name, X = "X", Y = "Y", Z = "Z") {
   # this is a simplified version of ps_sfc_to_coords
   chk::chk_s3_class(x, "data.frame")
   chk::chk_string(sfc_name)
@@ -306,14 +313,18 @@ convert_sfc_to_coords <- function(x,
   chk::chk_string(Y)
   chk::chk_string(Z)
 
-  if (!(class(x[[sfc_name]])[[1]] %in% c("sfc_LINESTRING", "sfc_MULTILINESTRING", "sfc_POINT", "sfc_MULTIPOINT"))) {
+  if (
+    !(class(x[[sfc_name]])[[1]] %in%
+      c("sfc_LINESTRING", "sfc_MULTILINESTRING", "sfc_POINT", "sfc_MULTIPOINT"))
+  ) {
     chk::abort_chk("sfc_name '", sfc_name, "' must be point or linestring")
   }
 
-  if (class(x[[sfc_name]])[[1]] %in% c("sfc_LINESTRING", "sfc_MULTILINESTRING")) {
+  if (
+    class(x[[sfc_name]])[[1]] %in% c("sfc_LINESTRING", "sfc_MULTILINESTRING")
+  ) {
     x <- sf::st_cast(x, warn = FALSE, "POINT")
   }
-
 
   if (!sfc_name %in% check_is_sfc(x)) {
     chk::abort_chk("sfc_name '", sfc_name, "' is not an sfc column")

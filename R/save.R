@@ -190,8 +190,12 @@ save_workbook <- function(x, sub, main, workbook_name, epgs) {
 #' @return An invisible string of the path to the saved object.
 #' @family save functions
 #' @export
-sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
-                            main = sbf_get_main()) {
+sbf_save_object <- function(
+  x,
+  x_name = substitute(x),
+  sub = sbf_get_sub(),
+  main = sbf_get_main()
+) {
   x_name <- chk_deparse(x_name)
   chk_string(x_name)
   chk_gt(nchar(x_name))
@@ -212,8 +216,12 @@ sbf_save_object <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @return An invisible string of the path to the saved data.frame
 #' @family save functions
 #' @export
-sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
-                          main = sbf_get_main()) {
+sbf_save_data <- function(
+  x,
+  x_name = substitute(x),
+  sub = sbf_get_sub(),
+  main = sbf_get_main()
+) {
   chk_s3_class(x, "data.frame")
   x_name <- chk_deparse(x_name)
   chk_string(x_name)
@@ -239,8 +247,12 @@ sbf_save_data <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @return An invisible string of the path to the saved data.frame
 #' @family save functions
 #' @export
-sbf_save_spatial <- function(x, x_name = NULL, sub = sbf_get_sub(),
-                             main = sbf_get_main()) {
+sbf_save_spatial <- function(
+  x,
+  x_name = NULL,
+  sub = sbf_get_sub(),
+  main = sbf_get_main()
+) {
   if (is.null(x_name)) {
     x_name <- chk::deparse_backtick_chk(substitute(x))
   }
@@ -283,7 +295,10 @@ check_spatial <- function(x, x_name = NULL) {
   index_name <- colnames(x)[1]
 
   if (index_name == geom_name) {
-    err(x_name, " must not have a first (index) column that is also the geometry column")
+    err(
+      x_name,
+      " must not have a first (index) column that is also the geometry column"
+    )
   }
 
   if (!chk::vld_not_any_na(x[[index_name]])) {
@@ -354,10 +369,16 @@ valid_spatial <- function(x) {
 #' @return An invisible string of the path to the saved object.
 #' @family save functions
 #' @export
-sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
-                            main = sbf_get_main(), report = TRUE, tag = "",
-                            notes = "",
-                           signif = getOption("sbf.signif", 22)) {
+sbf_save_number <- function(
+  x,
+  x_name = substitute(x),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  report = TRUE,
+  tag = "",
+  notes = "",
+  signif = getOption("sbf.signif", 22)
+) {
   x_name <- chk_deparse(x_name)
   chk_number(x)
   chk_string(x_name)
@@ -397,9 +418,15 @@ sbf_save_number <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @return An invisible string of the path to the saved object.
 #' @family save functions
 #' @export
-sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
-                            main = sbf_get_main(), report = TRUE, tag = "",
-                            notes = "") {
+sbf_save_string <- function(
+  x,
+  x_name = substitute(x),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  report = TRUE,
+  tag = "",
+  notes = ""
+) {
   x_name <- chk_deparse(x_name)
   chk_string(x)
   chk_string(x_name)
@@ -432,10 +459,16 @@ sbf_save_string <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @return An invisible string of the path to the saved object.
 #' @family save functions
 #' @export
-sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
-                           main = sbf_get_main(),
-                           caption = "", report = TRUE, tag = "",
-                           notes = "") {
+sbf_save_table <- function(
+  x,
+  x_name = substitute(x),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  caption = "",
+  report = TRUE,
+  tag = "",
+  notes = ""
+) {
   x_name <- chk_deparse(x_name)
   chk_s3_class(x, "data.frame")
   valid <- vapply(x, is_valid_table_column, TRUE)
@@ -475,10 +508,16 @@ sbf_save_table <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 #' @return An invisible string of the path to the saved object.
 #' @family save functions
 #' @export
-sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
-                           main = sbf_get_main(),
-                           caption = "", report = TRUE, tag = "",
-                           notes = "") {
+sbf_save_block <- function(
+  x,
+  x_name = substitute(x),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  caption = "",
+  report = TRUE,
+  tag = "",
+  notes = ""
+) {
   chk_string(x)
   chk_gt(nchar(x))
   x_name <- chk_deparse(x_name)
@@ -503,12 +542,12 @@ sbf_save_block <- function(x, x_name = substitute(x), sub = sbf_get_sub(),
 }
 
 #' Unstitch patches
-#' 
+#'
 #' Separates patches from a multi-panel plot created via `{patchwork}` into a
 #' list of the individual plots.
-#' 
+#'
 #' @param x An object of class `"ggplot"` and generally also `"patchwork"`.
-#' 
+#'
 #' @details
 #' Iteratively splits `patchwork` objects into smaller elements until a list of
 #' simple `ggplot` plots is created.
@@ -631,7 +670,7 @@ get_plot_layer_sheets <- function(p, prefix, csv, drop_uninformative_cols) {
 #'   geom_line(aes(mpg, cyl, color = cyl), mtcars) +
 #'   ggtitle("1")
 #' sbf_save_plot()
-#' 
+#'
 #' p_patches <-
 #'   ((ggplot(mtcars) +
 #'       geom_line(aes(mpg, cyl, color = cyl), mtcars) +
@@ -653,22 +692,31 @@ get_plot_layer_sheets <- function(p, prefix, csv, drop_uninformative_cols) {
 #' p_patches
 #' sbf_save_plot(p_patches)
 #' }
-#' 
-sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
-                          sub = sbf_get_sub(),
-                          main = sbf_get_main(),
-                          caption = "", report = TRUE,
-                          tag = "",
-                          notes = "",
-                          units = "in",
-                          width = NA, height = width, dpi = 300,
-                          limitsize = TRUE,
-                          csv = 1000L,
-                          drop_uninformative_cols = TRUE) {
-  if(!missing(drop_uninformative_cols)) {
-    lifecycle::deprecate_warn("1.0.1.9010", "sbf_save_plot(drop_uninformative_cols)")
+#'
+sbf_save_plot <- function(
+  x = ggplot2::last_plot(),
+  x_name = substitute(x),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  caption = "",
+  report = TRUE,
+  tag = "",
+  notes = "",
+  units = "in",
+  width = NA,
+  height = width,
+  dpi = 300,
+  limitsize = TRUE,
+  csv = 1000L,
+  drop_uninformative_cols = TRUE
+) {
+  if (!missing(drop_uninformative_cols)) {
+    lifecycle::deprecate_warn(
+      "1.0.1.9010",
+      "sbf_save_plot(drop_uninformative_cols)"
+    )
   }
-  
+
   chk_s3_class(x, "ggplot")
   x_name <- chk_deparse(x_name)
   if (identical(x_name, "ggplot2::last_plot()")) {
@@ -702,14 +750,22 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
 
   dim <- plot_size(c(width, height), units = units)
 
-  ggplot2::ggsave(filename,
-    plot = x, width = dim[1], height = dim[2],
-    dpi = dpi, limitsize = limitsize
+  ggplot2::ggsave(
+    filename,
+    plot = x,
+    width = dim[1],
+    height = dim[2],
+    dpi = dpi,
+    limitsize = limitsize
   )
 
   meta <- list(
-    caption = caption, report = report, tag = tag, notes = notes,
-    width = dim[1], height = dim[2],
+    caption = caption,
+    report = report,
+    tag = tag,
+    notes = notes,
+    width = dim[1],
+    height = dim[2],
     dpi = dpi
   )
   save_meta(meta, "plots", sub = sub, main = main, x_name = x_name)
@@ -753,13 +809,19 @@ sbf_save_plot <- function(x = ggplot2::last_plot(), x_name = substitute(x),
 #' @inheritParams sbf_save_plot
 #' @family save functions
 #' @export
-sbf_save_window <- function(x_name = "window",
-                            sub = sbf_get_sub(),
-                            main = sbf_get_main(),
-                            caption = "", report = TRUE, tag = "",
-                            notes = "",
-                            width = NA, height = width, units = "in",
-                            dpi = 300) {
+sbf_save_window <- function(
+  x_name = "window",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  caption = "",
+  report = TRUE,
+  tag = "",
+  notes = "",
+  width = NA,
+  height = width,
+  units = "in",
+  dpi = 300
+) {
   chk_string(x_name)
   chk_gt(nchar(x_name))
   chk_character(sub)
@@ -788,14 +850,22 @@ sbf_save_window <- function(x_name = "window",
   dim <- plot_size(c(width, height), units = units)
 
   grDevices::dev.print(
-    device = grDevices::png, filename = filename,
-    width = dim[1], height = dim[2],
-    units = "in", res = dpi
+    device = grDevices::png,
+    filename = filename,
+    width = dim[1],
+    height = dim[2],
+    units = "in",
+    res = dpi
   )
 
   meta <- list(
-    caption = caption, report = report, tag = tag, notes = notes,
-    width = dim[1], height = dim[2], dpi = dpi
+    caption = caption,
+    report = report,
+    tag = tag,
+    notes = notes,
+    width = dim[1],
+    height = dim[2],
+    dpi = dpi
   )
   save_meta(meta, "windows", sub = sub, main = main, x_name = x_name)
   invisible(filename)
@@ -828,13 +898,18 @@ sbf_basename_sans_ext <- function(x) {
 #' @inheritParams sbf_save_plot
 #' @family save functions
 #' @export
-sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
-                         sub = sbf_get_sub(),
-                         main = sbf_get_main(),
-                         caption = "", report = TRUE,
-                         tag = "",
-                         notes = "",
-                         width = NA, units = "in") {
+sbf_save_png <- function(
+  x,
+  x_name = sbf_basename_sans_ext(x),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  caption = "",
+  report = TRUE,
+  tag = "",
+  notes = "",
+  width = NA,
+  units = "in"
+) {
   chk_file(x)
   chk_ext(x, "png")
   chk_string(x_name)
@@ -863,8 +938,13 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
   file.copy(x, filename, overwrite = TRUE)
 
   meta <- list(
-    caption = caption, report = report, tag = tag, notes = notes,
-    width = dim[1], height = dim[2], dpi = dpi
+    caption = caption,
+    report = report,
+    tag = tag,
+    notes = notes,
+    width = dim[1],
+    height = dim[2],
+    dpi = dpi
   )
   save_meta(meta, "windows", sub = sub, main = main, x_name = x_name)
   invisible(filename)
@@ -892,12 +972,14 @@ sbf_save_png <- function(x, x_name = sbf_basename_sans_ext(x),
 #' sbf_save_excel()
 #' }
 #' @export
-sbf_save_excel <- function(x,
-                           x_name = substitute(x),
-                           max_sheets = 1L,
-                           sub = sbf_get_sub(),
-                           main = sbf_get_main(),
-                           epgs = NULL) {
+sbf_save_excel <- function(
+  x,
+  x_name = substitute(x),
+  max_sheets = 1L,
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  epgs = NULL
+) {
   chk::chk_s3_class(x, "data.frame")
   x_name <- chk_deparse(x_name)
   chk::chk_string(x_name)
@@ -933,10 +1015,12 @@ sbf_save_excel <- function(x,
 #' sbf_save_gpkg()
 #' }
 #' @export
-sbf_save_gpkg <- function(x,
-                          x_name = substitute(x),
-                          sub = sbf_get_sub(),
-                          main = sbf_get_main()) {
+sbf_save_gpkg <- function(
+  x,
+  x_name = substitute(x),
+  sub = sbf_get_sub(),
+  main = sbf_get_main()
+) {
   chk::chk_s3_class(x, "data.frame")
   chk::chk_s3_class(x, "sf")
   x_name <- chk_deparse(x_name)
@@ -975,11 +1059,13 @@ sbf_save_gpkg <- function(x,
 #' sbf_save_workbook()
 #' }
 #' @export
-sbf_save_workbook <- function(workbook_name = basename(getwd()),
-                              sub = sbf_get_sub(),
-                              main = sbf_get_main(),
-                              env = parent.frame(),
-                              epgs = NULL) {
+sbf_save_workbook <- function(
+  workbook_name = basename(getwd()),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  env = parent.frame(),
+  epgs = NULL
+) {
   chk::chk_string(workbook_name)
   chk::chk_character(sub)
   chk::chk_range(length(sub))
@@ -1024,12 +1110,16 @@ sbf_save_workbook <- function(workbook_name = basename(getwd()),
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
 #' @export
-sbf_save_data_to_db <- function(x, x_name = substitute(x),
-                                db_name = sbf_get_db_name(),
-                                sub = sbf_get_sub(),
-                                main = sbf_get_main(),
-                                commit = TRUE, strict = TRUE,
-                                silent = getOption("rws.silent", FALSE)) {
+sbf_save_data_to_db <- function(
+  x,
+  x_name = substitute(x),
+  db_name = sbf_get_db_name(),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  commit = TRUE,
+  strict = TRUE,
+  silent = getOption("rws.silent", FALSE)
+) {
   chk_s3_class(x, "data.frame")
   x_name <- chk_deparse(x_name)
   chk_string(x_name)
@@ -1038,9 +1128,13 @@ sbf_save_data_to_db <- function(x, x_name = substitute(x),
   conn <- sbf_open_db(db_name, sub = sub, main = main, exists = TRUE)
   on.exit(sbf_close_db(conn))
 
-  rws_write(x,
-    x_name = x_name, exists = TRUE,
-    commit = commit, strict = strict, conn = conn,
+  rws_write(
+    x,
+    x_name = x_name,
+    exists = TRUE,
+    commit = commit,
+    strict = strict,
+    conn = conn,
     silent = silent
   )
   invisible(file_name(main, "dbs", sub, db_name, ext = "sqlite"))
@@ -1062,12 +1156,14 @@ sbf_save_data_to_db <- function(x, x_name = substitute(x),
 #' @return A invisible data.frame of the altered descriptions.
 #' @family save functions
 #' @export
-sbf_save_db_metatable_descriptions <- function(x,
-                                               db_name = sbf_get_db_name(),
-                                               sub = sbf_get_sub(),
-                                               main = sbf_get_main(),
-                                               overwrite = FALSE,
-                                               strict = TRUE) {
+sbf_save_db_metatable_descriptions <- function(
+  x,
+  db_name = sbf_get_db_name(),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  overwrite = FALSE,
+  strict = TRUE
+) {
   check_data(x, values = list(Table = "", Column = "", Description = c("", NA)))
   chk_flag(overwrite)
   chk_flag(strict)
@@ -1105,8 +1201,11 @@ sbf_save_db_metatable_descriptions <- function(x,
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
 #' @export
-sbf_save_objects <- function(sub = sbf_get_sub(),
-                             main = sbf_get_main(), env = parent.frame()) {
+sbf_save_objects <- function(
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  env = parent.frame()
+) {
   chk_s3_class(env, "environment")
 
   names <- objects(envir = env)
@@ -1130,8 +1229,11 @@ sbf_save_objects <- function(sub = sbf_get_sub(),
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
 #' @export
-sbf_save_datas <- function(sub = sbf_get_sub(),
-                           main = sbf_get_main(), env = parent.frame()) {
+sbf_save_datas <- function(
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  env = parent.frame()
+) {
   chk_s3_class(env, "environment")
 
   names <- objects(envir = env)
@@ -1164,8 +1266,11 @@ sbf_save_datas <- function(sub = sbf_get_sub(),
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
 #' @export
-sbf_save_spatials <- function(sub = sbf_get_sub(),
-                              main = sbf_get_main(), env = parent.frame()) {
+sbf_save_spatials <- function(
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  env = parent.frame()
+) {
   chk_s3_class(env, "environment")
 
   names <- objects(envir = env)
@@ -1196,10 +1301,12 @@ sbf_save_spatials <- function(sub = sbf_get_sub(),
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
 #' @export
-sbf_save_numbers <- function(sub = sbf_get_sub(),
-                             main = sbf_get_main(), 
-                             signif = getOption("sbf.signif", 22),
-                             env = parent.frame()) {
+sbf_save_numbers <- function(
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  signif = getOption("sbf.signif", 22),
+  env = parent.frame()
+) {
   chk_s3_class(env, "environment")
 
   names <- objects(envir = env)
@@ -1208,7 +1315,9 @@ sbf_save_numbers <- function(sub = sbf_get_sub(),
     x_name <- names[i]
     x <- get(x = x_name, envir = env)
     is[i] <- is_number(x)
-    if (is[i]) sbf_save_number(x, x_name, sub = sub, main = main, signif = signif)
+    if (is[i]) {
+      sbf_save_number(x, x_name, sub = sub, main = main, signif = signif)
+    }
   }
   names <- names[is]
   if (!length(names)) {
@@ -1227,8 +1336,11 @@ sbf_save_numbers <- function(sub = sbf_get_sub(),
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
 #' @export
-sbf_save_strings <- function(sub = sbf_get_sub(),
-                             main = sbf_get_main(), env = parent.frame()) {
+sbf_save_strings <- function(
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  env = parent.frame()
+) {
   chk_s3_class(env, "environment")
 
   names <- objects(envir = env)
@@ -1264,10 +1376,12 @@ sbf_save_strings <- function(sub = sbf_get_sub(),
 #' sbf_save_excels()
 #' }
 #' @export
-sbf_save_excels <- function(sub = sbf_get_sub(),
-                            main = sbf_get_main(),
-                            env = parent.frame(),
-                            epgs = NULL) {
+sbf_save_excels <- function(
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  env = parent.frame(),
+  epgs = NULL
+) {
   chk::chk_s3_class(env, "environment")
 
   names <- objects(envir = env)
@@ -1301,8 +1415,15 @@ save_gpkgs <- function(x, x_name, sub, main, all_sfcs) {
   sfc_column_names <- setdiff(sfc_column_names, active_sfc_column_name)
   for (sfc_column_name in sfc_column_names) {
     x <- sf::st_set_geometry(x, sfc_column_name)
-    x_name_column_name <- snakecase::to_snake_case(paste(x_name, sfc_column_name, "_"))
-    files <- c(sbf_save_gpkg(x, x_name = x_name_column_name, main = main, sub = sub), files)
+    x_name_column_name <- snakecase::to_snake_case(paste(
+      x_name,
+      sfc_column_name,
+      "_"
+    ))
+    files <- c(
+      sbf_save_gpkg(x, x_name = x_name_column_name, main = main, sub = sub),
+      files
+    )
   }
   files
 }
@@ -1321,9 +1442,12 @@ save_gpkgs <- function(x, x_name, sub, main, all_sfcs) {
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
 #' @export
-sbf_save_gpkgs <- function(sub = sbf_get_sub(),
-                           main = sbf_get_main(), env = parent.frame(),
-                           all_sfcs = TRUE) {
+sbf_save_gpkgs <- function(
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  env = parent.frame(),
+  all_sfcs = TRUE
+) {
   chk_s3_class(env, "environment")
 
   files <- character(0)
@@ -1333,7 +1457,16 @@ sbf_save_gpkgs <- function(sub = sbf_get_sub(),
     x_name <- names[i]
     x <- get(x = x_name, envir = env)
     if (any_sfc(x)) {
-      files <- c(files, save_gpkgs(x, sub = sub, main = main, x_name = x_name, all_sfcs = all_sfcs))
+      files <- c(
+        files,
+        save_gpkgs(
+          x,
+          sub = sub,
+          main = main,
+          x_name = x_name,
+          all_sfcs = all_sfcs
+        )
+      )
     }
   }
   if (!length(files)) {
@@ -1355,21 +1488,26 @@ sbf_save_gpkgs <- function(sub = sbf_get_sub(),
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
 #' @export
-sbf_save_datas_to_db <- function(db_name = sbf_get_db_name(),
-                                 sub = sbf_get_sub(),
-                                 main = sbf_get_main(),
-                                 commit = TRUE,
-                                 strict = TRUE,
-                                 env = parent.frame(),
-                                 silent = getOption("rws.silent", FALSE)) {
+sbf_save_datas_to_db <- function(
+  db_name = sbf_get_db_name(),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  commit = TRUE,
+  strict = TRUE,
+  env = parent.frame(),
+  silent = getOption("rws.silent", FALSE)
+) {
   chk_s3_class(env, "environment")
 
   conn <- sbf_open_db(db_name, sub = sub, main = main, exists = TRUE)
   on.exit(sbf_close_db(conn))
 
-  rws_write(env,
+  rws_write(
+    env,
     exists = TRUE,
-    commit = commit, strict = strict, conn = conn,
+    commit = commit,
+    strict = strict,
+    conn = conn,
     silent = silent
   )
 }
@@ -1395,12 +1533,14 @@ sbf_save_datas_to_db <- function(db_name = sbf_get_db_name(),
 #' }
 #' @export
 
-sbf_save_db_to_workbook <- function(workbook_name = sbf_get_workbook_name(),
-                                    db_name = sbf_get_db_name(),
-                                    exclude_tables = "^$",
-                                    sub = sbf_get_sub(),
-                                    main = sbf_get_main(),
-                                    epgs = NULL) {
+sbf_save_db_to_workbook <- function(
+  workbook_name = sbf_get_workbook_name(),
+  db_name = sbf_get_db_name(),
+  exclude_tables = "^$",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  epgs = NULL
+) {
   chk::chk_string(exclude_tables)
 
   conn <- sbf_open_db(db_name, sub = sub, main = main)
@@ -1462,21 +1602,23 @@ sbf_save_db_to_workbook <- function(workbook_name = sbf_get_workbook_name(),
 #' )
 #' }
 #' @export
-sbf_save_aws_files <- function(bucket_name,
-                               sub = sbf_get_sub(),
-                               main = sbf_get_main(),
-                               data_type = NULL,
-                               year = NULL,
-                               month = NULL,
-                               day = NULL,
-                               file_name = NULL,
-                               file_extension = NULL,
-                               max_request_size = 1000,
-                               ask = getOption("sbf.ask", TRUE),
-                               silent = TRUE,
-                               aws_access_key_id = Sys.getenv("AWS_ACCESS_KEY_ID"),
-                               aws_secret_access_key = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
-                               region = Sys.getenv("AWS_REGION", "ca-central-1")) {
+sbf_save_aws_files <- function(
+  bucket_name,
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  data_type = NULL,
+  year = NULL,
+  month = NULL,
+  day = NULL,
+  file_name = NULL,
+  file_extension = NULL,
+  max_request_size = 1000,
+  ask = getOption("sbf.ask", TRUE),
+  silent = TRUE,
+  aws_access_key_id = Sys.getenv("AWS_ACCESS_KEY_ID"),
+  aws_secret_access_key = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
+  region = Sys.getenv("AWS_REGION", "ca-central-1")
+) {
   lifecycle::deprecate_stop(
     "0.2.0",
     "sbf_save_aws_files()",

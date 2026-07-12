@@ -2,17 +2,18 @@ test_that("object", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
-  
+
   x <- 1
   expect_warning(sbf_load_objects(), "no objects to load")
-  
+
   expect_error(
     sbf_save_object(x_name = "x"),
     "argument \"x\" is missing, with no default"
   )
-  expect_error(sbf_save_object(),
-               "^`nchar[(]x_name[)]` must be greater than 0, not 0[.]$",
-               class = "chk_error"
+  expect_error(
+    sbf_save_object(),
+    "^`nchar[(]x_name[)]` must be greater than 0, not 0[.]$",
+    class = "chk_error"
   )
   expect_identical(
     sbf_save_object(x),
@@ -24,7 +25,7 @@ test_that("object", {
   chk::expect_chk_error(sbf_load_object("x2"))
   expect_null(sbf_load_object("x2", exists = FALSE))
   expect_null(sbf_load_object("x2", exists = NA))
-  
+
   y <- 2
   expect_identical(
     sbf_save_objects(env = as.environment(list(x = x, y = y))),
@@ -38,22 +39,22 @@ test_that("object", {
   expect_identical(sbf_load_objects(), c("x", "y"))
   expect_identical(x, 1)
   expect_identical(y, 2)
-  
+
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_object("x"), x)
-  
+
   expect_identical(
     list.files(file.path(sbf_get_main(), "objects")),
     sort(c("x.rds", "y.rds"))
   )
-  
+
   data <- sbf_load_objects_recursive(".rds", sub = character(0))
-  
+
   expect_s3_class(data, "tbl_df")
   expect_identical(colnames(data), c("objects", "name", "sub", "file"))
   expect_identical(nrow(data), 0L)
   expect_type(data$objects, "list")
-  
+
   data <- sbf_load_objects_recursive(
     include_root = FALSE,
     sub = character(0)
@@ -61,7 +62,7 @@ test_that("object", {
   expect_s3_class(data, "tbl_df")
   expect_identical(colnames(data), c("objects", "name", "sub", "file"))
   expect_identical(nrow(data), 0L)
-  
+
   data <- sbf_load_objects_recursive(sub = character(0))
   expect_s3_class(data, "tbl_df")
   expect_identical(colnames(data), c("objects", "name", "sub", "file"))
@@ -75,12 +76,12 @@ test_that("object", {
       file.path(sbf_get_main(), "objects/y.rds")
     )
   )
-  
+
   expect_identical(
     sbf_save_object(x, sub = "t2/t3"),
     file.path(sbf_get_main(), "objects/t2/t3/x.rds")
   )
-  
+
   data <- sbf_load_objects_recursive(sub = character(0))
   expect_s3_class(data, "tbl_df")
   expect_identical(
@@ -101,7 +102,7 @@ test_that("object", {
       file.path(sbf_get_main(), "objects/y.rds")
     )
   )
-  
+
   data <- sbf_load_objects_recursive(sub = character(0), include_root = FALSE)
   expect_s3_class(data, "tbl_df")
   expect_identical(
@@ -117,13 +118,14 @@ test_that("object", {
     data$file,
     file.path(sbf_get_main(), "objects/t2/t3/x.rds")
   )
-  
-  data2 <- sbf_load_objects_recursive("^x",
-                                      sub = character(0),
-                                      include_root = FALSE
+
+  data2 <- sbf_load_objects_recursive(
+    "^x",
+    sub = character(0),
+    include_root = FALSE
   )
   expect_identical(data2, data)
-  
+
   data <- sbf_load_objects_recursive(sub = "t2")
   expect_s3_class(data, "tbl_df")
   expect_identical(colnames(data), c("objects", "name", "sub", "file"))
@@ -134,8 +136,11 @@ test_that("object", {
     data$file,
     file.path(sbf_get_main(), "objects/t2/t3/x.rds")
   )
-  
-  expect_message(expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0)))
+
+  expect_message(expect_identical(
+    sbf_reset_sub(rm = TRUE, ask = FALSE),
+    character(0)
+  ))
   chk::expect_chk_error(sbf_load_object("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
   expect_identical(
@@ -154,11 +159,11 @@ test_that("object", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
-  
+
   x <- 1
   sbf_set_sub("one")
   sbf_save_object(x)
-  
+
   data <- sbf_load_objects_recursive(sub = character(0))
   expect_s3_class(data, "tbl_df")
   expect_identical(
@@ -166,10 +171,10 @@ test_that("object", {
     c("objects", "name", "sub", "file")
   )
   expect_identical(data$sub, c("one"))
-  
+
   sbf_set_sub("one", "two")
   sbf_save_object(x)
-  
+
   data <- sbf_load_objects_recursive(sub = character(0))
   expect_s3_class(data, "tbl_df")
   expect_identical(
@@ -177,7 +182,7 @@ test_that("object", {
     c("objects", "name", "sub", "sub1", "sub2", "file")
   )
   expect_identical(data$sub, c("one/two", "one"))
-  
+
   expect_identical(
     sbf_subs_object_recursive("x", sub = character(0)),
     c("one/two", "one")
@@ -192,106 +197,130 @@ test_that("spatial", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
-  
+
   # test empty batch load while folder empty
   expect_warning(sbf_load_spatials(), "no spatial to load")
-  
+
   # test spatial checks
   y <- 1
   expect_error(check_spatial(), "argument \"x\" is missing, with no default")
   expect_error(check_spatial(y), "^`y` must inherit from S3 class 'sf'[.]$")
   expect_false(valid_spatial(y))
-  
+
   y <- sf::st_point(c(0, 1)) |>
     sf::st_sfc() |>
     sf::st_as_sf()
   y <- y[0, ]
-  expect_error(check_spatial(y), "^`nrow\\(y\\)` must be between 1 and Inf, not 0[.]$")
+  expect_error(
+    check_spatial(y),
+    "^`nrow\\(y\\)` must be between 1 and Inf, not 0[.]$"
+  )
   expect_false(valid_spatial(y))
-  
+
   y <- sf::st_point(c(0, 1)) |>
     sf::st_sfc() |>
     sf::st_as_sf()
-  expect_error(check_spatial(y), "^`ncol\\(y\\)` must be between 2 and Inf, not 1[.]$")
+  expect_error(
+    check_spatial(y),
+    "^`ncol\\(y\\)` must be between 2 and Inf, not 1[.]$"
+  )
   expect_false(valid_spatial(y))
-  
+
   y <- data.frame(index = c(1, 2))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y)
   expect_error(check_spatial(y), "^`y` must not have a missing projection[.]$")
   expect_false(valid_spatial(y))
-  
+
   y <- data.frame(index = c(1, 2))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y$geometry2 <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y, crs = 3264)
-  expect_error(check_spatial(y), "^`y` must have exactly one geometry column[.]$")
+  expect_error(
+    check_spatial(y),
+    "^`y` must have exactly one geometry column[.]$"
+  )
   expect_false(valid_spatial(y))
-  
+
   y <- data.frame(index = c(1, 2))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y, crs = 3264)
   y <- y[, 2:1]
-  expect_error(check_spatial(y), "^`y` must not have a first \\(index\\) column that is also the geometry column[.]$")
+  expect_error(
+    check_spatial(y),
+    "^`y` must not have a first \\(index\\) column that is also the geometry column[.]$"
+  )
   expect_false(valid_spatial(y))
-  
+
   y <- data.frame(index = c(1, NA))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y, crs = 3264)
-  expect_error(check_spatial(y), "^`y` must not have a first \\(index\\) column with missing values[.]$")
+  expect_error(
+    check_spatial(y),
+    "^`y` must not have a first \\(index\\) column with missing values[.]$"
+  )
   expect_false(valid_spatial(y))
-  
+
   y <- data.frame(index = c(1, 1))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y, crs = 3264)
-  expect_error(check_spatial(y), "^`y` must not have a first \\(index\\) column with duplicated values[.]$")
+  expect_error(
+    check_spatial(y),
+    "^`y` must not have a first \\(index\\) column with duplicated values[.]$"
+  )
   expect_false(valid_spatial(y))
   # test that spatial check remains within context of higher function
-  expect_error(sbf_save_spatial(y), "^`y` must not have a first \\(index\\) column with duplicated values[.]$")
-  
+  expect_error(
+    sbf_save_spatial(y),
+    "^`y` must not have a first \\(index\\) column with duplicated values[.]$"
+  )
+
   # test case where checks pass
   y <- data.frame(index = c(1, 2))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y, crs = 3264)
   expect_identical(check_spatial(y), y)
   expect_true(valid_spatial(y))
-  
+
   # test save/load spatial
   expect_error(sbf_save_spatial(), "argument \"x\" is missing, with no default")
-  
+
   y <- data.frame(index = c(1, 2))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y, crs = 3264)
   sbf_save_spatial(y)
-  expect_identical(sbf_save_spatial(y), file.path(sbf_get_main(), "spatial/y.rds"))
+  expect_identical(
+    sbf_save_spatial(y),
+    file.path(sbf_get_main(), "spatial/y.rds")
+  )
   expect_identical(sbf_load_spatial("y"), y)
   chk::expect_chk_error(sbf_load_spatial("y2"))
   expect_true(file.exists(file.path(sbf_get_main(), "spatial", "y.rds")))
   expect_false(file.exists(file.path(sbf_get_main(), "spatial", "y2.rds")))
   suppressMessages(sbf_rm_main(ask = FALSE))
-  
+
   # overwrite good obj with bad, then check load in warnings
   y <- data.frame(index = c(1, 2))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y, crs = 3264)
   sbf_save_spatial(y)
-  
+
   y <- data.frame(x = 1)
   saveRDS(y, file = file.path(sbf_get_main(), "spatial", "y.rds"))
   saveRDS(y, file = file.path(sbf_get_main(), "spatial", "x.rds"))
   expect_warning(sbf_load_spatial("y"), "^`y`is not a valid spatial object[.]$")
-  
+
   warnings <- capture_warnings(sbf_load_spatials())
   expect_identical(warnings[1], "`x`is not a valid spatial object.")
   expect_identical(warnings[2], "`y`is not a valid spatial object.")
   suppressMessages(sbf_rm_main(ask = FALSE))
-  
+
   # test pluralised spatial funs
   y <- data.frame(index = c(1, 2))
   y$geometry <- sf::st_point(c(0, 1)) |> sf::st_sfc()
   y <- sf::st_as_sf(y, crs = 3264)
   z <- y
-  
+
   expect_identical(
     sbf_save_spatials(env = as.environment(list(y = y, z = z))),
     c(
@@ -299,12 +328,12 @@ test_that("spatial", {
       file.path(sbf_get_main(), "spatial/z.rds")
     )
   )
-  
+
   expect_identical(
     list.files(file.path(sbf_get_main(), "spatial")),
     sort(c("y.rds", "z.rds"))
   )
-  
+
   y <- 0
   z <- 0
   expect_identical(sbf_load_spatials(), c("y", "z"))
@@ -321,23 +350,24 @@ test_that("data", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
-  
+
   y <- 1
   expect_warning(sbf_load_datas(), "no data to load")
-  
+
   expect_error(sbf_save_data(), "argument \"x\" is missing, with no default")
-  expect_error(sbf_save_data(y),
-               "^`x` must inherit from S3 class 'data.frame'[.]$",
-               class = "chk_error"
+  expect_error(
+    sbf_save_data(y),
+    "^`x` must inherit from S3 class 'data.frame'[.]$",
+    class = "chk_error"
   )
   x <- data.frame(x = 1)
   expect_identical(sbf_save_data(x), file.path(sbf_get_main(), "data/x.rds"))
   expect_identical(sbf_load_data("x"), x)
   chk::expect_chk_error(sbf_load_data("x2"))
-  
+
   expect_true(file.exists(file.path(sbf_get_main(), "data", "x.rds")))
   expect_false(file.exists(file.path(sbf_get_main(), "data", "x2.rds")))
-  
+
   y <- data.frame(z = 3)
   expect_identical(
     sbf_save_datas(env = as.environment(list(x = x, y = y))),
@@ -355,7 +385,7 @@ test_that("data", {
   expect_identical(sbf_load_datas(), c("x", "y"))
   expect_identical(x, data.frame(x = 1))
   expect_identical(y, data.frame(z = 3))
-  
+
   data <- sbf_load_datas_recursive()
   expect_s3_class(data, "tbl_df")
   expect_identical(colnames(data), c("data", "name", "sub", "file"))
@@ -368,10 +398,13 @@ test_that("data", {
       file.path(sbf_get_main(), "data/y.rds")
     )
   )
-  
+
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_data("x"), x)
-  expect_message(expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0)))
+  expect_message(expect_identical(
+    sbf_reset_sub(rm = TRUE, ask = FALSE),
+    character(0)
+  ))
   chk::expect_chk_error(sbf_load_data("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
   expect_identical(
@@ -390,26 +423,27 @@ test_that("number", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
-  
+
   y <- numeric(0)
   expect_warning(sbf_load_numbers(), "no numbers to load")
   expect_error(
     sbf_save_number(),
     "argument \"x\" is missing, with no default"
   )
-  expect_error(sbf_save_number(y),
-               "^`x` must be a number [(]non-missing numeric scalar[)][.]$",
-               class = "chk_error"
+  expect_error(
+    sbf_save_number(y),
+    "^`x` must be a number [(]non-missing numeric scalar[)][.]$",
+    class = "chk_error"
   )
   x <- 1L
   expect_identical(
     sbf_save_number(x),
     file.path(sbf_get_main(), "numbers/x.rds")
   )
-  
+
   expect_true(file.exists(file.path(sbf_get_main(), "numbers", "x.rds")))
   expect_false(file.exists(file.path(sbf_get_main(), "numbers", "x2.rds")))
-  
+
   expect_identical(sbf_load_number("x"), 1)
   expect_identical(
     list.files(file.path(sbf_get_main(), "numbers")),
@@ -417,7 +451,7 @@ test_that("number", {
   )
   csv <- read.csv(file.path(sbf_get_main(), "numbers", "x.csv"))
   expect_equal(csv, data.frame(x = 1))
-  
+
   y <- 3
   expect_identical(
     sbf_save_numbers(env = as.environment(list(x = x, y = y))),
@@ -435,7 +469,7 @@ test_that("number", {
   expect_identical(sbf_load_numbers(), c("x", "y"))
   expect_identical(x, 1)
   expect_identical(y, 3)
-  
+
   data <- sbf_load_numbers_recursive()
   expect_s3_class(data, "tbl_df")
   expect_identical(colnames(data), c("numbers", "name", "sub", "file"))
@@ -448,11 +482,14 @@ test_that("number", {
       file.path(sbf_get_main(), "numbers/y.rds")
     )
   )
-  
+
   chk::expect_chk_error(sbf_load_number("x2"))
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_number("x"), 1)
-  expect_message(expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0)))
+  expect_message(expect_identical(
+    sbf_reset_sub(rm = TRUE, ask = FALSE),
+    character(0)
+  ))
   chk::expect_chk_error(sbf_load_number("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
   expect_identical(
@@ -464,24 +501,27 @@ test_that("number", {
   chk::expect_chk_error(sbf_load_number("x2", exists = TRUE))
   expect_null(sbf_load_number("x2", exists = NA))
   expect_null(sbf_load_number("x2", exists = FALSE))
-  
+
   z <- 4L
   expect_identical(
     sbf_save_number(z, x_name = "important_num"),
     file.path(sbf_get_main(), "numbers/sub/important_num.rds")
   )
-  expect_true(file.exists(file.path(sbf_get_main(), "numbers/sub/important_num.rds")))
+  expect_true(file.exists(file.path(
+    sbf_get_main(),
+    "numbers/sub/important_num.rds"
+  )))
   expect_false(file.exists(file.path(sbf_get_main(), "numbers/sub/z.rds")))
   expect_identical(sbf_load_number("important_num"), 4)
   csv <- read.csv(file.path(sbf_get_main(), "numbers/sub/important_num.csv"))
   expect_equal(csv, data.frame(x = 4))
-  
+
   sbf_save_number(66666.6666, x_name = "sixes")
   expect_identical(sbf_load_number("sixes"), 66666.6666)
-  
+
   sbf_save_number(66666.6666, x_name = "sixes", signif = 4)
   expect_identical(sbf_load_number("sixes"), 66670)
-  
+
   withr::local_options(list(sbf.signif = 5))
   sbf_save_number(66666.6666, x_name = "sixes")
   expect_identical(sbf_load_number("sixes"), 66667)
@@ -491,7 +531,7 @@ test_that("string", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
-  
+
   y <- "two words"
   expect_warning(sbf_load_strings(), "no strings to load")
   expect_error(
@@ -502,10 +542,10 @@ test_that("string", {
     sbf_save_string(y),
     file.path(sbf_get_main(), "strings/y.rds")
   )
-  
+
   expect_true(file.exists(file.path(sbf_get_main(), "strings", "y.rds")))
   expect_false(file.exists(file.path(sbf_get_main(), "strings", "x2.rds")))
-  
+
   expect_identical(sbf_load_string("y"), "two words")
   expect_identical(
     list.files(file.path(sbf_get_main(), "strings")),
@@ -513,7 +553,7 @@ test_that("string", {
   )
   txt <- readLines(file.path(sbf_get_main(), "strings", "y.txt"), warn = FALSE)
   expect_equal(txt, "two words")
-  
+
   x <- "one"
   expect_identical(
     sbf_save_strings(env = as.environment(list(x = x, y = y))),
@@ -531,7 +571,7 @@ test_that("string", {
   expect_identical(sbf_load_strings(), c("x", "y"))
   expect_identical(x, "one")
   expect_identical(y, "two words")
-  
+
   data <- sbf_load_strings_recursive()
   expect_s3_class(data, "tbl_df")
   expect_identical(colnames(data), c("strings", "name", "sub", "file"))
@@ -544,11 +584,14 @@ test_that("string", {
       file.path(sbf_get_main(), "strings/y.rds")
     )
   )
-  
+
   chk::expect_chk_error(sbf_load_string("x2"))
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_string("y"), "two words")
-  expect_message(expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0)))
+  expect_message(expect_identical(
+    sbf_reset_sub(rm = TRUE, ask = FALSE),
+    character(0)
+  ))
   chk::expect_chk_error(sbf_load_string("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
   expect_identical(
@@ -561,7 +604,7 @@ test_that("string", {
   chk::expect_chk_error(sbf_load_string("x2"))
   expect_null(sbf_load_string("x2", exists = NA))
   expect_null(sbf_load_string("x2", exists = FALSE))
-  
+
   data <- sbf_load_strings_recursive()
   expect_identical(colnames(data), c("strings", "name", "sub", "file"))
   expect_identical(data$strings, "two words")
@@ -573,49 +616,56 @@ test_that("datas_to_db", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
-  
+
   x <- data.frame(x = 1)
   y <- data.frame(z = 3)
-  expect_error(sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
-               "^`file` must specify an existing file [(]'.*dbs/database.sqlite' can't be found[)].$",
-               class = "chk_error"
+  expect_error(
+    sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
+    "^`file` must specify an existing file [(]'.*dbs/database.sqlite' can't be found[)].$",
+    class = "chk_error"
   )
-  
+
   conn <- sbf_open_db(exists = NA)
   withr::defer(suppressWarnings(DBI::dbDisconnect(conn)))
   expect_identical(
     list.files(file.path(sbf_get_main(), "dbs")),
     "database.sqlite"
   )
-  
+
   expect_error(
     sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
     "The following data frames in 'x' are unrecognised: 'y' and 'x'; but exists = TRUE."
   )
-  
-  DBI::dbExecute(conn, "CREATE TABLE x (
-                  x INTEGER PRIMARY KEY NOT NULL)")
-  
-  sbf_execute_db("CREATE TABLE y (
-                  z INTEGER PRIMARY KEY NOT NULL)")
-  
+
+  DBI::dbExecute(
+    conn,
+    "CREATE TABLE x (
+                  x INTEGER PRIMARY KEY NOT NULL)"
+  )
+
+  sbf_execute_db(
+    "CREATE TABLE y (
+                  z INTEGER PRIMARY KEY NOT NULL)"
+  )
+
   expect_identical(
     sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
     c("y", "x")
   )
-  
+
   expect_error(
     sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
     "UNIQUE constraint failed: y.z"
   )
-  
+
   expect_true(sbf_close_db(conn))
   x <- 0
   y <- 0
-  
-  expect_error(sbf_load_datas_from_db("z"),
-               "^`file` must specify an existing file [(]'.*dbs/z.sqlite' can't be found[)].$",
-               class = "chk_error"
+
+  expect_error(
+    sbf_load_datas_from_db("z"),
+    "^`file` must specify an existing file [(]'.*dbs/z.sqlite' can't be found[)].$",
+    class = "chk_error"
   )
   expect_identical(sbf_load_datas_from_db(), c("x", "y"))
   expect_identical(x, tibble::tibble(x = 1L))
@@ -626,7 +676,7 @@ test_that("datas_to_db", {
   )
   expect_identical(dbx, tibble::tibble(x = 1L))
   expect_identical(dby, tibble::tibble(z = 3L))
-  
+
   expect_error(
     sbf_save_data_to_db(x, db_name = "database"),
     "UNIQUE constraint failed: x.x"
@@ -635,7 +685,7 @@ test_that("datas_to_db", {
   file <- sbf_save_data_to_db(x, db_name = "database")
   expect_match(file, ".+/dbs/database.sqlite")
   expect_identical(sbf_load_data_from_db("x"), tibble::tibble(x = c(1L, 4L)))
-  
+
   expect_identical(
     sbf_load_db_metatable(),
     tibble::tibble(
@@ -645,7 +695,7 @@ test_that("datas_to_db", {
       Description = c(NA_character_, NA_character_)
     )
   )
-  
+
   x <- sbf_load_db_metatable()
   x$Description <- c("xy", "the End.")
   expect_identical(
@@ -681,27 +731,31 @@ test_that("datas_to_db", {
     sbf_save_db_metatable_descriptions(x, overwrite = TRUE),
     x[c("Table", "Column", "Description")]
   )
-  
+
   x$Table[1] <- "NotTable"
   expect_error(sbf_save_db_metatable_descriptions(x))
   expect_identical(
     sbf_save_db_metatable_descriptions(x, strict = FALSE),
     x[0, c("Table", "Column", "Description")]
   )
-  expect_identical(sbf_save_db_metatable_descriptions(
-    x,
-    strict = FALSE, overwrite = TRUE
-  )$Description, "yes")
-  
+  expect_identical(
+    sbf_save_db_metatable_descriptions(
+      x,
+      strict = FALSE,
+      overwrite = TRUE
+    )$Description,
+    "yes"
+  )
+
   x$Table[1] <- "X"
   x$Description <- NA_character_
   expect_identical(
     sbf_save_db_metatable_descriptions(x, overwrite = TRUE),
     x[c("Table", "Column", "Description")]
   )
-  
+
   expect_identical(sbf_load_db_metatable(), x)
-  
+
   expect_identical(
     sbf_save_db_metatable_descriptions(x),
     x[c("Table", "Column", "Description")]
@@ -712,28 +766,30 @@ test_that("table", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
-  
+
   y <- 1
   expect_warning(sbf_load_tables(), "no tables to load")
   expect_error(
     sbf_save_table(),
     "argument \"x\" is missing, with no default"
   )
-  expect_error(sbf_save_table(y),
-               "^`x` must inherit from S3 class 'data.frame'[.]$",
-               class = "chk_error"
+  expect_error(
+    sbf_save_table(y),
+    "^`x` must inherit from S3 class 'data.frame'[.]$",
+    class = "chk_error"
   )
   x <- data.frame(x = 1)
-  expect_error(sbf_save_table(data.frame(zz = I(list(t = 3))), x_name = "y"),
-               "^The following columns in `x` are not logical, numeric, character, factor, Date, hms or POSIXct: 'zz'[.]$",
-               class = "chk_error"
+  expect_error(
+    sbf_save_table(data.frame(zz = I(list(t = 3))), x_name = "y"),
+    "^The following columns in `x` are not logical, numeric, character, factor, Date, hms or POSIXct: 'zz'[.]$",
+    class = "chk_error"
   )
-  
+
   expect_identical(sbf_save_table(x), file.path(sbf_get_main(), "tables/x.rds"))
-  
+
   expect_true(file.exists(file.path(sbf_get_main(), "tables/x.rds")))
   expect_false(file.exists(file.path(sbf_get_main(), "tables/x2.rds")))
-  
+
   expect_identical(sbf_load_table("x"), x)
   expect_identical(
     list.files(file.path(sbf_get_main(), "tables")),
@@ -742,8 +798,11 @@ test_that("table", {
   csv <- read.csv(file.path(sbf_get_main(), "tables", "x.csv"))
   expect_equal(csv, x)
   meta <- yaml::read_yaml(file.path(sbf_get_main(), "tables", "x.yaml"))
-  expect_identical(meta, list(caption = "", report = TRUE, tag = "", notes = ""))
-  
+  expect_identical(
+    meta,
+    list(caption = "", report = TRUE, tag = "", notes = "")
+  )
+
   y <- data.frame(z = 2L)
   expect_identical(
     sbf_save_table(y, report = FALSE, caption = "A caption"),
@@ -754,7 +813,7 @@ test_that("table", {
   expect_identical(sbf_load_tables(), c("x", "y"))
   expect_identical(x, data.frame(x = 1))
   expect_identical(y, data.frame(z = 2L))
-  
+
   data <- sbf_load_tables_recursive()
   expect_s3_class(data, "tbl_df")
   expect_identical(colnames(data), c("tables", "name", "sub", "file"))
@@ -767,19 +826,25 @@ test_that("table", {
       file.path(sbf_get_main(), "tables/y.rds")
     )
   )
-  
+
   data2 <- sbf_load_tables_recursive(meta = TRUE)
   expect_identical(
     colnames(data2),
     c(
-      "tables", "name", "sub", "file",
-      "caption", "report", "tag", "notes"
+      "tables",
+      "name",
+      "sub",
+      "file",
+      "caption",
+      "report",
+      "tag",
+      "notes"
     )
   )
   expect_identical(data2[c("tables", "name", "sub", "file")], data)
   expect_identical(data2$caption, c("", "A caption"))
   expect_identical(data2$report, c(TRUE, FALSE))
-  
+
   expect_identical(data$tables[[1]], data.frame(x = 1))
   expect_identical(data$name, c("x", "y"))
   expect_identical(
@@ -789,11 +854,14 @@ test_that("table", {
       file.path(sbf_get_main(), "tables/y.rds")
     )
   )
-  
+
   chk::expect_chk_error(sbf_load_table("x2"))
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_table("x"), x)
-  expect_message(expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0)))
+  expect_message(expect_identical(
+    sbf_reset_sub(rm = TRUE, ask = FALSE),
+    character(0)
+  ))
   chk::expect_chk_error(sbf_load_table("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
   expect_identical(
@@ -812,16 +880,16 @@ test_that("block", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
-  
+
   sbf_set_main(tempdir())
   y <- "two words"
   expect_warning(sbf_load_blocks(), "no blocks to load")
   expect_error(sbf_save_block(), "argument \"x\" is missing, with no default")
   expect_identical(sbf_save_block(y), file.path(sbf_get_main(), "blocks/y.rds"))
-  
+
   expect_true(file.exists(file.path(sbf_get_main(), "blocks/y.rds")))
   expect_false(file.exists(file.path(sbf_get_main(), "blocks/x2.rds")))
-  
+
   expect_identical(sbf_load_block("y"), "two words")
   expect_identical(
     list.files(file.path(sbf_get_main(), "blocks")),
@@ -829,7 +897,7 @@ test_that("block", {
   )
   txt <- readLines(file.path(sbf_get_main(), "blocks", "y.txt"), warn = FALSE)
   expect_equal(txt, "two words")
-  
+
   one <- "some code"
   expect_identical(
     sbf_save_block(one, tag = "R"),
@@ -840,7 +908,7 @@ test_that("block", {
   expect_identical(sbf_load_blocks(), c("one", "y"))
   expect_identical(one, "some code")
   expect_identical(y, "two words")
-  
+
   data <- sbf_load_blocks_recursive()
   expect_s3_class(data, "tbl_df")
   expect_identical(colnames(data), c("blocks", "name", "sub", "file"))
@@ -853,25 +921,34 @@ test_that("block", {
       file.path(sbf_get_main(), "blocks/y.rds")
     )
   )
-  
+
   data2 <- sbf_load_blocks_recursive(meta = TRUE)
   expect_identical(
     colnames(data2),
     c(
-      "blocks", "name", "sub", "file",
-      "caption", "report", "tag", "notes"
+      "blocks",
+      "name",
+      "sub",
+      "file",
+      "caption",
+      "report",
+      "tag",
+      "notes"
     )
   )
   expect_identical(data2[c("blocks", "name", "sub", "file")], data)
   expect_identical(data2$tag, c("R", ""))
-  
+
   data3 <- sbf_load_blocks_recursive(meta = TRUE, tag = "R")
   expect_identical(data3, data2[1, ])
-  
+
   chk::expect_chk_error(sbf_load_block("x2"))
   expect_identical(sbf_reset_sub(), character(0))
   expect_identical(sbf_load_block("y"), "two words")
-  expect_message(expect_identical(sbf_reset_sub(rm = TRUE, ask = FALSE), character(0)))
+  expect_message(expect_identical(
+    sbf_reset_sub(rm = TRUE, ask = FALSE),
+    character(0)
+  ))
   chk::expect_chk_error(sbf_load_block("x"))
   expect_identical(sbf_set_sub("sub"), "sub")
   expect_identical(
@@ -892,8 +969,10 @@ test_that("plot", {
   sbf_close_windows()
 
   y <- 1
-  expect_error(sbf_save_plot(y), "^`x` must inherit from S3 class 'ggplot'[.]$",
-               class = "chk_error"
+  expect_error(
+    sbf_save_plot(y),
+    "^`x` must inherit from S3 class 'ggplot'[.]$",
+    class = "chk_error"
   )
 
   x <- ggplot2::ggplot()
@@ -905,8 +984,10 @@ test_that("plot", {
   expect_false(file.exists(file.path(sbf_get_main(), "plots/x2.rds")))
 
   # x has no csv or xlsx because it has no main data or layers
-  expect_identical(list.files(file.path(sbf_get_main(), "plots")),
-                   c("x.png", "x.rds", "x.yaml"))
+  expect_identical(
+    list.files(file.path(sbf_get_main(), "plots")),
+    c("x.png", "x.rds", "x.yaml")
+  )
 
   y <- ggplot2::ggplot(
     data = data.frame(x = 1, y = 2, z = NA_real_),
@@ -914,7 +995,7 @@ test_that("plot", {
   )
   expect_identical(sbf_save_plot(y), file.path(sbf_get_main(), "plots/y.rds"))
   expect_false(file.exists(paste0(sbf_get_main(), "plots/y.csv")))
-  
+
   y <- ggplot2::ggplot(
     data = data.frame(x = 1:3, y = 2:4, z = NA_real_),
     ggplot2::aes(x = x, y = y)
@@ -924,24 +1005,40 @@ test_that("plot", {
     list.files(file.path(sbf_get_main(), "plots")),
     sort(c(
       # x has no csv or xlsx because it has no main data or layers
-      "x.png", "x.yaml", "x.rds",
+      "x.png",
+      "x.yaml",
+      "x.rds",
       # y has a csv and xlsx because it has main data despite having no layers
-      "y.csv", "y.png", "y.yaml", "y.rds", "y.xlsx"
+      "y.csv",
+      "y.png",
+      "y.yaml",
+      "y.rds",
+      "y.xlsx"
     ))
   )
-  expect_identical(read.csv(file.path(sbf_get_main(), "plots/y.csv")),
-                   data.frame(x = 1:3, y = 2:4))
+  expect_identical(
+    read.csv(file.path(sbf_get_main(), "plots/y.csv")),
+    data.frame(x = 1:3, y = 2:4)
+  )
 
   expect_identical(sbf_save_plot(y), file.path(sbf_get_main(), "plots/y.rds"))
   expect_true(all.equal(sbf_load_plot("y"), y))
-  expect_identical(sbf_load_plot_data("y"),
-                   data.frame(x = 1:3, y = 2:4, z = NA_real_))
-  expect_identical(read.csv(file.path(sbf_get_main(), "plots", "y.csv")),
-                   data.frame(x = 1:3, y = 2:4))
-  expect_identical(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "y.xlsx")),
-                   dplyr::tibble(x = as.numeric(1:3), y = as.numeric(2:4)))
-  expect_identical(readxl::excel_sheets(file.path(sbf_get_main(), "plots", "y.xlsx")),
-                   "1_0_data")
+  expect_identical(
+    sbf_load_plot_data("y"),
+    data.frame(x = 1:3, y = 2:4, z = NA_real_)
+  )
+  expect_identical(
+    read.csv(file.path(sbf_get_main(), "plots", "y.csv")),
+    data.frame(x = 1:3, y = 2:4)
+  )
+  expect_identical(
+    readxl::read_xlsx(file.path(sbf_get_main(), "plots", "y.xlsx")),
+    dplyr::tibble(x = as.numeric(1:3), y = as.numeric(2:4))
+  )
+  expect_identical(
+    readxl::excel_sheets(file.path(sbf_get_main(), "plots", "y.xlsx")),
+    "1_0_data"
+  )
 
   expect_identical(sbf_load_plots_data(), c("x", "y"))
   expect_identical(x, data.frame())
@@ -958,20 +1055,39 @@ test_that("plot", {
     data = data.frame(x = c(2, 3), y = c(3, 2)),
     ggplot2::aes(x = x, y = y)
   )
-  expect_identical(sbf_save_plot( # saves last plot as "plot"
-    csv = 1L, dpi = 320L, caption = "one c",
-    report = FALSE, width = 2.55, height = 3L,
-    units = "cm"),
-    file.path(sbf_get_main(), "plots/plot.rds"))
+  expect_identical(
+    sbf_save_plot(
+      # saves last plot as "plot"
+      csv = 1L,
+      dpi = 320L,
+      caption = "one c",
+      report = FALSE,
+      width = 2.55,
+      height = 3L,
+      units = "cm"
+    ),
+    file.path(sbf_get_main(), "plots/plot.rds")
+  )
   expect_true(all.equal(sbf_load_plot("plot"), t))
 
   expect_identical(
     list.files(file.path(sbf_get_main(), "plots")),
     c(
-      "plot.png", "plot.rds", "plot.xlsx", "plot.yaml", # has data but no layers
-      "x.png", "x.rds", "x.yaml", # no data or layers
-      "y.csv", "y.png", "y.rds", "y.xlsx", "y.yaml", # has data but no layers
-      "z.png", "z.rds", "z.yaml" # dataset has only one row and no layers
+      "plot.png",
+      "plot.rds",
+      "plot.xlsx",
+      "plot.yaml", # has data but no layers
+      "x.png",
+      "x.rds",
+      "x.yaml", # no data or layers
+      "y.csv",
+      "y.png",
+      "y.rds",
+      "y.xlsx",
+      "y.yaml", # has data but no layers
+      "z.png",
+      "z.rds",
+      "z.yaml" # dataset has only one row and no layers
     )
   )
 
@@ -991,11 +1107,22 @@ test_that("plot", {
   )
 
   data2 <- sbf_load_plots_recursive(meta = TRUE)
-  expect_identical(colnames(data2), c(
-    "plots", "name", "sub", "file", "caption", "report",
-    "tag", "notes",
-    "width", "height", "dpi"
-  ))
+  expect_identical(
+    colnames(data2),
+    c(
+      "plots",
+      "name",
+      "sub",
+      "file",
+      "caption",
+      "report",
+      "tag",
+      "notes",
+      "width",
+      "height",
+      "dpi"
+    )
+  )
   expect_identical(data2$caption[1:2], c("one c", ""))
   expect_identical(data2$report[1:2], c(FALSE, TRUE))
   expect_equal(data2$width[1:2], c(1.003937, 6.000000))
@@ -1020,130 +1147,270 @@ test_that("plot", {
   # tests for checking that data for different layers save individually
   # and redundantly
   p_layers <- ggplot2::ggplot() +
-    ggplot2::facet_wrap(~ Species) +
+    ggplot2::facet_wrap(~Species) +
     ggplot2::geom_point(ggplot2::aes(mpg, cyl), datasets::mtcars) +
     ggplot2::geom_line(ggplot2::aes(mpg, cyl), datasets::mtcars) +
-    ggplot2::geom_line(ggplot2::aes(Sepal.Length, Petal.Length), datasets::iris) +
-    ggplot2::geom_smooth(ggplot2::aes(Sepal.Length, Petal.Length),
-                         datasets::iris, method = "loess", formula = y ~ x)
+    ggplot2::geom_line(
+      ggplot2::aes(Sepal.Length, Petal.Length),
+      datasets::iris
+    ) +
+    ggplot2::geom_smooth(
+      ggplot2::aes(Sepal.Length, Petal.Length),
+      datasets::iris,
+      method = "loess",
+      formula = y ~ x
+    )
 
-  expect_identical(sbf_save_plot(p_layers),
-                   file.path(sbf_get_main(), "plots", "p_layers.rds"))
+  expect_identical(
+    sbf_save_plot(p_layers),
+    file.path(sbf_get_main(), "plots", "p_layers.rds")
+  )
   expect_identical(
     list.files(file.path(sbf_get_main(), "plots")),
     c(
-      "p_layers.png", "p_layers.rds", "p_layers.xlsx", "p_layers.yaml", # has data & layers
-      "plot.png", "plot.rds", "plot.xlsx", "plot.yaml", # has data but no layers
-      "x.png", "x.rds", "x.yaml", # no data or layers
-      "y.csv", "y.png", "y.rds", "y.xlsx", "y.yaml", # has data but no layers
-      "z.png", "z.rds", "z.yaml" # has one-row data and no layers
+      "p_layers.png",
+      "p_layers.rds",
+      "p_layers.xlsx",
+      "p_layers.yaml", # has data & layers
+      "plot.png",
+      "plot.rds",
+      "plot.xlsx",
+      "plot.yaml", # has data but no layers
+      "x.png",
+      "x.rds",
+      "x.yaml", # no data or layers
+      "y.csv",
+      "y.png",
+      "y.rds",
+      "y.xlsx",
+      "y.yaml", # has data but no layers
+      "z.png",
+      "z.rds",
+      "z.yaml" # has one-row data and no layers
     )
   )
-  expect_equal(readxl::excel_sheets(file.path(sbf_get_main(), "plots", "p_layers.xlsx")),
-               c("1_1_point", "1_2_line", "1_3_line", "1_4_smooth"))
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                                 "1_1_point"),
-               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_layers)@data[[1]]) |>
-                 dplyr::tibble() |>
-                 dplyr::mutate(PANEL = as.character(PANEL)))
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                                 "1_2_line"),
-               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_layers)@data[[2]]) |>
-                 dplyr::tibble() |>
-                 dplyr::mutate(PANEL = as.character(PANEL)))
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                                 "1_3_line"),
-               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_layers)@data[[3]]) |>
-                 dplyr::tibble() |>
-                 dplyr::mutate(PANEL = as.character(PANEL)))
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                                 "1_4_smooth"),
-               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_layers)@data[[4]]) |>
-                 dplyr::tibble() |>
-                 dplyr::mutate(PANEL = as.character(PANEL)))
+  expect_equal(
+    readxl::excel_sheets(file.path(sbf_get_main(), "plots", "p_layers.xlsx")),
+    c("1_1_point", "1_2_line", "1_3_line", "1_4_smooth")
+  )
+  expect_equal(
+    readxl::read_xlsx(
+      file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
+      "1_1_point"
+    ),
+    tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_layers)@data[[
+      1
+    ]]) |>
+      dplyr::tibble() |>
+      dplyr::mutate(PANEL = as.character(PANEL))
+  )
+  expect_equal(
+    readxl::read_xlsx(
+      file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
+      "1_2_line"
+    ),
+    tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_layers)@data[[
+      2
+    ]]) |>
+      dplyr::tibble() |>
+      dplyr::mutate(PANEL = as.character(PANEL))
+  )
+  expect_equal(
+    readxl::read_xlsx(
+      file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
+      "1_3_line"
+    ),
+    tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_layers)@data[[
+      3
+    ]]) |>
+      dplyr::tibble() |>
+      dplyr::mutate(PANEL = as.character(PANEL))
+  )
+  expect_equal(
+    readxl::read_xlsx(
+      file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
+      "1_4_smooth"
+    ),
+    tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_layers)@data[[
+      4
+    ]]) |>
+      dplyr::tibble() |>
+      dplyr::mutate(PANEL = as.character(PANEL))
+  )
 
-  expect_error( # datasets are redundant but different because of row order
+  expect_error(
+    # datasets are redundant but different because of row order
     expect_equal(
-      readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                        "1_1_point"),
-      readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                        "1_2_line")
+      readxl::read_xlsx(
+        file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
+        "1_1_point"
       ),
-  "Expected `readxl::read_xlsx\\(...\\)` to equal `readxl::read_xlsx\\(...\\)`.")
+      readxl::read_xlsx(
+        file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
+        "1_2_line"
+      )
+    ),
+    "Expected `readxl::read_xlsx\\(...\\)` to equal `readxl::read_xlsx\\(...\\)`."
+  )
 
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                                 "1_1_point") |>
-                 dplyr::select(x, y, PANEL) |>
-                 dplyr::arrange(x, y),
-               readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
-                                 "1_2_line") |>
-                 dplyr::select(x, y, PANEL) |>
-                 dplyr::arrange(x, y))
+  expect_equal(
+    readxl::read_xlsx(
+      file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
+      "1_1_point"
+    ) |>
+      dplyr::select(x, y, PANEL) |>
+      dplyr::arrange(x, y),
+    readxl::read_xlsx(
+      file.path(sbf_get_main(), "plots", "p_layers.xlsx"),
+      "1_2_line"
+    ) |>
+      dplyr::select(x, y, PANEL) |>
+      dplyr::arrange(x, y)
+  )
 
   # tests for checking that data for different patchwork patches save
   # individually and redundantly
   p_patches <-
     patchwork:::`/.ggplot`(
       ggplot2:::`+`(
-        (ggplot2::ggplot(datasets::mtcars) + ggplot2::geom_line(ggplot2::aes(mpg, cyl, color = cyl))),
-        (ggplot2::ggplot() + ggplot2::geom_line(ggplot2::aes(Sepal.Length, Petal.Length), datasets::iris))
+        (ggplot2::ggplot(datasets::mtcars) +
+          ggplot2::geom_line(ggplot2::aes(mpg, cyl, color = cyl))),
+        (ggplot2::ggplot() +
+          ggplot2::geom_line(
+            ggplot2::aes(Sepal.Length, Petal.Length),
+            datasets::iris
+          ))
       ),
       ggplot2:::`+`(
-        (ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(mpg, cyl, color = cyl), datasets::mtcars)),
+        (ggplot2::ggplot() +
+          ggplot2::geom_point(
+            ggplot2::aes(mpg, cyl, color = cyl),
+            datasets::mtcars
+          )),
         ggplot2:::`+`(
-          (ggplot2::ggplot(datasets::iris) + ggplot2::geom_point(ggplot2::aes(Sepal.Length, Petal.Length))),
-          (ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(Sepal.Length, Petal.Length, color = Species), datasets::iris)))
+          (ggplot2::ggplot(datasets::iris) +
+            ggplot2::geom_point(ggplot2::aes(Sepal.Length, Petal.Length))),
+          (ggplot2::ggplot() +
+            ggplot2::geom_point(
+              ggplot2::aes(Sepal.Length, Petal.Length, color = Species),
+              datasets::iris
+            ))
+        )
       )
     )
 
-  expect_identical(sbf_save_plot(p_patches),
-                   file.path(sbf_get_main(), "plots", "p_patches.rds"))
+  expect_identical(
+    sbf_save_plot(p_patches),
+    file.path(sbf_get_main(), "plots", "p_patches.rds")
+  )
   expect_identical(
     list.files(file.path(sbf_get_main(), "plots")),
     c(
-      "p_layers.png", "p_layers.rds", "p_layers.xlsx", "p_layers.yaml", # has data & layers
-      "p_patches.csv", "p_patches.png", "p_patches.rds", "p_patches.xlsx", "p_patches.yaml",
-      "plot.png", "plot.rds", "plot.xlsx", "plot.yaml", # has data but no layers
-      "x.png", "x.rds", "x.yaml", # no data or layers
-      "y.csv", "y.png", "y.rds", "y.xlsx", "y.yaml", # has data but no layers
-      "z.png", "z.rds", "z.yaml" # has one-row data and no layers
+      "p_layers.png",
+      "p_layers.rds",
+      "p_layers.xlsx",
+      "p_layers.yaml", # has data & layers
+      "p_patches.csv",
+      "p_patches.png",
+      "p_patches.rds",
+      "p_patches.xlsx",
+      "p_patches.yaml",
+      "plot.png",
+      "plot.rds",
+      "plot.xlsx",
+      "plot.yaml", # has data but no layers
+      "x.png",
+      "x.rds",
+      "x.yaml", # no data or layers
+      "y.csv",
+      "y.png",
+      "y.rds",
+      "y.xlsx",
+      "y.yaml", # has data but no layers
+      "z.png",
+      "z.rds",
+      "z.yaml" # has one-row data and no layers
     )
   )
-  expect_equal(readxl::excel_sheets(file.path(sbf_get_main(), "plots", "p_patches.xlsx")),
-               c("1_0_data", "1_1_line",
-                 "2_1_line",
-                 "3_1_point",
-                 "4_0_data", "4_1_point",
-                 "5_1_point"))
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
-                                 "1_0_data"),
-               dplyr::tibble(datasets::mtcars))
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
-                                 "1_1_line"),
-               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[1]][[1]])@data[[1]]) |>
-                 dplyr::tibble())
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
-                                 "2_1_line"),
-               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[1]][[2]])@data[[1]]) |>
-                 dplyr::tibble())
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
-                                 "3_1_point"),
-               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[2]][[1]])@data[[1]]) |>
-                 dplyr::tibble())
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
-                                 "4_0_data"),
-               dplyr::tibble(datasets::iris) |>
-                 dplyr::mutate(Species = as.character(Species)))
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
-                                 "4_1_point"),
-               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[2]][[2]][[1]])@data[[1]]) |>
-                 dplyr::tibble())
-  expect_equal(readxl::read_xlsx(file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
-                                 "5_1_point"),
-               tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[2]][[2]][[2]])@data[[1]]) |>
-                 dplyr::tibble() |>
-                 dplyr::mutate(group = `attr<-`(group, "n", NULL)))
-  
+  expect_equal(
+    readxl::excel_sheets(file.path(sbf_get_main(), "plots", "p_patches.xlsx")),
+    c(
+      "1_0_data",
+      "1_1_line",
+      "2_1_line",
+      "3_1_point",
+      "4_0_data",
+      "4_1_point",
+      "5_1_point"
+    )
+  )
+  expect_equal(
+    readxl::read_xlsx(
+      file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
+      "1_0_data"
+    ),
+    dplyr::tibble(datasets::mtcars)
+  )
+  expect_equal(
+    readxl::read_xlsx(
+      file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
+      "1_1_line"
+    ),
+    tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[1]][[
+      1
+    ]])@data[[1]]) |>
+      dplyr::tibble()
+  )
+  expect_equal(
+    readxl::read_xlsx(
+      file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
+      "2_1_line"
+    ),
+    tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[1]][[
+      2
+    ]])@data[[1]]) |>
+      dplyr::tibble()
+  )
+  expect_equal(
+    readxl::read_xlsx(
+      file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
+      "3_1_point"
+    ),
+    tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[2]][[
+      1
+    ]])@data[[1]]) |>
+      dplyr::tibble()
+  )
+  expect_equal(
+    readxl::read_xlsx(
+      file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
+      "4_0_data"
+    ),
+    dplyr::tibble(datasets::iris) |>
+      dplyr::mutate(Species = as.character(Species))
+  )
+  expect_equal(
+    readxl::read_xlsx(
+      file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
+      "4_1_point"
+    ),
+    tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[2]][[
+      2
+    ]][[1]])@data[[1]]) |>
+      dplyr::tibble()
+  )
+  expect_equal(
+    readxl::read_xlsx(
+      file.path(sbf_get_main(), "plots", "p_patches.xlsx"),
+      "5_1_point"
+    ),
+    tidyplus::drop_uninformative_columns(ggplot2::ggplot_build(p_patches[[2]][[
+      2
+    ]][[2]])@data[[1]]) |>
+      dplyr::tibble() |>
+      dplyr::mutate(group = `attr<-`(group, "n", NULL))
+  )
+
   sbf_reset()
   sbf_close_windows()
 })
@@ -1164,33 +1431,35 @@ test_that("`sbf_load_plots_recursive()` loads all possible plots when `drop = NU
   p3 <- ggplot2::ggplot() +
     ggplot2::geom_point(ggplot2::aes(3, 3)) +
     ggplot2::ggtitle("Plot 3")
-  
+
   temp_dir <- withr::local_tempdir("test-files-", tmpdir = ".")
-  
+
   sbf_save_plot(x = p1, x_name = "plot-1", sub = "sub", main = temp_dir)
   sbf_save_plot(x = p2, x_name = "plot-2", sub = "sub", main = temp_dir)
   sbf_save_plot(x = p3, x_name = "plot-3", sub = "sub", main = temp_dir)
-  
+
   input <- sbf_load_plots_recursive(sub = "sub", main = temp_dir)
-  
+
   expect_equal(nrow(input), 3L)
   expect_s3_class(input$plots[[1]], "ggplot")
   expect_equal(input$plots[[1]]@labels$title, p1@labels$title)
   expect_equal(input$plots[[2]]@labels$title, p2@labels$title)
   expect_equal(input$plots[[3]]@labels$title, p3@labels$title)
-  
-  input <- sbf_load_plots_recursive(sub = "sub", main = temp_dir,
-                                    drop = "")
-  
+
+  input <- sbf_load_plots_recursive(sub = "sub", main = temp_dir, drop = "")
+
   expect_equal(nrow(input), 3L)
   expect_s3_class(input$plots[[1]], "ggplot")
   expect_equal(input$plots[[1]]@labels$title, p1@labels$title)
   expect_equal(input$plots[[2]]@labels$title, p2@labels$title)
   expect_equal(input$plots[[3]]@labels$title, p3@labels$title)
-  
-  input <- sbf_load_plots_recursive(sub = "sub", main = temp_dir,
-                                    drop = character(0))
-  
+
+  input <- sbf_load_plots_recursive(
+    sub = "sub",
+    main = temp_dir,
+    drop = character(0)
+  )
+
   expect_equal(nrow(input), 3L)
   expect_s3_class(input$plots[[1]], "ggplot")
   expect_equal(input$plots[[1]]@labels$title, p1@labels$title)
@@ -1208,15 +1477,19 @@ test_that("`sbf_load_plots_recursive()` only loads plot that do not match the pa
   p3 <- ggplot2::ggplot() +
     ggplot2::geom_point(ggplot2::aes(3, 3)) +
     ggplot2::ggtitle("Plot 3")
-  
+
   temp_dir <- withr::local_tempdir("test-files-", tmpdir = ".")
-  
+
   sbf_save_plot(x = p1, x_name = "plot-1", sub = "sub", main = temp_dir)
   sbf_save_plot(x = p2, x_name = "plot-2", sub = "sub", main = temp_dir)
   sbf_save_plot(x = p3, x_name = "plot-3", sub = "sub", main = temp_dir)
-  
-  input <- sbf_load_plots_recursive(sub = "sub", main = temp_dir, drop = "plot-3")
-  
+
+  input <- sbf_load_plots_recursive(
+    sub = "sub",
+    main = temp_dir,
+    drop = "plot-3"
+  )
+
   expect_equal(input$plots[[1]]@labels$title, p1@labels$title)
   expect_equal(input$plots[[2]]@labels$title, p2@labels$title)
   expect_equal(nrow(input), length(c(1, 2)))
@@ -1224,37 +1497,61 @@ test_that("`sbf_load_plots_recursive()` only loads plot that do not match the pa
 
 test_that("`sbf_load_plots_recursive()` drops relevant plots *before* loading them.", {
   p <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(1, 1))
-  
+
   temp_dir <- withr::local_tempdir("test-files-", tmpdir = ".")
-  
-  i <- vapply(1:3, function(i) {
-    sbf_save_plot(x = p + ggplot2::ggtitle(paste("Plot", i)),
-                  x_name = paste0("plot-", i),
-                  sub = paste0("sub", i), main = temp_dir)
-    return(i)
-  }, integer(1))
-  
-  t_dropped <- suppressWarnings(microbenchmark::microbenchmark({
-    plot_subset <- sbf_load_plots_recursive(main = temp_dir, drop = c("sub1", "sub2"))
-  }, unit = "millisecond"))
-  
-  t_all <- suppressWarnings(microbenchmark::microbenchmark({
-    plot_all <- sbf_load_plots_recursive(main = temp_dir)
-  }, unit = "millisecond"))
-  
+
+  i <- vapply(
+    1:3,
+    function(i) {
+      sbf_save_plot(
+        x = p + ggplot2::ggtitle(paste("Plot", i)),
+        x_name = paste0("plot-", i),
+        sub = paste0("sub", i),
+        main = temp_dir
+      )
+      return(i)
+    },
+    integer(1)
+  )
+
+  t_dropped <- suppressWarnings(microbenchmark::microbenchmark(
+    {
+      plot_subset <- sbf_load_plots_recursive(
+        main = temp_dir,
+        drop = c("sub1", "sub2")
+      )
+    },
+    unit = "millisecond"
+  ))
+
+  t_all <- suppressWarnings(microbenchmark::microbenchmark(
+    {
+      plot_all <- sbf_load_plots_recursive(main = temp_dir)
+    },
+    unit = "millisecond"
+  ))
+
   expect_lt(median(t_dropped$time), median(t_all$time))
   expect_lt(nrow(plot_subset), nrow(plot_all))
 })
 
 test_that("`sbf_load_plots_recursive()` returns an error if `drop` is not `NULL` or a character vector with non-empty strings.", {
-  expect_error(sbf_load_plots_recursive(drop = 1),
-               regexp = "`drop` must be character or NULL.")
-  expect_error(sbf_load_plots_recursive(drop = NA),
-               regexp = "`drop` must be character or NULL.")
-  expect_error(sbf_load_plots_recursive(drop = data.frame()),
-               regexp = "`drop` must be character or NULL.")
-  expect_error(sbf_load_plots_recursive(drop = NA_character_),
-               regexp = "`drop` must not have any missing values.")
+  expect_error(
+    sbf_load_plots_recursive(drop = 1),
+    regexp = "`drop` must be character or NULL."
+  )
+  expect_error(
+    sbf_load_plots_recursive(drop = NA),
+    regexp = "`drop` must be character or NULL."
+  )
+  expect_error(
+    sbf_load_plots_recursive(drop = data.frame()),
+    regexp = "`drop` must be character or NULL."
+  )
+  expect_error(
+    sbf_load_plots_recursive(drop = NA_character_),
+    regexp = "`drop` must not have any missing values."
+  )
 })
 
 test_that("`sbf_load_plots_recursive()` returns a table with no rows if no objects are in the sub.", {
@@ -1268,7 +1565,7 @@ test_that("sbf_load_plots_recursive() fails if at least one sub is populated and
   temp_dir <- withr::local_tempdir(pattern = "test-files-", tmpdir = ".")
   temp_dir <- gsub("./", "", temp_dir, fixed = TRUE)
   sbf_set_main(temp_dir)
-  
+
   p1 <- ggplot2::ggplot() +
     ggplot2::geom_point(ggplot2::aes(1, 1)) +
     ggplot2::ggtitle("Plot 1")
@@ -1278,52 +1575,78 @@ test_that("sbf_load_plots_recursive() fails if at least one sub is populated and
   p3 <- ggplot2::ggplot() +
     ggplot2::geom_point(ggplot2::aes(3, 3)) +
     ggplot2::ggtitle("Plot 3")
-  
-  expect_identical(sbf_load_plots_recursive(main = "nonexistent"),
-                   tibble(plots = list(), name = character(0),
-                          sub = character(0), file = character(0)))
-  
-  expect_identical(sbf_load_plots_recursive(main = "nonexistent", sub = "nope"),
-                   tibble(plots = list(), name = character(0),
-                          sub = character(0), file = character(0)))
-  
+
+  expect_identical(
+    sbf_load_plots_recursive(main = "nonexistent"),
+    tibble(
+      plots = list(),
+      name = character(0),
+      sub = character(0),
+      file = character(0)
+    )
+  )
+
+  expect_identical(
+    sbf_load_plots_recursive(main = "nonexistent", sub = "nope"),
+    tibble(
+      plots = list(),
+      name = character(0),
+      sub = character(0),
+      file = character(0)
+    )
+  )
+
   dir.create(paste0(sbf_get_main(), '/plots/sub'), recursive = TRUE)
-  
+
   # succeeds because the "sub" sub is empty
-  expect_equal(sbf_load_plots_recursive(main = temp_dir, drop = "sub"),
-               tibble(plots = list(), name = character(0),
-                      sub = character(0), file = character(0)))
-  
+  expect_equal(
+    sbf_load_plots_recursive(main = temp_dir, drop = "sub"),
+    tibble(
+      plots = list(),
+      name = character(0),
+      sub = character(0),
+      file = character(0)
+    )
+  )
+
   sbf_save_plot(x = p1, x_name = "plot-1", sub = "sub", main = temp_dir)
-  expect_equal(sbf_load_plots_recursive(sub = "", main = temp_dir, drop = "sub"),
-               tibble(plots = list(), name = character(0),
-                      sub = character(0), file = character(0)))
-  
+  expect_equal(
+    sbf_load_plots_recursive(sub = "", main = temp_dir, drop = "sub"),
+    tibble(
+      plots = list(),
+      name = character(0),
+      sub = character(0),
+      file = character(0)
+    )
+  )
+
   sbf_save_plot(x = p2, x_name = "plot-2", sub = "sub", main = temp_dir)
   sbf_save_plot(x = p3, x_name = "plot-3", sub = "sub", main = temp_dir)
   sbf_save_plot(x = p2, x_name = "plot-2", sub = "sub2", main = temp_dir)
   sbf_save_plot(x = p3, x_name = "plot-3", sub = "sub3", main = temp_dir)
-  
+
   expect_snapshot({
     out <- sbf_load_plots_recursive(main = temp_dir)
     out$file <- NULL
-    out})
-  
+    out
+  })
+
   expect_snapshot({
     out <- sbf_load_plots_recursive(main = temp_dir, drop = "sub")
     out$file <- NULL
-    out})
+    out
+  })
 })
 
 test_that("window", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
-  
+
   sbf_close_windows()
   withr::defer(sbf_close_windows())
   expect_error(sbf_save_window(), "^No such device[.]$")
-  
+
   skip("run locally as uses screen devices")
   expect_identical(sbf_reset_main(rm = TRUE, ask = FALSE), "output")
   sbf_open_window()
@@ -1337,13 +1660,21 @@ test_that("window", {
     list.files(file.path(sbf_get_main(), "windows")),
     sort(c("window.yaml", "window.png"))
   )
-  
+
   meta <- yaml::read_yaml(file.path(sbf_get_main(), "windows", "window.yaml"))
-  expect_identical(meta, list(
-    caption = "", report = TRUE, tag = "", notes = "",
-    width = 6, height = 7, dpi = 300
-  ))
-  
+  expect_identical(
+    meta,
+    list(
+      caption = "",
+      report = TRUE,
+      tag = "",
+      notes = "",
+      width = 6,
+      height = 7,
+      dpi = 300
+    )
+  )
+
   gp <- ggplot2::ggplot(
     data = data.frame(x = c(4, 5), y = c(6, 7)),
     ggplot2::aes(x = x, y = y)
@@ -1355,31 +1686,48 @@ test_that("window", {
     sbf_save_window("t2", dpi = 72, caption = "nice one", report = FALSE),
     file.path(sbf_get_main(), "windows/t2.png")
   )
-  
+
   expect_identical(
     list.files(file.path(sbf_get_main(), "windows")),
     sort(c("t2.yaml", "window.yaml", "t2.png", "window.png"))
   )
-  
+
   meta <- yaml::read_yaml(file.path(sbf_get_main(), "windows", "t2.yaml"))
-  expect_identical(meta, list(
-    caption = "nice one", report = FALSE, tag = "", notes = "",
-    width = 4, height = 3, dpi = 72
-  ))
-  
+  expect_identical(
+    meta,
+    list(
+      caption = "nice one",
+      report = FALSE,
+      tag = "",
+      notes = "",
+      width = 4,
+      height = 3,
+      dpi = 72
+    )
+  )
+
   data <- sbf_load_windows_recursive(sub = character(0))
   expect_s3_class(data, "tbl_df")
   expect_identical(colnames(data), c("windows", "name", "file"))
   expect_identical(data$name, c("t2", "window"))
   expect_identical(data$windows[1], "output/windows/t2.png")
   expect_identical(data$windows, data$file)
-  
+
   data2 <- sbf_load_windows_recursive(sub = character(0), meta = TRUE)
-  
-  expect_identical(colnames(data2), c(
-    "windows", "name", "file", "caption",
-    "report", "width", "height", "dpi"
-  ))
+
+  expect_identical(
+    colnames(data2),
+    c(
+      "windows",
+      "name",
+      "file",
+      "caption",
+      "report",
+      "width",
+      "height",
+      "dpi"
+    )
+  )
   expect_identical(data2[c("windows", "name", "file")], data)
   expect_identical(data2$caption, c("nice one", ""))
   expect_identical(data2$report, c(FALSE, TRUE))
@@ -1392,37 +1740,58 @@ test_that("png", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
-  
-  x <- system.file("extdata",
-                   "example.png",
-                   package = "subfoldr2",
-                   mustWork = TRUE
+
+  x <- system.file(
+    "extdata",
+    "example.png",
+    package = "subfoldr2",
+    mustWork = TRUE
   )
-  
+
   sbf_save_png(x, caption = "map")
-  
+
   expect_identical(
     list.files(file.path(sbf_get_main(), "windows")),
     sort(c("example.yaml", "example.png"))
   )
-  
+
   meta <- yaml::read_yaml(file.path(sbf_get_main(), "windows", "example.yaml"))
-  expect_identical(meta, list(
-    caption = "map", report = TRUE, tag = "", notes = "",
-    width = 6, height = 5.992, dpi = 125
-  ))
-  
+  expect_identical(
+    meta,
+    list(
+      caption = "map",
+      report = TRUE,
+      tag = "",
+      notes = "",
+      width = 6,
+      height = 5.992,
+      dpi = 125
+    )
+  )
+
   data <- sbf_load_windows_recursive(sub = character(0))
   expect_s3_class(data, "tbl_df")
   expect_identical(colnames(data), c("windows", "name", "sub", "file"))
   expect_identical(data$name, c("example"))
-  
+
   data <- sbf_load_windows_recursive(sub = character(0), meta = TRUE)
   expect_s3_class(data, "tbl_df")
-  expect_identical(colnames(data), c(
-    "windows", "name", "sub", "file", "caption", "report", "tag", "notes",
-    "width", "height", "dpi"
-  ))
+  expect_identical(
+    colnames(data),
+    c(
+      "windows",
+      "name",
+      "sub",
+      "file",
+      "caption",
+      "report",
+      "tag",
+      "notes",
+      "width",
+      "height",
+      "dpi"
+    )
+  )
   expect_identical(data$name, c("example"))
 })
 
@@ -1430,38 +1799,59 @@ test_that("png2", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
-  
-  x <- system.file("extdata",
-                   "example.png",
-                   package = "subfoldr2",
-                   mustWork = TRUE
+
+  x <- system.file(
+    "extdata",
+    "example.png",
+    package = "subfoldr2",
+    mustWork = TRUE
   )
-  
+
   sbf_save_png(x, caption = "map")
   sbf_save_png(x, x_name = "x2", caption = "map2")
-  
+
   expect_identical(
     list.files(file.path(sbf_get_main(), "windows")),
     sort(c("example.yaml", "example.png", "x2.png", "x2.yaml"))
   )
-  
+
   meta <- yaml::read_yaml(file.path(sbf_get_main(), "windows", "example.yaml"))
-  expect_identical(meta, list(
-    caption = "map", report = TRUE, tag = "", notes = "",
-    width = 6, height = 5.992, dpi = 125
-  ))
-  
+  expect_identical(
+    meta,
+    list(
+      caption = "map",
+      report = TRUE,
+      tag = "",
+      notes = "",
+      width = 6,
+      height = 5.992,
+      dpi = 125
+    )
+  )
+
   data <- sbf_load_windows_recursive(sub = character(0))
   expect_s3_class(data, "tbl_df")
   expect_identical(colnames(data), c("windows", "name", "sub", "file"))
   expect_identical(data$name, c("example", "x2"))
-  
+
   data <- sbf_load_windows_recursive(sub = character(0), meta = TRUE)
   expect_s3_class(data, "tbl_df")
-  expect_identical(colnames(data), c(
-    "windows", "name", "sub", "file", "caption", "report", "tag", "notes",
-    "width", "height", "dpi"
-  ))
+  expect_identical(
+    colnames(data),
+    c(
+      "windows",
+      "name",
+      "sub",
+      "file",
+      "caption",
+      "report",
+      "tag",
+      "notes",
+      "width",
+      "height",
+      "dpi"
+    )
+  )
   expect_identical(data$name, c("example", "x2"))
 })
 
@@ -1472,7 +1862,7 @@ test_that("load_rdss_recursive() lists non-rds files without reading them", {
 
   sbf_save_table(data.frame(z = 1L), x_name = "x", caption = "cap")
   sbf_save_table(data.frame(z = 1L), x_name = "x2", caption = "cap")
-  
+
   # non-rds extensions (e.g. yaml metadata) are listed but not deserialized,
   # so this does not attempt readRDS() on a yaml file
   data <- load_rdss_recursive(class = "tables", ext = "yaml")
@@ -1485,11 +1875,11 @@ test_that("save table glue", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
-  
+
   data <- data.frame(x = 1)
   sbf_save_table(data, caption = "character")
   sbf_save_table(data, x_name = "data2", caption = glue::glue("glue"))
-  
+
   expect_identical(
     sbf_load_tables_recursive(meta = TRUE)$caption,
     c("character", "glue")
@@ -1501,14 +1891,14 @@ test_that("save df as excel no sf columns", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   data <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing")
   )
   sbf_save_excel(data)
   data_test <- readxl::read_excel(file.path(path, "excel/data.xlsx"))
-  
+
   expect_identical(colnames(data_test), c("Places", "Activity"))
   expect_identical(data[["Places"]], c("Yakoun Lake", "Meyer Lake"))
   expect_identical(data[["Activity"]], c("boating", "fishing"))
@@ -1519,23 +1909,28 @@ test_that("save df as excel with sf point column", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   data <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing"),
     X = c(53.350808, 53.640981),
     Y = c(-132.280579, -132.055175)
   )
-  
+
   data <- convert_coords_to_sfc(data)
-  
+
   sbf_save_excel(data)
   data <- readxl::read_excel(file.path(path, "excel/data.xlsx"))
-  
-  expect_identical(colnames(data), c(
-    "Places", "Activity",
-    "geometry_X", "geometry_Y"
-  ))
+
+  expect_identical(
+    colnames(data),
+    c(
+      "Places",
+      "Activity",
+      "geometry_X",
+      "geometry_Y"
+    )
+  )
   expect_identical(data[["Places"]], c("Yakoun Lake", "Meyer Lake"))
   expect_identical(data[["Activity"]], c("boating", "fishing"))
   expect_equal(data[["geometry_X"]], c(53.350808, 53.640981))
@@ -1547,7 +1942,7 @@ test_that("save df as excel with multiple sf point columns", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   data <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing"),
@@ -1556,21 +1951,28 @@ test_that("save df as excel with multiple sf point columns", {
     X2 = c(53.350808, 53.640981),
     Y2 = c(-132.280579, -132.055175)
   )
-  
+
   data <- convert_coords_to_sfc(data)
-  data <- convert_coords_to_sfc(data,
-                                coords = c("X2", "Y2"),
-                                sfc_name = "geometry2"
+  data <- convert_coords_to_sfc(
+    data,
+    coords = c("X2", "Y2"),
+    sfc_name = "geometry2"
   )
-  
+
   sbf_save_excel(data)
   data <- readxl::read_excel(file.path(path, "excel/data.xlsx"))
-  
-  expect_identical(colnames(data), c(
-    "Places", "Activity",
-    "geometry_X", "geometry_Y",
-    "geometry2_X", "geometry2_Y"
-  ))
+
+  expect_identical(
+    colnames(data),
+    c(
+      "Places",
+      "Activity",
+      "geometry_X",
+      "geometry_Y",
+      "geometry2_X",
+      "geometry2_Y"
+    )
+  )
   expect_identical(data[["Places"]], c("Yakoun Lake", "Meyer Lake"))
   expect_identical(data[["Activity"]], c("boating", "fishing"))
   expect_equal(data[["geometry_X"]], c(53.350808, 53.640981))
@@ -1584,7 +1986,7 @@ test_that("save df as excel with multiple sf linstring columns", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   data <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing"),
@@ -1593,20 +1995,21 @@ test_that("save df as excel with multiple sf linstring columns", {
     X2 = c(53.350808, 53.640981),
     Y2 = c(-132.280579, -132.055175)
   )
-  
+
   data <- convert_coords_to_sfc(data)
-  data <- convert_coords_to_sfc(data,
-                                coords = c("X2", "Y2"),
-                                sfc_name = "geometry2"
+  data <- convert_coords_to_sfc(
+    data,
+    coords = c("X2", "Y2"),
+    sfc_name = "geometry2"
   )
-  
+
   data <- sf::st_cast(data, "LINESTRING")
   data <- sf::st_set_geometry(data, "geometry")
   data <- sf::st_cast(data, "LINESTRING")
-  
+
   sbf_save_excel(data)
   data <- readxl::read_excel(file.path(path, "excel/data.xlsx"))
-  
+
   expect_identical(colnames(data), c("Places", "Activity"))
 })
 
@@ -1615,7 +2018,7 @@ test_that("save df as excel with linstring column and sf point", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   data <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing"),
@@ -1624,22 +2027,28 @@ test_that("save df as excel with linstring column and sf point", {
     X2 = c(53.350808, 53.640981),
     Y2 = c(-132.280579, -132.055175)
   )
-  
+
   data <- convert_coords_to_sfc(data)
-  data <- convert_coords_to_sfc(data,
-                                coords = c("X2", "Y2"),
-                                sfc_name = "geometry2"
+  data <- convert_coords_to_sfc(
+    data,
+    coords = c("X2", "Y2"),
+    sfc_name = "geometry2"
   )
-  
+
   data <- sf::st_cast(data, "LINESTRING")
-  
+
   sbf_save_excel(data)
   data <- readxl::read_excel(file.path(path, "excel/data.xlsx"))
-  
-  expect_identical(colnames(data), c(
-    "Places", "Activity",
-    "geometry_X", "geometry_Y"
-  ))
+
+  expect_identical(
+    colnames(data),
+    c(
+      "Places",
+      "Activity",
+      "geometry_X",
+      "geometry_Y"
+    )
+  )
 })
 
 test_that("save df as excel with blob column", {
@@ -1647,7 +2056,7 @@ test_that("save df as excel with blob column", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   expect_output(
     data <- data.frame(
       Places = c("Yakoun Lake", "Meyer Lake"),
@@ -1658,10 +2067,10 @@ test_that("save df as excel with blob column", {
       )
     )
   )
-  
+
   sbf_save_excel(data)
   data <- readxl::read_excel(file.path(path, "excel/data.xlsx"))
-  
+
   expect_identical(colnames(data), c("Places", "Activity"))
   expect_identical(data[["Places"]], c("Yakoun Lake", "Meyer Lake"))
   expect_identical(data[["Activity"]], c("boating", "fishing"))
@@ -1672,7 +2081,7 @@ test_that("checking return value for sbf_save_excel", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   data <- data.frame(x = seq(100))
   return_path <- sbf_save_excel(data)
   expect_match(return_path, "output/excel/data.xlsx$")
@@ -1680,83 +2089,83 @@ test_that("checking return value for sbf_save_excel", {
 
 test_that("two spreadsheets are created due to long table with correct sheet
           pairing", {
-            sbf_reset()
-            path <- file.path(withr::local_tempdir(), "output")
-            sbf_set_main(path)
-            withr::defer(sbf_reset())
-            
-            data <- data.frame(x = seq(2097150))
-            sbf_save_excel(data, max_sheets = 2L)
-            
-            data_1 <- readxl::read_excel(
-              file.path(path, "excel/data.xlsx"),
-              sheet = 1
-            )
-            data_2 <- readxl::read_excel(
-              file.path(path, "excel/data.xlsx"),
-              sheet = 2
-            )
-            
-            expect_error(readxl::read_excel(
-              file.path(path, "excel/data.xlsx"),
-              sheet = 3
-            ))
-            
-            expect_equal(nrow(data_1), 1048575L)
-            expect_equal(nrow(data_2), 1048575L)
-          })
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+
+  data <- data.frame(x = seq(2097150))
+  sbf_save_excel(data, max_sheets = 2L)
+
+  data_1 <- readxl::read_excel(
+    file.path(path, "excel/data.xlsx"),
+    sheet = 1
+  )
+  data_2 <- readxl::read_excel(
+    file.path(path, "excel/data.xlsx"),
+    sheet = 2
+  )
+
+  expect_error(readxl::read_excel(
+    file.path(path, "excel/data.xlsx"),
+    sheet = 3
+  ))
+
+  expect_equal(nrow(data_1), 1048575L)
+  expect_equal(nrow(data_2), 1048575L)
+})
 
 test_that("two spreadsheets are created due to long table when only 1 sheet
           requested", {
-            sbf_reset()
-            path <- file.path(withr::local_tempdir(), "output")
-            sbf_set_main(path)
-            withr::defer(sbf_reset())
-            
-            data <- data.frame(x = seq(2097150))
-            sbf_save_excel(data, max_sheets = 1L)
-            
-            data_1 <- readxl::read_excel(
-              file.path(path, "excel/data.xlsx"),
-              sheet = 1
-            )
-            
-            expect_error(readxl::read_excel(
-              file.path(path, "excel/data.xlsx"),
-              sheet = 2
-            ))
-            
-            expect_equal(nrow(data_1), 1048575L)
-          })
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+
+  data <- data.frame(x = seq(2097150))
+  sbf_save_excel(data, max_sheets = 1L)
+
+  data_1 <- readxl::read_excel(
+    file.path(path, "excel/data.xlsx"),
+    sheet = 1
+  )
+
+  expect_error(readxl::read_excel(
+    file.path(path, "excel/data.xlsx"),
+    sheet = 2
+  ))
+
+  expect_equal(nrow(data_1), 1048575L)
+})
 
 test_that("two spreadsheets are created due to long table when extra sheets
           requested", {
-            sbf_reset()
-            path <- file.path(withr::local_tempdir(), "output")
-            sbf_set_main(path)
-            withr::defer(sbf_reset())
-            
-            data <- data.frame(x = seq(2097150))
-            sbf_save_excel(data, max_sheets = 5L)
-            
-            data_1 <- readxl::read_excel(
-              file.path(path, "excel/data.xlsx"),
-              sheet = 1
-            )
-            
-            data_2 <- readxl::read_excel(
-              file.path(path, "excel/data.xlsx"),
-              sheet = 2
-            )
-            
-            expect_error(readxl::read_excel(
-              file.path(path, "excel/data.xlsx"),
-              sheet = 3
-            ))
-            
-            expect_equal(nrow(data_1), 1048575L)
-            expect_equal(nrow(data_2), 1048575L)
-          })
+  sbf_reset()
+  path <- file.path(withr::local_tempdir(), "output")
+  sbf_set_main(path)
+  withr::defer(sbf_reset())
+
+  data <- data.frame(x = seq(2097150))
+  sbf_save_excel(data, max_sheets = 5L)
+
+  data_1 <- readxl::read_excel(
+    file.path(path, "excel/data.xlsx"),
+    sheet = 1
+  )
+
+  data_2 <- readxl::read_excel(
+    file.path(path, "excel/data.xlsx"),
+    sheet = 2
+  )
+
+  expect_error(readxl::read_excel(
+    file.path(path, "excel/data.xlsx"),
+    sheet = 3
+  ))
+
+  expect_equal(nrow(data_1), 1048575L)
+  expect_equal(nrow(data_2), 1048575L)
+})
 
 
 test_that("save two tables from the environment to separate excel files", {
@@ -1764,25 +2173,27 @@ test_that("save two tables from the environment to separate excel files", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   sites <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing")
   )
-  
+
   species <- data.frame(
     Species = c("Rainbow Trout", "Coho"),
     Code = c("RT", "CO")
   )
-  
-  sbf_save_excels(env = as.environment(list(
-    sites = sites,
-    species = species
-  )))
-  
+
+  sbf_save_excels(
+    env = as.environment(list(
+      sites = sites,
+      species = species
+    ))
+  )
+
   site_data <- readxl::read_excel(file.path(path, "excel/sites.xlsx"))
   species_data <- readxl::read_excel(file.path(path, "excel/species.xlsx"))
-  
+
   expect_identical(colnames(site_data), c("Places", "Activity"))
   expect_identical(colnames(species_data), c("Species", "Code"))
 })
@@ -1792,10 +2203,10 @@ test_that("checking return value for sbf_save_excels", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   data <- data.frame(x = seq(100))
   return_path <- sbf_save_excels(env = as.environment(list(data = data)))
-  
+
   expect_match(return_path, "output/excel/data.xlsx$")
 })
 
@@ -1804,26 +2215,28 @@ test_that("save two dataframes as excel workbook", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   sites <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing")
   )
-  
+
   species <- data.frame(
     Species = c("Rainbow Trout", "Coho"),
     Code = c("RT", "CO")
   )
-  
+
   sbf_save_workbook("data")
-  
-  site_data <- readxl::read_excel(file.path(path, "excel/data.xlsx"),
-                                  sheet = "sites"
+
+  site_data <- readxl::read_excel(
+    file.path(path, "excel/data.xlsx"),
+    sheet = "sites"
   )
-  species_data <- readxl::read_excel(file.path(path, "excel/data.xlsx"),
-                                     sheet = "species"
+  species_data <- readxl::read_excel(
+    file.path(path, "excel/data.xlsx"),
+    sheet = "species"
   )
-  
+
   expect_identical(colnames(site_data), c("Places", "Activity"))
   expect_identical(colnames(species_data), c("Species", "Code"))
 })
@@ -1833,10 +2246,10 @@ test_that("checking return value for sbf_save_workbook", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   data <- data.frame(x = seq(100))
   return_path <- sbf_save_workbook("data")
-  
+
   expect_match(return_path, "output/excel/data.xlsx$")
 })
 
@@ -1845,41 +2258,47 @@ test_that("database can be written to excel workbook", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   # create test data
   sites <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing")
   )
-  
+
   species <- data.frame(
     Species = c("Rainbow Trout", "Coho"),
     Caught = c(5, 2)
   )
-  
+
   sbf_create_db(db_name = "database")
-  
-  sbf_execute_db("CREATE TABLE species (
+
+  sbf_execute_db(
+    "CREATE TABLE species (
                 Species TEXT,
-                Caught INTEGER)")
-  
-  sbf_execute_db("CREATE TABLE sites (
+                Caught INTEGER)"
+  )
+
+  sbf_execute_db(
+    "CREATE TABLE sites (
                 Places TEXT,
-                Activity TEXT)")
-  
+                Activity TEXT)"
+  )
+
   sbf_save_data_to_db(sites, db_name = "database")
   sbf_save_data_to_db(species, db_name = "database")
-  
+
   # write db to excel tables
   sbf_save_db_to_workbook(workbook_name = "data", db_name = "database")
   # do tests
-  site_data <- readxl::read_excel(file.path(path, "excel/data.xlsx"),
-                                  sheet = "sites"
+  site_data <- readxl::read_excel(
+    file.path(path, "excel/data.xlsx"),
+    sheet = "sites"
   )
-  species_data <- readxl::read_excel(file.path(path, "excel/data.xlsx"),
-                                     sheet = "species"
+  species_data <- readxl::read_excel(
+    file.path(path, "excel/data.xlsx"),
+    sheet = "species"
   )
-  
+
   expect_identical(colnames(site_data), c("Places", "Activity"))
   expect_identical(colnames(species_data), c("Species", "Caught"))
 })
@@ -1889,31 +2308,35 @@ test_that("exclude table function working for db to workbook", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   # create test data
   sites <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing")
   )
-  
+
   species <- data.frame(
     Species = c("Rainbow Trout", "Coho"),
     Caught = c(5, 2)
   )
-  
+
   sbf_create_db(db_name = "database")
-  
-  sbf_execute_db("CREATE TABLE species (
+
+  sbf_execute_db(
+    "CREATE TABLE species (
                 Species TEXT,
-                Caught INTEGER)")
-  
-  sbf_execute_db("CREATE TABLE sites (
+                Caught INTEGER)"
+  )
+
+  sbf_execute_db(
+    "CREATE TABLE sites (
                 Places TEXT,
-                Activity TEXT)")
-  
+                Activity TEXT)"
+  )
+
   sbf_save_data_to_db(sites, db_name = "database")
   sbf_save_data_to_db(species, db_name = "database")
-  
+
   # write db to excel tables
   sbf_save_db_to_workbook(
     workbook_name = "data",
@@ -1921,13 +2344,12 @@ test_that("exclude table function working for db to workbook", {
     exclude_tables = "species"
   )
   # do tests
-  site_data <- readxl::read_excel(file.path(path, "excel/data.xlsx"),
-                                  sheet = 1
-  )
+  site_data <- readxl::read_excel(file.path(path, "excel/data.xlsx"), sheet = 1)
   expect_identical(colnames(site_data), c("Places", "Activity"))
-  
-  expect_error(readxl::read_excel(file.path(path, "excel/data.xlsx"),
-                                  sheet = 2
+
+  expect_error(readxl::read_excel(
+    file.path(path, "excel/data.xlsx"),
+    sheet = 2
   ))
 })
 
@@ -1936,22 +2358,23 @@ test_that("expect empty table when all tables are excluded", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   # create test data
   sites <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing")
   )
-  
-  
+
   sbf_create_db(db_name = "database")
-  
-  sbf_execute_db("CREATE TABLE sites (
+
+  sbf_execute_db(
+    "CREATE TABLE sites (
                 Places TEXT,
-                Activity TEXT)")
-  
+                Activity TEXT)"
+  )
+
   sbf_save_data_to_db(sites, db_name = "database")
-  
+
   # write db to excel tables
   sbf_save_db_to_workbook(
     workbook_name = "data",
@@ -1960,7 +2383,7 @@ test_that("expect empty table when all tables are excluded", {
   )
   # do tests
   data <- readxl::read_excel(file.path(path, "excel/data.xlsx"))
-  
+
   expect_equal(nrow(data), 0L)
   expect_equal(colnames(data), character(0))
 })
@@ -1970,23 +2393,25 @@ test_that("checking return value for sbf_save_data_to_db", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   # create test data
   sites <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing")
   )
   sbf_create_db(db_name = "database")
-  sbf_execute_db("CREATE TABLE sites (
+  sbf_execute_db(
+    "CREATE TABLE sites (
                 Places TEXT,
-                Activity TEXT)")
+                Activity TEXT)"
+  )
   sbf_save_data_to_db(sites, db_name = "database")
   # do tests
   return_path <- sbf_save_db_to_workbook(
     workbook_name = "data",
     db_name = "database"
   )
-  
+
   expect_match(return_path, "output/excel/data.xlsx$")
 })
 
@@ -1995,21 +2420,24 @@ test_that("save df as gpkg with sf point column", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   data <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing"),
     X = c(53.350808, 53.640981),
     Y = c(-132.280579, -132.055175)
   )
-  
+
   sf <- convert_coords_to_sfc(data)
-  
+
   sbf_save_gpkg(sf)
-  expect_output(gpkg <- sf::st_read(file.path(path, "gpkg/sf.gpkg")), "^Reading layer `sf' from data source ")
-  
+  expect_output(
+    gpkg <- sf::st_read(file.path(path, "gpkg/sf.gpkg")),
+    "^Reading layer `sf' from data source "
+  )
+
   expect_s3_class(gpkg, "sf")
-  
+
   expect_identical(colnames(gpkg), c("Places", "Activity", "geom"))
   sf <- convert_sfc_to_coords(gpkg, "geom")
   expect_identical(sf$Places, data$Places)
@@ -2023,16 +2451,16 @@ test_that("save sf as gpkg errors if gpkg", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   data <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing"),
     X = c(53.350808, 53.640981),
     Y = c(-132.280579, -132.055175)
   )
-  
+
   gpkg <- convert_coords_to_sfc(data)
-  
+
   expect_error(sbf_save_gpkg(gpkg), "'gpkg' is a reserved geopackage prefix\\.")
 })
 
@@ -2041,20 +2469,23 @@ test_that("save sf as gpkg time", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   data <- data.frame(
     time = hms::as_hms("12:01:03"),
     X = c(53.350808),
     Y = c(-132.280579)
   )
-  
+
   sff <- convert_coords_to_sfc(data)
-  
+
   sbf_save_gpkg(sff)
-  expect_output(gpkg <- sf::st_read(file.path(path, "gpkg/sff.gpkg")), "^Reading layer `sff' from data source ")
-  
+  expect_output(
+    gpkg <- sf::st_read(file.path(path, "gpkg/sff.gpkg")),
+    "^Reading layer `sff' from data source "
+  )
+
   expect_s3_class(gpkg, "sf")
-  
+
   expect_identical(colnames(gpkg), c("time", "geom"))
   sf <- convert_sfc_to_coords(gpkg, "geom")
   expect_identical(sf$time, as.character(data$time))
@@ -2067,7 +2498,7 @@ test_that("save df as gpkg with linstring column and sf point", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   data <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing"),
@@ -2076,23 +2507,35 @@ test_that("save df as gpkg with linstring column and sf point", {
     X2 = c(53.350808, 53.640981),
     Y2 = c(-132.280579, -132.055175)
   )
-  
+
   sf <- convert_coords_to_sfc(data)
-  sf <- convert_coords_to_sfc(sf,
-                              coords = c("X2", "Y2"),
-                              sfc_name = "geometry2"
+  sf <- convert_coords_to_sfc(
+    sf,
+    coords = c("X2", "Y2"),
+    sfc_name = "geometry2"
   )
-  
+
   sf <- sf::st_cast(sf, "LINESTRING")
-  
-  expect_warning(sbf_save_gpkg(sf), "Dropping column\\(s\\) geometry of class\\(es\\) sfc_POINT")
-  expect_output(gpkg <- sf::st_read(file.path(path, "gpkg/sf.gpkg")), "^Reading layer `sf' from data source ")
-  
+
+  expect_warning(
+    sbf_save_gpkg(sf),
+    "Dropping column\\(s\\) geometry of class\\(es\\) sfc_POINT"
+  )
+  expect_output(
+    gpkg <- sf::st_read(file.path(path, "gpkg/sf.gpkg")),
+    "^Reading layer `sf' from data source "
+  )
+
   expect_s3_class(gpkg, "sf")
-  
-  expect_identical(colnames(gpkg), c(
-    "Places", "Activity", "geom"
-  ))
+
+  expect_identical(
+    colnames(gpkg),
+    c(
+      "Places",
+      "Activity",
+      "geom"
+    )
+  )
   expect_s3_class(gpkg$geom, "sfc_LINESTRING")
   expect_identical(gpkg$Places, data$Places)
   expect_identical(gpkg$Activity, data$Activity)
@@ -2103,7 +2546,7 @@ test_that("save sfs as gpkg and ignores data frame", {
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   data <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing"),
@@ -2116,11 +2559,14 @@ test_that("save sfs as gpkg and ignores data frame", {
   expect_identical(length(files), 2L)
   expect_match(files[1], "output/gpkg/sf\\.gpkg")
   expect_match(files[2], "output/gpkg/sf2\\.gpkg")
-  
-  expect_output(gpkg <- sf::st_read(file.path(path, "gpkg/sf2.gpkg")), "^Reading layer `sf2' from data source ")
-  
+
+  expect_output(
+    gpkg <- sf::st_read(file.path(path, "gpkg/sf2.gpkg")),
+    "^Reading layer `sf2' from data source "
+  )
+
   expect_s3_class(gpkg, "sf")
-  
+
   expect_identical(colnames(gpkg), c("Activity", "geom"))
   sf <- convert_sfc_to_coords(gpkg, "geom")
   expect_identical(sf$Activity, "boating")
@@ -2133,7 +2579,7 @@ test_that("save sf as gpkgs with linstring column and sf point and all_sfc = FAL
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
   withr::defer(sbf_reset())
-  
+
   data <- data.frame(
     Places = c("Yakoun Lake", "Meyer Lake"),
     Activity = c("boating", "fishing"),
@@ -2142,26 +2588,41 @@ test_that("save sf as gpkgs with linstring column and sf point and all_sfc = FAL
     Y2 = c(53.350808, 53.640981),
     X2 = c(-132.280579, -132.055175)
   )
-  
+
   sf <- convert_coords_to_sfc(data)
-  sf <- convert_coords_to_sfc(sf,
-                              coords = c("X2", "Y2"),
-                              sfc_name = "geometry2"
+  sf <- convert_coords_to_sfc(
+    sf,
+    coords = c("X2", "Y2"),
+    sfc_name = "geometry2"
   )
-  
+
   sf$geometry <- sf::st_cast(sf$geometry, "LINESTRING")
-  
-  expect_warning(expect_warning(files <- sbf_save_gpkgs(), "Dropping column\\(s\\) geometry of class\\(es\\) sfc_LINESTRING"), "Dropping column\\(s\\) geometry2 of class\\(es\\) sfc_POINT")
+
+  expect_warning(
+    expect_warning(
+      files <- sbf_save_gpkgs(),
+      "Dropping column\\(s\\) geometry of class\\(es\\) sfc_LINESTRING"
+    ),
+    "Dropping column\\(s\\) geometry2 of class\\(es\\) sfc_POINT"
+  )
   expect_length(files, 2L)
   expect_match(files[1], "output/gpkg/sf_geometry.gpkg")
   expect_match(files[2], "output/gpkg/sf.gpkg")
-  expect_output(gpkg <- sf::st_read(file.path(path, "gpkg/sf.gpkg")), "^Reading layer `sf' from data source ")
-  
+  expect_output(
+    gpkg <- sf::st_read(file.path(path, "gpkg/sf.gpkg")),
+    "^Reading layer `sf' from data source "
+  )
+
   expect_s3_class(gpkg, "sf")
-  
-  expect_identical(colnames(gpkg), c(
-    "Places", "Activity", "geom"
-  ))
+
+  expect_identical(
+    colnames(gpkg),
+    c(
+      "Places",
+      "Activity",
+      "geom"
+    )
+  )
   expect_s3_class(gpkg$geom, "sfc_POINT")
   expect_identical(gpkg$Places, data$Places)
   expect_identical(gpkg$Activity, data$Activity)
@@ -2239,7 +2700,7 @@ test_that("`sbf_load_numbers_recursive()` drops only exact matches.", {
   numbers_bone <- sbf_load_numbers_recursive(drop = "bone")
   numbers_bone$file <- NULL
 
-  expect_snapshot(numbers_bone)  
+  expect_snapshot(numbers_bone)
 
   numbers_onebone <- sbf_load_numbers_recursive(drop = c("one", "bone"))
   numbers_onebone$file <- NULL
@@ -2274,27 +2735,45 @@ test_that("multiline captions are handled correctly", {
   withr::defer(sbf_reset())
 
   x <- data.frame(z = 1L)
-  sbf_save_table(x, x_name = "x", caption = "a\nmultiline
-  caption", tag = "tag-1")
+  sbf_save_table(
+    x,
+    x_name = "x",
+    caption = "a\nmultiline
+  caption",
+    tag = "tag-1"
+  )
 
   yaml_file <- file.path(sbf_get_main(), "tables", "x.yaml")
   expect_true(file.exists(yaml_file))
   expect_false(file.exists(file.path(sbf_get_main(), "tables", "x.rda")))
 
   meta <- yaml::read_yaml(yaml_file)
-  expect_identical( # with visible new line
+  expect_identical(
+    # with visible new line
     meta,
-    list(caption = "a\nmultiline
-  caption", report = TRUE, tag = "tag-1", notes = "")
+    list(
+      caption = "a\nmultiline
+  caption",
+      report = TRUE,
+      tag = "tag-1",
+      notes = ""
+    )
   )
-  expect_identical( # with a newline character \n
+  expect_identical(
+    # with a newline character \n
     meta,
-    list(caption = "a\nmultiline\n  caption", report = TRUE, tag = "tag-1", notes = "")
+    list(
+      caption = "a\nmultiline\n  caption",
+      report = TRUE,
+      tag = "tag-1",
+      notes = ""
+    )
   )
 
-  expect_true(all(c("caption: |-",
-                    paste0("  ", c("a", "multiline", "  caption")))
-                  %in% readLines(yaml_file)))
+  expect_true(all(
+    c("caption: |-", paste0("  ", c("a", "multiline", "  caption"))) %in%
+      readLines(yaml_file)
+  ))
 })
 
 test_that("legacy .rda metadata is still readable", {
@@ -2406,16 +2885,19 @@ test_that("notes argument is saved for numbers and strings", {
   )
 })
 
- test_that("drop_uninformative_cols is being soft-deprecated with a warning.", {
+test_that("drop_uninformative_cols is being soft-deprecated with a warning.", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
-     
+
   gp <- ggplot2::ggplot() +
-  ggplot2::geom_point(ggplot2::aes(3, 3))
-    
-  lifecycle::expect_deprecated(sbf_save_plot(x = gp, x_name = "plot-1", drop_uninformative_cols = TRUE), 
-  p0("The `drop_uninformative_cols` argument of `sbf_save_plot",
-       "\\(\\)` is deprecated as of subfoldr2"))
+    ggplot2::geom_point(ggplot2::aes(3, 3))
+
+  lifecycle::expect_deprecated(
+    sbf_save_plot(x = gp, x_name = "plot-1", drop_uninformative_cols = TRUE),
+    p0(
+      "The `drop_uninformative_cols` argument of `sbf_save_plot",
+      "\\(\\)` is deprecated as of subfoldr2"
+    )
+  )
 })
- 

@@ -165,19 +165,22 @@ test_that("list tables", {
   sbf_save_table(x)
   sbf_save_table(x, sub = "down")
 
-
   expect_match(sbf_list_tables(), "tables/x.rds$")
   expect_match(names(sbf_list_tables()), "tables/x")
 
   expect_equal(
-    ignore_attr = TRUE, sbf_list_tables(recursive = TRUE),
+    ignore_attr = TRUE,
+    sbf_list_tables(recursive = TRUE),
     c(
       file.path(sbf_get_main(), "tables/down/x.rds"),
       file.path(sbf_get_main(), "tables/x.rds")
     )
   )
 
-  expect_equal(names(sbf_list_tables(recursive = TRUE)), c("tables/down/x", "tables/x"))
+  expect_equal(
+    names(sbf_list_tables(recursive = TRUE)),
+    c("tables/down/x", "tables/x")
+  )
 })
 
 
@@ -193,14 +196,18 @@ test_that("list numbers", {
   expect_match(names(sbf_list_numbers()), "numbers/1")
 
   expect_equal(
-    ignore_attr = TRUE, sbf_list_numbers(recursive = TRUE),
+    ignore_attr = TRUE,
+    sbf_list_numbers(recursive = TRUE),
     c(
       file.path(sbf_get_main(), "numbers/1.rds"),
       file.path(sbf_get_main(), "numbers/down/1.rds")
     )
   )
 
-  expect_equal(names(sbf_list_numbers(recursive = TRUE)), c("numbers/1", "numbers/down/1"))
+  expect_equal(
+    names(sbf_list_numbers(recursive = TRUE)),
+    c("numbers/1", "numbers/down/1")
+  )
 })
 
 test_that("list strings", {
@@ -215,14 +222,18 @@ test_that("list strings", {
   expect_match(names(sbf_list_strings()), "strings/x")
 
   expect_equal(
-    ignore_attr = TRUE, sbf_list_strings(recursive = TRUE),
+    ignore_attr = TRUE,
+    sbf_list_strings(recursive = TRUE),
     c(
       file.path(sbf_get_main(), "strings/down/x.rds"),
       file.path(sbf_get_main(), "strings/x.rds")
     )
   )
 
-  expect_equal(names(sbf_list_strings(recursive = TRUE)), c("strings/down/x", "strings/x"))
+  expect_equal(
+    names(sbf_list_strings(recursive = TRUE)),
+    c("strings/down/x", "strings/x")
+  )
 })
 
 test_that("list blocks", {
@@ -237,14 +248,18 @@ test_that("list blocks", {
   expect_match(names(sbf_list_blocks()), "blocks/x")
 
   expect_equal(
-    ignore_attr = TRUE, sbf_list_blocks(recursive = TRUE),
+    ignore_attr = TRUE,
+    sbf_list_blocks(recursive = TRUE),
     c(
       file.path(sbf_get_main(), "blocks/down/x.rds"),
       file.path(sbf_get_main(), "blocks/x.rds")
     )
   )
 
-  expect_equal(names(sbf_list_blocks(recursive = TRUE)), c("blocks/down/x", "blocks/x"))
+  expect_equal(
+    names(sbf_list_blocks(recursive = TRUE)),
+    c("blocks/down/x", "blocks/x")
+  )
 })
 
 test_that("list plots", {
@@ -262,14 +277,18 @@ test_that("list plots", {
   expect_match(names(sbf_list_plots()), "plots/x")
 
   expect_equal(
-    ignore_attr = TRUE, sbf_list_plots(recursive = TRUE),
+    ignore_attr = TRUE,
+    sbf_list_plots(recursive = TRUE),
     c(
       file.path(sbf_get_main(), "plots/down/x.rds"),
       file.path(sbf_get_main(), "plots/x.rds")
     )
   )
 
-  expect_equal(names(sbf_list_plots(recursive = TRUE)), c("plots/down/x", "plots/x"))
+  expect_equal(
+    names(sbf_list_plots(recursive = TRUE)),
+    c("plots/down/x", "plots/x")
+  )
 })
 
 test_that("list windows", {
@@ -277,7 +296,9 @@ test_that("list windows", {
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
 
-  png <- system.file("extdata", "example.png",
+  png <- system.file(
+    "extdata",
+    "example.png",
     package = "subfoldr2",
     mustWork = TRUE
   )
@@ -288,14 +309,18 @@ test_that("list windows", {
   expect_match(names(sbf_list_windows()), "windows/example")
 
   expect_equal(
-    ignore_attr = TRUE, sbf_list_windows(recursive = TRUE),
+    ignore_attr = TRUE,
+    sbf_list_windows(recursive = TRUE),
     c(
       file.path(sbf_get_main(), "windows/down/example.png"),
       file.path(sbf_get_main(), "windows/example.png")
     )
   )
 
-  expect_equal(names(sbf_list_windows(recursive = TRUE)), c("windows/down/example", "windows/example"))
+  expect_equal(
+    names(sbf_list_windows(recursive = TRUE)),
+    c("windows/down/example", "windows/example")
+  )
 })
 
 test_that("list dbs", {
@@ -306,17 +331,20 @@ test_that("list dbs", {
   sbf_open_db(exists = FALSE)
   sbf_open_db(exists = FALSE, sub = "down")
 
-
   expect_match(sbf_list_dbs(), "dbs/database.sqlite$")
   expect_match(names(sbf_list_dbs()), "dbs/database")
 
   expect_equal(
-    ignore_attr = TRUE, sbf_list_dbs(recursive = TRUE),
+    ignore_attr = TRUE,
+    sbf_list_dbs(recursive = TRUE),
     c(
       file.path(sbf_get_main(), "dbs/database.sqlite"),
       file.path(sbf_get_main(), "dbs/down/database.sqlite")
     )
   )
 
-  expect_equal(names(sbf_list_dbs(recursive = TRUE)), c("dbs/database", "dbs/down/database"))
+  expect_equal(
+    names(sbf_list_dbs(recursive = TRUE)),
+    c("dbs/database", "dbs/down/database")
+  )
 })
