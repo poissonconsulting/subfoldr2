@@ -2901,3 +2901,63 @@ test_that("drop_uninformative_cols is being soft-deprecated with a warning.", {
     )
   )
 })
+
+test_that("plot with uninformative data saves empty csv and xlsx over stale files", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  sbf_close_windows()
+
+  y <- ggplot2::ggplot(
+    data = data.frame(x = 1:3, y = 2:4),
+    ggplot2::aes(x = x, y = y)
+  ) +
+    ggplot2::geom_point()
+  sbf_save_plot(y)
+
+  csv_file <- file.path(sbf_get_main(), "plots/y.csv")
+  xlsx_file <- file.path(sbf_get_main(), "plots/y.xlsx")
+  expect_gt(length(readLines(csv_file)), 1L)
+  expect_true(file.exists(xlsx_file))
+  xlsx_size <- file.size(xlsx_file)
+
+  y <- ggplot2::ggplot(
+    data = data.frame(x = 1, y = 2),
+    ggplot2::aes(x = x, y = y)
+  )
+  sbf_save_plot(y)
+
+  expect_true(file.exists(csv_file))
+  expect_identical(readLines(csv_file), character(0))
+  expect_true(file.exists(xlsx_file))
+  expect_lt(file.size(xlsx_file), xlsx_size)
+})
+
+test_that("plot data exceeding csv limit saves empty csv over stale file", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  sbf_close_windows()
+
+  data <- data.frame(x = 1:3, y = 2:4)
+  y <- ggplot2::ggplot(data = data, ggplot2::aes(x = x, y = y))
+  sbf_save_plot(y)
+
+  csv_file <- file.path(sbf_get_main(), "plots/y.csv")
+  expect_identical(nrow(read.csv(csv_file)), 3L)
+
+  sbf_save_plot(y, csv = 2L)
+  expect_true(file.exists(csv_file))
+  expect_identical(nrow(read.csv(csv_file)), 0L)
+})
+
+test_that("plot with no data and no layers saves no csv or xlsx", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  sbf_close_windows()
+
+  x <- ggplot2::ggplot()
+  sbf_save_plot(x)
+  expect_identical(
+    list.files(file.path(sbf_get_main(), "plots")),
+    c("x.png", "x.rds", "x.yaml")
+  )
+})
