@@ -1,5 +1,9 @@
 # Changelog
 
+## subfoldr2 1.0.1.9012
+
+- Same as previous version.
+
 ## subfoldr2 1.0.1.9011
 
 - Same as previous version.
