@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
 
+# subfoldr2 1.0.1.9012
+
+- Same as previous version.
+
+
 # subfoldr2 1.0.1.9011
 
 - Same as previous version.
