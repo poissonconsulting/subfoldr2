@@ -2936,7 +2936,7 @@ test_that("plot with uninformative data saves empty csv and xlsx over stale file
   sbf_save_plot(y)
 
   expect_true(file.exists(csv_file))
-  expect_identical(readLines(csv_file), character(0))
+  expect_identical(readLines(csv_file), character(0)) # all columns were uninformative
   expect_true(file.exists(xlsx_file))
   expect_lt(file.size(xlsx_file), xlsx_size)
 })
