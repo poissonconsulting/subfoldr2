@@ -2809,14 +2809,14 @@ test_that("sbf_convert_meta converts legacy .rda to .yaml and deletes .rda", {
   file.remove(yaml_file)
   saveRDS(meta, file.path(sbf_get_main(), "tables", "x.rda"))
 
-  converted <- sbf_convert_meta(ask = FALSE)
+  suppressMessages(converted <- sbf_convert_meta(ask = FALSE))
   expect_identical(converted, yaml_file)
   expect_true(file.exists(yaml_file))
   expect_false(file.exists(file.path(sbf_get_main(), "tables", "x.rda")))
   expect_identical(yaml::read_yaml(yaml_file), meta)
 
   # nothing left to convert
-  expect_identical(sbf_convert_meta(ask = FALSE), character(0))
+  suppressMessages(expect_identical(sbf_convert_meta(ask = FALSE), character(0)))
 })
 
 test_that("notes argument is saved to metadata", {
