@@ -32,7 +32,9 @@ sbf_set_sub <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
   path <- file_path(..., collapse = TRUE)
   path <- sanitize_path(path)
   options(sbf.sub = path)
-  if (rm) rm_all(ask = ask)
+  if (rm) {
+    rm_all(ask = ask)
+  }
   invisible(path)
 }
 
@@ -93,7 +95,13 @@ sbf_up_sub <- function(n = 1L, rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
   sub <- sbf_get_sub()
   nsub <- nsub(sub)
   if (n > nsub) {
-    abort_chk("`n` (", n, ") must not exceed the number of subfolders (", nsub, ")")
+    abort_chk(
+      "`n` (",
+      n,
+      ") must not exceed the number of subfolders (",
+      nsub,
+      ")"
+    )
   }
   sub <- strsplit(sub, "/")[[1]][-((nsub - n + 1L):nsub)]
   sbf_set_sub(sub, rm = rm, ask = ask)

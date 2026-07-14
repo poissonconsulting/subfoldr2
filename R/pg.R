@@ -24,8 +24,10 @@
 #' sbf_open_pg(config_path = "config.yml", config_value = "database")
 #' sbf_close_pg(conn)
 #' }
-sbf_open_pg <- function(config_path = getOption("psql.config_path", NULL),
-                        config_value = getOption("psql.config_value", "default")) {
+sbf_open_pg <- function(
+  config_path = getOption("psql.config_path", NULL),
+  config_value = getOption("psql.config_value", "default")
+) {
   lifecycle::deprecate_stop(
     "0.2.0",
     "sbf_open_pg()",
@@ -88,11 +90,13 @@ sbf_close_pg <- function(conn) {
 #'
 #' sbf_backup_pg("database-22")
 #' }
-sbf_backup_pg <- function(db_dump_name = sbf_get_db_name(),
-                          sub = sbf_get_sub(),
-                          main = sbf_get_main(),
-                          config_path = getOption("psql.config_path", NULL),
-                          config_value = getOption("psql.config_value", "default")) {
+sbf_backup_pg <- function(
+  db_dump_name = sbf_get_db_name(),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  config_path = getOption("psql.config_path", NULL),
+  config_value = getOption("psql.config_value", "default")
+) {
   lifecycle::deprecate_stop(
     "0.2.0",
     "sbf_backup_pg()",
@@ -121,9 +125,11 @@ sbf_backup_pg <- function(db_dump_name = sbf_get_db_name(),
 #' sbf_create_pg("new_database")
 #' sbf_create_pg("new_database", config_path = "keys/config.yml")
 #' }
-sbf_create_pg <- function(dbname,
-                          config_path = getOption("psql.config_path", NULL),
-                          config_value = getOption("psql.config_value", "default")) {
+sbf_create_pg <- function(
+  dbname,
+  config_path = getOption("psql.config_path", NULL),
+  config_value = getOption("psql.config_value", "default")
+) {
   lifecycle::deprecate_stop(
     "0.2.0",
     "sbf_create_pg()",
@@ -158,9 +164,11 @@ sbf_create_pg <- function(dbname,
 #'   comment TEXT)"
 #' )
 #' }
-sbf_execute_pg <- function(sql,
-                           config_path = getOption("psql.config_path", NULL),
-                           config_value = getOption("psql.config_value", "default")) {
+sbf_execute_pg <- function(
+  sql,
+  config_path = getOption("psql.config_path", NULL),
+  config_value = getOption("psql.config_value", "default")
+) {
   lifecycle::deprecate_stop(
     "0.2.0",
     "sbf_execute_pg()",
@@ -191,9 +199,11 @@ sbf_execute_pg <- function(sql,
 #' )
 #' sbf_list_tables_pg()
 #' }
-sbf_list_tables_pg <- function(schema = getOption("psql.schema", "public"),
-                               config_path = getOption("psql.config_path", NULL),
-                               config_value = getOption("psql.config_value", "default")) {
+sbf_list_tables_pg <- function(
+  schema = getOption("psql.schema", "public"),
+  config_path = getOption("psql.config_path", NULL),
+  config_value = getOption("psql.config_value", "default")
+) {
   lifecycle::deprecate_stop(
     "0.2.0",
     "sbf_list_tables_pg()",
@@ -224,10 +234,12 @@ sbf_list_tables_pg <- function(schema = getOption("psql.schema", "public"),
 #' sbf_load_data_from_pg("capture")
 #' sbf_load_data_from_pg("counts", "boat_count")
 #' }
-sbf_load_data_from_pg <- function(x,
-                                  schema = getOption("psql.schema", "public"),
-                                  config_path = getOption("psql.config_path", NULL),
-                                  config_value = getOption("psql.config_value", "default")) {
+sbf_load_data_from_pg <- function(
+  x,
+  schema = getOption("psql.schema", "public"),
+  config_path = getOption("psql.config_path", NULL),
+  config_value = getOption("psql.config_value", "default")
+) {
   lifecycle::deprecate_stop(
     "0.2.0",
     "sbf_load_data_from_pg()",
@@ -258,11 +270,13 @@ sbf_load_data_from_pg <- function(x,
 #' sbf_load_datas_from_pg(schema = "capture")
 #' sbf_load_datas_from_pg(rename = toupper)
 #' }
-sbf_load_datas_from_pg <- function(schema = getOption("psql.schema", "public"),
-                                   rename = identity,
-                                   env = parent.frame(),
-                                   config_path = getOption("psql.config_path", NULL),
-                                   config_value = getOption("psql.config_value", "default")) {
+sbf_load_datas_from_pg <- function(
+  schema = getOption("psql.schema", "public"),
+  rename = identity,
+  env = parent.frame(),
+  config_path = getOption("psql.config_path", NULL),
+  config_value = getOption("psql.config_value", "default")
+) {
   lifecycle::deprecate_stop(
     "0.2.0",
     "sbf_load_datas_from_pg()",
@@ -295,11 +309,13 @@ sbf_load_datas_from_pg <- function(schema = getOption("psql.schema", "public"),
 #' sbf_save_data_to_pg(outing, "creel")
 #' sbf_save_data_to_pg(outing_new, "creel", "outing")
 #' }
-sbf_save_data_to_pg <- function(x,
-                                x_name = NULL,
-                                schema = getOption("psql.schema", "public"),
-                                config_path = getOption("psql.config_path", NULL),
-                                config_value = getOption("psql.config_value", "default")) {
+sbf_save_data_to_pg <- function(
+  x,
+  x_name = NULL,
+  schema = getOption("psql.schema", "public"),
+  config_path = getOption("psql.config_path", NULL),
+  config_value = getOption("psql.config_value", "default")
+) {
   lifecycle::deprecate_stop(
     "0.2.0",
     "sbf_save_data_to_pg()",

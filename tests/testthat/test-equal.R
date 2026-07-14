@@ -13,9 +13,7 @@ test_that("is_equal_data", {
   y <- x
   expect_false(sbf_is_equal_data(y))
   expect_identical(names(sbf_is_equal_data(y)), "data/y")
-  expect_equal(sbf_is_equal_data(y, exists = NA), NA,
-    ignore_attr = TRUE
-  )
+  expect_equal(sbf_is_equal_data(y, exists = NA), NA, ignore_attr = TRUE)
   expect_false(sbf_is_equal_data(y, exists = TRUE))
   expect_true(sbf_is_equal_data(y, exists = FALSE))
   expect_true(sbf_is_equal_data(y, "x"))
@@ -47,9 +45,7 @@ test_that("is_equal_datas", {
   )
   expect_identical(
     sbf_is_equal_data_archive("z"),
-    structure(logical(0),
-      .Names = character(0)
-    )
+    structure(logical(0), .Names = character(0))
   )
 
   expect_message(sbf_rm_main(ask = FALSE))
@@ -124,7 +120,11 @@ test_that("is_equal_datas", {
     c("data/x" = FALSE)
   )
   expect_identical(
-    sbf_is_equal_data_archive(main = archive1, archive = archive2, tolerance = 0.1),
+    sbf_is_equal_data_archive(
+      main = archive1,
+      archive = archive2,
+      tolerance = 0.1
+    ),
     c("data/x" = TRUE)
   )
 })

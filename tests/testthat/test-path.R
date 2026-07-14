@@ -91,12 +91,17 @@ test_that("path windows", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
 
-  png <- system.file("extdata", "example.png",
+  png <- system.file(
+    "extdata",
+    "example.png",
     package = "subfoldr2",
     mustWork = TRUE
   )
   sbf_save_png(png)
 
-  expect_match(sbf_path_window("example", exists = TRUE), ".*/windows/example[.]png")
+  expect_match(
+    sbf_path_window("example", exists = TRUE),
+    ".*/windows/example[.]png"
+  )
   chk::expect_chk_error(sbf_path_window("example", exists = FALSE))
 })

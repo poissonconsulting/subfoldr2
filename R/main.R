@@ -24,7 +24,9 @@ sbf_set_main <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
   path <- file_path(..., collapse = TRUE)
   path <- sanitize_path(path, rm_leading = FALSE)
   options(sbf.main = path)
-  if (rm) rm_all(ask = ask)
+  if (rm) {
+    rm_all(ask = ask)
+  }
   invisible(path)
 }
 
@@ -48,8 +50,10 @@ sbf_reset_main <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #' @family reset
 #' @family housekeeping functions
 #' @export
-sbf_rm_main <- function(main = sbf_get_main(),
-                        ask = getOption("sbf.ask", TRUE)) {
+sbf_rm_main <- function(
+  main = sbf_get_main(),
+  ask = getOption("sbf.ask", TRUE)
+) {
   chk_flag(ask)
   chk_string(main)
 

@@ -9,10 +9,14 @@
 #' @return A character vector with class "waldo_compare".
 #' @family compare functions
 #' @export
-sbf_compare_data <- function(x, x_name = substitute(x),
-                             sub = sbf_get_sub(), main = sbf_get_main(),
-                             tolerance = sqrt(.Machine$double.eps),
-                             ignore_attr = FALSE) {
+sbf_compare_data <- function(
+  x,
+  x_name = substitute(x),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  tolerance = sqrt(.Machine$double.eps),
+  ignore_attr = FALSE
+) {
   rlang::check_installed("waldo")
 
   chk_s3_class(x, "data.frame")
@@ -22,8 +26,11 @@ sbf_compare_data <- function(x, x_name = substitute(x),
   main <- sanitize_path(main, rm_leading = FALSE)
 
   existing <- sbf_load_data(x_name, sub = sub, main = main, exists = NA)
-  waldo::compare(existing, x,
-    x_arg = "saved", y_arg = "current",
+  waldo::compare(
+    existing,
+    x,
+    x_arg = "saved",
+    y_arg = "current",
     tolerance = tolerance,
     ignore_attr = ignore_attr
   )
@@ -42,13 +49,16 @@ sbf_compare_data <- function(x, x_name = substitute(x),
 #' @return A named list of character vectors.
 #' @family compare functions
 #' @export
-sbf_compare_data_archive <- function(x_name = ".*", sub = sbf_get_sub(),
-                                     main = sbf_get_main(),
-                                     archive = 1L,
-                                     recursive = FALSE,
-                                     include_root = TRUE,
-                                     tolerance = sqrt(.Machine$double.eps),
-                                     ignore_attr = FALSE) {
+sbf_compare_data_archive <- function(
+  x_name = ".*",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  archive = 1L,
+  recursive = FALSE,
+  include_root = TRUE,
+  tolerance = sqrt(.Machine$double.eps),
+  ignore_attr = FALSE
+) {
   rlang::check_installed("waldo")
 
   if (!vld_whole_number(archive) && !vld_dir(archive)) {
@@ -59,13 +69,19 @@ sbf_compare_data_archive <- function(x_name = ".*", sub = sbf_get_sub(),
   }
 
   main_files <- sbf_list_datas(
-    x_name = x_name, sub = sub, main = main,
-    recursive = recursive, include_root = include_root
+    x_name = x_name,
+    sub = sub,
+    main = main,
+    recursive = recursive,
+    include_root = include_root
   )
 
   archive_files <- sbf_list_datas(
-    x_name = x_name, sub = sub, main = archive,
-    recursive = recursive, include_root = include_root
+    x_name = x_name,
+    sub = sub,
+    main = archive,
+    recursive = recursive,
+    include_root = include_root
   )
 
   all_file_names <- union(names(main_files), names(archive_files))
@@ -76,9 +92,12 @@ sbf_compare_data_archive <- function(x_name = ".*", sub = sbf_get_sub(),
 
   all_file_names <- sort(all_file_names)
 
-  compare <- lapply(all_file_names,
+  compare <- lapply(
+    all_file_names,
     FUN = compare_data,
-    main = main, archive = archive, tolerance = tolerance,
+    main = main,
+    archive = archive,
+    tolerance = tolerance,
     ignore_attr = ignore_attr
   )
   names(compare) <- all_file_names

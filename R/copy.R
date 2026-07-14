@@ -14,11 +14,14 @@
 #' @return A flag indicating whether successfully copied.
 #' @family database functions
 #' @export
-sbf_copy_db <- function(path, db_name = sbf_get_db_name(),
-                        sub = sbf_get_sub(),
-                        main = sbf_get_main(),
-                        exists = FALSE,
-                        ask = getOption("sbf.ask", TRUE)) {
+sbf_copy_db <- function(
+  path,
+  db_name = sbf_get_db_name(),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  exists = FALSE,
+  ask = getOption("sbf.ask", TRUE)
+) {
   chk_ext(path, c("db", "sqlite", "sqlite3"))
   chk_file(path)
 
@@ -33,7 +36,9 @@ sbf_copy_db <- function(path, db_name = sbf_get_db_name(),
 
   file <- file_name(main, "dbs", sub, db_name, ext = "sqlite")
 
-  if (isTRUE(exists)) chk_file(file)
+  if (isTRUE(exists)) {
+    chk_file(file)
+  }
 
   if (isFALSE(exists) && file.exists(file)) {
     if (ask && !yesno("Delete file '", file, "'?")) {

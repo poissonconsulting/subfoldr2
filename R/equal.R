@@ -10,12 +10,15 @@
 #' @return A named flag.
 #' @family compare functions
 #' @export
-sbf_is_equal_data <- function(x, x_name = substitute(x),
-                              sub = sbf_get_sub(),
-                              main = sbf_get_main(),
-                              exists = TRUE,
-                              tolerance = sqrt(.Machine$double.eps),
-                              check.attributes = TRUE) {
+sbf_is_equal_data <- function(
+  x,
+  x_name = substitute(x),
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  exists = TRUE,
+  tolerance = sqrt(.Machine$double.eps),
+  check.attributes = TRUE
+) {
   chk_s3_class(x, "data.frame")
   x_name <- chk_deparse(x_name)
   chk_scalar(exists)
@@ -30,7 +33,9 @@ sbf_is_equal_data <- function(x, x_name = substitute(x),
   if (is.null(existing)) {
     return(setNames(!exists, file))
   }
-  equal <- vld_true(all.equal(existing, x,
+  equal <- vld_true(all.equal(
+    existing,
+    x,
     tolerance = tolerance,
     check.attributes = check.attributes
   ))
@@ -51,15 +56,17 @@ sbf_is_equal_data <- function(x, x_name = substitute(x),
 #' @return A named logical vector.
 #' @family compare functions
 #' @export
-sbf_is_equal_data_archive <- function(x_name = ".*",
-                                      sub = sbf_get_sub(),
-                                      main = sbf_get_main(),
-                                      archive = 1L,
-                                      recursive = FALSE,
-                                      include_root = TRUE,
-                                      exists = TRUE,
-                                      tolerance = sqrt(.Machine$double.eps),
-                                      check.attributes = TRUE) {
+sbf_is_equal_data_archive <- function(
+  x_name = ".*",
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  archive = 1L,
+  recursive = FALSE,
+  include_root = TRUE,
+  exists = TRUE,
+  tolerance = sqrt(.Machine$double.eps),
+  check.attributes = TRUE
+) {
   if (!vld_whole_number(archive) && !vld_dir(archive)) {
     chkor_vld(vld_whole_number(archive), vld_dir(archive))
   }
@@ -68,13 +75,19 @@ sbf_is_equal_data_archive <- function(x_name = ".*",
   }
 
   main_files <- sbf_list_datas(
-    x_name = x_name, sub = sub, main = main,
-    recursive = recursive, include_root = include_root
+    x_name = x_name,
+    sub = sub,
+    main = main,
+    recursive = recursive,
+    include_root = include_root
   )
 
   archive_files <- sbf_list_datas(
-    x_name = x_name, sub = sub, main = archive,
-    recursive = recursive, include_root = include_root
+    x_name = x_name,
+    sub = sub,
+    main = archive,
+    recursive = recursive,
+    include_root = include_root
   )
 
   all_file_names <- union(names(main_files), names(archive_files))
@@ -88,9 +101,13 @@ sbf_is_equal_data_archive <- function(x_name = ".*",
   equal <- equal[order(names(equal))]
 
   shared_file_names <- intersect(names(main_files), names(archive_files))
-  all_equal <- vapply(shared_file_names,
-    FUN = all_equal_data, TRUE,
-    main = main, archive = archive, tolerance = tolerance,
+  all_equal <- vapply(
+    shared_file_names,
+    FUN = all_equal_data,
+    TRUE,
+    main = main,
+    archive = archive,
+    tolerance = tolerance,
     check.attributes = check.attributes
   )
 
