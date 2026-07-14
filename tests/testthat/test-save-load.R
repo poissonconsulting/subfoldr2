@@ -1,3 +1,5 @@
+previous_sbf.quiet <- options("sbf.quiet")$sbf.quiet
+withr::defer(options(sbf.quiet = previous_sbf.quiet))
 options(sbf.quiet = FALSE)
 
 test_that("object", {
