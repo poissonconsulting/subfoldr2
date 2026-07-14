@@ -1,6 +1,6 @@
 previous_sbf.quiet <- options("sbf.quiet")$sbf.quiet
 withr::defer(options(sbf.quiet = previous_sbf.quiet))
-options(sbf.quiet = FALSE)
+options(sbf.quiet = TRUE)
 
 test_that("object", {
   sbf_reset()
@@ -1881,7 +1881,7 @@ test_that("load_rdss_recursive() lists non-rds files without reading them", {
 })
 
 test_that("load_rdss_recursive() informs user on which folders were dropped.", {
-  options(sbf.quiet = TRUE) # addressed by withr::defer() at the beginning
+  options(sbf.quiet = FALSE) # addressed by withr::defer() at the beginning
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
