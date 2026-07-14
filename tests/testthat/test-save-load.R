@@ -1606,13 +1606,15 @@ test_that("sbf_load_plots_recursive() fails if at least one sub is populated and
   dir.create(paste0(sbf_get_main(), '/plots/sub'), recursive = TRUE)
 
   # succeeds because the "sub" sub is empty
-  expect_equal(
-    sbf_load_plots_recursive(main = temp_dir, drop = "sub"),
-    tibble(
-      plots = list(),
-      name = character(0),
-      sub = character(0),
-      file = character(0)
+  expect_warning({
+    expect_equal(
+      sbf_load_plots_recursive(main = temp_dir, drop = "sub"),
+      tibble(
+        plots = list(),
+        name = character(0),
+        sub = character(0),
+        file = character(0)
+      )
     )
   }, "No files found, so no files were dropped.")
 
