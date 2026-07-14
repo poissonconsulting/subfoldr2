@@ -10,7 +10,7 @@ sbf_load_objects_recursive(
   main = sbf_get_main(),
   include_root = TRUE,
   drop = NULL,
-  quiet = !getOption("sbf.quiet", TRUE)
+  quiet = getOption("sbf.quiet", TRUE)
 )
 }
 \arguments{

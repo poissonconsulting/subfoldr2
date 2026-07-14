@@ -15,7 +15,7 @@ load_rdss_recursive(
   drop = NULL,
   fun = NULL,
   ext = "rds",
-  quiet = !getOption("sbf.quiet", TRUE)
+  quiet = getOption("sbf.quiet", TRUE)
 )
 }
 \arguments{

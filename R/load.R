@@ -444,7 +444,7 @@ load_rdss_recursive <- function(
   drop = NULL,
   fun = NULL,
   ext = "rds",
-  quiet = !getOption("sbf.quiet", TRUE)
+  quiet = getOption("sbf.quiet", TRUE)
 ) {
   chk_string(x_name)
   chk_character(sub)
@@ -599,7 +599,7 @@ sbf_load_objects_recursive <- function(
   main = sbf_get_main(),
   include_root = TRUE,
   drop = NULL,
-  quiet = !getOption("sbf.quiet", TRUE)
+  quiet = getOption("sbf.quiet", TRUE)
 ) {
   load_rdss_recursive(
     x_name,
@@ -629,7 +629,7 @@ sbf_load_datas_recursive <- function(
   main = sbf_get_main(),
   include_root = TRUE,
   drop = NULL,
-  quiet = !getOption("sbf.quiet", TRUE)
+  quiet = getOption("sbf.quiet", TRUE)
 ) {
   data <- load_rdss_recursive(
     x_name,
@@ -667,7 +667,7 @@ sbf_load_numbers_recursive <- function(
   tag = ".*",
   meta = FALSE,
   drop = NULL,
-  quiet = !getOption("sbf.quiet", TRUE)
+  quiet = getOption("sbf.quiet", TRUE)
 ) {
   data <- load_rdss_recursive(
     x_name,
@@ -708,7 +708,7 @@ sbf_load_strings_recursive <- function(
   tag = ".*",
   meta = FALSE,
   drop = NULL,
-  quiet = !getOption("sbf.quiet", TRUE)
+  quiet = getOption("sbf.quiet", TRUE)
 ) {
   data <- load_rdss_recursive(
     x_name,
@@ -754,7 +754,7 @@ sbf_load_tables_recursive <- function(
   tag = ".*",
   meta = FALSE,
   drop = NULL,
-  quiet = !getOption("sbf.quiet", TRUE)
+  quiet = getOption("sbf.quiet", TRUE)
 ) {
   load_rdss_recursive(
     x_name,
@@ -791,7 +791,7 @@ sbf_load_blocks_recursive <- function(
   tag = ".*",
   meta = FALSE,
   drop = NULL,
-  quiet = !getOption("sbf.quiet", TRUE)
+  quiet = getOption("sbf.quiet", TRUE)
 ) {
   data <- load_rdss_recursive(
     x_name,
@@ -829,7 +829,7 @@ sbf_load_plots_recursive <- function(
   tag = ".*",
   meta = FALSE,
   drop = NULL,
-  quiet = !getOption("sbf.quiet", TRUE)
+  quiet = getOption("sbf.quiet", TRUE)
 ) {
   load_rdss_recursive(
     x_name,
@@ -866,7 +866,7 @@ sbf_load_plots_data_recursive <- function(
   tag = ".*",
   meta = FALSE,
   drop = NULL,
-  quiet = !getOption("sbf.quiet", TRUE)
+  quiet = getOption("sbf.quiet", TRUE)
 ) {
   data <- load_rdss_recursive(
     x_name,
@@ -906,7 +906,7 @@ sbf_load_windows_recursive <- function(
   tag = ".*",
   meta = FALSE,
   drop = NULL,
-  quiet = !getOption("sbf.quiet", TRUE)
+  quiet = getOption("sbf.quiet", TRUE)
 ) {
   data <- load_rdss_recursive(
     x_name,

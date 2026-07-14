@@ -12,7 +12,7 @@ sbf_load_numbers_recursive(
   tag = ".*",
   meta = FALSE,
   drop = NULL,
-  quiet = !getOption("sbf.quiet", TRUE)
+  quiet = getOption("sbf.quiet", TRUE)
 )
 }
 \arguments{
