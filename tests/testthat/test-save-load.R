@@ -1,6 +1,4 @@
-previous_sbf.quiet <- options("sbf.quiet")$sbf.quiet
-withr::defer(options(sbf.quiet = previous_sbf.quiet))
-options(sbf.quiet = TRUE)
+withr::local_options(sbf.quiet = TRUE)
 
 test_that("object", {
   sbf_reset()
