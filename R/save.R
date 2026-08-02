@@ -781,9 +781,12 @@ sbf_save_plot <- function(
     if (drop_uninformative_cols) {
       data <- tidyplus::drop_uninformative_columns(data)
     }
-    if (nrow(data) && ncol(data) && nrow(data) <= csv) {
-      save_csv(data, "plots", sub = sub, main = main, x_name = x_name)
+    # an empty csv is still written so a stale file from a previous save
+    # cannot outlive the data it represented
+    if (nrow(data) > csv) {
+      data <- data[integer(0), , drop = FALSE]
     }
+    save_csv(data, "plots", sub = sub, main = main, x_name = x_name)
   }
 
   sheet_list <- purrr::imap(plot_list, function(p, i) {
@@ -793,7 +796,11 @@ sbf_save_plot <- function(
     )
   })
   sheet_list <- purrr::compact(purrr::list_flatten(sheet_list))
-  if (length(sheet_list)) {
+  # a plot with data or layers always gets an xlsx, even an empty one,
+  # so a stale file from a previous save cannot outlive its sheets
+  has_sheet_source <- !ggplot2::is_waiver(data) ||
+    any(vapply(plot_list, function(p) length(p@layers) > 0L, TRUE))
+  if (has_sheet_source) {
     save_xlsx(sheet_list, "plots", sub = sub, main = main, x_name = x_name)
   }
 

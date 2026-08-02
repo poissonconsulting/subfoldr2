@@ -1075,6 +1075,7 @@ test_that("plot", {
   expect_identical(
     list.files(file.path(sbf_get_main(), "plots")),
     c(
+      "plot.csv", # empty as data exceeds csv row limit
       "plot.png",
       "plot.rds",
       "plot.xlsx",
@@ -1087,8 +1088,10 @@ test_that("plot", {
       "y.rds",
       "y.xlsx",
       "y.yaml", # has data but no layers
+      "z.csv", # empty as one-row data is uninformative
       "z.png",
       "z.rds",
+      "z.xlsx", # empty as one-row data is uninformative
       "z.yaml" # dataset has only one row and no layers
     )
   )
@@ -1174,6 +1177,7 @@ test_that("plot", {
       "p_layers.rds",
       "p_layers.xlsx",
       "p_layers.yaml", # has data & layers
+      "plot.csv", # empty as data exceeds csv row limit
       "plot.png",
       "plot.rds",
       "plot.xlsx",
@@ -1186,8 +1190,10 @@ test_that("plot", {
       "y.rds",
       "y.xlsx",
       "y.yaml", # has data but no layers
+      "z.csv", # empty as one-row data is uninformative
       "z.png",
       "z.rds",
+      "z.xlsx", # empty as one-row data is uninformative
       "z.yaml" # has one-row data and no layers
     )
   )
@@ -1317,6 +1323,7 @@ test_that("plot", {
       "p_patches.rds",
       "p_patches.xlsx",
       "p_patches.yaml",
+      "plot.csv", # empty as data exceeds csv row limit
       "plot.png",
       "plot.rds",
       "plot.xlsx",
@@ -1329,8 +1336,10 @@ test_that("plot", {
       "y.rds",
       "y.xlsx",
       "y.yaml", # has data but no layers
+      "z.csv", # empty as one-row data is uninformative
       "z.png",
       "z.rds",
+      "z.xlsx", # empty as one-row data is uninformative
       "z.yaml" # has one-row data and no layers
     )
   )
@@ -2899,14 +2908,14 @@ test_that("sbf_convert_meta converts legacy .rda to .yaml and deletes .rda", {
   file.remove(yaml_file)
   saveRDS(meta, file.path(sbf_get_main(), "tables", "x.rda"))
 
-  converted <- sbf_convert_meta(ask = FALSE)
+  suppressMessages(converted <- sbf_convert_meta(ask = FALSE))
   expect_identical(converted, yaml_file)
   expect_true(file.exists(yaml_file))
   expect_false(file.exists(file.path(sbf_get_main(), "tables", "x.rda")))
   expect_identical(yaml::read_yaml(yaml_file), meta)
 
   # nothing left to convert
-  expect_identical(sbf_convert_meta(ask = FALSE), character(0))
+  suppressMessages(expect_identical(sbf_convert_meta(ask = FALSE), character(0)))
 })
 
 test_that("notes argument is saved to metadata", {
@@ -2991,5 +3000,65 @@ test_that("drop_uninformative_cols is being soft-deprecated with a warning.", {
       "The `drop_uninformative_cols` argument of `sbf_save_plot",
       "\\(\\)` is deprecated as of subfoldr2"
     )
+  )
+})
+
+test_that("plot with uninformative data saves empty csv and xlsx over stale files", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  sbf_close_windows()
+
+  y <- ggplot2::ggplot(
+    data = data.frame(x = 1:3, y = 2:4),
+    ggplot2::aes(x = x, y = y)
+  ) +
+    ggplot2::geom_point()
+  sbf_save_plot(y)
+
+  csv_file <- file.path(sbf_get_main(), "plots/y.csv")
+  xlsx_file <- file.path(sbf_get_main(), "plots/y.xlsx")
+  expect_gt(length(readLines(csv_file)), 1L)
+  expect_true(file.exists(xlsx_file))
+  xlsx_size <- file.size(xlsx_file)
+
+  y <- ggplot2::ggplot(
+    data = data.frame(x = 1, y = 2),
+    ggplot2::aes(x = x, y = y)
+  )
+  sbf_save_plot(y)
+
+  expect_true(file.exists(csv_file))
+  expect_identical(readLines(csv_file), character(0)) # all columns were uninformative
+  expect_true(file.exists(xlsx_file))
+  expect_lt(file.size(xlsx_file), xlsx_size)
+})
+
+test_that("plot data exceeding csv limit saves empty csv over stale file", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  sbf_close_windows()
+
+  data <- data.frame(x = 1:3, y = 2:4)
+  y <- ggplot2::ggplot(data = data, ggplot2::aes(x = x, y = y))
+  sbf_save_plot(y)
+
+  csv_file <- file.path(sbf_get_main(), "plots/y.csv")
+  expect_identical(nrow(read.csv(csv_file)), 3L)
+
+  sbf_save_plot(y, csv = 2L)
+  expect_true(file.exists(csv_file))
+  expect_identical(nrow(read.csv(csv_file)), 0L)
+})
+
+test_that("plot with no data and no layers saves no csv or xlsx", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  sbf_close_windows()
+
+  x <- ggplot2::ggplot()
+  sbf_save_plot(x)
+  expect_identical(
+    list.files(file.path(sbf_get_main(), "plots")),
+    c("x.png", "x.rds", "x.yaml")
   )
 })
