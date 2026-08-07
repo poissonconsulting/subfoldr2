@@ -14,6 +14,12 @@ functions.
   A character vector specifying the names of sub folders and files to
   drop or `NULL` (the default).
 
+- quiet:
+
+  A flag indicating whether messages should be silenced. Warnings are
+  still returned regardless. Can be set globally using the option
+  `sbf.quiet`.
+
 ## Details
 
 A flag is a non-missing logical scalar.

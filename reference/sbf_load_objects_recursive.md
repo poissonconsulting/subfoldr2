@@ -13,7 +13,8 @@ sbf_load_objects_recursive(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   include_root = TRUE,
-  drop = NULL
+  drop = NULL,
+  quiet = getOption("sbf.quiet", TRUE)
 )
 ```
 
@@ -41,6 +42,12 @@ sbf_load_objects_recursive(
 
   A character vector specifying the names of sub folders and files to
   drop or `NULL` (the default).
+
+- quiet:
+
+  A flag indicating whether messages should be silenced. Warnings are
+  still returned regardless. Can be set globally using the option
+  `sbf.quiet`.
 
 ## See also
 

@@ -1,6 +1,6 @@
-# Load RDS files as List Column in Data Frame
+# Load RDS files as List Column in tibble
 
-**NOTE**: Currently only an internal function and not tested.
+Load RDS files as list column in a tibble.
 
 ## Usage
 
@@ -15,7 +15,8 @@ load_rdss_recursive(
   meta = FALSE,
   drop = NULL,
   fun = NULL,
-  ext = "rds"
+  ext = "rds",
+  quiet = getOption("sbf.quiet", TRUE)
 )
 ```
 
@@ -65,6 +66,12 @@ load_rdss_recursive(
 - ext:
 
   Extension of the files (`".rds"` by default)
+
+- quiet:
+
+  A flag indicating whether messages should be silenced. Warnings are
+  still returned regardless. Can be set globally using the option
+  `sbf.quiet`.
 
 ## Value
 
