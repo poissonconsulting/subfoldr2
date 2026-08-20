@@ -3062,3 +3062,51 @@ test_that("plot with no data and no layers saves no csv or xlsx", {
     c("x.png", "x.rds", "x.yaml")
   )
 })
+
+test_that("plot with geometry layers is saved properly.", {
+  withr::with_tempdir({
+    # no data worth keeping
+    shp <- sf::st_as_sf(data.frame(x = c(1, 2), y = c(10, 15)),
+                        coords = c("x", "y"))
+    
+    p <- ggplot2::ggplot(shp) + ggplot2::geom_sf()
+    
+    expect_no_error(sbf_save_plot(x_name = "plot", caption = "Caption."))
+    expect_equal(ncol(readr::read_csv("output/plots/plot.csv", show_col_types = FALSE)), 0)
+    
+    expect_equal(readxl::excel_sheets("output/plots/plot.xlsx"), c("1_0_data", "1_1_sf"))
+    expect_equal(ncol(readxl::read_xlsx("output/plots/plot.xlsx", sheet = "1_0_data")), 0)
+    expect_equal(nrow(readxl::read_xlsx("output/plots/plot.xlsx", sheet = "1_0_data")), 0)
+    expect_equal(readxl::read_xlsx("output/plots/plot.xlsx", sheet = "1_1_sf"),
+                 tibble())
+    
+    # one informative column in the data but not the layers
+    shp <- sf::st_as_sf(data.frame(x = c(1, 2), y = c(10, 15), let = c("a", "b")),
+                        coords = c("x", "y"))
+    
+    p <- ggplot2::ggplot(shp) + ggplot2::geom_sf()
+    
+    expect_no_error(sbf_save_plot(x_name = "plot", caption = "Caption."))
+    expect_equal(readr::read_csv("output/plots/plot.csv", show_col_types = FALSE),
+                 tibble(let = c("a", "b")))
+    
+    expect_equal(readxl::excel_sheets("output/plots/plot.xlsx"), c("1_0_data", "1_1_sf"))
+    expect_equal(readxl::read_xlsx("output/plots/plot.xlsx", sheet = "1_0_data"),
+                 tibble::tibble(let = c("a", "b")))
+    expect_equal(readxl::read_xlsx("output/plots/plot.xlsx", sheet = "1_1_sf"),
+                 tibble())
+    
+    # one informative column in the data and the layers
+    p <- ggplot2::ggplot(shp) + ggplot2::geom_sf(ggplot2::aes(color = let))
+    
+    expect_no_error(sbf_save_plot(x_name = "plot", caption = "Caption."))
+    expect_equal(readr::read_csv("output/plots/plot.csv", show_col_types = FALSE),
+                 tibble(let = c("a", "b")))
+    
+    expect_equal(readxl::excel_sheets("output/plots/plot.xlsx"), c("1_0_data", "1_1_sf"))
+    expect_equal(readxl::read_xlsx("output/plots/plot.xlsx", sheet = "1_0_data"),
+                 tibble::tibble(let = c("a", "b")))
+    expect_equal(readxl::read_xlsx("output/plots/plot.xlsx", sheet = "1_1_sf"),
+                 tibble(colour = c("#F8766D", "#00BFC4"), group = 1:2))
+  })
+})
