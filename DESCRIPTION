@@ -51,7 +51,8 @@ Imports:
     utils,
     writexl,
     yaml,
-    yesno
+    yesno,
+    sf
 Suggests: 
     blob,
     config,
@@ -64,7 +65,6 @@ Suggests:
     patchwork,
     readxl,
     RPostgres,
-    sf,
     testthat (>= 3.0.0),
     units,
     waldo,
