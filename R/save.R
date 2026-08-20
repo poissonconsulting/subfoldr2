@@ -53,6 +53,20 @@ read_metas <- function(x) {
 }
 
 save_xlsx <- function(x, class, main, sub, x_name) {
+  # necessary for dropping geometries fully. the alternative requires finiding
+  # all of the geometry columns to set them to NULL and fix attributes
+  x <- purrr::map(x, sf::st_drop_geometry)
+  # st_drop_geometry() isn't enough when elements coerced with as.data.frame()
+  x <- purrr::map(x, function(.x) {
+    if (ncol(.x)) { # to avoid failures with zero-column data.frames
+      spatial <- grepl("sfc", purrr::map_chr(seq(ncol(.x)), function(.col_id) {
+        paste(class(.x[[.col_id]]), collapse = " ")
+      }))
+      # setting drop = FALSE keeps data.frame structure
+      .x <- .x[, !spatial, drop = FALSE]
+    }
+    .x
+  })
   file <- file_name(main, class, sub, x_name, "xlsx")
   writexl::write_xlsx(x, file)
   invisible(file)
