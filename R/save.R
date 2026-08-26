@@ -19,18 +19,7 @@ save_rds <- function(x, class, main, sub, x_name) {
 
 save_csv <- function(x, class, sub, main, x_name) {
   x[vapply(x, is.list, TRUE)] <- NULL
-  # necessary for dropping geometries fully. the alternative requires finding
-  # all of the geometry columns to set them to NULL and fix attributes
-  x <- sf::st_drop_geometry(x)
-  # st_drop_geometry() isn't enough when elements coerced with as.data.frame()
-  if (ncol(x)) { # to avoid failures with zero-column data.frames
-    spatial <- grepl("sfc", purrr::map_chr(seq(ncol(x)), function(.col_id) {
-      paste(class(x[[.col_id]]), collapse = " ")
-    }))
-    # setting drop = FALSE keeps data.frame structure
-    x <- x[, !spatial, drop = FALSE]
-  }
-  
+  x <- remove_geometry(x)
   file <- file_name(main, class, sub, x_name, "csv")
   readr::write_csv(x, file)
   invisible(file)
@@ -65,24 +54,23 @@ read_metas <- function(x) {
 }
 
 save_xlsx <- function(x, class, main, sub, x_name) {
-  # necessary for dropping geometries fully. the alternative requires finding
-  # all of the geometry columns to set them to NULL and fix attributes
-  x <- purrr::map(x, sf::st_drop_geometry)
-  # st_drop_geometry() isn't enough when elements coerced with as.data.frame()
-  x <- purrr::map(x, function(.x) {
-    if (ncol(.x)) { # to avoid failures with zero-column data.frames
-      spatial <- grepl("sfc", purrr::map_chr(seq(ncol(.x)), function(.col_id) {
-        paste(class(.x[[.col_id]]), collapse = " ")
-      }))
-      # setting drop = FALSE keeps data.frame structure
-      .x <- .x[, !spatial, drop = FALSE]
-    }
-    .x
-  })
-  
+  x <- purrr::map(x, remove_geometry)
   file <- file_name(main, class, sub, x_name, "xlsx")
   writexl::write_xlsx(x, file)
   invisible(file)
+}
+
+# to drop geometry columns before saving data as csv or xlsx
+remove_geometry <- function(x) {
+  x <- sf::st_drop_geometry(x)
+  # st_drop_geometry() isn't enough when elements coerced with as.data.frame()
+  if (ncol(x)) { # to avoid failures with zero-column data.frames
+    spatial <- grepl("sfc", purrr::map_chr(seq(ncol(x)), function(.col_id) {
+      paste(class(x[[.col_id]]), collapse = " ")
+    }))
+    x <- x[, !spatial, drop = FALSE] # drop = FALSE to keep data.frame structure
+  }
+  x
 }
 
 save_gpkg <- function(x, class, main, sub, x_name) {
