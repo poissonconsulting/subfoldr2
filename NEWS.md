@@ -1,4 +1,11 @@
-<!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
+<!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
+
+# subfoldr2 1.0.1.9014
+
+- Save spatial plots after dropping spatial cols and attributes (#186).
+
+- List dropped folders (#143, #174).
+
 
 # subfoldr2 1.0.1.9013
 
