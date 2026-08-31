@@ -1,5 +1,11 @@
 # Changelog
 
+## subfoldr2 1.0.1.9014
+
+- Save spatial plots after dropping spatial cols and attributes (#186).
+
+- List dropped folders (#143, \#174).
+
 ## subfoldr2 1.0.1.9013
 
 - Same as previous version.
