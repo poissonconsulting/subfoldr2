@@ -632,6 +632,18 @@ get_plot_layer_sheets <- function(p, prefix, csv, drop_uninformative_cols) {
     geom <- tolower(gsub("Geom", "", class(p@layers[[layer]]$geom)[1]))
     paste0(prefix, "_", layer, "_", geom)
   })
+  
+  # clean up boxplot layers with outliers, if any
+  for (.sheet in which(grepl("_boxplot", names(sheets)))) {
+    if ("outliers" %in% colnames(sheets[[.sheet]])) {
+      if (class(sheets[[.sheet]]$outliers) == "list") {
+        sheets[[.sheet]]$outliers <-
+          purrr::map_chr(sheets[[.sheet]]$outliers, function(.chr) {
+            paste(.chr, collapse = ", ")
+          })
+      }
+    }
+  }
   sheets
 }
 
