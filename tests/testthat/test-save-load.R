@@ -1421,7 +1421,28 @@ test_that("plot", {
       dplyr::tibble() |>
       dplyr::mutate(group = `attr<-`(group, "n", NULL))
   )
-
+  
+  # saves boxplots correctly (outlier column is a list of vectors)
+  d <- data.frame(x = 1:10, y = 1:100)
+  ggplot2::ggplot(d, ggplot2::aes(x, y, group = x)) + ggplot2::geom_boxplot()
+  expect_no_error(withr::with_tempdir(sbf_save_plot(x_name = "test")))
+  
+  d$y[1] <- -100  # only one outlier across groups
+  ggplot2::ggplot(d, ggplot2::aes(x, y, group = x)) + ggplot2::geom_boxplot()
+  expect_no_error(withr::with_tempdir(sbf_save_plot(x_name = "test")))
+  
+  d$y[1:9] <- -100 # several outliers but not all layers
+  ggplot2::ggplot(d, ggplot2::aes(x, y, group = x)) + ggplot2::geom_boxplot()
+  expect_no_error(withr::with_tempdir(sbf_save_plot(x_name = "test")))
+  
+  d$y[1:10] <- -100 # all the same outlier: dropped uninformative col
+  ggplot2::ggplot(d, ggplot2::aes(x, y, group = x)) + ggplot2::geom_boxplot()
+  expect_no_error(withr::with_tempdir(sbf_save_plot(x_name = "test")))
+  
+  d$y[1:10] <- -101:-110 # all different outliers
+  ggplot2::ggplot(d, ggplot2::aes(x, y, group = x)) + ggplot2::geom_boxplot()
+  expect_no_error(withr::with_tempdir(sbf_save_plot(x_name = "test")))
+  
   sbf_reset()
   sbf_close_windows()
 })
