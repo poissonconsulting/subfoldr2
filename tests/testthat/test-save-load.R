@@ -206,7 +206,7 @@ test_that("spatial", {
   # test spatial checks
   y <- 1
   expect_error(check_spatial(), "argument \"x\" is missing, with no default")
-  expect_error(check_spatial(y), "^`y` must inherit from S3 class 'sf'[.]$")
+  expect_error(check_spatial(y), "^`y` must inherit from S3 class 'sf'")
   expect_false(valid_spatial(y))
 
   y <- sf::st_point(c(0, 1)) |>
@@ -359,7 +359,7 @@ test_that("data", {
   expect_error(sbf_save_data(), "argument \"x\" is missing, with no default")
   expect_error(
     sbf_save_data(y),
-    "^`x` must inherit from S3 class 'data.frame'[.]$",
+    "^`x` must inherit from S3 class 'data.frame'",
     class = "chk_error"
   )
   x <- data.frame(x = 1)
@@ -777,7 +777,7 @@ test_that("table", {
   )
   expect_error(
     sbf_save_table(y),
-    "^`x` must inherit from S3 class 'data.frame'[.]$",
+    "^`x` must inherit from S3 class 'data.frame'",
     class = "chk_error"
   )
   x <- data.frame(x = 1)
@@ -973,7 +973,7 @@ test_that("plot", {
   y <- 1
   expect_error(
     sbf_save_plot(y),
-    "^`x` must inherit from S3 class 'ggplot'[.]$",
+    "^`x` must inherit from S3 class 'ggplot'",
     class = "chk_error"
   )
 
@@ -1421,7 +1421,28 @@ test_that("plot", {
       dplyr::tibble() |>
       dplyr::mutate(group = `attr<-`(group, "n", NULL))
   )
-
+  
+  # saves boxplots correctly (outlier column is a list of vectors)
+  d <- data.frame(x = 1:10, y = 1:100)
+  ggplot2::ggplot(d, ggplot2::aes(x, y, group = x)) + ggplot2::geom_boxplot()
+  expect_no_error(withr::with_tempdir(sbf_save_plot(x_name = "test")))
+  
+  d$y[1] <- -100  # only one outlier across groups
+  ggplot2::ggplot(d, ggplot2::aes(x, y, group = x)) + ggplot2::geom_boxplot()
+  expect_no_error(withr::with_tempdir(sbf_save_plot(x_name = "test")))
+  
+  d$y[1:9] <- -100 # several outliers but not all layers
+  ggplot2::ggplot(d, ggplot2::aes(x, y, group = x)) + ggplot2::geom_boxplot()
+  expect_no_error(withr::with_tempdir(sbf_save_plot(x_name = "test")))
+  
+  d$y[1:10] <- -100 # all the same outlier: dropped uninformative col
+  ggplot2::ggplot(d, ggplot2::aes(x, y, group = x)) + ggplot2::geom_boxplot()
+  expect_no_error(withr::with_tempdir(sbf_save_plot(x_name = "test")))
+  
+  d$y[1:10] <- -101:-110 # all different outliers
+  ggplot2::ggplot(d, ggplot2::aes(x, y, group = x)) + ggplot2::geom_boxplot()
+  expect_no_error(withr::with_tempdir(sbf_save_plot(x_name = "test")))
+  
   sbf_reset()
   sbf_close_windows()
 })
