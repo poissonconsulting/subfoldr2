@@ -206,7 +206,10 @@ test_that("spatial", {
   # test spatial checks
   y <- 1
   expect_error(check_spatial(), "argument \"x\" is missing, with no default")
-  expect_error(check_spatial(y), "^`y` must inherit from S3 class 'sf'[.]$")
+  expect_error(
+    check_spatial(y),
+    "^`y` must inherit from S3 class 'sf', not S3 class 'numeric'[.]$"
+  )
   expect_false(valid_spatial(y))
 
   y <- sf::st_point(c(0, 1)) |>
@@ -359,7 +362,7 @@ test_that("data", {
   expect_error(sbf_save_data(), "argument \"x\" is missing, with no default")
   expect_error(
     sbf_save_data(y),
-    "^`x` must inherit from S3 class 'data.frame'[.]$",
+    "^`x` must inherit from S3 class 'data.frame', not S3 class 'numeric'[.]$",
     class = "chk_error"
   )
   x <- data.frame(x = 1)
@@ -777,7 +780,7 @@ test_that("table", {
   )
   expect_error(
     sbf_save_table(y),
-    "^`x` must inherit from S3 class 'data.frame'[.]$",
+    "^`x` must inherit from S3 class 'data.frame', not S3 class 'numeric'[.]$",
     class = "chk_error"
   )
   x <- data.frame(x = 1)
@@ -973,7 +976,7 @@ test_that("plot", {
   y <- 1
   expect_error(
     sbf_save_plot(y),
-    "^`x` must inherit from S3 class 'ggplot'[.]$",
+    "^`x` must inherit from S3 class 'ggplot', not S3 class 'numeric'[.]$",
     class = "chk_error"
   )
 

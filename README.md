@@ -35,7 +35,6 @@ By default files are saved to `output` unless overridden using
 
 ``` r
 library(subfoldr2)
-#> Warning: package 'subfoldr2' was built under R version 4.6.1
 sbf_set_main(tempdir(), "output")
 ```
 
