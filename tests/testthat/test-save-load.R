@@ -2726,6 +2726,20 @@ test_that("save sf as gpkgs with linstring column and sf point and all_sfc = FAL
   gpkg <- convert_sfc_to_coords(gpkg, "geom")
   expect_identical(gpkg$X, gpkg$X)
   expect_identical(gpkg$Y, gpkg$Y)
+  
+# sbf_set_sub(rm = TRUE) should also remove the gpkg subfolder
+  rm_pt <- sf::st_as_sf(
+    data.frame(x = 1, y = 1),
+    coords = c("x", "y"),
+    crs = 4326
+  )
+  sbf_set_sub("sub")
+  sbf_save_gpkg(rm_pt)
+  gpkg_sub_file <- file.path(path, "gpkg/sub/rm_pt.gpkg")
+  expect_true(file.exists(gpkg_sub_file))
+  
+  sbf_set_sub("sub", rm = TRUE, ask = FALSE)
+  expect_error(sf::st_read(gpkg_sub_file))
 })
 
 test_that("`sbf_load_numbers_recursive()` drops based on file name.", {
