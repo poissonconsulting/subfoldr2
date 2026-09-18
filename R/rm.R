@@ -59,5 +59,6 @@ rm_all <- function(ask) {
     unlink(file_path(main, "flobs", sub), recursive = TRUE)
     unlink(file_path(main, "pdfs", sub), recursive = TRUE)
     unlink(file_path(main, "windows", sub), recursive = TRUE)
+    unlink(file_path(main, "gpkg", sub), recursive = TRUE)
   }
 }
