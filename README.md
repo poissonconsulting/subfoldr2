@@ -91,7 +91,7 @@ print(sbf_set_sub("times2", "times3"))
 sbf_load_objects()
 ls()
 #> [1] "df" "x"  "x3"
-dplyr::select(sbf_load_objects_recursive(sub = "times2"), ! file)
+dplyr::select(sbf_load_objects_recursive(sub = "times2"), !file)
 #> # A tibble: 3 × 3
 #>   objects      name  sub     
 #>   <list>       <chr> <chr>   

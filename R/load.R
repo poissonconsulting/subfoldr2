@@ -507,7 +507,9 @@ load_rdss_recursive <- function(
         cli::cli_inform(c("Dropped:", setNames(dropped, rep("!", sum(drop)))))
       }
     } else {
-      cli::cli_warn("No files or folders matched `drop`, so no files were dropped.")
+      cli::cli_warn(
+        "No files or folders matched `drop`, so no files were dropped."
+      )
     }
   }
 
