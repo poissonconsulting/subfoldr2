@@ -23,7 +23,6 @@ which can take a relative or absolute path.
 ``` r
 
 library(subfoldr2)
-#> Warning: package 'subfoldr2' was built under R version 4.6.1
 sbf_set_main(tempdir(), "output")
 ```
 
@@ -89,7 +88,7 @@ print(sbf_set_sub("times2", "times3"))
 sbf_load_objects()
 ls()
 #> [1] "df" "x"  "x3"
-dplyr::select(sbf_load_objects_recursive(sub = "times2"), ! file)
+dplyr::select(sbf_load_objects_recursive(sub = "times2"), !file)
 #> # A tibble: 3 × 3
 #>   objects      name  sub     
 #>   <list>       <chr> <chr>   
