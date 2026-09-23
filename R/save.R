@@ -64,10 +64,14 @@ save_xlsx <- function(x, class, main, sub, x_name) {
 remove_geometry <- function(x) {
   x <- sf::st_drop_geometry(x)
   # st_drop_geometry() isn't enough when elements coerced with as.data.frame()
-  if (ncol(x)) { # to avoid failures with zero-column data.frames
-    spatial <- grepl("sfc", purrr::map_chr(seq(ncol(x)), function(.col_id) {
-      paste(class(x[[.col_id]]), collapse = " ")
-    }))
+  if (ncol(x)) {
+    # to avoid failures with zero-column data.frames
+    spatial <- grepl(
+      "sfc",
+      purrr::map_chr(seq(ncol(x)), function(.col_id) {
+        paste(class(x[[.col_id]]), collapse = " ")
+      })
+    )
     x <- x[, !spatial, drop = FALSE] # drop = FALSE to keep data.frame structure
   }
   x
