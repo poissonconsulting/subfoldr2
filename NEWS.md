@@ -1,5 +1,14 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# subfoldr2 1.0.1.9015
+
+- Sbf_set_sub(rm = TRUE) to remove gpkgs fixes #81 (#192) (#81).
+
+- Replacing `build.R` script with newer usepois version and rerun build (#190).
+
+- Add URL to description to remove warning (#191).
+
+
 # subfoldr2 1.0.1.9014
 
 - Save spatial plots after dropping spatial cols and attributes (#186).
