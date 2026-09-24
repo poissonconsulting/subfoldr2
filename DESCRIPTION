@@ -1,6 +1,6 @@
 Package: subfoldr2
 Title: Save and Load R Objects
-Version: 1.0.1.9014
+Version: 1.0.1.9015
 Authors@R: c(
     person("Joe", "Thorley", , "joe@poissonconsulting.ca", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-7683-4592")),
@@ -21,6 +21,7 @@ Authors@R: c(
 Description: Facilitates saving and loading R objects, data frames,
     tables, plots, text blocks and numbers to subfolders.
 License: MIT + file LICENSE
+URL: https://poissonconsulting.github.io/subfoldr2
 Depends:
     R (>= 4.1.0)
 Imports: 

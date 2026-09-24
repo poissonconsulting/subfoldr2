@@ -83,7 +83,7 @@ using `sbf_load_objects_recursive()`.
 print(sbf_set_sub("times2", "times3"))
 sbf_load_objects()
 ls()
-dplyr::select(sbf_load_objects_recursive(sub = "times2"), ! file)
+dplyr::select(sbf_load_objects_recursive(sub = "times2"), !file)
 ```
 
 ### Deleting Subfolders
