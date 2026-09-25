@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# subfoldr2 1.0.1.9016
+
+- Allow `sbf_save_plot()` to save boxplots w outliers #187 (#188) (#187).
+
+
 # subfoldr2 1.0.1.9015
 
 - Sbf_set_sub(rm = TRUE) to remove gpkgs fixes #81 (#192) (#81).
