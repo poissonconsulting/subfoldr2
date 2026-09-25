@@ -1,5 +1,11 @@
 # Changelog
 
+## subfoldr2 1.0.1.9016
+
+- Allow
+  [`sbf_save_plot()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_plot.md)
+  to save boxplots w outliers \#187 (#188) (#187).
+
 ## subfoldr2 1.0.1.9015
 
 - Sbf_set_sub(rm = TRUE) to remove gpkgs fixes \#81 (#192) (#81).
