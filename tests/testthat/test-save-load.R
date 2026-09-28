@@ -1424,28 +1424,28 @@ test_that("plot", {
       dplyr::tibble() |>
       dplyr::mutate(group = `attr<-`(group, "n", NULL))
   )
-  
+
   # saves boxplots correctly (outlier column is a list of vectors)
   d <- data.frame(x = 1:10, y = 1:100)
   ggplot2::ggplot(d, ggplot2::aes(x, y, group = x)) + ggplot2::geom_boxplot()
   expect_no_error(withr::with_tempdir(sbf_save_plot(x_name = "test")))
-  
-  d$y[1] <- -100  # only one outlier across groups
+
+  d$y[1] <- -100 # only one outlier across groups
   ggplot2::ggplot(d, ggplot2::aes(x, y, group = x)) + ggplot2::geom_boxplot()
   expect_no_error(withr::with_tempdir(sbf_save_plot(x_name = "test")))
-  
+
   d$y[1:9] <- -100 # several outliers but not all layers
   ggplot2::ggplot(d, ggplot2::aes(x, y, group = x)) + ggplot2::geom_boxplot()
   expect_no_error(withr::with_tempdir(sbf_save_plot(x_name = "test")))
-  
+
   d$y[1:10] <- -100 # all the same outlier: dropped uninformative col
   ggplot2::ggplot(d, ggplot2::aes(x, y, group = x)) + ggplot2::geom_boxplot()
   expect_no_error(withr::with_tempdir(sbf_save_plot(x_name = "test")))
-  
+
   d$y[1:10] <- -101:-110 # all different outliers
   ggplot2::ggplot(d, ggplot2::aes(x, y, group = x)) + ggplot2::geom_boxplot()
   expect_no_error(withr::with_tempdir(sbf_save_plot(x_name = "test")))
-  
+
   sbf_reset()
   sbf_close_windows()
 })
@@ -2780,8 +2780,8 @@ test_that("save sf as gpkgs with linstring column and sf point and all_sfc = FAL
   gpkg <- convert_sfc_to_coords(gpkg, "geom")
   expect_identical(gpkg$X, gpkg$X)
   expect_identical(gpkg$Y, gpkg$Y)
-  
-# sbf_set_sub(rm = TRUE) should also remove the gpkg subfolder
+
+  # sbf_set_sub(rm = TRUE) should also remove the gpkg subfolder
   rm_pt <- sf::st_as_sf(
     data.frame(x = 1, y = 1),
     coords = c("x", "y"),
@@ -2791,7 +2791,7 @@ test_that("save sf as gpkgs with linstring column and sf point and all_sfc = FAL
   sbf_save_gpkg(rm_pt)
   gpkg_sub_file <- file.path(path, "gpkg/sub/rm_pt.gpkg")
   expect_true(file.exists(gpkg_sub_file))
-  
+
   sbf_set_sub("sub", rm = TRUE, ask = FALSE)
   expect_error(sf::st_read(gpkg_sub_file))
 })

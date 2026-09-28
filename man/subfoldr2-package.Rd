@@ -8,6 +8,13 @@
 \description{
 Facilitates saving and loading R objects, data frames, tables, plots, text blocks and numbers to subfolders.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://poissonconsulting.github.io/subfoldr2}
+}
+
+}
 \author{
 \strong{Maintainer}: Joe Thorley \email{joe@poissonconsulting.ca} (\href{https://orcid.org/0000-0002-7683-4592}{ORCID})
 
