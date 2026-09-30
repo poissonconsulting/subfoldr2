@@ -3,6 +3,12 @@
 Facilitates saving and loading R objects, data frames, tables, plots,
 text blocks and numbers to subfolders.
 
+## See also
+
+Useful links:
+
+- <https://poissonconsulting.github.io/subfoldr2>
+
 ## Author
 
 **Maintainer**: Joe Thorley <joe@poissonconsulting.ca>
