@@ -25,14 +25,14 @@ sbf_write_datas_to_xlsx <- function(
   rlang::check_installed("writexl")
 
   if (isTRUE(exists)) {
-    chk_file(file)
+    chk_file(path)
   }
 
-  if (isFALSE(exists) && file.exists(file)) {
-    if (ask && !yesno("Delete file '", file, "'?")) {
+  if (isFALSE(exists) && file.exists(path)) {
+    if (ask && !yesno("Delete file '", path, "'?")) {
       return(character(0))
     }
-    file.remove(file)
+    file.remove(path)
   }
 
   names <- objects(envir = env)
