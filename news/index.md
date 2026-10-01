@@ -1,5 +1,10 @@
 # Changelog
 
+## subfoldr2 1.0.1.9017
+
+- Fix `sbf_save_datas_to_xlsx` so `exists = TRUE/FALSE` no longer errors
+  (#194).
+
 ## subfoldr2 1.0.1.9016
 
 - Allow
