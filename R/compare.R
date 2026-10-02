@@ -22,7 +22,7 @@ sbf_compare_data <- function(
   chk_s3_class(x, "data.frame")
   x_name <- chk_deparse(x_name)
 
-  sub <- sanitize_path(sub)
+  sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   existing <- sbf_load_data(x_name, sub = sub, main = main, exists = NA)

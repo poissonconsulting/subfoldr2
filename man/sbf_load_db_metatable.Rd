@@ -13,7 +13,7 @@ sbf_load_db_metatable(
 \arguments{
 \item{db_name}{A string of the database name.}
 
-\item{sub}{A string specifying the path to the sub folder (by default the
+\item{sub}{A string or character vector specifying the path to the sub folder (by default the
 current sub folder).}
 
 \item{main}{A string specifying the path to the main folder (by default the

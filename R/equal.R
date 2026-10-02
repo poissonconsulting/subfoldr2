@@ -24,7 +24,7 @@ sbf_is_equal_data <- function(
   chk_scalar(exists)
   chk_logical(exists)
 
-  sub <- sanitize_path(sub)
+  sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   file <- file_path("data", sub, x_name)

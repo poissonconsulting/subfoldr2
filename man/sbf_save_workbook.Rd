@@ -16,7 +16,7 @@ sbf_save_workbook(
 \item{workbook_name}{The name of the excel workbook you are creating. Default
 is the base name of the current working directory.}
 
-\item{sub}{A string specifying the path to the sub folder (by default the
+\item{sub}{A string or character vector specifying the path to the sub folder (by default the
 current sub folder).}
 
 \item{main}{A string specifying the path to the main folder (by default the

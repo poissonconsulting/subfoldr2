@@ -58,7 +58,7 @@ sbf_save_flobs_from_db <- function(
   on.exit(sbf_close_db(conn))
 
   if (is.null(dir)) {
-    sub <- sanitize_path(sub)
+    sub <- sanitize_sub(sub)
     main <- sanitize_path(main, rm_leading = FALSE)
     dir <- file_path(main, "flobs", sub, db_name)
   }
@@ -106,7 +106,7 @@ sbf_upload_flobs_to_db <- function(
   on.exit(sbf_close_db(conn))
 
   if (is.null(dir)) {
-    sub <- sanitize_path(sub)
+    sub <- sanitize_sub(sub)
     main <- sanitize_path(main, rm_leading = FALSE)
     dir <- file_path(main, "flobs", sub, db_name)
   }

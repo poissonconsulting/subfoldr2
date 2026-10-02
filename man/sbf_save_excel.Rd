@@ -21,7 +21,7 @@ sbf_save_excel(
 \item{max_sheets}{An integer specifying the maximum number of sheets to split
 your table into for writing to excel. The default is 1.}
 
-\item{sub}{A string specifying the path to the sub folder (by default the
+\item{sub}{A string or character vector specifying the path to the sub folder (by default the
 current sub folder).}
 
 \item{main}{A string specifying the path to the main folder (by default the

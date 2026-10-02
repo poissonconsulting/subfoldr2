@@ -33,6 +33,13 @@ sanitize_path <- function(path, rm_leading = TRUE) {
   path
 }
 
+sanitize_sub <- function(sub) {
+  if (length(sub) > 1L) {
+    sub <- p0(sub, collapse = "/")
+  }
+  sanitize_path(sub)
+}
+
 replace_ext <- function(x, new_ext) {
   sub("[.][^.]+$", p0(".", new_ext), x)
 }
@@ -40,10 +47,10 @@ replace_ext <- function(x, new_ext) {
 create_file_path <- function(x_name, class, sub, main, ext = "rds") {
   chk_string(x_name)
   chk_character(sub)
-  chk_range(length(sub))
+  chk_not_any_na(sub)
   chk_string(main)
 
-  sub <- sanitize_path(sub)
+  sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   dir <- file_path(main, class, sub, x_name)
