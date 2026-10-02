@@ -214,13 +214,13 @@ sbf_load_db_metatable <- function(
 
 load_rdss <- function(class, sub, main, env, rename, fun = NULL) {
   chk_character(sub)
-  chk_range(length(sub))
+  chk_not_any_na(sub)
   chk_string(main)
 
   chk_s3_class(env, "environment")
   chk_function(rename)
 
-  sub <- sanitize_path(sub)
+  sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   path <- file_path(main, class, sub)
@@ -448,7 +448,7 @@ load_rdss_recursive <- function(
 ) {
   chk_string(x_name)
   chk_character(sub)
-  chk_range(length(sub))
+  chk_not_any_na(sub)
   chk_string(main)
   chk_flag(include_root)
   chk_string(tag)
@@ -465,7 +465,7 @@ load_rdss_recursive <- function(
   # (e.g. the `.yaml`/`.rda` metadata used by windows) are listed but not read
   read <- identical(ext, "rds")
 
-  sub <- sanitize_path(sub)
+  sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   dir <- file_path(main, class, sub)
@@ -555,11 +555,11 @@ subs_rds_recursive <- function(
 ) {
   chk_string(x_name)
   chk_character(sub)
-  chk_range(length(sub))
+  chk_not_any_na(sub)
   chk_string(main)
   chk_flag(include_root)
 
-  sub <- sanitize_path(sub)
+  sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   dir <- file_path(main, class, sub)

@@ -27,11 +27,11 @@ sbf_copy_db <- function(
 
   chk_string(db_name)
   chk_character(sub)
-  chk_range(length(sub))
+  chk_not_any_na(sub)
   chk_string(main)
   chk_lgl(exists)
 
-  sub <- sanitize_path(sub)
+  sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   file <- file_name(main, "dbs", sub, db_name, ext = "sqlite")

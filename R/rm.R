@@ -2,7 +2,7 @@ rm_class <- function(sub, main, class, ask) {
   chk_string(class)
   chk_flag(ask)
 
-  sub <- sanitize_path(sub)
+  sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
   dir <- file_path(main, class, sub)
   if (!file.exists(dir)) {
