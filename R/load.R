@@ -212,10 +212,19 @@ sbf_load_db_metatable <- function(
   db_metatable_from_connection(conn)
 }
 
-load_rdss <- function(class, sub, main, env, rename, fun = NULL) {
+load_rdss <- function(
+  class,
+  sub,
+  main,
+  env,
+  rename,
+  fun = NULL,
+  x_name = ".*"
+) {
   chk_character(sub)
   chk_not_any_na(sub)
   chk_string(main)
+  chk_string(x_name)
 
   chk_s3_class(env, "environment")
   chk_function(rename)
@@ -225,6 +234,11 @@ load_rdss <- function(class, sub, main, env, rename, fun = NULL) {
 
   path <- file_path(main, class, sub)
   files <- tools::list_files_with_exts(path, "rds")
+  files <- files[grepl(
+    x_name,
+    tools::file_path_sans_ext(basename(files)),
+    perl = TRUE
+  )]
 
   if (!length(files)) {
     warning("no ", class, " to load")
@@ -254,6 +268,7 @@ load_rdss <- function(class, sub, main, env, rename, fun = NULL) {
 #' and returns a character vector of the same length.
 #' Used to rename objects before they are loaded into the environment.
 #' @param env The environment to load the objects into
+#' @param x_name A string of the regular expression to match.
 #' @return An invisible character vector of the objects' names.
 #' @family load functions
 #' @export
@@ -261,32 +276,68 @@ sbf_load_objects <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   rename = identity,
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 ) {
-  load_rdss("objects", sub = sub, main = main, env = env, rename = rename)
+  load_rdss(
+    "objects",
+    sub = sub,
+    main = main,
+    env = env,
+    rename = rename,
+    x_name = x_name
+  )
 }
 
 #' Load Datas
 #'
-#' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
+#' @inheritParams sbf_save_object
 #' @return An invisible character vector of the data frames' names.
 #' @family load functions
 #' @export
+#' @examples
+#' \dontrun{
+#' sbf_set_main(file.path(tempdir(), "output"))
+#' outing <- data.frame(x = 1)
+#' capture <- data.frame(x = 2)
+#' captures <- data.frame(x = 3)
+#' sbf_save_datas()
+#'
+#' # matches anywhere in the name
+#' sbf_load_datas(x_name = "capture") # capture, captures
+#'
+#' # ^ and $ match the whole name
+#' sbf_load_datas(x_name = "^capture$") # capture
+#' sbf_load_datas(x_name = "^(outing|capture)$") # capture, outing
+#'
+#' # (?! ) excludes names
+#' sbf_load_datas(x_name = "^(?!capture$)") # captures, outing
+#'
+#' sbf_reset()
+#' }
 sbf_load_datas <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   rename = identity,
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 ) {
-  load_rdss("data", sub = sub, main = main, env = env, rename = rename)
+  load_rdss(
+    "data",
+    sub = sub,
+    main = main,
+    env = env,
+    rename = rename,
+    x_name = x_name
+  )
 }
 
 #' Load Spatial Datas
 #'
 #' Loads sf tbls that must meet the same requirements as `sbf_save_spatials`.
-#' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
+#' @inheritParams sbf_save_object
 #' @return An invisible character vector of the data frames' names.
 #' @family load functions
 #' @export
@@ -294,15 +345,23 @@ sbf_load_spatials <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   rename = identity,
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 ) {
-  load_rdss("spatial", sub = sub, main = main, env = env, rename = rename)
+  load_rdss(
+    "spatial",
+    sub = sub,
+    main = main,
+    env = env,
+    rename = rename,
+    x_name = x_name
+  )
 }
 
 #' Load Tables
 #'
-#' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
+#' @inheritParams sbf_save_object
 #' @return An invisible character vector of the data frames' names.
 #' @family load functions
 #' @export
@@ -310,15 +369,23 @@ sbf_load_tables <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   rename = identity,
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 ) {
-  load_rdss("tables", sub = sub, main = main, env = env, rename = rename)
+  load_rdss(
+    "tables",
+    sub = sub,
+    main = main,
+    env = env,
+    rename = rename,
+    x_name = x_name
+  )
 }
 
 #' Load Numbers
 #'
-#' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
+#' @inheritParams sbf_save_object
 #' @return An invisible character vector of the numbers' names.
 #' @family load functions
 #' @export
@@ -326,15 +393,23 @@ sbf_load_numbers <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   rename = identity,
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 ) {
-  load_rdss("numbers", sub = sub, main = main, env = env, rename = rename)
+  load_rdss(
+    "numbers",
+    sub = sub,
+    main = main,
+    env = env,
+    rename = rename,
+    x_name = x_name
+  )
 }
 
 #' Load Strings
 #'
-#' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
+#' @inheritParams sbf_save_object
 #' @return An invisible character vector of the strings' names.
 #' @family load functions
 #' @export
@@ -342,15 +417,23 @@ sbf_load_strings <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   rename = identity,
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 ) {
-  load_rdss("strings", sub = sub, main = main, env = env, rename = rename)
+  load_rdss(
+    "strings",
+    sub = sub,
+    main = main,
+    env = env,
+    rename = rename,
+    x_name = x_name
+  )
 }
 
 #' Load Blocks
 #'
-#' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
+#' @inheritParams sbf_save_object
 #' @return An invisible character vector of the blocks' names.
 #' @family load functions
 #' @export
@@ -358,15 +441,23 @@ sbf_load_blocks <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   rename = identity,
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 ) {
-  load_rdss("blocks", sub = sub, main = main, env = env, rename = rename)
+  load_rdss(
+    "blocks",
+    sub = sub,
+    main = main,
+    env = env,
+    rename = rename,
+    x_name = x_name
+  )
 }
 
 #' Load Plots Data
 #'
-#' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
+#' @inheritParams sbf_save_object
 #' @return An invisible character vector of the plots' names.
 #' @family load functions
 #' @export
@@ -374,7 +465,8 @@ sbf_load_plots_data <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   rename = identity,
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 ) {
   load_rdss(
     "plots",
@@ -382,7 +474,8 @@ sbf_load_plots_data <- function(
     main = main,
     env = env,
     rename = rename,
-    fun = get_plot_data
+    fun = get_plot_data,
+    x_name = x_name
   )
 }
 
@@ -479,7 +572,7 @@ load_rdss_recursive <- function(
   # can map to the same object; keep only the first occurrence of each stem
   keep <- !duplicated(files)
   files <- files[keep]
-  files <- files[grepl(x_name, basename(files))]
+  files <- files[grepl(x_name, basename(files), perl = TRUE)]
   if (!include_root) {
     files <- files[grepl("/", files)]
   }

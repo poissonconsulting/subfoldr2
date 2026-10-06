@@ -26,7 +26,7 @@ list_files <- function(
   files <- sanitize_path(files)
   names(files) <- file.path(dir, files)
   files <- sub(ext, "", files)
-  files <- files[grepl(x_name, basename(files))]
+  files <- files[grepl(x_name, basename(files), perl = TRUE)]
   if (!include_root) {
     files <- files[grepl("/", files)]
   }

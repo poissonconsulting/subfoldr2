@@ -1102,7 +1102,8 @@ sbf_save_workbook <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   env = parent.frame(),
-  epgs = NULL
+  epgs = NULL,
+  x_name = ".*"
 ) {
   chk_string(workbook_name)
   chk_character(sub)
@@ -1114,6 +1115,7 @@ sbf_save_workbook <- function(
   sub <- sanitize_sub(sub)
 
   names <- objects(envir = env)
+  names <- names[grepl(x_name, names, perl = TRUE)]
   is <- vector("logical", length(names))
 
   datas <- list()
@@ -1127,13 +1129,13 @@ sbf_save_workbook <- function(
     }
   }
 
-  save_workbook(datas, sub, main, workbook_name, epgs)
-
   names <- names[is]
   if (!length(names)) {
     warning("no datas to save")
-    invisible(character(0))
+    return(invisible(character(0)))
   }
+
+  save_workbook(datas, sub, main, workbook_name, epgs)
 
   names <- file_path(main, "excel", sub, workbook_name)
   names <- p0(names, ".xlsx")
@@ -1239,21 +1241,26 @@ sbf_save_db_metatable_descriptions <- function(
 #'
 #' @inheritParams sbf_save_object
 #' @param env An environment.
+#' @param x_name A string of the regular expression to match.
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
 #' @export
 sbf_save_objects <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 ) {
   chk_s3_class(env, "environment")
+  chk_string(x_name)
+
   sub <- sanitize_sub(sub)
 
   names <- objects(envir = env)
+  names <- names[grepl(x_name, names, perl = TRUE)]
   if (!length(names)) {
     warning("no objects to save")
-    invisible(character(0))
+    return(invisible(character(0)))
   }
   for (x_name in names) {
     x <- get(x = x_name, envir = env)
@@ -1266,20 +1273,42 @@ sbf_save_objects <- function(
 
 #' Save Data Frames
 #'
-#' @inheritParams sbf_save_object
 #' @inheritParams sbf_save_objects
+#' @inheritParams sbf_save_object
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
 #' @export
+#' @examples
+#' \dontrun{
+#' sbf_set_main(file.path(tempdir(), "output"))
+#' outing <- data.frame(x = 1)
+#' capture <- data.frame(x = 2)
+#' captures <- data.frame(x = 3)
+#'
+#' # matches anywhere in the name
+#' sbf_save_datas(x_name = "capture") # capture, captures
+#'
+#' # ^ and $ match the whole name
+#' sbf_save_datas(x_name = "^capture$") # capture
+#' sbf_save_datas(x_name = "^(outing|capture)$") # capture, outing
+#'
+#' # (?! ) excludes names
+#' sbf_save_datas(x_name = "^(?!capture$)") # captures, outing
+#'
+#' sbf_reset()
+#' }
 sbf_save_datas <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 ) {
   chk_s3_class(env, "environment")
+  chk_string(x_name)
   sub <- sanitize_sub(sub)
 
   names <- objects(envir = env)
+  names <- names[grepl(x_name, names, perl = TRUE)]
   is <- vector("logical", length(names))
   for (i in seq_along(names)) {
     x_name <- names[i]
@@ -1290,7 +1319,7 @@ sbf_save_datas <- function(
   names <- names[is]
   if (!length(names)) {
     warning("no datas to save")
-    invisible(character(0))
+    return(invisible(character(0)))
   }
   names <- file_path(main, "data", sub, names)
   names <- p0(names, ".rds")
@@ -1304,20 +1333,23 @@ sbf_save_datas <- function(
 #' with no missing values and only one geometry column which must have a defined projection.
 #' The functions expects that all data frames in the environment meet these requirements.
 #'
-#' @inheritParams sbf_save_object
 #' @inheritParams sbf_save_objects
+#' @inheritParams sbf_save_object
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
 #' @export
 sbf_save_spatials <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 ) {
   chk_s3_class(env, "environment")
+  chk_string(x_name)
   sub <- sanitize_sub(sub)
 
   names <- objects(envir = env)
+  names <- names[grepl(x_name, names, perl = TRUE)]
   is <- vector("logical", length(names))
   for (i in seq_along(names)) {
     x_name <- names[i]
@@ -1331,7 +1363,7 @@ sbf_save_spatials <- function(
   names <- names[is]
   if (!length(names)) {
     warning("no spatial datas to save")
-    invisible(character(0))
+    return(invisible(character(0)))
   }
   names <- file_path(main, "spatial", sub, names)
   names <- p0(names, ".rds")
@@ -1340,8 +1372,8 @@ sbf_save_spatials <- function(
 
 #' Save Numbers
 #'
-#' @inheritParams sbf_save_number
 #' @inheritParams sbf_save_objects
+#' @inheritParams sbf_save_number
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
 #' @export
@@ -1349,12 +1381,15 @@ sbf_save_numbers <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   signif = getOption("sbf.signif", 22),
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 ) {
   chk_s3_class(env, "environment")
+  chk_string(x_name)
   sub <- sanitize_sub(sub)
 
   names <- objects(envir = env)
+  names <- names[grepl(x_name, names, perl = TRUE)]
   is <- vector("logical", length(names))
   for (i in seq_along(names)) {
     x_name <- names[i]
@@ -1367,7 +1402,7 @@ sbf_save_numbers <- function(
   names <- names[is]
   if (!length(names)) {
     warning("no numbers to save")
-    invisible(character(0))
+    return(invisible(character(0)))
   }
   names <- file_path(main, "numbers", sub, names)
   names <- p0(names, ".rds")
@@ -1376,20 +1411,23 @@ sbf_save_numbers <- function(
 
 #' Save Strings
 #'
-#' @inheritParams sbf_save_object
 #' @inheritParams sbf_save_objects
+#' @inheritParams sbf_save_object
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
 #' @export
 sbf_save_strings <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 ) {
   chk_s3_class(env, "environment")
+  chk_string(x_name)
   sub <- sanitize_sub(sub)
 
   names <- objects(envir = env)
+  names <- names[grepl(x_name, names, perl = TRUE)]
   is <- vector("logical", length(names))
   for (i in seq_along(names)) {
     x_name <- names[i]
@@ -1400,7 +1438,7 @@ sbf_save_strings <- function(
   names <- names[is]
   if (!length(names)) {
     warning("no strings to save")
-    invisible(character(0))
+    return(invisible(character(0)))
   }
   names <- file_path(main, "strings", sub, names)
   names <- p0(names, ".rds")
@@ -1426,12 +1464,15 @@ sbf_save_excels <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   env = parent.frame(),
-  epgs = NULL
+  epgs = NULL,
+  x_name = ".*"
 ) {
   chk_s3_class(env, "environment")
+  chk_string(x_name)
   sub <- sanitize_sub(sub)
 
   names <- objects(envir = env)
+  names <- names[grepl(x_name, names, perl = TRUE)]
   is <- vector("logical", length(names))
   for (i in seq_along(names)) {
     x_name <- names[i]
@@ -1442,7 +1483,7 @@ sbf_save_excels <- function(
   names <- names[is]
   if (!length(names)) {
     warning("no datas to save")
-    invisible(character(0))
+    return(invisible(character(0)))
   }
   names <- file_path(main, "excel", sub, names)
   names <- p0(names, ".xlsx")
@@ -1483,8 +1524,8 @@ save_gpkgs <- function(x, x_name, sub, main, all_sfcs) {
 #' as file_name_geometry_column_name.gpkg this includes data frames with
 #' no active sfc column.
 #'
-#' @inheritParams sbf_save_object
 #' @inheritParams sbf_save_objects
+#' @inheritParams sbf_save_object
 #' @param all_sfcs A flag specifying whether to save non-active sfc columns as geopackages.
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
@@ -1493,13 +1534,16 @@ sbf_save_gpkgs <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   env = parent.frame(),
-  all_sfcs = TRUE
+  all_sfcs = TRUE,
+  x_name = ".*"
 ) {
   chk_s3_class(env, "environment")
+  chk_string(x_name)
   sub <- sanitize_sub(sub)
 
   files <- character(0)
   names <- objects(envir = env)
+  names <- names[grepl(x_name, names, perl = TRUE)]
   for (i in seq_along(names)) {
     x_name <- names[i]
     x <- get(x = x_name, envir = env)
@@ -1518,7 +1562,7 @@ sbf_save_gpkgs <- function(
   }
   if (!length(files)) {
     warning("no sfs to save")
-    invisible(character(0))
+    return(invisible(character(0)))
   }
   files <- basename(files)
   names <- file_path(main, "gpkg", sub, files)
@@ -1527,10 +1571,12 @@ sbf_save_gpkgs <- function(
 
 #' Save Data Frames to Existing Database
 #'
-#' @inheritParams sbf_save_object
 #' @inheritParams sbf_save_objects
+#' @inheritParams sbf_save_object
 #' @inheritParams sbf_open_db
 #' @param db_name A string of the database name.
+#' @param all A flag specifying whether every table in the database must be
+#'   represented (by default `TRUE`). Set to `FALSE` to save a subset of the tables.
 #' @inheritParams readwritesqlite::rws_write
 #' @return An invisible character vector of the names of the tables saved.
 #' @family save functions
@@ -1542,20 +1588,36 @@ sbf_save_datas_to_db <- function(
   commit = TRUE,
   strict = TRUE,
   env = parent.frame(),
-  silent = getOption("rws.silent", FALSE)
+  silent = getOption("rws.silent", FALSE),
+  x_name = ".*",
+  all = TRUE
 ) {
   chk_s3_class(env, "environment")
+  chk_flag(all)
+  chk_string(x_name)
+
+  names <- objects(envir = env)
+  names <- names[grepl(x_name, names, perl = TRUE)]
+
+  datas <- mget(names, envir = env)
+  datas <- datas[vapply(datas, is.data.frame, TRUE)]
+  if (!length(datas)) {
+    warning("no datas matching regular expression '", x_name, "' to save")
+    return(invisible(character(0)))
+  }
 
   conn <- sbf_open_db(db_name, sub = sub, main = main, exists = TRUE)
   on.exit(sbf_close_db(conn))
 
   rws_write(
-    env,
+    datas,
     exists = TRUE,
     commit = commit,
     strict = strict,
     conn = conn,
-    silent = silent
+    silent = silent,
+    all = all,
+    x_name = "x"
   )
 }
 

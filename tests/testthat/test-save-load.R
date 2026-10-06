@@ -36,6 +36,10 @@ test_that("object", {
       file.path(sbf_get_main(), "objects/y.rds")
     )
   )
+  expect_identical(
+    sbf_save_objects(env = as.environment(list(x = x, y = y)), x_name = "^y$"),
+    file.path(sbf_get_main(), "objects/y.rds")
+  )
   x <- 0
   y <- 0
   expect_identical(sbf_load_objects(), c("x", "y"))
@@ -339,6 +343,10 @@ test_that("spatial", {
     sort(c("y.rds", "z.rds"))
   )
 
+  expect_identical(
+    sbf_save_spatials(env = as.environment(list(y = y, z = z)), x_name = "^z$"),
+    file.path(sbf_get_main(), "spatial/z.rds")
+  )
   y <- 0
   z <- 0
   expect_identical(sbf_load_spatials(), c("y", "z"))
@@ -387,20 +395,41 @@ test_that("data", {
   )
   x <- 0
   y <- 0
+  expect_identical(sbf_load_datas(x_name = "^y$"), "y")
+  expect_identical(x, 0)
+  expect_identical(y, data.frame(z = 3))
+
+  y <- 0
+  expect_identical(sbf_load_datas(x_name = "^(?!y$)"), "x")
+  expect_identical(x, data.frame(x = 1))
+  expect_identical(y, 0)
+
+  x <- 0
+  y <- 0
   expect_identical(sbf_load_datas(), c("x", "y"))
   expect_identical(x, data.frame(x = 1))
   expect_identical(y, data.frame(z = 3))
+
+  z <- data.frame(z = 3)
+  expect_identical(
+    sbf_save_datas(x_name = "x|z"),
+    c(
+      file.path(sbf_get_main(), "data/x.rds"),
+      file.path(sbf_get_main(), "data/z.rds")
+    )
+  )
 
   data <- sbf_load_datas_recursive()
   expect_s3_class(data, "tbl_df")
   expect_identical(colnames(data), c("data", "name", "sub", "file"))
   expect_identical(data$data[[1]], data.frame(x = 1))
-  expect_identical(data$name, c("x", "y"))
+  expect_identical(data$name, c("x", "y", "z"))
   expect_identical(
     data$file,
     c(
       file.path(sbf_get_main(), "data/x.rds"),
-      file.path(sbf_get_main(), "data/y.rds")
+      file.path(sbf_get_main(), "data/y.rds"),
+      file.path(sbf_get_main(), "data/z.rds")
     )
   )
 
@@ -468,6 +497,10 @@ test_that("number", {
   expect_identical(
     list.files(file.path(sbf_get_main(), "numbers")),
     sort(c("x.csv", "x.yaml", "x.rds", "y.csv", "y.yaml", "y.rds"))
+  )
+  expect_identical(
+    sbf_save_numbers(env = as.environment(list(x = x, y = y)), x_name = "^y$"),
+    file.path(sbf_get_main(), "numbers/y.rds")
   )
   x <- 0
   y <- 0
@@ -571,6 +604,10 @@ test_that("string", {
     list.files(file.path(sbf_get_main(), "strings")),
     sort(c("x.yaml", "x.rds", "x.txt", "y.yaml", "y.rds", "y.txt"))
   )
+  expect_identical(
+    sbf_save_strings(env = as.environment(list(x = x, y = y)), x_name = "^y$"),
+    file.path(sbf_get_main(), "strings/y.rds")
+  )
   x <- 0
   y <- 0
   expect_identical(sbf_load_strings(), c("x", "y"))
@@ -639,7 +676,7 @@ test_that("datas_to_db", {
 
   expect_error(
     sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
-    "The following data frames in 'x' are unrecognised: 'y' and 'x'; but exists = TRUE."
+    "The following data frames in 'x' are unrecognised: 'x' and 'y'; but exists = TRUE."
   )
 
   DBI::dbExecute(
@@ -655,12 +692,12 @@ test_that("datas_to_db", {
 
   expect_identical(
     sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
-    c("y", "x")
+    c("x", "y")
   )
 
   expect_error(
     sbf_save_datas_to_db(env = as.environment(list(x = x, y = y))),
-    "UNIQUE constraint failed: y.z"
+    "UNIQUE constraint failed: x.x"
   )
 
   expect_true(sbf_close_db(conn))
@@ -764,6 +801,43 @@ test_that("datas_to_db", {
   expect_identical(
     sbf_save_db_metatable_descriptions(x),
     x[c("Table", "Column", "Description")]
+  )
+})
+
+test_that("sbf_save_datas_to_db saves a subset of tables with x_name and all", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  conn <- sbf_open_db(exists = NA)
+  withr::defer(suppressWarnings(DBI::dbDisconnect(conn)))
+  DBI::dbExecute(conn, "CREATE TABLE x (x INTEGER PRIMARY KEY NOT NULL)")
+  DBI::dbExecute(conn, "CREATE TABLE y (z INTEGER PRIMARY KEY NOT NULL)")
+
+  # n is not a data frame and should be ignored
+  env <- as.environment(list(
+    x = data.frame(x = 1),
+    y = data.frame(z = 3),
+    n = 1
+  ))
+
+  expect_error(
+    sbf_save_datas_to_db(env = env, x_name = "^x$"),
+    "not represented"
+  )
+  expect_identical(
+    sbf_save_datas_to_db(env = env, x_name = "^(x|n)$", all = FALSE),
+    "x"
+  )
+  expect_identical(DBI::dbReadTable(conn, "x"), data.frame(x = 1L))
+  expect_identical(nrow(DBI::dbReadTable(conn, "y")), 0L)
+
+  expect_warning(
+    expect_identical(
+      sbf_save_datas_to_db(env = env, x_name = "^nope$"),
+      character(0)
+    ),
+    "no datas matching regular expression '\\^nope\\$' to save"
   )
 })
 
@@ -886,7 +960,6 @@ test_that("block", {
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
 
-  sbf_set_main(tempdir())
   y <- "two words"
   expect_warning(sbf_load_blocks(), "no blocks to load")
   expect_error(sbf_save_block(), "argument \"x\" is missing, with no default")
@@ -1636,7 +1709,7 @@ test_that("sbf_load_plots_recursive() fails if at least one sub is populated and
     )
   )
 
-  dir.create(paste0(sbf_get_main(), '/plots/sub'), recursive = TRUE)
+  dir.create(paste0(sbf_get_main(), "/plots/sub"), recursive = TRUE)
 
   # succeeds because the "sub" sub is empty
   expect_warning(
@@ -2359,6 +2432,13 @@ test_that("checking return value for sbf_save_excels", {
   return_path <- sbf_save_excels(env = as.environment(list(data = data)))
 
   expect_match(return_path, "output/excel/data.xlsx$")
+
+  return_path <- sbf_save_excels(
+    env = as.environment(list(data = data, other = data)),
+    x_name = "^other$"
+  )
+  expect_length(return_path, 1L)
+  expect_match(return_path, "output/excel/other.xlsx$")
 })
 
 test_that("save two dataframes as excel workbook", {
@@ -2390,6 +2470,23 @@ test_that("save two dataframes as excel workbook", {
 
   expect_identical(colnames(site_data), c("Places", "Activity"))
   expect_identical(colnames(species_data), c("Species", "Code"))
+
+  expect_match(
+    sbf_save_workbook("sites_only", x_name = "^sites$"),
+    "output/excel/sites_only.xlsx$"
+  )
+  expect_identical(
+    readxl::excel_sheets(file.path(path, "excel/sites_only.xlsx")),
+    "sites"
+  )
+  expect_warning(
+    expect_identical(
+      sbf_save_workbook("none", x_name = "^nope$"),
+      character(0)
+    ),
+    "no datas to save"
+  )
+  expect_false(file.exists(file.path(path, "excel/none.xlsx")))
 })
 
 test_that("checking return value for sbf_save_workbook", {
@@ -2723,6 +2820,10 @@ test_that("save sfs as gpkg and ignores data frame", {
   expect_identical(sf$Activity, "boating")
   expect_identical(sf$X, data$X[1])
   expect_identical(sf$Y, data$Y[1])
+
+  files <- sbf_save_gpkgs(x_name = "^sf2$")
+  expect_length(files, 1L)
+  expect_match(files, "output/gpkg/sf2\\.gpkg")
 })
 
 test_that("save sf as gpkgs with linstring column and sf point and all_sfc = FALSE", {
