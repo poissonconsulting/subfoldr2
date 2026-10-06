@@ -2589,7 +2589,7 @@ test_that("exclude table function working for db to workbook", {
   sbf_save_db_to_workbook(
     workbook_name = "data",
     db_name = "database",
-    exclude_tables = "species"
+    x_name = "^(?!species$)"
   )
   # do tests
   site_data <- readxl::read_excel(file.path(path, "excel/data.xlsx"), sheet = 1)
@@ -2627,7 +2627,7 @@ test_that("expect empty table when all tables are excluded", {
   sbf_save_db_to_workbook(
     workbook_name = "data",
     db_name = "database",
-    exclude_tables = "sites"
+    x_name = "^(?!sites$)"
   )
   # do tests
   data <- readxl::read_excel(file.path(path, "excel/data.xlsx"))

@@ -1626,6 +1626,7 @@ sbf_save_datas_to_db <- function(
 #' Converts a database to an single excel workbook where each table is its own
 #' spreadsheet.
 #' @param exclude_tables A regular expression listing tables to be excluded.
+#' Currently soft-deprecated. Use `x_name` instead.
 #' @inheritParams sbf_save_workbook
 #' @inheritParams sbf_open_db
 #' @family excel
@@ -1635,10 +1636,10 @@ sbf_save_datas_to_db <- function(
 #' sbf_save_db_to_workbook()
 #'
 #' # exclude the sites table
-#' sbf_save_db_to_workbook(exclude_tables = "sites")
+#' sbf_save_db_to_workbook(x_name = "^(?!sites$)")
 #'
 #' # exclude the sites and species table
-#' sbf_save_db_to_workbook(exclude_tables = "sites|species")
+#' sbf_save_db_to_workbook(x_name = "^(?!(sites|species)$)")
 #' }
 #' @export
 
@@ -1648,16 +1649,26 @@ sbf_save_db_to_workbook <- function(
   exclude_tables = "^$",
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  epgs = NULL
+  epgs = NULL,
+  x_name = ".*"
 ) {
+  if (!missing(exclude_tables)) {
+    lifecycle::deprecate_soft(
+      "1.0.1.9018",
+      "sbf_save_db_to_workbook(exclude_tables)"
+    )
+  }
+
   chk_string(exclude_tables)
+  chk_string(x_name)
   sub <- sanitize_sub(sub)
 
   conn <- sbf_open_db(db_name, sub = sub, main = main)
   on.exit(sbf_close_db(conn))
   datas <- rws_read(conn)
+  datas <- datas[grepl(x_name, names(datas), perl = TRUE)]
   # exclude listed tables
-  datas <- datas[datas = !grepl(exclude_tables, names(datas))]
+  datas <- datas[!grepl(exclude_tables, names(datas))]
   save_workbook(datas, sub, main, workbook_name, epgs)
 
   names <- file_path(main, "excel", sub, workbook_name)
