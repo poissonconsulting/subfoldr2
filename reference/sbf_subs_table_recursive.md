@@ -21,8 +21,8 @@ sbf_subs_table_recursive(
 
 - sub:
 
-  A string specifying the path to the sub folder (by default the current
-  sub folder).
+  A string or character vector specifying the path to the sub folder (by
+  default the current sub folder).
 
 - main:
 
