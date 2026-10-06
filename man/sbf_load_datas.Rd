@@ -8,7 +8,8 @@ sbf_load_datas(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   rename = identity,
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 )
 }
 \arguments{
@@ -22,13 +23,36 @@ current main folder)}
 and returns a character vector of the same length.
 Used to rename objects before they are loaded into the environment.}
 
-\item{env}{The environment to  the objects into}
+\item{env}{The environment to load the objects into}
+
+\item{x_name}{A string of the regular expression to match.}
 }
 \value{
-A invisble character vector of the data frames' names.
+An invisible character vector of the data frames' names.
 }
 \description{
 Load Datas
+}
+\examples{
+\dontrun{
+sbf_set_main(file.path(tempdir(), "output"))
+outing <- data.frame(x = 1)
+capture <- data.frame(x = 2)
+captures <- data.frame(x = 3)
+sbf_save_datas()
+
+# matches anywhere in the name
+sbf_load_datas(x_name = "capture") # capture, captures
+
+# ^ and $ match the whole name
+sbf_load_datas(x_name = "^capture$") # capture
+sbf_load_datas(x_name = "^(outing|capture)$") # capture, outing
+
+# (?! ) excludes names
+sbf_load_datas(x_name = "^(?!capture$)") # captures, outing
+
+sbf_reset()
+}
 }
 \seealso{
 Other load functions:

@@ -7,7 +7,8 @@
 sbf_save_datas(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 )
 }
 \arguments{
@@ -18,12 +19,34 @@ current sub folder).}
 current main folder)}
 
 \item{env}{An environment.}
+
+\item{x_name}{A string of the regular expression to match.}
 }
 \value{
 An invisible character vector of the paths to the saved objects.
 }
 \description{
 Save Data Frames
+}
+\examples{
+\dontrun{
+sbf_set_main(file.path(tempdir(), "output"))
+outing <- data.frame(x = 1)
+capture <- data.frame(x = 2)
+captures <- data.frame(x = 3)
+
+# matches anywhere in the name
+sbf_save_datas(x_name = "capture") # capture, captures
+
+# ^ and $ match the whole name
+sbf_save_datas(x_name = "^capture$") # capture
+sbf_save_datas(x_name = "^(outing|capture)$") # capture, outing
+
+# (?! ) excludes names
+sbf_save_datas(x_name = "^(?!capture$)") # captures, outing
+
+sbf_reset()
+}
 }
 \seealso{
 Other save functions:

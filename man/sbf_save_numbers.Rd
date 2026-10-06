@@ -8,7 +8,8 @@ sbf_save_numbers(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   signif = getOption("sbf.signif", 22),
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 )
 }
 \arguments{
@@ -21,6 +22,8 @@ current main folder)}
 \item{signif}{A positive whole number specifying the number of significant digits to round by.}
 
 \item{env}{An environment.}
+
+\item{x_name}{A string of the regular expression to match.}
 }
 \value{
 An invisible character vector of the paths to the saved objects.

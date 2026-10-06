@@ -10,7 +10,8 @@ sbf_save_db_to_workbook(
   exclude_tables = "^$",
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  epgs = NULL
+  epgs = NULL,
+  x_name = ".*"
 )
 }
 \arguments{
@@ -19,7 +20,8 @@ is the base name of the current working directory.}
 
 \item{db_name}{A string of the database name.}
 
-\item{exclude_tables}{A regular expression listing tables to be excluded.}
+\item{exclude_tables}{A regular expression listing tables to be excluded.
+Currently soft-deprecated. Use \code{x_name} instead.}
 
 \item{sub}{A string or character vector specifying the path to the sub folder (by default the
 current sub folder).}
@@ -28,6 +30,8 @@ current sub folder).}
 current main folder)}
 
 \item{epgs}{The projection to convert to}
+
+\item{x_name}{A string of the regular expression to match.}
 }
 \description{
 Converts a database to an single excel workbook where each table is its own
@@ -38,10 +42,10 @@ spreadsheet.
 sbf_save_db_to_workbook()
 
 # exclude the sites table
-sbf_save_db_to_workbook(exclude_tables = "sites")
+sbf_save_db_to_workbook(x_name = "^(?!sites$)")
 
 # exclude the sites and species table
-sbf_save_db_to_workbook(exclude_tables = "sites|species")
+sbf_save_db_to_workbook(x_name = "^(?!(sites|species)$)")
 }
 }
 \seealso{
