@@ -481,11 +481,14 @@ sbf_load_plots_data <- function(
 
 #' Load Data Frames from Database
 #'
-#' @inheritParams sbf_save_object
+#' By default all tables are loaded. If `x_name` is specified, only the
+#' matching tables are read from the database.
+#'
 #' @inheritParams sbf_load_objects
+#' @inheritParams sbf_save_object
 #' @param db_name A string of the database name.
 #' @inheritParams readwritesqlite::rws_write
-#' @return An invisible character vector of the paths to the saved objects.
+#' @return An invisible character vector of the names of the loaded tables.
 #' @family load functions
 #' @export
 sbf_load_datas_from_db <- function(
@@ -493,15 +496,24 @@ sbf_load_datas_from_db <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   rename = identity,
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 ) {
   chk_s3_class(env, "environment")
   chk_function(rename)
+  chk_string(x_name)
 
   conn <- sbf_open_db(db_name, sub = sub, main = main)
   on.exit(sbf_close_db(conn))
 
-  datas <- rws_read(conn)
+  table_names <- rws_list_tables(conn)
+  table_names <- table_names[grepl(x_name, table_names, perl = TRUE)]
+  if (!length(table_names)) {
+    warning("no data to load")
+    return(invisible(character(0)))
+  }
+
+  datas <- rws_read(table_names, conn = conn)
   names(datas) <- rename(names(datas))
   mapply(assign, names(datas), datas, MoreArgs = list(envir = env))
   invisible(names(datas))

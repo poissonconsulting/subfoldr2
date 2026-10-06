@@ -719,6 +719,16 @@ test_that("datas_to_db", {
   expect_identical(dbx, tibble::tibble(x = 1L))
   expect_identical(dby, tibble::tibble(z = 3L))
 
+  x <- 0
+  y <- 0
+  expect_identical(sbf_load_datas_from_db(x_name = "^(?!y$)"), "x")
+  expect_identical(x, tibble::tibble(x = 1L))
+  expect_identical(y, 0)
+  expect_warning(
+    expect_identical(sbf_load_datas_from_db(x_name = "^nope$"), character(0)),
+    "no data to load"
+  )
+
   expect_error(
     sbf_save_data_to_db(x, db_name = "database"),
     "UNIQUE constraint failed: x.x"
