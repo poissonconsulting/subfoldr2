@@ -409,7 +409,7 @@ sbf_save_number <- function(
   chk_flag(report)
   chk_string(tag)
   chk_string(notes)
-  chk::chk_whole_number(signif)
+  chk_whole_number(signif)
   chk_gt(signif)
 
   sub <- sanitize_sub(sub)
@@ -1018,16 +1018,16 @@ sbf_save_excel <- function(
   main = sbf_get_main(),
   epgs = NULL
 ) {
-  chk::chk_s3_class(x, "data.frame")
+  chk_s3_class(x, "data.frame")
   x_name <- chk_deparse(x_name)
-  chk::chk_string(x_name)
-  chk::chk_gt(nchar(x_name))
-  chk::chk_integer(max_sheets)
-  chk::chk_gt(max_sheets)
-  chk::chk_character(sub)
-  chk::chk_not_any_na(sub)
-  chk::chk_string(main)
-  chk::chk_null_or(epgs, vld = chk::vld_number)
+  chk_string(x_name)
+  chk_gt(nchar(x_name))
+  chk_integer(max_sheets)
+  chk_gt(max_sheets)
+  chk_character(sub)
+  chk_not_any_na(sub)
+  chk_string(main)
+  chk_null_or(epgs, vld = vld_number)
 
   sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
@@ -1059,15 +1059,15 @@ sbf_save_gpkg <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main()
 ) {
-  chk::chk_s3_class(x, "data.frame")
-  chk::chk_s3_class(x, "sf")
+  chk_s3_class(x, "data.frame")
+  chk_s3_class(x, "sf")
   x_name <- chk_deparse(x_name)
 
-  chk::chk_string(x_name)
-  chk::chk_gt(nchar(x_name))
-  chk::chk_character(sub)
-  chk::chk_not_any_na(sub)
-  chk::chk_string(main)
+  chk_string(x_name)
+  chk_gt(nchar(x_name))
+  chk_character(sub)
+  chk_not_any_na(sub)
+  chk_string(main)
 
   if (x_name == "gpkg") {
     chk::abort_chk("'gpkg' is a reserved geopackage prefix")
@@ -1104,12 +1104,13 @@ sbf_save_workbook <- function(
   env = parent.frame(),
   epgs = NULL
 ) {
-  chk::chk_string(workbook_name)
-  chk::chk_character(sub)
-  chk::chk_not_any_na(sub)
-  chk::chk_string(main)
-  chk::chk_null_or(epgs, vld = chk::vld_number)
-  chk::chk_s3_class(env, "environment")
+  chk_string(workbook_name)
+  chk_character(sub)
+  chk_not_any_na(sub)
+  chk_string(main)
+  chk_null_or(epgs, vld = vld_number)
+  chk_s3_class(env, "environment")
+  chk_string(x_name)
   sub <- sanitize_sub(sub)
 
   names <- objects(envir = env)
@@ -1427,7 +1428,7 @@ sbf_save_excels <- function(
   env = parent.frame(),
   epgs = NULL
 ) {
-  chk::chk_s3_class(env, "environment")
+  chk_s3_class(env, "environment")
   sub <- sanitize_sub(sub)
 
   names <- objects(envir = env)
@@ -1499,7 +1500,6 @@ sbf_save_gpkgs <- function(
 
   files <- character(0)
   names <- objects(envir = env)
-  is <- vector("logical", length(names))
   for (i in seq_along(names)) {
     x_name <- names[i]
     x <- get(x = x_name, envir = env)
@@ -1532,7 +1532,7 @@ sbf_save_gpkgs <- function(
 #' @inheritParams sbf_open_db
 #' @param db_name A string of the database name.
 #' @inheritParams readwritesqlite::rws_write
-#' @return An invisible character vector of the paths to the saved objects.
+#' @return An invisible character vector of the names of the tables saved.
 #' @family save functions
 #' @export
 sbf_save_datas_to_db <- function(
@@ -1588,7 +1588,7 @@ sbf_save_db_to_workbook <- function(
   main = sbf_get_main(),
   epgs = NULL
 ) {
-  chk::chk_string(exclude_tables)
+  chk_string(exclude_tables)
   sub <- sanitize_sub(sub)
 
   conn <- sbf_open_db(db_name, sub = sub, main = main)

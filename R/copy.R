@@ -1,6 +1,6 @@
 #' Copy SQLite Database
 #'
-#' Copys an existing SQLite database to the subfolder.
+#' Copies an existing SQLite database to the subfolder.
 #'
 #' @inheritParams sbf_save_object
 #' @param path A string of the path to the database to copy

@@ -253,8 +253,8 @@ load_rdss <- function(class, sub, main, env, rename, fun = NULL) {
 #' @param rename A single function argument which takes a character vector
 #' and returns a character vector of the same length.
 #' Used to rename objects before they are loaded into the environment.
-#' @param env The environment to  the objects into
-#' @return A invisble character vector of the objects' names.
+#' @param env The environment to load the objects into
+#' @return An invisible character vector of the objects' names.
 #' @family load functions
 #' @export
 sbf_load_objects <- function(
@@ -270,7 +270,7 @@ sbf_load_objects <- function(
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
-#' @return A invisble character vector of the data frames' names.
+#' @return An invisible character vector of the data frames' names.
 #' @family load functions
 #' @export
 sbf_load_datas <- function(
@@ -287,7 +287,7 @@ sbf_load_datas <- function(
 #' Loads sf tbls that must meet the same requirements as `sbf_save_spatials`.
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
-#' @return A invisble character vector of the data frames' names.
+#' @return An invisible character vector of the data frames' names.
 #' @family load functions
 #' @export
 sbf_load_spatials <- function(
@@ -303,7 +303,7 @@ sbf_load_spatials <- function(
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
-#' @return A invisble character vector of the data frames' names.
+#' @return An invisible character vector of the data frames' names.
 #' @family load functions
 #' @export
 sbf_load_tables <- function(
@@ -319,7 +319,7 @@ sbf_load_tables <- function(
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
-#' @return A invisble character vector of the numbers' names.
+#' @return An invisible character vector of the numbers' names.
 #' @family load functions
 #' @export
 sbf_load_numbers <- function(
@@ -335,7 +335,7 @@ sbf_load_numbers <- function(
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
-#' @return A invisble character vector of the string' names.
+#' @return An invisible character vector of the strings' names.
 #' @family load functions
 #' @export
 sbf_load_strings <- function(
@@ -351,7 +351,7 @@ sbf_load_strings <- function(
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
-#' @return A invisble character vector of the blocks' names.
+#' @return An invisible character vector of the blocks' names.
 #' @family load functions
 #' @export
 sbf_load_blocks <- function(
@@ -367,7 +367,7 @@ sbf_load_blocks <- function(
 #'
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects
-#' @return A invisble character vector of the plots' names.
+#' @return An invisible character vector of the plots' names.
 #' @family load functions
 #' @export
 sbf_load_plots_data <- function(
@@ -458,7 +458,7 @@ load_rdss_recursive <- function(
   chk_flag(quiet)
 
   if (!is.null(drop)) {
-    chk::chk_not_any_na(drop)
+    chk_not_any_na(drop)
   }
 
   # only `.rds` files can be deserialized with readRDS(); other extensions
