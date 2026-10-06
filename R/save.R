@@ -202,7 +202,7 @@ save_workbook <- function(x, sub, main, workbook_name, epgs) {
 #'
 #' @param x The object to save.
 #' @param x_name A string of the name.
-#' @param sub A string specifying the path to the sub folder (by default the
+#' @param sub A string or character vector specifying the path to the sub folder (by default the
 #' current sub folder).
 #' @param main A string specifying the path to the main folder (by default the
 #' current main folder)
@@ -219,10 +219,10 @@ sbf_save_object <- function(
   chk_string(x_name)
   chk_gt(nchar(x_name))
   chk_character(sub)
-  chk_range(length(sub))
+  chk_not_any_na(sub)
   chk_string(main)
 
-  sub <- sanitize_path(sub)
+  sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   save_rds(x, "objects", sub = sub, main = main, x_name = x_name)
@@ -246,10 +246,10 @@ sbf_save_data <- function(
   chk_string(x_name)
   chk_gt(nchar(x_name))
   chk_character(sub)
-  chk_range(length(sub))
+  chk_not_any_na(sub)
   chk_string(main)
 
-  sub <- sanitize_path(sub)
+  sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   save_rds(x, "data", sub = sub, main = main, x_name = x_name)
@@ -278,12 +278,12 @@ sbf_save_spatial <- function(
 
   chk_data(x, x_name = x_name)
   chk_character(sub)
-  chk_range(length(sub))
+  chk_not_any_na(sub)
   chk_string(main)
 
   check_spatial(x, x_name = x_name)
 
-  sub <- sanitize_path(sub)
+  sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   save_rds(x, "spatial", sub = sub, main = main, x_name = x_name)
@@ -403,7 +403,7 @@ sbf_save_number <- function(
   chk_string(x_name)
   chk_gt(nchar(x_name))
   chk_character(sub)
-  chk_range(length(sub))
+  chk_not_any_na(sub)
   chk_string(main)
 
   chk_flag(report)
@@ -412,7 +412,7 @@ sbf_save_number <- function(
   chk::chk_whole_number(signif)
   chk_gt(signif)
 
-  sub <- sanitize_path(sub)
+  sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   x <- as.double(x)
@@ -451,14 +451,14 @@ sbf_save_string <- function(
   chk_string(x_name)
   chk_gt(nchar(x_name))
   chk_character(sub)
-  chk_range(length(sub))
+  chk_not_any_na(sub)
   chk_string(main)
 
   chk_flag(report)
   chk_string(tag)
   chk_string(notes)
 
-  sub <- sanitize_path(sub)
+  sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   meta <- list(report = report, tag = tag, notes = notes)
@@ -500,7 +500,7 @@ sbf_save_table <- function(
   chk_string(x_name)
   chk_gt(nchar(x_name))
   chk_character(sub)
-  chk_range(length(sub))
+  chk_not_any_na(sub)
   chk_string(main)
 
   chk_string(caption)
@@ -508,7 +508,7 @@ sbf_save_table <- function(
   chk_string(tag)
   chk_string(notes)
 
-  sub <- sanitize_path(sub)
+  sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   meta <- list(caption = caption, report = report, tag = tag, notes = notes)
@@ -543,7 +543,7 @@ sbf_save_block <- function(
   chk_string(x_name)
   chk_gt(nchar(x_name))
   chk_character(sub)
-  chk_range(length(sub))
+  chk_not_any_na(sub)
   chk_string(main)
 
   chk_string(caption)
@@ -551,7 +551,7 @@ sbf_save_block <- function(
   chk_string(tag)
   chk_string(notes)
 
-  sub <- sanitize_path(sub)
+  sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   meta <- list(caption = caption, report = report, tag = tag, notes = notes)
@@ -756,7 +756,7 @@ sbf_save_plot <- function(
   chk_string(x_name)
   chk_gt(nchar(x_name))
   chk_character(sub)
-  chk_range(length(sub))
+  chk_not_any_na(sub)
   chk_string(main)
 
   chk_string(caption)
@@ -767,7 +767,7 @@ sbf_save_plot <- function(
   chk_subset(units, c("in", "mm", "cm"))
   chk_flag(drop_uninformative_cols)
 
-  sub <- sanitize_path(sub)
+  sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   chk_number(dpi)
@@ -863,7 +863,7 @@ sbf_save_window <- function(
   chk_string(x_name)
   chk_gt(nchar(x_name))
   chk_character(sub)
-  chk_range(length(sub))
+  chk_not_any_na(sub)
   chk_string(main)
   chk_string(caption)
   chk_flag(report)
@@ -875,7 +875,7 @@ sbf_save_window <- function(
   chk_number(dpi)
   chk_gt(dpi)
 
-  sub <- sanitize_path(sub)
+  sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   device <- grDevices::dev.cur()
@@ -953,7 +953,7 @@ sbf_save_png <- function(
   chk_string(x_name)
   chk_gt(nchar(x_name))
   chk_character(sub)
-  chk_range(length(sub))
+  chk_not_any_na(sub)
   chk_string(main)
 
   chk_string(caption)
@@ -964,7 +964,7 @@ sbf_save_png <- function(
   chk_string(units)
   chk_subset(units, c("in", "mm", "cm"))
 
-  sub <- sanitize_path(sub)
+  sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   dim <- plot_size(c(width, height = NA), units = units)
@@ -1025,11 +1025,11 @@ sbf_save_excel <- function(
   chk::chk_integer(max_sheets)
   chk::chk_gt(max_sheets)
   chk::chk_character(sub)
-  chk::chk_range(length(sub))
+  chk::chk_not_any_na(sub)
   chk::chk_string(main)
   chk::chk_null_or(epgs, vld = chk::vld_number)
 
-  sub <- sanitize_path(sub)
+  sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   x <- process_sf_columns(x, epgs)
@@ -1066,14 +1066,14 @@ sbf_save_gpkg <- function(
   chk::chk_string(x_name)
   chk::chk_gt(nchar(x_name))
   chk::chk_character(sub)
-  chk::chk_range(length(sub))
+  chk::chk_not_any_na(sub)
   chk::chk_string(main)
 
   if (x_name == "gpkg") {
     chk::abort_chk("'gpkg' is a reserved geopackage prefix")
   }
 
-  sub <- sanitize_path(sub)
+  sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   save_rds(x, "gpkg", sub = sub, main = main, x_name = x_name)
@@ -1106,10 +1106,11 @@ sbf_save_workbook <- function(
 ) {
   chk::chk_string(workbook_name)
   chk::chk_character(sub)
-  chk::chk_range(length(sub))
+  chk::chk_not_any_na(sub)
   chk::chk_string(main)
   chk::chk_null_or(epgs, vld = chk::vld_number)
   chk::chk_s3_class(env, "environment")
+  sub <- sanitize_sub(sub)
 
   names <- objects(envir = env)
   is <- vector("logical", length(names))
@@ -1162,6 +1163,7 @@ sbf_save_data_to_db <- function(
   x_name <- chk_deparse(x_name)
   chk_string(x_name)
   chk_gt(nchar(x_name))
+  sub <- sanitize_sub(sub)
 
   conn <- sbf_open_db(db_name, sub = sub, main = main, exists = TRUE)
   on.exit(sbf_close_db(conn))
@@ -1245,6 +1247,7 @@ sbf_save_objects <- function(
   env = parent.frame()
 ) {
   chk_s3_class(env, "environment")
+  sub <- sanitize_sub(sub)
 
   names <- objects(envir = env)
   if (!length(names)) {
@@ -1273,6 +1276,7 @@ sbf_save_datas <- function(
   env = parent.frame()
 ) {
   chk_s3_class(env, "environment")
+  sub <- sanitize_sub(sub)
 
   names <- objects(envir = env)
   is <- vector("logical", length(names))
@@ -1310,6 +1314,7 @@ sbf_save_spatials <- function(
   env = parent.frame()
 ) {
   chk_s3_class(env, "environment")
+  sub <- sanitize_sub(sub)
 
   names <- objects(envir = env)
   is <- vector("logical", length(names))
@@ -1346,6 +1351,7 @@ sbf_save_numbers <- function(
   env = parent.frame()
 ) {
   chk_s3_class(env, "environment")
+  sub <- sanitize_sub(sub)
 
   names <- objects(envir = env)
   is <- vector("logical", length(names))
@@ -1380,6 +1386,7 @@ sbf_save_strings <- function(
   env = parent.frame()
 ) {
   chk_s3_class(env, "environment")
+  sub <- sanitize_sub(sub)
 
   names <- objects(envir = env)
   is <- vector("logical", length(names))
@@ -1421,6 +1428,7 @@ sbf_save_excels <- function(
   epgs = NULL
 ) {
   chk::chk_s3_class(env, "environment")
+  sub <- sanitize_sub(sub)
 
   names <- objects(envir = env)
   is <- vector("logical", length(names))
@@ -1487,6 +1495,7 @@ sbf_save_gpkgs <- function(
   all_sfcs = TRUE
 ) {
   chk_s3_class(env, "environment")
+  sub <- sanitize_sub(sub)
 
   files <- character(0)
   names <- objects(envir = env)
@@ -1580,6 +1589,7 @@ sbf_save_db_to_workbook <- function(
   epgs = NULL
 ) {
   chk::chk_string(exclude_tables)
+  sub <- sanitize_sub(sub)
 
   conn <- sbf_open_db(db_name, sub = sub, main = main)
   on.exit(sbf_close_db(conn))

@@ -9,13 +9,13 @@ list_files <- function(
 ) {
   chk_string(x_name)
   chk_character(sub)
-  chk_range(length(sub))
+  chk_not_any_na(sub)
   chk_string(main)
   chk_flag(recursive)
   chk_flag(include_root)
   chk_string(ext)
 
-  sub <- sanitize_path(sub)
+  sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   dir <- file_path(main, class, sub)
