@@ -9,7 +9,8 @@ sbf_load_datas_from_db(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   rename = identity,
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 )
 }
 \arguments{
@@ -25,13 +26,16 @@ current main folder)}
 and returns a character vector of the same length.
 Used to rename objects before they are loaded into the environment.}
 
-\item{env}{The environment to  the objects into}
+\item{env}{The environment to load the objects into}
+
+\item{x_name}{A string of the regular expression to match.}
 }
 \value{
-An invisible character vector of the paths to the saved objects.
+An invisible character vector of the names of the loaded tables.
 }
 \description{
-Load Data Frames from Database
+By default all tables are loaded. If \code{x_name} is specified, only the
+matching tables are read from the database.
 }
 \seealso{
 Other load functions:

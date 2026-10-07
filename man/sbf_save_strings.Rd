@@ -7,7 +7,8 @@
 sbf_save_strings(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 )
 }
 \arguments{
@@ -18,6 +19,8 @@ current sub folder).}
 current main folder)}
 
 \item{env}{An environment.}
+
+\item{x_name}{A string of the regular expression to match.}
 }
 \value{
 An invisible character vector of the paths to the saved objects.

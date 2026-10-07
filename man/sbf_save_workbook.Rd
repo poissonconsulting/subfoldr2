@@ -9,7 +9,8 @@ sbf_save_workbook(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   env = parent.frame(),
-  epgs = NULL
+  epgs = NULL,
+  x_name = ".*"
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ current main folder)}
 \item{env}{An environment.}
 
 \item{epgs}{The projection to convert to}
+
+\item{x_name}{A string of the regular expression to match.}
 }
 \value{
 An invisible string of the path to the saved data.frame

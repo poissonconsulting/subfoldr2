@@ -8,7 +8,8 @@ sbf_save_gpkgs(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   env = parent.frame(),
-  all_sfcs = TRUE
+  all_sfcs = TRUE,
+  x_name = ".*"
 )
 }
 \arguments{
@@ -21,6 +22,8 @@ current main folder)}
 \item{env}{An environment.}
 
 \item{all_sfcs}{A flag specifying whether to save non-active sfc columns as geopackages.}
+
+\item{x_name}{A string of the regular expression to match.}
 }
 \value{
 An invisible character vector of the paths to the saved objects.
