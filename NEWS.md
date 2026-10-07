@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# subfoldr2 1.0.1.9018
+
+- Allow `sub` argument to accept a character vector fixes #60 (#195).
+
+- `sub` arguments now accept a character vector , e.g. `c("clean", "fwa")` is combined into `"clean/fwa"` (#60).
+
+
 # subfoldr2 1.0.1.9017
 
 - Fix `sbf_save_datas_to_xlsx` so `exists = TRUE/FALSE` no longer errors (#194).
