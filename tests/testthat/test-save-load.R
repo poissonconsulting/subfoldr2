@@ -832,11 +832,11 @@ test_that("sbf_save_datas_to_db saves a subset of tables with x_name and all", {
   ))
 
   expect_error(
-    sbf_save_datas_to_db(env = env, x_name = "^x$"),
+    sbf_save_datas_to_db(env = as.environment(list(x = data.frame(x = 1)))),
     "not represented"
   )
   expect_identical(
-    sbf_save_datas_to_db(env = env, x_name = "^(x|n)$", all = FALSE),
+    sbf_save_datas_to_db(env = env, x_name = "^(x|n)$"),
     "x"
   )
   expect_identical(DBI::dbReadTable(conn, "x"), data.frame(x = 1L))
