@@ -1575,8 +1575,6 @@ sbf_save_gpkgs <- function(
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_open_db
 #' @param db_name A string of the database name.
-#' @param all A flag specifying whether every table in the database must be
-#'   represented (by default `TRUE`). Set to `FALSE` to save a subset of the tables.
 #' @inheritParams readwritesqlite::rws_write
 #' @return An invisible character vector of the names of the tables saved.
 #' @family save functions
@@ -1589,11 +1587,9 @@ sbf_save_datas_to_db <- function(
   strict = TRUE,
   env = parent.frame(),
   silent = getOption("rws.silent", FALSE),
-  x_name = ".*",
-  all = TRUE
+  x_name = ".*"
 ) {
   chk_s3_class(env, "environment")
-  chk_flag(all)
   chk_string(x_name)
 
   names <- objects(envir = env)
@@ -1616,7 +1612,8 @@ sbf_save_datas_to_db <- function(
     strict = strict,
     conn = conn,
     silent = silent,
-    all = all,
+    # every table must be represented unless saving a subset
+    all = identical(x_name, ".*"),
     x_name = "x"
   )
 }

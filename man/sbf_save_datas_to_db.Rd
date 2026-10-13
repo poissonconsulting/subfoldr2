@@ -12,8 +12,7 @@ sbf_save_datas_to_db(
   strict = TRUE,
   env = parent.frame(),
   silent = getOption("rws.silent", FALSE),
-  x_name = ".*",
-  all = TRUE
+  x_name = ".*"
 )
 }
 \arguments{
@@ -35,9 +34,6 @@ current main folder)}
 \item{silent}{A flag specifying whether to suppress messages and warnings.}
 
 \item{x_name}{A string of the regular expression to match.}
-
-\item{all}{A flag specifying whether every table in the database must be
-represented (by default \code{TRUE}). Set to \code{FALSE} to save a subset of the tables.}
 }
 \value{
 An invisible character vector of the names of the tables saved.
