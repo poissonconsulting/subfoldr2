@@ -1598,7 +1598,9 @@ sbf_save_datas_to_db <- function(
   datas <- mget(names, envir = env)
   datas <- datas[vapply(datas, is.data.frame, TRUE)]
   if (!length(datas)) {
-    warning("no datas matching regular expression '", x_name, "' to save")
+    if (!silent) {
+      warning("no datas matching regular expression '", x_name, "' to save")
+    }
     return(invisible(character(0)))
   }
 
@@ -1613,7 +1615,7 @@ sbf_save_datas_to_db <- function(
     conn = conn,
     silent = silent,
     # every table must be represented unless saving a subset
-    all = identical(x_name, ".*"),
+    all = missing(x_name),
     x_name = "x"
   )
 }
@@ -1651,8 +1653,9 @@ sbf_save_db_to_workbook <- function(
 ) {
   if (!missing(exclude_tables)) {
     lifecycle::deprecate_soft(
-      "1.0.1.9018",
-      "sbf_save_db_to_workbook(exclude_tables)"
+      "1.0.1.9019",
+      "sbf_save_db_to_workbook(exclude_tables)",
+      "sbf_save_db_to_workbook(x_name)"
     )
   }
 
@@ -1665,7 +1668,11 @@ sbf_save_db_to_workbook <- function(
   datas <- rws_read(conn)
   datas <- datas[grepl(x_name, names(datas), perl = TRUE)]
   # exclude listed tables
-  datas <- datas[!grepl(exclude_tables, names(datas))]
+  datas <- datas[!grepl(exclude_tables, names(datas), perl = TRUE)]
+  if (!length(datas)) {
+    warning("no datas to save")
+    return(invisible(character(0)))
+  }
   save_workbook(datas, sub, main, workbook_name, epgs)
 
   names <- file_path(main, "excel", sub, workbook_name)
