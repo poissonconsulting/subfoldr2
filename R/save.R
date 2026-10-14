@@ -1571,6 +1571,10 @@ sbf_save_gpkgs <- function(
 
 #' Save Data Frames to Existing Database
 #'
+#' By default, every table in the database must have a matching data frame
+#' in `env`. To save a subset of the tables, specify `x_name` to match their
+#' names.
+#'
 #' @inheritParams sbf_save_objects
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_open_db
