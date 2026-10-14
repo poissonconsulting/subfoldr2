@@ -31,7 +31,7 @@ current main folder)}
 
 \item{epgs}{The projection to convert to}
 
-\item{x_name}{A string of the regular expression to match.}
+\item{x_name}{A string of the Perl-compatible regular expression to match.}
 }
 \description{
 Converts a database to an single excel workbook where each table is its own

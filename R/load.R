@@ -268,7 +268,7 @@ load_rdss <- function(
 #' and returns a character vector of the same length.
 #' Used to rename objects before they are loaded into the environment.
 #' @param env The environment to load the objects into
-#' @param x_name A string of the regular expression to match.
+#' @param x_name A string of the Perl-compatible regular expression to match.
 #' @return An invisible character vector of the objects' names.
 #' @family load functions
 #' @export
@@ -695,7 +695,7 @@ subs_rds_recursive <- function(
 #' @inheritParams sbf_save_object
 #' @inheritParams params
 #' @inheritParams params
-#' @param x_name A string of the regular expression to match.
+#' @param x_name A string of the Perl-compatible regular expression to match.
 #' @param include_root A flag indicating whether to include objects in the top
 #' sub folder.
 #' @family load functions

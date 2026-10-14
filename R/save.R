@@ -1241,7 +1241,7 @@ sbf_save_db_metatable_descriptions <- function(
 #'
 #' @inheritParams sbf_save_object
 #' @param env An environment.
-#' @param x_name A string of the regular expression to match.
+#' @param x_name A string of the Perl-compatible regular expression to match.
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
 #' @export
