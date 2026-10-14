@@ -1591,7 +1591,8 @@ sbf_save_datas_to_db <- function(
 ) {
   chk_s3_class(env, "environment")
   chk_string(x_name)
-
+  chk_flag(silent)
+  
   names <- objects(envir = env)
   names <- names[grepl(x_name, names, perl = TRUE)]
 
