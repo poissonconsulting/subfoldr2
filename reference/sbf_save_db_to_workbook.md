@@ -12,7 +12,8 @@ sbf_save_db_to_workbook(
   exclude_tables = "^$",
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  epgs = NULL
+  epgs = NULL,
+  x_name = ".*"
 )
 ```
 
@@ -29,7 +30,8 @@ sbf_save_db_to_workbook(
 
 - exclude_tables:
 
-  A regular expression listing tables to be excluded.
+  A regular expression listing tables to be excluded. Currently
+  soft-deprecated. Use `x_name` instead.
 
 - sub:
 
@@ -44,6 +46,10 @@ sbf_save_db_to_workbook(
 - epgs:
 
   The projection to convert to
+
+- x_name:
+
+  A string of the Perl-compatible regular expression to match.
 
 ## See also
 
@@ -88,9 +94,9 @@ if (FALSE) { # \dontrun{
 sbf_save_db_to_workbook()
 
 # exclude the sites table
-sbf_save_db_to_workbook(exclude_tables = "sites")
+sbf_save_db_to_workbook(x_name = "^(?!sites$)")
 
 # exclude the sites and species table
-sbf_save_db_to_workbook(exclude_tables = "sites|species")
+sbf_save_db_to_workbook(x_name = "^(?!(sites|species)$)")
 } # }
 ```

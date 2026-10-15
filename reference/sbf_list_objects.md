@@ -20,7 +20,7 @@ sbf_list_objects(
 
 - x_name:
 
-  A regular expression of the object names to match.
+  A Perl-compatible regular expression of the object names to match.
 
 - sub:
 

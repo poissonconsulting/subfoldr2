@@ -11,7 +11,8 @@ all data frames in the environment meet these requirements.
 sbf_save_spatials(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 )
 ```
 
@@ -30,6 +31,10 @@ sbf_save_spatials(
 - env:
 
   An environment.
+
+- x_name:
+
+  A string of the Perl-compatible regular expression to match.
 
 ## Value
 

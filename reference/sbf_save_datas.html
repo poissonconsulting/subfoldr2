@@ -41,7 +41,8 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sbf_save_datas</span><span class="op">(</span></span>
 <span>  sub <span class="op">=</span> <span class="fu"><a href="sbf_get_sub.html">sbf_get_sub</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  main <span class="op">=</span> <span class="fu"><a href="sbf_get_main.html">sbf_get_main</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  env <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">parent.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  env <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">parent.frame</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  x_name <span class="op">=</span> <span class="st">".*"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -61,6 +62,10 @@ current main folder)</p></dd>
 
 <dt id="arg-env">env<a class="anchor" aria-label="anchor" href="#arg-env"></a></dt>
 <dd><p>An environment.</p></dd>
+
+
+<dt id="arg-x-name">x_name<a class="anchor" aria-label="anchor" href="#arg-x-name"></a></dt>
+<dd><p>A string of the Perl-compatible regular expression to match.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -98,6 +103,28 @@ current main folder)</p></dd>
 <code><a href="sbf_save_workbook.html">sbf_save_workbook()</a></code></p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="sbf_set_main.html">sbf_set_main</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"output"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">outing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">capture</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">captures</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># matches anywhere in the name</span></span></span>
+<span class="r-in"><span><span class="fu">sbf_save_datas</span><span class="op">(</span>x_name <span class="op">=</span> <span class="st">"capture"</span><span class="op">)</span> <span class="co"># capture, captures</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># ^ and $ match the whole name</span></span></span>
+<span class="r-in"><span><span class="fu">sbf_save_datas</span><span class="op">(</span>x_name <span class="op">=</span> <span class="st">"^capture$"</span><span class="op">)</span> <span class="co"># capture</span></span></span>
+<span class="r-in"><span><span class="fu">sbf_save_datas</span><span class="op">(</span>x_name <span class="op">=</span> <span class="st">"^(outing|capture)$"</span><span class="op">)</span> <span class="co"># capture, outing</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># (?! ) excludes names</span></span></span>
+<span class="r-in"><span><span class="fu">sbf_save_datas</span><span class="op">(</span>x_name <span class="op">=</span> <span class="st">"^(?!capture$)"</span><span class="op">)</span> <span class="co"># captures, outing</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="sbf_reset.html">sbf_reset</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

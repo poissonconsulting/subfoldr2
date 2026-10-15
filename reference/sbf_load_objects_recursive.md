@@ -22,7 +22,7 @@ sbf_load_objects_recursive(
 
 - x_name:
 
-  A string of the regular expression to match.
+  A string of the Perl-compatible regular expression to match.
 
 - sub:
 

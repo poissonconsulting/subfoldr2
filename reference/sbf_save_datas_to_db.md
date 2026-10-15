@@ -12,7 +12,8 @@ sbf_save_datas_to_db(
   commit = TRUE,
   strict = TRUE,
   env = parent.frame(),
-  silent = getOption("rws.silent", FALSE)
+  silent = getOption("rws.silent", FALSE),
+  x_name = ".*"
 )
 ```
 
@@ -50,9 +51,13 @@ sbf_save_datas_to_db(
 
   A flag specifying whether to suppress messages and warnings.
 
+- x_name:
+
+  A string of the Perl-compatible regular expression to match.
+
 ## Value
 
-An invisible character vector of the paths to the saved objects.
+An invisible character vector of the names of the tables saved.
 
 ## See also
 

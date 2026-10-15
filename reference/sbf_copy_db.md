@@ -1,6 +1,6 @@
 # Copy SQLite Database
 
-Copys an existing SQLite database to the subfolder.
+Copies an existing SQLite database to the subfolder.
 
 ## Usage
 

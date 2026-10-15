@@ -10,7 +10,8 @@ sbf_save_excels(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   env = parent.frame(),
-  epgs = NULL
+  epgs = NULL,
+  x_name = ".*"
 )
 ```
 
@@ -33,6 +34,10 @@ sbf_save_excels(
 - epgs:
 
   The projection to convert to
+
+- x_name:
+
+  A string of the Perl-compatible regular expression to match.
 
 ## Value
 

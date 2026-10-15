@@ -34,7 +34,7 @@ sbf_load_datas_from_pg(
 
 - env:
 
-  The environment to the objects into
+  The environment to load the objects into
 
 - config_path:
 

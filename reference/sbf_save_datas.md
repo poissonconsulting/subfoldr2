@@ -8,7 +8,8 @@ Save Data Frames
 sbf_save_datas(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 )
 ```
 
@@ -27,6 +28,10 @@ sbf_save_datas(
 - env:
 
   An environment.
+
+- x_name:
+
+  A string of the Perl-compatible regular expression to match.
 
 ## Value
 
@@ -61,3 +66,26 @@ Other save functions:
 [`sbf_save_table()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_table.md),
 [`sbf_save_window()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_window.md),
 [`sbf_save_workbook()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_workbook.md)
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+sbf_set_main(file.path(tempdir(), "output"))
+outing <- data.frame(x = 1)
+capture <- data.frame(x = 2)
+captures <- data.frame(x = 3)
+
+# matches anywhere in the name
+sbf_save_datas(x_name = "capture") # capture, captures
+
+# ^ and $ match the whole name
+sbf_save_datas(x_name = "^capture$") # capture
+sbf_save_datas(x_name = "^(outing|capture)$") # capture, outing
+
+# (?! ) excludes names
+sbf_save_datas(x_name = "^(?!capture$)") # captures, outing
+
+sbf_reset()
+} # }
+```

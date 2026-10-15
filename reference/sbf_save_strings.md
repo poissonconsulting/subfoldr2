@@ -8,7 +8,8 @@ Save Strings
 sbf_save_strings(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 )
 ```
 
@@ -27,6 +28,10 @@ sbf_save_strings(
 - env:
 
   An environment.
+
+- x_name:
+
+  A string of the Perl-compatible regular expression to match.
 
 ## Value
 

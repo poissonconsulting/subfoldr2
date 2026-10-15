@@ -9,7 +9,8 @@ sbf_load_datas(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   rename = identity,
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 )
 ```
 
@@ -33,11 +34,15 @@ sbf_load_datas(
 
 - env:
 
-  The environment to the objects into
+  The environment to load the objects into
+
+- x_name:
+
+  A string of the Perl-compatible regular expression to match.
 
 ## Value
 
-A invisble character vector of the data frames' names.
+An invisible character vector of the data frames' names.
 
 ## See also
 
@@ -81,3 +86,27 @@ Other load functions:
 [`sbf_subs_string_recursive()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_subs_string_recursive.md),
 [`sbf_subs_table_recursive()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_subs_table_recursive.md),
 [`sbf_subs_window_recursive()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_subs_window_recursive.md)
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+sbf_set_main(file.path(tempdir(), "output"))
+outing <- data.frame(x = 1)
+capture <- data.frame(x = 2)
+captures <- data.frame(x = 3)
+sbf_save_datas()
+
+# matches anywhere in the name
+sbf_load_datas(x_name = "capture") # capture, captures
+
+# ^ and $ match the whole name
+sbf_load_datas(x_name = "^capture$") # capture
+sbf_load_datas(x_name = "^(outing|capture)$") # capture, outing
+
+# (?! ) excludes names
+sbf_load_datas(x_name = "^(?!capture$)") # captures, outing
+
+sbf_reset()
+} # }
+```

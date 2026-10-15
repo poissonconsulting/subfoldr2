@@ -1,6 +1,7 @@
 # Load Data Frames from Database
 
-Load Data Frames from Database
+By default all tables are loaded. If `x_name` is specified, only the
+matching tables are read from the database.
 
 ## Usage
 
@@ -10,7 +11,8 @@ sbf_load_datas_from_db(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   rename = identity,
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 )
 ```
 
@@ -38,11 +40,15 @@ sbf_load_datas_from_db(
 
 - env:
 
-  The environment to the objects into
+  The environment to load the objects into
+
+- x_name:
+
+  A string of the Perl-compatible regular expression to match.
 
 ## Value
 
-An invisible character vector of the paths to the saved objects.
+An invisible character vector of the names of the loaded tables.
 
 ## See also
 

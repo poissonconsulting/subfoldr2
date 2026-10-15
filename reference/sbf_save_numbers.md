@@ -9,7 +9,8 @@ sbf_save_numbers(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   signif = getOption("sbf.signif", 22),
-  env = parent.frame()
+  env = parent.frame(),
+  x_name = ".*"
 )
 ```
 
@@ -33,6 +34,10 @@ sbf_save_numbers(
 - env:
 
   An environment.
+
+- x_name:
+
+  A string of the Perl-compatible regular expression to match.
 
 ## Value
 
