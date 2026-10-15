@@ -814,7 +814,7 @@ test_that("datas_to_db", {
   )
 })
 
-test_that("sbf_save_datas_to_db saves a subset of tables with x_name and all", {
+test_that("sbf_save_datas_to_db saves a subset of tables with x_name", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
@@ -848,6 +848,9 @@ test_that("sbf_save_datas_to_db saves a subset of tables with x_name and all", {
       character(0)
     ),
     "no datas matching regular expression '\\^nope\\$' to save"
+  )
+  expect_no_warning(
+    sbf_save_datas_to_db(env = env, x_name = "^nope$", silent = TRUE)
   )
 })
 
@@ -2611,7 +2614,7 @@ test_that("exclude table function working for db to workbook", {
   ))
 })
 
-test_that("expect empty table when all tables are excluded", {
+test_that("no workbook is written when all tables are excluded", {
   sbf_reset()
   path <- file.path(withr::local_tempdir(), "output")
   sbf_set_main(path)
@@ -2634,16 +2637,18 @@ test_that("expect empty table when all tables are excluded", {
   sbf_save_data_to_db(sites, db_name = "database")
 
   # write db to excel tables
-  sbf_save_db_to_workbook(
-    workbook_name = "data",
-    db_name = "database",
-    x_name = "^(?!sites$)"
+  expect_warning(
+    expect_identical(
+      sbf_save_db_to_workbook(
+        workbook_name = "data",
+        db_name = "database",
+        x_name = "^(?!sites$)"
+      ),
+      character(0)
+    ),
+    "no datas to save"
   )
-  # do tests
-  data <- readxl::read_excel(file.path(path, "excel/data.xlsx"))
-
-  expect_equal(nrow(data), 0L)
-  expect_equal(colnames(data), character(0))
+  expect_false(file.exists(file.path(path, "excel/data.xlsx")))
 })
 
 test_that("checking return value for sbf_save_data_to_db", {

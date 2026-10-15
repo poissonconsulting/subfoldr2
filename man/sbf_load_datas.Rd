@@ -25,7 +25,7 @@ Used to rename objects before they are loaded into the environment.}
 
 \item{env}{The environment to load the objects into}
 
-\item{x_name}{A string of the regular expression to match.}
+\item{x_name}{A string of the Perl-compatible regular expression to match.}
 }
 \value{
 An invisible character vector of the data frames' names.

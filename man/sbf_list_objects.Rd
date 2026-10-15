@@ -14,7 +14,7 @@ sbf_list_objects(
 )
 }
 \arguments{
-\item{x_name}{A regular expression of the object names to match.}
+\item{x_name}{A Perl-compatible regular expression of the object names to match.}
 
 \item{sub}{A string or character vector specifying the path to the sub folder (by default the
 current sub folder).}

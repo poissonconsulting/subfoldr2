@@ -33,7 +33,7 @@ current main folder)}
 
 \item{silent}{A flag specifying whether to suppress messages and warnings.}
 
-\item{x_name}{A string of the regular expression to match.}
+\item{x_name}{A string of the Perl-compatible regular expression to match.}
 }
 \value{
 An invisible character vector of the names of the tables saved.
