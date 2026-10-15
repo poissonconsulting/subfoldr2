@@ -36,7 +36,7 @@ database (if exists = FALSE).}
 A flag indicating whether successfully copied.
 }
 \description{
-Copys an existing SQLite database to the subfolder.
+Copies an existing SQLite database to the subfolder.
 }
 \seealso{
 Other database functions:

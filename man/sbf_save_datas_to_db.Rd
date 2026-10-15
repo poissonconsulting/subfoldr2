@@ -11,7 +11,8 @@ sbf_save_datas_to_db(
   commit = TRUE,
   strict = TRUE,
   env = parent.frame(),
-  silent = getOption("rws.silent", FALSE)
+  silent = getOption("rws.silent", FALSE),
+  x_name = ".*"
 )
 }
 \arguments{
@@ -31,9 +32,11 @@ current main folder)}
 \item{env}{An environment.}
 
 \item{silent}{A flag specifying whether to suppress messages and warnings.}
+
+\item{x_name}{A string of the Perl-compatible regular expression to match.}
 }
 \value{
-An invisible character vector of the paths to the saved objects.
+An invisible character vector of the names of the tables saved.
 }
 \description{
 Save Data Frames to Existing Database

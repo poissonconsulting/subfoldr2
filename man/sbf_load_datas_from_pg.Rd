@@ -19,7 +19,7 @@ sbf_load_datas_from_pg(
 and returns a character vector of the same length.
 Used to rename objects before they are loaded into the environment.}
 
-\item{env}{The environment to  the objects into}
+\item{env}{The environment to load the objects into}
 
 \item{config_path}{A string of a file path to the yaml configuration file.
 The default value grabs the file path from the psql.config_path option

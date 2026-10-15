@@ -14,7 +14,7 @@ sbf_load_objects_recursive(
 )
 }
 \arguments{
-\item{x_name}{A string of the regular expression to match.}
+\item{x_name}{A string of the Perl-compatible regular expression to match.}
 
 \item{sub}{A string or character vector specifying the path to the sub folder (by default the
 current sub folder).}

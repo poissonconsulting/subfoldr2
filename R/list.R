@@ -26,7 +26,7 @@ list_files <- function(
   files <- sanitize_path(files)
   names(files) <- file.path(dir, files)
   files <- sub(ext, "", files)
-  files <- files[grepl(x_name, basename(files))]
+  files <- files[grepl(x_name, basename(files), perl = TRUE)]
   if (!include_root) {
     files <- files[grepl("/", files)]
   }
@@ -45,7 +45,7 @@ list_files <- function(
 #' Returns file paths for all object files matching regular expression x_name.
 #' @inheritParams sbf_save_object
 #' @inheritParams sbf_load_objects_recursive
-#' @param x_name A regular expression of the object names to match.
+#' @param x_name A Perl-compatible regular expression of the object names to match.
 #' @param recursive A flag specifying whether to recurse into subfolders.
 #' @param ext A string of the file extension.
 #' @family list functions
