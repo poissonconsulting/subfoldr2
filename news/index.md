@@ -1,5 +1,9 @@
 # Changelog
 
+## subfoldr2 1.0.1.9020
+
+- Save/load multiple objects with regular expression (#197).
+
 ## subfoldr2 1.0.1.9019
 
 - Same as previous version.
