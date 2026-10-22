@@ -1594,6 +1594,34 @@ test_that("sbf_save_plot keeps single-row layer sheets", {
   sbf_close_windows()
 })
 
+test_that("sbf_save_plot saves layer data on the untransformed scale", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  sbf_close_windows()
+
+  p_log <- ggplot2::ggplot(
+    data.frame(x = c(1, 10, 100), y = c(10, 100, 1000)),
+    ggplot2::aes(x = x, y = y)
+  ) +
+    ggplot2::geom_pointrange(ggplot2::aes(ymin = y / 2, ymax = y * 2)) +
+    ggplot2::geom_hline(yintercept = 50) +
+    ggplot2::scale_x_sqrt() +
+    ggplot2::scale_y_log10()
+
+  sbf_save_plot(p_log)
+
+  file <- file.path(sbf_get_main(), "plots", "p_log.xlsx")
+  pointrange <- readxl::read_xlsx(file, "1_1_pointrange")
+  expect_equal(pointrange$x, c(1, 10, 100))
+  expect_equal(pointrange$y, c(10, 100, 1000))
+  expect_equal(pointrange$ymin, c(5, 50, 500))
+  expect_equal(pointrange$ymax, c(20, 200, 2000))
+  expect_equal(readxl::read_xlsx(file, "1_2_hline")$yintercept, 50)
+
+  sbf_reset()
+  sbf_close_windows()
+})
+
 test_that("`sbf_load_plots_recursive()` loads all possible plots when `drop = NULL` (default), `drop = \"\"`, or `drop = character(0)`.", {
   p1 <- ggplot2::ggplot() +
     ggplot2::geom_point(ggplot2::aes(1, 1)) +
