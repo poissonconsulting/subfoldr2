@@ -617,17 +617,20 @@ get_plot_data_sheet <- function(p, prefix, drop_uninformative_cols) {
 # Named list of the data for each geom layer of a single plot, named
 # "<prefix>_<layer>_<geom>". Layers whose data is not a data frame or exceeds
 # `csv` rows are returned as `NULL` and dropped by the caller. Uninformative
-# columns are not dropped from single-row layers.
+# columns are not dropped from single-row layers. Position aesthetics are
+# back-transformed to the original scale of the data.
 get_plot_layer_sheets <- function(p, prefix, csv, drop_uninformative_cols) {
   n_layers <- length(p@layers)
   if (!n_layers) {
     return(list())
   }
+  built <- ggplot2::ggplot_build(p)
   sheets <- purrr::map(seq_len(n_layers), function(layer) {
-    data <- ggplot2::layer_data(p, i = layer)
+    data <- built@data[[layer]]
     if (!is.data.frame(data) || nrow(data) > csv) {
       return(NULL)
     }
+    data <- untransform_layer_data(data, built@layout)
     # every column of a single-row layer (e.g. a reference line) is constant
     # so dropping uninformative columns would drop the whole sheet
     if (drop_uninformative_cols && nrow(data) > 1) {
@@ -652,6 +655,27 @@ get_plot_layer_sheets <- function(p, prefix, csv, drop_uninformative_cols) {
     }
   }
   sheets
+}
+
+# Back-transforms the position aesthetics of a layer's data (e.g. y, ymin,
+# yintercept) from the scale of a transformed continuous position scale such as
+# `scale_y_log10()` to the original scale of the data. The transformation is
+# the same for every panel so the first panel's scales are used.
+untransform_layer_data <- function(data, layout) {
+  scales <- c(layout$panel_scales_x[1], layout$panel_scales_y[1])
+  for (scale in scales) {
+    if (is.null(scale) || scale$is_discrete()) {
+      next
+    }
+    transformation <- scale$get_transformation()
+    if (transformation$name == "identity") {
+      next
+    }
+    cols <- intersect(scale$aesthetics, colnames(data))
+    cols <- cols[vapply(data[cols], is.numeric, logical(1))]
+    data[cols] <- lapply(data[cols], transformation$inverse)
+  }
+  data
 }
 
 #' Save Plot
