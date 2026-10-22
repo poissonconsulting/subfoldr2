@@ -640,6 +640,12 @@ get_plot_layer_sheets <- function(p, prefix, csv, drop_uninformative_cols) {
     paste0(prefix, "_", layer, "_", geom)
   })
 
+  # geom_blank() layers (e.g. from expand_limits()) contain no plotted data
+  is_blank <- purrr::map_lgl(p@layers, function(layer) {
+    inherits(layer$geom, "GeomBlank")
+  })
+  sheets[is_blank] <- list(NULL)
+
   # clean up boxplot layers with outliers, if any
   for (.sheet in which(grepl("_boxplot", names(sheets)))) {
     if ("outliers" %in% colnames(sheets[[.sheet]])) {
