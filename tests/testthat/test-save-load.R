@@ -1570,6 +1570,30 @@ test_that("sbf_save_plot keeps single-row layer sheets", {
   sbf_close_windows()
 })
 
+test_that("sbf_save_plot does not save sheets for blank layers", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  sbf_close_windows()
+
+  p_blank <- ggplot2::ggplot(
+    data.frame(x = 1:3, y = 1:3),
+    ggplot2::aes(x = x, y = y)
+  ) +
+    ggplot2::geom_point() +
+    ggplot2::expand_limits(y = 0) +
+    ggplot2::expand_limits(x = c(0, 10), y = c(0, 10))
+
+  sbf_save_plot(p_blank)
+
+  expect_identical(
+    readxl::excel_sheets(file.path(sbf_get_main(), "plots", "p_blank.xlsx")),
+    c("1_0_data", "1_1_point")
+  )
+
+  sbf_reset()
+  sbf_close_windows()
+})
+
 test_that("`sbf_load_plots_recursive()` loads all possible plots when `drop = NULL` (default), `drop = \"\"`, or `drop = character(0)`.", {
   p1 <- ggplot2::ggplot() +
     ggplot2::geom_point(ggplot2::aes(1, 1)) +
