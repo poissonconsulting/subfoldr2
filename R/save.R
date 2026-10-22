@@ -616,7 +616,8 @@ get_plot_data_sheet <- function(p, prefix, drop_uninformative_cols) {
 
 # Named list of the data for each geom layer of a single plot, named
 # "<prefix>_<layer>_<geom>". Layers whose data is not a data frame or exceeds
-# `csv` rows are returned as `NULL` and dropped by the caller.
+# `csv` rows are returned as `NULL` and dropped by the caller. Uninformative
+# columns are not dropped from single-row layers.
 get_plot_layer_sheets <- function(p, prefix, csv, drop_uninformative_cols) {
   n_layers <- length(p@layers)
   if (!n_layers) {
@@ -627,7 +628,9 @@ get_plot_layer_sheets <- function(p, prefix, csv, drop_uninformative_cols) {
     if (!is.data.frame(data) || nrow(data) > csv) {
       return(NULL)
     }
-    if (drop_uninformative_cols) {
+    # every column of a single-row layer (e.g. a reference line) is constant
+    # so dropping uninformative columns would drop the whole sheet
+    if (drop_uninformative_cols && nrow(data) > 1) {
       data <- tidyplus::drop_uninformative_columns(data)
     }
     data
