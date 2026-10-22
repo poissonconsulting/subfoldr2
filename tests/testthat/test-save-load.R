@@ -1542,6 +1542,34 @@ test_that("clean after up previous test block in case errored, cant use defer wi
   sbf_close_windows()
 })
 
+test_that("sbf_save_plot keeps single-row layer sheets", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  sbf_close_windows()
+
+  p_hline <- ggplot2::ggplot(
+    data.frame(x = 1:3, y = 1:3),
+    ggplot2::aes(x = x, y = y)
+  ) +
+    ggplot2::geom_point() +
+    ggplot2::geom_hline(
+      data = data.frame(yintercept = 2.5),
+      ggplot2::aes(yintercept = yintercept)
+    )
+
+  sbf_save_plot(p_hline)
+
+  file <- file.path(sbf_get_main(), "plots", "p_hline.xlsx")
+  expect_identical(
+    readxl::excel_sheets(file),
+    c("1_0_data", "1_1_point", "1_2_hline")
+  )
+  expect_identical(readxl::read_xlsx(file, "1_2_hline")$yintercept, 2.5)
+
+  sbf_reset()
+  sbf_close_windows()
+})
+
 test_that("`sbf_load_plots_recursive()` loads all possible plots when `drop = NULL` (default), `drop = \"\"`, or `drop = character(0)`.", {
   p1 <- ggplot2::ggplot() +
     ggplot2::geom_point(ggplot2::aes(1, 1)) +
