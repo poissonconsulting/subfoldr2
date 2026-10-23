@@ -469,12 +469,35 @@ sbf_save_string <- function(
 
 #' Save Table
 #'
+#' Saves the unrounded data frame as `.rds` and `.csv` files and a rounded
+#' copy as a markdown pipe table (`.md`) for inclusion in reports.
+#'
+#' In the `.md` file, each `estimate` column (or `<prefix>_estimate` column) is
+#' rounded to the second significant digit of the standard deviation of the
+#' posterior distribution (the matching `sd` column) or, when it is
+#' unavailable, 1/4 of the 95% CI given by the matching `lower` and `upper`
+#' columns. The CLs are rounded to one fewer decimal place than the estimate,
+#' but to at least two significant digits. Estimates without CLs are rounded
+#' to three significant digits. When `proportion` is `TRUE`, significant
+#' digits are counted from the nearer of 0 and 1. S-value columns are rounded
+#' to one decimal place, other numeric columns with whole numbers are left as
+#' they are and the remaining numeric columns are rounded to three significant
+#' digits. Estimates and CLs have comma thousands separators and significant
+#' trailing zeros are retained.
+#'
+#' The numeric columns are right-aligned and padded with figure and
+#' punctuation spaces so that their decimal points line up in HTML, which does
+#' not collapse these spaces.
+#'
 #' @param x The data frame to save.
 #' @inheritParams sbf_save_object
 #' @param caption A string of the caption.
 #' @param report A flag specifying whether to include in a report.
 #' @param tag A string of the tag.
 #' @param notes A string of additional notes to save with the metadata.
+#' @param proportion A flag specifying whether the estimates and CLs are
+#'   proportions, so that significant digits are counted from the nearer of
+#'   0 and 1. Percentages should be converted to proportions first.
 #' @return An invisible string of the path to the saved object.
 #' @family save functions
 #' @export
@@ -486,7 +509,8 @@ sbf_save_table <- function(
   caption = "",
   report = TRUE,
   tag = "",
-  notes = ""
+  notes = "",
+  proportion = FALSE
 ) {
   x_name <- chk_deparse(x_name)
   chk_s3_class(x, "data.frame")
@@ -507,6 +531,10 @@ sbf_save_table <- function(
   chk_flag(report)
   chk_string(tag)
   chk_string(notes)
+  chk_flag(proportion)
+  if (proportion) {
+    check_table_proportions(x)
+  }
 
   sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
@@ -514,6 +542,14 @@ sbf_save_table <- function(
   meta <- list(caption = caption, report = report, tag = tag, notes = notes)
   save_meta(meta, "tables", sub = sub, main = main, x_name = x_name)
   save_csv(x, "tables", sub = sub, main = main, x_name = x_name)
+  save_md(
+    x,
+    "tables",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    proportion = proportion
+  )
   save_rds(x, "tables", sub = sub, main = main, x_name = x_name)
 }
 
@@ -1633,7 +1669,7 @@ sbf_save_datas_to_db <- function(
   chk_s3_class(env, "environment")
   chk_string(x_name)
   chk_flag(silent)
-  
+
   names <- objects(envir = env)
   names <- names[grepl(x_name, names, perl = TRUE)]
 

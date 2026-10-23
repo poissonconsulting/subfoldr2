@@ -885,7 +885,7 @@ test_that("table", {
   expect_identical(sbf_load_table("x"), x)
   expect_identical(
     list.files(file.path(sbf_get_main(), "tables")),
-    sort(c("x.yaml", "x.csv", "x.rds"))
+    sort(c("x.yaml", "x.csv", "x.md", "x.rds"))
   )
   csv <- read.csv(file.path(sbf_get_main(), "tables", "x.csv"))
   expect_equal(csv, x)
