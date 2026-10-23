@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# subfoldr2 1.0.1.9021
+
+- Save plot layer data on the untransformed scale (#204) (#205).
+
+- Keep single-row layer sheets in sbf_save_plot() xlsx (#202) (#203).
+
+
 # subfoldr2 1.0.1.9020
 
 - Save/load multiple objects with regular expression (#197).
