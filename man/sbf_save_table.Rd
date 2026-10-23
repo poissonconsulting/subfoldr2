@@ -12,7 +12,8 @@ sbf_save_table(
   caption = "",
   report = TRUE,
   tag = "",
-  notes = ""
+  notes = "",
+  proportion = FALSE
 )
 }
 \arguments{
@@ -33,12 +34,35 @@ current main folder)}
 \item{tag}{A string of the tag.}
 
 \item{notes}{A string of additional notes to save with the metadata.}
+
+\item{proportion}{A flag specifying whether the estimates and CLs are
+proportions, so that significant digits are counted from the nearer of
+0 and 1. Percentages should be converted to proportions first.}
 }
 \value{
 An invisible string of the path to the saved object.
 }
 \description{
-Save Table
+Saves the unrounded data frame as \code{.rds} and \code{.csv} files and a rounded
+copy as a markdown pipe table (\code{.md}) for inclusion in reports.
+}
+\details{
+In the \code{.md} file, each \code{estimate} column (or \verb{<prefix>_estimate} column) is
+rounded to the second significant digit of the standard deviation of the
+posterior distribution (the matching \code{sd} column) or, when it is
+unavailable, 1/4 of the 95\% CI given by the matching \code{lower} and \code{upper}
+columns. The CLs are rounded to one fewer decimal place than the estimate,
+but to at least two significant digits. Estimates without CLs are rounded
+to three significant digits. When \code{proportion} is \code{TRUE}, significant
+digits are counted from the nearer of 0 and 1. S-value columns are rounded
+to one decimal place, other numeric columns with whole numbers are left as
+they are and the remaining numeric columns are rounded to three significant
+digits. Estimates and CLs have comma thousands separators and significant
+trailing zeros are retained.
+
+The numeric columns are right-aligned and padded with figure and
+punctuation spaces so that their decimal points line up in HTML, which does
+not collapse these spaces.
 }
 \seealso{
 Other save functions:
