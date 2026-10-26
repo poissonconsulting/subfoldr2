@@ -153,7 +153,7 @@ sbf_path_table <- function(
   exists = NA
 ) {
   chk_string(ext)
-  chk_subset(ext, c("rds", "csv"))
+  chk_subset(ext, c("rds", "csv", "md"))
   get_path(
     x_name,
     class = "tables",

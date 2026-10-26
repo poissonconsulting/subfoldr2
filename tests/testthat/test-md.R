@@ -129,3 +129,38 @@ test_that("md_table handles empty tables", {
     b = character(0)
   ))))
 })
+
+test_that("sbf_load_table_md loads md lines", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  x <- data.frame(x = c(1.5, 12))
+  sbf_save_table(x, sub = "sub")
+  expect_identical(
+    sbf_path_table("x", sub = "sub", ext = "md"),
+    file.path(sbf_get_main(), "tables/sub/x.md")
+  )
+  expect_identical(
+    sbf_load_table_md("x", sub = "sub"),
+    c("|      x |", "| -----: |", "|  1.500 |", "| 12.00  |")
+  )
+  expect_identical(
+    sbf_load_table_md("x", sub = "sub", entities = TRUE),
+    c("|      x |", "| -----: |", "| 1.500 |", "| 12.00&#8199; |")
+  )
+  expect_null(sbf_load_table_md("y", exists = NA))
+  expect_error(sbf_load_table_md("y"), class = "chk_error")
+})
+
+test_that("md_entities replaces decimal alignment padding", {
+  x <- data.frame(
+    chr = c("a|b", "c", NA),
+    estimate = c(0.53124, 12.4, NA),
+    sd = c(0.16, 1.8, NA),
+    int = c(1L, 20000L, NA),
+    dbl = c(1, 10, Inf)
+  )
+  expect_snapshot(writeLines(md_entities(md_table(x))))
+  expect_identical(md_entities(character(0)), character(0))
+})

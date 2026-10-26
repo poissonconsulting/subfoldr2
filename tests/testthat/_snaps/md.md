@@ -124,3 +124,14 @@
       |   a | b   |
       | --: | :-- |
 
+# md_entities replaces decimal alignment padding
+
+    Code
+      writeLines(md_entities(md_table(x)))
+    Output
+      | chr  | estimate |   sd |    int |     dbl |
+      | :--- | -------: | ---: | -----: | ------: |
+      | a\|b | 0.53 | 0.16 | 1 | 1.000 |
+      | c | 12.4&#8199; | 1.8&#8199; | 20,000 | 10.00&#8199; |
+      |  |  |  |  | Inf&#8200;&#8199;&#8199;&#8199; |
+

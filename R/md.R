@@ -282,3 +282,38 @@ md_table <- function(x, proportion = FALSE, format_column = list()) {
   }
   c(header, rule, body)
 }
+
+split_md_row <- function(x) {
+  cells <- strsplit(paste0(x, " "), "(?<!\\\\)[|]", perl = TRUE)[[1]]
+  cells[-c(1L, length(cells))]
+}
+
+# Replaces the trailing spaces that align the decimal points in each
+# right-aligned cell with a punctuation space for a missing decimal point and
+# figure spaces for missing digits.
+md_entities <- function(x) {
+  if (length(x) < 3L) {
+    return(x)
+  }
+  right <- grepl("^ *-+: *$", split_md_row(x[2]))
+  body <- vapply(
+    x[-(1:2)],
+    function(row) {
+      cells <- split_md_row(row)
+      values <- trimws(cells)
+      pad <- nchar(sub("^.*?( *)$", "\\1", cells, perl = TRUE)) - 1L
+      pad <- pmax(pad, 0L)
+      for (i in which(right & pad > 0L & values != "")) {
+        figure <- strrep("&#8199;", pad[i])
+        if (!grepl(".", values[i], fixed = TRUE)) {
+          figure <- paste0("&#8200;", strrep("&#8199;", pad[i] - 1L))
+        }
+        values[i] <- paste0(values[i], figure)
+      }
+      paste0("| ", paste(values, collapse = " | "), " |")
+    },
+    "",
+    USE.NAMES = FALSE
+  )
+  c(x[1:2], body)
+}

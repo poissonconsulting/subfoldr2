@@ -63,6 +63,7 @@ Other load functions:
 \code{\link[=sbf_load_string]{sbf_load_string()}},
 \code{\link[=sbf_load_strings_recursive]{sbf_load_strings_recursive()}},
 \code{\link[=sbf_load_table]{sbf_load_table()}},
+\code{\link[=sbf_load_table_md]{sbf_load_table_md()}},
 \code{\link[=sbf_load_tables]{sbf_load_tables()}},
 \code{\link[=sbf_load_tables_recursive]{sbf_load_tables_recursive()}},
 \code{\link[=sbf_load_windows_recursive]{sbf_load_windows_recursive()}},
