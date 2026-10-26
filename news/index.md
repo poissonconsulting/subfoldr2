@@ -1,5 +1,10 @@
 # Changelog
 
+## subfoldr2 1.0.1.9022
+
+- Use thousands separators consistently within a column in .md tables
+  (#210) (#212).
+
 ## subfoldr2 1.0.1.9021
 
 - Save plot layer data on the untransformed scale (#204) (#205).
