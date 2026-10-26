@@ -134,7 +134,11 @@ format_data <- function(x, digits = 4) {
   if (is.integer(x)) {
     return(format_dp(x, rep(0, length(x))))
   }
-  format_dp(x, signif_dp(x, digits))
+  x <- format_dp(x, signif_dp(x, digits))
+  # trailing zeros in data values are not significant
+  fractional <- grepl(".", x, fixed = TRUE)
+  x[fractional] <- sub("[.]?0+$", "", x[fractional])
+  x
 }
 
 format_unrounded <- function(x) {

@@ -143,11 +143,11 @@ test_that("sbf_load_table_md loads md lines", {
   )
   expect_identical(
     sbf_load_table_md("x", sub = "sub"),
-    c("|      x |", "| -----: |", "|  1.500 |", "| 12.00  |")
+    c("|    x |", "| ---: |", "|  1.5 |", "| 12   |")
   )
   expect_identical(
     sbf_load_table_md("x", sub = "sub", entities = TRUE),
-    c("|      x |", "| -----: |", "| 1.500 |", "| 12.00&#8199; |")
+    c("|    x |", "| ---: |", "| 1.5 |", "| 12&#8200;&#8199; |")
   )
   expect_null(sbf_load_table_md("y", exists = NA))
   expect_error(sbf_load_table_md("y"), class = "chk_error")
