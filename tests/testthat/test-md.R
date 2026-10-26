@@ -164,3 +164,11 @@ test_that("md_entities replaces decimal alignment padding", {
   expect_snapshot(writeLines(md_entities(md_table(x))))
   expect_identical(md_entities(character(0)), character(0))
 })
+
+test_that("format_data keeps only significant trailing zeros", {
+  expect_identical(
+    format_data(c(0.5, 0.48, 160, 1.0001, 12.3049, 0.1 + 0.2, 12345.678, NA)),
+    c("0.5", "0.48", "160", "1.000", "12.30", "0.3", "12,350", "")
+  )
+  expect_identical(format_data(c(1L, 20000L)), c("1", "20,000"))
+})

@@ -65,8 +65,9 @@ the estimate but to at least two significant digits.
 Estimates without an \code{sd} or interval are rounded to three significant
 digits.
 The column \code{svalue} is rounded to one decimal place.
-Other double columns are rounded to four significant digits without
-trailing zeros while integer columns are not rounded.
+Other double columns are rounded to four significant digits, without
+adding trailing zeros beyond the digits of the value, while integer columns
+are not rounded.
 Significant trailing zeros are retained, commas are used as thousands
 separators only for numbers of 10,000 or more, and numeric columns are
 padded with spaces to align their decimal points.
