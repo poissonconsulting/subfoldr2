@@ -172,3 +172,21 @@ test_that("format_data keeps only significant trailing zeros", {
   )
   expect_identical(format_data(c(1L, 20000L)), c("1", "20,000"))
 })
+
+test_that("thousands separators are consistent within a column", {
+  expect_identical(
+    format_data(c(11615L, 1595L, 9640L)),
+    c("11,615", "1,595", "9,640")
+  )
+  expect_identical(format_data(c(9640, 1595)), c("9640", "1595"))
+  expect_identical(format_data(c(2024L, 2025L)), c("2024", "2025"))
+  expect_identical(format_data(c(1234L, 20000L, NA)), c("1,234", "20,000", ""))
+
+  x <- data.frame(
+    year = c(2024L, 2025L),
+    estimate = c(9500, 12000),
+    lower = c(8000, 9000),
+    upper = c(11000, 16000)
+  )
+  expect_snapshot(writeLines(md_table(x)))
+})

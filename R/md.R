@@ -102,8 +102,11 @@ signif_dp <- function(x, digits, proportion = FALSE) {
   )
 }
 
+# Thousands separators are used for every value in a column when any of its
+# values is 10,000 or more, so that four-digit values such as years are not
+# separated unless they share a column with larger values.
 big_mark <- function(x) {
-  if (abs(x) >= 10000) "," else ""
+  if (any(abs(x[is.finite(x)]) >= 10000)) "," else ""
 }
 
 format_finite <- function(x, fun) {
@@ -114,7 +117,7 @@ format_finite <- function(x, fun) {
   out
 }
 
-format_dp <- function(x, dp) {
+format_dp <- function(x, dp, mark = big_mark(x)) {
   x[is.na(dp)] <- NA
   format_finite(x, function(i) {
     value <- round(x[i], dp[i])
@@ -125,7 +128,7 @@ format_dp <- function(x, dp) {
       value,
       digits = max(dp[i], 0),
       format = "f",
-      big.mark = big_mark(value)
+      big.mark = mark
     )
   })
 }
@@ -157,12 +160,13 @@ value_dp <- function(x) {
 }
 
 format_unrounded <- function(x) {
+  mark <- big_mark(x)
   format_finite(x, function(i) {
     trimws(formatC(
       x[i],
       digits = 15,
       format = "fg",
-      big.mark = big_mark(x[i])
+      big.mark = mark
     ))
   })
 }
@@ -178,20 +182,31 @@ format_estimates <- function(x, proportion) {
   ci <- !is.na(dp)
 
   out <- list()
-  out$estimate <- format_dp(estimate, signif_dp(estimate, 3, proportion))
-  out$estimate[ci] <- format_dp(estimate[ci], dp[ci])
+  mark <- big_mark(estimate)
+  out$estimate <- format_dp(
+    estimate,
+    signif_dp(estimate, 3, proportion),
+    mark
+  )
+  out$estimate[ci] <- format_dp(estimate[ci], dp[ci], mark)
 
   for (cl in intersect(c("lower", "upper"), names(x))) {
     if (!is.numeric(x[[cl]])) {
       next
     }
     value <- as.numeric(x[[cl]])
-    out[[cl]] <- format_dp(value, signif_dp(value, 2, proportion))
-    out[[cl]][ci] <- format_dp(value[ci], cl_dp(value[ci], dp[ci], proportion))
+    mark <- big_mark(value)
+    out[[cl]] <- format_dp(value, signif_dp(value, 2, proportion), mark)
+    out[[cl]][ci] <- format_dp(
+      value[ci],
+      cl_dp(value[ci], dp[ci], proportion),
+      mark
+    )
   }
   if (is.numeric(x$sd)) {
-    out$sd <- format_dp(sd, signif_dp(sd, 2))
-    out$sd[ci] <- format_dp(sd[ci], dp[ci])
+    mark <- big_mark(sd)
+    out$sd <- format_dp(sd, signif_dp(sd, 2), mark)
+    out$sd[ci] <- format_dp(sd[ci], dp[ci], mark)
   }
   out
 }
