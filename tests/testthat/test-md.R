@@ -190,3 +190,18 @@ test_that("thousands separators are consistent within a column", {
   )
   expect_snapshot(writeLines(md_table(x)))
 })
+
+test_that("rounding up to a power of ten drops the extra decimal place", {
+  # estimate -0.20 has 2 dp, so its upper CL of 0.997 rounds to 1.0 not 1.00
+  x <- data.frame(estimate = -0.2, lower = -0.7, upper = 0.997, sd = 0.3)
+  expect_identical(format_estimates(x, proportion = FALSE)$upper, "1.0")
+  expect_identical(cl_dp(c(0.997, 0.5), c(2, 2), FALSE), c(1, 2))
+
+  # three significant digits without CLs
+  expect_identical(signif_dp(c(9.996, 9.94, 99.96), 3), c(1, 2, 0))
+  expect_identical(format_data(9.9996), "10.00")
+
+  # a proportion is never rounded to 1
+  expect_identical(signif_dp(0.99996, 2, proportion = TRUE), 6)
+  expect_identical(signif_dp(0.999996, 2, proportion = TRUE), 7)
+})

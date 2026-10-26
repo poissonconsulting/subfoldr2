@@ -84,22 +84,45 @@ sd_dp <- function(lower, upper, sd) {
   ifelse(is.finite(sd) & sd > 0, 1 - floor(log10(sd)), NA_real_)
 }
 
-cl_dp <- function(x, dp, proportion) {
-  distance <- bound_distance(x, proportion)
+# Rounding can carry a value up to the next power of ten (0.997 to 1.00), which
+# then needs one fewer decimal place for the same number of significant digits,
+# so the decimal places are recalculated from the rounded value. Values rounded
+# onto a proportion bound keep their decimal places so they never print as 1.
+settle_dp <- function(x, dp, fun, proportion) {
+  if (!length(x)) {
+    return(dp)
+  }
+  rounded <- round(x, ifelse(is.finite(dp), dp, 0))
+  distance <- bound_distance(rounded, proportion)
   ifelse(
     is.finite(distance) & distance != 0,
-    pmax(dp - 1, 1 - floor(log10(distance))),
-    dp - 1
+    pmin(dp, fun(rounded)),
+    dp
   )
 }
 
+cl_dp <- function(x, dp, proportion) {
+  fun <- function(x) {
+    distance <- bound_distance(x, proportion)
+    ifelse(
+      is.finite(distance) & distance != 0,
+      pmax(dp - 1, 1 - floor(log10(distance))),
+      dp - 1
+    )
+  }
+  settle_dp(x, fun(x), fun, proportion)
+}
+
 signif_dp <- function(x, digits, proportion = FALSE) {
-  distance <- bound_distance(x, proportion)
-  ifelse(
-    is.finite(distance) & distance != 0,
-    digits - 1 - floor(log10(distance)),
-    0
-  )
+  fun <- function(x) {
+    distance <- bound_distance(x, proportion)
+    ifelse(
+      is.finite(distance) & distance != 0,
+      digits - 1 - floor(log10(distance)),
+      0
+    )
+  }
+  settle_dp(x, fun(x), fun, proportion)
 }
 
 # Thousands separators are used for every value in a column when any of its
