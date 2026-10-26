@@ -1,6 +1,7 @@
 # Save Table
 
-Save Table
+Saves a data frame as `.rds` and `.csv` files with the unrounded values
+and as a `.md` file with the values rounded and formatted for display.
 
 ## Usage
 
@@ -13,7 +14,9 @@ sbf_save_table(
   caption = "",
   report = TRUE,
   tag = "",
-  notes = ""
+  notes = "",
+  proportion = FALSE,
+  format_column = list()
 )
 ```
 
@@ -53,9 +56,49 @@ sbf_save_table(
 
   A string of additional notes to save with the metadata.
 
+- proportion:
+
+  A flag specifying whether the columns `estimate`, `lower`, `upper` and
+  `sd` are proportions, in which case significant digits are counted
+  from the nearer of 0 and 1 in the `.md` file.
+
+- format_column:
+
+  A list of two-sided formulas of the form `column ~ fun(.)` specifying
+  how to round and format numeric columns other than `estimate`,
+  `lower`, `upper` and `sd` in the `.md` file. The function can return a
+  numeric vector, which is formatted without further rounding, or a
+  character vector, which is used as is. The values in the `.rds` and
+  `.csv` files are not altered.
+
 ## Value
 
 An invisible string of the path to the saved object.
+
+## Details
+
+In the `.md` file, estimates are rounded following the rounding policy
+in the usepois report template, which is adapted from Cole (2015). The
+column `estimate` is rounded to the second significant digit of the
+column `sd` if present and otherwise of 1/4 of the interval between the
+columns `lower` and `upper`. The columns `lower` and `upper` are rounded
+to one fewer decimal place than the estimate but to at least two
+significant digits. Estimates without an `sd` or interval are rounded to
+three significant digits. The column `svalue` is rounded to one decimal
+place. Other double columns are rounded to four significant digits,
+without adding trailing zeros beyond the digits of the value, while
+integer columns are not rounded. Significant trailing zeros are
+retained, commas are used as thousands separators only for numbers of
+10,000 or more, and numeric columns are padded with spaces to align
+their decimal points. The `.md` file is not saved if
+`getOption("sbf.save_md")` is `FALSE`.
+
+## References
+
+Cole, T.J. 2015. Too many digits: the presentation of numerical data.
+Archives of Disease in Childhood 100(7): 608-609.
+[doi:10.1136/archdischild-2014-307149](https://doi.org/10.1136/archdischild-2014-307149)
+.
 
 ## See also
 
@@ -86,3 +129,15 @@ Other save functions:
 [`sbf_save_strings()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_strings.md),
 [`sbf_save_window()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_window.md),
 [`sbf_save_workbook()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_workbook.md)
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+sbf_save_table(
+  coef,
+  caption = "Parameter estimates.",
+  format_column = list(zscore ~ round(., 1))
+)
+} # }
+```

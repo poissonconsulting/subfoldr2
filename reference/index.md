@@ -107,6 +107,8 @@
   : Load Strings as Column in Data Frame
 - [`sbf_load_table()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_table.md)
   : Load Table
+- [`sbf_load_table_md()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_table_md.md)
+  : Load Table Markdown
 - [`sbf_load_tables()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_tables.md)
   : Load Tables
 - [`sbf_load_tables_recursive()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_tables_recursive.md)
