@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# subfoldr2 1.0.1.9023
+
+- Fix: Drop the extra decimal place when rounding up to a power of ten in .md tables (#211) (#213).
+
+
 # subfoldr2 1.0.1.9022
 
 - Use thousands separators consistently within a column in .md tables (#210) (#212).
