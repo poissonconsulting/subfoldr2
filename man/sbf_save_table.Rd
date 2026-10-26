@@ -65,10 +65,11 @@ the estimate but to at least two significant digits.
 Estimates without an \code{sd} or interval are rounded to three significant
 digits.
 The column \code{svalue} is rounded to one decimal place.
-Other numeric columns are rounded to four significant digits unless they
-are whole numbers.
-Significant trailing zeros are retained, thousands are separated by commas,
-and numeric columns are padded with spaces to align their decimal points.
+Other double columns are rounded to four significant digits while integer
+columns are not rounded.
+Significant trailing zeros are retained, commas are used as thousands
+separators only for numbers of 10,000 or more, and numeric columns are
+padded with spaces to align their decimal points.
 The \code{.md} file is not saved if \code{getOption("sbf.save_md")} is \code{FALSE}.
 }
 \examples{

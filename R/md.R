@@ -102,58 +102,50 @@ signif_dp <- function(x, digits, proportion = FALSE) {
   )
 }
 
-format_dp <- function(x, dp) {
+big_mark <- function(x) {
+  if (abs(x) >= 10000) "," else ""
+}
+
+format_finite <- function(x, fun) {
   out <- rep("", length(x))
-  finite <- is.finite(x) & !is.na(dp)
-  out[finite] <- vapply(
-    which(finite),
-    function(i) {
-      value <- round(x[i], dp[i])
-      if (value == 0) {
-        value <- 0
-      }
-      formatC(value, digits = max(dp[i], 0), format = "f", big.mark = ",")
-    },
-    ""
-  )
+  finite <- is.finite(x)
+  out[finite] <- vapply(which(finite), fun, "")
   out[!finite & !is.na(x)] <- as.character(x[!finite & !is.na(x)])
   out
 }
 
-format_whole <- function(x) {
-  out <- rep("", length(x))
-  finite <- is.finite(x)
-  out[finite] <- formatC(
-    as.numeric(x[finite]),
-    format = "f",
-    digits = 0,
-    big.mark = ","
-  )
-  out[!finite & !is.na(x)] <- as.character(x[!finite & !is.na(x)])
-  out
+format_dp <- function(x, dp) {
+  x[is.na(dp)] <- NA
+  format_finite(x, function(i) {
+    value <- round(x[i], dp[i])
+    if (value == 0) {
+      value <- 0
+    }
+    formatC(
+      value,
+      digits = max(dp[i], 0),
+      format = "f",
+      big.mark = big_mark(value)
+    )
+  })
 }
 
 format_data <- function(x, digits = 4) {
   if (is.integer(x)) {
-    return(format_whole(x))
+    return(format_dp(x, rep(0, length(x))))
   }
-  whole <- is.finite(x) & x == round(x)
-  dp <- signif_dp(x, digits)
-  dp[whole] <- 0
-  format_dp(x, dp)
+  format_dp(x, signif_dp(x, digits))
 }
 
 format_unrounded <- function(x) {
-  out <- rep("", length(x))
-  finite <- is.finite(x)
-  out[finite] <- trimws(formatC(
-    x[finite],
-    digits = 15,
-    format = "fg",
-    big.mark = ","
-  ))
-  out[!finite & !is.na(x)] <- as.character(x[!finite & !is.na(x)])
-  out
+  format_finite(x, function(i) {
+    trimws(formatC(
+      x[i],
+      digits = 15,
+      format = "fg",
+      big.mark = big_mark(x[i])
+    ))
+  })
 }
 
 format_estimates <- function(x, proportion) {
