@@ -56,6 +56,7 @@ reference:
   - '`sbf_load_strings`'
   - '`sbf_load_strings_recursive`'
   - '`sbf_load_table`'
+  - '`sbf_load_table_md`'
   - '`sbf_load_tables`'
   - '`sbf_load_tables_recursive`'
   - '`sbf_load_windows_recursive`'

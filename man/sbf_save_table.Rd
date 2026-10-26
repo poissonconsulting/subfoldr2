@@ -12,7 +12,9 @@ sbf_save_table(
   caption = "",
   report = TRUE,
   tag = "",
-  notes = ""
+  notes = "",
+  proportion = FALSE,
+  format_column = list()
 )
 }
 \arguments{
@@ -33,12 +35,57 @@ current main folder)}
 \item{tag}{A string of the tag.}
 
 \item{notes}{A string of additional notes to save with the metadata.}
+
+\item{proportion}{A flag specifying whether the columns \code{estimate},
+\code{lower}, \code{upper} and \code{sd} are proportions, in which case significant
+digits are counted from the nearer of 0 and 1 in the \code{.md} file.}
+
+\item{format_column}{A list of two-sided formulas of the form
+\code{column ~ fun(.)} specifying how to round and format numeric columns
+other than \code{estimate}, \code{lower}, \code{upper} and \code{sd} in the \code{.md} file.
+The function can return a numeric vector, which is formatted without
+further rounding, or a character vector, which is used as is.
+The values in the \code{.rds} and \code{.csv} files are not altered.}
 }
 \value{
 An invisible string of the path to the saved object.
 }
 \description{
-Save Table
+Saves a data frame as \code{.rds} and \code{.csv} files with the unrounded values
+and as a \code{.md} file with the values rounded and formatted for display.
+}
+\details{
+In the \code{.md} file, estimates are rounded following the rounding policy in
+the usepois report template, which is adapted from Cole (2015).
+The column \code{estimate} is rounded to the second significant digit of the
+column \code{sd} if present and otherwise of 1/4 of the interval between the
+columns \code{lower} and \code{upper}.
+The columns \code{lower} and \code{upper} are rounded to one fewer decimal place than
+the estimate but to at least two significant digits.
+Estimates without an \code{sd} or interval are rounded to three significant
+digits.
+The column \code{svalue} is rounded to one decimal place.
+Other double columns are rounded to four significant digits, without
+adding trailing zeros beyond the digits of the value, while integer columns
+are not rounded.
+Significant trailing zeros are retained, commas are used as thousands
+separators only for numbers of 10,000 or more, and numeric columns are
+padded with spaces to align their decimal points.
+The \code{.md} file is not saved if \code{getOption("sbf.save_md")} is \code{FALSE}.
+}
+\examples{
+\dontrun{
+sbf_save_table(
+  coef,
+  caption = "Parameter estimates.",
+  format_column = list(zscore ~ round(., 1))
+)
+}
+}
+\references{
+Cole, T.J. 2015. Too many digits: the presentation of
+numerical data. Archives of Disease in Childhood 100(7): 608-609.
+\doi{10.1136/archdischild-2014-307149}.
 }
 \seealso{
 Other save functions:

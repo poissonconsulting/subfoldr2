@@ -131,6 +131,39 @@ sbf_load_table <- function(
   load_rds(x_name, class = "tables", sub = sub, main = main, exists = exists)
 }
 
+#' Load Table Markdown
+#'
+#' Loads the lines of the `.md` file of a table saved by [sbf_save_table()].
+#'
+#' @inheritParams sbf_save_object
+#' @inheritParams sbf_load_object
+#' @param entities A flag specifying whether to replace the spaces that align
+#'   the decimal points of numeric columns with the HTML entities for figure
+#'   (`&#8199;`) and punctuation (`&#8200;`) spaces so that the alignment is
+#'   preserved when the markdown is rendered.
+#' @return A character vector of the lines of the table in markdown format or
+#'   NULL if doesn't exist.
+#' @family load functions
+#' @export
+sbf_load_table_md <- function(
+  x_name,
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  entities = FALSE,
+  exists = TRUE
+) {
+  chk_flag(entities)
+  path <- get_path(x_name, "tables", sub, main, ext = "md", exists = exists)
+  if (!vld_file(path)) {
+    return(NULL)
+  }
+  md <- readLines(path, encoding = "UTF-8")
+  if (entities) {
+    md <- md_entities(md)
+  }
+  md
+}
+
 #' Load Plot
 #'
 #' @inheritParams sbf_save_object

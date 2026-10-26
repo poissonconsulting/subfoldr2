@@ -25,8 +25,8 @@ save_csv <- function(x, class, sub, main, x_name) {
   invisible(file)
 }
 
-save_txt <- function(txt, class, sub, main, x_name) {
-  file <- file_name(main, class, sub, x_name, "txt")
+save_txt <- function(txt, class, sub, main, x_name, ext = "txt") {
+  file <- file_name(main, class, sub, x_name, ext)
   writeLines(txt, file)
   invisible(file)
 }
@@ -469,15 +469,56 @@ sbf_save_string <- function(
 
 #' Save Table
 #'
+#' Saves a data frame as `.rds` and `.csv` files with the unrounded values
+#' and as a `.md` file with the values rounded and formatted for display.
+#'
+#' In the `.md` file, estimates are rounded following the rounding policy in
+#' the usepois report template, which is adapted from Cole (2015).
+#' The column `estimate` is rounded to the second significant digit of the
+#' column `sd` if present and otherwise of 1/4 of the interval between the
+#' columns `lower` and `upper`.
+#' The columns `lower` and `upper` are rounded to one fewer decimal place than
+#' the estimate but to at least two significant digits.
+#' Estimates without an `sd` or interval are rounded to three significant
+#' digits.
+#' The column `svalue` is rounded to one decimal place.
+#' Other double columns are rounded to four significant digits, without
+#' adding trailing zeros beyond the digits of the value, while integer columns
+#' are not rounded.
+#' Significant trailing zeros are retained, commas are used as thousands
+#' separators only for numbers of 10,000 or more, and numeric columns are
+#' padded with spaces to align their decimal points.
+#' The `.md` file is not saved if `getOption("sbf.save_md")` is `FALSE`.
+#'
 #' @param x The data frame to save.
 #' @inheritParams sbf_save_object
 #' @param caption A string of the caption.
 #' @param report A flag specifying whether to include in a report.
 #' @param tag A string of the tag.
 #' @param notes A string of additional notes to save with the metadata.
+#' @param proportion A flag specifying whether the columns `estimate`,
+#'   `lower`, `upper` and `sd` are proportions, in which case significant
+#'   digits are counted from the nearer of 0 and 1 in the `.md` file.
+#' @param format_column A list of two-sided formulas of the form
+#'   `column ~ fun(.)` specifying how to round and format numeric columns
+#'   other than `estimate`, `lower`, `upper` and `sd` in the `.md` file.
+#'   The function can return a numeric vector, which is formatted without
+#'   further rounding, or a character vector, which is used as is.
+#'   The values in the `.rds` and `.csv` files are not altered.
 #' @return An invisible string of the path to the saved object.
+#' @references Cole, T.J. 2015. Too many digits: the presentation of
+#'   numerical data. Archives of Disease in Childhood 100(7): 608-609.
+#'   \doi{10.1136/archdischild-2014-307149}.
 #' @family save functions
 #' @export
+#' @examples
+#' \dontrun{
+#' sbf_save_table(
+#'   coef,
+#'   caption = "Parameter estimates.",
+#'   format_column = list(zscore ~ round(., 1))
+#' )
+#' }
 sbf_save_table <- function(
   x,
   x_name = substitute(x),
@@ -486,7 +527,9 @@ sbf_save_table <- function(
   caption = "",
   report = TRUE,
   tag = "",
-  notes = ""
+  notes = "",
+  proportion = FALSE,
+  format_column = list()
 ) {
   x_name <- chk_deparse(x_name)
   chk_s3_class(x, "data.frame")
@@ -507,12 +550,24 @@ sbf_save_table <- function(
   chk_flag(report)
   chk_string(tag)
   chk_string(notes)
+  chk_flag(proportion)
+  if (proportion) {
+    chk_proportion_cols(x)
+  }
+  chk_list(format_column)
+  chk_format_column(format_column, x)
+  save_md <- getOption("sbf.save_md", TRUE)
+  chk_flag(save_md, x_name = "`getOption(\"sbf.save_md\")`")
+  md <- if (save_md) md_table(x, proportion, format_column)
 
   sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
   meta <- list(caption = caption, report = report, tag = tag, notes = notes)
   save_meta(meta, "tables", sub = sub, main = main, x_name = x_name)
+  if (save_md) {
+    save_txt(md, "tables", sub = sub, main = main, x_name = x_name, ext = "md")
+  }
   save_csv(x, "tables", sub = sub, main = main, x_name = x_name)
   save_rds(x, "tables", sub = sub, main = main, x_name = x_name)
 }
