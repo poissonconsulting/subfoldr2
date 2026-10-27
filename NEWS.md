@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# subfoldr2 1.0.1.9024
+
+- Feat: Add estimate_column to sbf_save_table() to round columns like the estimate (#214) (#215).
+
+
 # subfoldr2 1.0.1.9023
 
 - Fix: Drop the extra decimal place when rounding up to a power of ten in .md tables (#211) (#213).
