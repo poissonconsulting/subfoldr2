@@ -54,6 +54,7 @@ Imports:
     yaml,
     yesno
 Suggests: 
+    bit64,
     blob,
     config,
     covr,
