@@ -54,6 +54,7 @@ Other load functions:
 [`sbf_load_objects_recursive()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_objects_recursive.md),
 [`sbf_load_plot()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_plot.md),
 [`sbf_load_plot_data()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_plot_data.md),
+[`sbf_load_plot_md()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_plot_md.md),
 [`sbf_load_plots_data()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_plots_data.md),
 [`sbf_load_plots_data_recursive()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_plots_data_recursive.md),
 [`sbf_load_plots_recursive()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_plots_recursive.md),

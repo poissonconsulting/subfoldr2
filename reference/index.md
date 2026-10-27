@@ -87,6 +87,8 @@
   : Load Objects as List Column in Data Frame
 - [`sbf_load_plot()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_plot.md)
   : Load Plot
+- [`sbf_load_plot_md()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_plot_md.md)
+  : Load Plot Markdown
 - [`sbf_load_plot_data()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_plot_data.md)
   : Load Plot Data
 - [`sbf_load_plots_data()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_plots_data.md)

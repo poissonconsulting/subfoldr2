@@ -56,7 +56,10 @@ By default it saves the last plot to be modified or created.</p>
 <span>  dpi <span class="op">=</span> <span class="fl">300</span>,</span>
 <span>  limitsize <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  csv <span class="op">=</span> <span class="fl">1000L</span>,</span>
-<span>  drop_uninformative_cols <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  drop_uninformative_cols <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  proportion <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  format_column <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  round_as_estimate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -133,6 +136,30 @@ Currently soft-deprecated.
 Will be fully deprecated in future versions so that uninformative columns are
 always dropped in csv files and always kept in xlsx files.</p></dd>
 
+
+<dt id="arg-proportion">proportion<a class="anchor" aria-label="anchor" href="#arg-proportion"></a></dt>
+<dd><p>A flag specifying whether the columns <code>estimate</code>,
+<code>lower</code>, <code>upper</code> and <code>sd</code> are proportions, in which case significant
+digits are counted from the nearer of 0 and 1 in the <code>.md</code> file.</p></dd>
+
+
+<dt id="arg-format-column">format_column<a class="anchor" aria-label="anchor" href="#arg-format-column"></a></dt>
+<dd><p>A list of two-sided formulas of the form
+<code>column ~ fun(.)</code> specifying how to round and format numeric columns
+other than <code>estimate</code>, <code>lower</code>, <code>upper</code> and <code>sd</code> in the <code>.md</code> file.
+The function can return a numeric vector, which is formatted without
+further rounding, or a character vector, which is used as is.
+The values in the <code>.rds</code> and <code>.csv</code> files are not altered.</p></dd>
+
+
+<dt id="arg-round-as-estimate">round_as_estimate<a class="anchor" aria-label="anchor" href="#arg-round-as-estimate"></a></dt>
+<dd><p>A character vector of numeric columns, other than
+<code>estimate</code>, <code>lower</code>, <code>upper</code>, <code>sd</code> and <code>svalue</code>, to round in the <code>.md</code>
+file to the same number of decimal places as <code>estimate</code> in the same row
+(e.g. an <code>observed</code> value compared with the estimate). Rows with a
+missing estimate are formatted as data. If <code>proportion = TRUE</code> the
+columns must also be proportions.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -148,7 +175,11 @@ call and a sheet for each geom layer. Sheets are labelled <code>&lt;p&gt;_&lt;l&
 where <code>&lt;p&gt;</code> is the patch index (1 for a simple <code>ggplot</code>), <code>&lt;l&gt;</code> is the layer
 index (<code>0</code> for the <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot()</a></code> data), and <code>&lt;geom&gt;</code> is the layer type (e.g.
 <code>point</code>, <code>line</code>). Layers with more than <code>csv</code> rows are omitted.</p></li>
-</ol><p>The <code>csv</code> and <code>xlsx</code> files are named using the <code>x_name</code> argument. Not
+<li><p>An <code>md</code> file of the same data as the <code>csv</code> with the values rounded and
+formatted for display as described in <code><a href="sbf_save_table.html">sbf_save_table()</a></code>. The values in the
+plot are not rounded. The <code>md</code> file is not saved if
+<code>getOption("sbf.save_md")</code> is <code>FALSE</code>.</p></li>
+</ol><p>The <code>csv</code>, <code>xlsx</code> and <code>md</code> files are named using the <code>x_name</code> argument. Not
 specifying <code>x</code> overwrites existing files that used <code>x_name = "plot"</code>.</p>
     </div>
     <div class="section level2">

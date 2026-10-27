@@ -21,7 +21,10 @@ sbf_save_plot(
   dpi = 300,
   limitsize = TRUE,
   csv = 1000L,
-  drop_uninformative_cols = TRUE
+  drop_uninformative_cols = TRUE,
+  proportion = FALSE,
+  format_column = list(),
+  round_as_estimate = character(0)
 )
 ```
 
@@ -96,6 +99,30 @@ sbf_save_plot(
   fully deprecated in future versions so that uninformative columns are
   always dropped in csv files and always kept in xlsx files.
 
+- proportion:
+
+  A flag specifying whether the columns `estimate`, `lower`, `upper` and
+  `sd` are proportions, in which case significant digits are counted
+  from the nearer of 0 and 1 in the `.md` file.
+
+- format_column:
+
+  A list of two-sided formulas of the form `column ~ fun(.)` specifying
+  how to round and format numeric columns other than `estimate`,
+  `lower`, `upper` and `sd` in the `.md` file. The function can return a
+  numeric vector, which is formatted without further rounding, or a
+  character vector, which is used as is. The values in the `.rds` and
+  `.csv` files are not altered.
+
+- round_as_estimate:
+
+  A character vector of numeric columns, other than `estimate`, `lower`,
+  `upper`, `sd` and `svalue`, to round in the `.md` file to the same
+  number of decimal places as `estimate` in the same row (e.g. an
+  `observed` value compared with the estimate). Rows with a missing
+  estimate are formatted as data. If `proportion = TRUE` the columns
+  must also be proportions.
+
 ## Details
 
 The function saves:
@@ -121,8 +148,15 @@ The function saves:
     data), and `<geom>` is the layer type (e.g. `point`, `line`). Layers
     with more than `csv` rows are omitted.
 
-The `csv` and `xlsx` files are named using the `x_name` argument. Not
-specifying `x` overwrites existing files that used `x_name = "plot"`.
+6.  An `md` file of the same data as the `csv` with the values rounded
+    and formatted for display as described in
+    [`sbf_save_table()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_table.md).
+    The values in the plot are not rounded. The `md` file is not saved
+    if `getOption("sbf.save_md")` is `FALSE`.
+
+The `csv`, `xlsx` and `md` files are named using the `x_name` argument.
+Not specifying `x` overwrites existing files that used
+`x_name = "plot"`.
 
 ## See also
 
