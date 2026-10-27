@@ -109,6 +109,19 @@ chk_round_as_estimate <- function(
   invisible(round_as_estimate)
 }
 
+chk_policy_numeric <- function(x) {
+  cols <- intersect(policy_cols, names(x))
+  text <- cols[!vapply(x[cols], is.numeric, TRUE)]
+  if (length(text)) {
+    abort_chk(
+      "`estimate`, `lower`, `upper` and `sd` columns in `x` must be numeric: ",
+      cc(text, " and "),
+      " not numeric"
+    )
+  }
+  invisible(x)
+}
+
 chk_proportion_cols <- function(
   x,
   round_as_estimate = character(0),
@@ -305,7 +318,7 @@ format_estimates <- function(x, proportion, round_as_estimate = character(0)) {
   out
 }
 
-format_column_values <- function(x, f) {
+apply_format_column <- function(x, f, call) {
   fun <- rlang::as_function(rlang::new_formula(
     NULL,
     rlang::f_rhs(f),
@@ -317,9 +330,14 @@ format_column_values <- function(x, f) {
       "`format_column` function for column '",
       rlang::as_string(rlang::f_lhs(f)),
       "' must return a vector of the same length as the column.",
-      call = rlang::caller_call(2)
+      call = call
     )
   }
+  value
+}
+
+format_column_values <- function(x, f) {
+  value <- apply_format_column(x, f, call = rlang::caller_call(3))
   if (is.numeric(value)) {
     return(format_unrounded(value))
   }
@@ -356,26 +374,31 @@ align_decimal <- function(x) {
   paste0(x, strrep(" ", pad))
 }
 
-md_table <- function(
-  x,
-  proportion = FALSE,
-  format_column = list(),
-  round_as_estimate = character(0)
-) {
+md_data <- function(x) {
   x[vapply(x, is.list, TRUE)] <- NULL
   x <- remove_geometry(x)
-  x <- as.data.frame(x)
-  if (!ncol(x)) {
-    return(character(0))
-  }
-  # classes such as units and integer64 do not support the rounding arithmetic
-  x[] <- lapply(x, function(col) {
-    if (is.numeric(col) && is.object(col)) as.double(col) else col
-  })
+  as.data.frame(x)
+}
 
+is_whole_column <- function(x) {
+  is.integer(x) || inherits(x, "integer64")
+}
+
+# classes such as units and integer64 do not support the rounding arithmetic
+as_plain_numeric <- function(x) {
+  if (is.numeric(x) && is.object(x)) as.double(x) else x
+}
+
+md_round <- function(x, proportion, format_column, round_as_estimate) {
+  whole <- vapply(x, is_whole_column, TRUE)
+  x[] <- lapply(x, as_plain_numeric)
   numeric <- vapply(x, is.numeric, TRUE)
+
   cols <- lapply(x, format_other)
   cols[numeric] <- lapply(x[numeric], format_data)
+  cols[whole] <- lapply(x[whole], function(col) {
+    format_dp(col, rep(0, length(col)))
+  })
 
   if ("svalue" %in% names(x) && is.numeric(x$svalue)) {
     cols$svalue <- format_dp(x$svalue, rep(1, nrow(x)))
@@ -388,10 +411,21 @@ md_table <- function(
     col <- rlang::as_string(rlang::f_lhs(f))
     cols[[col]] <- format_column_values(x[[col]], f)
   }
+  cols
+}
 
+md_unrounded <- function(x) {
+  x[] <- lapply(x, as_plain_numeric)
+  numeric <- vapply(x, is.numeric, TRUE)
+  cols <- lapply(x, format_other)
+  cols[numeric] <- lapply(x[numeric], format_unrounded)
+  cols
+}
+
+md_layout <- function(cols, header, numeric) {
   cols[numeric] <- lapply(cols[numeric], align_decimal)
   cols <- lapply(cols, escape_md)
-  header <- escape_md(names(x))
+  header <- escape_md(header)
 
   width <- pmax(
     3L,
@@ -412,12 +446,52 @@ md_table <- function(
   )
   rule <- row(rule)
   body <- character(0)
-  if (nrow(x)) {
+  if (length(cols[[1]])) {
     cells <- mapply(justify, cols, width, numeric, SIMPLIFY = FALSE)
     cells <- do.call(cbind, unname(cells))
     body <- apply(cells, 1, row)
   }
   c(header, rule, body)
+}
+
+md_table <- function(
+  x,
+  proportion = FALSE,
+  format_column = list(),
+  round_as_estimate = character(0),
+  round = TRUE
+) {
+  x <- md_data(x)
+  if (!ncol(x)) {
+    return(character(0))
+  }
+  numeric <- vapply(x, is.numeric, TRUE)
+  cols <- if (round) {
+    md_round(x, proportion, format_column, round_as_estimate)
+  } else {
+    md_unrounded(x)
+  }
+  md_layout(cols, names(x), numeric)
+}
+
+round_data <- function(x, proportion, format_column, round_as_estimate) {
+  data <- md_data(x)
+  cols <- md_round(data, proportion, list(), round_as_estimate)
+  for (nm in names(cols)) {
+    value <- data[[nm]]
+    if (!is.numeric(value) || is_whole_column(value)) {
+      next
+    }
+    rounded <- as.numeric(gsub(",", "", cols[[nm]], fixed = TRUE))
+    finite <- is.finite(value)
+    rounded[!finite] <- as.double(value[!finite])
+    x[[nm]][] <- rounded
+  }
+  for (f in format_column) {
+    col <- rlang::as_string(rlang::f_lhs(f))
+    x[[col]] <- apply_format_column(data[[col]], f, call = rlang::caller_call())
+  }
+  x
 }
 
 split_md_row <- function(x) {
