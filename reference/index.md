@@ -122,6 +122,13 @@
 - [`sbf_load_datas_from_pg()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_load_datas_from_pg.md)
   **\[deprecated\]** : Load Data Frames from PostgreSQL Database
 
+## Round and Format Items
+
+- [`sbf_round_data()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_round_data.md)
+  : Round Data
+- [`sbf_as_md()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_as_md.md)
+  : Convert to Markdown
+
 ## Compare Items
 
 - [`sbf_compare_data()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_compare_data.md)
