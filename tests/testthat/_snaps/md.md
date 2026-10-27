@@ -205,3 +205,42 @@
       Error in `sbf_save_table()`:
       ! Columns 'estimate', 'lower', 'upper' and 'n' in `x` must be proportions between 0 and 1 when `proportion = TRUE`.
 
+# sbf_save_plot saves md of the rounded ggplot data
+
+    Code
+      writeLines(sbf_load_plot_md("x"))
+    Output
+      | year | estimate | lower | upper | length |
+      | ---: | -------: | ----: | ----: | -----: |
+      | 2019 |     0.53 |  0.21 |  0.87 |    1.2 |
+      | 2020 |     0.60 |  0.30 |  0.90 |   12.3 |
+      | 2021 |     0.72 |  0.40 |  0.95 |  123.5 |
+
+# sbf_save_plot validates proportion and format_column before saving
+
+    Code
+      sbf_save_plot(x, proportion = NA)
+    Condition
+      Error in `sbf_save_plot()`:
+      ! `proportion` must be a flag (TRUE or FALSE).
+    Code
+      sbf_save_plot(x, proportion = TRUE)
+    Condition
+      Error in `sbf_save_plot()`:
+      ! Columns 'estimate' in the `ggplot()` data of `x` must be proportions between 0 and 1 when `proportion = TRUE`.
+    Code
+      sbf_save_plot(x, csv = 1L, format_column = list(z ~ round(.)))
+    Condition
+      Error in `sbf_save_plot()`:
+      ! `format_column` columns must be in the `ggplot()` data of `x`: 'z' not found.
+    Code
+      sbf_save_plot(x, round_as_estimate = "z")
+    Condition
+      Error in `sbf_save_plot()`:
+      ! `round_as_estimate` columns must be in the `ggplot()` data of `x`: 'z' not found.
+    Code
+      sbf_save_plot(ggplot2::ggplot(), format_column = list(n ~ round(.)))
+    Condition
+      Error in `sbf_save_plot()`:
+      ! `format_column` and `round_as_estimate` must be empty when `x` has no `ggplot()` data.
+

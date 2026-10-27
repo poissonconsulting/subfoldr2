@@ -271,3 +271,92 @@ test_that("sbf_save_table validates round_as_estimate", {
     sbf_save_table(x, round_as_estimate = "n", proportion = TRUE)
   })
 })
+
+test_that("sbf_save_plot saves md of the rounded ggplot data", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  data <- data.frame(
+    year = 2019:2021,
+    estimate = c(0.53124, 0.6, 0.72),
+    lower = c(0.21234, 0.3, 0.4),
+    upper = c(0.87012, 0.9, 0.95),
+    length = c(1.23456, 12.3456, 123.456)
+  )
+  x <- ggplot2::ggplot(data, ggplot2::aes(year, estimate)) +
+    ggplot2::geom_point()
+  sbf_save_plot(x, format_column = list(length ~ round(., 1)))
+  expect_snapshot(writeLines(sbf_load_plot_md("x")))
+  expect_identical(sbf_load_plot("x")@data, data)
+  expect_equal(read.csv(file.path(sbf_get_main(), "plots", "x.csv")), data)
+  expect_identical(
+    sbf_path_plot("x", ext = "md"),
+    file.path(sbf_get_main(), "plots/x.md")
+  )
+  expect_length(sbf_list_plots(), 1L)
+})
+
+test_that("sbf_save_plot md has no rows if data exceeds csv row limit", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  x <- ggplot2::ggplot(data.frame(estimate = c(0.5, 0.7), n = 1:2))
+  sbf_save_plot(x, csv = 1L)
+  expect_identical(
+    sbf_load_plot_md("x"),
+    c("| estimate |   n |", "| -------: | --: |")
+  )
+})
+
+test_that("sbf_save_plot ignores format_column for uninformative columns", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  x <- ggplot2::ggplot(data.frame(x = c(1.5, 2.5), n = 1.5))
+  sbf_save_plot(x, format_column = list(n ~ round(.)))
+  expect_identical(
+    sbf_load_plot_md("x"),
+    c("|   x |", "| --: |", "| 1.5 |", "| 2.5 |")
+  )
+})
+
+test_that("sbf_save_plot saves no md if no ggplot data or option FALSE", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  sbf_save_plot(ggplot2::ggplot(), x_name = "none", proportion = TRUE)
+  expect_null(sbf_load_plot_md("none", exists = NA))
+
+  withr::local_options(sbf.save_md = FALSE)
+  sbf_save_plot(ggplot2::ggplot(data.frame(x = 1:2)), x_name = "off")
+  expect_null(sbf_load_plot_md("off", exists = NA))
+})
+
+test_that("sbf_save_plot validates proportion and format_column before saving", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  data <- data.frame(estimate = c(0.5, 1.5), n = c(2.5, 3.5))
+  x <- ggplot2::ggplot(data)
+  expect_snapshot(error = TRUE, {
+    sbf_save_plot(x, proportion = NA)
+    sbf_save_plot(x, proportion = TRUE)
+    sbf_save_plot(x, csv = 1L, format_column = list(z ~ round(.)))
+    sbf_save_plot(x, round_as_estimate = "z")
+    sbf_save_plot(ggplot2::ggplot(), format_column = list(n ~ round(.)))
+  })
+  expect_false(dir.exists(file.path(sbf_get_main(), "plots")))
+})
+
+test_that("md_table rounds numeric columns with classes such as units", {
+  x <- data.frame(length = units::set_units(c(1.234567, 2.5), m))
+  expect_identical(
+    md_table(x),
+    c("| length |", "| -----: |", "|  1.235 |", "|  2.5   |")
+  )
+})

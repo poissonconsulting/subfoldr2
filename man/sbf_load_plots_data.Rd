@@ -55,6 +55,7 @@ Other load functions:
 \code{\link[=sbf_load_objects_recursive]{sbf_load_objects_recursive()}},
 \code{\link[=sbf_load_plot]{sbf_load_plot()}},
 \code{\link[=sbf_load_plot_data]{sbf_load_plot_data()}},
+\code{\link[=sbf_load_plot_md]{sbf_load_plot_md()}},
 \code{\link[=sbf_load_plots_data_recursive]{sbf_load_plots_data_recursive()}},
 \code{\link[=sbf_load_plots_recursive]{sbf_load_plots_recursive()}},
 \code{\link[=sbf_load_spatial]{sbf_load_spatial()}},

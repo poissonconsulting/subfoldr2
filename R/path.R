@@ -178,7 +178,7 @@ sbf_path_plot <- function(
   exists = NA
 ) {
   chk_string(ext)
-  chk_subset(ext, c("rds", "png"))
+  chk_subset(ext, c("rds", "png", "md"))
   get_path(
     x_name,
     class = "plots",
