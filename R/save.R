@@ -787,8 +787,12 @@ untransform_layer_data <- function(data, layout) {
 #' where `<p>` is the patch index (1 for a simple `ggplot`), `<l>` is the layer
 #' index (`0` for the `ggplot()` data), and `<geom>` is the layer type (e.g.
 #' `point`, `line`). Layers with more than `csv` rows are omitted.
+#' 6. An `md` file of the same data as the `csv` with the values rounded and
+#' formatted for display as described in [sbf_save_table()]. The values in the
+#' plot are not rounded. The `md` file is not saved if
+#' `getOption("sbf.save_md")` is `FALSE`.
 #'
-#' The `csv` and `xlsx` files are named using the `x_name` argument. Not
+#' The `csv`, `xlsx` and `md` files are named using the `x_name` argument. Not
 #' specifying `x` overwrites existing files that used `x_name = "plot"`.
 #'
 #' @family save functions
@@ -839,7 +843,10 @@ sbf_save_plot <- function(
   dpi = 300,
   limitsize = TRUE,
   csv = 1000L,
-  drop_uninformative_cols = TRUE
+  drop_uninformative_cols = TRUE,
+  proportion = FALSE,
+  format_column = list(),
+  round_as_estimate = character(0)
 ) {
   if (!missing(drop_uninformative_cols)) {
     lifecycle::deprecate_warn(
@@ -877,6 +884,35 @@ sbf_save_plot <- function(
 
   csv <- as.integer(csv)
 
+  chk_flag(proportion)
+  chk_list(format_column)
+  chk_character(round_as_estimate)
+  chk_not_any_na(round_as_estimate)
+  chk_unique(round_as_estimate)
+
+  # patchwork plots are split into their individual plots; a simple ggplot is
+  # treated as a single-element list. Note that cowplot::plot_grid() has no
+  # distinguishing class and is not supported; use {patchwork} instead.
+  plot_list <- if (inherits(x, "patchwork")) unstitch_patches(x) else list(x)
+
+  # only the first plot's data is saved as a csv, to maintain previous behaviour
+  data <- plot_list[[1]]@data
+  if (is.data.frame(data)) {
+    data_name <- "the `ggplot()` data of `x`"
+    chk_format_column(format_column, data, data_name)
+    chk_round_as_estimate(round_as_estimate, data, format_column, data_name)
+    if (proportion) {
+      chk_proportion_cols(data, round_as_estimate, data_name)
+    }
+  } else if (length(format_column) || length(round_as_estimate)) {
+    abort_chk(
+      "`format_column` and `round_as_estimate` must be empty when `x` has no `ggplot()` data.",
+      call = rlang::current_call()
+    )
+  }
+  save_md <- getOption("sbf.save_md", TRUE)
+  chk_flag(save_md, x_name = "`getOption(\"sbf.save_md\")`")
+
   filename <- file_name(main, "plots", sub, x_name, "png")
 
   dim <- plot_size(c(width, height), units = units)
@@ -901,13 +937,6 @@ sbf_save_plot <- function(
   )
   save_meta(meta, "plots", sub = sub, main = main, x_name = x_name)
 
-  # patchwork plots are split into their individual plots; a simple ggplot is
-  # treated as a single-element list. Note that cowplot::plot_grid() has no
-  # distinguishing class and is not supported; use {patchwork} instead.
-  plot_list <- if (inherits(x, "patchwork")) unstitch_patches(x) else list(x)
-
-  # only the first plot's data is saved as a csv, to maintain previous behaviour
-  data <- plot_list[[1]]@data
   if (is.data.frame(data)) {
     if (drop_uninformative_cols) {
       data <- tidyplus::drop_uninformative_columns(data)
@@ -918,6 +947,18 @@ sbf_save_plot <- function(
       data <- data[integer(0), , drop = FALSE]
     }
     save_csv(data, "plots", sub = sub, main = main, x_name = x_name)
+    if (save_md) {
+      # formulas and columns for columns dropped as uninformative are ignored
+      cols <- names(data)
+      format_column <- format_column[vapply(
+        format_column,
+        function(f) rlang::as_string(rlang::f_lhs(f)) %in% cols,
+        TRUE
+      )]
+      round_as_estimate <- intersect(round_as_estimate, cols)
+      md <- md_table(data, proportion, format_column, round_as_estimate)
+      save_txt(md, "plots", sub = sub, main = main, x_name = x_name, ext = "md")
+    }
   }
 
   sheet_list <- purrr::imap(plot_list, function(p, i) {

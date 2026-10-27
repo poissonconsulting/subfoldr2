@@ -18,6 +18,19 @@ load_rds <- function(x_name, class, sub, main, fun = NULL, exists = TRUE) {
   object
 }
 
+load_md <- function(x_name, class, sub, main, entities, exists) {
+  chk_flag(entities)
+  path <- get_path(x_name, class, sub, main, ext = "md", exists = exists)
+  if (!vld_file(path)) {
+    return(NULL)
+  }
+  md <- readLines(path, encoding = "UTF-8")
+  if (entities) {
+    md <- md_entities(md)
+  }
+  md
+}
+
 #' Load Object
 #'
 #' @inheritParams sbf_save_data
@@ -152,16 +165,27 @@ sbf_load_table_md <- function(
   entities = FALSE,
   exists = TRUE
 ) {
-  chk_flag(entities)
-  path <- get_path(x_name, "tables", sub, main, ext = "md", exists = exists)
-  if (!vld_file(path)) {
-    return(NULL)
-  }
-  md <- readLines(path, encoding = "UTF-8")
-  if (entities) {
-    md <- md_entities(md)
-  }
-  md
+  load_md(x_name, "tables", sub, main, entities = entities, exists = exists)
+}
+
+#' Load Plot Markdown
+#'
+#' Loads the lines of the `.md` file of the data of a plot saved by
+#' [sbf_save_plot()].
+#'
+#' @inheritParams sbf_load_table_md
+#' @return A character vector of the lines of the plot data in markdown format
+#'   or NULL if doesn't exist.
+#' @family load functions
+#' @export
+sbf_load_plot_md <- function(
+  x_name,
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  entities = FALSE,
+  exists = TRUE
+) {
+  load_md(x_name, "plots", sub, main, entities = entities, exists = exists)
 }
 
 #' Load Plot

@@ -19,7 +19,10 @@ sbf_save_plot(
   dpi = 300,
   limitsize = TRUE,
   csv = 1000L,
-  drop_uninformative_cols = TRUE
+  drop_uninformative_cols = TRUE,
+  proportion = FALSE,
+  format_column = list(),
+  round_as_estimate = character(0)
 )
 }
 \arguments{
@@ -62,6 +65,24 @@ uninformative columns via \code{tidyplus::drop_uninformative_columns()}
 Currently soft-deprecated.
 Will be fully deprecated in future versions so that uninformative columns are
 always dropped in csv files and always kept in xlsx files.}
+
+\item{proportion}{A flag specifying whether the columns \code{estimate},
+\code{lower}, \code{upper} and \code{sd} are proportions, in which case significant
+digits are counted from the nearer of 0 and 1 in the \code{.md} file.}
+
+\item{format_column}{A list of two-sided formulas of the form
+\code{column ~ fun(.)} specifying how to round and format numeric columns
+other than \code{estimate}, \code{lower}, \code{upper} and \code{sd} in the \code{.md} file.
+The function can return a numeric vector, which is formatted without
+further rounding, or a character vector, which is used as is.
+The values in the \code{.rds} and \code{.csv} files are not altered.}
+
+\item{round_as_estimate}{A character vector of numeric columns, other than
+\code{estimate}, \code{lower}, \code{upper}, \code{sd} and \code{svalue}, to round in the \code{.md}
+file to the same number of decimal places as \code{estimate} in the same row
+(e.g. an \code{observed} value compared with the estimate). Rows with a
+missing estimate are formatted as data. If \code{proportion = TRUE} the
+columns must also be proportions.}
 }
 \description{
 Saves a ggplot object.
@@ -82,9 +103,13 @@ call and a sheet for each geom layer. Sheets are labelled \verb{<p>_<l>_<geom>},
 where \verb{<p>} is the patch index (1 for a simple \code{ggplot}), \verb{<l>} is the layer
 index (\code{0} for the \code{ggplot()} data), and \verb{<geom>} is the layer type (e.g.
 \code{point}, \code{line}). Layers with more than \code{csv} rows are omitted.
+\item An \code{md} file of the same data as the \code{csv} with the values rounded and
+formatted for display as described in \code{\link[=sbf_save_table]{sbf_save_table()}}. The values in the
+plot are not rounded. The \code{md} file is not saved if
+\code{getOption("sbf.save_md")} is \code{FALSE}.
 }
 
-The \code{csv} and \code{xlsx} files are named using the \code{x_name} argument. Not
+The \code{csv}, \code{xlsx} and \code{md} files are named using the \code{x_name} argument. Not
 specifying \code{x} overwrites existing files that used \code{x_name = "plot"}.
 }
 \examples{

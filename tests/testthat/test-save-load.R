@@ -1101,6 +1101,7 @@ test_that("plot", {
       "x.rds",
       # y has a csv and xlsx because it has main data despite having no layers
       "y.csv",
+      "y.md",
       "y.png",
       "y.yaml",
       "y.rds",
@@ -1165,6 +1166,7 @@ test_that("plot", {
     list.files(file.path(sbf_get_main(), "plots")),
     c(
       "plot.csv", # empty as data exceeds csv row limit
+      "plot.md",
       "plot.png",
       "plot.rds",
       "plot.xlsx",
@@ -1173,11 +1175,13 @@ test_that("plot", {
       "x.rds",
       "x.yaml", # no data or layers
       "y.csv",
+      "y.md",
       "y.png",
       "y.rds",
       "y.xlsx",
       "y.yaml", # has data but no layers
       "z.csv", # empty as one-row data is uninformative
+      "z.md",
       "z.png",
       "z.rds",
       "z.xlsx", # empty as one-row data is uninformative
@@ -1267,6 +1271,7 @@ test_that("plot", {
       "p_layers.xlsx",
       "p_layers.yaml", # has data & layers
       "plot.csv", # empty as data exceeds csv row limit
+      "plot.md",
       "plot.png",
       "plot.rds",
       "plot.xlsx",
@@ -1275,11 +1280,13 @@ test_that("plot", {
       "x.rds",
       "x.yaml", # no data or layers
       "y.csv",
+      "y.md",
       "y.png",
       "y.rds",
       "y.xlsx",
       "y.yaml", # has data but no layers
       "z.csv", # empty as one-row data is uninformative
+      "z.md",
       "z.png",
       "z.rds",
       "z.xlsx", # empty as one-row data is uninformative
@@ -1408,11 +1415,13 @@ test_that("plot", {
       "p_layers.xlsx",
       "p_layers.yaml", # has data & layers
       "p_patches.csv",
+      "p_patches.md",
       "p_patches.png",
       "p_patches.rds",
       "p_patches.xlsx",
       "p_patches.yaml",
       "plot.csv", # empty as data exceeds csv row limit
+      "plot.md",
       "plot.png",
       "plot.rds",
       "plot.xlsx",
@@ -1421,11 +1430,13 @@ test_that("plot", {
       "x.rds",
       "x.yaml", # no data or layers
       "y.csv",
+      "y.md",
       "y.png",
       "y.rds",
       "y.xlsx",
       "y.yaml", # has data but no layers
       "z.csv", # empty as one-row data is uninformative
+      "z.md",
       "z.png",
       "z.rds",
       "z.xlsx", # empty as one-row data is uninformative

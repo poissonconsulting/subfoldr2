@@ -6,7 +6,7 @@
 
 policy_cols <- c("estimate", "lower", "upper", "sd")
 
-chk_format_column <- function(format_column, x) {
+chk_format_column <- function(format_column, x, x_name = "`x`") {
   if (!length(format_column)) {
     return(invisible(format_column))
   }
@@ -39,7 +39,9 @@ chk_format_column <- function(format_column, x) {
   missing <- setdiff(cols, names(x))
   if (length(missing)) {
     abort_chk(
-      "`format_column` columns must be in `x`: ",
+      "`format_column` columns must be in ",
+      x_name,
+      ": ",
       cc(missing, " and "),
       " not found"
     )
@@ -54,13 +56,19 @@ chk_format_column <- function(format_column, x) {
   invisible(format_column)
 }
 
-chk_round_as_estimate <- function(round_as_estimate, x, format_column) {
+chk_round_as_estimate <- function(
+  round_as_estimate,
+  x,
+  format_column,
+  x_name = "`x`"
+) {
   if (!length(round_as_estimate)) {
     return(invisible(round_as_estimate))
   }
   if (!is.numeric(x$estimate)) {
     abort_chk(
-      "`x` must have a numeric column 'estimate' when `round_as_estimate` is used."
+      x_name,
+      " must have a numeric column 'estimate' when `round_as_estimate` is used."
     )
   }
   excluded <- c(policy_cols, "svalue")
@@ -73,7 +81,9 @@ chk_round_as_estimate <- function(round_as_estimate, x, format_column) {
   missing <- setdiff(round_as_estimate, names(x))
   if (length(missing)) {
     abort_chk(
-      "`round_as_estimate` columns must be in `x`: ",
+      "`round_as_estimate` columns must be in ",
+      x_name,
+      ": ",
       cc(missing, " and "),
       " not found"
     )
@@ -99,10 +109,15 @@ chk_round_as_estimate <- function(round_as_estimate, x, format_column) {
   invisible(round_as_estimate)
 }
 
-chk_proportion_cols <- function(x, round_as_estimate = character(0)) {
+chk_proportion_cols <- function(
+  x,
+  round_as_estimate = character(0),
+  x_name = "`x`"
+) {
   if (!is.numeric(x$estimate)) {
     abort_chk(
-      "`x` must have a numeric column 'estimate' when `proportion = TRUE`."
+      x_name,
+      " must have a numeric column 'estimate' when `proportion = TRUE`."
     )
   }
   cols <- intersect(c(policy_cols, round_as_estimate), names(x))
@@ -111,7 +126,9 @@ chk_proportion_cols <- function(x, round_as_estimate = character(0)) {
     abort_chk(
       "Columns ",
       cc(cols, " and "),
-      " in `x` must be proportions between 0 and 1 when `proportion = TRUE`."
+      " in ",
+      x_name,
+      " must be proportions between 0 and 1 when `proportion = TRUE`."
     )
   }
   invisible(x)
@@ -351,6 +368,10 @@ md_table <- function(
   if (!ncol(x)) {
     return(character(0))
   }
+  # classes such as units and integer64 do not support the rounding arithmetic
+  x[] <- lapply(x, function(col) {
+    if (is.numeric(col) && is.object(col)) as.double(col) else col
+  })
 
   numeric <- vapply(x, is.numeric, TRUE)
   cols <- lapply(x, format_other)
