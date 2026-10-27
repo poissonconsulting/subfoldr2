@@ -15,7 +15,7 @@ sbf_save_table(
   notes = "",
   proportion = FALSE,
   format_column = list(),
-  estimate_column = character(0)
+  round_as_estimate = character(0)
 )
 }
 \arguments{
@@ -48,7 +48,7 @@ The function can return a numeric vector, which is formatted without
 further rounding, or a character vector, which is used as is.
 The values in the \code{.rds} and \code{.csv} files are not altered.}
 
-\item{estimate_column}{A character vector of numeric columns, other than
+\item{round_as_estimate}{A character vector of numeric columns, other than
 \code{estimate}, \code{lower}, \code{upper}, \code{sd} and \code{svalue}, to round in the \code{.md}
 file to the same number of decimal places as \code{estimate} in the same row
 (e.g. an \code{observed} value compared with the estimate). Rows with a
@@ -88,7 +88,7 @@ sbf_save_table(
   caption = "Parameter estimates.",
   format_column = list(zscore ~ round(., 1))
 )
-sbf_save_table(ppc, estimate_column = "observed")
+sbf_save_table(ppc, round_as_estimate = "observed")
 }
 }
 \references{

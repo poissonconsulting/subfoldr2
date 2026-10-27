@@ -145,10 +145,10 @@
       | 2024 |    9,500 |  8000 | 11,000 |
       | 2025 |   12,000 |  9000 | 16,000 |
 
-# estimate_column rounds columns to the precision of the estimate
+# round_as_estimate rounds columns to the precision of the estimate
 
     Code
-      writeLines(md_table(x, estimate_column = "observed"))
+      writeLines(md_table(x, round_as_estimate = "observed"))
     Output
       | moment   | observed | estimate | lower | upper | svalue |
       | :------- | -------: | -------: | ----: | ----: | -----: |
@@ -157,50 +157,50 @@
       | skewness |    -0.08 |    -0.01 | -0.61 |  0.62 |    0.3 |
       | none     |    12.35 |          |       |       |        |
 
-# sbf_save_table validates estimate_column
+# sbf_save_table validates round_as_estimate
 
     Code
-      sbf_save_table(x, estimate_column = 1)
+      sbf_save_table(x, round_as_estimate = 1)
     Condition
       Error in `sbf_save_table()`:
-      ! `estimate_column` must be character.
+      ! `round_as_estimate` must be character.
     Code
-      sbf_save_table(x, estimate_column = c("n", "n"))
+      sbf_save_table(x, round_as_estimate = c("n", "n"))
     Condition
       Error in `sbf_save_table()`:
-      ! `estimate_column` must be unique.
+      ! `round_as_estimate` must be unique.
     Code
-      sbf_save_table(x, estimate_column = NA_character_)
+      sbf_save_table(x, round_as_estimate = NA_character_)
     Condition
       Error in `sbf_save_table()`:
-      ! `estimate_column` must not have any missing values.
+      ! `round_as_estimate` must not have any missing values.
     Code
-      sbf_save_table(x, estimate_column = "lower")
+      sbf_save_table(x, round_as_estimate = "lower")
     Condition
       Error in `sbf_save_table()`:
-      ! `estimate_column` must not include the following columns: 'lower'.
+      ! `round_as_estimate` must not include the following columns: 'lower'.
     Code
-      sbf_save_table(x, estimate_column = "z")
+      sbf_save_table(x, round_as_estimate = "z")
     Condition
       Error in `sbf_save_table()`:
-      ! `estimate_column` columns must be in `x`: 'z' not found.
+      ! `round_as_estimate` columns must be in `x`: 'z' not found.
     Code
-      sbf_save_table(x, estimate_column = "chr")
+      sbf_save_table(x, round_as_estimate = "chr")
     Condition
       Error in `sbf_save_table()`:
-      ! `estimate_column` columns must be numeric: 'chr'.
+      ! `round_as_estimate` columns must be numeric: 'chr'.
     Code
-      sbf_save_table(x, estimate_column = "n", format_column = list(n ~ round(.)))
+      sbf_save_table(x, round_as_estimate = "n", format_column = list(n ~ round(.)))
     Condition
       Error in `sbf_save_table()`:
-      ! `estimate_column` and `format_column` must not share columns: 'n'.
+      ! `round_as_estimate` and `format_column` must not share columns: 'n'.
     Code
-      sbf_save_table(data.frame(n = 1), estimate_column = "n")
+      sbf_save_table(data.frame(n = 1), round_as_estimate = "n")
     Condition
       Error in `sbf_save_table()`:
-      ! `x` must have a numeric column 'estimate' when `estimate_column` is used.
+      ! `x` must have a numeric column 'estimate' when `round_as_estimate` is used.
     Code
-      sbf_save_table(x, estimate_column = "n", proportion = TRUE)
+      sbf_save_table(x, round_as_estimate = "n", proportion = TRUE)
     Condition
       Error in `sbf_save_table()`:
       ! Columns 'estimate', 'lower', 'upper' and 'n' in `x` must be proportions between 0 and 1 when `proportion = TRUE`.

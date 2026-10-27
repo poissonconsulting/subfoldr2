@@ -54,35 +54,35 @@ chk_format_column <- function(format_column, x) {
   invisible(format_column)
 }
 
-chk_estimate_column <- function(estimate_column, x, format_column) {
-  if (!length(estimate_column)) {
-    return(invisible(estimate_column))
+chk_round_as_estimate <- function(round_as_estimate, x, format_column) {
+  if (!length(round_as_estimate)) {
+    return(invisible(round_as_estimate))
   }
   if (!is.numeric(x$estimate)) {
     abort_chk(
-      "`x` must have a numeric column 'estimate' when `estimate_column` is used."
+      "`x` must have a numeric column 'estimate' when `round_as_estimate` is used."
     )
   }
   excluded <- c(policy_cols, "svalue")
-  if (any(estimate_column %in% excluded)) {
+  if (any(round_as_estimate %in% excluded)) {
     abort_chk(
-      "`estimate_column` must not include the following columns: ",
-      cc(intersect(estimate_column, excluded), " or ")
+      "`round_as_estimate` must not include the following columns: ",
+      cc(intersect(round_as_estimate, excluded), " or ")
     )
   }
-  missing <- setdiff(estimate_column, names(x))
+  missing <- setdiff(round_as_estimate, names(x))
   if (length(missing)) {
     abort_chk(
-      "`estimate_column` columns must be in `x`: ",
+      "`round_as_estimate` columns must be in `x`: ",
       cc(missing, " and "),
       " not found"
     )
   }
-  numeric <- vapply(x[estimate_column], is.numeric, TRUE)
+  numeric <- vapply(x[round_as_estimate], is.numeric, TRUE)
   if (any(!numeric)) {
     abort_chk(
-      "`estimate_column` columns must be numeric: ",
-      cc(estimate_column[!numeric], " and ")
+      "`round_as_estimate` columns must be numeric: ",
+      cc(round_as_estimate[!numeric], " and ")
     )
   }
   formatted <- vapply(
@@ -90,22 +90,22 @@ chk_estimate_column <- function(estimate_column, x, format_column) {
     function(f) rlang::as_string(rlang::f_lhs(f)),
     ""
   )
-  if (any(estimate_column %in% formatted)) {
+  if (any(round_as_estimate %in% formatted)) {
     abort_chk(
-      "`estimate_column` and `format_column` must not share columns: ",
-      cc(intersect(estimate_column, formatted), " and ")
+      "`round_as_estimate` and `format_column` must not share columns: ",
+      cc(intersect(round_as_estimate, formatted), " and ")
     )
   }
-  invisible(estimate_column)
+  invisible(round_as_estimate)
 }
 
-chk_proportion_cols <- function(x, estimate_column = character(0)) {
+chk_proportion_cols <- function(x, round_as_estimate = character(0)) {
   if (!is.numeric(x$estimate)) {
     abort_chk(
       "`x` must have a numeric column 'estimate' when `proportion = TRUE`."
     )
   }
-  cols <- intersect(c(policy_cols, estimate_column), names(x))
+  cols <- intersect(c(policy_cols, round_as_estimate), names(x))
   values <- unlist(lapply(x[cols], as.numeric), use.names = FALSE)
   if (any(values < 0 | values > 1, na.rm = TRUE)) {
     abort_chk(
@@ -239,7 +239,7 @@ format_unrounded <- function(x) {
   })
 }
 
-format_estimates <- function(x, proportion, estimate_column = character(0)) {
+format_estimates <- function(x, proportion, round_as_estimate = character(0)) {
   estimate <- as.numeric(x$estimate)
   na <- rep(NA_real_, nrow(x))
   lower <- if (is.numeric(x$lower)) as.numeric(x$lower) else na
@@ -256,7 +256,7 @@ format_estimates <- function(x, proportion, estimate_column = character(0)) {
   out$estimate <- format_dp(estimate, estimate_dp, mark)
 
   # named columns are shown to the precision of the estimate in the same row
-  for (col in estimate_column) {
+  for (col in round_as_estimate) {
     value <- as.numeric(x[[col]])
     has_dp <- is.finite(estimate)
     out[[col]] <- format_data(x[[col]])
@@ -343,7 +343,7 @@ md_table <- function(
   x,
   proportion = FALSE,
   format_column = list(),
-  estimate_column = character(0)
+  round_as_estimate = character(0)
 ) {
   x[vapply(x, is.list, TRUE)] <- NULL
   x <- remove_geometry(x)
@@ -360,7 +360,7 @@ md_table <- function(
     cols$svalue <- format_dp(x$svalue, rep(1, nrow(x)))
   }
   if (is.numeric(x$estimate)) {
-    estimates <- format_estimates(x, proportion, estimate_column)
+    estimates <- format_estimates(x, proportion, round_as_estimate)
     cols[names(estimates)] <- estimates
   }
   for (f in format_column) {
