@@ -505,6 +505,12 @@ sbf_save_string <- function(
 #'   The function can return a numeric vector, which is formatted without
 #'   further rounding, or a character vector, which is used as is.
 #'   The values in the `.rds` and `.csv` files are not altered.
+#' @param estimate_column A character vector of numeric columns, other than
+#'   `estimate`, `lower`, `upper`, `sd` and `svalue`, to round in the `.md`
+#'   file to the same number of decimal places as `estimate` in the same row
+#'   (e.g. an `observed` value compared with the estimate). Rows with a
+#'   missing estimate are formatted as data. If `proportion = TRUE` the
+#'   columns must also be proportions.
 #' @return An invisible string of the path to the saved object.
 #' @references Cole, T.J. 2015. Too many digits: the presentation of
 #'   numerical data. Archives of Disease in Childhood 100(7): 608-609.
@@ -518,6 +524,7 @@ sbf_save_string <- function(
 #'   caption = "Parameter estimates.",
 #'   format_column = list(zscore ~ round(., 1))
 #' )
+#' sbf_save_table(ppc, estimate_column = "observed")
 #' }
 sbf_save_table <- function(
   x,
@@ -529,7 +536,8 @@ sbf_save_table <- function(
   tag = "",
   notes = "",
   proportion = FALSE,
-  format_column = list()
+  format_column = list(),
+  estimate_column = character(0)
 ) {
   x_name <- chk_deparse(x_name)
   chk_s3_class(x, "data.frame")
@@ -551,14 +559,18 @@ sbf_save_table <- function(
   chk_string(tag)
   chk_string(notes)
   chk_flag(proportion)
-  if (proportion) {
-    chk_proportion_cols(x)
-  }
   chk_list(format_column)
   chk_format_column(format_column, x)
+  chk_character(estimate_column)
+  chk_not_any_na(estimate_column)
+  chk_unique(estimate_column)
+  chk_estimate_column(estimate_column, x, format_column)
+  if (proportion) {
+    chk_proportion_cols(x, estimate_column)
+  }
   save_md <- getOption("sbf.save_md", TRUE)
   chk_flag(save_md, x_name = "`getOption(\"sbf.save_md\")`")
-  md <- if (save_md) md_table(x, proportion, format_column)
+  md <- if (save_md) md_table(x, proportion, format_column, estimate_column)
 
   sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
@@ -1688,7 +1700,7 @@ sbf_save_datas_to_db <- function(
   chk_s3_class(env, "environment")
   chk_string(x_name)
   chk_flag(silent)
-  
+
   names <- objects(envir = env)
   names <- names[grepl(x_name, names, perl = TRUE)]
 

@@ -54,13 +54,58 @@ chk_format_column <- function(format_column, x) {
   invisible(format_column)
 }
 
-chk_proportion_cols <- function(x) {
+chk_estimate_column <- function(estimate_column, x, format_column) {
+  if (!length(estimate_column)) {
+    return(invisible(estimate_column))
+  }
+  if (!is.numeric(x$estimate)) {
+    abort_chk(
+      "`x` must have a numeric column 'estimate' when `estimate_column` is used."
+    )
+  }
+  excluded <- c(policy_cols, "svalue")
+  if (any(estimate_column %in% excluded)) {
+    abort_chk(
+      "`estimate_column` must not include the following columns: ",
+      cc(intersect(estimate_column, excluded), " or ")
+    )
+  }
+  missing <- setdiff(estimate_column, names(x))
+  if (length(missing)) {
+    abort_chk(
+      "`estimate_column` columns must be in `x`: ",
+      cc(missing, " and "),
+      " not found"
+    )
+  }
+  numeric <- vapply(x[estimate_column], is.numeric, TRUE)
+  if (any(!numeric)) {
+    abort_chk(
+      "`estimate_column` columns must be numeric: ",
+      cc(estimate_column[!numeric], " and ")
+    )
+  }
+  formatted <- vapply(
+    format_column,
+    function(f) rlang::as_string(rlang::f_lhs(f)),
+    ""
+  )
+  if (any(estimate_column %in% formatted)) {
+    abort_chk(
+      "`estimate_column` and `format_column` must not share columns: ",
+      cc(intersect(estimate_column, formatted), " and ")
+    )
+  }
+  invisible(estimate_column)
+}
+
+chk_proportion_cols <- function(x, estimate_column = character(0)) {
   if (!is.numeric(x$estimate)) {
     abort_chk(
       "`x` must have a numeric column 'estimate' when `proportion = TRUE`."
     )
   }
-  cols <- intersect(policy_cols, names(x))
+  cols <- intersect(c(policy_cols, estimate_column), names(x))
   values <- unlist(lapply(x[cols], as.numeric), use.names = FALSE)
   if (any(values < 0 | values > 1, na.rm = TRUE)) {
     abort_chk(
@@ -194,7 +239,7 @@ format_unrounded <- function(x) {
   })
 }
 
-format_estimates <- function(x, proportion) {
+format_estimates <- function(x, proportion, estimate_column = character(0)) {
   estimate <- as.numeric(x$estimate)
   na <- rep(NA_real_, nrow(x))
   lower <- if (is.numeric(x$lower)) as.numeric(x$lower) else na
@@ -205,13 +250,22 @@ format_estimates <- function(x, proportion) {
   ci <- !is.na(dp)
 
   out <- list()
+  estimate_dp <- signif_dp(estimate, 3, proportion)
+  estimate_dp[ci] <- dp[ci]
   mark <- big_mark(estimate)
-  out$estimate <- format_dp(
-    estimate,
-    signif_dp(estimate, 3, proportion),
-    mark
-  )
-  out$estimate[ci] <- format_dp(estimate[ci], dp[ci], mark)
+  out$estimate <- format_dp(estimate, estimate_dp, mark)
+
+  # named columns are shown to the precision of the estimate in the same row
+  for (col in estimate_column) {
+    value <- as.numeric(x[[col]])
+    has_dp <- is.finite(estimate)
+    out[[col]] <- format_data(x[[col]])
+    out[[col]][has_dp] <- format_dp(
+      value[has_dp],
+      estimate_dp[has_dp],
+      big_mark(value)
+    )
+  }
 
   for (cl in intersect(c("lower", "upper"), names(x))) {
     if (!is.numeric(x[[cl]])) {
@@ -285,7 +339,12 @@ align_decimal <- function(x) {
   paste0(x, strrep(" ", pad))
 }
 
-md_table <- function(x, proportion = FALSE, format_column = list()) {
+md_table <- function(
+  x,
+  proportion = FALSE,
+  format_column = list(),
+  estimate_column = character(0)
+) {
   x[vapply(x, is.list, TRUE)] <- NULL
   x <- remove_geometry(x)
   x <- as.data.frame(x)
@@ -301,7 +360,7 @@ md_table <- function(x, proportion = FALSE, format_column = list()) {
     cols$svalue <- format_dp(x$svalue, rep(1, nrow(x)))
   }
   if (is.numeric(x$estimate)) {
-    estimates <- format_estimates(x, proportion)
+    estimates <- format_estimates(x, proportion, estimate_column)
     cols[names(estimates)] <- estimates
   }
   for (f in format_column) {

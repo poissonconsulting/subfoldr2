@@ -145,3 +145,63 @@
       | 2024 |    9,500 |  8000 | 11,000 |
       | 2025 |   12,000 |  9000 | 16,000 |
 
+# estimate_column rounds columns to the precision of the estimate
+
+    Code
+      writeLines(md_table(x, estimate_column = "observed"))
+    Output
+      | moment   | observed | estimate | lower | upper | svalue |
+      | :------- | -------: | -------: | ----: | ----: | -----: |
+      | mean     |     0.04 |     0.00 | -0.24 |  0.26 |    0.4 |
+      | variance |     0.85 |     0.98 |  0.66 |  1.4  |    1.1 |
+      | skewness |    -0.08 |    -0.01 | -0.61 |  0.62 |    0.3 |
+      | none     |    12.35 |          |       |       |        |
+
+# sbf_save_table validates estimate_column
+
+    Code
+      sbf_save_table(x, estimate_column = 1)
+    Condition
+      Error in `sbf_save_table()`:
+      ! `estimate_column` must be character.
+    Code
+      sbf_save_table(x, estimate_column = c("n", "n"))
+    Condition
+      Error in `sbf_save_table()`:
+      ! `estimate_column` must be unique.
+    Code
+      sbf_save_table(x, estimate_column = NA_character_)
+    Condition
+      Error in `sbf_save_table()`:
+      ! `estimate_column` must not have any missing values.
+    Code
+      sbf_save_table(x, estimate_column = "lower")
+    Condition
+      Error in `sbf_save_table()`:
+      ! `estimate_column` must not include the following columns: 'lower'.
+    Code
+      sbf_save_table(x, estimate_column = "z")
+    Condition
+      Error in `sbf_save_table()`:
+      ! `estimate_column` columns must be in `x`: 'z' not found.
+    Code
+      sbf_save_table(x, estimate_column = "chr")
+    Condition
+      Error in `sbf_save_table()`:
+      ! `estimate_column` columns must be numeric: 'chr'.
+    Code
+      sbf_save_table(x, estimate_column = "n", format_column = list(n ~ round(.)))
+    Condition
+      Error in `sbf_save_table()`:
+      ! `estimate_column` and `format_column` must not share columns: 'n'.
+    Code
+      sbf_save_table(data.frame(n = 1), estimate_column = "n")
+    Condition
+      Error in `sbf_save_table()`:
+      ! `x` must have a numeric column 'estimate' when `estimate_column` is used.
+    Code
+      sbf_save_table(x, estimate_column = "n", proportion = TRUE)
+    Condition
+      Error in `sbf_save_table()`:
+      ! Columns 'estimate', 'lower', 'upper' and 'n' in `x` must be proportions between 0 and 1 when `proportion = TRUE`.
+
