@@ -206,7 +206,7 @@ test_that("rounding up to a power of ten drops the extra decimal place", {
   expect_identical(signif_dp(0.999996, 2, proportion = TRUE), 7)
 })
 
-test_that("estimate_column rounds columns to the precision of the estimate", {
+test_that("round_as_estimate rounds columns to the precision of the estimate", {
   x <- data.frame(
     moment = c("mean", "variance", "skewness", "none"),
     observed = c(0.035721, 0.851812, -0.084993, 12.3456),
@@ -215,7 +215,7 @@ test_that("estimate_column rounds columns to the precision of the estimate", {
     upper = c(0.2577, 1.366, 0.6234, NA),
     svalue = c(0.4, 1.1, 0.3, NA)
   )
-  md <- format_estimates(x, proportion = FALSE, estimate_column = "observed")
+  md <- format_estimates(x, proportion = FALSE, round_as_estimate = "observed")
   expect_identical(md$estimate[1:3], c("0.00", "0.98", "-0.01"))
   expect_identical(md$observed, c("0.04", "0.85", "-0.08", "12.35"))
 
@@ -225,14 +225,14 @@ test_that("estimate_column rounds columns to the precision of the estimate", {
     estimate = c(1180, 0.2),
     sd = c(35, NA)
   )
-  md <- format_estimates(y, proportion = FALSE, estimate_column = "observed")
+  md <- format_estimates(y, proportion = FALSE, round_as_estimate = "observed")
   expect_identical(md$estimate, c("1180", "0.200"))
   expect_identical(md$observed, c("1234", "0.210"))
 
-  expect_snapshot(writeLines(md_table(x, estimate_column = "observed")))
+  expect_snapshot(writeLines(md_table(x, round_as_estimate = "observed")))
 })
 
-test_that("sbf_save_table saves estimate_column rounding in md", {
+test_that("sbf_save_table saves round_as_estimate rounding in md", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
@@ -243,27 +243,31 @@ test_that("sbf_save_table saves estimate_column rounding in md", {
     lower = -0.2419,
     upper = 0.2577
   )
-  sbf_save_table(x, estimate_column = "observed")
+  sbf_save_table(x, round_as_estimate = "observed")
   md <- sbf_load_table_md("x")
   expect_match(md[3], "0.04", fixed = TRUE)
   expect_identical(sbf_load_table("x")$observed, 0.035721)
 })
 
-test_that("sbf_save_table validates estimate_column", {
+test_that("sbf_save_table validates round_as_estimate", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
   withr::defer(sbf_reset())
 
   x <- data.frame(estimate = 0.5, lower = 0.2, upper = 0.9, n = 2.5, chr = "a")
   expect_snapshot(error = TRUE, {
-    sbf_save_table(x, estimate_column = 1)
-    sbf_save_table(x, estimate_column = c("n", "n"))
-    sbf_save_table(x, estimate_column = NA_character_)
-    sbf_save_table(x, estimate_column = "lower")
-    sbf_save_table(x, estimate_column = "z")
-    sbf_save_table(x, estimate_column = "chr")
-    sbf_save_table(x, estimate_column = "n", format_column = list(n ~ round(.)))
-    sbf_save_table(data.frame(n = 1), estimate_column = "n")
-    sbf_save_table(x, estimate_column = "n", proportion = TRUE)
+    sbf_save_table(x, round_as_estimate = 1)
+    sbf_save_table(x, round_as_estimate = c("n", "n"))
+    sbf_save_table(x, round_as_estimate = NA_character_)
+    sbf_save_table(x, round_as_estimate = "lower")
+    sbf_save_table(x, round_as_estimate = "z")
+    sbf_save_table(x, round_as_estimate = "chr")
+    sbf_save_table(
+      x,
+      round_as_estimate = "n",
+      format_column = list(n ~ round(.))
+    )
+    sbf_save_table(data.frame(n = 1), round_as_estimate = "n")
+    sbf_save_table(x, round_as_estimate = "n", proportion = TRUE)
   })
 })

@@ -505,7 +505,7 @@ sbf_save_string <- function(
 #'   The function can return a numeric vector, which is formatted without
 #'   further rounding, or a character vector, which is used as is.
 #'   The values in the `.rds` and `.csv` files are not altered.
-#' @param estimate_column A character vector of numeric columns, other than
+#' @param round_as_estimate A character vector of numeric columns, other than
 #'   `estimate`, `lower`, `upper`, `sd` and `svalue`, to round in the `.md`
 #'   file to the same number of decimal places as `estimate` in the same row
 #'   (e.g. an `observed` value compared with the estimate). Rows with a
@@ -524,7 +524,7 @@ sbf_save_string <- function(
 #'   caption = "Parameter estimates.",
 #'   format_column = list(zscore ~ round(., 1))
 #' )
-#' sbf_save_table(ppc, estimate_column = "observed")
+#' sbf_save_table(ppc, round_as_estimate = "observed")
 #' }
 sbf_save_table <- function(
   x,
@@ -537,7 +537,7 @@ sbf_save_table <- function(
   notes = "",
   proportion = FALSE,
   format_column = list(),
-  estimate_column = character(0)
+  round_as_estimate = character(0)
 ) {
   x_name <- chk_deparse(x_name)
   chk_s3_class(x, "data.frame")
@@ -561,16 +561,16 @@ sbf_save_table <- function(
   chk_flag(proportion)
   chk_list(format_column)
   chk_format_column(format_column, x)
-  chk_character(estimate_column)
-  chk_not_any_na(estimate_column)
-  chk_unique(estimate_column)
-  chk_estimate_column(estimate_column, x, format_column)
+  chk_character(round_as_estimate)
+  chk_not_any_na(round_as_estimate)
+  chk_unique(round_as_estimate)
+  chk_round_as_estimate(round_as_estimate, x, format_column)
   if (proportion) {
-    chk_proportion_cols(x, estimate_column)
+    chk_proportion_cols(x, round_as_estimate)
   }
   save_md <- getOption("sbf.save_md", TRUE)
   chk_flag(save_md, x_name = "`getOption(\"sbf.save_md\")`")
-  md <- if (save_md) md_table(x, proportion, format_column, estimate_column)
+  md <- if (save_md) md_table(x, proportion, format_column, round_as_estimate)
 
   sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
