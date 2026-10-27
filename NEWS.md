@@ -1,5 +1,14 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# subfoldr2 1.0.1.9026
+
+## Features
+
+- Add `sbf_round_data()` and `sbf_as_md()` to round a data frame and convert it to an aligned markdown table (#220, #221).
+
+- Save rounded `.md` file of the ggplot data in `sbf_save_plot()` (#217, #218).
+
+
 # subfoldr2 1.0.1.9025
 
 ## Features
