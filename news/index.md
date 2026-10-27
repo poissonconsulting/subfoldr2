@@ -1,5 +1,20 @@
 # Changelog
 
+## subfoldr2 1.0.1.9026
+
+### Features
+
+- Add
+  [`sbf_round_data()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_round_data.md)
+  and
+  [`sbf_as_md()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_as_md.md)
+  to round a data frame and convert it to an aligned markdown table
+  (#220, \#221).
+
+- Save rounded `.md` file of the ggplot data in
+  [`sbf_save_plot()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_plot.md)
+  (#217, \#218).
+
 ## subfoldr2 1.0.1.9025
 
 ### Features

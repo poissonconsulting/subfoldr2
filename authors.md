@@ -34,12 +34,12 @@
 ## Citation
 
 Thorley J (2026). *subfoldr2: Save and Load R Objects*. R package
-version 1.0.1.9025, <https://poissonconsulting.github.io/subfoldr2>.
+version 1.0.1.9026, <https://poissonconsulting.github.io/subfoldr2>.
 
     @Manual{,
       title = {subfoldr2: Save and Load R Objects},
       author = {Joe Thorley},
       year = {2026},
-      note = {R package version 1.0.1.9025},
+      note = {R package version 1.0.1.9026},
       url = {https://poissonconsulting.github.io/subfoldr2},
     }
