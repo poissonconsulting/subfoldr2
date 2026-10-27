@@ -17,7 +17,7 @@ sbf_save_table(
   notes = "",
   proportion = FALSE,
   format_column = list(),
-  estimate_column = character(0)
+  round_as_estimate = character(0)
 )
 ```
 
@@ -72,7 +72,7 @@ sbf_save_table(
   character vector, which is used as is. The values in the `.rds` and
   `.csv` files are not altered.
 
-- estimate_column:
+- round_as_estimate:
 
   A character vector of numeric columns, other than `estimate`, `lower`,
   `upper`, `sd` and `svalue`, to round in the `.md` file to the same
@@ -149,6 +149,6 @@ sbf_save_table(
   caption = "Parameter estimates.",
   format_column = list(zscore ~ round(., 1))
 )
-sbf_save_table(ppc, estimate_column = "observed")
+sbf_save_table(ppc, round_as_estimate = "observed")
 } # }
 ```
