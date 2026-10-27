@@ -160,7 +160,10 @@ importFrom(dttr2,
   dtt_sys_date_time
 )
 importFrom(fs,path_split)
-importFrom(stats,setNames)
+importFrom(stats,
+  sd,
+  setNames
+)
 importFrom(tibble,
   as_tibble,
   tibble

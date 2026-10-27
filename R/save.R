@@ -499,6 +499,7 @@ sbf_save_string <- function(
 #' @param proportion A flag specifying whether the columns `estimate`,
 #'   `lower`, `upper` and `sd` are proportions, in which case significant
 #'   digits are counted from the nearer of 0 and 1 in the `.md` file.
+#'   The `sd` must not exceed `sd(c(0, 1))`.
 #' @param format_column A list of two-sided formulas of the form
 #'   `column ~ fun(.)` specifying how to round and format numeric columns
 #'   other than `estimate`, `lower`, `upper` and `sd` in the `.md` file.

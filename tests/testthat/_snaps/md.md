@@ -16,6 +16,11 @@
       Error in `sbf_save_table()`:
       ! `x` must have a numeric column 'estimate' when `proportion = TRUE`.
     Code
+      sbf_save_table(data.frame(estimate = 0.5, sd = 0.8), proportion = TRUE)
+    Condition
+      Error in `sbf_save_table()`:
+      ! Column 'sd' in `x` must be between 0 and sd(c(0, 1)) when `proportion = TRUE`.
+    Code
       sbf_save_table(x, format_column = 1)
     Condition
       Error in `sbf_save_table()`:

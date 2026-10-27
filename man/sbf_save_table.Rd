@@ -39,7 +39,8 @@ current main folder)}
 
 \item{proportion}{A flag specifying whether the columns \code{estimate},
 \code{lower}, \code{upper} and \code{sd} are proportions, in which case significant
-digits are counted from the nearer of 0 and 1 in the \code{.md} file.}
+digits are counted from the nearer of 0 and 1 in the \code{.md} file.
+The \code{sd} must not exceed \code{sd(c(0, 1))}.}
 
 \item{format_column}{A list of two-sided formulas of the form
 \code{column ~ fun(.)} specifying how to round and format numeric columns
