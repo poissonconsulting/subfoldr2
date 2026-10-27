@@ -16,7 +16,8 @@ sbf_save_table(
   tag = "",
   notes = "",
   proportion = FALSE,
-  format_column = list()
+  format_column = list(),
+  estimate_column = character(0)
 )
 ```
 
@@ -70,6 +71,15 @@ sbf_save_table(
   numeric vector, which is formatted without further rounding, or a
   character vector, which is used as is. The values in the `.rds` and
   `.csv` files are not altered.
+
+- estimate_column:
+
+  A character vector of numeric columns, other than `estimate`, `lower`,
+  `upper`, `sd` and `svalue`, to round in the `.md` file to the same
+  number of decimal places as `estimate` in the same row (e.g. an
+  `observed` value compared with the estimate). Rows with a missing
+  estimate are formatted as data. If `proportion = TRUE` the columns
+  must also be proportions.
 
 ## Value
 
@@ -139,5 +149,6 @@ sbf_save_table(
   caption = "Parameter estimates.",
   format_column = list(zscore ~ round(., 1))
 )
+sbf_save_table(ppc, estimate_column = "observed")
 } # }
 ```

@@ -51,7 +51,8 @@ and as a <code>.md</code> file with the values rounded and formatted for display
 <span>  tag <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  notes <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  proportion <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  format_column <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  format_column <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  estimate_column <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -106,6 +107,15 @@ other than <code>estimate</code>, <code>lower</code>, <code>upper</code> and <co
 The function can return a numeric vector, which is formatted without
 further rounding, or a character vector, which is used as is.
 The values in the <code>.rds</code> and <code>.csv</code> files are not altered.</p></dd>
+
+
+<dt id="arg-estimate-column">estimate_column<a class="anchor" aria-label="anchor" href="#arg-estimate-column"></a></dt>
+<dd><p>A character vector of numeric columns, other than
+<code>estimate</code>, <code>lower</code>, <code>upper</code>, <code>sd</code> and <code>svalue</code>, to round in the <code>.md</code>
+file to the same number of decimal places as <code>estimate</code> in the same row
+(e.g. an <code>observed</code> value compared with the estimate). Rows with a
+missing estimate are formatted as data. If <code>proportion = TRUE</code> the
+columns must also be proportions.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -178,6 +188,7 @@ numerical data. Archives of Disease in Childhood 100(7): 608-609.
 <span class="r-in"><span>  caption <span class="op">=</span> <span class="st">"Parameter estimates."</span>,</span></span>
 <span class="r-in"><span>  format_column <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">zscore</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">.</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">sbf_save_table</span><span class="op">(</span><span class="va">ppc</span>, estimate_column <span class="op">=</span> <span class="st">"observed"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
