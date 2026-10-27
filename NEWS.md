@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# subfoldr2 1.0.1.9025
+
+## Features
+
+- Rename estimate_column to round_as_estimate in sbf_save_table() (#216).
+
+
 # subfoldr2 1.0.1.9024
 
 - Feat: Add estimate_column to sbf_save_table() to round columns like the estimate (#214) (#215).
