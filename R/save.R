@@ -486,8 +486,9 @@ sbf_save_string <- function(
 #' adding trailing zeros beyond the digits of the value, while integer columns
 #' are not rounded.
 #' Significant trailing zeros are retained, commas are used as thousands
-#' separators only for numbers of 10,000 or more, and numeric columns are
-#' padded with spaces to align their decimal points.
+#' separators for numbers of 1000 or more except in the columns named by
+#' `no_big_mark`, and numeric columns are padded with spaces to align their
+#' decimal points.
 #' The `.md` file is not saved if `getOption("sbf.save_md")` is `FALSE`.
 #'
 #' @param x The data frame to save.
@@ -511,6 +512,8 @@ sbf_save_string <- function(
 #'   (e.g. an `observed` value compared with the estimate). Rows with a
 #'   missing estimate are formatted as data. If `proportion = TRUE` the
 #'   columns must also be proportions.
+#' @param no_big_mark A character vector of numeric columns (e.g. `year`) to
+#'   format without commas as thousands separators in the `.md` file.
 #' @return An invisible string of the path to the saved object.
 #' @references Cole, T.J. 2015. Too many digits: the presentation of
 #'   numerical data. Archives of Disease in Childhood 100(7): 608-609.
@@ -525,6 +528,7 @@ sbf_save_string <- function(
 #'   format_column = list(zscore ~ round(., 1))
 #' )
 #' sbf_save_table(ppc, round_as_estimate = "observed")
+#' sbf_save_table(counts, no_big_mark = "year")
 #' }
 sbf_save_table <- function(
   x,
@@ -537,7 +541,8 @@ sbf_save_table <- function(
   notes = "",
   proportion = FALSE,
   format_column = list(),
-  round_as_estimate = character(0)
+  round_as_estimate = character(0),
+  no_big_mark = character(0)
 ) {
   x_name <- chk_deparse(x_name)
   chk_s3_class(x, "data.frame")
@@ -568,9 +573,15 @@ sbf_save_table <- function(
   if (proportion) {
     chk_proportion_cols(x, round_as_estimate)
   }
+  chk_character(no_big_mark)
+  chk_not_any_na(no_big_mark)
+  chk_unique(no_big_mark)
+  chk_no_big_mark(no_big_mark, x)
   save_md <- getOption("sbf.save_md", TRUE)
   chk_flag(save_md, x_name = "`getOption(\"sbf.save_md\")`")
-  md <- if (save_md) md_table(x, proportion, format_column, round_as_estimate)
+  md <- if (save_md) {
+    md_table(x, proportion, format_column, round_as_estimate, no_big_mark)
+  }
 
   sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
@@ -846,7 +857,8 @@ sbf_save_plot <- function(
   drop_uninformative_cols = TRUE,
   proportion = FALSE,
   format_column = list(),
-  round_as_estimate = character(0)
+  round_as_estimate = character(0),
+  no_big_mark = character(0)
 ) {
   if (!missing(drop_uninformative_cols)) {
     lifecycle::deprecate_warn(
@@ -889,6 +901,9 @@ sbf_save_plot <- function(
   chk_character(round_as_estimate)
   chk_not_any_na(round_as_estimate)
   chk_unique(round_as_estimate)
+  chk_character(no_big_mark)
+  chk_not_any_na(no_big_mark)
+  chk_unique(no_big_mark)
 
   # patchwork plots are split into their individual plots; a simple ggplot is
   # treated as a single-element list. Note that cowplot::plot_grid() has no
@@ -904,9 +919,12 @@ sbf_save_plot <- function(
     if (proportion) {
       chk_proportion_cols(data, round_as_estimate, data_name)
     }
-  } else if (length(format_column) || length(round_as_estimate)) {
+    chk_no_big_mark(no_big_mark, data, data_name)
+  } else if (
+    length(format_column) || length(round_as_estimate) || length(no_big_mark)
+  ) {
     abort_chk(
-      "`format_column` and `round_as_estimate` must be empty when `x` has no `ggplot()` data.",
+      "`format_column`, `round_as_estimate` and `no_big_mark` must be empty when `x` has no `ggplot()` data.",
       call = rlang::current_call()
     )
   }
@@ -956,7 +974,14 @@ sbf_save_plot <- function(
         TRUE
       )]
       round_as_estimate <- intersect(round_as_estimate, cols)
-      md <- md_table(data, proportion, format_column, round_as_estimate)
+      no_big_mark <- intersect(no_big_mark, cols)
+      md <- md_table(
+        data,
+        proportion,
+        format_column,
+        round_as_estimate,
+        no_big_mark
+      )
       save_txt(md, "plots", sub = sub, main = main, x_name = x_name, ext = "md")
     }
   }

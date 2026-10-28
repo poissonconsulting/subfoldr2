@@ -32,6 +32,25 @@ test_that("sbf_save_table does not save md if option sbf.save_md is FALSE", {
   )
 })
 
+test_that("sbf_save_table does not use thousands separators in no_big_mark", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  counts <- data.frame(year = c(2024L, 2025L), count = c(1500L, 980L))
+  sbf_save_table(counts, no_big_mark = "year")
+  expect_identical(
+    sbf_load_table_md("counts"),
+    c(
+      "| year | count |",
+      "| ---: | ----: |",
+      "| 2024 | 1,500 |",
+      "| 2025 |   980 |"
+    )
+  )
+  expect_snapshot(sbf_save_table(counts, no_big_mark = "yr"), error = TRUE)
+})
+
 test_that("sbf_save_table md does not affect listing or loading tables", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
@@ -173,14 +192,13 @@ test_that("format_data keeps only significant trailing zeros", {
   expect_identical(format_data(c(1L, 20000L)), c("1", "20,000"))
 })
 
-test_that("thousands separators are consistent within a column", {
+test_that("thousands separators are used for numbers of 1000 or more", {
   expect_identical(
-    format_data(c(11615L, 1595L, 9640L)),
-    c("11,615", "1,595", "9,640")
+    format_data(c(11615L, 1595L, 9640L, 999L)),
+    c("11,615", "1,595", "9,640", "999")
   )
-  expect_identical(format_data(c(9640, 1595)), c("9640", "1595"))
-  expect_identical(format_data(c(2024L, 2025L)), c("2024", "2025"))
-  expect_identical(format_data(c(1234L, 20000L, NA)), c("1,234", "20,000", ""))
+  expect_identical(format_data(c(9640, -1595, 999)), c("9,640", "-1,595", "999"))
+  expect_identical(format_data(c(2024L, 2025L)), c("2,024", "2,025"))
 
   x <- data.frame(
     year = c(2024L, 2025L),
@@ -189,6 +207,50 @@ test_that("thousands separators are consistent within a column", {
     upper = c(11000, 16000)
   )
   expect_snapshot(writeLines(md_table(x)))
+})
+
+test_that("no_big_mark columns do not have thousands separators", {
+  x <- data.frame(
+    year = c(2024L, 2025L),
+    yr = c(2024, 2025.5),
+    count = c(1500L, 20000L),
+    length = c(1234.5, 12.5),
+    estimate = c(9500, 12000),
+    lower = c(8000, 9000),
+    upper = c(11000, 16000)
+  )
+  md <- sbf_as_md(
+    x,
+    round = TRUE,
+    format_column = list(length ~ round(., 0)),
+    no_big_mark = c("year", "yr", "length", "estimate")
+  )
+  expect_snapshot(writeLines(md))
+  expect_identical(
+    sbf_as_md(x["year"], no_big_mark = "year"),
+    c("| year |", "| ---: |", "| 2024 |", "| 2025 |")
+  )
+  expect_identical(
+    sbf_as_md(x["year"]),
+    c("|  year |", "| ----: |", "| 2,024 |", "| 2,025 |")
+  )
+  # character values returned by format_column are used as is
+  expect_identical(
+    sbf_as_md(
+      x["length"],
+      round = TRUE,
+      format_column = list(length ~ format(., big.mark = ",")),
+      no_big_mark = "length"
+    )[3],
+    "| 1,234.5 |"
+  )
+})
+
+test_that("no_big_mark columns must be numeric columns in x", {
+  x <- data.frame(year = 2024L, site = "a")
+  expect_snapshot(sbf_as_md(x, no_big_mark = "yr"), error = TRUE)
+  expect_snapshot(sbf_as_md(x, no_big_mark = "site"), error = TRUE)
+  expect_snapshot(sbf_as_md(x, no_big_mark = NA_character_), error = TRUE)
 })
 
 test_that("rounding up to a power of ten drops the extra decimal place", {
@@ -226,8 +288,8 @@ test_that("round_as_estimate rounds columns to the precision of the estimate", {
     sd = c(35, NA)
   )
   md <- format_estimates(y, proportion = FALSE, round_as_estimate = "observed")
-  expect_identical(md$estimate, c("1180", "0.200"))
-  expect_identical(md$observed, c("1234", "0.210"))
+  expect_identical(md$estimate, c("1,180", "0.200"))
+  expect_identical(md$observed, c("1,234", "0.210"))
 
   expect_snapshot(writeLines(md_table(x, round_as_estimate = "observed")))
 })
@@ -286,7 +348,11 @@ test_that("sbf_save_plot saves md of the rounded ggplot data", {
   )
   x <- ggplot2::ggplot(data, ggplot2::aes(year, estimate)) +
     ggplot2::geom_point()
-  sbf_save_plot(x, format_column = list(length ~ round(., 1)))
+  sbf_save_plot(
+    x,
+    format_column = list(length ~ round(., 1)),
+    no_big_mark = "year"
+  )
   expect_snapshot(writeLines(sbf_load_plot_md("x")))
   expect_identical(sbf_load_plot("x")@data, data)
   expect_equal(read.csv(file.path(sbf_get_main(), "plots", "x.csv")), data)
