@@ -511,6 +511,10 @@ sbf_save_string <- function(
 #'   (e.g. an `observed` value compared with the estimate). Rows with a
 #'   missing estimate are formatted as data. If `proportion = TRUE` the
 #'   columns must also be proportions.
+#' @param drop_sd A flag specifying whether to drop the `sd` column from the
+#'   `.md` file after using it to round `estimate`, `lower` and `upper`.
+#'   If `TRUE` there must be a numeric `sd` column.
+#'   The `.rds` and `.csv` files retain the `sd` column.
 #' @return An invisible string of the path to the saved object.
 #' @references Cole, T.J. 2015. Too many digits: the presentation of
 #'   numerical data. Archives of Disease in Childhood 100(7): 608-609.
@@ -537,7 +541,8 @@ sbf_save_table <- function(
   notes = "",
   proportion = FALSE,
   format_column = list(),
-  round_as_estimate = character(0)
+  round_as_estimate = character(0),
+  drop_sd = FALSE
 ) {
   x_name <- chk_deparse(x_name)
   chk_s3_class(x, "data.frame")
@@ -568,9 +573,13 @@ sbf_save_table <- function(
   if (proportion) {
     chk_proportion_cols(x, round_as_estimate)
   }
+  chk_flag(drop_sd)
+  chk_drop_sd(drop_sd, x)
   save_md <- getOption("sbf.save_md", TRUE)
   chk_flag(save_md, x_name = "`getOption(\"sbf.save_md\")`")
-  md <- if (save_md) md_table(x, proportion, format_column, round_as_estimate)
+  md <- if (save_md) {
+    md_table(x, proportion, format_column, round_as_estimate, drop_sd)
+  }
 
   sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
@@ -846,7 +855,8 @@ sbf_save_plot <- function(
   drop_uninformative_cols = TRUE,
   proportion = FALSE,
   format_column = list(),
-  round_as_estimate = character(0)
+  round_as_estimate = character(0),
+  drop_sd = FALSE
 ) {
   if (!missing(drop_uninformative_cols)) {
     lifecycle::deprecate_warn(
@@ -889,6 +899,7 @@ sbf_save_plot <- function(
   chk_character(round_as_estimate)
   chk_not_any_na(round_as_estimate)
   chk_unique(round_as_estimate)
+  chk_flag(drop_sd)
 
   # patchwork plots are split into their individual plots; a simple ggplot is
   # treated as a single-element list. Note that cowplot::plot_grid() has no
@@ -904,9 +915,10 @@ sbf_save_plot <- function(
     if (proportion) {
       chk_proportion_cols(data, round_as_estimate, data_name)
     }
-  } else if (length(format_column) || length(round_as_estimate)) {
+    chk_drop_sd(drop_sd, data, data_name)
+  } else if (length(format_column) || length(round_as_estimate) || drop_sd) {
     abort_chk(
-      "`format_column` and `round_as_estimate` must be empty when `x` has no `ggplot()` data.",
+      "`format_column` and `round_as_estimate` must be empty and `drop_sd` must be FALSE when `x` has no `ggplot()` data.",
       call = rlang::current_call()
     )
   }
@@ -938,6 +950,7 @@ sbf_save_plot <- function(
   save_meta(meta, "plots", sub = sub, main = main, x_name = x_name)
 
   if (is.data.frame(data)) {
+    sd <- data$sd
     if (drop_uninformative_cols) {
       data <- tidyplus::drop_uninformative_columns(data)
     }
@@ -956,7 +969,17 @@ sbf_save_plot <- function(
         TRUE
       )]
       round_as_estimate <- intersect(round_as_estimate, cols)
-      md <- md_table(data, proportion, format_column, round_as_estimate)
+      # an sd dropped as uninformative is still used for rounding
+      if (drop_sd && nrow(data) && !"sd" %in% cols) {
+        data$sd <- sd
+      }
+      md <- md_table(
+        data,
+        proportion,
+        format_column,
+        round_as_estimate,
+        drop_sd
+      )
       save_txt(md, "plots", sub = sub, main = main, x_name = x_name, ext = "md")
     }
   }

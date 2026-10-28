@@ -109,6 +109,16 @@ chk_round_as_estimate <- function(
   invisible(round_as_estimate)
 }
 
+chk_drop_sd <- function(drop_sd, x, x_name = "`x`") {
+  if (drop_sd && !is.numeric(x$sd)) {
+    abort_chk(
+      x_name,
+      " must have a numeric column 'sd' when `drop_sd = TRUE`."
+    )
+  }
+  invisible(drop_sd)
+}
+
 chk_policy_numeric <- function(x) {
   cols <- intersect(policy_cols, names(x))
   text <- cols[!vapply(x[cols], is.numeric, TRUE)]
@@ -459,6 +469,7 @@ md_table <- function(
   proportion = FALSE,
   format_column = list(),
   round_as_estimate = character(0),
+  drop_sd = FALSE,
   round = TRUE
 ) {
   x <- md_data(x)
@@ -471,7 +482,8 @@ md_table <- function(
   } else {
     md_unrounded(x)
   }
-  md_layout(cols, names(x), numeric)
+  keep <- !drop_sd | names(x) != "sd"
+  md_layout(cols[keep], names(x)[keep], numeric[keep])
 }
 
 round_data <- function(x, proportion, format_column, round_as_estimate) {

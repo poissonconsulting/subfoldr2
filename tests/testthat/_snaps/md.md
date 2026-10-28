@@ -216,6 +216,51 @@
       | 2020 |     0.60 |  0.30 |  0.90 |   12.3 |
       | 2021 |     0.72 |  0.40 |  0.95 |  123.5 |
 
+# sbf_save_table drop_sd rounds by sd and drops it from md
+
+    Code
+      writeLines(sbf_load_table_md("x"))
+    Output
+      | estimate | lower | upper |
+      | -------: | ----: | ----: |
+      |    1.235 |  0.50 |  2.50 |
+
+---
+
+    Code
+      sbf_save_table(x, drop_sd = NA)
+    Condition
+      Error in `sbf_save_table()`:
+      ! `drop_sd` must be a flag (TRUE or FALSE).
+    Code
+      sbf_save_table(x["estimate"], drop_sd = TRUE)
+    Condition
+      Error in `sbf_save_table()`:
+      ! `x` must have a numeric column 'sd' when `drop_sd = TRUE`.
+
+# sbf_save_plot drop_sd rounds by sd and drops it from md
+
+    Code
+      writeLines(sbf_load_plot_md("p"))
+    Output
+      | estimate |
+      | -------: |
+      |    1.235 |
+      |    2.346 |
+
+---
+
+    Code
+      sbf_save_plot(ggplot2::ggplot(x["estimate"]), drop_sd = TRUE)
+    Condition
+      Error in `sbf_save_plot()`:
+      ! The `ggplot()` data of `x` must have a numeric column 'sd' when `drop_sd = TRUE`.
+    Code
+      sbf_save_plot(ggplot2::ggplot(), drop_sd = TRUE)
+    Condition
+      Error in `sbf_save_plot()`:
+      ! `format_column` and `round_as_estimate` must be empty and `drop_sd` must be FALSE when `x` has no `ggplot()` data.
+
 # sbf_save_plot validates proportion and format_column before saving
 
     Code
@@ -242,5 +287,5 @@
       sbf_save_plot(ggplot2::ggplot(), format_column = list(n ~ round(.)))
     Condition
       Error in `sbf_save_plot()`:
-      ! `format_column` and `round_as_estimate` must be empty when `x` has no `ggplot()` data.
+      ! `format_column` and `round_as_estimate` must be empty and `drop_sd` must be FALSE when `x` has no `ggplot()` data.
 

@@ -15,7 +15,8 @@ sbf_save_table(
   notes = "",
   proportion = FALSE,
   format_column = list(),
-  round_as_estimate = character(0)
+  round_as_estimate = character(0),
+  drop_sd = FALSE
 )
 }
 \arguments{
@@ -54,6 +55,11 @@ file to the same number of decimal places as \code{estimate} in the same row
 (e.g. an \code{observed} value compared with the estimate). Rows with a
 missing estimate are formatted as data. If \code{proportion = TRUE} the
 columns must also be proportions.}
+
+\item{drop_sd}{A flag specifying whether to drop the \code{sd} column from the
+\code{.md} file after using it to round \code{estimate}, \code{lower} and \code{upper}.
+If \code{TRUE} there must be a numeric \code{sd} column.
+The \code{.rds} and \code{.csv} files retain the \code{sd} column.}
 }
 \value{
 An invisible string of the path to the saved object.
