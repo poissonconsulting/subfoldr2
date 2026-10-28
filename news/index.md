@@ -1,5 +1,9 @@
 # Changelog
 
+## subfoldr2 1.0.1.9027
+
+- Same as previous version.
+
 ## subfoldr2 1.0.1.9026
 
 ### Features
