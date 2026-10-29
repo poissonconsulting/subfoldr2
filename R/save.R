@@ -31,6 +31,11 @@ save_txt <- function(txt, class, sub, main, x_name, ext = "txt") {
   invisible(file)
 }
 
+# a stale md from a previous save must not outlive the data it represented
+rm_md <- function(class, sub, main, x_name) {
+  unlink(file_name(main, class, sub, x_name, "md"))
+}
+
 save_meta <- function(meta, class, sub, main, x_name) {
   file <- file_name(main, class, sub, x_name, "yaml")
   meta <- lapply(meta, unname)
@@ -489,7 +494,8 @@ sbf_save_string <- function(
 #' separators for numbers of 1000 or more except in the columns named by
 #' `no_big_mark`, and numeric columns are padded with spaces to align their
 #' decimal points.
-#' The `.md` file is not saved if `getOption("sbf.save_md")` is `FALSE`.
+#' The `.md` file is not saved if `getOption("sbf.save_md")` is `FALSE`, in
+#' which case any existing `.md` file for the table is deleted.
 #'
 #' @param x The data frame to save.
 #' @inheritParams sbf_save_object
@@ -590,6 +596,8 @@ sbf_save_table <- function(
   save_meta(meta, "tables", sub = sub, main = main, x_name = x_name)
   if (save_md) {
     save_txt(md, "tables", sub = sub, main = main, x_name = x_name, ext = "md")
+  } else {
+    rm_md("tables", sub = sub, main = main, x_name = x_name)
   }
   save_csv(x, "tables", sub = sub, main = main, x_name = x_name)
   save_rds(x, "tables", sub = sub, main = main, x_name = x_name)
@@ -800,8 +808,9 @@ untransform_layer_data <- function(data, layout) {
 #' `point`, `line`). Layers with more than `csv` rows are omitted.
 #' 6. An `md` file of the same data as the `csv` with the values rounded and
 #' formatted for display as described in [sbf_save_table()]. The values in the
-#' plot are not rounded. The `md` file is not saved if
-#' `getOption("sbf.save_md")` is `FALSE`.
+#' plot are not rounded. The `md` file is not saved if there is no `ggplot()`
+#' data or `getOption("sbf.save_md")` is `FALSE`, in which case any existing
+#' `md` file for the plot is deleted.
 #'
 #' The `csv`, `xlsx` and `md` files are named using the `x_name` argument. Not
 #' specifying `x` overwrites existing files that used `x_name = "plot"`.
@@ -984,6 +993,9 @@ sbf_save_plot <- function(
       )
       save_txt(md, "plots", sub = sub, main = main, x_name = x_name, ext = "md")
     }
+  }
+  if (!save_md || !is.data.frame(data)) {
+    rm_md("plots", sub = sub, main = main, x_name = x_name)
   }
 
   sheet_list <- purrr::imap(plot_list, function(p, i) {

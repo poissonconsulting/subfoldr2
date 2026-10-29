@@ -32,6 +32,18 @@ test_that("sbf_save_table does not save md if option sbf.save_md is FALSE", {
   )
 })
 
+test_that("sbf_save_table deletes old md if option sbf.save_md is FALSE", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  x <- data.frame(x = 1)
+  sbf_save_table(x)
+  expect_true(file.exists(file.path(sbf_get_main(), "tables", "x.md")))
+  withr::with_options(list(sbf.save_md = FALSE), sbf_save_table(x))
+  expect_false(file.exists(file.path(sbf_get_main(), "tables", "x.md")))
+})
+
 test_that("sbf_save_table does not use thousands separators in no_big_mark", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))
@@ -400,6 +412,24 @@ test_that("sbf_save_plot saves no md if no ggplot data or option FALSE", {
   withr::local_options(sbf.save_md = FALSE)
   sbf_save_plot(ggplot2::ggplot(data.frame(x = 1:2)), x_name = "off")
   expect_null(sbf_load_plot_md("off", exists = NA))
+})
+
+test_that("sbf_save_plot deletes old md if no ggplot data or option FALSE", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  sbf_save_plot(ggplot2::ggplot(data.frame(x = 1:2)), x_name = "p")
+  expect_type(sbf_load_plot_md("p"), "character")
+  sbf_save_plot(ggplot2::ggplot(), x_name = "p")
+  expect_null(sbf_load_plot_md("p", exists = NA))
+
+  sbf_save_plot(ggplot2::ggplot(data.frame(x = 1:2)), x_name = "p")
+  withr::with_options(
+    list(sbf.save_md = FALSE),
+    sbf_save_plot(ggplot2::ggplot(data.frame(x = 1:2)), x_name = "p")
+  )
+  expect_null(sbf_load_plot_md("p", exists = NA))
 })
 
 test_that("sbf_save_plot validates proportion and format_column before saving", {

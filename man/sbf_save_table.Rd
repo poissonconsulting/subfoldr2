@@ -84,7 +84,8 @@ Significant trailing zeros are retained, commas are used as thousands
 separators for numbers of 1000 or more except in the columns named by
 \code{no_big_mark}, and numeric columns are padded with spaces to align their
 decimal points.
-The \code{.md} file is not saved if \code{getOption("sbf.save_md")} is \code{FALSE}.
+The \code{.md} file is not saved if \code{getOption("sbf.save_md")} is \code{FALSE}, in
+which case any existing \code{.md} file for the table is deleted.
 }
 \examples{
 \dontrun{
