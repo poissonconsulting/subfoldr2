@@ -177,8 +177,9 @@ index (<code>0</code> for the <code><a href="https://ggplot2.tidyverse.org/refer
 <code>point</code>, <code>line</code>). Layers with more than <code>csv</code> rows are omitted.</p></li>
 <li><p>An <code>md</code> file of the same data as the <code>csv</code> with the values rounded and
 formatted for display as described in <code><a href="sbf_save_table.html">sbf_save_table()</a></code>. The values in the
-plot are not rounded. The <code>md</code> file is not saved if
-<code>getOption("sbf.save_md")</code> is <code>FALSE</code>.</p></li>
+plot are not rounded. The <code>md</code> file is not saved if there is no <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot()</a></code>
+data or <code>getOption("sbf.save_md")</code> is <code>FALSE</code>, in which case any existing
+<code>md</code> file for the plot is deleted.</p></li>
 </ol><p>The <code>csv</code>, <code>xlsx</code> and <code>md</code> files are named using the <code>x_name</code> argument. Not
 specifying <code>x</code> overwrites existing files that used <code>x_name = "plot"</code>.</p>
     </div>

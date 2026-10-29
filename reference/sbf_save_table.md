@@ -101,7 +101,8 @@ integer columns are not rounded. Significant trailing zeros are
 retained, commas are used as thousands separators only for numbers of
 10,000 or more, and numeric columns are padded with spaces to align
 their decimal points. The `.md` file is not saved if
-`getOption("sbf.save_md")` is `FALSE`.
+`getOption("sbf.save_md")` is `FALSE`, in which case any existing `.md`
+file for the table is deleted.
 
 ## References
 

@@ -152,7 +152,10 @@ The function saves:
     and formatted for display as described in
     [`sbf_save_table()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_table.md).
     The values in the plot are not rounded. The `md` file is not saved
-    if `getOption("sbf.save_md")` is `FALSE`.
+    if there is no
+    [`ggplot()`](https://ggplot2.tidyverse.org/reference/ggplot.html)
+    data or `getOption("sbf.save_md")` is `FALSE`, in which case any
+    existing `md` file for the plot is deleted.
 
 The `csv`, `xlsx` and `md` files are named using the `x_name` argument.
 Not specifying `x` overwrites existing files that used
