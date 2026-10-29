@@ -24,6 +24,11 @@
       Error in `sbf_save_table()`:
       ! `x` must have a numeric column 'estimate' when `proportion = TRUE`.
     Code
+      sbf_save_table(data.frame(estimate = 0.5, sd = 0.8), proportion = TRUE)
+    Condition
+      Error in `sbf_save_table()`:
+      ! Column 'sd' in `x` must be between 0 and sd(c(0, 1)) when `proportion = TRUE`.
+    Code
       sbf_save_table(x, format_column = 1)
     Condition
       Error in `sbf_save_table()`:
@@ -78,6 +83,14 @@
       | bB    |    12.4    | 1.8  |     8.9  |    16    |  6.9   |   11.2 |
       | sigma | 1,230      |      | 1,000    | 1,600    |        |        |
       | bC    |    -0.0123 |      |          |          | -1.2   |    0.0 |
+
+# proportion sd check handles units and ignores non-numeric sd
+
+    Code
+      chk_proportion_cols(x)
+    Condition
+      Error:
+      ! Column 'sd' in `x` must be between 0 and sd(c(0, 1)) when `proportion = TRUE`.
 
 # md_table rounds proportions from the nearer of 0 and 1
 

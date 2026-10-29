@@ -85,6 +85,7 @@ test_that("sbf_save_table validates proportion and format_column", {
     sbf_save_table(x, proportion = NA)
     sbf_save_table(x, proportion = TRUE)
     sbf_save_table(data.frame(x = 0.5), proportion = TRUE)
+    sbf_save_table(data.frame(estimate = 0.5, sd = 0.8), proportion = TRUE)
     sbf_save_table(x, format_column = 1)
     sbf_save_table(x, format_column = list(~ round(.)))
     sbf_save_table(x, format_column = list(n ~ round(.), n ~ round(.)))
@@ -108,6 +109,24 @@ test_that("md_table rounds estimates with sd, CIs and s-values", {
     svalue = c(6.123, 11.2, NA, 0.04)
   )
   expect_snapshot(writeLines(md_table(x)))
+})
+
+test_that("proportion sd can be up to sd(c(0, 1))", {
+  x <- data.frame(estimate = 0.5, sd = c(0, sd(c(0, 1)), NA))
+  expect_identical(chk_proportion_cols(x), x)
+})
+
+test_that("proportion sd check handles units and ignores non-numeric sd", {
+  skip_if_not_installed("units")
+  x <- data.frame(estimate = 0.5, sd = units::set_units(c(0.1, NA), "1"))
+  expect_identical(chk_proportion_cols(x), x)
+  x$sd <- units::set_units(c(0.8, NA), "1")
+  expect_snapshot(chk_proportion_cols(x), error = TRUE)
+
+  x <- data.frame(estimate = 0.5, sd = c(TRUE, FALSE))
+  expect_identical(chk_proportion_cols(x), x)
+  x <- data.frame(estimate = 0.5, sd = c("0.8", "10"))
+  expect_identical(chk_proportion_cols(x), x)
 })
 
 test_that("md_table rounds proportions from the nearer of 0 and 1", {

@@ -167,7 +167,10 @@ chk_proportion_cols <- function(
       " must have a numeric column 'estimate' when `proportion = TRUE`."
     )
   }
-  cols <- intersect(c(policy_cols, round_as_estimate), names(x))
+  cols <- intersect(
+    c(setdiff(policy_cols, "sd"), round_as_estimate),
+    names(x)
+  )
   values <- unlist(lapply(x[cols], as.numeric), use.names = FALSE)
   if (any(values < 0 | values > 1, na.rm = TRUE)) {
     abort_chk(
@@ -176,6 +179,15 @@ chk_proportion_cols <- function(
       " in ",
       x_name,
       " must be proportions between 0 and 1 when `proportion = TRUE`."
+    )
+  }
+  # the largest possible sd of a proportion
+  value <- if (is.numeric(x$sd)) as.numeric(x$sd) else numeric(0)
+  if (any(value < 0 | value > sd(c(0, 1)), na.rm = TRUE)) {
+    abort_chk(
+      "Column 'sd' in ",
+      x_name,
+      " must be between 0 and sd(c(0, 1)) when `proportion = TRUE`."
     )
   }
   invisible(x)
