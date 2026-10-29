@@ -53,7 +53,8 @@ and as a <code>.md</code> file with the values rounded and formatted for display
 <span>  proportion <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  format_column <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  round_as_estimate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,</span>
-<span>  no_big_mark <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span>
+<span>  no_big_mark <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,</span>
+<span>  drop_sd <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -122,6 +123,13 @@ columns must also be proportions.</p></dd>
 <dt id="arg-no-big-mark">no_big_mark<a class="anchor" aria-label="anchor" href="#arg-no-big-mark"></a></dt>
 <dd><p>A character vector of numeric columns (e.g. <code>year</code>) to
 format without commas as thousands separators in the <code>.md</code> file.</p></dd>
+
+
+<dt id="arg-drop-sd">drop_sd<a class="anchor" aria-label="anchor" href="#arg-drop-sd"></a></dt>
+<dd><p>A flag specifying whether to drop the <code>sd</code> column from the
+<code>.md</code> file after using it to round <code>estimate</code>, <code>lower</code> and <code>upper</code>.
+If <code>TRUE</code> there must be a numeric <code>sd</code> column.
+The <code>.rds</code> and <code>.csv</code> files retain the <code>sd</code> column.</p></dd>
 
 </dl></div>
     <div class="section level2">

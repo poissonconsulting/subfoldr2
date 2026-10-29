@@ -25,7 +25,8 @@ sbf_save_plot(
   proportion = FALSE,
   format_column = list(),
   round_as_estimate = character(0),
-  no_big_mark = character(0)
+  no_big_mark = character(0),
+  drop_sd = FALSE
 )
 ```
 
@@ -128,6 +129,13 @@ sbf_save_plot(
 
   A character vector of numeric columns (e.g. `year`) to format without
   commas as thousands separators in the `.md` file.
+
+- drop_sd:
+
+  A flag specifying whether to drop the `sd` column from the `.md` file
+  after using it to round `estimate`, `lower` and `upper`. If `TRUE`
+  there must be a numeric `sd` column. The `.rds` and `.csv` files
+  retain the `sd` column.
 
 ## Details
 
