@@ -22,7 +22,9 @@ sbf_save_plot(
   drop_uninformative_cols = TRUE,
   proportion = FALSE,
   format_column = list(),
-  round_as_estimate = character(0)
+  round_as_estimate = character(0),
+  no_big_mark = character(0),
+  drop_sd = FALSE
 )
 }
 \arguments{
@@ -84,6 +86,14 @@ file to the same number of decimal places as \code{estimate} in the same row
 (e.g. an \code{observed} value compared with the estimate). Rows with a
 missing estimate are formatted as data. If \code{proportion = TRUE} the
 columns must also be proportions.}
+
+\item{no_big_mark}{A character vector of numeric columns (e.g. \code{year}) to
+format without commas as thousands separators in the \code{.md} file.}
+
+\item{drop_sd}{A flag specifying whether to drop the \code{sd} column from the
+\code{.md} file after using it to round \code{estimate}, \code{lower} and \code{upper}.
+If \code{TRUE} there must be a numeric \code{sd} column.
+The \code{.rds} and \code{.csv} files retain the \code{sd} column.}
 }
 \description{
 Saves a ggplot object.
@@ -106,8 +116,9 @@ index (\code{0} for the \code{ggplot()} data), and \verb{<geom>} is the layer ty
 \code{point}, \code{line}). Layers with more than \code{csv} rows are omitted.
 \item An \code{md} file of the same data as the \code{csv} with the values rounded and
 formatted for display as described in \code{\link[=sbf_save_table]{sbf_save_table()}}. The values in the
-plot are not rounded. The \code{md} file is not saved if
-\code{getOption("sbf.save_md")} is \code{FALSE}.
+plot are not rounded. The \code{md} file is not saved if there is no \code{ggplot()}
+data or \code{getOption("sbf.save_md")} is \code{FALSE}, in which case any existing
+\code{md} file for the plot is deleted.
 }
 
 The \code{csv}, \code{xlsx} and \code{md} files are named using the \code{x_name} argument. Not

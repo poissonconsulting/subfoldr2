@@ -31,6 +31,11 @@ save_txt <- function(txt, class, sub, main, x_name, ext = "txt") {
   invisible(file)
 }
 
+# a stale md from a previous save must not outlive the data it represented
+rm_md <- function(class, sub, main, x_name) {
+  unlink(file_name(main, class, sub, x_name, "md"))
+}
+
 save_meta <- function(meta, class, sub, main, x_name) {
   file <- file_name(main, class, sub, x_name, "yaml")
   meta <- lapply(meta, unname)
@@ -486,9 +491,11 @@ sbf_save_string <- function(
 #' adding trailing zeros beyond the digits of the value, while integer columns
 #' are not rounded.
 #' Significant trailing zeros are retained, commas are used as thousands
-#' separators only for numbers of 10,000 or more, and numeric columns are
-#' padded with spaces to align their decimal points.
-#' The `.md` file is not saved if `getOption("sbf.save_md")` is `FALSE`.
+#' separators for numbers of 1000 or more except in the columns named by
+#' `no_big_mark`, and numeric columns are padded with spaces to align their
+#' decimal points.
+#' The `.md` file is not saved if `getOption("sbf.save_md")` is `FALSE`, in
+#' which case any existing `.md` file for the table is deleted.
 #'
 #' @param x The data frame to save.
 #' @inheritParams sbf_save_object
@@ -512,6 +519,12 @@ sbf_save_string <- function(
 #'   (e.g. an `observed` value compared with the estimate). Rows with a
 #'   missing estimate are formatted as data. If `proportion = TRUE` the
 #'   columns must also be proportions.
+#' @param no_big_mark A character vector of numeric columns (e.g. `year`) to
+#'   format without commas as thousands separators in the `.md` file.
+#' @param drop_sd A flag specifying whether to drop the `sd` column from the
+#'   `.md` file after using it to round `estimate`, `lower` and `upper`.
+#'   If `TRUE` there must be a numeric `sd` column.
+#'   The `.rds` and `.csv` files retain the `sd` column.
 #' @return An invisible string of the path to the saved object.
 #' @references Cole, T.J. 2015. Too many digits: the presentation of
 #'   numerical data. Archives of Disease in Childhood 100(7): 608-609.
@@ -526,6 +539,7 @@ sbf_save_string <- function(
 #'   format_column = list(zscore ~ round(., 1))
 #' )
 #' sbf_save_table(ppc, round_as_estimate = "observed")
+#' sbf_save_table(counts, no_big_mark = "year")
 #' }
 sbf_save_table <- function(
   x,
@@ -538,7 +552,9 @@ sbf_save_table <- function(
   notes = "",
   proportion = FALSE,
   format_column = list(),
-  round_as_estimate = character(0)
+  round_as_estimate = character(0),
+  no_big_mark = character(0),
+  drop_sd = FALSE
 ) {
   x_name <- chk_deparse(x_name)
   chk_s3_class(x, "data.frame")
@@ -569,9 +585,24 @@ sbf_save_table <- function(
   if (proportion) {
     chk_proportion_cols(x, round_as_estimate)
   }
+  chk_character(no_big_mark)
+  chk_not_any_na(no_big_mark)
+  chk_unique(no_big_mark)
+  chk_no_big_mark(no_big_mark, x)
+  chk_flag(drop_sd)
+  chk_drop_sd(drop_sd, x)
   save_md <- getOption("sbf.save_md", TRUE)
   chk_flag(save_md, x_name = "`getOption(\"sbf.save_md\")`")
-  md <- if (save_md) md_table(x, proportion, format_column, round_as_estimate)
+  md <- if (save_md) {
+    md_table(
+      x,
+      proportion,
+      format_column,
+      round_as_estimate,
+      no_big_mark,
+      drop_sd = drop_sd
+    )
+  }
 
   sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
@@ -580,6 +611,8 @@ sbf_save_table <- function(
   save_meta(meta, "tables", sub = sub, main = main, x_name = x_name)
   if (save_md) {
     save_txt(md, "tables", sub = sub, main = main, x_name = x_name, ext = "md")
+  } else {
+    rm_md("tables", sub = sub, main = main, x_name = x_name)
   }
   save_csv(x, "tables", sub = sub, main = main, x_name = x_name)
   save_rds(x, "tables", sub = sub, main = main, x_name = x_name)
@@ -790,8 +823,9 @@ untransform_layer_data <- function(data, layout) {
 #' `point`, `line`). Layers with more than `csv` rows are omitted.
 #' 6. An `md` file of the same data as the `csv` with the values rounded and
 #' formatted for display as described in [sbf_save_table()]. The values in the
-#' plot are not rounded. The `md` file is not saved if
-#' `getOption("sbf.save_md")` is `FALSE`.
+#' plot are not rounded. The `md` file is not saved if there is no `ggplot()`
+#' data or `getOption("sbf.save_md")` is `FALSE`, in which case any existing
+#' `md` file for the plot is deleted.
 #'
 #' The `csv`, `xlsx` and `md` files are named using the `x_name` argument. Not
 #' specifying `x` overwrites existing files that used `x_name = "plot"`.
@@ -847,7 +881,9 @@ sbf_save_plot <- function(
   drop_uninformative_cols = TRUE,
   proportion = FALSE,
   format_column = list(),
-  round_as_estimate = character(0)
+  round_as_estimate = character(0),
+  no_big_mark = character(0),
+  drop_sd = FALSE
 ) {
   if (!missing(drop_uninformative_cols)) {
     lifecycle::deprecate_warn(
@@ -890,6 +926,10 @@ sbf_save_plot <- function(
   chk_character(round_as_estimate)
   chk_not_any_na(round_as_estimate)
   chk_unique(round_as_estimate)
+  chk_character(no_big_mark)
+  chk_not_any_na(no_big_mark)
+  chk_unique(no_big_mark)
+  chk_flag(drop_sd)
 
   # patchwork plots are split into their individual plots; a simple ggplot is
   # treated as a single-element list. Note that cowplot::plot_grid() has no
@@ -905,9 +945,16 @@ sbf_save_plot <- function(
     if (proportion) {
       chk_proportion_cols(data, round_as_estimate, data_name)
     }
-  } else if (length(format_column) || length(round_as_estimate)) {
+    chk_no_big_mark(no_big_mark, data, data_name)
+    chk_drop_sd(drop_sd, data, data_name)
+  } else if (
+    length(format_column) ||
+      length(round_as_estimate) ||
+      length(no_big_mark) ||
+      drop_sd
+  ) {
     abort_chk(
-      "`format_column` and `round_as_estimate` must be empty when `x` has no `ggplot()` data.",
+      "`format_column`, `round_as_estimate` and `no_big_mark` must be empty and `drop_sd` must be FALSE when `x` has no `ggplot()` data.",
       call = rlang::current_call()
     )
   }
@@ -939,6 +986,7 @@ sbf_save_plot <- function(
   save_meta(meta, "plots", sub = sub, main = main, x_name = x_name)
 
   if (is.data.frame(data)) {
+    sd <- data$sd
     if (drop_uninformative_cols) {
       data <- tidyplus::drop_uninformative_columns(data)
     }
@@ -957,9 +1005,24 @@ sbf_save_plot <- function(
         TRUE
       )]
       round_as_estimate <- intersect(round_as_estimate, cols)
-      md <- md_table(data, proportion, format_column, round_as_estimate)
+      no_big_mark <- intersect(no_big_mark, cols)
+      # an sd dropped as uninformative is still used for rounding
+      if (drop_sd && nrow(data) && !"sd" %in% cols) {
+        data$sd <- sd
+      }
+      md <- md_table(
+        data,
+        proportion,
+        format_column,
+        round_as_estimate,
+        no_big_mark,
+        drop_sd = drop_sd
+      )
       save_txt(md, "plots", sub = sub, main = main, x_name = x_name, ext = "md")
     }
+  }
+  if (!save_md || !is.data.frame(data)) {
+    rm_md("plots", sub = sub, main = main, x_name = x_name)
   }
 
   sheet_list <- purrr::imap(plot_list, function(p, i) {

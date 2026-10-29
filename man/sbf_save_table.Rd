@@ -15,7 +15,9 @@ sbf_save_table(
   notes = "",
   proportion = FALSE,
   format_column = list(),
-  round_as_estimate = character(0)
+  round_as_estimate = character(0),
+  no_big_mark = character(0),
+  drop_sd = FALSE
 )
 }
 \arguments{
@@ -55,6 +57,14 @@ file to the same number of decimal places as \code{estimate} in the same row
 (e.g. an \code{observed} value compared with the estimate). Rows with a
 missing estimate are formatted as data. If \code{proportion = TRUE} the
 columns must also be proportions.}
+
+\item{no_big_mark}{A character vector of numeric columns (e.g. \code{year}) to
+format without commas as thousands separators in the \code{.md} file.}
+
+\item{drop_sd}{A flag specifying whether to drop the \code{sd} column from the
+\code{.md} file after using it to round \code{estimate}, \code{lower} and \code{upper}.
+If \code{TRUE} there must be a numeric \code{sd} column.
+The \code{.rds} and \code{.csv} files retain the \code{sd} column.}
 }
 \value{
 An invisible string of the path to the saved object.
@@ -78,9 +88,11 @@ Other double columns are rounded to four significant digits, without
 adding trailing zeros beyond the digits of the value, while integer columns
 are not rounded.
 Significant trailing zeros are retained, commas are used as thousands
-separators only for numbers of 10,000 or more, and numeric columns are
-padded with spaces to align their decimal points.
-The \code{.md} file is not saved if \code{getOption("sbf.save_md")} is \code{FALSE}.
+separators for numbers of 1000 or more except in the columns named by
+\code{no_big_mark}, and numeric columns are padded with spaces to align their
+decimal points.
+The \code{.md} file is not saved if \code{getOption("sbf.save_md")} is \code{FALSE}, in
+which case any existing \code{.md} file for the table is deleted.
 }
 \examples{
 \dontrun{
@@ -90,6 +102,7 @@ sbf_save_table(
   format_column = list(zscore ~ round(., 1))
 )
 sbf_save_table(ppc, round_as_estimate = "observed")
+sbf_save_table(counts, no_big_mark = "year")
 }
 }
 \references{

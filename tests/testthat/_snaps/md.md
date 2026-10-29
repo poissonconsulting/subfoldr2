@@ -1,3 +1,11 @@
+# sbf_save_table does not use thousands separators in no_big_mark
+
+    Code
+      sbf_save_table(counts, no_big_mark = "yr")
+    Condition
+      Error in `sbf_save_table()`:
+      ! `no_big_mark` columns must be in `x`: 'yr' not found.
+
 # sbf_save_table validates proportion and format_column
 
     Code
@@ -69,12 +77,12 @@
     Code
       writeLines(md_table(x))
     Output
-      | term  |  estimate |   sd |   lower |   upper | zscore | svalue |
-      | :---- | --------: | ---: | ------: | ------: | -----: | -----: |
-      | bA    |    0.53   | 0.16 |    0.21 |    0.87 |  3.215 |    6.1 |
-      | bB    |   12.4    | 1.8  |    8.9  |   16    |  6.9   |   11.2 |
-      | sigma | 1230      |      | 1000    | 1600    |        |        |
-      | bC    |   -0.0123 |      |         |         | -1.2   |    0.0 |
+      | term  |   estimate |   sd |    lower |    upper | zscore | svalue |
+      | :---- | ---------: | ---: | -------: | -------: | -----: | -----: |
+      | bA    |     0.53   | 0.16 |     0.21 |     0.87 |  3.215 |    6.1 |
+      | bB    |    12.4    | 1.8  |     8.9  |    16    |  6.9   |   11.2 |
+      | sigma | 1,230      |      | 1,000    | 1,600    |        |        |
+      | bC    |    -0.0123 |      |          |          | -1.2   |    0.0 |
 
 # md_table rounds proportions from the nearer of 0 and 1
 
@@ -140,15 +148,49 @@
       | c | 12.4&#8199; | 1.8&#8199; | 20,000 | 10 |
       |  |  |  |  | Inf |
 
-# thousands separators are consistent within a column
+# thousands separators are used for numbers of 1000 or more
 
     Code
       writeLines(md_table(x))
     Output
-      | year | estimate | lower |  upper |
-      | ---: | -------: | ----: | -----: |
-      | 2024 |    9,500 |  8000 | 11,000 |
-      | 2025 |   12,000 |  9000 | 16,000 |
+      |  year | estimate | lower |  upper |
+      | ----: | -------: | ----: | -----: |
+      | 2,024 |    9,500 | 8,000 | 11,000 |
+      | 2,025 |   12,000 | 9,000 | 16,000 |
+
+# no_big_mark columns do not have thousands separators
+
+    Code
+      writeLines(md)
+    Output
+      | year |   yr |  count | length | estimate | lower |  upper |
+      | ---: | ---: | -----: | -----: | -------: | ----: | -----: |
+      | 2024 | 2024 |  1,500 |   1234 |     9500 | 8,000 | 11,000 |
+      | 2025 | 2026 | 20,000 |     12 |    12000 | 9,000 | 16,000 |
+
+# no_big_mark columns must be numeric columns in x
+
+    Code
+      sbf_as_md(x, no_big_mark = "yr")
+    Condition
+      Error in `sbf_as_md()`:
+      ! `no_big_mark` columns must be in `x`: 'yr' not found.
+
+---
+
+    Code
+      sbf_as_md(x, no_big_mark = "site")
+    Condition
+      Error in `sbf_as_md()`:
+      ! `no_big_mark` columns must be numeric: 'site'.
+
+---
+
+    Code
+      sbf_as_md(x, no_big_mark = NA_character_)
+    Condition
+      Error in `sbf_as_md()`:
+      ! `no_big_mark` must not have any missing values.
 
 # round_as_estimate rounds columns to the precision of the estimate
 
@@ -221,6 +263,51 @@
       | 2020 |     0.60 |  0.30 |  0.90 |   12.3 |
       | 2021 |     0.72 |  0.40 |  0.95 |  123.5 |
 
+# sbf_save_table drop_sd rounds by sd and drops it from md
+
+    Code
+      writeLines(sbf_load_table_md("x"))
+    Output
+      | estimate | lower | upper |
+      | -------: | ----: | ----: |
+      |    1.235 |  0.50 |  2.50 |
+
+---
+
+    Code
+      sbf_save_table(x, drop_sd = NA)
+    Condition
+      Error in `sbf_save_table()`:
+      ! `drop_sd` must be a flag (TRUE or FALSE).
+    Code
+      sbf_save_table(x["estimate"], drop_sd = TRUE)
+    Condition
+      Error in `sbf_save_table()`:
+      ! `x` must have a numeric column 'sd' when `drop_sd = TRUE`.
+
+# sbf_save_plot drop_sd rounds by sd and drops it from md
+
+    Code
+      writeLines(sbf_load_plot_md("p"))
+    Output
+      | estimate |
+      | -------: |
+      |    1.235 |
+      |    2.346 |
+
+---
+
+    Code
+      sbf_save_plot(ggplot2::ggplot(x["estimate"]), drop_sd = TRUE)
+    Condition
+      Error in `sbf_save_plot()`:
+      ! The `ggplot()` data of `x` must have a numeric column 'sd' when `drop_sd = TRUE`.
+    Code
+      sbf_save_plot(ggplot2::ggplot(), drop_sd = TRUE)
+    Condition
+      Error in `sbf_save_plot()`:
+      ! `format_column`, `round_as_estimate` and `no_big_mark` must be empty and `drop_sd` must be FALSE when `x` has no `ggplot()` data.
+
 # sbf_save_plot validates proportion and format_column before saving
 
     Code
@@ -247,5 +334,5 @@
       sbf_save_plot(ggplot2::ggplot(), format_column = list(n ~ round(.)))
     Condition
       Error in `sbf_save_plot()`:
-      ! `format_column` and `round_as_estimate` must be empty when `x` has no `ggplot()` data.
+      ! `format_column`, `round_as_estimate` and `no_big_mark` must be empty and `drop_sd` must be FALSE when `x` has no `ggplot()` data.
 
