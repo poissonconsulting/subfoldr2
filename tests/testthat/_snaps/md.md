@@ -84,6 +84,14 @@
       | sigma | 1,230      |      | 1,000    | 1,600    |        |        |
       | bC    |    -0.0123 |      |          |          | -1.2   |    0.0 |
 
+# proportion sd check handles units and ignores non-numeric sd
+
+    Code
+      chk_proportion_cols(x)
+    Condition
+      Error:
+      ! Column 'sd' in `x` must be between 0 and sd(c(0, 1)) when `proportion = TRUE`.
+
 # md_table rounds proportions from the nearer of 0 and 1
 
     Code

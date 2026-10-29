@@ -182,7 +182,8 @@ chk_proportion_cols <- function(
     )
   }
   # the largest possible sd of a proportion
-  if (is.numeric(x$sd) && any(x$sd < 0 | x$sd > sd(c(0, 1)), na.rm = TRUE)) {
+  value <- if (is.numeric(x$sd)) as.numeric(x$sd) else numeric(0)
+  if (any(value < 0 | value > sd(c(0, 1)), na.rm = TRUE)) {
     abort_chk(
       "Column 'sd' in ",
       x_name,

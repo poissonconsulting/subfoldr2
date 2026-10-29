@@ -116,6 +116,19 @@ test_that("proportion sd can be up to sd(c(0, 1))", {
   expect_identical(chk_proportion_cols(x), x)
 })
 
+test_that("proportion sd check handles units and ignores non-numeric sd", {
+  skip_if_not_installed("units")
+  x <- data.frame(estimate = 0.5, sd = units::set_units(c(0.1, NA), "1"))
+  expect_identical(chk_proportion_cols(x), x)
+  x$sd <- units::set_units(c(0.8, NA), "1")
+  expect_snapshot(chk_proportion_cols(x), error = TRUE)
+
+  x <- data.frame(estimate = 0.5, sd = c(TRUE, FALSE))
+  expect_identical(chk_proportion_cols(x), x)
+  x <- data.frame(estimate = 0.5, sd = c("0.8", "10"))
+  expect_identical(chk_proportion_cols(x), x)
+})
+
 test_that("md_table rounds proportions from the nearer of 0 and 1", {
   x <- data.frame(
     estimate = c(0.995, 0.5, 0.0123, 1),
