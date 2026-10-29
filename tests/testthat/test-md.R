@@ -414,6 +414,37 @@ test_that("sbf_save_plot saves no md if no ggplot data or option FALSE", {
   expect_null(sbf_load_plot_md("off", exists = NA))
 })
 
+test_that("sbf_save_table drop_sd rounds by sd and drops it from md", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  x <- data.frame(estimate = 1.23456, lower = 0.5, upper = 2.5, sd = 0.0123)
+  sbf_save_table(x, drop_sd = TRUE)
+  expect_snapshot(writeLines(sbf_load_table_md("x")))
+  expect_identical(sbf_load_table("x"), x)
+
+  expect_snapshot(error = TRUE, {
+    sbf_save_table(x, drop_sd = NA)
+    sbf_save_table(x["estimate"], drop_sd = TRUE)
+  })
+})
+
+test_that("sbf_save_plot drop_sd rounds by sd and drops it from md", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  x <- data.frame(estimate = c(1.23456, 2.34567), sd = 0.0123)
+  sbf_save_plot(ggplot2::ggplot(x), x_name = "p", drop_sd = TRUE)
+  expect_snapshot(writeLines(sbf_load_plot_md("p")))
+
+  expect_snapshot(error = TRUE, {
+    sbf_save_plot(ggplot2::ggplot(x["estimate"]), drop_sd = TRUE)
+    sbf_save_plot(ggplot2::ggplot(), drop_sd = TRUE)
+  })
+})
+
 test_that("sbf_save_plot deletes old md if no ggplot data or option FALSE", {
   sbf_reset()
   sbf_set_main(file.path(withr::local_tempdir(), "output"))

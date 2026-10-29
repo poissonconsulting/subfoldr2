@@ -520,6 +520,10 @@ sbf_save_string <- function(
 #'   columns must also be proportions.
 #' @param no_big_mark A character vector of numeric columns (e.g. `year`) to
 #'   format without commas as thousands separators in the `.md` file.
+#' @param drop_sd A flag specifying whether to drop the `sd` column from the
+#'   `.md` file after using it to round `estimate`, `lower` and `upper`.
+#'   If `TRUE` there must be a numeric `sd` column.
+#'   The `.rds` and `.csv` files retain the `sd` column.
 #' @return An invisible string of the path to the saved object.
 #' @references Cole, T.J. 2015. Too many digits: the presentation of
 #'   numerical data. Archives of Disease in Childhood 100(7): 608-609.
@@ -548,7 +552,8 @@ sbf_save_table <- function(
   proportion = FALSE,
   format_column = list(),
   round_as_estimate = character(0),
-  no_big_mark = character(0)
+  no_big_mark = character(0),
+  drop_sd = FALSE
 ) {
   x_name <- chk_deparse(x_name)
   chk_s3_class(x, "data.frame")
@@ -583,10 +588,19 @@ sbf_save_table <- function(
   chk_not_any_na(no_big_mark)
   chk_unique(no_big_mark)
   chk_no_big_mark(no_big_mark, x)
+  chk_flag(drop_sd)
+  chk_drop_sd(drop_sd, x)
   save_md <- getOption("sbf.save_md", TRUE)
   chk_flag(save_md, x_name = "`getOption(\"sbf.save_md\")`")
   md <- if (save_md) {
-    md_table(x, proportion, format_column, round_as_estimate, no_big_mark)
+    md_table(
+      x,
+      proportion,
+      format_column,
+      round_as_estimate,
+      no_big_mark,
+      drop_sd = drop_sd
+    )
   }
 
   sub <- sanitize_sub(sub)
@@ -867,7 +881,8 @@ sbf_save_plot <- function(
   proportion = FALSE,
   format_column = list(),
   round_as_estimate = character(0),
-  no_big_mark = character(0)
+  no_big_mark = character(0),
+  drop_sd = FALSE
 ) {
   if (!missing(drop_uninformative_cols)) {
     lifecycle::deprecate_warn(
@@ -913,6 +928,7 @@ sbf_save_plot <- function(
   chk_character(no_big_mark)
   chk_not_any_na(no_big_mark)
   chk_unique(no_big_mark)
+  chk_flag(drop_sd)
 
   # patchwork plots are split into their individual plots; a simple ggplot is
   # treated as a single-element list. Note that cowplot::plot_grid() has no
@@ -929,11 +945,15 @@ sbf_save_plot <- function(
       chk_proportion_cols(data, round_as_estimate, data_name)
     }
     chk_no_big_mark(no_big_mark, data, data_name)
+    chk_drop_sd(drop_sd, data, data_name)
   } else if (
-    length(format_column) || length(round_as_estimate) || length(no_big_mark)
+    length(format_column) ||
+      length(round_as_estimate) ||
+      length(no_big_mark) ||
+      drop_sd
   ) {
     abort_chk(
-      "`format_column`, `round_as_estimate` and `no_big_mark` must be empty when `x` has no `ggplot()` data.",
+      "`format_column`, `round_as_estimate` and `no_big_mark` must be empty and `drop_sd` must be FALSE when `x` has no `ggplot()` data.",
       call = rlang::current_call()
     )
   }
@@ -965,6 +985,7 @@ sbf_save_plot <- function(
   save_meta(meta, "plots", sub = sub, main = main, x_name = x_name)
 
   if (is.data.frame(data)) {
+    sd <- data$sd
     if (drop_uninformative_cols) {
       data <- tidyplus::drop_uninformative_columns(data)
     }
@@ -984,12 +1005,17 @@ sbf_save_plot <- function(
       )]
       round_as_estimate <- intersect(round_as_estimate, cols)
       no_big_mark <- intersect(no_big_mark, cols)
+      # an sd dropped as uninformative is still used for rounding
+      if (drop_sd && nrow(data) && !"sd" %in% cols) {
+        data$sd <- sd
+      }
       md <- md_table(
         data,
         proportion,
         format_column,
         round_as_estimate,
-        no_big_mark
+        no_big_mark,
+        drop_sd = drop_sd
       )
       save_txt(md, "plots", sub = sub, main = main, x_name = x_name, ext = "md")
     }

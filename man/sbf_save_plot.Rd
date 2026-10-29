@@ -23,7 +23,8 @@ sbf_save_plot(
   proportion = FALSE,
   format_column = list(),
   round_as_estimate = character(0),
-  no_big_mark = character(0)
+  no_big_mark = character(0),
+  drop_sd = FALSE
 )
 }
 \arguments{
@@ -87,6 +88,11 @@ columns must also be proportions.}
 
 \item{no_big_mark}{A character vector of numeric columns (e.g. \code{year}) to
 format without commas as thousands separators in the \code{.md} file.}
+
+\item{drop_sd}{A flag specifying whether to drop the \code{sd} column from the
+\code{.md} file after using it to round \code{estimate}, \code{lower} and \code{upper}.
+If \code{TRUE} there must be a numeric \code{sd} column.
+The \code{.rds} and \code{.csv} files retain the \code{sd} column.}
 }
 \description{
 Saves a ggplot object.
