@@ -9,7 +9,8 @@ sbf_as_md(
   round = FALSE,
   proportion = FALSE,
   format_column = list(),
-  round_as_estimate = character(0)
+  round_as_estimate = character(0),
+  no_big_mark = character(0)
 )
 }
 \arguments{
@@ -37,6 +38,9 @@ file to the same number of decimal places as \code{estimate} in the same row
 (e.g. an \code{observed} value compared with the estimate). Rows with a
 missing estimate are formatted as data. If \code{proportion = TRUE} the
 columns must also be proportions.}
+
+\item{no_big_mark}{A character vector of numeric columns (e.g. \code{year}) to
+format without commas as thousands separators in the \code{.md} file.}
 }
 \value{
 A character vector of the lines of the table in markdown format.
@@ -47,8 +51,8 @@ as the \code{.md} file saved by \code{\link[=sbf_save_table]{sbf_save_table()}} 
 }
 \details{
 Numeric columns are right-aligned with their decimal points aligned using
-spaces and commas as thousands separators only for numbers of 10,000 or
-more.
+spaces and commas as thousands separators for numbers of 1000 or more
+except in the columns named by \code{no_big_mark}.
 Other columns, including numbers stored as character, are left-aligned.
 List columns and the geometry column of sf objects are dropped.
 }
@@ -61,6 +65,8 @@ x <- data.frame(
 )
 writeLines(sbf_as_md(x))
 writeLines(sbf_as_md(x, round = TRUE))
+writeLines(sbf_as_md(data.frame(year = 2025L, count = 1500L)))
+writeLines(sbf_as_md(data.frame(year = 2025L), no_big_mark = "year"))
 }
 \seealso{
 \code{\link[=sbf_round_data]{sbf_round_data()}}

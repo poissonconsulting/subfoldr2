@@ -22,7 +22,8 @@ sbf_save_plot(
   drop_uninformative_cols = TRUE,
   proportion = FALSE,
   format_column = list(),
-  round_as_estimate = character(0)
+  round_as_estimate = character(0),
+  no_big_mark = character(0)
 )
 }
 \arguments{
@@ -83,6 +84,9 @@ file to the same number of decimal places as \code{estimate} in the same row
 (e.g. an \code{observed} value compared with the estimate). Rows with a
 missing estimate are formatted as data. If \code{proportion = TRUE} the
 columns must also be proportions.}
+
+\item{no_big_mark}{A character vector of numeric columns (e.g. \code{year}) to
+format without commas as thousands separators in the \code{.md} file.}
 }
 \description{
 Saves a ggplot object.
