@@ -17,7 +17,8 @@ sbf_save_table(
   notes = "",
   proportion = FALSE,
   format_column = list(),
-  round_as_estimate = character(0)
+  round_as_estimate = character(0),
+  no_big_mark = character(0)
 )
 ```
 
@@ -81,6 +82,11 @@ sbf_save_table(
   estimate are formatted as data. If `proportion = TRUE` the columns
   must also be proportions.
 
+- no_big_mark:
+
+  A character vector of numeric columns (e.g. `year`) to format without
+  commas as thousands separators in the `.md` file.
+
 ## Value
 
 An invisible string of the path to the saved object.
@@ -98,11 +104,11 @@ three significant digits. The column `svalue` is rounded to one decimal
 place. Other double columns are rounded to four significant digits,
 without adding trailing zeros beyond the digits of the value, while
 integer columns are not rounded. Significant trailing zeros are
-retained, commas are used as thousands separators only for numbers of
-10,000 or more, and numeric columns are padded with spaces to align
-their decimal points. The `.md` file is not saved if
-`getOption("sbf.save_md")` is `FALSE`, in which case any existing `.md`
-file for the table is deleted.
+retained, commas are used as thousands separators for numbers of 1000 or
+more except in the columns named by `no_big_mark`, and numeric columns
+are padded with spaces to align their decimal points. The `.md` file is
+not saved if `getOption("sbf.save_md")` is `FALSE`, in which case any
+existing `.md` file for the table is deleted.
 
 ## References
 
@@ -151,5 +157,6 @@ sbf_save_table(
   format_column = list(zscore ~ round(., 1))
 )
 sbf_save_table(ppc, round_as_estimate = "observed")
+sbf_save_table(counts, no_big_mark = "year")
 } # }
 ```

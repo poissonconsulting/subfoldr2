@@ -59,7 +59,8 @@ By default it saves the last plot to be modified or created.</p>
 <span>  drop_uninformative_cols <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  proportion <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  format_column <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  round_as_estimate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span>
+<span>  round_as_estimate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,</span>
+<span>  no_big_mark <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -159,6 +160,11 @@ file to the same number of decimal places as <code>estimate</code> in the same r
 (e.g. an <code>observed</code> value compared with the estimate). Rows with a
 missing estimate are formatted as data. If <code>proportion = TRUE</code> the
 columns must also be proportions.</p></dd>
+
+
+<dt id="arg-no-big-mark">no_big_mark<a class="anchor" aria-label="anchor" href="#arg-no-big-mark"></a></dt>
+<dd><p>A character vector of numeric columns (e.g. <code>year</code>) to
+format without commas as thousands separators in the <code>.md</code> file.</p></dd>
 
 </dl></div>
     <div class="section level2">

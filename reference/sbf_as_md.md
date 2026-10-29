@@ -14,7 +14,8 @@ sbf_as_md(
   round = FALSE,
   proportion = FALSE,
   format_column = list(),
-  round_as_estimate = character(0)
+  round_as_estimate = character(0),
+  no_big_mark = character(0)
 )
 ```
 
@@ -56,6 +57,11 @@ sbf_as_md(
   estimate are formatted as data. If `proportion = TRUE` the columns
   must also be proportions.
 
+- no_big_mark:
+
+  A character vector of numeric columns (e.g. `year`) to format without
+  commas as thousands separators in the `.md` file.
+
 ## Value
 
 A character vector of the lines of the table in markdown format.
@@ -63,10 +69,10 @@ A character vector of the lines of the table in markdown format.
 ## Details
 
 Numeric columns are right-aligned with their decimal points aligned
-using spaces and commas as thousands separators only for numbers of
-10,000 or more. Other columns, including numbers stored as character,
-are left-aligned. List columns and the geometry column of sf objects are
-dropped.
+using spaces and commas as thousands separators for numbers of 1000 or
+more except in the columns named by `no_big_mark`. Other columns,
+including numbers stored as character, are left-aligned. List columns
+and the geometry column of sf objects are dropped.
 
 ## See also
 
@@ -91,4 +97,12 @@ writeLines(sbf_as_md(x, round = TRUE))
 #> | :--------- | -------: | ----: | ----: |
 #> | bIntercept |     0.53 |  0.21 |  0.87 |
 #> | bYear      |    12.3  |  9.9  | 15    |
+writeLines(sbf_as_md(data.frame(year = 2025L, count = 1500L)))
+#> |  year | count |
+#> | ----: | ----: |
+#> | 2,025 | 1,500 |
+writeLines(sbf_as_md(data.frame(year = 2025L), no_big_mark = "year"))
+#> | year |
+#> | ---: |
+#> | 2025 |
 ```
