@@ -119,6 +119,30 @@ chk_drop_sd <- function(drop_sd, x, x_name = "`x`") {
   invisible(drop_sd)
 }
 
+chk_no_big_mark <- function(no_big_mark, x, x_name = "`x`") {
+  if (!length(no_big_mark)) {
+    return(invisible(no_big_mark))
+  }
+  missing <- setdiff(no_big_mark, names(x))
+  if (length(missing)) {
+    abort_chk(
+      "`no_big_mark` columns must be in ",
+      x_name,
+      ": ",
+      cc(missing, " and "),
+      " not found"
+    )
+  }
+  numeric <- vapply(x[no_big_mark], is.numeric, TRUE)
+  if (any(!numeric)) {
+    abort_chk(
+      "`no_big_mark` columns must be numeric: ",
+      cc(no_big_mark[!numeric], " and ")
+    )
+  }
+  invisible(no_big_mark)
+}
+
 chk_policy_numeric <- function(x) {
   cols <- intersect(policy_cols, names(x))
   text <- cols[!vapply(x[cols], is.numeric, TRUE)]
@@ -210,11 +234,8 @@ signif_dp <- function(x, digits, proportion = FALSE) {
   settle_dp(x, fun(x), fun, proportion)
 }
 
-# Thousands separators are used for every value in a column when any of its
-# values is 10,000 or more, so that four-digit values such as years are not
-# separated unless they share a column with larger values.
-big_mark <- function(x) {
-  if (any(abs(x[is.finite(x)]) >= 10000)) "," else ""
+drop_big_mark <- function(x) {
+  gsub(",", "", x, fixed = TRUE)
 }
 
 format_finite <- function(x, fun) {
@@ -225,7 +246,7 @@ format_finite <- function(x, fun) {
   out
 }
 
-format_dp <- function(x, dp, mark = big_mark(x)) {
+format_dp <- function(x, dp, mark = ",") {
   x[is.na(dp)] <- NA
   format_finite(x, function(i) {
     value <- round(x[i], dp[i])
@@ -267,8 +288,7 @@ value_dp <- function(x) {
   )
 }
 
-format_unrounded <- function(x) {
-  mark <- big_mark(x)
+format_unrounded <- function(x, mark = ",") {
   format_finite(x, function(i) {
     trimws(formatC(
       x[i],
@@ -292,19 +312,14 @@ format_estimates <- function(x, proportion, round_as_estimate = character(0)) {
   out <- list()
   estimate_dp <- signif_dp(estimate, 3, proportion)
   estimate_dp[ci] <- dp[ci]
-  mark <- big_mark(estimate)
-  out$estimate <- format_dp(estimate, estimate_dp, mark)
+  out$estimate <- format_dp(estimate, estimate_dp)
 
   # named columns are shown to the precision of the estimate in the same row
   for (col in round_as_estimate) {
     value <- as.numeric(x[[col]])
     has_dp <- is.finite(estimate)
     out[[col]] <- format_data(x[[col]])
-    out[[col]][has_dp] <- format_dp(
-      value[has_dp],
-      estimate_dp[has_dp],
-      big_mark(value)
-    )
+    out[[col]][has_dp] <- format_dp(value[has_dp], estimate_dp[has_dp])
   }
 
   for (cl in intersect(c("lower", "upper"), names(x))) {
@@ -312,18 +327,12 @@ format_estimates <- function(x, proportion, round_as_estimate = character(0)) {
       next
     }
     value <- as.numeric(x[[cl]])
-    mark <- big_mark(value)
-    out[[cl]] <- format_dp(value, signif_dp(value, 2, proportion), mark)
-    out[[cl]][ci] <- format_dp(
-      value[ci],
-      cl_dp(value[ci], dp[ci], proportion),
-      mark
-    )
+    out[[cl]] <- format_dp(value, signif_dp(value, 2, proportion))
+    out[[cl]][ci] <- format_dp(value[ci], cl_dp(value[ci], dp[ci], proportion))
   }
   if (is.numeric(x$sd)) {
-    mark <- big_mark(sd)
-    out$sd <- format_dp(sd, signif_dp(sd, 2), mark)
-    out$sd[ci] <- format_dp(sd[ci], dp[ci], mark)
+    out$sd <- format_dp(sd, signif_dp(sd, 2))
+    out$sd[ci] <- format_dp(sd[ci], dp[ci])
   }
   out
 }
@@ -346,10 +355,10 @@ apply_format_column <- function(x, f, call) {
   value
 }
 
-format_column_values <- function(x, f) {
+format_column_values <- function(x, f, mark) {
   value <- apply_format_column(x, f, call = rlang::caller_call(3))
   if (is.numeric(value)) {
-    return(format_unrounded(value))
+    return(format_unrounded(value, mark))
   }
   value <- as.character(value)
   value[is.na(value)] <- ""
@@ -399,7 +408,13 @@ as_plain_numeric <- function(x) {
   if (is.numeric(x) && is.object(x)) as.double(x) else x
 }
 
-md_round <- function(x, proportion, format_column, round_as_estimate) {
+md_round <- function(
+  x,
+  proportion,
+  format_column,
+  round_as_estimate,
+  no_big_mark = character(0)
+) {
   whole <- vapply(x, is_whole_column, TRUE)
   x[] <- lapply(x, as_plain_numeric)
   numeric <- vapply(x, is.numeric, TRUE)
@@ -417,18 +432,21 @@ md_round <- function(x, proportion, format_column, round_as_estimate) {
     estimates <- format_estimates(x, proportion, round_as_estimate)
     cols[names(estimates)] <- estimates
   }
+  cols[no_big_mark] <- lapply(cols[no_big_mark], drop_big_mark)
   for (f in format_column) {
     col <- rlang::as_string(rlang::f_lhs(f))
-    cols[[col]] <- format_column_values(x[[col]], f)
+    mark <- if (col %in% no_big_mark) "" else ","
+    cols[[col]] <- format_column_values(x[[col]], f, mark)
   }
   cols
 }
 
-md_unrounded <- function(x) {
+md_unrounded <- function(x, no_big_mark = character(0)) {
   x[] <- lapply(x, as_plain_numeric)
   numeric <- vapply(x, is.numeric, TRUE)
   cols <- lapply(x, format_other)
   cols[numeric] <- lapply(x[numeric], format_unrounded)
+  cols[no_big_mark] <- lapply(cols[no_big_mark], drop_big_mark)
   cols
 }
 
@@ -469,6 +487,7 @@ md_table <- function(
   proportion = FALSE,
   format_column = list(),
   round_as_estimate = character(0),
+  no_big_mark = character(0),
   drop_sd = FALSE,
   round = TRUE
 ) {
@@ -478,9 +497,9 @@ md_table <- function(
   }
   numeric <- vapply(x, is.numeric, TRUE)
   cols <- if (round) {
-    md_round(x, proportion, format_column, round_as_estimate)
+    md_round(x, proportion, format_column, round_as_estimate, no_big_mark)
   } else {
-    md_unrounded(x)
+    md_unrounded(x, no_big_mark)
   }
   keep <- !drop_sd | names(x) != "sd"
   md_layout(cols[keep], names(x)[keep], numeric[keep])
