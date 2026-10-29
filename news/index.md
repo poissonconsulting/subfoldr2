@@ -1,5 +1,31 @@
 # Changelog
 
+## subfoldr2 1.0.1.9028
+
+### Bug fixes
+
+- Delete existing `.md` file when
+  [`sbf_save_table()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_table.md)
+  or
+  [`sbf_save_plot()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_plot.md)
+  does not write one (#225, \#226).
+
+### Features
+
+- Add `drop_sd` argument to
+  [`sbf_save_table()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_table.md)
+  and
+  [`sbf_save_plot()`](https://poissonconsulting.github.io/subfoldr2/reference/sbf_save_plot.md)
+  (#224, \#227).
+
+- Breaking change: Use thousands separators for numbers of 1000 or more
+  except in `no_big_mark` columns (#228, \#229).
+
+### Breaking changes
+
+- Breaking change: Use thousands separators for numbers of 1000 or more
+  except in `no_big_mark` columns (#228, \#229).
+
 ## subfoldr2 1.0.1.9027
 
 - Same as previous version.
