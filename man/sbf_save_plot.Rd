@@ -105,8 +105,9 @@ index (\code{0} for the \code{ggplot()} data), and \verb{<geom>} is the layer ty
 \code{point}, \code{line}). Layers with more than \code{csv} rows are omitted.
 \item An \code{md} file of the same data as the \code{csv} with the values rounded and
 formatted for display as described in \code{\link[=sbf_save_table]{sbf_save_table()}}. The values in the
-plot are not rounded. The \code{md} file is not saved if
-\code{getOption("sbf.save_md")} is \code{FALSE}.
+plot are not rounded. The \code{md} file is not saved if there is no \code{ggplot()}
+data or \code{getOption("sbf.save_md")} is \code{FALSE}, in which case any existing
+\code{md} file for the plot is deleted.
 }
 
 The \code{csv}, \code{xlsx} and \code{md} files are named using the \code{x_name} argument. Not
