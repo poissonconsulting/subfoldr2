@@ -1,5 +1,11 @@
 # Changelog
 
+## subfoldr2 1.0.1.9029
+
+### Bug fixes
+
+- Limit sd to sd(c(0, 1)) when proportion = TRUE (#222).
+
 ## subfoldr2 1.0.1.9028
 
 ### Bug fixes

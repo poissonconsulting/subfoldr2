@@ -9,7 +9,7 @@ By default it saves the last plot to be modified or created."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">subfoldr2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1.9028</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1.9029</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -142,7 +142,8 @@ always dropped in csv files and always kept in xlsx files.</p></dd>
 <dt id="arg-proportion">proportion<a class="anchor" aria-label="anchor" href="#arg-proportion"></a></dt>
 <dd><p>A flag specifying whether the columns <code>estimate</code>,
 <code>lower</code>, <code>upper</code> and <code>sd</code> are proportions, in which case significant
-digits are counted from the nearer of 0 and 1 in the <code>.md</code> file.</p></dd>
+digits are counted from the nearer of 0 and 1 in the <code>.md</code> file.
+The <code>sd</code> must not exceed <code>sd(c(0, 1))</code>.</p></dd>
 
 
 <dt id="arg-format-column">format_column<a class="anchor" aria-label="anchor" href="#arg-format-column"></a></dt>

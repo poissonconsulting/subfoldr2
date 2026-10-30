@@ -63,7 +63,8 @@ sbf_save_table(
 
   A flag specifying whether the columns `estimate`, `lower`, `upper` and
   `sd` are proportions, in which case significant digits are counted
-  from the nearer of 0 and 1 in the `.md` file.
+  from the nearer of 0 and 1 in the `.md` file. The `sd` must not exceed
+  `sd(c(0, 1))`.
 
 - format_column:
 
