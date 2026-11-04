@@ -39,7 +39,9 @@ current main folder)}
 An invisible character vector of the names of the tables saved.
 }
 \description{
-Save Data Frames to Existing Database
+By default, every table in the database must have a matching data frame
+in \code{env}. To save a subset of the tables, specify \code{x_name} to match their
+names.
 }
 \seealso{
 Other save functions:

@@ -986,7 +986,7 @@ sbf_save_plot <- function(
   save_meta(meta, "plots", sub = sub, main = main, x_name = x_name)
 
   if (is.data.frame(data)) {
-    sd <- data$sd
+    sd <- data[["sd"]]
     if (drop_uninformative_cols) {
       data <- tidyplus::drop_uninformative_columns(data)
     }
@@ -1775,10 +1775,6 @@ sbf_save_gpkgs <- function(
 }
 
 #' Save Data Frames to Existing Database
-#'
-#' By default, every table in the database must have a matching data frame
-#' in `env`. To save a subset of the tables, specify `x_name` to match their
-#' names.
 #'
 #' By default, every table in the database must have a matching data frame
 #' in `env`. To save a subset of the tables, specify `x_name` to match their
