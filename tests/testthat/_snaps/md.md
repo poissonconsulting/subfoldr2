@@ -316,6 +316,24 @@
       Error in `sbf_save_plot()`:
       ! `format_column`, `round_as_estimate` and `no_big_mark` must be empty and `drop_sd` must be FALSE when `x` has no `ggplot()` data.
 
+# policy columns are matched exactly
+
+    Code
+      writeLines(sbf_load_table_md("partial"))
+    Output
+      | estimate | sd_log |
+      | -------: | -----: |
+      |     1.23 |   0.05 |
+
+---
+
+    Code
+      writeLines(sbf_load_table_md("exact"))
+    Output
+      | estimate |    sd |
+      | -------: | ----: |
+      |    1.235 | 0.050 |
+
 # sbf_save_plot validates proportion and format_column before saving
 
     Code

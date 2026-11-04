@@ -228,7 +228,10 @@ test_that("thousands separators are used for numbers of 1000 or more", {
     format_data(c(11615L, 1595L, 9640L, 999L)),
     c("11,615", "1,595", "9,640", "999")
   )
-  expect_identical(format_data(c(9640, -1595, 999)), c("9,640", "-1,595", "999"))
+  expect_identical(
+    format_data(c(9640, -1595, 999)),
+    c("9,640", "-1,595", "999")
+  )
   expect_identical(format_data(c(2024L, 2025L)), c("2,024", "2,025"))
 
   x <- data.frame(
@@ -462,6 +465,23 @@ test_that("sbf_save_plot drop_sd rounds by sd and drops it from md", {
     sbf_save_plot(ggplot2::ggplot(x["estimate"]), drop_sd = TRUE)
     sbf_save_plot(ggplot2::ggplot(), drop_sd = TRUE)
   })
+})
+
+test_that("policy columns are matched exactly", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  x <- tibble::tibble(estimate = c(1.23456, 2.34567))
+  expect_no_warning(sbf_save_plot(ggplot2::ggplot(x), x_name = "no_sd"))
+
+  y <- data.frame(estimate = 1.23456, sd_log = 0.05)
+  sbf_save_table(y, x_name = "partial")
+  expect_snapshot(writeLines(sbf_load_table_md("partial")))
+
+  z <- data.frame(estimate = 1.23456, sd = 0.05)
+  sbf_save_table(z, x_name = "exact")
+  expect_snapshot(writeLines(sbf_load_table_md("exact")))
 })
 
 test_that("sbf_save_plot deletes old md if no ggplot data or option FALSE", {

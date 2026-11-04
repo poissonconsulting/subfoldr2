@@ -65,7 +65,7 @@ chk_round_as_estimate <- function(
   if (!length(round_as_estimate)) {
     return(invisible(round_as_estimate))
   }
-  if (!is.numeric(x$estimate)) {
+  if (!is.numeric(x[["estimate"]])) {
     abort_chk(
       x_name,
       " must have a numeric column 'estimate' when `round_as_estimate` is used."
@@ -110,7 +110,7 @@ chk_round_as_estimate <- function(
 }
 
 chk_drop_sd <- function(drop_sd, x, x_name = "`x`") {
-  if (drop_sd && !is.numeric(x$sd)) {
+  if (drop_sd && !is.numeric(x[["sd"]])) {
     abort_chk(
       x_name,
       " must have a numeric column 'sd' when `drop_sd = TRUE`."
@@ -161,7 +161,7 @@ chk_proportion_cols <- function(
   round_as_estimate = character(0),
   x_name = "`x`"
 ) {
-  if (!is.numeric(x$estimate)) {
+  if (!is.numeric(x[["estimate"]])) {
     abort_chk(
       x_name,
       " must have a numeric column 'estimate' when `proportion = TRUE`."
@@ -182,7 +182,7 @@ chk_proportion_cols <- function(
     )
   }
   # the largest possible sd of a proportion
-  value <- if (is.numeric(x$sd)) as.numeric(x$sd) else numeric(0)
+  value <- if (is.numeric(x[["sd"]])) as.numeric(x[["sd"]]) else numeric(0)
   if (any(value < 0 | value > sd(c(0, 1)), na.rm = TRUE)) {
     abort_chk(
       "Column 'sd' in ",
@@ -312,11 +312,11 @@ format_unrounded <- function(x, mark = ",") {
 }
 
 format_estimates <- function(x, proportion, round_as_estimate = character(0)) {
-  estimate <- as.numeric(x$estimate)
+  estimate <- as.numeric(x[["estimate"]])
   na <- rep(NA_real_, nrow(x))
-  lower <- if (is.numeric(x$lower)) as.numeric(x$lower) else na
-  upper <- if (is.numeric(x$upper)) as.numeric(x$upper) else na
-  sd <- if (is.numeric(x$sd)) as.numeric(x$sd) else na
+  lower <- if (is.numeric(x[["lower"]])) as.numeric(x[["lower"]]) else na
+  upper <- if (is.numeric(x[["upper"]])) as.numeric(x[["upper"]]) else na
+  sd <- if (is.numeric(x[["sd"]])) as.numeric(x[["sd"]]) else na
 
   dp <- sd_dp(lower, upper, sd)
   ci <- !is.na(dp)
@@ -342,7 +342,7 @@ format_estimates <- function(x, proportion, round_as_estimate = character(0)) {
     out[[cl]] <- format_dp(value, signif_dp(value, 2, proportion))
     out[[cl]][ci] <- format_dp(value[ci], cl_dp(value[ci], dp[ci], proportion))
   }
-  if (is.numeric(x$sd)) {
+  if (is.numeric(x[["sd"]])) {
     out$sd <- format_dp(sd, signif_dp(sd, 2))
     out$sd[ci] <- format_dp(sd[ci], dp[ci])
   }
@@ -440,7 +440,7 @@ md_round <- function(
   if ("svalue" %in% names(x) && is.numeric(x$svalue)) {
     cols$svalue <- format_dp(x$svalue, rep(1, nrow(x)))
   }
-  if (is.numeric(x$estimate)) {
+  if (is.numeric(x[["estimate"]])) {
     estimates <- format_estimates(x, proportion, round_as_estimate)
     cols[names(estimates)] <- estimates
   }
