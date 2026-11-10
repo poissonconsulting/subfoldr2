@@ -54,6 +54,8 @@ sbf_is_equal_data <- function(
 #' @inheritParams sbf_unarchive_main
 #' @inheritParams base::all.equal
 #' @return A named logical vector.
+#' If `archive` is a whole number and there are no archived folders for `main`,
+#' an empty named logical vector is returned with a message.
 #' @family compare functions
 #' @export
 sbf_is_equal_data_archive <- function(
@@ -71,6 +73,9 @@ sbf_is_equal_data_archive <- function(
     chkor_vld(vld_whole_number(archive), vld_dir(archive))
   }
   if (vld_numeric(archive)) {
+    if (no_archive(main)) {
+      return(structure(logical(0), .Names = character(0)))
+    }
     archive <- sbf_get_archive(main = main, archive = archive)
   }
 

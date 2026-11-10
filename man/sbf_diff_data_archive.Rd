@@ -36,6 +36,8 @@ sub folder.}
 }
 \value{
 A named list of character vectors.
+If \code{archive} is a whole number and there are no archived folders for \code{main},
+an empty named list is returned with a message.
 }
 \description{
 Find differences with existing data and archived data.

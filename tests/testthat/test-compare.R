@@ -90,3 +90,18 @@ test_that("compare_datas", {
   expect_identical(names(comparison), "data/x")
   expect_s3_class(comparison[["data/x"]], "waldo_compare")
 })
+
+test_that("compare_data_archive informs and returns empty list if no archive", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  x <- data.frame(x = 1)
+  sbf_save_data(x)
+
+  expect_message(
+    comparison <- sbf_compare_data_archive(),
+    "There are no archived folders for 'output'"
+  )
+  expect_identical(comparison, structure(list(), .Names = character(0)))
+})

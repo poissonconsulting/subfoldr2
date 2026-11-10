@@ -128,3 +128,18 @@ test_that("is_equal_datas", {
     c("data/x" = TRUE)
   )
 })
+
+test_that("is_equal_data_archive informs and returns empty logical if no archive", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  x <- data.frame(x = 1)
+  sbf_save_data(x)
+
+  expect_message(
+    equal <- sbf_is_equal_data_archive(),
+    "There are no archived folders for 'output'"
+  )
+  expect_identical(equal, structure(logical(0), .Names = character(0)))
+})

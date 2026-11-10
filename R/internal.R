@@ -199,6 +199,35 @@ get_new_main <- function(main, tz) {
   file.path(dir, base)
 }
 
+# archived folders for main with the most recent first
+list_archives <- function(main) {
+  dir <- dirname(main)
+  if (!dir.exists(dir)) {
+    return(character(0))
+  }
+  files <- fs::dir_ls(dir, type = "directory")
+  prefix <- paste0(basename(main), "-")
+  base <- basename(files)
+  date_time <- substr(base, nchar(prefix) + 1L, nchar(base))
+  is_archive <- startsWith(base, prefix) &
+    grepl("^\\d{4}(-\\d{2}){5}$", date_time)
+  rev(sort(files[is_archive]))
+}
+
+no_archive <- function(main) {
+  if (length(list_archives(main))) {
+    return(FALSE)
+  }
+  cli::cli_alert_info(paste0(
+    "There are no archived folders for '",
+    basename(main),
+    "' in '",
+    dirname(main),
+    "'."
+  ))
+  TRUE
+}
+
 all_equal_data <- function(name, main, archive, tolerance, check.attributes) {
   main <- file_path(main, name)
   archive <- file_path(archive, name)

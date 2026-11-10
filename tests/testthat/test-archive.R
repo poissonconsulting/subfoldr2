@@ -101,3 +101,38 @@ test_that("unarchive", {
   expect_identical(sbf_load_number("x"), 2)
   expect_error(sbf_unarchive_main(ask = FALSE))
 })
+
+test_that("get_archive ignores archives of other main folders", {
+  sbf_reset()
+  dir <- withr::local_tempdir()
+  withr::defer(sbf_reset())
+
+  sbf_set_main(file.path(dir, "output"))
+  x <- 1
+  sbf_save_number(x)
+  expect_message(archive <- sbf_archive_main(ask = FALSE))
+
+  sbf_set_main(file.path(dir, "output2"))
+  sbf_save_number(x)
+  expect_message(archive2 <- sbf_archive_main(ask = FALSE))
+
+  sbf_set_main(file.path(dir, "put"))
+  sbf_save_number(x)
+
+  expect_equal(
+    as.character(sbf_get_archive(main = file.path(dir, "output"))),
+    archive
+  )
+  expect_equal(
+    as.character(sbf_get_archive(main = file.path(dir, "output2"))),
+    archive2
+  )
+  expect_error(
+    sbf_get_archive(main = file.path(dir, "output"), archive = 2L),
+    "There are only 1 archived folders for 'output'"
+  )
+  expect_error(
+    sbf_get_archive(main = file.path(dir, "put")),
+    "There are no archived folders for 'put'"
+  )
+})
