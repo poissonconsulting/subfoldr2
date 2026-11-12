@@ -68,7 +68,9 @@ sbf_is_equal_data_archive(
 
 ## Value
 
-A named logical vector.
+A named logical vector. If `archive` is a whole number and there are no
+archived folders for `main`, an empty named logical vector is returned
+with a message.
 
 ## See also
 

@@ -53,7 +53,9 @@ sbf_diff_data_archive(
 
 ## Value
 
-A named list of character vectors.
+A named list of character vectors. If `archive` is a whole number and
+there are no archived folders for `main`, an empty named list is
+returned with a message.
 
 ## See also
 
