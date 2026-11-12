@@ -47,6 +47,8 @@ sbf_compare_data <- function(
 #' @inheritParams base::all.equal
 #' @inheritParams waldo::compare
 #' @return A named list of character vectors.
+#' If `archive` is a whole number and there are no archived folders for `main`,
+#' an empty named list is returned with a message.
 #' @family compare functions
 #' @export
 sbf_compare_data_archive <- function(
@@ -65,6 +67,9 @@ sbf_compare_data_archive <- function(
     chkor_vld(vld_whole_number(archive), vld_dir(archive))
   }
   if (vld_numeric(archive)) {
+    if (no_archive(main)) {
+      return(structure(list(), .Names = character(0)))
+    }
     archive <- sbf_get_archive(main = main, archive = archive)
   }
 

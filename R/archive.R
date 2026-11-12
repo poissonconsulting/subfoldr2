@@ -105,11 +105,7 @@ sbf_get_archive <- function(main = sbf_get_main(), archive = 1L) {
   chk_whole_number(archive)
   chk_gt(archive)
 
-  files <- fs::dir_ls(
-    dirname(main),
-    type = "directory",
-    regexp = ".*-\\d{4,4}(-\\d{2,2}){5,5}$"
-  )
+  files <- list_archives(main)
 
   if (!length(files)) {
     stop(
@@ -133,6 +129,5 @@ sbf_get_archive <- function(main = sbf_get_main(), archive = 1L) {
     )
   }
 
-  files <- rev(sort(files))
   files[archive]
 }

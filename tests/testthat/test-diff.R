@@ -73,3 +73,18 @@ test_that("table", {
   x <- 1
   expect_error(sbf_diff_table(x))
 })
+
+test_that("diff_data_archive informs and returns empty list if no archive", {
+  sbf_reset()
+  sbf_set_main(file.path(withr::local_tempdir(), "output"))
+  withr::defer(sbf_reset())
+
+  x <- data.frame(x = 1)
+  sbf_save_data(x)
+
+  expect_message(
+    diff <- sbf_diff_data_archive(),
+    "There are no archived folders for 'output'"
+  )
+  expect_identical(diff, structure(list(), .Names = character(0)))
+})

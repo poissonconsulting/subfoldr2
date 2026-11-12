@@ -46,6 +46,8 @@ sub folder.}
 }
 \value{
 A named logical vector.
+If \code{archive} is a whole number and there are no archived folders for \code{main},
+an empty named logical vector is returned with a message.
 }
 \description{
 Test if existing data are equal to archived data using \code{\link[=all.equal]{all.equal()}}.

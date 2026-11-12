@@ -50,6 +50,8 @@ functional differences.}
 }
 \value{
 A named list of character vectors.
+If \code{archive} is a whole number and there are no archived folders for \code{main},
+an empty named list is returned with a message.
 }
 \description{
 Compares existing data to archived data using using waldo::compare.
