@@ -1,5 +1,12 @@
 # Changelog
 
+## subfoldr2 1.0.1.9031
+
+### Bug fixes
+
+- Return empty comparison when there are no archived folders (#233,
+  \#234).
+
 ## subfoldr2 1.0.1.9030
 
 - Same as previous version.
