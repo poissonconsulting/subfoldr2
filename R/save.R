@@ -1,4 +1,5 @@
-file_name <- function(main, class, sub, x_name, ext) {
+# exists_ok = TRUE is for callers that resolve a path without replacing the file
+file_name <- function(main, class, sub, x_name, ext, exists_ok = FALSE) {
   dir <- file_path(main, class, sub)
   dir_create(dir)
   x_name <- chk::unbacktick_chk(x_name)
@@ -7,8 +8,29 @@ file_name <- function(main, class, sub, x_name, ext) {
   if (!identical(ext, file_ext(x_name))) {
     file <- paste0(file, ".", ext)
   }
+  if (!exists_ok) {
+    chk_no_overwrite(file)
+  }
 
   file
+}
+
+get_overwrite <- function() {
+  overwrite <- getOption("sbf.overwrite", TRUE)
+  chk_flag(overwrite, x_name = "`getOption(\"sbf.overwrite\")`")
+  overwrite
+}
+
+chk_no_overwrite <- function(file) {
+  if (!get_overwrite() && file.exists(file)) {
+    abort_chk(
+      "File '",
+      file,
+      "' already exists and `getOption(\"sbf.overwrite\")` is FALSE.",
+      call = NULL
+    )
+  }
+  invisible(file)
 }
 
 save_rds <- function(x, class, main, sub, x_name) {
@@ -33,7 +55,7 @@ save_txt <- function(txt, class, sub, main, x_name, ext = "txt") {
 
 # a stale md from a previous save must not outlive the data it represented
 rm_md <- function(class, sub, main, x_name) {
-  unlink(file_name(main, class, sub, x_name, "md"))
+  unlink(file_name(main, class, sub, x_name, "md", exists_ok = TRUE))
 }
 
 save_meta <- function(meta, class, sub, main, x_name) {
@@ -211,6 +233,9 @@ save_workbook <- function(x, sub, main, workbook_name, epgs) {
 #' current sub folder).
 #' @param main A string specifying the path to the main folder (by default the
 #' current main folder)
+#' @section Overwriting:
+#' By default an existing file with the same name is replaced without warning.
+#' If `getOption("sbf.overwrite")` is `FALSE` an error is thrown instead.
 #' @return An invisible string of the path to the saved object.
 #' @family save functions
 #' @export
@@ -239,6 +264,7 @@ sbf_save_object <- function(
 #' @inheritParams sbf_save_object
 #' @return An invisible string of the path to the saved data.frame
 #' @family save functions
+#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_data <- function(
   x,
@@ -270,6 +296,7 @@ sbf_save_data <- function(
 #' @inheritParams sbf_save_object
 #' @return An invisible string of the path to the saved data.frame
 #' @family save functions
+#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_spatial <- function(
   x,
@@ -392,6 +419,7 @@ valid_spatial <- function(x) {
 #' @param signif A positive whole number specifying the number of significant digits to round by.
 #' @return An invisible string of the path to the saved object.
 #' @family save functions
+#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_number <- function(
   x,
@@ -441,6 +469,7 @@ sbf_save_number <- function(
 #' @param notes A string of additional notes to save with the metadata.
 #' @return An invisible string of the path to the saved object.
 #' @family save functions
+#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_string <- function(
   x,
@@ -530,6 +559,7 @@ sbf_save_string <- function(
 #'   numerical data. Archives of Disease in Childhood 100(7): 608-609.
 #'   \doi{10.1136/archdischild-2014-307149}.
 #' @family save functions
+#' @inheritSection sbf_save_object Overwriting
 #' @export
 #' @examples
 #' \dontrun{
@@ -627,6 +657,7 @@ sbf_save_table <- function(
 #' @inheritParams sbf_save_table
 #' @return An invisible string of the path to the saved object.
 #' @family save functions
+#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_block <- function(
   x,
@@ -831,6 +862,7 @@ untransform_layer_data <- function(data, layout) {
 #' specifying `x` overwrites existing files that used `x_name = "plot"`.
 #'
 #' @family save functions
+#' @inheritSection sbf_save_object Overwriting
 #' @export
 #' @examples
 #' \dontrun{
@@ -1051,6 +1083,7 @@ sbf_save_plot <- function(
 #' @inheritParams sbf_save_table
 #' @inheritParams sbf_save_plot
 #' @family save functions
+#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_window <- function(
   x_name = "window",
@@ -1140,6 +1173,7 @@ sbf_basename_sans_ext <- function(x) {
 #' @inheritParams sbf_save_table
 #' @inheritParams sbf_save_plot
 #' @family save functions
+#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_png <- function(
   x,
@@ -1214,6 +1248,7 @@ sbf_save_png <- function(
 #' \dontrun{
 #' sbf_save_excel()
 #' }
+#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_excel <- function(
   x,
@@ -1257,6 +1292,7 @@ sbf_save_excel <- function(
 #' \dontrun{
 #' sbf_save_gpkg()
 #' }
+#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_gpkg <- function(
   x,
@@ -1301,6 +1337,7 @@ sbf_save_gpkg <- function(
 #' \dontrun{
 #' sbf_save_workbook()
 #' }
+#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_workbook <- function(
   workbook_name = basename(getwd()),
@@ -1385,7 +1422,14 @@ sbf_save_data_to_db <- function(
     conn = conn,
     silent = silent
   )
-  invisible(file_name(main, "dbs", sub, db_name, ext = "sqlite"))
+  invisible(file_name(
+    main,
+    "dbs",
+    sub,
+    db_name,
+    ext = "sqlite",
+    exists_ok = TRUE
+  ))
 }
 
 #' Saves Meta Table Descriptions to Database
@@ -1449,6 +1493,7 @@ sbf_save_db_metatable_descriptions <- function(
 #' @param x_name A string of the Perl-compatible regular expression to match.
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
+#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_objects <- function(
   sub = sbf_get_sub(),
@@ -1482,6 +1527,7 @@ sbf_save_objects <- function(
 #' @inheritParams sbf_save_object
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
+#' @inheritSection sbf_save_object Overwriting
 #' @export
 #' @examples
 #' \dontrun{
@@ -1542,6 +1588,7 @@ sbf_save_datas <- function(
 #' @inheritParams sbf_save_object
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
+#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_spatials <- function(
   sub = sbf_get_sub(),
@@ -1581,6 +1628,7 @@ sbf_save_spatials <- function(
 #' @inheritParams sbf_save_number
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
+#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_numbers <- function(
   sub = sbf_get_sub(),
@@ -1620,6 +1668,7 @@ sbf_save_numbers <- function(
 #' @inheritParams sbf_save_object
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
+#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_strings <- function(
   sub = sbf_get_sub(),
@@ -1664,6 +1713,7 @@ sbf_save_strings <- function(
 #' \dontrun{
 #' sbf_save_excels()
 #' }
+#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_excels <- function(
   sub = sbf_get_sub(),
@@ -1734,6 +1784,7 @@ save_gpkgs <- function(x, x_name, sub, main, all_sfcs) {
 #' @param all_sfcs A flag specifying whether to save non-active sfc columns as geopackages.
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
+#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_gpkgs <- function(
   sub = sbf_get_sub(),
@@ -1839,6 +1890,7 @@ sbf_save_datas_to_db <- function(
 #' @inheritParams sbf_save_workbook
 #' @inheritParams sbf_open_db
 #' @family excel
+#' @inheritSection sbf_save_object Overwriting
 #' @family save functions
 #' @examples
 #' \dontrun{

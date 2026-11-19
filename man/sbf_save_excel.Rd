@@ -43,6 +43,12 @@ to excel because excel only allows a maximum number of 1,048,576. For the
 \code{max_sheets} argument you can pass a number higher then the required
 and it will only return as many sheets as there is data.
 }
+\section{Overwriting}{
+
+By default an existing file with the same name is replaced without warning.
+If \code{getOption("sbf.overwrite")} is \code{FALSE} an error is thrown instead.
+}
+
 \examples{
 \dontrun{
 sbf_save_excel()

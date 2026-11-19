@@ -32,6 +32,12 @@ An invisible string of the path to the saved data.frame
 Saves data frames from the environment to their own excel workbook. Each table
 will be its own excel workbook.
 }
+\section{Overwriting}{
+
+By default an existing file with the same name is replaced without warning.
+If \code{getOption("sbf.overwrite")} is \code{FALSE} an error is thrown instead.
+}
+
 \examples{
 \dontrun{
 sbf_save_excels()

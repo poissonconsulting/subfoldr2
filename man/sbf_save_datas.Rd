@@ -28,6 +28,12 @@ An invisible character vector of the paths to the saved objects.
 \description{
 Save Data Frames
 }
+\section{Overwriting}{
+
+By default an existing file with the same name is replaced without warning.
+If \code{getOption("sbf.overwrite")} is \code{FALSE} an error is thrown instead.
+}
+
 \examples{
 \dontrun{
 sbf_set_main(file.path(tempdir(), "output"))

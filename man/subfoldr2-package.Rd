@@ -8,6 +8,31 @@
 \description{
 Facilitates saving and loading R objects, data frames, tables, plots, text blocks and numbers to subfolders.
 }
+\section{Options}{
+
+The following global options can be set with \code{\link[=options]{options()}}.
+\itemize{
+\item \code{sbf.main}: A string of the path to the main folder (by default
+\code{"output"}). Set with \code{\link[=sbf_set_main]{sbf_set_main()}}.
+\item \code{sbf.sub}: A string of the path to the sub folder. Set with
+\code{\link[=sbf_set_sub]{sbf_set_sub()}}.
+\item \code{sbf.db_name}: A string of the database name (by default \code{"database"}).
+Set with \code{\link[=sbf_set_db_name]{sbf_set_db_name()}}.
+\item \code{sbf.ask}: A flag (by default \code{TRUE}) specifying whether to ask before
+deleting existing folders and files.
+\item \code{sbf.quiet}: A flag specifying whether to silence messages.
+\item \code{sbf.save_md}: A flag (by default \code{TRUE}) specifying whether
+\code{\link[=sbf_save_table]{sbf_save_table()}} and \code{\link[=sbf_save_plot]{sbf_save_plot()}} save a \code{.md} file.
+\item \code{sbf.signif}: A positive whole number (by default \code{22}) of the
+significant digits \code{\link[=sbf_save_number]{sbf_save_number()}} rounds to.
+\item \code{sbf.overwrite}: A flag (by default \code{TRUE}) specifying whether existing
+output can be replaced. If \code{FALSE} the save functions and
+\code{\link[=sbf_open_pdf]{sbf_open_pdf()}} throw an error if a file they would write already
+exists, and setting the main or sub folder with \code{rm = TRUE} throws an
+error if the folder contains files.
+}
+}
+
 \seealso{
 Useful links:
 \itemize{

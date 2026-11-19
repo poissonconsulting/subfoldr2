@@ -10,7 +10,9 @@ sbf_up_sub(n = 1L, rm = FALSE, ask = getOption("sbf.ask", TRUE))
 \item{n}{A positive int of the number of subfolders to move up.}
 
 \item{rm}{A flag specifying whether to remove the folder and all its contents
-if it already exists.}
+if it already exists.
+If \code{getOption("sbf.overwrite")} is \code{FALSE} an error is thrown if the folder
+contains files.}
 
 \item{ask}{A flag specifying whether to ask before removing the existing
 folder.}

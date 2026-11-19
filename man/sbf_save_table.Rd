@@ -94,6 +94,12 @@ decimal points.
 The \code{.md} file is not saved if \code{getOption("sbf.save_md")} is \code{FALSE}, in
 which case any existing \code{.md} file for the table is deleted.
 }
+\section{Overwriting}{
+
+By default an existing file with the same name is replaced without warning.
+If \code{getOption("sbf.overwrite")} is \code{FALSE} an error is thrown instead.
+}
+
 \examples{
 \dontrun{
 sbf_save_table(

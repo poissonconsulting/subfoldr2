@@ -36,6 +36,12 @@ By default (\code{all_sfcs = TRUE}) non-active sfc columns are saved
 as file_name_geometry_column_name.gpkg this includes data frames with
 no active sfc column.
 }
+\section{Overwriting}{
+
+By default an existing file with the same name is replaced without warning.
+If \code{getOption("sbf.overwrite")} is \code{FALSE} an error is thrown instead.
+}
+
 \seealso{
 Other save functions:
 \code{\link[=sbf_basename_sans_ext]{sbf_basename_sans_ext()}},

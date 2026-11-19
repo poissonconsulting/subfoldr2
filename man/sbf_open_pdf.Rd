@@ -29,6 +29,12 @@ current main folder)}
 Opens a pdf device in the current pdfs subfolder using
 \verb{grDevices::[pdf][grDevices::pdf]()}.
 }
+\section{Overwriting}{
+
+By default an existing file with the same name is replaced without warning.
+If \code{getOption("sbf.overwrite")} is \code{FALSE} an error is thrown instead.
+}
+
 \seealso{
 Other graphic functions:
 \code{\link[=sbf_close_pdf]{sbf_close_pdf()}},
