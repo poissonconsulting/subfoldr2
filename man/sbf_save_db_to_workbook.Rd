@@ -37,6 +37,12 @@ current main folder)}
 Converts a database to an single excel workbook where each table is its own
 spreadsheet.
 }
+\section{Overwriting}{
+
+By default an existing file with the same name is replaced without warning.
+If \code{getOption("sbf.overwrite")} is \code{FALSE} an error is thrown instead.
+}
+
 \examples{
 \dontrun{
 sbf_save_db_to_workbook()

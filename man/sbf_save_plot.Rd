@@ -124,6 +124,12 @@ data or \code{getOption("sbf.save_md")} is \code{FALSE}, in which case any exist
 The \code{csv}, \code{xlsx} and \code{md} files are named using the \code{x_name} argument. Not
 specifying \code{x} overwrites existing files that used \code{x_name = "plot"}.
 }
+\section{Overwriting}{
+
+By default an existing file with the same name is replaced without warning.
+If \code{getOption("sbf.overwrite")} is \code{FALSE} an error is thrown instead.
+}
+
 \examples{
 \dontrun{
 require(ggplot2)

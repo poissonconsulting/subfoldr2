@@ -6,6 +6,7 @@
 #' @inheritParams sbf_save_object
 #' @param width A positive number indicating the width in inches.
 #' @param height A positive number indicating the height in inches.
+#' @inheritSection sbf_save_object Overwriting
 #' @family graphic functions
 #' @export
 sbf_open_pdf <- function(
@@ -93,7 +94,14 @@ sbf_open_db <- function(
   sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
-  file <- file_name(main, "dbs", sub, db_name, ext = "sqlite")
+  file <- file_name(
+    main,
+    "dbs",
+    sub,
+    db_name,
+    ext = "sqlite",
+    exists_ok = TRUE
+  )
 
   if (isTRUE(exists)) {
     chk_file(file)

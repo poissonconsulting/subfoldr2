@@ -34,7 +34,14 @@ sbf_copy_db <- function(
   sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
-  file <- file_name(main, "dbs", sub, db_name, ext = "sqlite")
+  file <- file_name(
+    main,
+    "dbs",
+    sub,
+    db_name,
+    ext = "sqlite",
+    exists_ok = TRUE
+  )
 
   if (isTRUE(exists)) {
     chk_file(file)

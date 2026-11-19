@@ -31,6 +31,12 @@ for which the first column (not a geometry) is unique
 with no missing values and only one geometry column which must have a defined projection.
 The functions expects that all data frames in the environment meet these requirements.
 }
+\section{Overwriting}{
+
+By default an existing file with the same name is replaced without warning.
+If \code{getOption("sbf.overwrite")} is \code{FALSE} an error is thrown instead.
+}
+
 \seealso{
 Other save functions:
 \code{\link[=sbf_basename_sans_ext]{sbf_basename_sans_ext()}},

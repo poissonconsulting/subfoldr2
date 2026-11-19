@@ -31,6 +31,12 @@ Save sf data frame to Geopackage
 \details{
 This takes an sf data frame and saves as geopackage.
 }
+\section{Overwriting}{
+
+By default an existing file with the same name is replaced without warning.
+If \code{getOption("sbf.overwrite")} is \code{FALSE} an error is thrown instead.
+}
+
 \examples{
 \dontrun{
 sbf_save_gpkg()
