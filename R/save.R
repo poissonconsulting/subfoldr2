@@ -1,5 +1,5 @@
-# exists_ok = TRUE is for callers that resolve a path without replacing the file
-file_name <- function(main, class, sub, x_name, ext, exists_ok = FALSE) {
+# can_exist = TRUE is for callers that resolve a path without replacing the file
+file_name <- function(main, class, sub, x_name, ext, can_exist = FALSE) {
   dir <- file_path(main, class, sub)
   dir_create(dir)
   x_name <- chk::unbacktick_chk(x_name)
@@ -8,7 +8,7 @@ file_name <- function(main, class, sub, x_name, ext, exists_ok = FALSE) {
   if (!identical(ext, file_ext(x_name))) {
     file <- paste0(file, ".", ext)
   }
-  if (!exists_ok) {
+  if (!can_exist) {
     chk_no_overwrite(file)
   }
 
@@ -55,7 +55,7 @@ save_txt <- function(txt, class, sub, main, x_name, ext = "txt") {
 
 # a stale md from a previous save must not outlive the data it represented
 rm_md <- function(class, sub, main, x_name) {
-  unlink(file_name(main, class, sub, x_name, "md", exists_ok = TRUE))
+  unlink(file_name(main, class, sub, x_name, "md", can_exist = TRUE))
 }
 
 save_meta <- function(meta, class, sub, main, x_name) {
@@ -1428,7 +1428,7 @@ sbf_save_data_to_db <- function(
     sub,
     db_name,
     ext = "sqlite",
-    exists_ok = TRUE
+    can_exist = TRUE
   ))
 }
 

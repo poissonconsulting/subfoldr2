@@ -28,8 +28,8 @@ significant digits \code{\link[=sbf_save_number]{sbf_save_number()}} rounds to.
 \item \code{sbf.overwrite}: A flag (by default \code{TRUE}) specifying whether existing
 output can be replaced. If \code{FALSE} the save functions and
 \code{\link[=sbf_open_pdf]{sbf_open_pdf()}} throw an error if a file they would write already
-exists, and setting the main or sub folder with \code{rm = TRUE} throws an
-error if the folder contains files.
+exists, and setting the main or sub folder with \code{rm = TRUE} and
+\code{ask = FALSE} throws an error if the folder contains files.
 }
 }
 

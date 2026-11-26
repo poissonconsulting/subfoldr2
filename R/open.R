@@ -100,7 +100,7 @@ sbf_open_db <- function(
     sub,
     db_name,
     ext = "sqlite",
-    exists_ok = TRUE
+    can_exist = TRUE
   )
 
   if (isTRUE(exists)) {

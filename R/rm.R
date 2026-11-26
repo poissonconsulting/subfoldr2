@@ -43,7 +43,9 @@ rm_all <- function(ask) {
   }
 
   if (identical(sub, character(0))) {
-    chk_no_rm(main)
+    if (!ask) {
+      chk_no_rm(main)
+    }
     return(sbf_rm_main(ask = ask))
   }
   msg <- paste("Delete '", sub, "' subfolders of directory '", main, "'?")
@@ -63,7 +65,9 @@ rm_all <- function(ask) {
     "gpkg"
   )
   dirs <- file_path(main, classes, sub)
-  chk_no_rm(dirs)
+  if (!ask) {
+    chk_no_rm(dirs)
+  }
 
   if (!ask || yesno(msg)) {
     unlink(dirs, recursive = TRUE)

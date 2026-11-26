@@ -17,8 +17,8 @@
 #' - `sbf.overwrite`: A flag (by default `TRUE`) specifying whether existing
 #'   output can be replaced. If `FALSE` the save functions and
 #'   [sbf_open_pdf()] throw an error if a file they would write already
-#'   exists, and setting the main or sub folder with `rm = TRUE` throws an
-#'   error if the folder contains files.
+#'   exists, and setting the main or sub folder with `rm = TRUE` and
+#'   `ask = FALSE` throws an error if the folder contains files.
 #'
 #' @keywords internal
 "_PACKAGE"

@@ -50,7 +50,7 @@ test_that("sbf.overwrite must be a flag", {
   )
 })
 
-test_that("first saves work when sbf.overwrite is FALSE", {
+test_that("first save attempt works when sbf.overwrite is FALSE", {
   local_main()
   withr::local_options(sbf.overwrite = FALSE, sbf.ask = FALSE)
 
@@ -108,7 +108,7 @@ test_that("first saves work when sbf.overwrite is FALSE", {
   expect_identical(sbf_set_sub("empty", rm = TRUE), "empty")
 })
 
-test_that("second saves error when sbf.overwrite is FALSE", {
+test_that("second save attempt errors when sbf.overwrite is FALSE", {
   local_main()
   withr::local_options(sbf.overwrite = FALSE)
 
@@ -117,6 +117,12 @@ test_that("second saves error when sbf.overwrite is FALSE", {
   data <- data.frame(a = 1:2)
   gp <- ggplot2::ggplot(data, ggplot2::aes(x = a, y = a)) +
     ggplot2::geom_point()
+  png <- system.file(
+    "extdata",
+    "example.png",
+    package = "subfoldr2",
+    mustWork = TRUE
+  )
 
   sbf_save_object(x)
   sbf_save_data(data)
@@ -126,6 +132,7 @@ test_that("second saves error when sbf.overwrite is FALSE", {
   sbf_save_table(data)
   sbf_save_plot(gp, width = 2, dpi = 72)
   sbf_save_excel(data)
+  sbf_save_png(png)
 
   x <- 2
   y <- "three"
@@ -172,6 +179,11 @@ test_that("second saves error when sbf.overwrite is FALSE", {
     exists_regexp("excel/data[.]rds"),
     class = "chk_error"
   )
+  expect_error(
+    sbf_save_png(png),
+    exists_regexp("windows/example[.]png"),
+    class = "chk_error"
+  )
 
   expect_error(
     sbf_save_objects(env = as.environment(list(x = x, z = 3))),
@@ -207,31 +219,24 @@ test_that("second saves error when sbf.overwrite is FALSE", {
   )
 })
 
-test_that("second window and png saves error when sbf.overwrite is FALSE", {
+test_that("second attempt to save window errors when sbf.overwrite is FALSE", {
   local_main()
   withr::local_options(sbf.overwrite = FALSE)
 
+  # sbf_save_window() cannot write a first file without a screen device, so
+  # the existing file is created with sbf_save_png() instead
   x <- system.file(
     "extdata",
     "example.png",
     package = "subfoldr2",
     mustWork = TRUE
   )
-  expect_identical(
-    sbf_save_png(x),
-    file.path(sbf_get_main(), "windows/example.png")
-  )
-  expect_error(
-    sbf_save_png(x),
-    exists_regexp("windows/example[.]png"),
-    class = "chk_error"
-  )
+  sbf_save_png(x)
 
   graphics.off()
   withr::defer(graphics.off())
   grDevices::pdf(NULL)
   plot(1)
-  # a first window save needs a screen device
   expect_error(
     sbf_save_window("example"),
     exists_regexp("windows/example[.]png"),
@@ -275,7 +280,7 @@ test_that("databases can be reopened and written when sbf.overwrite is FALSE", {
   )
 })
 
-test_that("rm = TRUE errors on a folder with files when sbf.overwrite is FALSE", {
+test_that("rm = TRUE with ask = FALSE errors on a folder with files when sbf.overwrite is FALSE", {
   local_main()
   withr::local_options(sbf.overwrite = FALSE, sbf.ask = FALSE)
 
@@ -301,4 +306,24 @@ test_that("rm = TRUE errors on a folder with files when sbf.overwrite is FALSE",
   expect_identical(sbf_load_object("x", sub = "sub"), 1)
 
   expect_identical(sbf_set_sub("sub2", rm = TRUE), "sub2")
+})
+
+test_that("rm = TRUE with ask = TRUE deletes a folder with files when confirmed and sbf.overwrite is FALSE", {
+  local_main()
+  withr::local_options(sbf.overwrite = FALSE, usethis.quiet = TRUE)
+  local_mocked_bindings(yesno = function(...) TRUE)
+
+  x <- 1
+  sbf_set_sub("sub")
+  sbf_save_object(x)
+
+  expect_identical(sbf_set_sub("sub", rm = TRUE, ask = TRUE), "sub")
+  expect_identical(
+    list.files(file.path(sbf_get_main(), "objects/sub")),
+    character(0)
+  )
+
+  sbf_save_object(x)
+  expect_identical(sbf_reset_sub(rm = TRUE, ask = TRUE), character(0))
+  expect_false(dir.exists(sbf_get_main()))
 })

@@ -17,8 +17,8 @@ sbf_get_sub <- function() {
 #' @param ... One or more character vectors which are combined together.
 #' @param rm A flag specifying whether to remove the folder and all its contents
 #' if it already exists.
-#' If `getOption("sbf.overwrite")` is `FALSE` an error is thrown if the folder
-#' contains files.
+#' If `getOption("sbf.overwrite")` is `FALSE` and `ask` is `FALSE` an error is
+#' thrown if the folder contains files.
 #' @param ask A flag specifying whether to ask before removing the existing
 #' folder.
 #' @return An invisible string specifying the new sub folder.
