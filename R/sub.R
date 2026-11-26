@@ -19,6 +19,11 @@ sbf_get_sub <- function() {
 #' if it already exists.
 #' @param ask A flag specifying whether to ask before removing the existing
 #' folder.
+#' @param protect A string specifying which existing output is protected
+#' (by default `getOption("sbf.protect", "none")`).
+#' If `"all"` and `ask = FALSE` an error is thrown instead of removing a folder
+#' that contains files.
+#' `"none"` and `"files"` do not affect removal.
 #' @return An invisible string specifying the new sub folder.
 #' @family directory functions
 #' @export
@@ -26,14 +31,20 @@ sbf_get_sub <- function() {
 #' sbf_set_sub("nameofsub")
 #' sbf_get_sub()
 #' sbf_reset_sub()
-sbf_set_sub <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
+sbf_set_sub <- function(
+  ...,
+  rm = FALSE,
+  ask = getOption("sbf.ask", TRUE),
+  protect = getOption("sbf.protect", "none")
+) {
   chk_flag(rm)
   chk_flag(ask)
+  chk_protect(protect)
   path <- file_path(..., collapse = TRUE)
   path <- sanitize_path(path)
   options(sbf.sub = path)
   if (rm) {
-    rm_all(ask = ask)
+    rm_all(ask = ask, protect = protect)
   }
   invisible(path)
 }
@@ -49,8 +60,12 @@ sbf_set_sub <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #' sbf_set_sub("nameofsub")
 #' sbf_get_sub()
 #' sbf_reset_sub()
-sbf_reset_sub <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
-  invisible(sbf_set_sub(rm = rm, ask = ask))
+sbf_reset_sub <- function(
+  rm = FALSE,
+  ask = getOption("sbf.ask", TRUE),
+  protect = getOption("sbf.protect", "none")
+) {
+  invisible(sbf_set_sub(rm = rm, ask = ask, protect = protect))
 }
 
 #' Add Sub Folder
@@ -67,10 +82,15 @@ sbf_reset_sub <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #' sbf_add_sub("anothername")
 #' sbf_get_sub()
 #' sbf_reset_sub()
-sbf_add_sub <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
+sbf_add_sub <- function(
+  ...,
+  rm = FALSE,
+  ask = getOption("sbf.ask", TRUE),
+  protect = getOption("sbf.protect", "none")
+) {
   path <- file_path(..., collapse = TRUE)
   path <- sanitize_path(path)
-  sbf_set_sub(sbf_get_sub(), path, rm = rm, ask = ask)
+  sbf_set_sub(sbf_get_sub(), path, rm = rm, ask = ask, protect = protect)
 }
 
 #' Move Up Sub Folder
@@ -87,7 +107,12 @@ sbf_add_sub <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #' sbf_up_sub()
 #' sbf_get_sub()
 #' sbf_reset_sub()
-sbf_up_sub <- function(n = 1L, rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
+sbf_up_sub <- function(
+  n = 1L,
+  rm = FALSE,
+  ask = getOption("sbf.ask", TRUE),
+  protect = getOption("sbf.protect", "none")
+) {
   chk_whole_number(n)
   chk_gte(n)
 
@@ -104,5 +129,5 @@ sbf_up_sub <- function(n = 1L, rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
     )
   }
   sub <- strsplit(sub, "/")[[1]][-((nsub - n + 1L):nsub)]
-  sbf_set_sub(sub, rm = rm, ask = ask)
+  sbf_set_sub(sub, rm = rm, ask = ask, protect = protect)
 }

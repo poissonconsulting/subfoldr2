@@ -10,7 +10,8 @@ sbf_save_excel(
   max_sheets = 1L,
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  epgs = NULL
+  epgs = NULL,
+  protect = getOption("sbf.protect", "none")
 )
 }
 \arguments{
@@ -28,6 +29,11 @@ current sub folder).}
 current main folder)}
 
 \item{epgs}{The projection to convert to}
+
+\item{protect}{A string specifying which existing output is protected
+(by default \code{getOption("sbf.protect", "none")}).
+If \code{"none"} an existing file with the same name is replaced.
+If \code{"files"} or \code{"all"} an error is thrown instead.}
 }
 \value{
 An invisible string of the path to the saved data.frame

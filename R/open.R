@@ -13,8 +13,10 @@ sbf_open_pdf <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   width = 6,
-  height = width
+  height = width,
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   chk_string(x_name)
   chk_gt(nchar(x_name))
   chk_character(sub)
@@ -28,7 +30,7 @@ sbf_open_pdf <- function(
   sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
-  file <- file_name(main, "pdfs", sub, x_name, ext = "pdf")
+  file <- file_name(main, "pdfs", sub, x_name, ext = "pdf", protect = protect)
 
   grDevices::pdf(file = file, width = width, height = height)
   invisible(file)
@@ -93,7 +95,13 @@ sbf_open_db <- function(
   sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
-  file <- file_name(main, "dbs", sub, db_name, ext = "sqlite")
+  file <- file_name(
+    main,
+    "dbs",
+    sub,
+    db_name,
+    ext = "sqlite"
+  )
 
   if (isTRUE(exists)) {
     chk_file(file)

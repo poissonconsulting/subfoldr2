@@ -24,7 +24,8 @@ sbf_save_plot(
   format_column = list(),
   round_as_estimate = character(0),
   no_big_mark = character(0),
-  drop_sd = FALSE
+  drop_sd = FALSE,
+  protect = getOption("sbf.protect", "none")
 )
 }
 \arguments{
@@ -94,6 +95,11 @@ format without commas as thousands separators in the \code{.md} file.}
 \code{.md} file after using it to round \code{estimate}, \code{lower} and \code{upper}.
 If \code{TRUE} there must be a numeric \code{sd} column.
 The \code{.rds} and \code{.csv} files retain the \code{sd} column.}
+
+\item{protect}{A string specifying which existing output is protected
+(by default \code{getOption("sbf.protect", "none")}).
+If \code{"none"} an existing file with the same name is replaced.
+If \code{"files"} or \code{"all"} an error is thrown instead.}
 }
 \description{
 Saves a ggplot object.

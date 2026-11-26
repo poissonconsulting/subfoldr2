@@ -32,7 +32,7 @@ sbf_rm_flobs <- function(
   rm_class(sub = sub, main = main, class = "flobs", ask = ask)
 }
 
-rm_all <- function(ask) {
+rm_all <- function(ask, protect) {
   chk_flag(ask)
 
   main <- sbf_get_main()
@@ -43,22 +43,50 @@ rm_all <- function(ask) {
   }
 
   if (identical(sub, character(0))) {
+    if (protect == "all" && !ask) {
+      chk_no_rm(main)
+    }
     return(sbf_rm_main(ask = ask))
   }
   msg <- paste("Delete '", sub, "' subfolders of directory '", main, "'?")
 
-  if (!ask || yesno(msg)) {
-    unlink(file_path(main, "objects", sub), recursive = TRUE)
-    unlink(file_path(main, "data", sub), recursive = TRUE)
-    unlink(file_path(main, "numbers", sub), recursive = TRUE)
-    unlink(file_path(main, "strings", sub), recursive = TRUE)
-    unlink(file_path(main, "tables", sub), recursive = TRUE)
-    unlink(file_path(main, "blocks", sub), recursive = TRUE)
-    unlink(file_path(main, "plots", sub), recursive = TRUE)
-    unlink(file_path(main, "dbs", sub), recursive = TRUE)
-    unlink(file_path(main, "flobs", sub), recursive = TRUE)
-    unlink(file_path(main, "pdfs", sub), recursive = TRUE)
-    unlink(file_path(main, "windows", sub), recursive = TRUE)
-    unlink(file_path(main, "gpkg", sub), recursive = TRUE)
+  classes <- c(
+    "objects",
+    "data",
+    "numbers",
+    "strings",
+    "tables",
+    "blocks",
+    "plots",
+    "dbs",
+    "flobs",
+    "pdfs",
+    "windows",
+    "gpkg"
+  )
+  dirs <- file_path(main, classes, sub)
+  if (protect == "all" && !ask) {
+    chk_no_rm(dirs)
   }
+
+  if (!ask || yesno(msg)) {
+    unlink(dirs, recursive = TRUE)
+  }
+}
+
+chk_no_rm <- function(dirs) {
+  has_files <- vapply(
+    dirs,
+    function(dir) length(list.files(dir, recursive = TRUE)) > 0L,
+    TRUE
+  )
+  if (any(has_files)) {
+    abort_chk(
+      "Directory '",
+      dirs[has_files][1],
+      "' contains files and `protect` is \"all\".",
+      call = NULL
+    )
+  }
+  invisible(dirs)
 }

@@ -9,7 +9,8 @@ sbf_save_numbers(
   main = sbf_get_main(),
   signif = getOption("sbf.signif", 22),
   env = parent.frame(),
-  x_name = ".*"
+  x_name = ".*",
+  protect = getOption("sbf.protect", "none")
 )
 }
 \arguments{
@@ -24,6 +25,11 @@ current main folder)}
 \item{env}{An environment.}
 
 \item{x_name}{A string of the Perl-compatible regular expression to match.}
+
+\item{protect}{A string specifying which existing output is protected
+(by default \code{getOption("sbf.protect", "none")}).
+If \code{"none"} an existing file with the same name is replaced.
+If \code{"files"} or \code{"all"} an error is thrown instead.}
 }
 \value{
 An invisible character vector of the paths to the saved objects.

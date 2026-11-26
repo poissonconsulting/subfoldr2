@@ -15,7 +15,8 @@ sbf_save_window(
   width = NA,
   height = width,
   units = "in",
-  dpi = 300
+  dpi = 300,
+  protect = getOption("sbf.protect", "none")
 )
 }
 \arguments{
@@ -42,6 +43,11 @@ current main folder)}
 \item{units}{A string of the units. Can be "in" (default) or "mm" or "cm".}
 
 \item{dpi}{A number of the resolution in dots per inch.}
+
+\item{protect}{A string specifying which existing output is protected
+(by default \code{getOption("sbf.protect", "none")}).
+If \code{"none"} an existing file with the same name is replaced.
+If \code{"files"} or \code{"all"} an error is thrown instead.}
 }
 \description{
 Saves the current graphics device to a png file.

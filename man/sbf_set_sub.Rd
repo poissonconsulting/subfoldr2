@@ -4,7 +4,12 @@
 \alias{sbf_set_sub}
 \title{Set Sub Folder}
 \usage{
-sbf_set_sub(..., rm = FALSE, ask = getOption("sbf.ask", TRUE))
+sbf_set_sub(
+  ...,
+  rm = FALSE,
+  ask = getOption("sbf.ask", TRUE),
+  protect = getOption("sbf.protect", "none")
+)
 }
 \arguments{
 \item{...}{One or more character vectors which are combined together.}
@@ -14,6 +19,12 @@ if it already exists.}
 
 \item{ask}{A flag specifying whether to ask before removing the existing
 folder.}
+
+\item{protect}{A string specifying which existing output is protected
+(by default \code{getOption("sbf.protect", "none")}).
+If \code{"all"} and \code{ask = FALSE} an error is thrown instead of removing a folder
+that contains files.
+\code{"none"} and \code{"files"} do not affect removal.}
 }
 \value{
 An invisible string specifying the new sub folder.

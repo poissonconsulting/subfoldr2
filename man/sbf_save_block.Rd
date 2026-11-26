@@ -12,7 +12,8 @@ sbf_save_block(
   caption = "",
   report = TRUE,
   tag = "",
-  notes = ""
+  notes = "",
+  protect = getOption("sbf.protect", "none")
 )
 }
 \arguments{
@@ -33,6 +34,11 @@ current main folder)}
 \item{tag}{A string of the tag.}
 
 \item{notes}{A string of additional notes to save with the metadata.}
+
+\item{protect}{A string specifying which existing output is protected
+(by default \code{getOption("sbf.protect", "none")}).
+If \code{"none"} an existing file with the same name is replaced.
+If \code{"files"} or \code{"all"} an error is thrown instead.}
 }
 \value{
 An invisible string of the path to the saved object.
