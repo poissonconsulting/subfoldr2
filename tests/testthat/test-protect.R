@@ -8,7 +8,7 @@ exists_regexp <- function(file) {
   paste0(
     "^File '.*",
     file,
-    "' already exists and `getOption[(]\"sbf.overwrite\"[)]` is FALSE[.]$"
+    "' already exists and `protect` is \"files\"[.]$"
   )
 }
 
@@ -38,21 +38,21 @@ test_that("existing files are replaced by default", {
   )
 })
 
-test_that("sbf.overwrite must be a flag", {
+test_that("protect must be none, files, or all", {
   local_main()
-  withr::local_options(sbf.overwrite = NA)
+  withr::local_options(sbf.protect = "yes")
 
   x <- 1
   expect_error(
     sbf_save_object(x),
-    "^`getOption[(]\"sbf.overwrite\"[)]` must be a flag [(]TRUE or FALSE[)][.]$",
+    "^`protect` must match 'all', 'files' or 'none', not 'yes'[.]$",
     class = "chk_error"
   )
 })
 
-test_that("first save attempt works when sbf.overwrite is FALSE", {
+test_that("first save attempt works when protect is 'files'", {
   local_main()
-  withr::local_options(sbf.overwrite = FALSE, sbf.ask = FALSE)
+  withr::local_options(sbf.protect = "files", sbf.ask = FALSE)
 
   x <- 1
   y <- "two"
@@ -99,7 +99,7 @@ test_that("first save attempt works when sbf.overwrite is FALSE", {
   expect_identical(sbf_load_block("y"), "two")
   expect_identical(sbf_load_table("data"), data)
 
-  # same name in a different sub folder is not an overwrite
+  # same name in a different sub folder is not a replacement
   sbf_set_sub("sub")
   expect_identical(
     sbf_save_object(x),
@@ -108,9 +108,9 @@ test_that("first save attempt works when sbf.overwrite is FALSE", {
   expect_identical(sbf_set_sub("empty", rm = TRUE), "empty")
 })
 
-test_that("second save attempt errors when sbf.overwrite is FALSE", {
+test_that("second save attempt errors when protect is 'files'", {
   local_main()
-  withr::local_options(sbf.overwrite = FALSE)
+  withr::local_options(sbf.protect = "files")
 
   x <- 1
   y <- "two"
@@ -219,9 +219,9 @@ test_that("second save attempt errors when sbf.overwrite is FALSE", {
   )
 })
 
-test_that("second attempt to save window errors when sbf.overwrite is FALSE", {
+test_that("second attempt to save window errors when protect is 'files'", {
   local_main()
-  withr::local_options(sbf.overwrite = FALSE)
+  withr::local_options(sbf.protect = "files")
 
   # sbf_save_window() cannot write a first file without a screen device, so
   # the existing file is created with sbf_save_png() instead
@@ -244,9 +244,9 @@ test_that("second attempt to save window errors when sbf.overwrite is FALSE", {
   )
 })
 
-test_that("second pdf errors when sbf.overwrite is FALSE", {
+test_that("second pdf errors when protect is 'files'", {
   local_main()
-  withr::local_options(sbf.overwrite = FALSE)
+  withr::local_options(sbf.protect = "files")
 
   graphics.off()
   withr::defer(graphics.off())
@@ -261,9 +261,9 @@ test_that("second pdf errors when sbf.overwrite is FALSE", {
   expect_identical(dev.cur(), c("null device" = 1L))
 })
 
-test_that("databases can be reopened and written when sbf.overwrite is FALSE", {
+test_that("databases can be reopened and written when protect is 'files'", {
   local_main()
-  withr::local_options(sbf.overwrite = FALSE)
+  withr::local_options(sbf.protect = "files")
 
   conn <- sbf_open_db(exists = NA)
   DBI::dbExecute(conn, "CREATE TABLE x (a INTEGER)")
@@ -280,9 +280,9 @@ test_that("databases can be reopened and written when sbf.overwrite is FALSE", {
   )
 })
 
-test_that("rm = TRUE with ask = FALSE errors on a folder with files when sbf.overwrite is FALSE", {
+test_that("rm = TRUE with ask = FALSE errors on a folder with files when protect is 'all'", {
   local_main()
-  withr::local_options(sbf.overwrite = FALSE, sbf.ask = FALSE)
+  withr::local_options(sbf.protect = "all", sbf.ask = FALSE)
 
   x <- 1
   sbf_set_sub("sub")
@@ -290,17 +290,17 @@ test_that("rm = TRUE with ask = FALSE errors on a folder with files when sbf.ove
 
   expect_error(
     sbf_set_sub("sub", rm = TRUE),
-    "^Directory '.*objects/sub' contains files and `getOption[(]\"sbf.overwrite\"[)]` is FALSE[.]$",
+    "^Directory '.*objects/sub' contains files and `protect` is \"all\"[.]$",
     class = "chk_error"
   )
   expect_error(
     sbf_reset_sub(rm = TRUE),
-    "^Directory '.*output' contains files and `getOption[(]\"sbf.overwrite\"[)]` is FALSE[.]$",
+    "^Directory '.*output' contains files and `protect` is \"all\"[.]$",
     class = "chk_error"
   )
   expect_error(
     sbf_set_main(sbf_get_main(), rm = TRUE),
-    "^Directory '.*output' contains files and `getOption[(]\"sbf.overwrite\"[)]` is FALSE[.]$",
+    "^Directory '.*output' contains files and `protect` is \"all\"[.]$",
     class = "chk_error"
   )
   expect_identical(sbf_load_object("x", sub = "sub"), 1)
@@ -308,9 +308,9 @@ test_that("rm = TRUE with ask = FALSE errors on a folder with files when sbf.ove
   expect_identical(sbf_set_sub("sub2", rm = TRUE), "sub2")
 })
 
-test_that("rm = TRUE with ask = TRUE deletes a folder with files when confirmed and sbf.overwrite is FALSE", {
+test_that("rm = TRUE with ask = TRUE deletes a folder with files when confirmed and protect is 'all'", {
   local_main()
-  withr::local_options(sbf.overwrite = FALSE, usethis.quiet = TRUE)
+  withr::local_options(sbf.protect = "all", usethis.quiet = TRUE)
   local_mocked_bindings(yesno = function(...) TRUE)
 
   x <- 1
@@ -326,4 +326,49 @@ test_that("rm = TRUE with ask = TRUE deletes a folder with files when confirmed 
   sbf_save_object(x)
   expect_identical(sbf_reset_sub(rm = TRUE, ask = TRUE), character(0))
   expect_false(dir.exists(sbf_get_main()))
+})
+
+test_that("protect = 'files' does not affect rm = TRUE", {
+  local_main()
+  withr::local_options(sbf.protect = "files", sbf.ask = FALSE)
+
+  x <- 1
+  sbf_set_sub("sub")
+  sbf_save_object(x)
+
+  expect_identical(sbf_set_sub("sub", rm = TRUE), "sub")
+  expect_identical(
+    list.files(file.path(sbf_get_main(), "objects/sub")),
+    character(0)
+  )
+})
+
+test_that("protect argument overrides sbf.protect", {
+  local_main()
+  withr::local_options(sbf.protect = "all", sbf.ask = FALSE)
+
+  x <- 1
+  sbf_save_object(x)
+  x <- 2
+  expect_identical(
+    sbf_save_object(x, protect = "none"),
+    file.path(sbf_get_main(), "objects/x.rds")
+  )
+  expect_identical(sbf_load_object("x"), 2)
+  expect_identical(
+    sbf_save_objects(protect = "none"),
+    file.path(sbf_get_main(), "objects/x.rds")
+  )
+
+  sbf_set_sub("sub")
+  sbf_save_object(x)
+  expect_identical(sbf_set_sub("sub", rm = TRUE, protect = "files"), "sub")
+
+  withr::local_options(sbf.protect = "none")
+  sbf_save_object(x)
+  expect_error(
+    sbf_save_object(x, protect = "files"),
+    exists_regexp("objects/sub/x[.]rds"),
+    class = "chk_error"
+  )
 })

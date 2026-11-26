@@ -4,7 +4,13 @@
 \alias{sbf_save_spatial}
 \title{Save Spatial Data}
 \usage{
-sbf_save_spatial(x, x_name = NULL, sub = sbf_get_sub(), main = sbf_get_main())
+sbf_save_spatial(
+  x,
+  x_name = NULL,
+  sub = sbf_get_sub(),
+  main = sbf_get_main(),
+  protect = getOption("sbf.protect", "none")
+)
 }
 \arguments{
 \item{x}{The sf tbl to save.}
@@ -16,6 +22,11 @@ current sub folder).}
 
 \item{main}{A string specifying the path to the main folder (by default the
 current main folder)}
+
+\item{protect}{A string specifying which existing output is protected
+(by default \code{getOption("sbf.protect", "none")}).
+If \code{"none"} an existing file with the same name is replaced.
+If \code{"files"} or \code{"all"} an error is thrown instead.}
 }
 \value{
 An invisible string of the path to the saved data.frame
@@ -25,12 +36,6 @@ Saves an sf tbl with at least one row
 for which the first column (not a geometry) is unique
 with no missing values and only one geometry column which must have a defined projection.
 }
-\section{Overwriting}{
-
-By default an existing file with the same name is replaced without warning.
-If \code{getOption("sbf.overwrite")} is \code{FALSE} an error is thrown instead.
-}
-
 \seealso{
 Other save functions:
 \code{\link[=sbf_basename_sans_ext]{sbf_basename_sans_ext()}},

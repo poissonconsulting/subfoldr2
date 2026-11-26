@@ -4,16 +4,24 @@
 \alias{sbf_reset_sub}
 \title{Reset Sub Folder}
 \usage{
-sbf_reset_sub(rm = FALSE, ask = getOption("sbf.ask", TRUE))
+sbf_reset_sub(
+  rm = FALSE,
+  ask = getOption("sbf.ask", TRUE),
+  protect = getOption("sbf.protect", "none")
+)
 }
 \arguments{
 \item{rm}{A flag specifying whether to remove the folder and all its contents
-if it already exists.
-If \code{getOption("sbf.overwrite")} is \code{FALSE} and \code{ask} is \code{FALSE} an error is
-thrown if the folder contains files.}
+if it already exists.}
 
 \item{ask}{A flag specifying whether to ask before removing the existing
 folder.}
+
+\item{protect}{A string specifying which existing output is protected
+(by default \code{getOption("sbf.protect", "none")}).
+If \code{"all"} and \code{ask = FALSE} an error is thrown instead of removing a folder
+that contains files.
+\code{"none"} and \code{"files"} do not affect removal.}
 }
 \value{
 An invisible character vector of length 0.

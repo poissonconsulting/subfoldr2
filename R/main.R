@@ -18,14 +18,20 @@ sbf_get_main <- function() {
 #' @return An invisible string of the path to the main folder.
 #' @family directory functions
 #' @export
-sbf_set_main <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
+sbf_set_main <- function(
+  ...,
+  rm = FALSE,
+  ask = getOption("sbf.ask", TRUE),
+  protect = getOption("sbf.protect", "none")
+) {
   chk_flag(rm)
   chk_flag(ask)
+  chk_protect(protect)
   path <- file_path(..., collapse = TRUE)
   path <- sanitize_path(path, rm_leading = FALSE)
   options(sbf.main = path)
   if (rm) {
-    rm_all(ask = ask)
+    rm_all(ask = ask, protect = protect)
   }
   invisible(path)
 }
@@ -37,8 +43,12 @@ sbf_set_main <- function(..., rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
 #' @family reset
 #' @family directory functions
 #' @export
-sbf_reset_main <- function(rm = FALSE, ask = getOption("sbf.ask", TRUE)) {
-  invisible(sbf_set_main("output", rm = rm, ask = ask))
+sbf_reset_main <- function(
+  rm = FALSE,
+  ask = getOption("sbf.ask", TRUE),
+  protect = getOption("sbf.protect", "none")
+) {
+  invisible(sbf_set_main("output", rm = rm, ask = ask, protect = protect))
 }
 
 

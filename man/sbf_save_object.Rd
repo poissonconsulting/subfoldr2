@@ -8,7 +8,8 @@ sbf_save_object(
   x,
   x_name = substitute(x),
   sub = sbf_get_sub(),
-  main = sbf_get_main()
+  main = sbf_get_main(),
+  protect = getOption("sbf.protect", "none")
 )
 }
 \arguments{
@@ -21,6 +22,11 @@ current sub folder).}
 
 \item{main}{A string specifying the path to the main folder (by default the
 current main folder)}
+
+\item{protect}{A string specifying which existing output is protected
+(by default \code{getOption("sbf.protect", "none")}).
+If \code{"none"} an existing file with the same name is replaced.
+If \code{"files"} or \code{"all"} an error is thrown instead.}
 }
 \value{
 An invisible string of the path to the saved object.
@@ -28,12 +34,6 @@ An invisible string of the path to the saved object.
 \description{
 Save Object
 }
-\section{Overwriting}{
-
-By default an existing file with the same name is replaced without warning.
-If \code{getOption("sbf.overwrite")} is \code{FALSE} an error is thrown instead.
-}
-
 \seealso{
 Other save functions:
 \code{\link[=sbf_basename_sans_ext]{sbf_basename_sans_ext()}},

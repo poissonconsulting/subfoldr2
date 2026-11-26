@@ -9,7 +9,8 @@ sbf_save_gpkgs(
   main = sbf_get_main(),
   env = parent.frame(),
   all_sfcs = TRUE,
-  x_name = ".*"
+  x_name = ".*",
+  protect = getOption("sbf.protect", "none")
 )
 }
 \arguments{
@@ -24,6 +25,11 @@ current main folder)}
 \item{all_sfcs}{A flag specifying whether to save non-active sfc columns as geopackages.}
 
 \item{x_name}{A string of the Perl-compatible regular expression to match.}
+
+\item{protect}{A string specifying which existing output is protected
+(by default \code{getOption("sbf.protect", "none")}).
+If \code{"none"} an existing file with the same name is replaced.
+If \code{"files"} or \code{"all"} an error is thrown instead.}
 }
 \value{
 An invisible character vector of the paths to the saved objects.
@@ -36,12 +42,6 @@ By default (\code{all_sfcs = TRUE}) non-active sfc columns are saved
 as file_name_geometry_column_name.gpkg this includes data frames with
 no active sfc column.
 }
-\section{Overwriting}{
-
-By default an existing file with the same name is replaced without warning.
-If \code{getOption("sbf.overwrite")} is \code{FALSE} an error is thrown instead.
-}
-
 \seealso{
 Other save functions:
 \code{\link[=sbf_basename_sans_ext]{sbf_basename_sans_ext()}},

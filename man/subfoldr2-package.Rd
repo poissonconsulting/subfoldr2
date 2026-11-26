@@ -25,11 +25,12 @@ deleting existing folders and files.
 \code{\link[=sbf_save_table]{sbf_save_table()}} and \code{\link[=sbf_save_plot]{sbf_save_plot()}} save a \code{.md} file.
 \item \code{sbf.signif}: A positive whole number (by default \code{22}) of the
 significant digits \code{\link[=sbf_save_number]{sbf_save_number()}} rounds to.
-\item \code{sbf.overwrite}: A flag (by default \code{TRUE}) specifying whether existing
-output can be replaced. If \code{FALSE} the save functions and
-\code{\link[=sbf_open_pdf]{sbf_open_pdf()}} throw an error if a file they would write already
-exists, and setting the main or sub folder with \code{rm = TRUE} and
-\code{ask = FALSE} throws an error if the folder contains files.
+\item \code{sbf.protect}: A string (by default \code{"none"}) of the default for the
+\code{protect} argument, which specifies which existing output is protected.
+If \code{"files"} the save functions and \code{\link[=sbf_open_pdf]{sbf_open_pdf()}} throw an error if a
+file they would write already exists.
+If \code{"all"} setting the main or sub folder with \code{rm = TRUE} and
+\code{ask = FALSE} also throws an error if the folder contains files.
 }
 }
 

@@ -1,5 +1,4 @@
-# can_exist = TRUE is for callers that resolve a path without replacing the file
-file_name <- function(main, class, sub, x_name, ext, can_exist = FALSE) {
+file_name <- function(main, class, sub, x_name, ext, protect = "none") {
   dir <- file_path(main, class, sub)
   dir_create(dir)
   x_name <- chk::unbacktick_chk(x_name)
@@ -8,58 +7,52 @@ file_name <- function(main, class, sub, x_name, ext, can_exist = FALSE) {
   if (!identical(ext, file_ext(x_name))) {
     file <- paste0(file, ".", ext)
   }
-  if (!can_exist) {
-    chk_no_overwrite(file)
+  if (protect != "none" && file.exists(file)) {
+    abort_chk(
+      "File '",
+      file,
+      "' already exists and `protect` is \"",
+      protect,
+      "\".",
+      call = NULL
+    )
   }
 
   file
 }
 
-get_overwrite <- function() {
-  overwrite <- getOption("sbf.overwrite", TRUE)
-  chk_flag(overwrite, x_name = "`getOption(\"sbf.overwrite\")`")
-  overwrite
+chk_protect <- function(protect) {
+  chk_string(protect)
+  chk_subset(protect, c("none", "files", "all"))
 }
 
-chk_no_overwrite <- function(file) {
-  if (!get_overwrite() && file.exists(file)) {
-    abort_chk(
-      "File '",
-      file,
-      "' already exists and `getOption(\"sbf.overwrite\")` is FALSE.",
-      call = NULL
-    )
-  }
-  invisible(file)
-}
-
-save_rds <- function(x, class, main, sub, x_name) {
-  file <- file_name(main, class, sub, x_name, "rds")
+save_rds <- function(x, class, main, sub, x_name, protect) {
+  file <- file_name(main, class, sub, x_name, "rds", protect = protect)
   saveRDS(x, file)
   invisible(file)
 }
 
-save_csv <- function(x, class, sub, main, x_name) {
+save_csv <- function(x, class, sub, main, x_name, protect) {
   x[vapply(x, is.list, TRUE)] <- NULL
   x <- remove_geometry(x)
-  file <- file_name(main, class, sub, x_name, "csv")
+  file <- file_name(main, class, sub, x_name, "csv", protect = protect)
   readr::write_csv(x, file)
   invisible(file)
 }
 
-save_txt <- function(txt, class, sub, main, x_name, ext = "txt") {
-  file <- file_name(main, class, sub, x_name, ext)
+save_txt <- function(txt, class, sub, main, x_name, ext = "txt", protect) {
+  file <- file_name(main, class, sub, x_name, ext, protect = protect)
   writeLines(txt, file)
   invisible(file)
 }
 
 # a stale md from a previous save must not outlive the data it represented
 rm_md <- function(class, sub, main, x_name) {
-  unlink(file_name(main, class, sub, x_name, "md", can_exist = TRUE))
+  unlink(file_name(main, class, sub, x_name, "md"))
 }
 
-save_meta <- function(meta, class, sub, main, x_name) {
-  file <- file_name(main, class, sub, x_name, "yaml")
+save_meta <- function(meta, class, sub, main, x_name, protect) {
+  file <- file_name(main, class, sub, x_name, "yaml", protect = protect)
   meta <- lapply(meta, unname)
   yaml::write_yaml(meta, file)
   invisible(file)
@@ -80,9 +73,9 @@ read_metas <- function(x) {
   lapply(x, read_meta)
 }
 
-save_xlsx <- function(x, class, main, sub, x_name) {
+save_xlsx <- function(x, class, main, sub, x_name, protect) {
   x <- purrr::map(x, remove_geometry)
-  file <- file_name(main, class, sub, x_name, "xlsx")
+  file <- file_name(main, class, sub, x_name, "xlsx", protect = protect)
   writexl::write_xlsx(x, file)
   invisible(file)
 }
@@ -104,8 +97,8 @@ remove_geometry <- function(x) {
   x
 }
 
-save_gpkg <- function(x, class, main, sub, x_name) {
-  file <- file_name(main, class, sub, x_name, "gpkg")
+save_gpkg <- function(x, class, main, sub, x_name, protect) {
+  file <- file_name(main, class, sub, x_name, "gpkg", protect = protect)
   x <- hms_to_text(x)
   utils::capture.output(sf::st_write(x, file, delete_layer = TRUE))
   invisible(file)
@@ -216,13 +209,27 @@ split_excel_large <- function(x, x_name, max_sheets) {
   x_split
 }
 
-save_workbook <- function(x, sub, main, workbook_name, epgs) {
+save_workbook <- function(x, sub, main, workbook_name, epgs, protect) {
   x <- lapply(x, function(i) {
     process_sf_columns(i, epgs)
   })
 
-  save_rds(x, "excel", sub = sub, main = main, x_name = workbook_name)
-  save_xlsx(x, "excel", sub = sub, main = main, x_name = workbook_name)
+  save_rds(
+    x,
+    "excel",
+    sub = sub,
+    main = main,
+    x_name = workbook_name,
+    protect = protect
+  )
+  save_xlsx(
+    x,
+    "excel",
+    sub = sub,
+    main = main,
+    x_name = workbook_name,
+    protect = protect
+  )
 }
 
 #' Save Object
@@ -233,9 +240,10 @@ save_workbook <- function(x, sub, main, workbook_name, epgs) {
 #' current sub folder).
 #' @param main A string specifying the path to the main folder (by default the
 #' current main folder)
-#' @section Overwriting:
-#' By default an existing file with the same name is replaced without warning.
-#' If `getOption("sbf.overwrite")` is `FALSE` an error is thrown instead.
+#' @param protect A string specifying which existing output is protected
+#' (by default `getOption("sbf.protect", "none")`).
+#' If `"none"` an existing file with the same name is replaced.
+#' If `"files"` or `"all"` an error is thrown instead.
 #' @return An invisible string of the path to the saved object.
 #' @family save functions
 #' @export
@@ -243,8 +251,10 @@ sbf_save_object <- function(
   x,
   x_name = substitute(x),
   sub = sbf_get_sub(),
-  main = sbf_get_main()
+  main = sbf_get_main(),
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   x_name <- chk_deparse(x_name)
   chk_string(x_name)
   chk_gt(nchar(x_name))
@@ -255,7 +265,14 @@ sbf_save_object <- function(
   sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
-  save_rds(x, "objects", sub = sub, main = main, x_name = x_name)
+  save_rds(
+    x,
+    "objects",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
 }
 
 #' Save Data
@@ -264,14 +281,15 @@ sbf_save_object <- function(
 #' @inheritParams sbf_save_object
 #' @return An invisible string of the path to the saved data.frame
 #' @family save functions
-#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_data <- function(
   x,
   x_name = substitute(x),
   sub = sbf_get_sub(),
-  main = sbf_get_main()
+  main = sbf_get_main(),
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   chk_s3_class(x, "data.frame")
   x_name <- chk_deparse(x_name)
   chk_string(x_name)
@@ -283,7 +301,14 @@ sbf_save_data <- function(
   sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
-  save_rds(x, "data", sub = sub, main = main, x_name = x_name)
+  save_rds(
+    x,
+    "data",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
 }
 
 #' Save Spatial Data
@@ -296,14 +321,15 @@ sbf_save_data <- function(
 #' @inheritParams sbf_save_object
 #' @return An invisible string of the path to the saved data.frame
 #' @family save functions
-#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_spatial <- function(
   x,
   x_name = NULL,
   sub = sbf_get_sub(),
-  main = sbf_get_main()
+  main = sbf_get_main(),
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   if (is.null(x_name)) {
     x_name <- chk::deparse_backtick_chk(substitute(x))
   }
@@ -318,7 +344,14 @@ sbf_save_spatial <- function(
   sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
-  save_rds(x, "spatial", sub = sub, main = main, x_name = x_name)
+  save_rds(
+    x,
+    "spatial",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
 }
 
 check_spatial <- function(x, x_name = NULL) {
@@ -419,7 +452,6 @@ valid_spatial <- function(x) {
 #' @param signif A positive whole number specifying the number of significant digits to round by.
 #' @return An invisible string of the path to the saved object.
 #' @family save functions
-#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_number <- function(
   x,
@@ -429,8 +461,10 @@ sbf_save_number <- function(
   report = TRUE,
   tag = "",
   notes = "",
-  signif = getOption("sbf.signif", 22)
+  signif = getOption("sbf.signif", 22),
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   x_name <- chk_deparse(x_name)
   chk_number(x)
   chk_string(x_name)
@@ -453,9 +487,30 @@ sbf_save_number <- function(
   data <- data.frame(x = x)
 
   meta <- list(report = report, tag = tag, notes = notes)
-  save_meta(meta, "numbers", sub = sub, main = main, x_name = x_name)
-  save_csv(data, "numbers", sub = sub, main = main, x_name = x_name)
-  save_rds(x, "numbers", sub = sub, main = main, x_name = x_name)
+  save_meta(
+    meta,
+    "numbers",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
+  save_csv(
+    data,
+    "numbers",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
+  save_rds(
+    x,
+    "numbers",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
 }
 
 #' Save String
@@ -469,7 +524,6 @@ sbf_save_number <- function(
 #' @param notes A string of additional notes to save with the metadata.
 #' @return An invisible string of the path to the saved object.
 #' @family save functions
-#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_string <- function(
   x,
@@ -478,8 +532,10 @@ sbf_save_string <- function(
   main = sbf_get_main(),
   report = TRUE,
   tag = "",
-  notes = ""
+  notes = "",
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   x_name <- chk_deparse(x_name)
   chk_string(x)
   chk_string(x_name)
@@ -496,9 +552,30 @@ sbf_save_string <- function(
   main <- sanitize_path(main, rm_leading = FALSE)
 
   meta <- list(report = report, tag = tag, notes = notes)
-  save_meta(meta, "strings", sub = sub, main = main, x_name = x_name)
-  save_txt(x, "strings", sub = sub, main = main, x_name = x_name)
-  save_rds(x, "strings", sub = sub, main = main, x_name = x_name)
+  save_meta(
+    meta,
+    "strings",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
+  save_txt(
+    x,
+    "strings",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
+  save_rds(
+    x,
+    "strings",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
 }
 
 #' Save Table
@@ -559,7 +636,6 @@ sbf_save_string <- function(
 #'   numerical data. Archives of Disease in Childhood 100(7): 608-609.
 #'   \doi{10.1136/archdischild-2014-307149}.
 #' @family save functions
-#' @inheritSection sbf_save_object Overwriting
 #' @export
 #' @examples
 #' \dontrun{
@@ -584,8 +660,10 @@ sbf_save_table <- function(
   format_column = list(),
   round_as_estimate = character(0),
   no_big_mark = character(0),
-  drop_sd = FALSE
+  drop_sd = FALSE,
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   x_name <- chk_deparse(x_name)
   chk_s3_class(x, "data.frame")
   valid <- vapply(x, is_valid_table_column, TRUE)
@@ -638,14 +716,43 @@ sbf_save_table <- function(
   main <- sanitize_path(main, rm_leading = FALSE)
 
   meta <- list(caption = caption, report = report, tag = tag, notes = notes)
-  save_meta(meta, "tables", sub = sub, main = main, x_name = x_name)
+  save_meta(
+    meta,
+    "tables",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
   if (save_md) {
-    save_txt(md, "tables", sub = sub, main = main, x_name = x_name, ext = "md")
+    save_txt(
+      md,
+      "tables",
+      sub = sub,
+      main = main,
+      x_name = x_name,
+      ext = "md",
+      protect = protect
+    )
   } else {
     rm_md("tables", sub = sub, main = main, x_name = x_name)
   }
-  save_csv(x, "tables", sub = sub, main = main, x_name = x_name)
-  save_rds(x, "tables", sub = sub, main = main, x_name = x_name)
+  save_csv(
+    x,
+    "tables",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
+  save_rds(
+    x,
+    "tables",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
 }
 
 #' Save Block
@@ -657,7 +764,6 @@ sbf_save_table <- function(
 #' @inheritParams sbf_save_table
 #' @return An invisible string of the path to the saved object.
 #' @family save functions
-#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_block <- function(
   x,
@@ -667,8 +773,10 @@ sbf_save_block <- function(
   caption = "",
   report = TRUE,
   tag = "",
-  notes = ""
+  notes = "",
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   chk_string(x)
   chk_gt(nchar(x))
   x_name <- chk_deparse(x_name)
@@ -687,9 +795,30 @@ sbf_save_block <- function(
   main <- sanitize_path(main, rm_leading = FALSE)
 
   meta <- list(caption = caption, report = report, tag = tag, notes = notes)
-  save_meta(meta, "blocks", sub = sub, main = main, x_name = x_name)
-  save_txt(x, "blocks", sub = sub, main = main, x_name = x_name)
-  save_rds(x, "blocks", sub = sub, main = main, x_name = x_name)
+  save_meta(
+    meta,
+    "blocks",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
+  save_txt(
+    x,
+    "blocks",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
+  save_rds(
+    x,
+    "blocks",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
 }
 
 #' Unstitch patches
@@ -862,7 +991,6 @@ untransform_layer_data <- function(data, layout) {
 #' specifying `x` overwrites existing files that used `x_name = "plot"`.
 #'
 #' @family save functions
-#' @inheritSection sbf_save_object Overwriting
 #' @export
 #' @examples
 #' \dontrun{
@@ -915,8 +1043,10 @@ sbf_save_plot <- function(
   format_column = list(),
   round_as_estimate = character(0),
   no_big_mark = character(0),
-  drop_sd = FALSE
+  drop_sd = FALSE,
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   if (!missing(drop_uninformative_cols)) {
     lifecycle::deprecate_warn(
       "1.0.1.9010",
@@ -993,7 +1123,7 @@ sbf_save_plot <- function(
   save_md <- getOption("sbf.save_md", TRUE)
   chk_flag(save_md, x_name = "`getOption(\"sbf.save_md\")`")
 
-  filename <- file_name(main, "plots", sub, x_name, "png")
+  filename <- file_name(main, "plots", sub, x_name, "png", protect = protect)
 
   dim <- plot_size(c(width, height), units = units)
 
@@ -1015,7 +1145,14 @@ sbf_save_plot <- function(
     height = dim[2],
     dpi = dpi
   )
-  save_meta(meta, "plots", sub = sub, main = main, x_name = x_name)
+  save_meta(
+    meta,
+    "plots",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
 
   if (is.data.frame(data)) {
     sd <- data[["sd"]]
@@ -1027,7 +1164,14 @@ sbf_save_plot <- function(
     if (nrow(data) > csv) {
       data <- data[integer(0), , drop = FALSE]
     }
-    save_csv(data, "plots", sub = sub, main = main, x_name = x_name)
+    save_csv(
+      data,
+      "plots",
+      sub = sub,
+      main = main,
+      x_name = x_name,
+      protect = protect
+    )
     if (save_md) {
       # formulas and columns for columns dropped as uninformative are ignored
       cols <- names(data)
@@ -1050,7 +1194,15 @@ sbf_save_plot <- function(
         no_big_mark,
         drop_sd = drop_sd
       )
-      save_txt(md, "plots", sub = sub, main = main, x_name = x_name, ext = "md")
+      save_txt(
+        md,
+        "plots",
+        sub = sub,
+        main = main,
+        x_name = x_name,
+        ext = "md",
+        protect = protect
+      )
     }
   }
   if (!save_md || !is.data.frame(data)) {
@@ -1069,10 +1221,24 @@ sbf_save_plot <- function(
   has_sheet_source <- !ggplot2::is_waiver(data) ||
     any(vapply(plot_list, function(p) length(p@layers) > 0L, TRUE))
   if (has_sheet_source) {
-    save_xlsx(sheet_list, "plots", sub = sub, main = main, x_name = x_name)
+    save_xlsx(
+      sheet_list,
+      "plots",
+      sub = sub,
+      main = main,
+      x_name = x_name,
+      protect = protect
+    )
   }
 
-  save_rds(x, "plots", sub = sub, main = main, x_name = x_name)
+  save_rds(
+    x,
+    "plots",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
 }
 
 #' Save Window
@@ -1083,7 +1249,6 @@ sbf_save_plot <- function(
 #' @inheritParams sbf_save_table
 #' @inheritParams sbf_save_plot
 #' @family save functions
-#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_window <- function(
   x_name = "window",
@@ -1096,8 +1261,10 @@ sbf_save_window <- function(
   width = NA,
   height = width,
   units = "in",
-  dpi = 300
+  dpi = 300,
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   chk_string(x_name)
   chk_gt(nchar(x_name))
   chk_character(sub)
@@ -1121,7 +1288,7 @@ sbf_save_window <- function(
     err("no such device")
   }
 
-  filename <- file_name(main, "windows", sub, x_name, "png")
+  filename <- file_name(main, "windows", sub, x_name, "png", protect = protect)
 
   dim <- plot_size(c(width, height), units = units)
 
@@ -1143,7 +1310,14 @@ sbf_save_window <- function(
     height = dim[2],
     dpi = dpi
   )
-  save_meta(meta, "windows", sub = sub, main = main, x_name = x_name)
+  save_meta(
+    meta,
+    "windows",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
   invisible(filename)
 }
 
@@ -1173,7 +1347,6 @@ sbf_basename_sans_ext <- function(x) {
 #' @inheritParams sbf_save_table
 #' @inheritParams sbf_save_plot
 #' @family save functions
-#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_png <- function(
   x,
@@ -1185,8 +1358,10 @@ sbf_save_png <- function(
   tag = "",
   notes = "",
   width = NA,
-  units = "in"
+  units = "in",
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   chk_file(x)
   chk_ext(x, "png")
   chk_string(x_name)
@@ -1211,7 +1386,7 @@ sbf_save_png <- function(
   dim[2] <- dim[1] * png_dim[2] / png_dim[1]
   dpi <- png_dim[1] / dim[1]
 
-  filename <- file_name(main, "windows", sub, x_name, "png")
+  filename <- file_name(main, "windows", sub, x_name, "png", protect = protect)
   file.copy(x, filename, overwrite = TRUE)
 
   meta <- list(
@@ -1223,7 +1398,14 @@ sbf_save_png <- function(
     height = dim[2],
     dpi = dpi
   )
-  save_meta(meta, "windows", sub = sub, main = main, x_name = x_name)
+  save_meta(
+    meta,
+    "windows",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
   invisible(filename)
 }
 
@@ -1248,7 +1430,6 @@ sbf_save_png <- function(
 #' \dontrun{
 #' sbf_save_excel()
 #' }
-#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_excel <- function(
   x,
@@ -1256,8 +1437,10 @@ sbf_save_excel <- function(
   max_sheets = 1L,
   sub = sbf_get_sub(),
   main = sbf_get_main(),
-  epgs = NULL
+  epgs = NULL,
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   chk_s3_class(x, "data.frame")
   x_name <- chk_deparse(x_name)
   chk_string(x_name)
@@ -1275,8 +1458,22 @@ sbf_save_excel <- function(
   x <- process_sf_columns(x, epgs)
   x <- split_excel_large(x, x_name, max_sheets)
 
-  save_rds(x, "excel", sub = sub, main = main, x_name = x_name)
-  save_xlsx(x, "excel", sub = sub, main = main, x_name = x_name)
+  save_rds(
+    x,
+    "excel",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
+  save_xlsx(
+    x,
+    "excel",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
 }
 
 #' Save sf data frame to Geopackage
@@ -1292,14 +1489,15 @@ sbf_save_excel <- function(
 #' \dontrun{
 #' sbf_save_gpkg()
 #' }
-#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_gpkg <- function(
   x,
   x_name = substitute(x),
   sub = sbf_get_sub(),
-  main = sbf_get_main()
+  main = sbf_get_main(),
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   chk_s3_class(x, "data.frame")
   chk_s3_class(x, "sf")
   x_name <- chk_deparse(x_name)
@@ -1317,8 +1515,22 @@ sbf_save_gpkg <- function(
   sub <- sanitize_sub(sub)
   main <- sanitize_path(main, rm_leading = FALSE)
 
-  save_rds(x, "gpkg", sub = sub, main = main, x_name = x_name)
-  save_gpkg(x, "gpkg", sub = sub, main = main, x_name = x_name)
+  save_rds(
+    x,
+    "gpkg",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
+  save_gpkg(
+    x,
+    "gpkg",
+    sub = sub,
+    main = main,
+    x_name = x_name,
+    protect = protect
+  )
 }
 
 #' Save Dataframes to Excel Workbook
@@ -1337,7 +1549,6 @@ sbf_save_gpkg <- function(
 #' \dontrun{
 #' sbf_save_workbook()
 #' }
-#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_workbook <- function(
   workbook_name = basename(getwd()),
@@ -1345,8 +1556,10 @@ sbf_save_workbook <- function(
   main = sbf_get_main(),
   env = parent.frame(),
   epgs = NULL,
-  x_name = ".*"
+  x_name = ".*",
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   chk_string(workbook_name)
   chk_character(sub)
   chk_not_any_na(sub)
@@ -1377,7 +1590,7 @@ sbf_save_workbook <- function(
     return(invisible(character(0)))
   }
 
-  save_workbook(datas, sub, main, workbook_name, epgs)
+  save_workbook(datas, sub, main, workbook_name, epgs, protect = protect)
 
   names <- file_path(main, "excel", sub, workbook_name)
   names <- p0(names, ".xlsx")
@@ -1427,8 +1640,7 @@ sbf_save_data_to_db <- function(
     "dbs",
     sub,
     db_name,
-    ext = "sqlite",
-    can_exist = TRUE
+    ext = "sqlite"
   ))
 }
 
@@ -1493,14 +1705,15 @@ sbf_save_db_metatable_descriptions <- function(
 #' @param x_name A string of the Perl-compatible regular expression to match.
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
-#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_objects <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   env = parent.frame(),
-  x_name = ".*"
+  x_name = ".*",
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   chk_s3_class(env, "environment")
   chk_string(x_name)
 
@@ -1514,7 +1727,7 @@ sbf_save_objects <- function(
   }
   for (x_name in names) {
     x <- get(x = x_name, envir = env)
-    sbf_save_object(x, x_name, sub, main)
+    sbf_save_object(x, x_name, sub, main, protect = protect)
   }
   names <- file_path(main, "objects", sub, names)
   names <- p0(names, ".rds")
@@ -1527,7 +1740,6 @@ sbf_save_objects <- function(
 #' @inheritParams sbf_save_object
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
-#' @inheritSection sbf_save_object Overwriting
 #' @export
 #' @examples
 #' \dontrun{
@@ -1552,8 +1764,10 @@ sbf_save_datas <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   env = parent.frame(),
-  x_name = ".*"
+  x_name = ".*",
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   chk_s3_class(env, "environment")
   chk_string(x_name)
   sub <- sanitize_sub(sub)
@@ -1565,7 +1779,7 @@ sbf_save_datas <- function(
     x_name <- names[i]
     x <- get(x = x_name, envir = env)
     is[i] <- is.data.frame(x)
-    if (is[i]) sbf_save_data(x, x_name, sub, main)
+    if (is[i]) sbf_save_data(x, x_name, sub, main, protect = protect)
   }
   names <- names[is]
   if (!length(names)) {
@@ -1588,14 +1802,15 @@ sbf_save_datas <- function(
 #' @inheritParams sbf_save_object
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
-#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_spatials <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   env = parent.frame(),
-  x_name = ".*"
+  x_name = ".*",
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   chk_s3_class(env, "environment")
   chk_string(x_name)
   sub <- sanitize_sub(sub)
@@ -1609,7 +1824,7 @@ sbf_save_spatials <- function(
     is[i] <- is.data.frame(x)
     if (is[i]) {
       x_name <- chk::backtick_chk(x_name)
-      sbf_save_spatial(x, x_name, sub, main)
+      sbf_save_spatial(x, x_name, sub, main, protect = protect)
     }
   }
   names <- names[is]
@@ -1628,15 +1843,16 @@ sbf_save_spatials <- function(
 #' @inheritParams sbf_save_number
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
-#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_numbers <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   signif = getOption("sbf.signif", 22),
   env = parent.frame(),
-  x_name = ".*"
+  x_name = ".*",
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   chk_s3_class(env, "environment")
   chk_string(x_name)
   sub <- sanitize_sub(sub)
@@ -1649,7 +1865,14 @@ sbf_save_numbers <- function(
     x <- get(x = x_name, envir = env)
     is[i] <- is_number(x)
     if (is[i]) {
-      sbf_save_number(x, x_name, sub = sub, main = main, signif = signif)
+      sbf_save_number(
+        x,
+        x_name,
+        sub = sub,
+        main = main,
+        signif = signif,
+        protect = protect
+      )
     }
   }
   names <- names[is]
@@ -1668,14 +1891,15 @@ sbf_save_numbers <- function(
 #' @inheritParams sbf_save_object
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
-#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_strings <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   env = parent.frame(),
-  x_name = ".*"
+  x_name = ".*",
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   chk_s3_class(env, "environment")
   chk_string(x_name)
   sub <- sanitize_sub(sub)
@@ -1687,7 +1911,7 @@ sbf_save_strings <- function(
     x_name <- names[i]
     x <- get(x = x_name, envir = env)
     is[i] <- is_string(x)
-    if (is[i]) sbf_save_string(x, x_name, sub, main)
+    if (is[i]) sbf_save_string(x, x_name, sub, main, protect = protect)
   }
   names <- names[is]
   if (!length(names)) {
@@ -1713,15 +1937,16 @@ sbf_save_strings <- function(
 #' \dontrun{
 #' sbf_save_excels()
 #' }
-#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_excels <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   env = parent.frame(),
   epgs = NULL,
-  x_name = ".*"
+  x_name = ".*",
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   chk_s3_class(env, "environment")
   chk_string(x_name)
   sub <- sanitize_sub(sub)
@@ -1733,7 +1958,9 @@ sbf_save_excels <- function(
     x_name <- names[i]
     x <- get(x = x_name, envir = env)
     is[i] <- is.data.frame(x)
-    if (is[i]) sbf_save_excel(x, x_name, 1L, sub, main, epgs = epgs)
+    if (is[i]) {
+      sbf_save_excel(x, x_name, 1L, sub, main, epgs = epgs, protect = protect)
+    }
   }
   names <- names[is]
   if (!length(names)) {
@@ -1745,11 +1972,20 @@ sbf_save_excels <- function(
   invisible(names)
 }
 
-save_gpkgs <- function(x, x_name, sub, main, all_sfcs) {
+save_gpkgs <- function(x, x_name, sub, main, all_sfcs, protect) {
   files <- character()
   active_sfc_column_name <- active_sfc_column_name(x)
   if (is.sf(x)) {
-    files <- c(sbf_save_gpkg(x, x_name = x_name, main = main, sub = sub), files)
+    files <- c(
+      sbf_save_gpkg(
+        x,
+        x_name = x_name,
+        main = main,
+        sub = sub,
+        protect = protect
+      ),
+      files
+    )
     if (!all_sfcs) {
       return(files)
     }
@@ -1764,7 +2000,13 @@ save_gpkgs <- function(x, x_name, sub, main, all_sfcs) {
       "_"
     ))
     files <- c(
-      sbf_save_gpkg(x, x_name = x_name_column_name, main = main, sub = sub),
+      sbf_save_gpkg(
+        x,
+        x_name = x_name_column_name,
+        main = main,
+        sub = sub,
+        protect = protect
+      ),
       files
     )
   }
@@ -1784,15 +2026,16 @@ save_gpkgs <- function(x, x_name, sub, main, all_sfcs) {
 #' @param all_sfcs A flag specifying whether to save non-active sfc columns as geopackages.
 #' @return An invisible character vector of the paths to the saved objects.
 #' @family save functions
-#' @inheritSection sbf_save_object Overwriting
 #' @export
 sbf_save_gpkgs <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   env = parent.frame(),
   all_sfcs = TRUE,
-  x_name = ".*"
+  x_name = ".*",
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   chk_s3_class(env, "environment")
   chk_string(x_name)
   sub <- sanitize_sub(sub)
@@ -1811,7 +2054,8 @@ sbf_save_gpkgs <- function(
           sub = sub,
           main = main,
           x_name = x_name,
-          all_sfcs = all_sfcs
+          all_sfcs = all_sfcs,
+          protect = protect
         )
       )
     }
@@ -1890,7 +2134,6 @@ sbf_save_datas_to_db <- function(
 #' @inheritParams sbf_save_workbook
 #' @inheritParams sbf_open_db
 #' @family excel
-#' @inheritSection sbf_save_object Overwriting
 #' @family save functions
 #' @examples
 #' \dontrun{
@@ -1911,8 +2154,10 @@ sbf_save_db_to_workbook <- function(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   epgs = NULL,
-  x_name = ".*"
+  x_name = ".*",
+  protect = getOption("sbf.protect", "none")
 ) {
+  chk_protect(protect)
   if (!missing(exclude_tables)) {
     lifecycle::deprecate_soft(
       "1.0.1.9019",
@@ -1935,7 +2180,7 @@ sbf_save_db_to_workbook <- function(
     warning("no datas to save")
     return(invisible(character(0)))
   }
-  save_workbook(datas, sub, main, workbook_name, epgs)
+  save_workbook(datas, sub, main, workbook_name, epgs, protect = protect)
 
   names <- file_path(main, "excel", sub, workbook_name)
   names <- p0(names, ".xlsx")

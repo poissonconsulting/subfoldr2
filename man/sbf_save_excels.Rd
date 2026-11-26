@@ -9,7 +9,8 @@ sbf_save_excels(
   main = sbf_get_main(),
   env = parent.frame(),
   epgs = NULL,
-  x_name = ".*"
+  x_name = ".*",
+  protect = getOption("sbf.protect", "none")
 )
 }
 \arguments{
@@ -24,6 +25,11 @@ current main folder)}
 \item{epgs}{The projection to convert to}
 
 \item{x_name}{A string of the Perl-compatible regular expression to match.}
+
+\item{protect}{A string specifying which existing output is protected
+(by default \code{getOption("sbf.protect", "none")}).
+If \code{"none"} an existing file with the same name is replaced.
+If \code{"files"} or \code{"all"} an error is thrown instead.}
 }
 \value{
 An invisible string of the path to the saved data.frame
@@ -32,12 +38,6 @@ An invisible string of the path to the saved data.frame
 Saves data frames from the environment to their own excel workbook. Each table
 will be its own excel workbook.
 }
-\section{Overwriting}{
-
-By default an existing file with the same name is replaced without warning.
-If \code{getOption("sbf.overwrite")} is \code{FALSE} an error is thrown instead.
-}
-
 \examples{
 \dontrun{
 sbf_save_excels()

@@ -39,8 +39,7 @@ sbf_copy_db <- function(
     "dbs",
     sub,
     db_name,
-    ext = "sqlite",
-    can_exist = TRUE
+    ext = "sqlite"
   )
 
   if (isTRUE(exists)) {

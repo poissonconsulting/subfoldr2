@@ -32,7 +32,7 @@ sbf_rm_flobs <- function(
   rm_class(sub = sub, main = main, class = "flobs", ask = ask)
 }
 
-rm_all <- function(ask) {
+rm_all <- function(ask, protect) {
   chk_flag(ask)
 
   main <- sbf_get_main()
@@ -43,7 +43,7 @@ rm_all <- function(ask) {
   }
 
   if (identical(sub, character(0))) {
-    if (!ask) {
+    if (protect == "all" && !ask) {
       chk_no_rm(main)
     }
     return(sbf_rm_main(ask = ask))
@@ -65,7 +65,7 @@ rm_all <- function(ask) {
     "gpkg"
   )
   dirs <- file_path(main, classes, sub)
-  if (!ask) {
+  if (protect == "all" && !ask) {
     chk_no_rm(dirs)
   }
 
@@ -75,9 +75,6 @@ rm_all <- function(ask) {
 }
 
 chk_no_rm <- function(dirs) {
-  if (get_overwrite()) {
-    return(invisible(dirs))
-  }
   has_files <- vapply(
     dirs,
     function(dir) length(list.files(dir, recursive = TRUE)) > 0L,
@@ -87,7 +84,7 @@ chk_no_rm <- function(dirs) {
     abort_chk(
       "Directory '",
       dirs[has_files][1],
-      "' contains files and `getOption(\"sbf.overwrite\")` is FALSE.",
+      "' contains files and `protect` is \"all\".",
       call = NULL
     )
   }

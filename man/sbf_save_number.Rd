@@ -12,7 +12,8 @@ sbf_save_number(
   report = TRUE,
   tag = "",
   notes = "",
-  signif = getOption("sbf.signif", 22)
+  signif = getOption("sbf.signif", 22),
+  protect = getOption("sbf.protect", "none")
 )
 }
 \arguments{
@@ -33,6 +34,11 @@ current main folder)}
 \item{notes}{A string of additional notes to save with the metadata.}
 
 \item{signif}{A positive whole number specifying the number of significant digits to round by.}
+
+\item{protect}{A string specifying which existing output is protected
+(by default \code{getOption("sbf.protect", "none")}).
+If \code{"none"} an existing file with the same name is replaced.
+If \code{"files"} or \code{"all"} an error is thrown instead.}
 }
 \value{
 An invisible string of the path to the saved object.
@@ -40,12 +46,6 @@ An invisible string of the path to the saved object.
 \description{
 Save Number
 }
-\section{Overwriting}{
-
-By default an existing file with the same name is replaced without warning.
-If \code{getOption("sbf.overwrite")} is \code{FALSE} an error is thrown instead.
-}
-
 \seealso{
 Other save functions:
 \code{\link[=sbf_basename_sans_ext]{sbf_basename_sans_ext()}},

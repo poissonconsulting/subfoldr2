@@ -9,7 +9,8 @@ sbf_open_pdf(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   width = 6,
-  height = width
+  height = width,
+  protect = getOption("sbf.protect", "none")
 )
 }
 \arguments{
@@ -24,17 +25,16 @@ current main folder)}
 \item{width}{A positive number indicating the width in inches.}
 
 \item{height}{A positive number indicating the height in inches.}
+
+\item{protect}{A string specifying which existing output is protected
+(by default \code{getOption("sbf.protect", "none")}).
+If \code{"none"} an existing file with the same name is replaced.
+If \code{"files"} or \code{"all"} an error is thrown instead.}
 }
 \description{
 Opens a pdf device in the current pdfs subfolder using
 \verb{grDevices::[pdf][grDevices::pdf]()}.
 }
-\section{Overwriting}{
-
-By default an existing file with the same name is replaced without warning.
-If \code{getOption("sbf.overwrite")} is \code{FALSE} an error is thrown instead.
-}
-
 \seealso{
 Other graphic functions:
 \code{\link[=sbf_close_pdf]{sbf_close_pdf()}},

@@ -8,7 +8,8 @@ sbf_save_spatials(
   sub = sbf_get_sub(),
   main = sbf_get_main(),
   env = parent.frame(),
-  x_name = ".*"
+  x_name = ".*",
+  protect = getOption("sbf.protect", "none")
 )
 }
 \arguments{
@@ -21,6 +22,11 @@ current main folder)}
 \item{env}{An environment.}
 
 \item{x_name}{A string of the Perl-compatible regular expression to match.}
+
+\item{protect}{A string specifying which existing output is protected
+(by default \code{getOption("sbf.protect", "none")}).
+If \code{"none"} an existing file with the same name is replaced.
+If \code{"files"} or \code{"all"} an error is thrown instead.}
 }
 \value{
 An invisible character vector of the paths to the saved objects.
@@ -31,12 +37,6 @@ for which the first column (not a geometry) is unique
 with no missing values and only one geometry column which must have a defined projection.
 The functions expects that all data frames in the environment meet these requirements.
 }
-\section{Overwriting}{
-
-By default an existing file with the same name is replaced without warning.
-If \code{getOption("sbf.overwrite")} is \code{FALSE} an error is thrown instead.
-}
-
 \seealso{
 Other save functions:
 \code{\link[=sbf_basename_sans_ext]{sbf_basename_sans_ext()}},

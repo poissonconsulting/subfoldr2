@@ -14,11 +14,12 @@
 #'   [sbf_save_table()] and [sbf_save_plot()] save a `.md` file.
 #' - `sbf.signif`: A positive whole number (by default `22`) of the
 #'   significant digits [sbf_save_number()] rounds to.
-#' - `sbf.overwrite`: A flag (by default `TRUE`) specifying whether existing
-#'   output can be replaced. If `FALSE` the save functions and
-#'   [sbf_open_pdf()] throw an error if a file they would write already
-#'   exists, and setting the main or sub folder with `rm = TRUE` and
-#'   `ask = FALSE` throws an error if the folder contains files.
+#' - `sbf.protect`: A string (by default `"none"`) of the default for the
+#'   `protect` argument, which specifies which existing output is protected.
+#'   If `"files"` the save functions and [sbf_open_pdf()] throw an error if a
+#'   file they would write already exists.
+#'   If `"all"` setting the main or sub folder with `rm = TRUE` and
+#'   `ask = FALSE` also throws an error if the folder contains files.
 #'
 #' @keywords internal
 "_PACKAGE"
